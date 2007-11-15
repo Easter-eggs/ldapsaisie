@@ -21,12 +21,38 @@
 ******************************************************************************/
 
 /**
- * Type d'attribut Ldap ascii
+ * Type d'attribut HTML textarea
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap_ascii extends LSattr_ldap {
-  // \\
+class LSattr_html_textarea extends LSattr_html {
+
+	/**
+	 * Ajoute l'attribut au formualaire passer en paramètre
+	 *
+	 * @param[in] &$form LSform Le formulaire
+	 * @param[in] $idForm L'identifiant du formulaire
+	 * @param[in] $data Valeur du champs du formulaire
+	 *
+	 * @retval LSformElement L'element du formulaire ajouté
+	 */
+  function addToForm (&$form,$idForm,$data=NULL) {
+    $element=$form -> addElement('textarea', $this -> name, $this -> config['label'], $this -> config);
+		if(!$element) {
+			$GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+			return;
+		}
+
+    if (is_array($data)) {
+      $GLOBALS['LSerror'] -> addErrorCode(103,'textarea');
+      return;
+    }
+		if ($data) {
+	    $element -> setValue($data);
+		}
+    return $element;
+  }
+  
 }
 
 ?>

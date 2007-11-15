@@ -21,12 +21,41 @@
 ******************************************************************************/
 
 /**
- * Type d'attribut Ldap ascii
+ * Règle de validation d'expression régulière.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap_ascii extends LSattr_ldap {
-  // \\
+class LSformRule_regex extends LSformRule {
+  
+ 	/**
+   * Vérification de la valeur.
+ 	 *
+	 * @param string $values Valeur à vérifier
+	 * @param array $options Options de validation : 
+	 * 															- Regex : $option['params']['regex'] ou $option
+	 *
+	 * @return boolean true si la valeur est valide, false sinon
+	 */ 
+  function validate($value,$option) {
+		if (is_array($option)) {
+			if (isset($option['params']['regex'])) {
+				$regex=$option['params']['regex'];
+			}
+			else {
+				$GLOBALS['LSerror'] -> addErrorCode(301);
+				return;
+			}
+		}
+		else {
+			$regex=$option;
+		}
+			debug("\n$value : $regex\n");
+    if (!preg_match($regex, $value)) {
+      return false;
+	 }
+	 return true;
+  }
+
 }
 
 ?>

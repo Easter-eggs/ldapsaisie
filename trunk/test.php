@@ -73,9 +73,7 @@ require_once  LS_CLASS_DIR .'class.LSformRule_numeric.php';
 require_once  LS_CLASS_DIR .'class.LSformRule_rangelength.php';
 
 require_once  LS_ADDONS_DIR .'LSaddons.samba.php';
-LSaddon_samba_support();
-require_once  LS_ADDONS_DIR .'LSaddons.posix.php';
-LSaddon_posix_support();
+
 
 // Simulation d'une LSsession
 $GLOBALS['LSsession']['topDn']='o=lsexample';
@@ -87,24 +85,29 @@ $LSerror = new LSerror();
 // Connexion à l'annuaire
 $LSldap = new LSldap($GLOBALS['LSconfig']['ldap_config']);
 
+
+
+
+// =========================================================
+
 // ---- les objets LDAP
 // Création d'un LSeepeople
 $eepeople = new LSeepeople($GLOBALS['LSobjects']['LSeepeople']);
-
 // Chargement des données de l'objet depuis l'annuaire et à partir de son DN
-$eepeople-> loadData('uid=eeggs,ou=people,o=lsexample');
+$eepeople-> loadData('uid=eeggs,ou=people,o=lsexemple');
 
-// Création d'un formulaire à partir pour notre objet LDAP
-$form=$eepeople -> getForm('test');
-
-// Gestion de sa validation
-if ($form->validate()) {
-  // MàJ des données de l'objet LDAP
-  $eepeople -> updateData('test');
+if (LSaddon_samba_support()) {
+	echo "SambaSID : ".generate_sambaSID($eepeople)."<br/>";
+	echo "SambaPrimaryGroupSID : ".generate_sambaPrimaryGroupSID($eepeople)."<br/>";
+	echo "sambaNTPassword : ".generate_sambaNTPassword($eepeople)."<br/>";
+	echo "sambaLMPassword : ".generate_sambaLMPassword($eepeople)."<br/>";
 }
-// Affichage du formulaire
-$form -> display();
+else {
+	echo "Bug !!!";
+}
 
+
+// =========================================================
 
 // Affichage des retours d'erreurs
 $LSerror -> display();

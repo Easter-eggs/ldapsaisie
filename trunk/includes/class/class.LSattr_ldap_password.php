@@ -21,33 +21,22 @@
 ******************************************************************************/
 
 /**
- * Base d'un type d'attribut Ldap
+ * Type d'attribut Ldap password
  *
- * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap {
-  
-  var $name;
-  var $config;
-  var $attribute;
+class LSattr_ldap_password extends LSattr_ldap {
 
-  /**         
-   * Constructeur
-   *
-   * Cette methode construit l'objet et définis la configuration.
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @param[in] $name string Nom de l'attribut ldap
-   * @param[in] $config array Configuration de l'objet
-	 * @param[in] &$attribute LSattribute L'objet LSattribut parent
-   *
-   * @retval boolean Retourne true.
-   */
-  function LSattr_ldap ($name,$config,&$attribute) {
-    $this -> name = $name;
-    $this -> config = $config;
-    return true;
+	var $clearPassword = NULL;
+
+	/**
+	 * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
+	 *
+	 * @param[in] $data mixed La valeur de l'attribut
+	 *
+	 * @retval mixed La valeur d'affichage de l'attribut
+	 */
+  function getDisplayValue($data) {
+    return '********';
   }
 
 	/**
@@ -58,21 +47,35 @@ class LSattr_ldap {
 	 * @retval mixed La valeur traitée de l'attribut
 	 */
   function getUpdateData($data) {
-    return $data;
+		$this -> clearPassord = $data[0];
+    return '{CRYPT}'.crypt($data[0],'$1$'.$this -> getSalt().'$');
   }
  
 	/**
-	 * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
+	 * Retourne une salt (chaine de caractère aléatoire) de la longueur passée en paramètre
 	 *
-	 * @param[in] $data mixed La valeur de l'attribut
+	 * @param[in] integer La longueur de la salt (par defaut : 8)
 	 *
-	 * @retval mixed La valeur d'affichage de l'attribut
+	 * @retval string La salt
 	 */
-
-  function getDisplayValue($data) {
-    return $data;
+  function getSalt($length=8) {
+    $pattern = "1234567890abcdefghijklmnopqrstuvwxyz";
+    $key  = $pattern{rand(0,35)};
+    for($i=1;$i<$length;$i++)
+    {
+        $key .= $pattern{rand(0,35)};
+    }
+    return $key;
   }
-  
+
+	/**
+	 * Retourne le mot de passe en texte clair
+	 *
+	 * @retval string Le mot de passe en texte clair
+	 */
+	function getClearPassword() {
+		return $this -> clearPassword;
+	}
 }
 
 ?>

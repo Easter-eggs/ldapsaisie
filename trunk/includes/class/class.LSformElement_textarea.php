@@ -20,13 +20,60 @@
 
 ******************************************************************************/
 
+
 /**
- * Type d'attribut Ldap ascii
+ * Element textarea d'un formulaire pour LdapSaisie
+ *
+ * Cette classe définis les éléments textarea des formulaires.
+ * Elle étant la classe basic LSformElement.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap_ascii extends LSattr_ldap {
-  // \\
+
+class LSformElement_textarea extends LSformElement {
+
+ /*
+  * Affiche l'élément
+  * 
+  * Cette méthode affiche l'élement
+  *
+  * @retval void
+  */
+  function display(){
+		echo "\t<tr>\n";
+		$this -> displayLabel();
+		// value
+		if (!$this -> isFreeze()) {
+			echo "\t\t<td>\n";
+
+			if (empty($this -> values)) {
+				echo "\t\t\t<textarea name='".$this -> name."[]'></textarea>\n";
+			}
+			else {
+				foreach($this -> values as $value) {
+					echo "\t\t\t<textarea name='".$this -> name."[]'>".$value."</textarea>\n";
+				}
+			}
+
+			echo "\t\t</td>\n";
+		}
+		else {
+			echo "\t\t<td>\n";
+
+			if (empty($this -> values)) {
+				echo "\t\t\t\t<li>"._('Aucunes valeur definie')."</li>\n";
+			}
+			else {
+				foreach ($this -> values as $value) {
+					echo "\t\t\t\t<li>".$value."</li>\n";
+				}
+			}
+
+			echo "\t\t</td>\n";
+		}	
+		echo "\t</tr>\n";
+  }
+    
 }
 
 ?>

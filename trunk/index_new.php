@@ -87,20 +87,18 @@ $LSerror = new LSerror();
 // Connexion à l'annuaire
 $LSldap = new LSldap($GLOBALS['LSconfig']['ldap_config']);
 
+
 // ---- les objets LDAP
 // Création d'un LSeepeople
 $eepeople = new LSeepeople($GLOBALS['LSobjects']['LSeepeople']);
 
-// Chargement des données de l'objet depuis l'annuaire et à partir de son DN
-$eepeople-> loadData('uid=eeggs,ou=people,o=lsexample');
-
 // Création d'un formulaire à partir pour notre objet LDAP
-$form=$eepeople -> getForm('test');
+$form=$eepeople -> getForm('add');
 
 // Gestion de sa validation
 if ($form->validate()) {
   // MàJ des données de l'objet LDAP
-  $eepeople -> updateData('test');
+  $eepeople -> updateData();
 }
 // Affichage du formulaire
 $form -> display();

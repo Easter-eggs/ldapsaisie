@@ -29,18 +29,55 @@ class LSattr_html {
   
   var $name;
   var $config;
-  
-  function LSattr_html ($name,$config) {
+  var $attribute;
+
+  /**         
+   * Constructeur
+   *
+   * Cette methode construit l'objet et définis la configuration.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $name string Nom de l'attribut ldap
+   * @param[in] $config array Configuration de l'objet
+	 * @param[in] &$attribute LSattribute L'objet LSattribut parent
+   *
+   * @retval boolean Retourne true.
+   */   
+  function LSattr_html ($name,$config,&$attribute) {
     $this -> name = $name;
     $this -> config = $config;
+    $this -> attribute = $attribute;
     return true;
   }
   
+	/**
+	 * Retourne le label de l'attribut
+	 *
+	 * Retourne le label de l'attribut ou son nom si aucun label n'est défini
+	 * dans la configuration.
+	 *
+	 * @retval string Le label de l'attribut.
+	 */
   function getLabel() {
-    return $this -> config['label'];
+		if ( $this -> config['label'] != '' ) {
+			return $this -> config['label'];
+		}
+		else {
+			return $this -> name;
+		}
   }
   
-  function addToForm (&$form,$idForm) {
+	/**
+	 * Ajoute l'attribut au formualaire passer en paramètre
+	 *
+	 * @param[in] &$form LSform Le formulaire
+	 * @param[in] $idForm L'identifiant du formulaire
+	 * @param[in] $data Valeur du champs du formulaire
+	 *
+	 * @retval LSformElement L'element du formulaire ajouté
+	 */
+  function addToForm (&$form,$idForm,$data=NULL) {
     $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
   }
   

@@ -36,6 +36,7 @@ class LSldapObject {
   var $forms;
   var $dn=false;
   var $other_values=array();
+  var $submitError=true;
   
   /**
    * Constructeur
@@ -50,10 +51,10 @@ class LSldapObject {
    *
    * @retval boolean true si l'objet a été construit, false sinon.
    */	
-	function LSldapObject($type_name,$config='auto') {
-		$this -> type_name = $type_name;
-    $this -> config = $config;
-    if($config=='auto') {
+   function LSldapObject($type_name,$config='auto') {
+      $this -> type_name = $type_name;
+      $this -> config = $config;
+      if($config=='auto') {
       if(isset($GLOBALS['LSobjects'][$type_name]))
         $this -> config = $GLOBALS['LSobjects'][$type_name];
       else {
@@ -62,8 +63,9 @@ class LSldapObject {
       }
     }
 		foreach($this -> config['attrs'] as $attr_name => $attr_config) {
-			if(!$this -> attrs[$attr_name]=new LSattribute($attr_name,$attr_config))
+			if(!$this -> attrs[$attr_name]=new LSattribute($attr_name,$attr_config,$this)) {
         return;
+      }
 		}
     return true;
 	}
@@ -85,6 +87,22 @@ class LSldapObject {
     $data = $GLOBALS['LSldap'] -> getAttrs($dn);
     foreach($this -> attrs as $attr_name => $attr) {
       if(!$this -> attrs[$attr_name] -> loadData($data[$attr_name]))
+        return;
+    }
+    return true;
+  }
+  
+  /**
+   * Recharge les données de l'objet
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true si la rechargement a réussi, false sinon.
+   */	
+  function reloadData() {
+    $data = $GLOBALS['LSldap'] -> getAttrs($this -> dn);
+    foreach($this -> attrs as $attr_name => $attr) {
+      if(!$this -> attrs[$attr_name] -> reloadData($data[$attr_name]))
         return;
     }
     return true;
@@ -138,41 +156,48 @@ class LSldapObject {
   }
   
   /**
-   * DEBUG : Affiche le nom et la valeur de chaque attribut
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @retval void
-   */	
-  function debug_printAttrsValues() {
-    foreach($this -> attrs as $attr_name => $attr) {
-      print $attr_name.' : ';
-      $attr -> debug_printValue();
-      print "\n";
-    }
-  }
-
-  /**
    * Construit un formulaire de l'objet
    * 
    * Cette méthode construit un formulaire LSform à partir de la configuration de l'objet
    * et de chaque attribut.
    *
    * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a créer
+   * @param[in] $config Configuration spécifique pour le formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval LSform Le formulaire crée
    */	
   function getForm($idForm,$config=array()) {
-    $LSform = new LSform($idForm);
+    $LSform = new LSform($this,$idForm);
     $this -> forms[$idForm] = array($LSform,$config);
     foreach($this -> attrs as $attr_name => $attr) {
-      if(!$this -> attrs[$attr_name] -> addToForm($LSform -> quickform,$idForm)) {
+      if(!$this -> attrs[$attr_name] -> addToForm($LSform,$idForm,$this)) {
         $LSform -> can_validate = false;
       }
     }
     return $LSform;
+  }
+  
+  /**
+   * Rafraichis le formulaire de l'objet
+   * 
+   * Cette méthode recharge les données d'un formulaire LSform.
+   *
+   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a créer
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true sile formulaire a été rafraichis, false sinon
+   */	
+  function refreshForm($idForm) {
+    $LSform = $this -> forms[$idForm][0];
+    foreach($this -> attrs as $attr_name => $attr) {
+      if(!$this -> attrs[$attr_name] -> refreshForm($LSform,$idForm)) {
+        return;
+      }
+    }
+    return true;
   }
   
   /**
@@ -211,13 +236,14 @@ class LSldapObject {
         $GLOBALS['LSerror'] -> stop();
       }
     }
-    $new_data = $LSform -> quickform -> exportValues();
+    $new_data = $LSform -> exportValues();
     foreach($new_data as $attr_name => $attr_val) {
       if(isset($this -> attrs[$attr_name])) {
         $this -> attrs[$attr_name] -> setUpdateData($attr_val);
       }
     }
     if($this -> validateAttrsData($idForm)) {
+			debug("les données sont validées");
       if(isset($this -> config['before_save'])) {
         if(function_exists($this -> config['before_save'])) {
           if(!$this -> config['before_save']($this)) {
@@ -230,8 +256,13 @@ class LSldapObject {
           $GLOBALS['LSerror'] -> stop();
         }
       }
-      $this -> submitChange($idForm);
-      if(isset($this -> config['after_save'])) {
+      if ($this -> submitChange($idForm)) {
+				debug('Les modifications sont submitées');
+        $this -> submitError = false;
+        $this -> reloadData();
+        $this -> refreshForm($idForm);
+      }
+      if((isset($this -> config['after_save']))&&(!$this -> submitError)) {
         if(function_exists($this -> config['after_save'])) {
           if(!$this -> config['after_save']($this)) {
             $GLOBALS['LSerror'] -> addErrorCode(30,$this -> config['after_save']);
@@ -256,76 +287,145 @@ class LSldapObject {
   function validateAttrsData($idForm) {
     $LSform=$this -> forms[$idForm][0];
     foreach($this -> attrs as $attr) {
-      if(($attr -> isUpdate())&&(!$attr -> isValidate())) {
-        //~ echo 'NAME : '.$attr -> name.' Val : '.$attr -> getUpdateData();
-        $vconfig=$attr -> getValidateConfig();
-        if(is_array($vconfig)) {
-          foreach($vconfig as $test) {
-            $data=$attr -> getUpdateData();
-            if(!is_array($data))
-              $data=array($data);
-            foreach($data as $val) {
-              // validation par check LDAP
-              if((isset($test['filter'])||isset($test['basedn']))&&(isset($test['result']))) {
-                $sparams=(isset($test['scope']))?array('scope' => $test['scope']):array();
-                $this -> other_values['val']=$val;
-                $sfilter_user=(isset($test['basedn']))?getFData($test['filter'],$this,'getValue'):NULL;
-                //~ echo $sfilter_user;
-                if(isset($test['object_type'])) {
-                  $test_obj = new $test['object_type']('auto');
-                  $sfilter=$test_obj->getObjectFilter();
-                  $sfilter='(&'.$sfilter;
-                  if($sfilter_user[0]=='(')
-                    $sfilter=$sfilter.$sfilter_user.')';
-                  else
-                    $sfilter=$sfilter.'('.$sfilter_user.'))';
-                }
-                else {
-                  $sfilter=$sfilter_user;
-                }
-                $sbasedn=(isset($test['basedn']))?getFData($test['basedn'],$this,'getValue'):NULL;
-                $ret=$GLOBALS['LSldap'] -> getNumberResult ($sfilter,$sbasedn,$sparams);
-                //~ echo 'Basedn : "'.$sbasedn.'" Filter : "'.$sfilter.'" NAME : '.$attr -> name.' Nb : '.$ret."<br />\n";
-                if($test['result']==0) {
-                  if($ret!=0) {
-                    $LSform -> setElementError($attr,$test['msg']);
-                    return;
-                  }
-                }
-                else {
-                  if($ret<=0) {
-                    $LSform -> setElementError($attr,$msg_error);
-                    return;
-                  }
-                }
-              }
-              // Validation par fonction externe
-              else if(isset($test['function'])) {
-                if (function_exists($test['function'])) {
-                  if(!$test['function']($this)) {
-                    $LSform -> setElementError($attr,$msg_error);
-                    return;
-                  }
-                }
-                else {
-                  $GLOBALS['LSerror'] -> addErrorCode(24,array('attr' => $attr->name,'obj' => $this->type_name,'func' => $test['function']));
-                  return;
-                }
-              }
-              else {
-                $GLOBALS['LSerror'] -> addErrorCode(25,array('attr' => $attr->name,'obj' => $this->type_name));
-                return;
-              }
-            }
-          }
-        }
-        $attr -> validate();
-      }
-    }
-    unset($this -> other_values['val']);
+			if (!$attr -> isValidate()) {
+				if($attr -> isUpdate()) {
+					if (!$this -> validateAttrData($LSform, $attr)) {
+						return;
+					}
+				}
+				else if( ($attr -> getValue() == '') && ($attr -> isRequired()) ) {	
+					if ( $attr -> canBeGenerated()) {
+						if ($attr -> generateValue()) {
+							if (!$this -> validateAttrData($LSform, $attr)) {
+								$GLOBALS['LSerror'] -> addErrorCode(48,$attr -> getLabel());
+								return;
+							}
+						}
+						else {
+							$GLOBALS['LSerror'] -> addErrorCode(47,$attr -> getLabel());
+							return;
+						}
+					}
+					else {
+						$GLOBALS['LSerror'] -> addErrorCode(46,$attr -> getLabel());
+						return;
+					}
+
+				}
+    	}
+		}
     return true;
   }
-  
+
+   /**
+   * Valide les données d'un attribut
+   *
+   * @param[in] $LSForm Formulaire d'origine
+   * @param[in] &$attr Attribut à valider
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true si les données sont valides, false sinon
+   */
+	function validateAttrData(&$LSform,&$attr) {
+		$vconfig=$attr -> getValidateConfig();
+
+		$data=$attr -> getUpdateData();
+		if(!is_array($data)) {
+			$data=array($data);
+		}
+
+		// Validation des valeurs de l'attribut
+    if(is_array($vconfig)) {
+			foreach($vconfig as $test) {
+				// Définition du message d'erreur
+				if (!empty($test['msg'])) {
+					$msg_error=getFData($test['msg'],$this,'getValue');
+				}
+				else {
+					$msg_error=getFData(_("L'attribut %{attr} n'est pas valide."),$attr -> getLabel());
+				}
+				foreach($data as $val) {
+					// validation par check LDAP
+					if((isset($test['filter'])||isset($test['basedn']))&&(isset($test['result']))) {
+						$sparams=(isset($test['scope']))?array('scope' => $test['scope']):array();
+						$this -> other_values['val']=$val;
+						$sfilter_user=(isset($test['basedn']))?getFData($test['filter'],$this,'getValue'):NULL;
+						if(isset($test['object_type'])) {
+							$test_obj = new $test['object_type']('auto');
+							$sfilter=$test_obj->getObjectFilter();
+							$sfilter='(&'.$sfilter;
+							if($sfilter_user[0]=='(') {
+								$sfilter=$sfilter.$sfilter_user.')';
+							}
+							else {
+								$sfilter=$sfilter.'('.$sfilter_user.'))';
+							}
+						}
+						else {
+							$sfilter=$sfilter_user;
+						}
+						$sbasedn=(isset($test['basedn']))?getFData($test['basedn'],$this,'getValue'):NULL;
+						$ret=$GLOBALS['LSldap'] -> getNumberResult ($sfilter,$sbasedn,$sparams);
+						if($test['result']==0) {
+							if($ret!=0) {
+								$LSform -> setElementError($attr,$msg_error);
+								return;
+							}
+						}
+						else {
+							if($ret<=0) {
+								$LSform -> setElementError($attr,$msg_error);
+								return;
+							}
+						}
+					}
+					// Validation par fonction externe
+					else if(isset($test['function'])) {
+						if (function_exists($test['function'])) {
+							if(!$test['function']($this)) {
+								$LSform -> setElementError($attr,$msg_error);
+							return;
+							}
+						}
+						else {
+							$GLOBALS['LSerror'] -> addErrorCode(24,array('attr' => $attr->name,'obj' => $this->type_name,'func' => $test['function']));
+							return;
+						}
+					}
+					else {
+						$GLOBALS['LSerror'] -> addErrorCode(25,array('attr' => $attr->name,'obj' => $this->type_name));
+						return;
+					}
+				}
+			}
+		}
+		// Génération des valeurs des attributs dépendants
+		$dependsAttrs=$attr->getDependsAttrs();
+		if (!empty($dependsAttrs)) {
+			foreach($dependsAttrs as $dependAttr) {
+				if(!isset($this -> attrs[$dependAttr])){
+					$GLOBALS['LSerror'] -> addErrorCode(34,array('attr_depend' => $dependAttr, 'attr' => $attr -> getLabel()));
+					continue;
+				}
+				if($this -> attrs[$dependAttr] -> canBeGenerated()) {
+					if (!$this -> attrs[$dependAttr] -> generateValue()) {
+						$GLOBALS['LSerror'] -> addErrorCode(47,$this -> attrs[$dependAttr] -> getLabel());
+						return;
+					}
+				}
+				else {
+					$GLOBALS['LSerror'] -> addErrorCode(46,$this -> attrs[$dependAttr] -> getLabel());
+					return;
+				}
+			}
+		}
+
+		$attr -> validate();
+    unset($this -> other_values['val']);
+		return true;
+	}
+
   /**
    * Met à jour les données modifiés dans l'annuaire
    *
@@ -336,13 +436,22 @@ class LSldapObject {
    * @retval boolean true si la mise à jour a réussi, false sinon
    */	
   function submitChange($idForm) {
-    $submit_data=array();
+    $submitData=array();
     foreach($this -> attrs as $attr) {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
-        $submit_data[$attr -> name] = $attr -> getUpdateData();
+        $submitData[$attr -> name] = $attr -> getUpdateData();
       }
     }
-    print_r($submit_data);
+    if(!empty($submitData)) {
+      $dn=$this -> getDn();
+      if($dn) {
+        return $GLOBALS['LSldap'] -> update($this -> type_name,$dn, $submitData);
+      }
+      else {
+        $GLOBALS['LSerror'] -> addErrorCode(33);
+				return;
+      }
+    }
   }
   
   /**
@@ -555,22 +664,15 @@ class LSldapObject {
           }
         
           // Vérification de la compatibilité du basedn de la recherche et du basedn générale
-          //~ if ($this -> isCompatibleDNs($filter[$i]['basedn'],$basedn)) {
-            //~ $sbasedn=$this -> sumDn($filter[$i]['basedn'],$basedn);
-          //~ }
           // Finalisation du filtre
           $sfilter_for.=$sfilter_end;
         
-          //~ print 'filter1 : '.$sfilter_for." | basedn : ".$sbasedn."\n";
         
           // Execution de la recherche
           $ret=$GLOBALS['LSldap'] -> search ($sfilter_for,$sbasedn,$sparams);
           
-          //~ print('Nb resultat : '.count($ret));
-          
           // Si il y un retour
           if(isset($ret[0])) {
-            //~ print_r($ret);
             // si il ya une suite (recherche intermédiaire)
             if($filter[$i]['attr']){
               for($iii=0;$iii<count($ret);$iii++) {
@@ -628,13 +730,8 @@ class LSldapObject {
         // fermeture du filtre
         $sfilter.=$sfilter_end;
         
-        //~ print 'filter2 : '.$sfilter."\n";
-        //~ print_r($sparams);
-        
         // Lancement de la recherche
         $ret=$GLOBALS['LSldap'] -> search ($sfilter,$sbasedn,$sparams);
-        
-        //~ print('Nb resultat : '.count($ret));
         
         //Si filtre multiple => on recupère une liste d'attributs
         if(isset($filter[$i]['attr'])) {
@@ -670,18 +767,15 @@ class LSldapObject {
           break;
         }
       }
-      //~ print_r($attrs);
     }
     
     // Création d'un tableau d'objet correspondant au valeur retourné
     for($i=0;$i<count($ret);$i++) {
       $retInfos[$i] = new $this -> type_name($this -> config);
       $retInfos[$i] -> loadData($ret[$i]);
-      //~ echo $ret[$i]['dn']."\n";
     }
     
     return $retInfos;
-    
   }
   
   /**
@@ -697,7 +791,7 @@ class LSldapObject {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $val string nom de la valeur demandée
+   * @param[in] $val string Le nom de la valeur demandée
    *
    * @retval mixed la valeur demandé ou ' ' si celle-ci est inconnue.
    */	
@@ -716,6 +810,40 @@ class LSldapObject {
     }
     else {
       return ' ';
+    }
+  }
+  
+  /**
+   * Retourne le DN de l'objet
+   *
+   * Cette methode retourne le DN de l'objet. Si celui-ci n'existe pas, il le construit à partir de la 
+   * configuration de l'objet et la valeur de son attribut rdn.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval string Le DN de l'objet
+   */	  
+  function getDn() {
+    if($this -> dn) {
+      return $this -> dn;
+    }
+    else {
+      $rdn_attr=$this -> config['rdn'];
+      if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) && (isset($this -> config['container_dn'])) && (isset($GLOBALS['LSsession']['topDn'])) ) {
+				debug('RDN : '.$rdn_attr);
+        $rdn_val=$this -> attrs[$rdn_attr] -> getUpdateData();
+        if (!empty($rdn_val)) {
+          return $rdn_attr.'='.$rdn_val[0].','.$this -> config['container_dn'].','.$GLOBALS['LSsession']['topDn'];
+        }
+        else {
+          $GLOBALS['LSerror'] -> addErrorCode(32,$this -> config['rdn']);
+          return;
+        }
+      }
+      else {
+        $GLOBALS['LSerror'] -> addErrorCode(31,$this -> type_name);
+        return;
+      }
     }
   }
   

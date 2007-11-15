@@ -1,0 +1,211 @@
+<?php
+/*******************************************************************************
+ * Copyright (C) 2007 Easter-eggs
+ * http://ldapsaisie.labs.libre-entreprise.org
+ *
+ * Author: See AUTHORS file in top-level directory.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+******************************************************************************/
+
+
+/**
+ * Element d'un formulaire pour LdapSaisie
+ *
+ * Cette classe gère les éléments des formulaires.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ */
+
+class LSformElement {
+
+  var $name;
+  var $label;
+  var $params;
+  var $values = array();
+  var $_required = false;
+  var $_freeze = false;
+
+  /**
+   * Constructeur
+   *
+   * Cette methode construit l'objet et définis sa configuration de base.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] &$form [<b>required</b>] LSform L'objet LSform parent
+   * @param[in] $name [<b>required</b>] string Le nom de référence de l'élément
+   * @param[in] $label [<b>required</b>] string Le label de l'élément
+   * @param[in] $params mixed Paramètres supplémentaires
+   *
+   * @retval true
+   */	
+	function LSformElement (&$form, $name, $label, $params){
+    $this -> name = $name;
+		$this -> label = $label;
+		$this -> params = $params;
+		$this -> form = $form;
+	 	return true;
+  }
+
+  /**
+   * Définis la valeur de l'élément
+   *
+   * Cette méthode définis la valeur de l'élément
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] [<b>required</b>] string or array La futur valeur de l'élément
+   *
+   * @retval boolean Retourne True
+   */
+  function setValue($data) {
+		if (!is_array($data)) {
+			$data=array($data);
+		}
+
+		$this -> values = $data;
+		return true;
+  }
+
+	/**
+   * Ajoute une valeur à l'élément
+   *
+   * Cette méthode ajoute une valeur à l'élément
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] [<b>required</b>] string or array La futur valeur de l'élément
+   *
+   * @retval void
+   */
+  function addValue($data) {
+		if (is_array($data)) {
+			$this -> values = array_merge($this -> values, $data);
+		}
+		else {
+			$this -> values[] = $data;
+		}
+  }
+
+	/**
+	 * Test si l'élément est éditable
+	 * 
+	 * Cette méthode test si l'élément est éditable
+	 *
+	 * @retval boolean
+	 */
+	function isFreeze(){
+		return $this -> _freeze;
+	}
+  
+  /*
+   * Freeze l'élément
+   *
+   * Rend l'élément non-editable
+   *
+   * @retval void
+   */
+  function freeze() {
+		$this -> _freeze = true;
+  }
+
+  /*
+   * Défini la propriété required de l'élément.
+   *
+   * param[in] $isRequired boolean true si l'élément est requis, false sinon
+   *
+   * @retval void
+   */
+  function setRequired($isRequired=true) {
+		$this -> _required = $isRequired;
+  }
+
+	/*
+	 * Test si l'élément est requis
+	 * 
+	 * Cette méthode test si l'élément est requis
+	 *
+	 * @retval boolean
+	 */
+	function isRequired(){
+		return $this -> _required;
+	}
+
+	/**
+	 * Affiche le label de l'élement
+	 *
+	 * @retval void
+	 */
+	function displayLabel() {
+   	if ($this -> isRequired()) {
+      	$required=" <span class='required_elements'>*</span>";
+   	}
+	  else {
+	      $required="";
+   	}
+	  echo "\t\t<td>".$this -> getLabel()."$required</td>\n";
+	}
+
+	/**
+	 * Recupère la valeur de l'élement passée en POST
+	 *
+	 * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
+	 * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+	 *
+	 * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
+	 *
+	 * @retval boolean true si la valeur est présente en POST, false sinon
+	 */
+	function getPostData(&$return) {
+		if($this -> params['form'][$this -> form -> idForm] != 1) {
+			return true;
+		}
+		if (isset($_POST[$this -> name])) {
+			if(!is_array($_POST[$this -> name])) {
+				$_POST[$this -> name] = array($_POST[$this -> name]);
+			}
+			foreach($_POST[$this -> name] as $key => $val) {
+				if (!empty($val)) {
+					$return[$this -> name][$key] = $val;
+				}
+			}
+			return true;
+		}
+		return;
+	}
+
+	/**
+	 * Retourne le label de l'élement
+	 *
+	 * Retourne $this -> label, ou $this -> params['label'], ou $this -> name
+	 *
+	 * @retval string Le label de l'élément
+	 */
+	function getLabel() {
+		if ($this -> label != "") {
+			return $this -> label;
+		}
+		else if ($this -> params['label']) {
+			return $this -> params['label'];
+		}
+		else {
+			return $this -> name;
+		}
+	}
+
+}
+
+?>

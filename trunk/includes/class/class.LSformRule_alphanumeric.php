@@ -21,12 +21,25 @@
 ******************************************************************************/
 
 /**
- * Type d'attribut Ldap ascii
+ * Règle de validation d'une valeur alpha-numérique.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap_ascii extends LSattr_ldap {
-  // \\
+class LSformRule_alphanumeric extends LSformRule {
+  
+  /**
+   * Vérification de la valeur.
+ 	 *
+	 * @param string $value  Value à vérifier
+	 * @param array $options Options de validation (inutile ici)
+	 *
+	 * @return boolean true si la valeur est valide, false sinon
+	 */
+  function validate ($value,$options=array()) {
+    $regex = '/^[a-zA-Z0-9]+$/';
+    return LSformRule_regex :: validate($value,$regex);
+  }
+  
 }
 
 ?>

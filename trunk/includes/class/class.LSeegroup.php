@@ -37,6 +37,8 @@ class LSeegroup extends LSldapObject {
    * @param[in] $config array La configuration de l'objet
    *
    * @retval boolean true si l'objet a été construit, false sinon.
+	 *
+	 * @see LSldapObject::LSldapObject()
    */
   function LSeegroup ($config='auto') {
     $this -> LSldapObject('LSeegroup',$config);

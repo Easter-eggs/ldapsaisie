@@ -21,12 +21,24 @@
 ******************************************************************************/
 
 /**
- * Type d'attribut Ldap ascii
+ * Règle de validation de données requises
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap_ascii extends LSattr_ldap {
-  // \\
+class LSformRule_required extends LSformRule {
+
+	/**
+   * Vérification de la valeur.
+ 	 *
+	 * @param string $value  Value à vérifier
+	 * @param array $options Options de validation (inutile ici)
+	 *
+	 * @return boolean true si la valeur est valide, false sinon
+	 */ 
+  function validate ($value,$option=NULL) {
+    return ((string)$value != '');
+  }
+  
 }
 
 ?>

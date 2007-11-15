@@ -31,11 +31,13 @@ class LSattribute {
   
   var $name;
   var $config;
+  var $ldapObject;
   var $ldap;
   var $html;
   var $data;
   var $updateData=false;
   var $is_validate=false;
+	var $_finalUpdateData=false;
   
   /**
    * Constructeur
@@ -48,20 +50,23 @@ class LSattribute {
    *
    * @param[in] $name string Nom de l'attribut ldap
    * @param[in] $config array Configuration de l'objet
+   * @param[in] &$ldapObject LSldapObject L'objet ldap parent
    *
    * @retval boolean Retourne true si la création a réussi, false sinon.
    */	
-  function LSattribute ($name,$config) {
+  function LSattribute ($name,$config,&$ldapObject) {
     $this -> name = $name;
     $this -> config = $config;
+		$this -> ldapObject = $ldapObject;
+    
     $html_type = "LSattr_html_".$config['html_type'];
     $ldap_type = "LSattr_ldap_".$config['ldap_type'];
     if((class_exists($html_type))&&(class_exists($ldap_type))) {
-      $this -> html = new $html_type($name,$config);
-      $this -> ldap = new $ldap_type($name,$config);
+      $this -> html = new $html_type($name,$config,$this);
+      $this -> ldap = new $ldap_type($name,$config,$this);
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode(41,array('html'=>$config['html_type'],'ldap'=>$config['ldap_type']));
+      $GLOBALS['LSerror'] -> addErrorCode(41,array('attr' => $name,'html'=>$config['html_type'],'ldap'=>$config['ldap_type']));
       return;
     }
     return true;
@@ -95,25 +100,36 @@ class LSattribute {
   }
   
   /**
-   * DEBIG : affiche la valeur de l'attribut
+   * Redéfini la valeur de l'attribut
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval void
+   * @retval boolean true
    */
-  function debug_printValue() {
-    print $this -> data;
+  function reloadData($attr_data) {
+    $this -> data = $attr_data;
+    $this -> updateData=false;
+    $this -> is_validate=false;
+    return true;
   }
   
   /**
    * Retourne la valeur de l'attribut
+	 *
+	 * Retourne la valeur nouvelle si elle existe, sinon la valeur passé.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval mixed La valeur de l'attribut
    */
   function getValue() {
-    return $this -> data;
+		$updateData=$this -> getUpdateData();
+		if (empty($updateData)) {
+	    return $this -> data;
+		}
+		else {
+			return $updateData;
+		}
   }
   
   /**
@@ -160,23 +176,34 @@ class LSattribute {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] object LSform Le formulaire dans lequel doit être ajouté l'attribut
-   * @param[in] string L'identifiant du formulaire
+   * @param[in] object $form Le formulaire dans lequel doit être ajouté l'attribut
+   * @param[in] string $idForm L'identifiant du formulaire
+   * @param[in] objet  &$obj Objet utilisable pour la génération de la valeur de l'attribut
    *
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
-  function addToForm(&$form,$idForm) {
+  function addToForm(&$form,$idForm,&$obj=NULL) {
     if(isset($this -> config['form'][$idForm])) {
-      $element = $this -> html -> addToForm($form,$idForm);
-      if($this -> config['required']==1)
-        $form->addRule($this -> name, "Le champ '".$this -> config['label']."' est obligatoire.",'required', null, 'client');
-      /// !!!!! A CHANGER !!!!!!! \\\\ => utiliser une fonction de traitement de donnée
-      if($this -> data !='')
-        $element -> setValue($this -> getFormVal());
-      else if (isset($this -> config['default_value']))
-        $element -> setValue($this -> config['default_value']);
-      if($this -> config['form'][$idForm]==0)
+      if($this -> data !='') {
+        $data=$this -> getFormVal();
+      }
+      else if (isset($this -> config['default_value'])) {
+        $data=$obj -> getFData($this -> config['default_value']);
+      }
+      
+      $element = $this -> html -> addToForm($form,$idForm,$data);
+			if(!$element) {
+				$GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+			}
+
+      if($this -> config['required']==1) {
+        $form -> setRequired($this -> name);
+      }
+
+      if($this -> config['form'][$idForm]==0) {
         $element -> freeze();
+      }
+      
       if(isset($this -> config['check_data'])) {
         if(is_array($this -> config['check_data'])) {
           foreach ($this -> config['check_data'] as $rule => $rule_infos) {
@@ -185,15 +212,39 @@ class LSattribute {
               return;
             }
             if(!isset($rule_infos['msg']))
-              $rule_infos['msg']='La valeur du champs '.$this -> config['label'].' est invalide.';
+              $rule_infos['msg']=getFData(_('La valeur du champs %{label} est invalide.'),$this -> config['label']);
             if(!isset($rule_infos['param']))
               $rule_infos['param']=NULL;
-            $form -> addRule($this -> name,$rule_infos['msg'],$rule,$rule_infos['param'],$GLOBALS['LSconfig']['check_data_place']);
+            $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'param' => $rule_infos['param']));
           }
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode(44,$this->name);
         }
+      }
+    }
+    return true;
+  }
+  
+  /**
+   * Rafraichis la valeur de l'attribut dans un formualaire
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] object &$form LSform Le formulaire dans lequel doit être ajouté l'attribut
+   * @param[in] string $idForm L'identifiant du formulaire
+   *
+   * @retval boolean true si la valeur a été rafraichie ou que ce n'est pas nécessaire, false sinon
+   */
+  function refreshForm(&$form,$idForm) {
+    if(isset($this -> config['form'][$idForm])) {
+      //~ echo 'Attr : '.$this -> name.'| Val : '.$this -> data."<br />\n";
+      $form_element = &$form -> getElement($this -> name);
+      if(!empty($this -> data)) {
+        return $form_element -> setValue($this -> getFormVal());
+      }
+      else if (isset($this -> config['default_value'])) {
+        return $form_element -> setValue($this -> config['default_value']);
       }
     }
     return true;
@@ -210,6 +261,15 @@ class LSattribute {
     return $this -> getDisplayValue();
   }
   
+  /**
+   * Définis les données de mises à jour si un changement a eut lieu
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] string $data Les données de mise à jour.
+   *
+   * @retval void
+   */
   function setUpdateData($data) {
     if($this -> getFormVal() != $data)
       $this -> updateData=$data;
@@ -223,7 +283,7 @@ class LSattribute {
    * @retval boolean true si l'attribut a été validé, false sinon
    */
   function isValidate() {
-    return ((!isset($this -> config['validation'])) || ($this -> is_validate));
+    return $this -> is_validate;
   }
   
   /**
@@ -249,14 +309,63 @@ class LSattribute {
   }
   
   /**
+   * Vérifie si l'attribut est obligatoire
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true si l'attribut est obligatoire, false sinon
+   */
+  function isRequired() {
+    return $this -> config['required'];
+  }
+  
+  /**
+   * Vérifie si la valeur de l'attribut peut être générée
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true si la valeur de l'attribut peut être générée, false sinon
+   */
+  function canBeGenerated() {
+    return (function_exists($this -> config['generate_function']));
+  }
+
+	/**
+	 * Génere la valeur de l'attribut à partir de la fonction de génération
+	 *
+	 * @author Benjamin Renard <brenard@easter-eggs.com>
+	 *
+	 * @retval boolean true si la valeur à put être générée, false sinon
+	 */
+	function generateValue() {
+		if ( ! $this -> canBeGenerated() ) {
+			return;
+		}
+		$value=call_user_func($this -> config['generate_function'],$this -> ldapObject);
+		if (!empty($value)) {
+			//$this -> setValue($value); // pas nécéssaire ??
+			$this -> updateData=$value;
+			return true;
+		}
+		return;
+	}
+  
+  /**
    * Retourne la valeur de l'attribut pour son enregistrement dans l'annuaire
+	 * si l'attribut à été modifié.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval mixed La valeur de l'attribut pour son enregistrement dans l'annuaire
    */
   function getUpdateData() {
-    $data=($this ->isUpdate())?$this -> updateData:$this -> data;
+		if (!$this -> isUpdate()) {
+			return;
+		}
+		if ( $this -> _finalUpdateData ) {
+			return  $this -> _finalUpdateData;
+		}
+    $data=$this -> updateData;
     if ($this -> config['onSave']) {
       if (is_array($this -> config['onSave'])) {
         $result=$data;
@@ -269,11 +378,10 @@ class LSattribute {
             return;
           }
         }
-        return $result;
       }
       else {
         if (function_exists($this -> config['onSave'])) {
-          return $this -> config['onSave']($data);
+          $result = $this -> config['onSave']($data);
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode(45,array('attr' => $this->name,'func' => $this -> config['onSave']));
@@ -281,11 +389,15 @@ class LSattribute {
         }
       }
     }
-    return $this -> ldap -> getUpdateData($data);
+    else {
+      $result = $this -> ldap -> getUpdateData($data);
+    }
+		$this -> _finalUpdateData = $result;
+    return $result;
   }
-  
+ 
   /**
-   * Retourne la configuration de validation de l'annuaire
+   * Retourne la configuration de validation de l'attribut
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -294,7 +406,17 @@ class LSattribute {
   function getValidateConfig() {
     return $this -> config['validation'];
   }
-  
+
+  /**
+   * Retourne les attributs dépendants de celui-ci
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval array les noms des attributs dépendants
+   */
+  function getDependsAttrs() {
+    return $this -> config['dependAttrs'];
+  } 
 }
 
 ?>

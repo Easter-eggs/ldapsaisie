@@ -79,7 +79,7 @@ class LSerror {
    */
   function display() {
     if(!empty($this -> errors)) {
-      print "<h3>Erreurs</h3>\n";
+      print "<h3>"._('Erreurs')."</h3>\n";
       foreach ($this -> errors as $error) {
         echo "(Code ".$error[0].") ".getFData($GLOBALS['error_code'][$error[0]]['msg'],$error[1])."<br />\n";
       }

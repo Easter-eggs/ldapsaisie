@@ -26,9 +26,45 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSattr_html_select_list extends LSattr_html{
-  
-  function addToForm (&$form,$idForm) {
-    return $form -> addElement('select', $this -> name, $this -> config['label'],$this -> getPossibleValues());
+
+	/**
+	 * Ajoute l'attribut au formualaire passer en paramètre
+	 *
+	 * @param[in] &$form LSform Le formulaire
+	 * @param[in] $idForm L'identifiant du formulaire
+	 * @param[in] $data Valeur du champs du formulaire
+	 *
+	 * @retval LSformElement L'element du formulaire ajouté
+	 */
+  function addToForm (&$form,$idForm,$data=NULL) {
+    if (is_array($data)) {
+      $GLOBALS['LSerror'] -> addErrorCode(103,'select_list');
+      return;
+    }
+    $possible_values=$this -> getPossibleValues();
+		$this -> config['text_possible_values'] = $possible_values;
+    $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config);
+		if(!$element) {
+			$GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+			return;
+		}
+		if ($data) {
+	    $element -> setValue($data);
+		}
+   
+    // Mise en place de la regle de verification des donnees
+    $regex_check_data='/';
+    foreach ($possible_values as $val => $text) {
+  	  if($regex_check_data=='/')
+	  	  $regex_check_data.='^'.preg_quote($val,'/').'$';
+			else
+	  	  $regex_check_data.='|^'.preg_quote($val,'/').'$';
+    }
+    $regex_check_data.='/';
+    debug($this -> name.' : < '.$regex_check_data." ><br/>",$GLOBALS['debug_stat']);
+    $form -> addRule($this -> name, 'regex', array('msg'=> 'Valeur incorrect','params' => array('regex' => $regex_check_data)) );
+    // On retourne un pointeur vers l'element ajouter
+    return $element;
   }
   
   /**
@@ -69,6 +105,8 @@ class LSattr_html_select_list extends LSattr_html{
           }
         }
         else {
+					$val_name=$this->attribute->ldapObject->getFData($val_name);
+					$val=$this->attribute->ldapObject->getFData($val);
           $retInfos[$val_name]=$val;
         }
       }

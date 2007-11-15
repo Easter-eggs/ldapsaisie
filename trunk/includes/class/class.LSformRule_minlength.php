@@ -21,12 +21,29 @@
 ******************************************************************************/
 
 /**
- * Type d'attribut Ldap ascii
+ * Règle de validation : longueur minimale de la valeur.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap_ascii extends LSattr_ldap {
-  // \\
+class LSformRule_minlength extends LSformRule {
+
+	/**
+   * Vérification de la valeur.
+ 	 *
+	 * @param string $values Valeur à vérifier
+	 * @param array $options Options de validation : 
+	 * 															- Longueur min : $options['params']['limit']
+	 *
+	 * @return boolean true si la valeur est valide, false sinon
+	 */ 
+	function validate ($value,$options) {
+		if(!isset($options['params']['limit'])) {
+			$GLOBALS['LSerror'] -> addErrorCode(302);
+			return;
+		}
+    return (strlen($value)>=$options['params']['limit']);
+  }
+  
 }
 
 ?>

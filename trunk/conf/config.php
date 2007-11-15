@@ -23,16 +23,14 @@
 // Configuration LDAP Saisie :
 $GLOBALS['LSconfig'] = array(
   'NetLDAP' => '/usr/share/php/Net/LDAP.php',
-  'QuickForm' => '/usr/share/php/QuickForm.php',
-  'check_data_place' => 'server',
   'ldap_config'=> array(
     'host'     => 'localhost',
     'port'     => 389,
     'version'  => 3,
     'starttls' => false,
-    'binddn'   => 'uid=eeggs,ou=people,o=com',
+    'binddn'   => 'uid=eeggs,ou=people,o=lsexample',
     'bindpw'   => 'toto',
-    'basedn'   => 'o=ost',
+    'basedn'   => 'o=lsexample',
     'options'  => array(),
     'filter'   => '(objectClass=*)',
     'scope'    => 'sub'
