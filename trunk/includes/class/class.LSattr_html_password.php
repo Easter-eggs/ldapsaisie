@@ -43,7 +43,7 @@ class LSattr_html_password extends LSattr_html {
 			return;
 		}
 
-    if (is_array($data)) {
+    if (count($data)>1) {
       $GLOBALS['LSerror'] -> addErrorCode(103,'password');
       return;
     }

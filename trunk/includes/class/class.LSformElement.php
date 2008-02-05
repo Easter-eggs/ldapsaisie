@@ -160,6 +160,19 @@ class LSformElement {
 	}
 
 	/**
+	 * Retourne le label de l'élement
+	 *
+	 * @retval void
+	 */
+	function getLabelInfos() {
+   	if ($this -> isRequired()) {
+      	$return['required']=true;
+   	}
+	  $return['label'] = $this -> getLabel();
+		return $return;
+	}
+
+	/**
 	 * Recupère la valeur de l'élement passée en POST
 	 *
 	 * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
@@ -178,13 +191,14 @@ class LSformElement {
 				$_POST[$this -> name] = array($_POST[$this -> name]);
 			}
 			foreach($_POST[$this -> name] as $key => $val) {
-				if (!empty($val)) {
 					$return[$this -> name][$key] = $val;
-				}
 			}
 			return true;
 		}
-		return;
+		else {
+			$return[$this -> name] = array();
+			return true;
+		}
 	}
 
 	/**
@@ -206,6 +220,19 @@ class LSformElement {
 		}
 	}
 
+	/**
+	 * Retourne l'HTML pour les boutons d'ajout et de suppression de champs du formulaire LSform
+	 *
+	 * @retval string Le code HTML des boutons
+	 */
+	function getMultipleData() {
+		if ($this -> params['multiple'] == true ) {
+			return "<img src='templates/images/add.png' id='LSform_add_field_btn_".$this -> name."_".rand()."' class='LSform-add-field-btn' alt='"._('Ajouter')."'/><img src='templates/images/remove.png' class='LSform-remove-field-btn' alt='"._('Supprimer')."'/>";
+		}
+		else {
+			return '';
+		}
+	}
 }
 
 ?>

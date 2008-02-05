@@ -37,7 +37,7 @@ class LSattr_html_select_list extends LSattr_html{
 	 * @retval LSformElement L'element du formulaire ajouté
 	 */
   function addToForm (&$form,$idForm,$data=NULL) {
-    if (is_array($data)) {
+    if (count($data)>1) {
       $GLOBALS['LSerror'] -> addErrorCode(103,'select_list');
       return;
     }
@@ -80,7 +80,6 @@ class LSattr_html_select_list extends LSattr_html{
     if (isset($this -> config['possible_values'])) {
       foreach($this -> config['possible_values'] as $val_name => $val) {
         if($val_name=='OTHER_OBJECT') {
-          //~ print_r($val);
           if ((!isset($val['object_type'])) || (!isset($val['value_attribute']))) {
             $GLOBALS['LSerror'] -> addErrorCode(102,$this -> name);
             break;

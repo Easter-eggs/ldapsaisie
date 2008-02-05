@@ -78,13 +78,34 @@ class LSerror {
    * @retval void
    */
   function display() {
-    if(!empty($this -> errors)) {
+		$errors = $this -> getErrors();
+		if ($errors) {
+    	$GLOBALS['Smarty'] -> assign('LSerrors',$errors);
+		}
+		/*if(!empty($this -> errors)) {
       print "<h3>"._('Erreurs')."</h3>\n";
       foreach ($this -> errors as $error) {
-        echo "(Code ".$error[0].") ".getFData($GLOBALS['error_code'][$error[0]]['msg'],$error[1])."<br />\n";
+        echo "(Code ".$error[0].") ".getFData($GLOBALS['LSerror_code'][$error[0]]['msg'],$error[1])."<br />\n";
       }
-    }
+    }*/
   }
+
+ /**
+  * Retourne le texte des erreurs
+	*
+	* @author Benjamin Renard <brenard@easter-eggs.com>
+	*
+	* @retvat string Le texte des erreurs
+	*/
+	function getErrors() {
+		if(!empty($this -> errors)) {
+      foreach ($this -> errors as $error) {
+        $txt.="(Code ".$error[0].") ".getFData($GLOBALS['LSerror_code'][$error[0]]['msg'],$error[1])."<br />\n";
+      }
+			return $txt;
+		}
+		return;
+	}
 }
 
 ?>

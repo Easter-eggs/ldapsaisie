@@ -20,6 +20,9 @@
 
 ******************************************************************************/
 
+$GLOBALS['LSsession'] -> loadLSclass('LSattr_ldap');
+$GLOBALS['LSsession'] -> loadLSclass('LSattr_html');
+
 /**
  * Attribut Ldap
  *
@@ -58,9 +61,10 @@ class LSattribute {
     $this -> name = $name;
     $this -> config = $config;
 		$this -> ldapObject = $ldapObject;
-    
     $html_type = "LSattr_html_".$config['html_type'];
     $ldap_type = "LSattr_ldap_".$config['ldap_type'];
+		$GLOBALS['LSsession'] -> loadLSclass($html_type);
+		$GLOBALS['LSsession'] -> loadLSclass($ldap_type);
     if((class_exists($html_type))&&(class_exists($ldap_type))) {
       $this -> html = new $html_type($name,$config,$this);
       $this -> ldap = new $ldap_type($name,$config,$this);
@@ -238,14 +242,8 @@ class LSattribute {
    */
   function refreshForm(&$form,$idForm) {
     if(isset($this -> config['form'][$idForm])) {
-      //~ echo 'Attr : '.$this -> name.'| Val : '.$this -> data."<br />\n";
       $form_element = &$form -> getElement($this -> name);
-      if(!empty($this -> data)) {
-        return $form_element -> setValue($this -> getFormVal());
-      }
-      else if (isset($this -> config['default_value'])) {
-        return $form_element -> setValue($this -> config['default_value']);
-      }
+      return $form_element -> setValue($this -> getFormVal());
     }
     return true;
   }
@@ -258,7 +256,10 @@ class LSattribute {
    * @retval string La valeur a afficher dans le formulaire.
    */
   function getFormVal() {
-    return $this -> getDisplayValue();
+		$data=$this -> getDisplayValue();
+		if(!is_array($data))
+			$data=array($data);
+    return $data;
   }
   
   /**
@@ -271,8 +272,10 @@ class LSattribute {
    * @retval void
    */
   function setUpdateData($data) {
-    if($this -> getFormVal() != $data)
+    if($this -> getFormVal() != $data) {
       $this -> updateData=$data;
+			debug($this -> name.' is updated (o = '.$this -> getFormVal().' | n = '.$data.')');
+		}
   }
   
   /**

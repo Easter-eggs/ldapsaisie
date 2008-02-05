@@ -21,26 +21,28 @@
 ******************************************************************************/
 
 /**
- * Règle de validation d'une valeur numérique.
+ * Objet Ldap eecompany
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSformRule_numeric extends LSformRule{
-  
-	/**
-   * Vérification de la valeur.
- 	 *
-	 * @param string $values Valeur à vérifier
-	 * @param array $options Options de validation (inutile ici)
+class LSeecompany extends LSldapObject {
+
+  /**
+   * Constructeur
+   *
+   * Cette methode construit l'objet et définis la configuration.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $config array La configuration de l'objet
+   *
+   * @retval boolean true si l'objet a été construit, false sinon.
 	 *
-	 * @return boolean true si la valeur est valide, false sinon
-	 */
-  function validate ($value,$options=array()) {
-    $regex = '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/';
-		$GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
-    return LSformRule_regex :: validate($value,$regex);
+	 * @see LSldapObject::LSldapObject()
+   */
+  function LSeecompany ($config='auto') {
+    $this -> LSldapObject('LSeecompany',$config);
   }
-  
 }
 
 ?>

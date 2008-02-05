@@ -37,6 +37,7 @@ class LSformRule_alphanumeric extends LSformRule {
 	 */
   function validate ($value,$options=array()) {
     $regex = '/^[a-zA-Z0-9]+$/';
+		$GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex);
   }
   

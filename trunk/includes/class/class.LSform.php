@@ -59,6 +59,7 @@ class LSform {
     $this -> idForm = $idForm;
     $this -> submit = $submit;
 		$this -> ldapObject = $ldapObject;
+		$GLOBALS['LSsession'] -> loadLSclass('LSformElement');
   }
   
   /**
@@ -69,26 +70,24 @@ class LSform {
    * @retval void
    */	
   function display(){
-		echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>\n";
-		echo "\t<input type='hidden' name='validate' value='LSform'/>\n";
-		echo "\t<input type='hidden' name='idForm' value='".$this -> idForm."'/>\n";
-		echo "<table>\n";
+		$GLOBALS['LSsession'] -> addJSscript('LSform.js');
+		$GLOBALS['LSsession'] -> addCssFile('LSform.css');
+		$GLOBALS['Smarty'] -> assign('LSform_action',$_SERVER['PHP_SELF']);
+		$LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n\t<input type='hidden' name='idForm' id='LSform_idform' value='".$this -> idForm."'/>\n\t<input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='".$this -> ldapObject -> getType()."'/>\n";
+		$GLOBALS['Smarty'] -> assign('LSform_header',$LSform_header);
+		$fields = array();
 		foreach($this -> elements as $element) {
-			$element -> display();
+			$field = array();
+			$field = $element -> getDisplay();
 			if (isset($this -> _elementsErrors[$element -> name])) {
-				foreach ($this -> _elementsErrors[$element -> name] as $error) {
-					echo "<tr><td></td><td>$error</td></tr>";
-				}
+				$field['errors']= $this -> _elementsErrors[$element -> name];
 			}
+			$fields[] = $field;
 		}
+		$GLOBALS['Smarty'] -> assign('LSform_fields',$fields);
 		if($this -> can_validate) {
-	 		echo "\t<tr>\n";
-			echo "\t\t<td>&nbsp;</td>\n";
-			echo "\t\t<td><input type='submit' value=\"".$this -> submit."\"/></td>\n";
-			echo "\t</tr>\n";
+			$GLOBALS['Smarty'] -> assign('LSform_submittxt',$this -> submit);
 		}
-		echo "</table>\n";
-		echo "</form>\n";
   }
   
   /**
@@ -166,8 +165,11 @@ class LSform {
 				}
 				if (!is_array($this -> _rules[$element]))
 					continue;
+				$GLOBALS['LSsession'] -> loadLSclass('LSformRule');
 				foreach($this -> _rules[$element] as $rule) {
-					if (! call_user_func(array( "LSformRule_".$rule['name'],'validate') , $value, $rule['options'])) {
+					$ruleType="LSformRule_".$rule['name'];
+					$GLOBALS['LSsession'] -> loadLSclass($ruleType);
+					if (! call_user_func(array( $ruleType,'validate') , $value, $rule['options'])) {
 						$retval=false;
 						$this -> setElementError($this -> elements[$element],$rule['options']['msg']);
 					}
@@ -238,6 +240,7 @@ class LSform {
 	 */
 	function addElement($type,$name,$label,$params=array()) {
 		$elementType='LSformElement_'.$type;
+		$GLOBALS['LSsession'] -> loadLSclass($elementType);
 		if (!class_exists($elementType)) {
 			$GLOBALS['LSerror'] -> addErrorCode(205,array('type' => $type));	
 			return;
@@ -313,6 +316,8 @@ class LSform {
 	 * @param[in] $element string Le nom de l'élément conserné
 	 */
 	function isRuleRegistered($rule) {
+		$GLOBALS['LSsession'] -> loadLSclass('LSformRule');
+		$GLOBALS['LSsession'] -> loadLSclass('LSformRule_'.$rule);
 		return class_exists('LSformRule_'.$rule);
 	}
 
@@ -354,6 +359,22 @@ class LSform {
 			$this -> elements[$element] -> setValue($values);
 		}
 		return true;
+	}
+
+	/**
+	 * Retourne le code HTML d'un champ vide.
+	 * 
+	 * @param[in] string Le nom du champ du formulaire
+	 *
+	 * @retval string Le code HTML du champ vide.
+	 */
+	function getEmptyField($element) {
+		$element = $this -> getElement($element);
+		if ($element) {
+			return $element -> getEmptyField();			
+		}
+		else
+			return;
 	}
 
 }

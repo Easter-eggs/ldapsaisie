@@ -33,49 +33,53 @@
 class LSformElement_text extends LSformElement {
 
  /*
-  * Affiche l'élément
+  * Retourne les infos d'affichage de l'élément
   * 
-  * Cette méthode affiche l'élement
+  * Cette méthode retourne les informations d'affichage de l'élement
   *
-  * @retval void
+  * @retval array
   */
-  function display(){
-		echo "\t<tr>\n";
-		$this -> displayLabel();
+  function getDisplay(){
+		$return = $this -> getLabelInfos();
 		// value
 		if (!$this -> isFreeze()) {
-			echo "\t\t<td>\n";
-			echo "\t\t\t<ul>\n";
+			$return['html'] = "<ul class='LSform'>\n";
 			if (empty($this -> values)) {
-				echo "\t\t\t\t<li><input type='text' name='".$this -> name."[]' \"></li>\n";
+				$return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
 			}
 			else {
+				$multiple = $this -> getMultipleData();
 				foreach ($this -> values as $value) {
-					echo "\t\t\t\t<li><input type='text' name='".$this -> name."[]' value=\"".$value."\"></li>\n";
+					$id = "LSform_".$this -> name."_".rand();
+					$return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>".$multiple."</li>\n";
 				}
 			}
-			echo "\t\t\t</ul>\n";
-			echo "\t\t</td>\n";
+			$return['html'] .= "</ul>\n";
 		}
 		else {
-			echo "\t\t<td>\n";
-			echo "\t\t\t<ul>\n";
-
+			$return['html'] = "<ul class='LSform'>\n";
 			if (empty($this -> values)) {
-				echo "\t\t\t\t<li>"._('Aucunes valeur definie')."</li>\n";
+				$return['html'] .= "<li>"._('Aucunes valeur definie')."</li>\n";
 			}
 			else {
 				foreach ($this -> values as $value) {
-					echo "\t\t\t\t<li>".$value."</li>\n";
+					$return['html'] .= "<li>".$value."</li>\n";
 				}
 			}
-
-			echo "\t\t\t</ul>\n";
-			echo "\t\t</td>\n";
+			$return['html'] .= "</ul>\n";
 		}
-		echo "\t</tr>\n";
+		return $return;
   }
-    
+
+ /*
+ 	* Retourne le code HTML d'un champ vide
+	*
+	* @retval string Code HTML d'un champ vide.
+	*/
+	function getEmptyField() {
+		$multiple = $this -> getMultipleData();
+		return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$multiple;
+	}
 }
 
 ?>

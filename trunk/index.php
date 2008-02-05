@@ -1,4 +1,3 @@
-<pre>
 <?php
 /*******************************************************************************
  * Copyright (C) 2007 Easter-eggs
@@ -21,93 +20,41 @@
 
 ******************************************************************************/
 
-define('LS_CONF_DIR','conf/');
-define('LS_INCLUDE_DIR','includes/');
-define('LS_CLASS_DIR', LS_INCLUDE_DIR .'class/');
-define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
-define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
+require_once 'includes/functions.php';
+require_once 'includes/class/class.LSsession.php';
 
-require_once  LS_CONF_DIR .'config.php';
-require_once  LS_CONF_DIR .'error_code.php';
-require_once  LS_CONF_DIR .'config.LSeepeople.php';
-require_once  LS_CONF_DIR .'config.LSeegroup.php';
-require_once $GLOBALS['LSconfig']['NetLDAP'];
+$GLOBALS['LSsession'] = new LSsession();
 
-require_once  LS_INCLUDE_DIR .'functions.php';
+if($LSsession -> startLSsession()) {
 
-require_once  LS_CLASS_DIR .'class.LSerror.php';
-require_once  LS_CLASS_DIR .'class.LSldap.php';
-require_once  LS_CLASS_DIR .'class.LSldapObject.php';
-require_once  LS_CLASS_DIR .'class.LSattribute.php';
-require_once  LS_CLASS_DIR .'class.LSattr_ldap.php';
-require_once  LS_CLASS_DIR .'class.LSattr_ldap_ascii.php';
-require_once  LS_CLASS_DIR .'class.LSattr_ldap_password.php';
-require_once  LS_CLASS_DIR .'class.LSattr_ldap_numeric.php';
-require_once  LS_CLASS_DIR .'class.LSattr_html.php';
-require_once  LS_CLASS_DIR .'class.LSattr_html_text.php';
-require_once  LS_CLASS_DIR .'class.LSattr_html_textarea.php';
-require_once  LS_CLASS_DIR .'class.LSattr_html_password.php';
-require_once  LS_CLASS_DIR .'class.LSattr_html_select_list.php';
+	// Définition du Titre de la page
+	$GLOBALS['Smarty'] -> assign('pagetitle',_('Mon compte'));
 
-require_once  LS_CLASS_DIR .'class.LSeepeople.php';
-require_once  LS_CLASS_DIR .'class.LSeegroup.php';
+	// ---- les objets LDAP
+	// Création d'un LSeepeople
+	$eepeople = new LSeepeople();
+	
+	// Chargement des données de l'objet depuis l'annuaire et à partir de son DN
+	$eepeople-> loadData($GLOBALS['LSsession']->dn);
+	
+	// Création d'un formulaire à partir pour notre objet LDAP
+	$form=$eepeople -> getForm('test');
+	
+	// Gestion de sa validation
+	if ($form->validate()) {
+	  // MàJ des données de l'objet LDAP
+	  $eepeople -> updateData('test');
+	}
+	// Affichage du formulaire
+	$form -> display();
 
-require_once  LS_CLASS_DIR .'class.LSform.php';
-require_once  LS_CLASS_DIR .'class.LSformElement.php';
-require_once  LS_CLASS_DIR .'class.LSformElement_text.php';
-require_once  LS_CLASS_DIR .'class.LSformElement_textarea.php';
-require_once  LS_CLASS_DIR .'class.LSformElement_select.php';
-require_once  LS_CLASS_DIR .'class.LSformElement_password.php';
-
-require_once  LS_CLASS_DIR .'class.LSformRule.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_regex.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_alphanumeric.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_compare.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_email.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_lettersonly.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_maxlength.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_minlength.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_nonzero.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_nopunctuation.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_numeric.php';
-require_once  LS_CLASS_DIR .'class.LSformRule_rangelength.php';
-
-require_once  LS_ADDONS_DIR .'LSaddons.samba.php';
-LSaddon_samba_support();
-require_once  LS_ADDONS_DIR .'LSaddons.posix.php';
-LSaddon_posix_support();
-
-// Simulation d'une LSsession
-$GLOBALS['LSsession']['topDn']='o=lsexample';
-
-
-// "Activation" de la gestion des erreurs
-$LSerror = new LSerror();
-
-// Connexion à l'annuaire
-$LSldap = new LSldap($GLOBALS['LSconfig']['ldap_config']);
-
-// ---- les objets LDAP
-// Création d'un LSeepeople
-$eepeople = new LSeepeople($GLOBALS['LSobjects']['LSeepeople']);
-
-// Chargement des données de l'objet depuis l'annuaire et à partir de son DN
-$eepeople-> loadData('uid=eeggs,ou=people,o=lsexample');
-
-// Création d'un formulaire à partir pour notre objet LDAP
-$form=$eepeople -> getForm('test');
-
-// Gestion de sa validation
-if ($form->validate()) {
-  // MàJ des données de l'objet LDAP
-  $eepeople -> updateData('test');
+	// Template
+	$GLOBALS['LSsession'] -> setTemplate('base.tpl');
 }
-// Affichage du formulaire
-$form -> display();
-
+else {
+	$GLOBALS['LSsession'] -> setTemplate('login.tpl');
+}
 
 // Affichage des retours d'erreurs
-$LSerror -> display();
+$GLOBALS['LSsession'] -> displayTemplate();
 ?>
-</pre>
-<?php debug_print(); ?>

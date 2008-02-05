@@ -49,7 +49,6 @@ class LSformRule_regex extends LSformRule {
 		else {
 			$regex=$option;
 		}
-			debug("\n$value : $regex\n");
     if (!preg_match($regex, $value)) {
       return false;
 	 }

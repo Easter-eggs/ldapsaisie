@@ -86,8 +86,23 @@ function getFData($format,$data,$meth=NULL) {
   return $format;
 }
 
+function loadDir($dir,$regexpr='^.*\.php$') {
+	if ($handle = opendir($dir)) {
+		while (false !== ($file = readdir($handle))) {
+			if (ereg($regexpr,$file)) {
+				require_once($dir.'/'.$file);
+			}
+		}
+	}
+	else {
+		die(_('Dossier introuvable ('.$dir.').'));
+	}
+	return true;
+}
+
+
 function valid($obj) {
-  echo 'ok';
+  debug('Validation : ok');
   return true;
 }
 
@@ -98,19 +113,24 @@ function return_data($data) {
 function debug($data,$get=true) {
 	if ($get) {
 		if (is_array($data)) {
-			$GLOBALS['LSdebug'][]=$data;
+			$GLOBALS['LSdebug']['fields'][]=$data;
 		}
 		else {
-			$GLOBALS['LSdebug'][]="[$data]";
+			$GLOBALS['LSdebug']['fields'][]="[$data]";
 		}
 	}
 	return true;
 }
 
 function debug_print() {
-	echo "<fieldset><legend>Debug</legend><pre>";
-	print_r( $GLOBALS['LSdebug']);
-	echo "</pre></fieldset>";
+	if (( $GLOBALS['LSdebug']['fields'] ) && ( $GLOBALS['LSdebug']['active'] )) {
+		$txt='<ul>';
+		foreach($GLOBALS['LSdebug']['fields'] as $debug) {
+			$txt.='<li>'.$debug.'</li>';
+		}
+		$txt.='</ul>';
+		$GLOBALS['Smarty'] -> assign('LSdebug',$txt);
+	}
 }
 
 ?>

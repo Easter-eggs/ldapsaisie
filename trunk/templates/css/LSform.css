@@ -1,0 +1,51 @@
+form.LSform {
+	margin-left:								2em;
+}
+
+dl.LSform {
+	margin:											0;
+	padding:										0;
+}
+
+.LSform dt {
+	position:										relative;
+	left:												0.2em;
+	top:												1.2em;
+	width:											12em;
+	font-weight:								bold;
+	font-size:									0.9em;
+	color:											#0072b8;
+}
+
+dd.LSform {
+	margin:											0 0 0 13em;
+	padding:										0 0 0em 0em;
+}
+
+.LSform input, .LSform select, .LSform textarea {
+	border:											1px inset #ccc;
+	width:											20em;
+	background-color:						#b5e4f6;
+}
+
+input[type='submit'].LSform {
+	border:											1px outset #ccc;
+	margin-left:								20em;
+	margin-top:									1em;
+	width:											8em;
+}
+
+ul.LSform {
+	list-style-type:						none;
+	padding:										0;
+	margin:											0;
+}
+
+.LSform-errors {
+	color:											#fff;
+	background-color:						#f59a67;
+}
+
+img.LSform-add-field-btn, img.LSform-remove-field-btn {
+	cursor:											pointer;
+}

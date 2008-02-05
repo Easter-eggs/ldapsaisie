@@ -64,7 +64,6 @@ class LSldap {
     $this -> cnx = Net_LDAP::connect($this -> config);
     if (Net_LDAP::isError($this -> cnx)) {
       $GLOBALS['LSerror'] -> addErrorCode(1,$this -> cnx -> getMessage());
-      $GLOBALS['LSerror'] -> stop();
       $this -> cnx = NULL;
       return;
     }
@@ -219,6 +218,7 @@ class LSldap {
       $ret = $entry -> update();
       if (Net_Ldap::isError($ret)) {
         $GLOBALS['LSerror'] -> addErrorCode(5,$dn);
+				debug('NetLdap-Error : '.$ret->getMessage());
       }
       else {
         return true;
@@ -229,7 +229,37 @@ class LSldap {
       return;
     }
   }
-  
+
+  /**
+   * Test de bind
+   *
+   * Cette methode établie une connexion à l'annuaire Ldap et test un bind
+	 * avec un login et un mot de passe passé en paramètre
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true si la connection à réussi, false sinon
+   */
+  function checkBind($dn,$pwd) {
+		$config = $this -> config;
+		$config['binddn'] = $dn;
+		$config['bindpw'] = $pwd;
+    $cnx = Net_LDAP::connect($config);
+    if (Net_LDAP::isError($cnx)) {
+      return;
+    }
+    return true;
+  }
+
+	/**
+	 * Retourne l'état de la connexion Ldap
+	 *
+	 * @retval boolean True si le serveur est connecté, false sinon.
+	 */
+	function isConnected() {
+		return ($this -> cnx == NULL)?false:true;
+	}
+
 }
 
 ?>

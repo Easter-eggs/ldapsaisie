@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+$GLOBALS['LSsession'] -> loadLSclass('LSattribute');
 
 /**
  * Base d'un objet ldap
@@ -51,16 +52,17 @@ class LSldapObject {
    *
    * @retval boolean true si l'objet a été construit, false sinon.
    */	
-   function LSldapObject($type_name,$config='auto') {
-      $this -> type_name = $type_name;
-      $this -> config = $config;
-      if($config=='auto') {
-      if(isset($GLOBALS['LSobjects'][$type_name]))
-        $this -> config = $GLOBALS['LSobjects'][$type_name];
-      else {
-        $GLOBALS['LSerror'] -> addErrorCode(21);
-        return;
-      }
+	function LSldapObject($type_name,$config='auto') {
+		$this -> type_name = $type_name;
+    $this -> config = $config;
+    if($config=='auto') {
+	    if(isset($GLOBALS['LSobjects'][$type_name])) {
+	      $this -> config = $GLOBALS['LSobjects'][$type_name];
+			}
+	    else {
+	      $GLOBALS['LSerror'] -> addErrorCode(21);
+	      return;
+	    }
     }
 		foreach($this -> config['attrs'] as $attr_name => $attr_config) {
 			if(!$this -> attrs[$attr_name]=new LSattribute($attr_name,$attr_config,$this)) {
@@ -131,7 +133,7 @@ class LSldapObject {
    *
    * @retval string Valeur descriptive d'affichage de l'objet
    */	
-  function getDisplayValue($spe) {
+  function getDisplayValue($spe='') {
     if ($spe=='') {
       $spe = $this -> getDisplayAttributes();
     }
@@ -169,6 +171,7 @@ class LSldapObject {
    * @retval LSform Le formulaire crée
    */	
   function getForm($idForm,$config=array()) {
+		$GLOBALS['LSsession'] -> loadLSclass('LSform');
     $LSform = new LSform($this,$idForm);
     $this -> forms[$idForm] = array($LSform,$config);
     foreach($this -> attrs as $attr_name => $attr) {
@@ -338,6 +341,11 @@ class LSldapObject {
 		// Validation des valeurs de l'attribut
     if(is_array($vconfig)) {
 			foreach($vconfig as $test) {
+				// Définition du basedn par défaut
+				if (!isset($test['basedn'])) {
+					$test['basedn']=$GLOBALS['LSsession']->topDn;
+				}
+
 				// Définition du message d'erreur
 				if (!empty($test['msg'])) {
 					$msg_error=getFData($test['msg'],$this,'getValue');
@@ -352,7 +360,7 @@ class LSldapObject {
 						$this -> other_values['val']=$val;
 						$sfilter_user=(isset($test['basedn']))?getFData($test['filter'],$this,'getValue'):NULL;
 						if(isset($test['object_type'])) {
-							$test_obj = new $test['object_type']('auto');
+							$test_obj = new $test['object_type']();
 							$sfilter=$test_obj->getObjectFilter();
 							$sfilter='(&'.$sfilter;
 							if($sfilter_user[0]=='(') {
@@ -445,6 +453,7 @@ class LSldapObject {
     if(!empty($submitData)) {
       $dn=$this -> getDn();
       if($dn) {
+				debug($submitData);
         return $GLOBALS['LSldap'] -> update($this -> type_name,$dn, $submitData);
       }
       else {
@@ -777,7 +786,12 @@ class LSldapObject {
     
     return $retInfos;
   }
-  
+ 
+	function searchObject($name,$basedn=NULL) {
+		$filter = $this -> config['rdn'].'='.$name;	
+	  return $this -> listObjects($filter,$basedn); 
+	}
+
   /**
    * Retourne une valeur de l'objet
    *
@@ -799,6 +813,9 @@ class LSldapObject {
     if(($val=='dn')||($val=='%{dn}')) {
       return $this -> dn;
     }
+		else if(($val=='rdn')||($val=='%{rdn}')) {
+			return $this -> attrs[ $this -> config['rdn'] ] -> getValue();
+		}
     else if(isset($this ->  attrs[$val])){
       if (method_exists($this ->  attrs[$val],'getValue'))
         return $this -> attrs[$val] -> getValue();
@@ -812,7 +829,40 @@ class LSldapObject {
       return ' ';
     }
   }
-  
+ 
+	/**
+	 * Retourn une liste d'option pour un select d'un objet du même type
+	 * 
+	 * @author Benjamin Renard <brenard@easter-eggs.com>
+	 *
+	 * @retval string HTML code
+	 */
+	function getSelectOptions() {
+		$list = $this -> listObjects();
+		$display='';
+		foreach($list as $object) {
+			$display.="<option value=\"".$object -> getDn()."\">".$object -> getDisplayValue()."</option>\n"; 
+		}
+		return $display;
+	}
+
+	/**
+	 * Retourn un tableau pour un select d'un objet du même type
+	 * 
+	 * @author Benjamin Renard <brenard@easter-eggs.com>
+	 *
+	 * @retval array['dn','display']
+	 */
+	function getSelectArray() {
+		$list = $this -> listObjects();
+		$return=array();
+		foreach($list as $object) {
+			$return['dn'][] = $object -> getDn();
+			$return['display'][] = $object -> getDisplayValue();
+		}
+		return $return;
+	}
+
   /**
    * Retourne le DN de l'objet
    *
@@ -829,11 +879,10 @@ class LSldapObject {
     }
     else {
       $rdn_attr=$this -> config['rdn'];
-      if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) && (isset($this -> config['container_dn'])) && (isset($GLOBALS['LSsession']['topDn'])) ) {
-				debug('RDN : '.$rdn_attr);
+      if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) && (isset($this -> config['container_dn'])) && (isset($GLOBALS['LSsession']->topDn)) ) {
         $rdn_val=$this -> attrs[$rdn_attr] -> getUpdateData();
         if (!empty($rdn_val)) {
-          return $rdn_attr.'='.$rdn_val[0].','.$this -> config['container_dn'].','.$GLOBALS['LSsession']['topDn'];
+          return $rdn_attr.'='.$rdn_val[0].','.$this -> config['container_dn'].','.$GLOBALS['LSsession']->topDn;
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode(32,$this -> config['rdn']);
@@ -846,7 +895,16 @@ class LSldapObject {
       }
     }
   }
-  
+
+	/**
+	 * Retourne le type de l'objet
+	 *
+	 * @retval string Le type de l'objet ($this -> type_name)
+	 */
+	function getType() {
+		return $this -> type_name;
+	}
+
 }
 
 ?>

@@ -33,19 +33,24 @@
 class LSformElement_select extends LSformElement {
 
  /*
-  * Affiche l'élément
+  * Retourn les infos d'affichage de l'élément
   * 
-  * Cette méthode affiche l'élement
+  * Cette méthode retourne les informations d'affichage de l'élement
   *
-  * @retval void
+  * @retval array
   */
-  function display(){
-		echo "\t<tr>\n";
-		$this -> displayLabel();
+  function getDisplay(){
+		$return = $this -> getLabelInfos();
 		// value
 		if (!$this -> isFreeze()) {
-			echo "\t\t<td>\n";
-			echo "\t\t\t<select name='".$this -> name."' multiple>\n";
+			if ($this -> params['multiple']==0) {
+				$multiple_tag='';
+			}
+			else {
+				$multiple_tag='multiple';
+			}
+				
+			$return['html'] = "<select name='".$this -> name."' $multiple_tag class='LSform'>\n";
 			foreach ($this -> params['text_possible_values'] as $choice_value => $choice_text) {
 				if (in_array($choice_value, $this -> values)) {
 					$selected=' selected';
@@ -53,28 +58,25 @@ class LSformElement_select extends LSformElement {
 				else {
 					$selected='';
 				}
-				echo "\t\t\t\t<option value=\"".$choice_value."\"$selected>$choice_text</option>\n";
+				$return['html'].="<option value=\"".$choice_value."\"$selected>$choice_text</option>\n";
 			}
-			echo "\t\t\t</select>\n";
-			echo "\t\t</td>\n";
+			$return['html'].="</select>\n";
 		}
 		else {
-			echo "\t\t<td>\n";
-			echo "\t\t\t<ul>\n";
+			$return['html']="<ul class='LSform'>\n";
 			foreach ($params['possible_values'] as $choice_value => $choice_text) {
 				if (in_array($choice_value, $this -> value)) {
-					echo "<li><strong>$choice_text</strong></li>";
+					$return['html'].="<li class='LSform'><strong>$choice_text</strong></li>";
 				}
 				else {
-					echo "<li>$choice_text</li>";
+					$return['html'].="<li class='LSform'>$choice_text</li>";
 				}
 			}
-			echo "\t\t\t</ul>\n";
-			echo "\t\t</td>\n";
+			$return['html'].="</ul>\n";
 		}
-		echo "\t</tr>\n";
+		return $return;
 	}
-  
+
 }
 
 ?>

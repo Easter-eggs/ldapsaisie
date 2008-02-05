@@ -58,52 +58,28 @@ class LSformElement_password extends LSformElement {
   }
 
  /*
-  * Affiche l'élément
+  * Retourne les infos d'affichage de l'élément
   * 
-  * Cette méthode affiche l'élement
+  * Cette méthode retourne les informations d'affichage de l'élement
   *
-  * @retval void
+  * @retval array
   */
-	function display(){
-		echo "\t<tr>\n";
-		$this -> displayLabel();
-		// value
+	function getDisplay(){
+		$return = $this -> getLabelInfos();
 		if (!$this -> isFreeze()) {
-			echo "\t\t<td>\n";
-			echo "\t\t\t<ul>\n";
-
-			if (empty($this -> values)) {
-				echo "\t\t\t\t<li><input type='password' name='".$this -> name."[]' \"></li>\n";
-			}
-			else {
-				foreach ($this -> values as $value) {
-					echo "\t\t\t\t<li><input type='password' name='".$this -> name."[]'/></li>\n";
-				}
-			}
-
-			echo "\t\t\t</ul>\n";
-			echo "\t\t\t* "._('Modification uniquement').".";
-			echo "\t\t</td>\n";
+			$return['html'] = "<input type='password' name='".$this -> name."[]' />\n* "._('Modification uniquement').".";
 		}
 		else {
-			echo "\t\t<td>\n";
-			echo "\t\t\t<ul>\n";
-
 			if (empty($this -> values)) {
-				echo "\t\t\t\t<li>"._('Aucunes valeur definie')."</li>\n";
+				$return['html'] = _('Aucunes valeur definie');
 			}
 			else {
-				foreach ($this -> values as $value) {
-					echo "\t\t\t\t<li>".$value."</li>\n";
-				}
+				$return['html'] = "********";
 			}
 
-			echo "\t\t\t</ul>\n";
-			echo "\t\t</td>\n";
 		}
-		echo "\t</tr>\n";
+		return $return;
 	}
-	    
 }
 	
 ?>
