@@ -40,8 +40,8 @@
 				{/foreach}
 			{/if}
 			{/foreach}
+			<dd class='LSform'><input type='submit' value='{$LSform_submittxt}' class='LSform' /></dd>
 		</dl>
-		<input type='submit' value='{$LSform_submittxt}' class='LSform' />
 	</div>
 	<hr class='spacer' />
 </div>

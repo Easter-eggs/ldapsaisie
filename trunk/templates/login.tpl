@@ -29,8 +29,8 @@
 	<dd><input type='text' name='LSsession_user' /></dd>
 	<dt>{$loginform_label_pwd}</dt>
 	<dd><input type='password' name='LSsession_pwd' /></dd>
+	<dd><input type='submit' value='{$loginform_label_submit}' /></dd>
 </dl>
-<input type='submit' value='{$loginform_label_submit}' />
 </form>
 </div>
 </body>

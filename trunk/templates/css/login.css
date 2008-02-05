@@ -45,7 +45,6 @@ dl.loginform {
 
 .loginform input[type='submit'] {
 	border:									1px outset #ccc;
-	margin-left:						30em;
-	margin-top:							1em;
-	width:									8em;
+	width:									11em;
+	margin:									1em;
 }
