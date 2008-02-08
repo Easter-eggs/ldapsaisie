@@ -40,42 +40,37 @@ class LSformElement_select extends LSformElement {
   * @retval array
   */
   function getDisplay(){
-		$return = $this -> getLabelInfos();
-		// value
-		if (!$this -> isFreeze()) {
-			if ($this -> params['multiple']==0) {
-				$multiple_tag='';
-			}
-			else {
-				$multiple_tag='multiple';
-			}
-				
-			$return['html'] = "<select name='".$this -> name."' $multiple_tag class='LSform'>\n";
-			foreach ($this -> params['text_possible_values'] as $choice_value => $choice_text) {
-				if (in_array($choice_value, $this -> values)) {
-					$selected=' selected';
-				}
-				else {
-					$selected='';
-				}
-				$return['html'].="<option value=\"".$choice_value."\"$selected>$choice_text</option>\n";
-			}
-			$return['html'].="</select>\n";
-		}
-		else {
-			$return['html']="<ul class='LSform'>\n";
-			foreach ($params['possible_values'] as $choice_value => $choice_text) {
-				if (in_array($choice_value, $this -> value)) {
-					$return['html'].="<li class='LSform'><strong>$choice_text</strong></li>";
-				}
-				else {
-					$return['html'].="<li class='LSform'>$choice_text</li>";
-				}
-			}
-			$return['html'].="</ul>\n";
-		}
-		return $return;
-	}
+    $return = $this -> getLabelInfos();
+    // value
+    if (!$this -> isFreeze()) {
+      if ($this -> params['multiple']==0) {
+        $multiple_tag='';
+      }
+      else {
+        $multiple_tag='multiple';
+      }
+        
+      $return['html'] = "<select name='".$this -> name."' $multiple_tag class='LSform'>\n";
+      foreach ($this -> params['text_possible_values'] as $choice_value => $choice_text) {
+        if (in_array($choice_value, $this -> values)) {
+          $selected=' selected';
+        }
+        else {
+          $selected='';
+        }
+        $return['html'].="<option value=\"".$choice_value."\"$selected>$choice_text</option>\n";
+      }
+      $return['html'].="</select>\n";
+    }
+    else {
+      $return['html']="<ul class='LSform'>\n";
+      foreach ($this -> values as $value) {
+        $return['html'].="<li class='LSform'>".$this -> params['text_possible_values'][$value]."</strong></li>";
+      }
+      $return['html'].="</ul>\n";
+    }
+    return $return;
+  }
 
 }
 

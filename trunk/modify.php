@@ -28,10 +28,33 @@ $GLOBALS['LSsession'] = new LSsession();
 if($LSsession -> startLSsession()) {
 
   // Définition du Titre de la page
-  $GLOBALS['Smarty'] -> assign('pagetitle',_('Accueil'));
+  $GLOBALS['Smarty'] -> assign('pagetitle',_('Modifier'));
+
+  // Création d'un LSobject
+  if (class_exists($_GET['LSobject'])) {
+    debug('me : '.$GLOBALS['LSsession'] -> whoami($_GET['dn']));
+    if ( $GLOBALS['LSsession'] -> whoami($_GET['dn']) != 'user' ) {
+      $object = new $_GET['LSobject']();
+      if ($object -> loadData($_GET['dn'])) {
+        $form = $object -> getForm('test');
+        if ($form->validate()) {
+          // MàJ des données de l'objet LDAP
+          $object -> updateData('test');
+        }
+        $form -> display();
+      }
+      else debug('erreur durant le chargement du dn');
+    }
+    else {
+      $GLOBALS['LSerror'] -> addErrorCode(1011);
+    }
+  }
+  else {
+    $GLOBALS['LSerror'] -> addErrorCode(21);
+  }
 
   // Template
-  $GLOBALS['LSsession'] -> setTemplate('accueil.tpl');
+  $GLOBALS['LSsession'] -> setTemplate('modify.tpl');
 }
 else {
   $GLOBALS['LSsession'] -> setTemplate('login.tpl');

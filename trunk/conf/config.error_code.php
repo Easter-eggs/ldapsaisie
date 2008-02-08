@@ -100,10 +100,10 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("LSldapObject : Sans DN, l'objet n'a put être modifié."),
     'level' => 'c'
   ),
-	34 => array (
-		'msg' => _("LSldapObject : L'attribut %{attr_depend} dépendant de l'attribut %{attr} n'existe pas."),
-		'level' => 'w'
-	),
+  34 => array (
+    'msg' => _("LSldapObject : L'attribut %{attr_depend} dépendant de l'attribut %{attr} n'existe pas."),
+    'level' => 'w'
+  ),
   
   // LSldapObject
   41 => array (
@@ -130,11 +130,11 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("LSattribute : La valeur de l'attribut %{attr} ne peut pas être générée."),
     'level' => 'c'
   ),
-	47 => array (
+  47 => array (
     'msg' => _("LSattribute : La valeur de l'attribut %{attr} n'a pas put être générée."),
     'level' => 'c'
   ),
-	48 => array (
+  48 => array (
     'msg' => _("LSattribute : La génération de l'attribut %{attr} n'a pas retourné une valeur correcte."),
     'level' => 'c'
   ),
@@ -153,40 +153,40 @@ $GLOBALS['LSerror_code'] = array (
     'level' => 'c'
   ),
 
-	// LSform
-	201 => array(
-		'msg' => _("LSform : Erreur durant la recupération des valeurs du formulaire."),
-		'level' => 'c'
-	),
-	202 => array(
-		'msg' => _("LSform : Erreur durant la récupération de la valeur du formulaire du champ '%{element}'."),
-		'level' => 'c'
-	),
-	203 => array(
-		'msg' => _("LSform : Les données du champ %{element} ne sont pas valides."),
-		'level' => 'c'
-	),
-	204 => array(
-		'msg' => _("LSform : Le champ %{element} n'existe pas."),
-		'level' => 'c'
-	),
-	205 => array(
-		'msg' => _("LSfom : Type de champ inconnu (%{type})."),
-		'level' => 'c'
-	),
-	206 => array(
-		'msg' => _("LSform : Erreur durant la création de l'élement '%{element}'."),
-		'level' => 'c'
-	),
-	207 => array(
-		'msg' => _("LSform : Aucune valeur de rentrée pour le champs '%{element}'."),
-		'level' => 'c'
-	),
+  // LSform
+  201 => array(
+    'msg' => _("LSform : Erreur durant la recupération des valeurs du formulaire."),
+    'level' => 'c'
+  ),
+  202 => array(
+    'msg' => _("LSform : Erreur durant la récupération de la valeur du formulaire du champ '%{element}'."),
+    'level' => 'c'
+  ),
+  203 => array(
+    'msg' => _("LSform : Les données du champ %{element} ne sont pas valides."),
+    'level' => 'c'
+  ),
+  204 => array(
+    'msg' => _("LSform : Le champ %{element} n'existe pas."),
+    'level' => 'c'
+  ),
+  205 => array(
+    'msg' => _("LSfom : Type de champ inconnu (%{type})."),
+    'level' => 'c'
+  ),
+  206 => array(
+    'msg' => _("LSform : Erreur durant la création de l'élement '%{element}'."),
+    'level' => 'c'
+  ),
+  207 => array(
+    'msg' => _("LSform : Aucune valeur de rentrée pour le champs '%{element}'."),
+    'level' => 'c'
+  ),
 
-	301 => array(
-		'msg' => _("LSformRule : Aucune regex n'a été fournis pour la validation des données."),
-		'level' => 'w'
-	),
+  301 => array(
+    'msg' => _("LSformRule : Aucune regex n'a été fournis pour la validation des données."),
+    'level' => 'w'
+  ),
   
   // functions
   901 => array (
@@ -194,46 +194,50 @@ $GLOBALS['LSerror_code'] = array (
     'level' => 'c'
   ),
 
-	// LSsession
-	1001 => array (
-		'msg' => _("LSsession : La constante %{const} n'est pas définie."),
-		'level' => 'c'
-	),
-	1002 => array (
-		'msg' => _("LSsession : Le support %{addon} n'est pas assuré. Vérifier la compatibilité du système et la configuration de l'addon"),
-		'level' => 'c'
-	),
-	1003 => array (
-		'msg' => _("LSsession : Données de configuration du serveur LDAP invalide. Impossible d'établir une connexion."),
-		'level' => 'c'
-	),
-	1004 => array (
-		'msg' => _("LSsession : Impossible de charger l'objets de type %{type} : type inconnu."),
-		'level' => 'c'
-	),
-	1005 => array (
-		'msg' => _("LSsession : Impossible d'effecture l'authentification : Type d'objet d'authentification inconnu (%{type})."),
-		'level' => 'c'
-	),
-	1006 => array (
-		'msg' => _("LSsession : Identifiant ou mot de passe incorrect."),
-		'level' => 'c'
-	),
-	1007 => array (
-		'msg' => _("LSsession : Impossible de vous identifier : Duplication d'authentité."),
-		'level' => 'c'
-	),
-	1008 => array (
-		'msg' => _("LSsession : Impossible d'inclure le moteur de rendu Smarty."),
-		'level' => 'c'
-	),
-	1009 => array (
-		'msg' => _("LSsession : Impossible de se connecter au Serveur LDAP."),
-		'level' => 'c'
-	),
-	1010 => array (
-		'msg' => _("LSsession : Impossible de charger la classe des objets d'authentification."),
-		'level' => 'c'
-	)
+  // LSsession
+  1001 => array (
+    'msg' => _("LSsession : La constante %{const} n'est pas définie."),
+    'level' => 'c'
+  ),
+  1002 => array (
+    'msg' => _("LSsession : Le support %{addon} n'est pas assuré. Vérifier la compatibilité du système et la configuration de l'addon"),
+    'level' => 'c'
+  ),
+  1003 => array (
+    'msg' => _("LSsession : Données de configuration du serveur LDAP invalide. Impossible d'établir une connexion."),
+    'level' => 'c'
+  ),
+  1004 => array (
+    'msg' => _("LSsession : Impossible de charger l'objets de type %{type} : type inconnu."),
+    'level' => 'c'
+  ),
+  1005 => array (
+    'msg' => _("LSsession : Impossible d'effecture l'authentification : Type d'objet d'authentification inconnu (%{type})."),
+    'level' => 'c'
+  ),
+  1006 => array (
+    'msg' => _("LSsession : Identifiant ou mot de passe incorrect."),
+    'level' => 'c'
+  ),
+  1007 => array (
+    'msg' => _("LSsession : Impossible de vous identifier : Duplication d'authentité."),
+    'level' => 'c'
+  ),
+  1008 => array (
+    'msg' => _("LSsession : Impossible d'inclure le moteur de rendu Smarty."),
+    'level' => 'c'
+  ),
+  1009 => array (
+    'msg' => _("LSsession : Impossible de se connecter au Serveur LDAP."),
+    'level' => 'c'
+  ),
+  1010 => array (
+    'msg' => _("LSsession : Impossible de charger la classe des objets d'authentification."),
+    'level' => 'c'
+  ),
+  1011 => array (
+    'msg' => _("LSsession : Vous n'êtes pas authorisé à effectuer cette action."),
+    'level' => 'c'
+  )
 );
 ?>

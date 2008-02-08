@@ -40,45 +40,43 @@ class LSformElement_textarea extends LSformElement {
   * @retval array
   */
   function getDisplay(){
-		$return = $this -> getLabelInfos();
-		// value
-		if (!$this -> isFreeze()) {
-			$return['html'] = "<ul class='LSform'>\n";
-			if (empty($this -> values)) {
-				$return['html'] = "<li>".$this -> getEmptyField()."</li>\n";
-			}
-			else {
-				$multiple = $this -> getMultipleData();
-				foreach($this -> values as $value) {
-					$id = "LSform_".$this -> name."_".rand();
-					$return['html'].="<li><textarea name='".$this -> name."[]' id='".$id."'>".$value."</textarea>\n".$multiple."</li>";
-				}
-			}
-			$return['html'] .= "</ul>\n";
-		}
-		else {
-			$return['html'] = "<ul class='LSform'>\n";
-			if (empty($this -> values)) {
-				$return['html'].="<li>"._('Aucunes valeur definie')."</li>\n";
-			}
-			else {
-				foreach ($this -> values as $value) {
-					$return['html'].="<li>".$value."</li>\n";
-				}
-			}
-			$return['html'] .= "</ul>\n";
-		}	
-		return $return;
+    $return = $this -> getLabelInfos();
+    // value
+    $return['html'] = "<ul class='LSform'>\n";
+    if (!$this -> isFreeze()) {
+      if (empty($this -> values)) {
+        $return['html'] .= "<li class='LSform'>".$this -> getEmptyField()."</li>\n";
+      }
+      else {
+        foreach($this -> values as $value) {
+          $multiple = $this -> getMultipleData();
+          $id = "LSform_".$this -> name."_".rand();
+          $return['html'].="<li class='LSform'><textarea name='".$this -> name."[]' id='".$id."' class='LSform'>".$value."</textarea>\n".$multiple."</li>";
+        }
+      }
+    }
+    else {
+      if (empty($this -> values)) {
+        $return['html'].="<li class='LSform'>"._('Aucunes valeur definie')."</li>\n";
+      }
+      else {
+        foreach ($this -> values as $value) {
+          $return['html'].="<li class='LSform'>".$value."</li>\n";
+        }
+      }
+    }
+    $return['html'] .= "</ul>\n"; 
+    return $return;
   }
 
  /*
- 	* Retourne le code HTML d'un champ vide
-	*
-	* @retval string Code HTML d'un champ vide.
-	*/
-	function getEmptyField() {
-		$multiple = $this -> getMultipleData();
-		return "<textarea name='".$this -> name."[]' id='LSform".$this -> name."_".rand()."'></textarea>\n".$multiple;
+  * Retourne le code HTML d'un champ vide
+  *
+  * @retval string Code HTML d'un champ vide.
+  */
+  function getEmptyField() {
+    $multiple = $this -> getMultipleData();
+    return "<textarea name='".$this -> name."[]' id='LSform".$this -> name."_".rand()."' class='LSform'></textarea>\n".$multiple;
   }
 
 }

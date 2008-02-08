@@ -87,17 +87,17 @@ function getFData($format,$data,$meth=NULL) {
 }
 
 function loadDir($dir,$regexpr='^.*\.php$') {
-	if ($handle = opendir($dir)) {
-		while (false !== ($file = readdir($handle))) {
-			if (ereg($regexpr,$file)) {
-				require_once($dir.'/'.$file);
-			}
-		}
-	}
-	else {
-		die(_('Dossier introuvable ('.$dir.').'));
-	}
-	return true;
+  if ($handle = opendir($dir)) {
+    while (false !== ($file = readdir($handle))) {
+      if (ereg($regexpr,$file)) {
+        require_once($dir.'/'.$file);
+      }
+    }
+  }
+  else {
+    die(_('Dossier introuvable ('.$dir.').'));
+  }
+  return true;
 }
 
 
@@ -111,26 +111,113 @@ function return_data($data) {
 }
 
 function debug($data,$get=true) {
-	if ($get) {
-		if (is_array($data)) {
-			$GLOBALS['LSdebug']['fields'][]=$data;
-		}
-		else {
-			$GLOBALS['LSdebug']['fields'][]="[$data]";
-		}
-	}
-	return true;
+  if ($get) {
+    if (is_array($data)) {
+      $GLOBALS['LSdebug']['fields'][]=$data;
+    }
+    else {
+      $GLOBALS['LSdebug']['fields'][]="[$data]";
+    }
+  }
+  return true;
 }
 
 function debug_print() {
-	if (( $GLOBALS['LSdebug']['fields'] ) && ( $GLOBALS['LSdebug']['active'] )) {
-		$txt='<ul>';
-		foreach($GLOBALS['LSdebug']['fields'] as $debug) {
-			$txt.='<li>'.$debug.'</li>';
-		}
-		$txt.='</ul>';
-		$GLOBALS['Smarty'] -> assign('LSdebug',$txt);
-	}
+  if (( $GLOBALS['LSdebug']['fields'] ) && ( $GLOBALS['LSdebug']['active'] )) {
+    $txt='<ul>';
+    foreach($GLOBALS['LSdebug']['fields'] as $debug) {
+      if (is_array($debug)) {
+        $txt.='<li><pre>'.print_r($debug,true).'</pre></li>';
+      }
+      else {
+        $txt.='<li>'.$debug.'</li>';
+      }
+    }
+    $txt.='</ul>';
+    $GLOBALS['Smarty'] -> assign('LSdebug',$txt);
+  }
 }
+
+  /**
+   * Vérifie la compatibilite des DN
+   *
+   * Vérifie que les DNs sont dans la même branche de l'annuaire.
+   *
+   * @param[in] $dn Un premier DN.
+   * @param[in] $dn Un deuxième DN.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true si les DN sont compatibles, false sinon.
+   */ 
+  function isCompatibleDNs($dn1,$dn2) {
+    $infos1=ldap_explode_dn($dn1,0);
+    if(!$infos1)
+      return;
+    $infos2=ldap_explode_dn($dn2,0);
+    if(!$infos2)
+      return;
+    if($infos2['count']>$infos1['count']) {
+      $tmp=$infos1;
+      $infos1=$infos2;
+      $infos2=$tmp;
+    }
+    $infos1=array_reverse($infos1);
+    $infos2=array_reverse($infos2);
+    
+    for($i=0;$i<$infos1['count'];$i++) {
+      if(($infos1[$i]==$infos2[$i])||(!isset($infos2[$i])))
+        continue;
+      else
+        return false;
+    }
+    return true;
+  }
+
+  /**
+   * Fait la somme de DN
+   *
+   * Retourne un DN qui correspond au point de séparation des DN si les DN 
+   * ne sont pas dans la meme dans la meme branche ou le dn le plus long sinon.
+   *
+   * @param[in] $dn Un premier DN.
+   * @param[in] $dn Un deuxième DN.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval string Un DN (ou false si les DN ne sont pas valide)
+   */ 
+  function sumDn($dn1,$dn2) {
+    $infos1=ldap_explode_dn($dn1,0);
+    if(!$infos1)
+      return;
+    $infos2=ldap_explode_dn($dn2,0);
+    if(!$infos2)
+      return;
+    if($infos2['count']>$infos1['count']) {
+      $tmp=$infos1;
+      $infos1=$infos2;
+      $infos2=$tmp;
+    }
+    $infos1=array_reverse($infos1);
+    $infos2=array_reverse($infos2);
+    
+    $first=true;
+    $basedn='';
+    for($i=0;$i<$infos1['count'];$i++) {
+      if(($infos1[$i]==$infos2[$i])||(!isset($infos2[$i]))) {
+        if($first) {
+          $basedn=$infos1[$i];
+          $first=false;
+        }
+        else
+          $basedn=$infos1[$i].','.$basedn;
+      }
+      else {
+        return $basedn;
+      }
+    }
+    return $basedn;
+  }
 
 ?>

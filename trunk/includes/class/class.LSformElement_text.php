@@ -40,46 +40,46 @@ class LSformElement_text extends LSformElement {
   * @retval array
   */
   function getDisplay(){
-		$return = $this -> getLabelInfos();
-		// value
-		if (!$this -> isFreeze()) {
-			$return['html'] = "<ul class='LSform'>\n";
-			if (empty($this -> values)) {
-				$return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
-			}
-			else {
-				$multiple = $this -> getMultipleData();
-				foreach ($this -> values as $value) {
-					$id = "LSform_".$this -> name."_".rand();
-					$return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>".$multiple."</li>\n";
-				}
-			}
-			$return['html'] .= "</ul>\n";
-		}
-		else {
-			$return['html'] = "<ul class='LSform'>\n";
-			if (empty($this -> values)) {
-				$return['html'] .= "<li>"._('Aucunes valeur definie')."</li>\n";
-			}
-			else {
-				foreach ($this -> values as $value) {
-					$return['html'] .= "<li>".$value."</li>\n";
-				}
-			}
-			$return['html'] .= "</ul>\n";
-		}
-		return $return;
+    $return = $this -> getLabelInfos();
+    // value
+    if (!$this -> isFreeze()) {
+      $return['html'] = "<ul class='LSform'>\n";
+      if (empty($this -> values)) {
+        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
+      }
+      else {
+        foreach ($this -> values as $value) {
+          $multiple = $this -> getMultipleData();
+          $id = "LSform_".$this -> name."_".rand();
+          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>".$multiple."</li>\n";
+        }
+      }
+      $return['html'] .= "</ul>\n";
+    }
+    else {
+      $return['html'] = "<ul class='LSform'>\n";
+      if (empty($this -> values)) {
+        $return['html'] .= "<li>"._('Aucunes valeur definie')."</li>\n";
+      }
+      else {
+        foreach ($this -> values as $value) {
+          $return['html'] .= "<li>".$value."</li>\n";
+        }
+      }
+      $return['html'] .= "</ul>\n";
+    }
+    return $return;
   }
 
  /*
- 	* Retourne le code HTML d'un champ vide
-	*
-	* @retval string Code HTML d'un champ vide.
-	*/
-	function getEmptyField() {
-		$multiple = $this -> getMultipleData();
-		return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$multiple;
-	}
+  * Retourne le code HTML d'un champ vide
+  *
+  * @retval string Code HTML d'un champ vide.
+  */
+  function getEmptyField() {
+    $multiple = $this -> getMultipleData();
+    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$multiple;
+  }
 }
 
 ?>

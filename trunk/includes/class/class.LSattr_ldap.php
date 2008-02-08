@@ -40,7 +40,7 @@ class LSattr_ldap {
    *
    * @param[in] $name string Nom de l'attribut ldap
    * @param[in] $config array Configuration de l'objet
-	 * @param[in] &$attribute LSattribute L'objet LSattribut parent
+   * @param[in] &$attribute LSattribute L'objet LSattribut parent
    *
    * @retval boolean Retourne true.
    */
@@ -50,29 +50,36 @@ class LSattr_ldap {
     return true;
   }
 
-	/**
-	 * Retourne la valeur de l'attribut après traitement lié à son type ldap
-	 *
-	 * @param[in] $data mixed La valeur de l'attribut
-	 *
-	 * @retval mixed La valeur traitée de l'attribut
-	 */
+  /**
+   * Retourne la valeur de l'attribut après traitement lié à son type ldap
+   *
+   * @param[in] $data mixed La valeur de l'attribut
+   *
+   * @retval mixed La valeur traitée de l'attribut
+   */
   function getUpdateData($data) {
     return $data;
   }
  
-	/**
-	 * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
-	 *
-	 * @param[in] $data mixed La valeur de l'attribut
-	 *
-	 * @retval mixed La valeur d'affichage de l'attribut
-	 */
+  /**
+   * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
+   *
+   * @param[in] $data mixed La valeur de l'attribut
+   *
+   * @retval mixed La valeur d'affichage de l'attribut
+   */
 
   function getDisplayValue($data) {
     return $data;
   }
   
+  function __sleep() {
+    return ( array_keys( get_object_vars( &$this ) ) );
+  }
+  
+  function __wakeup() {
+    return true;
+  }
 }
 
 ?>

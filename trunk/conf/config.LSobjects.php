@@ -22,8 +22,10 @@
 
 define('LS_OBJECTS_DIR', LS_CONF_DIR . 'LSobjects/');
 
-$GLOBALS['LSobjects']['loads'] = array (
-	'LSeepeople', 'LSeegroup'
+$GLOBALS['LSobjects_loads'] = array (
+	'LSeepeople',
+	'LSeegroup',
+	'LSeecompany'
 );
 
 ?>

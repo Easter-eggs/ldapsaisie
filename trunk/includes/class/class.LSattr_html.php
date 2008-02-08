@@ -40,7 +40,7 @@ class LSattr_html {
    *
    * @param[in] $name string Nom de l'attribut ldap
    * @param[in] $config array Configuration de l'objet
-	 * @param[in] &$attribute LSattribute L'objet LSattribut parent
+   * @param[in] &$attribute LSattribute L'objet LSattribut parent
    *
    * @retval boolean Retourne true.
    */   
@@ -51,36 +51,43 @@ class LSattr_html {
     return true;
   }
   
-	/**
-	 * Retourne le label de l'attribut
-	 *
-	 * Retourne le label de l'attribut ou son nom si aucun label n'est défini
-	 * dans la configuration.
-	 *
-	 * @retval string Le label de l'attribut.
-	 */
+  /**
+   * Retourne le label de l'attribut
+   *
+   * Retourne le label de l'attribut ou son nom si aucun label n'est défini
+   * dans la configuration.
+   *
+   * @retval string Le label de l'attribut.
+   */
   function getLabel() {
-		if ( $this -> config['label'] != '' ) {
-			return $this -> config['label'];
-		}
-		else {
-			return $this -> name;
-		}
+    if ( $this -> config['label'] != '' ) {
+      return $this -> config['label'];
+    }
+    else {
+      return $this -> name;
+    }
   }
   
-	/**
-	 * Ajoute l'attribut au formualaire passer en paramètre
-	 *
-	 * @param[in] &$form LSform Le formulaire
-	 * @param[in] $idForm L'identifiant du formulaire
-	 * @param[in] $data Valeur du champs du formulaire
-	 *
-	 * @retval LSformElement L'element du formulaire ajouté
-	 */
+  /**
+   * Ajoute l'attribut au formualaire passer en paramètre
+   *
+   * @param[in] &$form LSform Le formulaire
+   * @param[in] $idForm L'identifiant du formulaire
+   * @param[in] $data Valeur du champs du formulaire
+   *
+   * @retval LSformElement L'element du formulaire ajouté
+   */
   function addToForm (&$form,$idForm,$data=NULL) {
     $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
   }
+
+  function __sleep() {
+    return ( array_keys( get_object_vars( &$this ) ) );
+  }
   
+  function __wakeup() {
+    return true;
+  }
 }
 
 ?>

@@ -24,48 +24,59 @@
 $GLOBALS['LSconfig'] = array(
   'NetLDAP' => '/usr/share/php/Net/LDAP.php',
   'Smarty' => '/var/www/tmp/Smarty-2.6.18/libs/Smarty.class.php',
-	'lang' => 'fr_FR.UTF8',
-	'ldap_servers' => array (
-		array (
-			'name' => 'Ldap 1',
-			'ldap_config'=> array(
-	      'host'     => '127.0.0.1',
-	      'port'     => 389,
-	      'version'  => 3,
-	      'starttls' => false,
-	      'binddn'   => 'uid=toto,ou=people,o=ls',
-	      'bindpw'   => 'toto',
-	      'basedn'   => 'o=ls',
-	      'options'  => array(),
-	      'filter'   => '(objectClass=*)',
-	      'scope'    => 'sub'
-    	),
-			'authobject' => 'LSeepeople',
-			'authobject_pwdattr' => 'userPassword'
-		),
-		array (
-			'name' => 'Ldap 2',
-			'ldap_config'=> array(
-	      'host'     => '127.0.0.1',
-	      'port'     => 389,
-	      'version'  => 3,
-	      'starttls' => false,
-	      'binddn'   => 'uid=toto,ou=people,o=com',
-	      'bindpw'   => 'toto',
-	      'basedn'   => 'o=com',
-	      'options'  => array(),
-	      'filter'   => '(objectClass=*)',
-	      'scope'    => 'sub'
-    	),
-			'subdnobject' => 'LSeecompany',
-			'authobject' => 'LSeepeople',
-			'authobject_pwdattr' => 'userPassword'
-		)
-	)
+  'lang' => 'fr_FR.UTF8',
+  'cacheLSrights' => true,
+  'ldap_servers' => array (
+    array (
+      'name' => 'Ldap 1',
+      'ldap_config'=> array(
+            'host'     => '127.0.0.1',
+            'port'     => 389,
+            'version'  => 3,
+            'starttls' => false,
+        'binddn'   => 'uid=toto,ou=people,o=ls',
+        'bindpw'   => 'toto',
+        'basedn'   => 'o=ls',
+        'options'  => array(),
+        'filter'   => '(objectClass=*)',
+        'scope'    => 'sub'
+        ),
+        'LSadmins' => array (
+          'o=ost' => array (
+            'uid=toto,ou=people,o=ls' => NULL,
+            'cn=adminldap,ou=groups,o=ost' => array (
+              'attr' => 'uniqueMember',
+              'LSobject' => 'LSeegroup'
+            )
+          )
+        ),
+        'cacheLSrights' => false,
+      'authobject' => 'LSeepeople',
+      'authobject_pwdattr' => 'userPassword'
+    ),
+    array (
+      'name' => 'Ldap 2',
+      'ldap_config'=> array(
+        'host'     => '127.0.0.1',
+        'port'     => 389,
+        'version'  => 3,
+        'starttls' => false,
+        'binddn'   => 'uid=toto,ou=people,o=com',
+        'bindpw'   => 'toto',
+        'basedn'   => 'o=com',
+        'options'  => array(),
+        'filter'   => '(objectClass=*)',
+        'scope'    => 'sub'
+      ),
+      'subdnobject' => 'LSeecompany',
+      'authobject' => 'LSeepeople',
+      'authobject_pwdattr' => 'userPassword'
+    )
+  )
 );
 
 //Debug
-$GLOBALS['LSdebug']['active'] = true;
+$GLOBALS['LSdebug']['active'] = false;
 
 // Définitions des locales
 $textdomain = 'ldapsaisie';
@@ -83,9 +94,9 @@ define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
 
 // Javascript
 $GLOBALS['defaultJSscipts']=array(
-	'mootools.js',
-	'LSdefault.js',
-	'Debugger.js'
+  'mootools.js',
+  'LSdefault.js',
+  'Debugger.js'
 );
 
 ?>

@@ -22,12 +22,12 @@
 
 $GLOBALS['LSobjects']['LSeegroup'] = array (
   'objectclass' => array(
-    'lsgroup',
     'posixGroup'
   ),
   'rdn' => 'cn',
   'container_dn' => 'ou=groups',
   'select_display_attrs' => '%{cn}',
+  'label' => _('Groupes'),
   'attrs' => array (
     'cn' => array (
       'label' => _('Nom'),
@@ -35,7 +35,9 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'html_type' => 'text',
       'required' => 1,
       'check_data' => array (
-        'alphanumeric'
+        'alphanumeric' => array(
+          'msg' => _('Le nom ne doit comporter que des lettres et des chiffres.')
+        ),
       ),
       'validation' => array (
         array (
@@ -43,9 +45,10 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
           'result' => 0
         )
       ),
-      'rights' => array(                  // Définition de droits : 'r' => lecture / 'w' => modification / '' => aucun (par defaut)
-        'self' => 'w',                    // définition des droits de l'utilisateur sur lui même
-        'users' => 'r'                    // définition des droits de tout les utilisateurs
+      'view' => 1,
+      'rights' => array(
+        'user' => 'r',
+        'admin' => 'w'
       ),
       'form' => array (
         'test' => 1
@@ -62,9 +65,10 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
           'result' => 0
         )
       ),
-      'rights' => array(                  // Définition de droits : 'r' => lecture / 'w' => modification / '' => aucun (par defaut)
-        'self' => 'w',                    // définition des droits de l'utilisateur sur lui même
-        'users' => 'r'                    // définition des droits de tout les utilisateurs
+      'view' => 1,
+      'rights' => array(
+        'user' => 'r',
+        'admin' => 'w'
       ),
       'form' => array (
         'test' => 1
@@ -75,15 +79,16 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'ldap_type' => 'ascii',
       'html_type' => 'select_list',
       'required' => 0,
+      'multiple' => 1,
       'validation' => array (
         array (
           'basedn' => '%{val}',
           'result' => 1
         )
       ),
-      'rights' => array(                  // Définition de droits : 'r' => lecture / 'w' => modification / '' => aucun (par defaut)
-        'self' => 'w',                    // définition des droits de l'utilisateur sur lui même
-        'users' => 'r'                    // définition des droits de tout les utilisateurs
+      'view' => 1,
+      'rights' => array(
+        'admin' => 'w'
       ),
       'form' => array (
         'test' => 1
@@ -91,10 +96,10 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'possible_values' => array(
         'aucun' => _('-- Selectionner --'),
         'OTHER_OBJECT' => array(
-          'object_type' => 'LSeepeople',   						  			// Nom de l'objet à lister
-          'display_attribute' => '%{cn} (%{uidNumber})',			// Spécifie le attributs à lister pour le choix,
-                                            								  // si non définie => utilisation du 'select_display_attrs'
-                                             								  // de la définition de l'objet
+          'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
+          'display_attribute' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
+                                                              // si non définie => utilisation du 'select_display_attrs'
+                                                              // de la définition de l'objet
                                               
           'value_attribute' => '%{dn}',                       // Spécifie le attributs dont la valeur sera retournée par
         )
