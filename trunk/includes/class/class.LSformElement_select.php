@@ -50,7 +50,7 @@ class LSformElement_select extends LSformElement {
         $multiple_tag='multiple';
       }
         
-      $return['html'] = "<select name='".$this -> name."' $multiple_tag class='LSform'>\n";
+      $return['html'] = "<select name='".$this -> name."[]' $multiple_tag class='LSform'>\n";
       foreach ($this -> params['text_possible_values'] as $choice_value => $choice_text) {
         if (in_array($choice_value, $this -> values)) {
           $selected=' selected';

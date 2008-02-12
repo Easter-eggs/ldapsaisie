@@ -28,13 +28,13 @@ $GLOBALS['LSconfig'] = array(
   'cacheLSrights' => true,
   'ldap_servers' => array (
     array (
-      'name' => 'Ldap 1',
+      'name' => 'LSexample',
       'ldap_config'=> array(
             'host'     => '127.0.0.1',
             'port'     => 389,
             'version'  => 3,
             'starttls' => false,
-        'binddn'   => 'uid=toto,ou=people,o=ls',
+        'binddn'   => 'uid=eeggs,ou=people,o=ls',
         'bindpw'   => 'toto',
         'basedn'   => 'o=ls',
         'options'  => array(),
@@ -42,9 +42,11 @@ $GLOBALS['LSconfig'] = array(
         'scope'    => 'sub'
         ),
         'LSadmins' => array (
-          'o=ost' => array (
-            'uid=toto,ou=people,o=ls' => NULL,
-            'cn=adminldap,ou=groups,o=ost' => array (
+          'o=ls' => array (
+            'uid=eeggs,ou=people,o=ls' => NULL
+          ),
+          'ou=people,o=ls' => array (
+            'cn=adminldap,ou=groups,o=ls' => array (
               'attr' => 'uniqueMember',
               'LSobject' => 'LSeegroup'
             )
@@ -76,7 +78,7 @@ $GLOBALS['LSconfig'] = array(
 );
 
 //Debug
-$GLOBALS['LSdebug']['active'] = false;
+$GLOBALS['LSdebug']['active'] = true;
 
 // Définitions des locales
 $textdomain = 'ldapsaisie';

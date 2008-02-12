@@ -240,10 +240,10 @@ class LSsession {
           if (!$this -> LSldapConnect())
             return;
           $this -> loadLSrights();
-          $this -> loadLSaccess();
         }
         $this -> LSuserObject = new $this -> ldapServer['authobject']();
         $this -> LSuserObject -> loadData($this -> dn);
+        $this -> loadLSaccess();
         $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
         return true;
         
@@ -589,16 +589,25 @@ class LSsession {
     }
   }
   
+  /**
+   * Charge les droits d'accès de l'utilisateur pour construire le menu de l'interface
+   *
+   * @retval void
+   */
   function loadLSaccess() {
-    $LSaccess = array(
-      'SELF' => array(
-        'label' => _('Mon compte'),
-        'DNs' => $this -> dn
-      )
-    );
+    if ($this -> canAccess($this -> LSuserObject -> getType(),$this -> dn)) {
+      $LSaccess = array(
+        'SELF' => array(
+          'label' => _('Mon compte'),
+          'DNs' => $this -> dn
+        )
+      );
+    }
+    else {
+      $LSaccess = array();
+    }
     foreach ($GLOBALS['LSobjects'] as $objecttype => $objectconf) {
-      $objectdn = $objectconf['container_dn'].','.$this -> topDn;
-      if ($this -> isAdmin($objectdn) ) {
+      if ($this -> canAccess($objecttype) ) {
         $LSaccess[$objecttype] = array (
           'label' => $objectconf['label'],
           'Dns' => 'All'
@@ -608,6 +617,13 @@ class LSsession {
     $this -> LSaccess = $LSaccess;
   }
   
+  /**
+   * Dit si l'utilisateur est admin de le DN spécifié
+   *
+   * @param[in] string DN de l'objet
+   * 
+   * @retval boolean True si l'utilisateur est admin sur l'objet, false sinon.
+   */
   function isAdmin($dn) {
     foreach($this -> LSrights['topDn_admin'] as $topDn_admin) {
       if($dn == $topDn_admin) {
@@ -620,6 +636,13 @@ class LSsession {
     return;
   }
   
+  /**
+   * Retourne qui est l'utilisateur par rapport à l'object
+   *
+   * @param[in] string Le DN de l'objet
+   * 
+   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui même ou un simple utilisateur
+   */
   function whoami($dn) {
     if ($this -> isAdmin($dn)) {
       return 'admin';
@@ -632,15 +655,51 @@ class LSsession {
     return 'user';
   }
   
-  function canAccess($LSobject,$dn=NULL,$right=NULL) {
+  /**
+   * Retourne le droit de l'utilisateur à accèder à un objet
+   * 
+   * @param[in] string $LSobject Le type de l'objet
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   * @param[in] string $right Le type de droit d'accès à tester ('r'/'w')
+   * @param[in] string $attr Le nom de l'attribut auquel on test l'accès
+   *
+   * @retval boolean True si l'utilisateur a accès, false sinon
+   */
+  function canAccess($LSobject,$dn=NULL,$right=NULL,$attr=NULL) {
     if (!$this -> loadLSobject($LSobject))
       return;
     if ($dn) {
       $whoami = $this -> whoami($dn);
     }
     else {
-      $whoami = 'user';
+      $objectdn=$GLOBALS['LSobjects'][$LSobject]['container_dn'].','.$this -> topDn;
+      $whoami = $this -> whoami($objectdn);
     }
+    
+    // Pour un attribut particulier
+    if ($attr) {
+      if ($attr=='rdn') {
+        $attr=$GLOBALS['LSobjects'][$LSobject]['rdn'];
+      }
+      if (!isset($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr])) {
+        return;
+      }
+      
+      if (($right=='r')||($right=='w')) {
+        if ($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$whoami]==$right) {
+          return true;
+        }
+        return;
+      }
+      else {
+        if ( ($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$whoami]=='r') || ($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$whoami]=='w') ) {
+          return true;
+        }
+        return;
+      }
+    }
+    
+    // Pour un attribut quelconque
     if (is_array($GLOBALS['LSobjects'][$LSobject]['attrs'])) {
       if (($right=='r')||($right=='w')) {
         foreach ($GLOBALS['LSobjects'][$LSobject]['attrs'] as $attr_name => $attr_config) {
@@ -660,17 +719,42 @@ class LSsession {
     return;
   }
   
-  function canEdit($LSobject,$dn=NULL) {
-    return $this -> canAccess($LSobject,$dn,'w');
+  /**
+   * Retourne le droit de l'utilisateur à editer à un objet
+   * 
+   * @param[in] string $LSobject Le type de l'objet
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   * @param[in] string $attr Le nom de l'attribut auquel on test l'accès
+   *
+   * @retval boolean True si l'utilisateur a accès, false sinon
+   */
+  function canEdit($LSobject,$dn=NULL,$attr=NULL) {
+    return $this -> canAccess($LSobject,$dn,'w',$attr);
+  }
+
+  /**
+   * Retourne le droit de l'utilisateur à supprimer un objet
+   * 
+   * @param[in] string $LSobject Le type de l'objet
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   *
+   * @retval boolean True si l'utilisateur a accès, false sinon
+   */  
+  function canRemove($LSobject,$dn) {
+    return $this -> canAccess($LSobject,$dn,'w','rdn');
   }
   
-  function __sleep() {
-    return ( array_keys( get_object_vars( &$this ) ) );
+  /**
+   * Retourne le droit de l'utilisateur à créer un objet
+   * 
+   * @param[in] string $LSobject Le type de l'objet
+   *
+   * @retval boolean True si l'utilisateur a accès, false sinon
+   */    
+  function canCreate($LSobject) {
+    return $this -> canAccess($LSobject,NULL,'w','rdn');
   }
-  
-  function __wakeup() {
-    return true;
-  }
+
 }
 
 ?>

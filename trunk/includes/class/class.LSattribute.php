@@ -184,15 +184,19 @@ class LSattribute {
    * @param[in] object $form Le formulaire dans lequel doit être ajouté l'attribut
    * @param[in] string $idForm L'identifiant du formulaire
    * @param[in] objet  &$obj Objet utilisable pour la génération de la valeur de l'attribut
+   * @param[in] array  $value valeur de l'élement
    *
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
-  function addToForm(&$form,$idForm,&$obj=NULL) {
+  function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
     if(isset($this -> config['form'][$idForm])) {
       if($this -> myRights() == 'n') {
         return true;
       }
-      if($this -> data !='') {
+      if ($value) {
+        $data = $value;
+      }
+      else if($this -> data !='') {
         $data=$this -> getFormVal();
       }
       else if (isset($this -> config['default_value'])) {
@@ -235,6 +239,11 @@ class LSattribute {
     return true;
   }
 
+  /**
+   * Récupération des droits de l'utilisateur sur l'attribut
+   * 
+   * @retval string 'r'/'w'/'n' pour 'read'/'write'/'none'
+   **/
   function myRights() {
     // cache
     if ($this -> _myRights != NULL) {
@@ -483,14 +492,7 @@ class LSattribute {
   function getDependsAttrs() {
     return $this -> config['dependAttrs'];
   }
-  
-  function __sleep() {
-    return ( array_keys( get_object_vars( &$this ) ) );
-  }
-  
-  function __wakeup() {
-    return true;
-  }
+
 }
 
 ?>

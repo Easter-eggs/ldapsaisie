@@ -1,20 +1,3 @@
-p.LSform-view-actions {
-  text-align:                 right;
-  font-size:                  0.8em;
-  margin:                     0.2em;
-  margin-right:               3em;
-  color:                      #0072b8;
-}
-
-a.LSform-view-actions {
-  text-decoration:            none;
-  color:                      #0072b8;
-}
-
-a.LSform-view-actions:hover {
-  text-decoration:            underline;
-}
-
 dl.LSform {
   margin:                     0;
   margin-left:                2em;

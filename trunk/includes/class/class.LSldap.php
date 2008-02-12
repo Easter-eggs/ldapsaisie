@@ -212,13 +212,13 @@ class LSldap {
    * @retval boolean true si l'objet a bien été mis à jour, false sinon
    */
   function update($object_type,$dn,$change) {
-		debug($change);
+    debug($change);
     if($entry=$this -> getEntry($object_type,$dn)) {
       $entry -> replace($change);
       $ret = $entry -> update();
       if (Net_Ldap::isError($ret)) {
         $GLOBALS['LSerror'] -> addErrorCode(5,$dn);
-				debug('NetLdap-Error : '.$ret->getMessage());
+        debug('NetLdap-Error : '.$ret->getMessage());
       }
       else {
         return true;
@@ -234,16 +234,16 @@ class LSldap {
    * Test de bind
    *
    * Cette methode établie une connexion à l'annuaire Ldap et test un bind
-	 * avec un login et un mot de passe passé en paramètre
+   * avec un login et un mot de passe passé en paramètre
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval boolean true si la connection à réussi, false sinon
    */
   function checkBind($dn,$pwd) {
-		$config = $this -> config;
-		$config['binddn'] = $dn;
-		$config['bindpw'] = $pwd;
+    $config = $this -> config;
+    $config['binddn'] = $dn;
+    $config['bindpw'] = $pwd;
     $cnx = Net_LDAP::connect($config);
     if (Net_LDAP::isError($cnx)) {
       return;
@@ -251,14 +251,25 @@ class LSldap {
     return true;
   }
 
-	/**
-	 * Retourne l'état de la connexion Ldap
-	 *
-	 * @retval boolean True si le serveur est connecté, false sinon.
-	 */
-	function isConnected() {
-		return ($this -> cnx == NULL)?false:true;
-	}
+  /**
+   * Retourne l'état de la connexion Ldap
+   *
+   * @retval boolean True si le serveur est connecté, false sinon.
+   */
+  function isConnected() {
+    return ($this -> cnx == NULL)?false:true;
+  }
+  
+  /**
+   * Supprime un objet de l'annuaire
+   *
+   * @param[in] string DN de l'objet à supprimer
+   * 
+   * @retval boolean True si l'objet à été supprimé, false sinon
+   */
+  function remove($dn) {
+    return $this -> cnx -> delete($dn);
+  }
 
 }
 

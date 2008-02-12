@@ -23,6 +23,7 @@
 $GLOBALS['LSobjects']['LSeepeople'] = array (
   'objectclass' => array(
     'top',
+    'lspeople',
     'posixAccount',
     'sambaSamAccount',
   ),
@@ -58,8 +59,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 0,
-        'add' => 1
+        'modify' => 0,
+        'create' => 1
       )
     ),
     'uidNumber' => array (
@@ -86,7 +87,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 0,
+        'modify' => 0,
       )
     ),
     'cn' => array (
@@ -103,8 +104,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       )
     ),
     'givenName' => array (
@@ -125,8 +126,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       ),
       'onDisplay' => 'return_data'
     ),
@@ -135,15 +136,15 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
-      'rights' => array(                  // Définition de droits : 'r' => lecture / 'w' => modification / '' => aucun (par defaut)
-        'self' => 'w',                    // définition des droits de l'utilisateur sur lui même
-        'user' => 'r',                    // définition des droits de tout les utilisateurs
+      'rights' => array(
+        'self' => 'w',
+        'user' => 'r',
         'admin' => 'w'
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       )
     ),
     'gidNumber' => array (
@@ -166,8 +167,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       ),
       'possible_values' => array(
         'OTHER_OBJECT' => array(
@@ -200,8 +201,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       ),
       'possible_values' => array(
         '/bin/false' => _('Aucun'),
@@ -218,7 +219,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'admin' => 'r'
       ),
       'form' => array (
-        //'test' => 0,
+        //'modify' => 0,
       )
     ),
     'homeDirectory' => array (
@@ -233,7 +234,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
+        'modify' => 1,
       )
     ),
     'mail' => array (
@@ -253,8 +254,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       )
     ),
     'personalTitle' => array (
@@ -270,8 +271,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       ),
       'possible_values' => array(
         'M.' => 'M.',
@@ -295,7 +296,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
+        'modify' => 1,
       )
     ),
     'vacationActive' => array (
@@ -315,7 +316,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
+        'modify' => 1,
       ),
       'possible_values' => array(
         '' => 'Non',
@@ -333,7 +334,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
+        'modify' => 1,
       )
     ),
     'vacationForward' => array (
@@ -352,7 +353,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
+        'modify' => 1,
       )
     ),
     'mailQuota' => array (
@@ -370,7 +371,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
+        'modify' => 1,
       )
     ),
     'description' => array (
@@ -384,7 +385,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1,
+        'modify' => 1,
+        'create' => 1
       )
     ),
     'userPassword' => array (
@@ -401,23 +403,29 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'sambaNTPassword'
       ),
       'form' => array (
-        'test' => 1,
-        'add' => 1
+        'modify' => 1,
+        'create' => 1
       )
     ),
     'sambaLMPassword' => array (
       'label' => _('Mot de passe Samba (LM)'),
       'ldap_type' => 'ascii',
-      'html_type' => 'password',
+      'html_type' => 'text',
       'required' => 1,
-      'generate_function' => 'generate_sambaLMPassword'
+      'generate_function' => 'generate_sambaLMPassword',
+      'form' => array (
+        'modify' => 0
+      )
     ),
     'sambaNTPassword' => array (
       'label' => _('Mot de passe Samba (NT)'),
       'ldap_type' => 'ascii',
-      'html_type' => 'password',
+      'html_type' => 'text',
       'required' => 1,
-      'generate_function' => 'generate_sambaNTPassword'
+      'generate_function' => 'generate_sambaNTPassword',
+      'form' => array (
+        'modify' => 0
+      )
     )
   )
 );

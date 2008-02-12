@@ -26,38 +26,38 @@
  */
 class LSattr_ldap_password extends LSattr_ldap {
 
-	var $clearPassword = NULL;
+  var $clearPassword = NULL;
 
-	/**
-	 * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
-	 *
-	 * @param[in] $data mixed La valeur de l'attribut
-	 *
-	 * @retval mixed La valeur d'affichage de l'attribut
-	 */
+  /**
+   * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
+   *
+   * @param[in] $data mixed La valeur de l'attribut
+   *
+   * @retval mixed La valeur d'affichage de l'attribut
+   */
   function getDisplayValue($data) {
     return '********';
   }
 
-	/**
-	 * Retourne la valeur de l'attribut après traitement lié à son type ldap
-	 *
-	 * @param[in] $data mixed La valeur de l'attribut
-	 *
-	 * @retval mixed La valeur traitée de l'attribut
-	 */
+  /**
+   * Retourne la valeur de l'attribut après traitement lié à son type ldap
+   *
+   * @param[in] $data mixed La valeur de l'attribut
+   *
+   * @retval mixed La valeur traitée de l'attribut
+   */
   function getUpdateData($data) {
-		$this -> clearPassord = $data[0];
+    $this -> clearPassword = $data[0];
     return '{CRYPT}'.crypt($data[0],'$1$'.$this -> getSalt().'$');
   }
  
-	/**
-	 * Retourne une salt (chaine de caractère aléatoire) de la longueur passée en paramètre
-	 *
-	 * @param[in] integer La longueur de la salt (par defaut : 8)
-	 *
-	 * @retval string La salt
-	 */
+  /**
+   * Retourne une salt (chaine de caractère aléatoire) de la longueur passée en paramètre
+   *
+   * @param[in] integer La longueur de la salt (par defaut : 8)
+   *
+   * @retval string La salt
+   */
   function getSalt($length=8) {
     $pattern = "1234567890abcdefghijklmnopqrstuvwxyz";
     $key  = $pattern{rand(0,35)};
@@ -68,14 +68,14 @@ class LSattr_ldap_password extends LSattr_ldap {
     return $key;
   }
 
-	/**
-	 * Retourne le mot de passe en texte clair
-	 *
-	 * @retval string Le mot de passe en texte clair
-	 */
-	function getClearPassword() {
-		return $this -> clearPassword;
-	}
+  /**
+   * Retourne le mot de passe en texte clair
+   *
+   * @retval string Le mot de passe en texte clair
+   */
+  function getClearPassword() {
+    return $this -> clearPassword;
+  }
 }
 
 ?>

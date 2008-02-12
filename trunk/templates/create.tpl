@@ -20,28 +20,31 @@
   <div id='left'>
     <img src='templates/images/logo.png' alt='Logo' id='logo'/>
     <ul class='menu'>
-    {foreach from=$LSaccess item=item key=LSobject_type}
-      <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{$item.label}</a></li>
+    {foreach from=$LSaccess item=item key=LSobject}
+      <li class='menu'><a href='view.php?LSobject={$LSobject}' class='menu'>{$item.label}</a></li>
     {/foreach}
     </ul>
   </div>
   <div id='right'>
     <p id='status'>Connecté en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='templates/images/logout.png' alt='Logout' title='Logout' /></a></p>
-    {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
-    {if $LSview_actions != ''}
-    <p class='LSview-actions'>
-      {foreach from=$LSview_actions item=item}
-        <a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /></a>
-      {/foreach}
-    </p>
-    {/if}
     
+    {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
+    
+    <form action='{$LSform_action}' method='post' class='LSform'>
+    {$LSform_header}
     <dl class='LSform'>
       {foreach from=$LSform_fields item=field}
       <dt class='LSform'>{$field.label}</dt>
-      <dd class='LSform'>{$field.html}</dd>
+      <dd class='LSform'>{$field.html}{if $field.add != ''} <span class='LSform-addfield'>+ Ajouter un champ</span>{/if}</dd>
+      {if $field.errors != ''}
+        {foreach from=$field.errors item=error}
+        <dd class='LSform LSform-errors'>{$error}</dd>
+        {/foreach}
+      {/if}
       {/foreach}
+      <dd class='LSform'><input type='submit' value='{$LSform_submittxt}' class='LSform' /></dd>
     </dl>
+    </form>
   </div>
   <hr class='spacer' />
 </div>

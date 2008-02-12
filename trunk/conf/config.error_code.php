@@ -104,6 +104,10 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("LSldapObject : L'attribut %{attr_depend} dépendant de l'attribut %{attr} n'existe pas."),
     'level' => 'w'
   ),
+  35 => array (
+    'msg' => _("LSldapObject : Erreur durant la suppression de %{objectname}."),
+    'level' => 'c'
+  ),
   
   // LSldapObject
   41 => array (
@@ -238,6 +242,11 @@ $GLOBALS['LSerror_code'] = array (
   1011 => array (
     'msg' => _("LSsession : Vous n'êtes pas authorisé à effectuer cette action."),
     'level' => 'c'
+  ),
+  1012 => array (
+    'msg' => _("LSsession : Des informations sont manquantes pour l'affichage de cette page."),
+    'level' => 'c'
   )
+
 );
 ?>

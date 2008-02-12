@@ -80,14 +80,6 @@ class LSattr_html {
   function addToForm (&$form,$idForm,$data=NULL) {
     $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
   }
-
-  function __sleep() {
-    return ( array_keys( get_object_vars( &$this ) ) );
-  }
-  
-  function __wakeup() {
-    return true;
-  }
 }
 
 ?>

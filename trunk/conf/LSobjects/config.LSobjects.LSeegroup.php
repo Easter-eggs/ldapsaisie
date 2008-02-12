@@ -22,6 +22,7 @@
 
 $GLOBALS['LSobjects']['LSeegroup'] = array (
   'objectclass' => array(
+    'lsgroup',
     'posixGroup'
   ),
   'rdn' => 'cn',
@@ -51,7 +52,8 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
         'admin' => 'w'
       ),
       'form' => array (
-        'test' => 1
+        'modify' => 1,
+        'create' => 1
       )
     ),
     'gidNumber' => array (
@@ -59,6 +61,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
+      'generate_function' => 'generate_gidNumber',
       'validation' => array (
         array (
           'filter' => 'gidNumber=%{val}',
@@ -71,7 +74,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
         'admin' => 'w'
       ),
       'form' => array (
-        'test' => 1
+        'modify' => 1
       )
     ),
     'uniqueMember' => array (
@@ -91,10 +94,10 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
         'admin' => 'w'
       ),
       'form' => array (
-        'test' => 1
+        'modify' => 1,
+        'create' => 1
       ),
       'possible_values' => array(
-        'aucun' => _('-- Selectionner --'),
         'OTHER_OBJECT' => array(
           'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
           'display_attribute' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,

@@ -43,7 +43,8 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
         'admin' => 'w'
       ),
       'form' => array (
-        'test' => 1
+        'modify' => 1,
+        'create' => 1
       )
     ),
     'dc' => array (
@@ -57,7 +58,8 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'test' => 1
+        'modify' => 1,
+        'create' => 1
       )
     )
   )

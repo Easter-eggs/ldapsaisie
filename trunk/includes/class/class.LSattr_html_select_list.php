@@ -37,10 +37,10 @@ class LSattr_html_select_list extends LSattr_html{
 	 * @retval LSformElement L'element du formulaire ajouté
 	 */
   function addToForm (&$form,$idForm,$data=NULL) {
-    if (count($data)>1) {
+    /*if (count($data)>1) {
       $GLOBALS['LSerror'] -> addErrorCode(103,'select_list');
       return;
-    }
+    }*/
     $possible_values=$this -> getPossibleValues();
 		$this -> config['text_possible_values'] = $possible_values;
     $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config);

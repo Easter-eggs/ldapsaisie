@@ -85,7 +85,7 @@ class LSform {
     $GLOBALS['Smarty'] -> assign('LSform_header',$LSform_header);
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
-      'dn' => $this -> ldapObject -> getDn()
+      'dn' => $this -> ldapObject -> getValue('dn')
     );
     $GLOBALS['Smarty'] -> assign('LSform_object',$LSform_object);
     $fields = array();

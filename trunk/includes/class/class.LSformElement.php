@@ -51,13 +51,13 @@ class LSformElement {
    * @param[in] $params mixed Paramètres supplémentaires
    *
    * @retval true
-   */	
-	function LSformElement (&$form, $name, $label, $params){
+   */ 
+  function LSformElement (&$form, $name, $label, $params){
     $this -> name = $name;
-		$this -> label = $label;
-		$this -> params = $params;
-		$this -> form = $form;
-	 	return true;
+    $this -> label = $label;
+    $this -> params = $params;
+    $this -> form = $form;
+    return true;
   }
 
   /**
@@ -72,15 +72,15 @@ class LSformElement {
    * @retval boolean Retourne True
    */
   function setValue($data) {
-		if (!is_array($data)) {
-			$data=array($data);
-		}
+    if (!is_array($data)) {
+      $data=array($data);
+    }
 
-		$this -> values = $data;
-		return true;
+    $this -> values = $data;
+    return true;
   }
 
-	/**
+  /**
    * Ajoute une valeur à l'élément
    *
    * Cette méthode ajoute une valeur à l'élément
@@ -92,24 +92,24 @@ class LSformElement {
    * @retval void
    */
   function addValue($data) {
-		if (is_array($data)) {
-			$this -> values = array_merge($this -> values, $data);
-		}
-		else {
-			$this -> values[] = $data;
-		}
+    if (is_array($data)) {
+      $this -> values = array_merge($this -> values, $data);
+    }
+    else {
+      $this -> values[] = $data;
+    }
   }
 
-	/**
-	 * Test si l'élément est éditable
-	 * 
-	 * Cette méthode test si l'élément est éditable
-	 *
-	 * @retval boolean
-	 */
-	function isFreeze(){
-		return $this -> _freeze;
-	}
+  /**
+   * Test si l'élément est éditable
+   * 
+   * Cette méthode test si l'élément est éditable
+   *
+   * @retval boolean
+   */
+  function isFreeze(){
+    return $this -> _freeze;
+  }
   
   /*
    * Freeze l'élément
@@ -119,7 +119,7 @@ class LSformElement {
    * @retval void
    */
   function freeze() {
-		$this -> _freeze = true;
+    $this -> _freeze = true;
   }
 
   /*
@@ -130,109 +130,109 @@ class LSformElement {
    * @retval void
    */
   function setRequired($isRequired=true) {
-		$this -> _required = $isRequired;
+    $this -> _required = $isRequired;
   }
 
-	/*
-	 * Test si l'élément est requis
-	 * 
-	 * Cette méthode test si l'élément est requis
-	 *
-	 * @retval boolean
-	 */
-	function isRequired(){
-		return $this -> _required;
-	}
+  /*
+   * Test si l'élément est requis
+   * 
+   * Cette méthode test si l'élément est requis
+   *
+   * @retval boolean
+   */
+  function isRequired(){
+    return $this -> _required;
+  }
 
-	/**
-	 * Affiche le label de l'élement
-	 *
-	 * @retval void
-	 */
-	function displayLabel() {
-   	if ($this -> isRequired()) {
-      	$required=" <span class='required_elements'>*</span>";
-   	}
-	  else {
-	      $required="";
-   	}
-	  echo "\t\t<td>".$this -> getLabel()."$required</td>\n";
-	}
+  /**
+   * Affiche le label de l'élement
+   *
+   * @retval void
+   */
+  function displayLabel() {
+    if ($this -> isRequired()) {
+        $required=" <span class='required_elements'>*</span>";
+    }
+    else {
+        $required="";
+    }
+    echo "\t\t<td>".$this -> getLabel()."$required</td>\n";
+  }
 
-	/**
-	 * Retourne le label de l'élement
-	 *
-	 * @retval void
-	 */
-	function getLabelInfos() {
-   	if ($this -> isRequired()) {
-      	$return['required']=true;
-   	}
-	  $return['label'] = $this -> getLabel();
-		return $return;
-	}
+  /**
+   * Retourne le label de l'élement
+   *
+   * @retval void
+   */
+  function getLabelInfos() {
+    if ($this -> isRequired()) {
+        $return['required']=true;
+    }
+    $return['label'] = $this -> getLabel();
+    return $return;
+  }
 
-	/**
-	 * Recupère la valeur de l'élement passée en POST
-	 *
-	 * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
-	 * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
-	 *
-	 * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
-	 *
-	 * @retval boolean true si la valeur est présente en POST, false sinon
-	 */
-	function getPostData(&$return) {
-		if($this -> params['form'][$this -> form -> idForm] != 1) {
-			return true;
-		}
-		if (isset($_POST[$this -> name])) {
-			if(!is_array($_POST[$this -> name])) {
-				$_POST[$this -> name] = array($_POST[$this -> name]);
-			}
-			foreach($_POST[$this -> name] as $key => $val) {
-					$return[$this -> name][$key] = $val;
-			}
-			return true;
-		}
-		else {
-			$return[$this -> name] = array();
-			return true;
-		}
-	}
+  /**
+   * Recupère la valeur de l'élement passée en POST
+   *
+   * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
+   * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+   *
+   * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
+   *
+   * @retval boolean true si la valeur est présente en POST, false sinon
+   */
+  function getPostData(&$return) {
+    if($this -> isFreeze()) {
+      return true;
+    }
+    if (isset($_POST[$this -> name])) {
+      if(!is_array($_POST[$this -> name])) {
+        $_POST[$this -> name] = array($_POST[$this -> name]);
+      }
+      foreach($_POST[$this -> name] as $key => $val) {
+          $return[$this -> name][$key] = $val;
+      }
+      return true;
+    }
+    else {
+      $return[$this -> name] = array();
+      return true;
+    }
+  }
 
-	/**
-	 * Retourne le label de l'élement
-	 *
-	 * Retourne $this -> label, ou $this -> params['label'], ou $this -> name
-	 *
-	 * @retval string Le label de l'élément
-	 */
-	function getLabel() {
-		if ($this -> label != "") {
-			return $this -> label;
-		}
-		else if ($this -> params['label']) {
-			return $this -> params['label'];
-		}
-		else {
-			return $this -> name;
-		}
-	}
+  /**
+   * Retourne le label de l'élement
+   *
+   * Retourne $this -> label, ou $this -> params['label'], ou $this -> name
+   *
+   * @retval string Le label de l'élément
+   */
+  function getLabel() {
+    if ($this -> label != "") {
+      return $this -> label;
+    }
+    else if ($this -> params['label']) {
+      return $this -> params['label'];
+    }
+    else {
+      return $this -> name;
+    }
+  }
 
-	/**
-	 * Retourne l'HTML pour les boutons d'ajout et de suppression de champs du formulaire LSform
-	 *
-	 * @retval string Le code HTML des boutons
-	 */
-	function getMultipleData() {
-		if ($this -> params['multiple'] == true ) {
-			return "<img src='templates/images/add.png' id='LSform_add_field_btn_".$this -> name."_".rand()."' class='LSform-add-field-btn' alt='"._('Ajouter')."'/><img src='templates/images/remove.png' class='LSform-remove-field-btn' alt='"._('Supprimer')."'/>";
-		}
-		else {
-			return '';
-		}
-	}
+  /**
+   * Retourne l'HTML pour les boutons d'ajout et de suppression de champs du formulaire LSform
+   *
+   * @retval string Le code HTML des boutons
+   */
+  function getMultipleData() {
+    if ($this -> params['multiple'] == true ) {
+      return "<img src='templates/images/add.png' id='LSform_add_field_btn_".$this -> name."_".rand()."' class='LSform-add-field-btn' alt='"._('Ajouter')."'/><img src='templates/images/remove.png' class='LSform-remove-field-btn' alt='"._('Supprimer')."'/>";
+    }
+    else {
+      return '';
+    }
+  }
 }
 
 ?>

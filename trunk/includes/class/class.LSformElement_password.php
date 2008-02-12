@@ -32,7 +32,7 @@
 
 class LSformElement_password extends LSformElement {
 
-	/**
+  /**
    * Recupère la valeur de l'élement passée en POST
    *
    * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
@@ -43,17 +43,17 @@ class LSformElement_password extends LSformElement {
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
   function getPostData(&$return) {
-		// Récupère la valeur dans _POST, et les vérifie avec la fonction générale
-		$retval = parent :: getPostData($return);
-		// Si une valeur est recupérée
+    // Récupère la valeur dans _POST, et les vérifie avec la fonction générale
+    $retval = parent :: getPostData($return);
+    // Si une valeur est recupérée
     if ($retval) {
-			$val = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue();	
-    	if( (empty($return[$this -> name][0]) ) && ( ! empty( $val ) ) ) {
-				unset($return[$this -> name]);
-				$this -> form -> _notUpdate[$this -> name] == true;
-				return true;
-			}
-		}
+      $val = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue(); 
+      if( (empty($return[$this -> name][0]) ) && ( ! empty( $val ) ) ) {
+        unset($return[$this -> name]);
+        $this -> form -> _notUpdate[$this -> name] == true;
+        return true;
+      }
+    }
     return $retval;
   }
 
@@ -64,22 +64,25 @@ class LSformElement_password extends LSformElement {
   *
   * @retval array
   */
-	function getDisplay(){
-		$return = $this -> getLabelInfos();
-		if (!$this -> isFreeze()) {
-			$return['html'] = "<input type='password' name='".$this -> name."[]' />\n* "._('Modification uniquement').".";
-		}
-		else {
-			if (empty($this -> values)) {
-				$return['html'] = _('Aucunes valeur definie');
-			}
-			else {
-				$return['html'] = "********";
-			}
+  function getDisplay(){
+    $return = $this -> getLabelInfos();
+    if (!$this -> isFreeze()) {
+      $return['html'] = "<input type='password' name='".$this -> name."[]' />\n";
+      if (!empty($this -> values)) {
+        $return['html'] .= "* "._('Modification uniquement').".";
+      }
+    }
+    else {
+      if (empty($this -> values)) {
+        $return['html'] = _('Aucunes valeur definie');
+      }
+      else {
+        $return['html'] = "********";
+      }
 
-		}
-		return $return;
-	}
+    }
+    return $return;
+  }
 }
-	
+  
 ?>

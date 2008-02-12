@@ -114,6 +114,10 @@ td.LSobject-list-actions {
   width:              7em;
 }
 
+td.LSobject-list-names {
+  cursor:             pointer;
+}
+
 p.LSobject-list-page {
   text-align:         center;
   margin:             0.5em;
@@ -130,5 +134,23 @@ a.LSobject-list-page:hover {
 }
 
 strong.LSobject-list-page {
+  color:              #0072b8;
+}
+
+p.LSview-actions {
+  text-align:                 right;
+  font-size:                  0.8em;
+  margin:                     0.2em;
+  margin-right:               3em;
+  color:                      #0072b8;
+}
+
+p.question {
+  margin-left:        3em;
+}
+
+a.question {
+  margin-left:        10em;
+  margin-top:         3em;
   color:              #0072b8;
 }

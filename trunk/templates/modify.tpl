@@ -29,7 +29,13 @@
     <p id='status'>Connecté en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='templates/images/logout.png' alt='Logout' title='Logout' /></a></p>
     
     {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
-    <p class='LSform-view-actions'><a href='view.php?LSobject={$LSform_object.type}&amp;dn={$LSform_object.dn}' class='LSform-view-actions'>Voir</a></p>
+    {if $LSview_actions != ''}
+    <p class='LSview-actions'>
+      {foreach from=$LSview_actions item=item}
+        <a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /></a>
+      {/foreach}
+    </p>
+    {/if}
     
     <form action='{$LSform_action}' method='post' class='LSform'>
     {$LSform_header}

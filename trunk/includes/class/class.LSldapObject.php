@@ -87,13 +87,16 @@ class LSldapObject {
    * @retval boolean true si la chargement a réussi, false sinon.
    */ 
   function loadData($dn) {
-      $this -> dn = $dn;
-      $data = $GLOBALS['LSldap'] -> getAttrs($dn);
+    $this -> dn = $dn;
+    $data = $GLOBALS['LSldap'] -> getAttrs($dn);
+    if(!empty($data)) {
       foreach($this -> attrs as $attr_name => $attr) {
         if(!$this -> attrs[$attr_name] -> loadData($data[$attr_name]))
           return;
       }
       return true;
+    }
+    return;
   }
   
   /**
@@ -166,20 +169,38 @@ class LSldapObject {
    * et de chaque attribut.
    *
    * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a créer
-   * @param[in] $config Configuration spécifique pour le formulaire
+   * @param[in] $load DN d'un objet similaire dont la valeur des attribut doit être chargé dans le formulaire.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval LSform Le formulaire crée
    */ 
-  function getForm($idForm,$config=array()) {
+  function getForm($idForm,$load=NULL) {
     $GLOBALS['LSsession'] -> loadLSclass('LSform');
     $LSform = new LSform($this,$idForm);
-    $this -> forms[$idForm] = array($LSform,$config);
-    foreach($this -> attrs as $attr_name => $attr) {
-      if(!$this -> attrs[$attr_name] -> addToForm($LSform,$idForm,$this)) {
-        $LSform -> can_validate = false;
+    $this -> forms[$idForm] = array($LSform,$load);
+    
+    if ($load) {
+      $type = $this -> getType();
+      $loadObject = new $type();
+      if (!$loadObject -> loadData($load)) {
+        $load=false;
       }
+    }
+    
+    if ($load) {
+      foreach($this -> attrs as $attr_name => $attr) {
+        if(!$this -> attrs[$attr_name] -> addToForm($LSform,$idForm,$this,$loadObject -> getValue($attr_name))) {
+          $LSform -> can_validate = false;
+        }
+      }
+    }
+    else {
+      foreach($this -> attrs as $attr_name => $attr) {
+        if(!$this -> attrs[$attr_name] -> addToForm($LSform,$idForm,$this)) {
+          $LSform -> can_validate = false;
+        }
+      }      
     }
     return $LSform;
   }
@@ -261,7 +282,7 @@ class LSldapObject {
       }
       else {
         $GLOBALS['LSerror'] -> addErrorCode(23,$this -> type_name);
-        $GLOBALS['LSerror'] -> stop();
+        return;
       }
     }
     $new_data = $LSform -> exportValues();
@@ -276,12 +297,12 @@ class LSldapObject {
         if(function_exists($this -> config['before_save'])) {
           if(!$this -> config['before_save']($this)) {
             $GLOBALS['LSerror'] -> addErrorCode(28,$this -> config['before_save']);
-            $GLOBALS['LSerror'] -> stop();
+            return;
           }
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode(27,$this -> config['before_save']);
-          $GLOBALS['LSerror'] -> stop();
+          return;
         }
       }
       if ($this -> submitChange($idForm)) {
@@ -290,16 +311,25 @@ class LSldapObject {
         $this -> reloadData();
         $this -> refreshForm($idForm);
       }
+      else {
+        return;
+      }
       if((isset($this -> config['after_save']))&&(!$this -> submitError)) {
         if(function_exists($this -> config['after_save'])) {
           if(!$this -> config['after_save']($this)) {
             $GLOBALS['LSerror'] -> addErrorCode(30,$this -> config['after_save']);
+            return;
           }
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode(29,$this -> config['after_save']);
+          return;
         }
       }
+      return true;
+    }
+    else {
+      return;
     }
   }
   
@@ -478,6 +508,7 @@ class LSldapObject {
     if(!empty($submitData)) {
       $dn=$this -> getDn();
       if($dn) {
+        $this -> dn=$dn;
         debug($submitData);
         return $GLOBALS['LSldap'] -> update($this -> type_name,$dn, $submitData);
       }
@@ -485,6 +516,9 @@ class LSldapObject {
         $GLOBALS['LSerror'] -> addErrorCode(33);
         return;
       }
+    }
+    else {
+      return true;
     }
   }
   
@@ -848,24 +882,35 @@ class LSldapObject {
     return $this -> type_name;
   }
   
+  /**
+   * Retourne qui est l'utilisateur par rapport à cet object
+   *
+   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui même ou un simple utilisateur
+   */
   function whoami() {
     if (!$this -> _whoami)
       $this -> _whoami = $GLOBALS['LSsession'] -> whoami($this -> dn);
     return $this -> _whoami;
   }
   
+  /**
+   * Retourne le label de l'objet
+   *
+   * @retval string Le label de l'objet ($this -> config['label'])
+   */
   function getLabel() {
     return $this -> config['label'];
   }
-
-  function __sleep() {
-    return ( array_keys( get_object_vars( &$this ) ) );
-  }
   
-  function __wakeup() {
-    return true;
+  
+  /**
+   * Supprime l'objet dans l'annuaire
+   *
+   * @retval boolean True si l'objet à été supprimé, false sinon
+   */
+  function remove() {
+    return $GLOBALS['LSldap'] -> remove($this -> getDn());
   }
-
 }
 
 ?>

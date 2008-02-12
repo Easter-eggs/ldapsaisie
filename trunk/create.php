@@ -27,9 +27,6 @@ $GLOBALS['LSsession'] = new LSsession();
 
 if($LSsession -> startLSsession()) {
 
-  // Définition du Titre de la page
-  $GLOBALS['Smarty'] -> assign('pagetitle',_('Modifier'));
-
   if (isset($_POST['LSform_objecttype'])) {
     $LSobject = $_POST['LSform_objecttype'];
   }
@@ -37,47 +34,28 @@ if($LSsession -> startLSsession()) {
     $LSobject = $_GET['LSobject'];
   }
   
-  if (isset($_POST['LSform_objectdn'])) {
-    $dn = $_POST['LSform_objectdn'];
-  }
-  else if (isset($_GET['dn'])) {
-    $dn = $_GET['dn'];
-  }
-
-  if ((isset($dn)) && (isset($LSobject)) ) {
+  if (isset($LSobject)) {
     // Création d'un LSobject
     if (class_exists($LSobject)) {
-      if ( $GLOBALS['LSsession'] -> canEdit($LSobject,$dn) ) {
-        $LSview_actions[] = array(
-          'label' => _('Voir'),
-          'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$dn,
-          'action' => 'view'
-        );
-        
-        if ($GLOBALS['LSsession'] -> canRemove($LSobject,$dn)) {
-          $LSview_actions[] = array(
-            'label' => _('Supprimer'),
-            'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$dn,
-            'action' => 'delete'
-          );
-        }
-        
+      if ( $GLOBALS['LSsession'] -> canCreate($LSobject) ) {
         $object = new $LSobject();
-        if ($object -> loadData($dn)) {
-          $form = $object -> getForm('modify');
-          if ($form->validate()) {
-            // MàJ des données de l'objet LDAP
-            if ($object -> updateData('modify')) {
-              header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
-            }
-          }
-          $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
-          $GLOBALS['LSsession'] -> setTemplate('modify.tpl');
-          $form -> display();
+        
+        if ($_GET['load']!='') {
+          $form = $object -> getForm('create',$_GET['load']);
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode(1011);
+          $form = $object -> getForm('create');
         }
+        if ($form->validate()) {
+          // MàJ des données de l'objet LDAP
+          if ($object -> updateData('create')) {
+            header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+          }
+        }
+        // Définition du Titre de la page
+        $GLOBALS['Smarty'] -> assign('pagetitle',_('Nouveau').' : '.$object -> getLabel());
+        $GLOBALS['LSsession'] -> setTemplate('create.tpl');
+        $form -> display();
       }
       else {
         $GLOBALS['LSerror'] -> addErrorCode(1011);
