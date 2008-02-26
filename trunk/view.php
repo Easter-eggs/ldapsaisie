@@ -20,178 +20,243 @@
 
 ******************************************************************************/
 
-define('NB_LSOBJECT_LIST',20);
-
 require_once 'includes/functions.php';
 require_once 'includes/class/class.LSsession.php';
 
 $GLOBALS['LSsession'] = new LSsession();
 
 if($LSsession -> startLSsession()) {
-  if (isset($_GET['LSobject'])) {
-    $LSobject = $_GET['LSobject'];
+  if (isset($_REQUEST['LSobject'])) {
+    $LSobject = $_REQUEST['LSobject'];
     
     if ( $LSobject == 'SELF' ) {
-      if ($GLOBALS['LSsession'] -> canAccess($GLOBALS['LSsession']-> LSuserObject -> getType(),$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'))) {
-        if ( $GLOBALS['LSsession'] -> canEdit($GLOBALS['LSsession']-> LSuserObject -> getType(),$GLOBALS['LSsession']-> LSuserObject -> getValue('dn')) ) {
-          $LSview_actions[] = array (
-            'label' => _('Modifier'),
-            'url' => 'modify.php?LSobject='.$GLOBALS['LSsession']-> LSuserObject -> getType().'&amp;dn='.$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'),
-            'action' => 'modify'
-          );
+      $_REQUEST['LSobject'] = $GLOBALS['LSsession']-> LSuserObject -> getType();
+      $_REQUEST['dn'] = $GLOBALS['LSsession']-> LSuserObject -> getValue('dn');
+    }
+    if ( $GLOBALS['LSsession'] -> loadLSobject($_REQUEST['LSobject']) ) {
+      if ( isset($_REQUEST['dn']) ) {
+        if ($GLOBALS['LSsession'] -> canAccess($_REQUEST['LSobject'],$_REQUEST['dn'])) {
+          if ( $GLOBALS['LSsession'] -> canEdit($_REQUEST['LSobject'],$_REQUEST['dn']) ) {
+            $LSview_actions[] = array(
+              'label' => _('Modifier'),
+              'url' =>'modify.php?LSobject='.$_REQUEST['LSobject'].'&amp;dn='.$_REQUEST['dn'],
+              'action' => 'modify'
+            );
+          }
+          
+          if ($GLOBALS['LSsession'] -> canCreate($_REQUEST['LSobject'])) {
+            $LSview_actions[] = array(
+              'label' => _('Copier'),
+              'url' =>'create.php?LSobject='.$_REQUEST['LSobject'].'&amp;load='.$_REQUEST['dn'],
+              'action' => 'copy'
+            );
+          }
+          
+          if ($GLOBALS['LSsession'] -> canRemove($_REQUEST['LSobject'],$_REQUEST['dn'])) {
+            $LSview_actions[] = array(
+              'label' => _('Supprimer'),
+              'url' => 'remove.php?LSobject='.$_REQUEST['LSobject'].'&amp;dn='.$_REQUEST['dn'],
+              'action' => 'delete'
+            );
+          }
+          
+          if ($GLOBALS['LSsession']-> LSuserObject -> getValue('dn') != $_REQUEST['dn']) {
+            $object = new $_REQUEST['LSobject']();
+            $object -> loadData($_REQUEST['dn']);
+            $GLOBALS['Smarty'] -> assign('pagetitle',$object -> getDisplayValue());
+          }
+          else {
+            $object = &$GLOBALS['LSsession']-> LSuserObject;
+            $GLOBALS['Smarty'] -> assign('pagetitle',_('Mon compte'));
+          }
+          
+          $view = $object -> getView();
+          $view -> displayView();
+          
+                    // Relations
+          if (is_array($object -> config['relations'])) {
+            $LSrelations=array();
+            foreach($object -> config['relations'] as $relationName => $relationConf) {
+              if ($GLOBALS['LSsession'] -> relationCanAccess($object -> getValue('dn'),$relationName)) {
+                $return=array('label' => $relationConf['label']);
+                
+                $id=rand();
+                $return['id']=$id;
+                $_SESSION['LSrelation'][$id] = array(
+                  'relationName' => $relationName,
+                  'objectType' => $object -> getType(),
+                  'objectDn' => $object -> getDn(),
+                );
+                if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$relationName)) {
+                  $return['actions'][] = array(
+                    'label' => _('Modifier'),
+                    'url' => 'select.php?LSobject='.$relationConf['LSobject'],
+                    'action' => 'modify'
+                  );
+                }
+                
+                $GLOBALS['LSsession'] -> addJSscript('LSselect.js');
+                $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
+                $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
+                $GLOBALS['LSsession'] -> addJSscript('LSrelation.js');
+                
+                if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
+                  $objRel = new $relationConf['LSobject']();
+                  $list = $objRel -> $relationConf['list_function']($object);
+                  if (is_array($list)) {
+                    foreach($list as $o) {
+                      $return['objectList'][] = $o -> getDisplayValue();
+                    }
+                  }
+                  else {
+                    $return['objectList']=array();
+                  }
+                }
+                else {
+                  $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
+                }
+                $LSrelations[]=$return;
+              }
+            }
+            $GLOBALS['Smarty'] -> assign('LSrelations',$LSrelations);
+          }
+          
+          $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
+          $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
+          $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
+          $GLOBALS['LSsession'] -> setTemplate('view.tpl');
         }
-        
-        if ($GLOBALS['LSsession'] -> canCreate($GLOBALS['LSsession']-> LSuserObject -> getType())) {
-          $LSview_actions[] = array(
-            'label' => _('Copier'),
-            'url' =>'create.php?LSobject='.$GLOBALS['LSsession']-> LSuserObject -> getType().'&amp;load='.$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'),
-            'action' => 'copy'
-          );
+        else {
+          $GLOBALS['LSerror'] -> addErrorCode(1011);
         }
-        
-        if ($GLOBALS['LSsession'] -> canRemove($GLOBALS['LSsession']-> LSuserObject -> getType(),$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'))) {
-          $LSview_actions[] = array (
-            'label' => _('Supprimer'),
-            'url' => 'remove.php?LSobject='.$GLOBALS['LSsession']-> LSuserObject -> getType().'&amp;dn='.$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'),
-            'action' => 'delete'
-          );
-        }
-        
-        $GLOBALS['Smarty'] -> assign('pagetitle',_('Mon compte'));
-        $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
-        $form = $GLOBALS['LSsession']-> LSuserObject -> getView();
-        $form -> displayView();
-        $GLOBALS['LSsession'] -> setTemplate('view.tpl');
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(1004,$_GET['LSobject']);
-      }
-    }
-    else {
-      if ( $GLOBALS['LSsession'] -> loadLSobject($_GET['LSobject']) ) {
-        if ( isset($_GET['dn']) ) {
-          if ($GLOBALS['LSsession'] -> canAccess($_GET['LSobject'],$_GET['dn'])) {
-            if ( $GLOBALS['LSsession'] -> canEdit($_GET['LSobject'],$_GET['dn']) ) {
-              $LSview_actions[] = array(
+        $objectList=array();
+        $object = new $_REQUEST['LSobject']();
+        $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
+        $GLOBALS['Smarty']->assign('LSobject_list_objectname',$object -> getLabel());
+        
+        if ($GLOBALS['LSsession'] -> canCreate($_REQUEST['LSobject'])) {
+          $LSview_actions[] = array (
+            'label' => _('Nouveau'),
+            'url' => 'create.php?LSobject='.$_REQUEST['LSobject'],
+            'action' => 'create'
+          );
+          $canCopy=true;
+        }
+        
+        if ( $_REQUEST['LSview_pattern']!='' ) {
+          $filter='(|';
+          if ( isset($_REQUEST['LSview_approx']) ) {
+            foreach ($object -> attrs as $attr_name => $attr_val) {
+              $filter.='('.$attr_name.'~='.$_REQUEST['LSview_pattern'].')';
+            }
+          }
+          else {
+            foreach ($object -> attrs as $attr_name => $attr_val) {
+              $filter.='('.$attr_name.'=*'.$_REQUEST['LSview_pattern'].'*)';
+            }              
+          }
+          $filter.=')';
+          $GLOBALS['Smarty']->assign('LSobject_list_filter','filter='.urlencode($filter));
+        }
+        else if ($_REQUEST['filter']) {
+          $filter=urldecode($_REQUEST['filter']);
+          $GLOBALS['Smarty']->assign('LSobject_list_filter','filter='.$_REQUEST['filter']);
+        }
+        else {
+          $filter=NULL;
+          $GLOBALS['Smarty']->assign('LSobject_list_filter','');
+        }
+        
+        $list=$object -> listObjects($filter);
+        $nbObjects=count($list);
+        $GLOBALS['Smarty']->assign('LSobject_list_nbresult',$nbObjects);
+        if ($nbObjects > NB_LSOBJECT_LIST) {
+          if (isset($_REQUEST['page'])) {
+            $list = array_slice($list, ($_REQUEST['page']) * NB_LSOBJECT_LIST, NB_LSOBJECT_LIST);
+            $GLOBALS['Smarty']->assign('LSobject_list_currentpage',$_REQUEST['page']);
+            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST));
+          }
+          else {
+            $list = array_slice($list, 0, NB_LSOBJECT_LIST);
+            $GLOBALS['Smarty']->assign('LSobject_list_currentpage',0);
+            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST));
+          }
+        }
+        $c=0;
+        foreach($list as $thisObject) {
+          $c++;
+          unset($actions);
+          if ($GLOBALS['LSsession'] -> canAccess($_REQUEST['LSobject'],$thisObject->getValue('dn'))) {
+            $actions[] = array(
+              'label' => _('Voir'),
+              'url' =>'view.php?LSobject='.$_REQUEST['LSobject'].'&amp;dn='.$thisObject -> getValue('dn'),
+              'action' => 'view'
+            );
+            
+            if ($GLOBALS['LSsession'] -> canEdit($_REQUEST['LSobject'],$thisObject->getValue('dn'))) {
+              $actions[]=array(
                 'label' => _('Modifier'),
-                'url' =>'modify.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$_GET['dn'],
+                'url' => 'modify.php?LSobject='.$_REQUEST['LSobject'].'&amp;dn='.$thisObject->getValue('dn'),
                 'action' => 'modify'
               );
             }
             
-            if ($GLOBALS['LSsession'] -> canCreate($_GET['LSobject'])) {
-              $LSview_actions[] = array(
+            if ($canCopy) {
+              $actions[] = array(
                 'label' => _('Copier'),
-                'url' =>'create.php?LSobject='.$_GET['LSobject'].'&amp;load='.$_GET['dn'],
+                'url' =>'create.php?LSobject='.$_REQUEST['LSobject'].'&amp;load='.$thisObject -> getValue('dn'),
                 'action' => 'copy'
               );
             }
             
-            if ($GLOBALS['LSsession'] -> canRemove($_GET['LSobject'],$_GET['dn'])) {
-              $LSview_actions[] = array(
+            if ($GLOBALS['LSsession'] -> canRemove($thisObject -> getType(),$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'))) {
+              $actions[] = array (
                 'label' => _('Supprimer'),
-                'url' => 'remove.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$_GET['dn'],
+                'url' => 'remove.php?LSobject='.$_REQUEST['LSobject'].'&amp;dn='.$thisObject -> getValue('dn'),
                 'action' => 'delete'
               );
             }
             
-            $object = new $_GET['LSobject']();
-            $object -> loadData($_GET['dn']);
-            $view = $object -> getView();
-            $view -> displayView();
-            $GLOBALS['Smarty'] -> assign('pagetitle',$object -> getDisplayValue());
-            $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
-            $GLOBALS['LSsession'] -> setTemplate('view.tpl');
+            if ($c%2==0) {
+              $tr='bis';
+            }
+            else {
+              $tr='';
+            }
+            
+            $objectList[]=array(
+              'dn' => $thisObject->getValue('dn'),
+              'displayValue' => $thisObject->getDisplayValue(),
+              'actions' => $actions,
+              'tr' => $tr
+            );
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(1011);
+            debug($thisObject->getValue('dn'));
           }
         }
-        else {
-          $objectList=array();
-          $object = new $_GET['LSobject']();
-          $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
-          $GLOBALS['Smarty']->assign('LSobject_list_objectname',$object -> getLabel());
-          
-          if ($GLOBALS['LSsession'] -> canCreate($_GET['LSobject'])) {
-            $LSview_actions[] = array (
-              'label' => _('Nouveau'),
-              'url' => 'create.php?LSobject='.$_GET['LSobject'],
-              'action' => 'create'
-            );
-            $canCopy=true;
-          }
-          
-          $list=$object -> listObjects();
-          $nbObjects=count($list);
-          if ($nbObjects > NB_LSOBJECT_LIST) {
-            if (isset($_GET['page'])) {
-              $list = array_slice($list, ($_GET['page']) * NB_LSOBJECT_LIST, NB_LSOBJECT_LIST);
-              $GLOBALS['Smarty']->assign('LSobject_list_currentpage',$_GET['page']);
-              $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST));
-            }
-            else {
-              $list = array_slice($list, 0, NB_LSOBJECT_LIST);
-              $GLOBALS['Smarty']->assign('LSobject_list_currentpage',0);
-              $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST));
-            }
-          }
-          foreach($list as $thisObject) {
-            unset($actions);
-            if ($GLOBALS['LSsession'] -> canAccess($_GET['LSobject'],$thisObject->getValue('dn'))) {
-              $actions[] = array(
-                'label' => _('Voir'),
-                'url' =>'view.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$thisObject -> getValue('dn'),
-                'action' => 'view'
-              );
-              
-              if ($GLOBALS['LSsession'] -> canEdit($_GET['LSobject'],$thisObject->getValue('dn'))) {
-                $actions[]=array(
-                  'label' => _('Modifier'),
-                  'url' => 'modify.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$thisObject->getValue('dn'),
-                  'action' => 'modify'
-                );
-              }
-              
-              if ($canCopy) {
-                $actions[] = array(
-                  'label' => _('Copier'),
-                  'url' =>'create.php?LSobject='.$_GET['LSobject'].'&amp;load='.$thisObject -> getValue('dn'),
-                  'action' => 'copy'
-                );
-              }
-              
-              if ($GLOBALS['LSsession'] -> canRemove($thisObject -> getType(),$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'))) {
-                $actions[] = array (
-                  'label' => _('Supprimer'),
-                  'url' => 'remove.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$thisObject -> getValue('dn'),
-                  'action' => 'delete'
-                );
-              }
-              
-              $objectList[]=array(
-                'dn' => $thisObject->getValue('dn'),
-                'displayValue' => $thisObject->getDisplayValue(),
-                'actions' => $actions
-              );
-            }
-            else {
-              debug($thisObject->getValue('dn'));
-            }
-          }
-          $GLOBALS['LSsession'] -> addJSscript('LSview.js');
-          
-          $GLOBALS['Smarty']->assign('_Actions',_('Actions'));
-          $GLOBALS['Smarty']->assign('_Modifier',_('Modifier'));
-          $GLOBALS['Smarty']->assign('LSobject_list',$objectList);
-          $GLOBALS['Smarty']->assign('LSobject_list_objecttype',$_GET['LSobject']);
-          $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
-          $GLOBALS['LSsession'] -> setTemplate('viewList.tpl');
-        }
+        $GLOBALS['LSsession'] -> addJSscript('LSview.js');
+
+        
+        $GLOBALS['Smarty']->assign('LSview_search',array(
+          'action' => $_SERVER['PHP_SELF'],
+          'submit' => _('Rechercher'),
+          'LSobject' => $_REQUEST['LSobject']
+        ));
+        
+        
+        $GLOBALS['Smarty']->assign('_Actions',_('Actions'));
+        $GLOBALS['Smarty']->assign('_Modifier',_('Modifier'));
+        $GLOBALS['Smarty']->assign('LSobject_list',$objectList);
+        $GLOBALS['Smarty']->assign('LSobject_list_objecttype',$_REQUEST['LSobject']);
+        $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
+        $GLOBALS['LSsession'] -> setTemplate('viewList.tpl');
       }
-      else {
-        $GLOBALS['LSerror'] -> addErrorCode(1004,$_GET['LSobject']);
-      }
+    }
+    else {
+      $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['LSobject']);
     }
   }
   else {

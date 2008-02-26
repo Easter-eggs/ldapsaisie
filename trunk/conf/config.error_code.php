@@ -246,6 +246,18 @@ $GLOBALS['LSerror_code'] = array (
   1012 => array (
     'msg' => _("LSsession : Des informations sont manquantes pour l'affichage de cette page."),
     'level' => 'c'
+  ),
+  1013 => array (
+    'msg' => _("LSrelations : La fonction de listage pour la relation %{relation} est inconnu."),
+    'level' => 'c'
+  ),
+  1014 => array (
+    'msg' => _("LSrelations : La fonction de mise à jour pour la relation %{relation} est inconnu."),
+    'level' => 'c'
+  ),
+  1015 => array (
+    'msg' => _("LSrelations : Une erreur s'est produite durant la mise a jour de la relation %{relation}."),
+    'level' => 'c'
   )
 
 );

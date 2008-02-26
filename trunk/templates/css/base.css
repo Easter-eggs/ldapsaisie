@@ -14,8 +14,10 @@ a:hover {
 
 h1 {
   margin:             0.5em;
+  margin-bottom:      0em;
   border-bottom:      1px solid #0072b8;
   color:              #0072b8;
+  clear:              left;
 }
 
 a img {
@@ -33,6 +35,7 @@ hr {
   margin:             auto;
   border:             1px solid #52bce5;
   background:         #fff url(../images/fd_menu.png) repeat-y scroll left top;
+  height:             100%;
 }
 
 #left {
@@ -81,9 +84,11 @@ a.menu {
 
 table.LSobject-list {
   margin-left:        1em;
+  margin-top:         0.5em;
   border:             1px solid #52bce5;
-  width:              30em;
+  width:              805px;
   border-collapse:    collapse;
+  clear:              both;
 }
 
 td.LSobject-list {
@@ -94,6 +99,10 @@ td.LSobject-list {
 th.LSobject-list {
   background-color:   #52bce5;
   color:              #fff;
+}
+
+tr.LSobject-list-bis {
+  background-color:   #ecf8fd;
 }
 
 a.LSobject-list {
@@ -138,11 +147,22 @@ strong.LSobject-list-page {
 }
 
 p.LSview-actions {
-  text-align:                 right;
-  font-size:                  0.8em;
-  margin:                     0.2em;
-  margin-right:               3em;
-  color:                      #0072b8;
+  clear:              both;
+  text-align:         right;
+  font-size:          0.8em;
+  margin:             0;
+  margin-top:         0.3em;
+  margin-right:       3em;
+  margin-bottom:      0.8em;
+  color:              #0072b8;
+}
+
+a.LSview-actions {
+  text-decoration:    none;
+  color:              #000;
+  border:             1px solid #0072b8;
+  border-top:         0;
+  padding:            0.4em;
 }
 
 p.question {
@@ -153,4 +173,79 @@ a.question {
   margin-left:        10em;
   margin-top:         3em;
   color:              #0072b8;
+}
+
+div.LSform_image {
+  float:              right;
+  clear:              both;
+  margin:             2em;
+  background-color:   #52bce5;
+  width:              160px;
+  padding:            5px;
+  text-align:         center;
+  -moz-border-radius: 1em;
+}
+
+div.LSform_image_errors {
+  background-color:   #f59a67;
+}
+
+img.LSform_image {
+  width:              150px;
+  border:             1px solid #fff;
+  margin:             5px;
+}
+
+ul.LSform_image_actions {
+  list-style-type:    none;
+  position:           absolute;
+  margin-top:         8px;
+  margin-left:        135px;
+  padding:            0;
+  visibility:         hidden;
+  cursor:             pointer;
+}
+
+form.LSview_search {
+  float:              right;
+  margin:             0;
+  margin-top:         0.5em;
+  margin-right:       2em;
+}
+
+label.LSview_search {
+  font-size:          0.6em;
+  display:            block;
+}
+
+input[type='text'].LSview_search {
+  border:             1px solid #0072b8;
+  width:              12em;
+}
+
+input[type='submit'].LSview_search {
+  border:             1px solid #0072b8;
+  width:              8em;
+  background-color:   #52bce5;
+  color:              #fff;
+}
+
+div.LSobject-select {
+  width:              600px;
+}
+
+#LSselect-object {
+  width:              570px;
+}
+
+.LSobject-select-check {
+  width:              10px;
+}
+
+form.LSselect_search {
+  margin-top:         0.5em;
+}
+
+img.LSrelation-btn {
+  margin-left:        0.5em;
 }

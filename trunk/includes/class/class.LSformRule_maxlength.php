@@ -27,20 +27,21 @@
  */
 class LSformRule_maxlength extends LSformRule {
 
-	/**
+  /**
    * Vérification de la valeur.
- 	 *
-	 * @param string $values Valeur à vérifier
-	 * @param array $options Options de validation : 
-	 * 															- Longueur max : $options['params']['limit']
-	 *
-	 * @return boolean true si la valeur est valide, false sinon
-	 */
-  function validate ($value,$options) {
-		if(!isset($options['params']['limit'])) {
-			$GLOBALS['LSerror'] -> addErrorCode(302);
-			return;
-		}
+   *
+   * @param string $values Valeur à vérifier
+   * @param array $options Options de validation : 
+   *                              - Longueur max : $options['params']['limit']
+   * @param object $formElement L'objet formElement attaché
+   *
+   * @return boolean true si la valeur est valide, false sinon
+   */
+  function validate ($value,$options,$formElement) {
+    if(!isset($options['params']['limit'])) {
+      $GLOBALS['LSerror'] -> addErrorCode(302);
+      return;
+    }
     return (strlen($value)<=$options['params']['limit']);
   }
   

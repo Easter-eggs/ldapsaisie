@@ -316,7 +316,8 @@ class LSattribute {
   function refreshForm(&$form,$idForm) {
     if(isset($this -> config['form'][$idForm])) {
       $form_element = &$form -> getElement($this -> name);
-      return $form_element -> setValue($this -> getFormVal());
+      $values = $this -> html -> refreshForm($this -> getFormVal());
+      return $form_element -> setValue($values);
     }
     return true;
   }

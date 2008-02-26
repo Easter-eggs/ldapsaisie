@@ -80,6 +80,10 @@ $GLOBALS['LSconfig'] = array(
 //Debug
 $GLOBALS['LSdebug']['active'] = true;
 
+define('NB_LSOBJECT_LIST',2);
+
+define('MAX_SEND_FILE_SIZE',2000000);
+
 // Définitions des locales
 $textdomain = 'ldapsaisie';
 bindtextdomain($textdomain, '/var/www/ldapsaisie/trunk/l10n');
@@ -93,12 +97,21 @@ define('LS_CLASS_DIR', LS_INCLUDE_DIR .'class/');
 define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
 define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
 define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
+define('LS_TMP_DIR', 'tmp/');
 
 // Javascript
 $GLOBALS['defaultJSscipts']=array(
   'mootools.js',
-  'LSdefault.js',
-  'Debugger.js'
+  'LSdefault.js'
 );
+
+if ($GLOBALS['LSdebug']['active']) {
+  $GLOBALS['defaultJSscipts'][]='Debugger.js';
+}
+
+// PHP values
+ini_set( 'magic_quotes_gpc', 'off' );
+ini_set( 'magic_quotes_sybase', 'off' );
+ini_set( 'magic_quotes_runtime', 'off' );
 
 ?>

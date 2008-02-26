@@ -80,7 +80,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     'uniqueMember' => array (
       'label' => _('Membres'),
       'ldap_type' => 'ascii',
-      'html_type' => 'select_list',
+      'html_type' => 'select_object',
       'required' => 0,
       'multiple' => 1,
       'validation' => array (
@@ -96,6 +96,14 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
+      ),
+      'selectable_object' => array(
+          'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
+          'display_attribute' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
+                                                              // si non définie => utilisation du 'select_display_attrs'
+                                                              // de la définition de l'objet
+                                              
+          'value_attribute' => '%{dn}',                       // Spécifie le attributs dont la valeur sera retournée par
       ),
       'possible_values' => array(
         'OTHER_OBJECT' => array(

@@ -1,0 +1,15 @@
+#main {
+  width:              840px;
+}
+
+#left {
+  display:            none;
+}
+
+#status {
+  display:            none;
+}
+
+p.LSview-actions {
+  display:            none;
+}

@@ -80,6 +80,17 @@ class LSattr_html {
   function addToForm (&$form,$idForm,$data=NULL) {
     $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
   }
+  
+  /**
+   * Effectue les tâches nécéssaires au moment du rafraichissement du formulaire
+   * 
+   * @param[in] $data mixed La valeur de l'attribut
+   * 
+   * @retval mixed La valeur formatée de l'attribut
+   **/
+  function refreshForm($data) {
+    return $data;
+  }
 }
 
 ?>

@@ -45,6 +45,7 @@ class LSsession {
     'topDn_admin' => array ()
   );
   var $LSaccess = array();
+  var $tmp_file = array();
 
   /**
    * Constructeur
@@ -217,21 +218,27 @@ class LSsession {
       // Déconnexion
       if (isset($_GET['LSsession_logout'])) {
         session_destroy();
+        
+        if (is_array($_SESSION['LSsession']['tmp_file'])) {
+          $this -> tmp_file = $_SESSION['LSsession']['tmp_file'];
+        }
+        $this -> deleteTmpFile();
         unset($_SESSION['LSsession']);
       }
+      
 
       if(isset($_SESSION['LSsession'])) {
         // Session existante
-        $this -> confDir      = $_SESSION['LSsession'] -> confDir;
-        $this -> topDn        = $_SESSION['LSsession'] -> topDn;
-        //$this -> LSuserObject = $_SESSION['LSsession'] -> LSuserObject;
-        $this -> dn           = $_SESSION['LSsession'] -> dn;
-        $this -> rdn          = $_SESSION['LSsession'] -> rdn;
-        $this -> ldapServerId = $_SESSION['LSsession'] -> ldapServerId;
+        $this -> confDir      = $_SESSION['LSsession']['confDir'];
+        $this -> topDn        = $_SESSION['LSsession']['topDn'];
+        $this -> dn           = $_SESSION['LSsession']['dn'];
+        $this -> rdn          = $_SESSION['LSsession']['rdn'];
+        $this -> ldapServerId = $_SESSION['LSsession']['ldapServerId'];
+        $this -> tmp_file     = $_SESSION['LSsession']['tmp_file'];
         if ( ($GLOBALS['LSconfig']['cacheLSrights']) || ($this -> ldapServer['cacheLSrights']) ) {
-          $this -> ldapServer = $_SESSION['LSsession'] -> ldapServer;
-          $this -> LSrights   = $_SESSION['LSsession'] -> LSrights;
-          $this -> LSaccess   = $_SESSION['LSsession'] -> LSaccess;
+          $this -> ldapServer = $_SESSION['LSsession']['ldapServer'];
+          $this -> LSrights   = $_SESSION['LSsession']['LSrights'];
+          $this -> LSaccess   = $_SESSION['LSsession']['LSaccess'];
           if (!$this -> LSldapConnect())
             return;
         }
@@ -291,7 +298,7 @@ class LSsession {
                   $this -> loadLSrights();
                   $this -> loadLSaccess();
                   $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
-                  $_SESSION['LSsession']=$this;
+                  $_SESSION['LSsession']=get_object_vars($this);
                   return true;
                 }
                 else {
@@ -357,7 +364,11 @@ class LSsession {
     }
   }
 
-
+ /*
+  * Retourne les sous-dns du serveur Ldap courant
+  *
+  * @retval mixed Tableau des subDn, false si une erreur est survenue.
+  */
   function getSubDnLdapServer() {
     if ( isset($this ->ldapServer['subdnobject']) ) {
       if( $this -> loadLSobject($this ->ldapServer['subdnobject']) ) {
@@ -485,6 +496,8 @@ class LSsession {
   * @retval void
   */
   function addJSscript($script) {
+    if (in_array($script, $this -> JSscripts))
+      return;
     $this -> JSscripts[]=$script;
   }
 
@@ -514,15 +527,25 @@ class LSsession {
     foreach ($GLOBALS['defaultJSscipts'] as $script) {
       $JSscript_txt.="<script src='".LS_JS_DIR.$script."' type='text/javascript'></script>\n";
     }
+
     foreach ($this -> JSscripts as $script) {
       $JSscript_txt.="<script src='".LS_JS_DIR.$script."' type='text/javascript'></script>\n";
     }
+    
+    if ($GLOBALS['LSdebug']['active']) {
+      $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";
+    }
+    else {
+      $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 0;</script>\n";
+    }
+    
     $GLOBALS['Smarty'] -> assign('LSsession_js',$JSscript_txt);
 
     // Css
-    $Css_txt="<link rel='stylesheet' type='text/css' href='templates/css/LSdefault.css' media='screen' />\n";
+    $Css_txt="<link rel='stylesheet' type='text/css' href='templates/css/LSdefault.css' />\n";
+    $Css_txt="<link rel='stylesheet' type='text/css' href='templates/css/LSdefault.css' />\n";
     foreach ($this -> CssFiles as $file) {
-      $Css_txt.="<link rel='stylesheet' type='text/css' href='templates/css/$file' media='screen' />\n";
+      $Css_txt.="<link rel='stylesheet' type='text/css' href='templates/css/$file' />\n";
     }
     $GLOBALS['Smarty'] -> assign('LSsession_css',$Css_txt);
 
@@ -581,7 +604,6 @@ class LSsession {
           }
         }
       }
-      debug($this -> LSrights['topDn_admin']);
       return true;
     }
     else {
@@ -753,6 +775,127 @@ class LSsession {
    */    
   function canCreate($LSobject) {
     return $this -> canAccess($LSobject,NULL,'w','rdn');
+  }
+  
+  /**
+   * Retourne le droit de l'utilisateur à gérer la relation d'objet
+   * 
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   * @param[in] string $relationName Le nom de la relation avec l'objet
+   * @param[in] string $right Le type de droit a vérifier ('r' ou 'w')
+   *
+   * @retval boolean True si l'utilisateur a accès, false sinon
+   */
+  function relationCanAccess($dn,$relationName,$right=NULL) {
+    $LSobject=$this -> LSuserObject -> getType();
+    if (!isset($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]))
+      return;
+    $whoami = $this -> whoami($dn);
+    
+    if (($right=='w') || ($right=='r')) {
+      if ($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$whoami] == $right) {
+        return true;
+      }
+    }
+    else {
+      if (($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$whoami] == 'w') || ($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$whoami] == 'r')) {
+        return true;
+      }
+    }
+    return;
+  }
+
+  /**
+   * Retourne le droit de l'utilisateur à modifier la relation d'objet
+   * 
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   * @param[in] string $relationName Le nom de la relation avec l'objet
+   *
+   * @retval boolean True si l'utilisateur a accès, false sinon
+   */  
+  function relationCanEdit($dn,$relationName) {
+    return $this -> relationCanAccess($dn,$relationName,'w');
+  }
+
+  /*
+   * Ajoute un fichier temporaire
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @retval void
+   **/
+  function addTmpFile($value,$filePath) {
+    $hash = mhash(MHASH_MD5,$value);
+    $this -> tmp_file[$filePath] = $hash;
+    $_SESSION['LSsession']['tmp_file'][$filePath] = $hash;
+  }
+  
+  /**
+   * Retourne le chemin du fichier temporaire si l'existe
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @param[in] $value La valeur du fichier
+   * 
+   * @retval mixed 
+   **/
+  function tmpFileExist($value) {
+    $hash = mhash(MHASH_MD5,$value);
+    foreach($this -> tmp_file as $filePath => $contentHash) {
+      if ($hash == $contentHash) {
+        return $filePath;
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Retourne le chemin du fichier temporaire
+   * 
+   * Retourne le chemin du fichier temporaire qu'il créera à partir de la valeur
+   * s'il n'existe pas déjà.
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @param[in] $value La valeur du fichier
+   * 
+   * @retval mixed 
+   **/
+  function getTmpFile($value) {
+    $exist = $this -> tmpFileExist($value);
+    if (!$exist) {
+      $img_path = LS_TMP_DIR .rand().'.tmp';
+      $fp = fopen($img_path, "w");
+      fwrite($fp, $value);
+      fclose($fp);
+      $this -> addTmpFile($value,$img_path);
+      return $img_path;
+    }
+    else {
+      return $exist;
+    }
+  }
+  
+  /*
+   * Supprime les fichiers temporaires
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @retval void
+   **/
+  function deleteTmpFile($filePath=NULL) {
+    if ($filePath) {
+        @unlink($filePath);
+        unset($this -> tmp_file[$filePath]);
+        unset($_SESSION['LSsession']['tmp_file'][$filePath]);
+    }
+    else {
+      foreach($this -> tmp_file as $file => $content) {
+        @unlink($file);
+      }
+      $this -> tmp_file = array();
+      $_SESSION['LSsession']['tmp_file'] = array();
+    }
   }
 
 }

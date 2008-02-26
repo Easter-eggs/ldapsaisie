@@ -33,6 +33,19 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   'after_save' => 'valid',
   'select_display_attrs' => '%{cn}',
   'label' => _('Utilisateurs'),
+  'relations' => array(
+    'groups' => array(
+      'label' => _('Appartient aux groupes...'),
+      'LSobject' => 'LSeegroup',
+      'list_function' => 'listUserGroups',
+      'update_function' => 'updateUserGroups',
+      'remove_function' => 'removeMember',
+      'rights' => array(
+        'self' => 'r',
+        'admin' => 'w'
+      )
+    )
+  ),
   // Attributes
   'attrs' => array (
     'uid' => array (
@@ -425,6 +438,38 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'generate_function' => 'generate_sambaNTPassword',
       'form' => array (
         'modify' => 0
+      )
+    ),
+    'jpegPhoto' => array (
+      'label' => _('Photo'),
+      'ldap_type' => 'image',
+      'html_type' => 'image',
+      'required' => 0,
+      'view' => 0,
+      'check_data' => array (
+        'imagesize' => array(
+          'msg' => _("La taille de l'image n'est pas valide."),
+          'param' => array(
+            'maxWidth' => 2000
+          )
+        ),
+        'imagefilesize' => array(
+          'msg' => _("La taille du fichier image n'est pas valide."),
+          'param' => array(
+            'maxSize' => 3000000   // taille du fichier en octets
+          )
+        ),
+        'imagefile' => array(
+          'msg' => _("Le type du fichier n'est pas valide.")
+        )
+      ),
+      'form' => array (
+        'modify' => 1
+      ),
+      'rights' => array(
+        'self' => 'w',
+        'user' => 'r',
+        'admin' => 'w'
       )
     )
   )

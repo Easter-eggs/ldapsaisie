@@ -27,32 +27,33 @@
  */
 class LSformRule_regex extends LSformRule {
   
- 	/**
+  /**
    * Vérification de la valeur.
- 	 *
-	 * @param string $values Valeur à vérifier
-	 * @param array $options Options de validation : 
-	 * 															- Regex : $option['params']['regex'] ou $option
-	 *
-	 * @return boolean true si la valeur est valide, false sinon
-	 */ 
-  function validate($value,$option) {
-		if (is_array($option)) {
-			if (isset($option['params']['regex'])) {
-				$regex=$option['params']['regex'];
-			}
-			else {
-				$GLOBALS['LSerror'] -> addErrorCode(301);
-				return;
-			}
-		}
-		else {
-			$regex=$option;
-		}
+   *
+   * @param string $values Valeur à vérifier
+   * @param array $options Options de validation : 
+   *                              - Regex : $option['params']['regex'] ou $option
+   * @param object $formElement L'objet formElement attaché
+   *
+   * @return boolean true si la valeur est valide, false sinon
+   */ 
+  function validate($value,$option,$formElement) {
+    if (is_array($option)) {
+      if (isset($option['params']['regex'])) {
+        $regex=$option['params']['regex'];
+      }
+      else {
+        $GLOBALS['LSerror'] -> addErrorCode(301);
+        return;
+      }
+    }
+    else {
+      $regex=$option;
+    }
     if (!preg_match($regex, $value)) {
       return false;
-	 }
-	 return true;
+   }
+   return true;
   }
 
 }

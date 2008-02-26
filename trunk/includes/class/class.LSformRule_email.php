@@ -29,28 +29,29 @@ class LSformRule_email extends LSformRule {
  
  /**
    * Vérification de la valeur.
- 	 *
-	 * @param string $value Valeur à vérifier
-	 * @param array $options Options de validation : 
-	 *		 															- Check domain : $option['params']['checkDomain']
-	 *
-	 * @return boolean true si la valeur est valide, false sinon
-	 */
-  function validate($value,$option=array()) {
-	 $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
+   *
+   * @param string $value Valeur à vérifier
+   * @param array $options Options de validation : 
+   *                                  - Check domain : $option['params']['checkDomain']
+   * @param object $formElement L'objet formElement attaché
+   *
+   * @return boolean true si la valeur est valide, false sinon
+   */
+  function validate($value,$option=array(),$formElement) {
+   $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
 
     if (!preg_match($regex, $value)) {
       return false;
-	 	}
+    }
 
     if ($option['params']['checkDomain'] && function_exists('checkdnsrr')) {
       $tokens = explode('@', $email);
       if (!(checkdnsrr($tokens[1], 'MX') || checkdnsrr($tokens[1], 'A'))) {
-			return false;
-    	}
+      return false;
+      }
     }
 
-		return true;
+    return true;
   }
 
 }

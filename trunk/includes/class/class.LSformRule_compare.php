@@ -37,7 +37,7 @@ class LSformRule_compare extends LSformRule {
    */
   function _findOperator($operator_name) {
 
-		$_operators = array(
+    $_operators = array(
         'eq'  => '==',
         'neq' => '!=',
         'gt'  => '>',
@@ -57,20 +57,21 @@ class LSformRule_compare extends LSformRule {
     }
   }
 
-	/**
+  /**
    * Vérification des valeurs.
- 	 *
-	 * @param string $values Valeurs à vérifier
-	 * @param array $options Options de validation : 
-	 * 															- Operateur : $options['params']['operator']
-	 *
-	 * @return boolean true si la valeur est valide, false sinon
-	 */
-  function validate ($values,$options=array()) {
-		if (!isset($options['params']['operator'])) {
-			$GLOBALS['LSerror'] -> addErrorCode(303);
-			return;
-		}
+   *
+   * @param string $values Valeurs à vérifier
+   * @param array $options Options de validation : 
+   *                              - Operateur : $options['params']['operator']
+   * @param object $formElement L'objet formElement attaché
+   *
+   * @return boolean true si la valeur est valide, false sinon
+   */
+  function validate ($values,$options=array(),$formElement) {
+    if (!isset($options['params']['operator'])) {
+      $GLOBALS['LSerror'] -> addErrorCode(303);
+      return;
+    }
     $operator = LSformRule_compare :: _findOperator($options['params']['operator']);
     if ('==' != $operator && '!=' != $operator) {
       $compareFn = create_function('$a, $b', 'return floatval($a) ' . $operator . ' floatval($b);');

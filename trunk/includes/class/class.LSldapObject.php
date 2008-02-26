@@ -268,7 +268,7 @@ class LSldapObject {
       if(isset($this -> forms[$idForm]))
         $LSform = $this -> forms[$idForm][0];
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(22,$this -> type_name);
+        $GLOBALS['LSerror'] -> addErrorCode(22,$this -> getType());
         return;
       }
     }
@@ -281,7 +281,7 @@ class LSldapObject {
         $LSform = $LSform[0];
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(23,$this -> type_name);
+        $GLOBALS['LSerror'] -> addErrorCode(23,$this -> getType());
         return;
       }
     }
@@ -452,12 +452,12 @@ class LSldapObject {
               }
             }
             else {
-              $GLOBALS['LSerror'] -> addErrorCode(24,array('attr' => $attr->name,'obj' => $this->type_name,'func' => $test['function']));
+              $GLOBALS['LSerror'] -> addErrorCode(24,array('attr' => $attr->name,'obj' => $this->getType(),'func' => $test['function']));
               return;
             }
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(25,array('attr' => $attr->name,'obj' => $this->type_name));
+            $GLOBALS['LSerror'] -> addErrorCode(25,array('attr' => $attr->name,'obj' => $this->getType()));
             return;
           }
         }
@@ -510,7 +510,7 @@ class LSldapObject {
       if($dn) {
         $this -> dn=$dn;
         debug($submitData);
-        return $GLOBALS['LSldap'] -> update($this -> type_name,$dn, $submitData);
+        return $GLOBALS['LSldap'] -> update($this -> getType(),$dn, $submitData);
       }
       else {
         $GLOBALS['LSerror'] -> addErrorCode(33);
@@ -867,7 +867,7 @@ class LSldapObject {
         }
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(31,$this -> type_name);
+        $GLOBALS['LSerror'] -> addErrorCode(31,$this -> getType());
         return;
       }
     }

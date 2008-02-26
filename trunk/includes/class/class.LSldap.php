@@ -202,6 +202,8 @@ class LSldap {
   
   /**
    * Met à jour une entrée dans l'annuaire
+   * 
+   * Remarque : Supprime les valeurs vides de attributs et les attributs sans valeur.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -213,8 +215,30 @@ class LSldap {
    */
   function update($object_type,$dn,$change) {
     debug($change);
+    $dropAttr=array();
     if($entry=$this -> getEntry($object_type,$dn)) {
-      $entry -> replace($change);
+      foreach($change as $attrName => $attrVal) {
+        $drop = true;
+        if (is_array($attrVal)) {
+          foreach($attrVal as $val) {
+            if (!empty($val)) {
+              $drop = false;
+              $changeData[$attrName][]=$val;
+            }
+          }
+        }
+        if($drop) {
+          $dropAttr[] = $attrName;
+        }
+      }
+      $entry -> replace($changeData);
+      debug('change : '.print_r($changeData,true));
+      debug('drop : '.print_r($dropAttr,true));
+      if (!empty($dropAttr)) {
+        foreach($dropAttr as $attr) {
+          $entry -> delete($attr);
+        }
+      }
       $ret = $entry -> update();
       if (Net_Ldap::isError($ret)) {
         $GLOBALS['LSerror'] -> addErrorCode(5,$dn);

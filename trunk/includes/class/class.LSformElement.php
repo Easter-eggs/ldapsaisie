@@ -37,6 +37,7 @@ class LSformElement {
   var $values = array();
   var $_required = false;
   var $_freeze = false;
+  var $attr_html;
 
   /**
    * Constructeur
@@ -52,11 +53,12 @@ class LSformElement {
    *
    * @retval true
    */ 
-  function LSformElement (&$form, $name, $label, $params){
+  function LSformElement (&$form, $name, $label, $params,&$attr_html){
     $this -> name = $name;
     $this -> label = $label;
     $this -> params = $params;
     $this -> form = $form;
+    $this -> attr_html = $attr_html;
     return true;
   }
 

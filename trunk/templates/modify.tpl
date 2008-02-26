@@ -1,43 +1,28 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
- "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-  <head>
-    <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
-    <link rel="stylesheet" type="text/css" href="templates/css/base.css" media="screen" title="Normal" />
-    {$LSsession_css}
-    {$LSsession_js}
-  </head>
-<body>
-<div id='LSerror'>
-{$LSerrors}
-</div>
-<div id='LSdebug'>
-  <a href='#' id='LSdebug_hidden'>X</a> 
-  <div id='LSdebug_infos'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
-</div>
-
-<div id='main'>
-  <div id='left'>
-    <img src='templates/images/logo.png' alt='Logo' id='logo'/>
-    <ul class='menu'>
-    {foreach from=$LSaccess item=item key=LSobject}
-      <li class='menu'><a href='view.php?LSobject={$LSobject}' class='menu'>{$item.label}</a></li>
-    {/foreach}
-    </ul>
-  </div>
-  <div id='right'>
-    <p id='status'>Connecté en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='templates/images/logout.png' alt='Logout' title='Logout' /></a></p>
-    
+{include file='top.tpl'}
     {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
     {if $LSview_actions != ''}
     <p class='LSview-actions'>
       {foreach from=$LSview_actions item=item}
-        <a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /></a>
+        <a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a>
       {/foreach}
     </p>
     {/if}
     
-    <form action='{$LSform_action}' method='post' class='LSform'>
+    {if $LSform_image!=''}
+    <div class='LSform_image{if $LSform_image_errors} LSform_image_errors{/if}'>
+      {if $LSform_image_actions!='' && !$LSform_image_errors}
+      <ul class='LSform_image_actions'>
+          <li><img src='templates/images/zoom.png' class='LSform_image_actions LSform_image_action_zoom' id='LSform_image_action_zoom_{$LSform_image.id}' /></li>
+        {foreach from=$LSform_image_actions item=item}
+          <li><img src='templates/images/{$item}.png' class='LSform_image_actions LSform_image_action_{$item}' id='LSform_image_action_{$item}_{$LSform_image.id}' /></li>
+        {/foreach}
+      </ul>
+      {/if}
+      <img src='{$LSform_image.img}' class='LSform_image LSsmoothbox' />
+    </div>
+    {/if}
+    
+    <form action='{$LSform_action}' method='post' enctype="multipart/form-data" class='LSform'>
     {$LSform_header}
     <dl class='LSform'>
       {foreach from=$LSform_fields item=field}
@@ -52,8 +37,4 @@
       <dd class='LSform'><input type='submit' value='{$LSform_submittxt}' class='LSform' /></dd>
     </dl>
     </form>
-  </div>
-  <hr class='spacer' />
-</div>
-</body>
-</html>
+{include file='bottom.tpl'}

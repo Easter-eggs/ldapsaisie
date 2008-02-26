@@ -68,9 +68,15 @@ if($LSsession -> startLSsession()) {
           if ($form->validate()) {
             // MàJ des données de l'objet LDAP
             if ($object -> updateData('modify')) {
-              header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+              debug('ok');
+              //header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
             }
           }
+          
+
+          
+          $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
+          $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
           $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
           $GLOBALS['LSsession'] -> setTemplate('modify.tpl');
           $form -> display();

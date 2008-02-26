@@ -1,0 +1,28 @@
+#over-LSsmoothbox {
+  background-color:     #000;
+  border:               1px solid #000;
+  margin: 0;
+  padding:  0;
+}
+
+#win-LSsmoothbox {
+  background-color:     #fff;
+  border:               3px solid #000;
+  margin:               auto;
+}
+
+#pnav-LSsmoothbox {
+  text-align:           right;
+  font-family:          sans-serif;
+  font-weight:          bold;
+  background-color:     #777;
+  margin:               0;
+  margin-bottom:        0;
+}
+
+#pnav-LSsmoothbox span {
+  color:                #fff;
+  margin:               1em;
+  margin-bottom:        0;
+  font-size:            100%;
+}

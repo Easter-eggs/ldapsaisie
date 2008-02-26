@@ -42,6 +42,8 @@ class LSform {
   var $_isValidate = false;
 
   var $_notUpdate = array();
+  
+  var $maxFileSize = NULL;
 
   /**
    * Constructeur
@@ -81,8 +83,9 @@ class LSform {
     $LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n
     \t<input type='hidden' name='idForm' id='LSform_idform' value='".$this -> idForm."'/>\n
     \t<input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='".$this -> ldapObject -> getType()."'/>\n
-    \t<input type='hidden' name='LSform_objectdn' id='LSform_objectdn'  value='".$this -> ldapObject -> getValue('dn')."'/>";
-    $GLOBALS['Smarty'] -> assign('LSform_header',$LSform_header);
+    \t<input type='hidden' name='LSform_objectdn' id='LSform_objectdn'  value='".$this -> ldapObject -> getValue('dn')."'/>\n";
+
+    
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getValue('dn')
@@ -97,6 +100,12 @@ class LSform {
       }
       $fields[] = $field;
     }
+    
+    if ($this -> maxFileSize) {
+      $LSform_header.="\t<input type='hidden' name='MAX_FILE_SIZE' value='".$this -> maxFileSize."'/>\n";
+    }
+    $GLOBALS['Smarty'] -> assign('LSform_header',$LSform_header);
+    
     $GLOBALS['Smarty'] -> assign('LSform_fields',$fields);
     if($this -> can_validate) {
       $GLOBALS['Smarty'] -> assign('LSform_submittxt',$this -> submit);
@@ -145,6 +154,19 @@ class LSform {
       $msg_error=getFData(_("Les données pour l'attribut %{label} ne sont pas valides."),$attr->getLabel());
     }
     $this -> _elementsErrors[$attr->name][]=$msg_error;
+  }
+  
+  /**
+   * Savoir si des erreurs son définie pour un élement du formulaire
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $element [<b>required</b>] string Le nom de l'élement
+   * 
+   * @retval boolean
+   */ 
+  function definedError($element) {
+    return isset($this -> _elementsErrors[$element]);
   }
   
   /**
@@ -204,7 +226,7 @@ class LSform {
         foreach($this -> _rules[$element] as $rule) {
           $ruleType="LSformRule_".$rule['name'];
           $GLOBALS['LSsession'] -> loadLSclass($ruleType);
-          if (! call_user_func(array( $ruleType,'validate') , $value, $rule['options'])) {
+          if (! call_user_func(array( $ruleType,'validate') , $value, $rule['options'], $this -> getElement($element))) {
             $retval=false;
             $this -> setElementError($this -> elements[$element],$rule['options']['msg']);
           }
@@ -273,14 +295,14 @@ class LSform {
    *
    * @retval LSformElement
    */
-  function addElement($type,$name,$label,$params=array()) {
+  function addElement($type,$name,$label,$params=array(),&$attr_html=NULL) {
     $elementType='LSformElement_'.$type;
     $GLOBALS['LSsession'] -> loadLSclass($elementType);
     if (!class_exists($elementType)) {
       $GLOBALS['LSerror'] -> addErrorCode(205,array('type' => $type));  
       return;
     }
-    $element=$this -> elements[$name] = new $elementType($this,$name,$label,$params);
+    $element=$this -> elements[$name] = new $elementType($this,$name,$label,$params,$attr_html);
     if ($element) {
       return $element;
     }
@@ -411,6 +433,17 @@ class LSform {
     else {
       return;
     }
+  }
+  
+  /**
+   * Défini la taille maximal pour les fichiers envoyés par le formualaire
+   * 
+   * @param[in] $size La taille maximal en octets
+   * 
+   * @retval  void
+   **/
+  function setMaxFileSize($size) {
+    $this -> maxFileSize = $size;
   }
 
 }

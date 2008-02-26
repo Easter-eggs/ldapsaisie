@@ -27,18 +27,19 @@
  */
 class LSformRule_numeric extends LSformRule{
   
-	/**
+  /**
    * Vérification de la valeur.
- 	 *
-	 * @param string $values Valeur à vérifier
-	 * @param array $options Options de validation (inutile ici)
-	 *
-	 * @return boolean true si la valeur est valide, false sinon
-	 */
-  function validate ($value,$options=array()) {
+   *
+   * @param string $values Valeur à vérifier
+   * @param array $options Options de validation (inutile ici)
+   * @param object $formElement L'objet formElement attaché
+   *
+   * @return boolean true si la valeur est valide, false sinon
+   */
+  function validate ($value,$options=array(),$formElement) {
     $regex = '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/';
-		$GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
-    return LSformRule_regex :: validate($value,$regex);
+    $GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
+    return LSformRule_regex :: validate($value,$regex,$formElement);
   }
   
 }

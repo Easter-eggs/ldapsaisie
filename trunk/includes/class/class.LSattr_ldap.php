@@ -68,17 +68,8 @@ class LSattr_ldap {
    *
    * @retval mixed La valeur d'affichage de l'attribut
    */
-
   function getDisplayValue($data) {
     return $data;
-  }
-  
-  function __sleep() {
-    return ( array_keys( get_object_vars( &$this ) ) );
-  }
-  
-  function __wakeup() {
-    return true;
   }
 }
 

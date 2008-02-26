@@ -1,6 +1,5 @@
 var LSdefault = new Class({
     initialize: function(){
-      LSdebug('toto');
       this.LSdebug = $('LSdebug');
       this.LSdebugInfos = $('LSdebug_infos');
       this.LSdebug.setOpacity(0);
@@ -15,6 +14,10 @@ var LSdefault = new Class({
       if (this.LSerror.innerHTML != '') {
         this.displayLSerror();
       }
+      
+      this.loading_img=[];
+      LSdebug(this.loading_img);
+      this.loading_img_id=-1;
     },
 
     onLSdebugHiddenClick: function(event){
@@ -23,6 +26,7 @@ var LSdefault = new Class({
     },
 
     displayDebugBox: function() {
+      this.LSdebug.setStyle('top',getScrollTop()+10);
       new Fx.Style(this.LSdebug,'opacity',{duration:500}).start(0,0.8);
     },
 
@@ -33,18 +37,36 @@ var LSdefault = new Class({
     },
 
     displayLSerror: function() {
+      this.LSerror.setStyle('top',getScrollTop()+10);
       new Fx.Style(this.LSerror,'opacity',{duration:500}).start(0,0.8);
       (function(){new Fx.Style(this.LSerror,'opacity',{duration:500}).start(0.8,0);}).delay(5000, this);
     },
 
-    loadingImgDisplay: function(el) {
-      this.loading_img = new Element('img');
-      this.loading_img.src='templates/images/ajax-loader.gif';
-      this.loading_img.injectAfter(el);
+    loadingImgDisplay: function(el,position) {
+      this.loading_img_id++;
+      this.loading_img[this.loading_img_id] = new Element('img');
+      this.loading_img[this.loading_img_id].src='templates/images/ajax-loader.gif';
+      if (position=='inside') {
+        this.loading_img[this.loading_img_id].injectInside(el);
+      }
+      else {
+        this.loading_img[this.loading_img_id].injectAfter(el);
+      }
+      LSdebug(this.loading_img_id);
+      return this.loading_img_id;
     },
 
-    loadingImgHide: function() {
-      this.loading_img.remove();
+    loadingImgHide: function(id) {
+      if (isNaN(id)) {
+        this.loading_img.each(function(el)  {
+          if (typeof(el) != 'undefined')
+            el.remove();
+        },this);
+        this.loading_img_id=-1;
+      }
+      else {
+        this.loading_img[id].remove();
+      }
     }
 
 });
@@ -52,7 +74,7 @@ window.addEvent(window.ie ? 'load' : 'domready', function() {
   varLSdefault = new LSdefault();
 });
 
-LSdebug_active = 1;
+LSdebug_active = 0;
 
 function LSdebug() {
     if (LSdebug_active != 1) return;

@@ -27,38 +27,38 @@
  */
 class LSattr_html_select_list extends LSattr_html{
 
-	/**
-	 * Ajoute l'attribut au formualaire passer en paramètre
-	 *
-	 * @param[in] &$form LSform Le formulaire
-	 * @param[in] $idForm L'identifiant du formulaire
-	 * @param[in] $data Valeur du champs du formulaire
-	 *
-	 * @retval LSformElement L'element du formulaire ajouté
-	 */
+  /**
+   * Ajoute l'attribut au formualaire passer en paramètre
+   *
+   * @param[in] &$form LSform Le formulaire
+   * @param[in] $idForm L'identifiant du formulaire
+   * @param[in] $data Valeur du champs du formulaire
+   *
+   * @retval LSformElement L'element du formulaire ajouté
+   */
   function addToForm (&$form,$idForm,$data=NULL) {
     /*if (count($data)>1) {
       $GLOBALS['LSerror'] -> addErrorCode(103,'select_list');
       return;
     }*/
     $possible_values=$this -> getPossibleValues();
-		$this -> config['text_possible_values'] = $possible_values;
+    $this -> config['text_possible_values'] = $possible_values;
     $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config);
-		if(!$element) {
-			$GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
-			return;
-		}
-		if ($data) {
-	    $element -> setValue($data);
-		}
+    if(!$element) {
+      $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+      return;
+    }
+    if ($data) {
+      $element -> setValue($data);
+    }
    
     // Mise en place de la regle de verification des donnees
     $regex_check_data='/';
     foreach ($possible_values as $val => $text) {
-  	  if($regex_check_data=='/')
-	  	  $regex_check_data.='^'.preg_quote($val,'/').'$';
-			else
-	  	  $regex_check_data.='|^'.preg_quote($val,'/').'$';
+      if($regex_check_data=='/')
+        $regex_check_data.='^'.preg_quote($val,'/').'$';
+      else
+        $regex_check_data.='|^'.preg_quote($val,'/').'$';
     }
     $regex_check_data.='/';
     debug($this -> name.' : < '.$regex_check_data." ><br/>",$GLOBALS['debug_stat']);
@@ -74,7 +74,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
-   */	
+   */ 
   function getPossibleValues() {
     $retInfos = array();
     if (isset($this -> config['possible_values'])) {
@@ -104,8 +104,8 @@ class LSattr_html_select_list extends LSattr_html{
           }
         }
         else {
-					$val_name=$this->attribute->ldapObject->getFData($val_name);
-					$val=$this->attribute->ldapObject->getFData($val);
+          $val_name=$this->attribute->ldapObject->getFData($val_name);
+          $val=$this->attribute->ldapObject->getFData($val);
           $retInfos[$val_name]=$val;
         }
       }

@@ -29,22 +29,23 @@ class LSformRule {
   
   /**
    * Constructeur
-	*
-	* @author Benjamin Renard <brenard@easter-eggs.com>*
-	*/
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>*
+  */
   function LSformRule () {
     return true;
   }
   
   /**
    * Validation de données
-	*
-	* @param	mixed $value Données à valider
-	* @param array $options Options de validation
-	*
-	* @return boolean True si les données sont valide, False sinon.
-	*/
-  function validate($value,$options=NULL) {
+  *
+  * @param  mixed $value Données à valider
+  * @param array $options Options de validation
+  * @param object $formElement L'objet formElement attaché
+  *
+  * @return boolean True si les données sont valide, False sinon.
+  */
+  function validate($value,$options=NULL,$formElement) {
     return true;
   }
 }
