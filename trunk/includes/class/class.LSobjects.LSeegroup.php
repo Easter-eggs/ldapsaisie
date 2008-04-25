@@ -30,13 +30,13 @@ class LSeegroup extends LSldapObject {
   /**
    * Constructeur
    *
-   * Cette methode construit l'objet et définis la configuration.
+   * Cette methode construit l'objet et dÃ©finis la configuration.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $config array La configuration de l'objet
    *
-   * @retval boolean true si l'objet a été construit, false sinon.
+   * @retval boolean true si l'objet a Ã©tÃ© construit, false sinon.
    *
    * @see LSldapObject::LSldapObject()
    */
@@ -64,9 +64,9 @@ class LSeegroup extends LSldapObject {
   /**
    * Ajoute un utilisateur au groupe
    * 
-   * @param[in] $object Un object LSeepeople : l'utilisateur à ajouter
+   * @param[in] $object Un object LSeepeople : l'utilisateur Ã  ajouter
    * 
-   * @retval boolean true si l'utilisateur à été ajouté, False sinon
+   * @retval boolean true si l'utilisateur Ã  Ã©tÃ© ajoutÃ©, False sinon
    **/  
   function addOneMember($object) {
     if ($object instanceof LSeepeople) {
@@ -92,9 +92,9 @@ class LSeegroup extends LSldapObject {
   /**
    * Supprime un utilisateur du groupe
    * 
-   * @param[in] $object Un object LSeepeople : l'utilisateur à supprimer
+   * @param[in] $object Un object LSeepeople : l'utilisateur Ã  supprimer
    * 
-   * @retval boolean true si l'utilisateur à été supprimé, False sinon
+   * @retval boolean true si l'utilisateur Ã  Ã©tÃ© supprimÃ©, False sinon
    **/  
   function deleteOneMember($object) {
     if ($object instanceof LSeepeople) {
@@ -120,12 +120,12 @@ class LSeegroup extends LSldapObject {
   }
   
   /**
-   * Met à jour les groupes d'un utilisateur
+   * Met Ã  jour les groupes d'un utilisateur
    * 
    * @param[in] $userObject LSeepeople Un object LSeepeople : l'utilisateur
    * @param[in] $listDns Array(string) Un tableau des DNs des groupes de l'utilisateur
    * 
-   * @retval boolean true si tout c'est bien passé, False sinon
+   * @retval boolean true si tout c'est bien passÃ©, False sinon
    **/  
   function updateUserGroups($userObject,$listDns) {
     $currentGroups = $this -> listUserGroups($userObject);

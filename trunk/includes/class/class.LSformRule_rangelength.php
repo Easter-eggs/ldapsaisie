@@ -21,20 +21,20 @@
 ******************************************************************************/
 
 /**
- * Règle de validation : longueur maximale et minimale de la valeur.
+ * RÃ¨gle de validation : longueur maximale et minimale de la valeur.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_rangelength extends LSformRule {
  
   /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $values Valeur à vérifier
+   * @param string $values Valeur Ã  vÃ©rifier
    * @param array $options Options de validation : 
    *                              - Longueur min : $options['params']['limits'][0]
    *                              - Longueur max : $options['params']['limits'][1]
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */ 

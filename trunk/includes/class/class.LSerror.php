@@ -23,7 +23,7 @@
 /**
  * Gestion des erreurs pour LdapSaisie
  *
- * Cette classe gère les retours d'erreurs.
+ * Cette classe gÃ¨re les retours d'erreurs.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -49,7 +49,7 @@ class LSerror {
    * @param[in] $code numeric Le code de l'erreur
    * @param[in] $msg mixed Un tableau ou une chaine pour la construction du message d'erreur
    *                       Tableau : '[clef]' => 'valeur' 
-   *                                    La clef sera utilisé dans le format de message d'erreur
+   *                                    La clef sera utilisÃ© dans le format de message d'erreur
    *                                    dans le fichier 'error_code.php'.
    *
    * @retval void
@@ -59,7 +59,7 @@ class LSerror {
   }
   
   /**
-   * Affiche les erreurs et arrête l'execution du code
+   * Affiche les erreurs et arrÃªte l'execution du code
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -108,7 +108,7 @@ class LSerror {
   }
   
  /**
-  * Définir si il y a des erreurs
+  * DÃ©finir si il y a des erreurs
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *

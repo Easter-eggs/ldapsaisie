@@ -22,10 +22,10 @@
 
 
  /*
-  * Données de configuration pour le support SAMBA
+  * DonnÃ©es de configuration pour le support SAMBA
   */
 
-      // SID du domaine Samba géré
+      // SID du domaine Samba gÃ©rÃ©
       define('LS_SAMBA_DOMAIN_SID','S-1-5-21-2421470416-3566881284-3047381809');
 
       // Nombre de base pour le calcul des sambaSID Utilisateur
@@ -35,8 +35,8 @@
       define('LS_SAMBA_SID_BASE_GROUP',1001); 
 
      /*
-      * NB : C'est deux nombres doivent être pour l'un paire et pour l'autre impaire
-      * pour conserver l'unicité des SID
+      * NB : C'est deux nombres doivent Ãªtre pour l'un paire et pour l'autre impaire
+      * pour conserver l'unicitÃ© des SID
       */
  
       // Nom de l'attribut LDAP uidNumber
@@ -51,27 +51,27 @@
       // Message d'erreur
 
       $GLOBALS['error_code']['SAMBA_SUPPORT_01']= array (
-        'msg' => _("SAMBA Support : la classe smHash ne peut pas être chargée."),
+        'msg' => _("SAMBA Support : la classe smHash ne peut pas Ãªtre chargÃ©e."),
         'level' => 'c'
       );
       $GLOBALS['error_code']['SAMBA_SUPPORT_02']= array (
-        'msg' => _("SAMBA Support : La constante %{const} n'est pas définie."),
+        'msg' => _("SAMBA Support : La constante %{const} n'est pas dÃ©finie."),
         'level' => 'c'
       );
 
       $GLOBALS['error_code']['SAMBA_SUPPORT_03']= array (
-        'msg' => _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID."),
+        'msg' => _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la mÃªme paritÃ© pour l'unicitÃ© des sambaSID."),
         'level' => 'c'
       );
 
 
       $GLOBALS['error_code']['SAMBA_01']= array (
-        'msg' => _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
+        'msg' => _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de gÃ©nÃ©rer l'attribut %{attr}."),
         'level' => 'c'
       );
       
  /*
-  * Fin des données de configuration
+  * Fin des donnÃ©es de configuration
   */
 
 
@@ -80,7 +80,7 @@
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval boolean true si Samba est pleinement supporté, false sinon
+  * @retval boolean true si Samba est pleinement supportÃ©, false sinon
   */
   function LSaddon_samba_support() {
     
@@ -111,7 +111,7 @@
       }
     }
 
-    // Pour l'intégrité des SID
+    // Pour l'intÃ©gritÃ© des SID
     if ( (LS_SAMBA_SID_BASE_USER % 2) == (LS_SAMBA_SID_BASE_GROUP % 2) ) {
         $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_O3');
         $retval=false;
@@ -130,7 +130,7 @@
   *
   * @param[in] $ldapObject L'objet ldap
   *
-  * @retval string SambaSID ou false si il y a un problème durant la génération
+  * @retval string SambaSID ou false si il y a un problÃ¨me durant la gÃ©nÃ©ration
   */
   function generate_sambaSID($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ]) != 'LSattribute' ) {
@@ -154,7 +154,7 @@
   *
   * @param[in] $ldapObject L'objet ldap
   *
-  * @retval string sambaPrimaryGroupSID ou false si il y a un problème durant la génération
+  * @retval string sambaPrimaryGroupSID ou false si il y a un problÃ¨me durant la gÃ©nÃ©ration
   */
   function generate_sambaPrimaryGroupSID($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ]) != 'LSattribute' ) {
@@ -175,7 +175,7 @@
   * 
   * @param[in] $ldapObject L'objet ldap
   *
-  * @retval string sambaNTPassword ou false si il y a un problème durant la génération
+  * @retval string sambaNTPassword ou false si il y a un problÃ¨me durant la gÃ©nÃ©ration
   */
   function generate_sambaNTPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
@@ -201,7 +201,7 @@
   * 
   * @param[in] $ldapObject L'objet ldap
   *
-  * @retval string sambaLMPassword ou false si il y a un problème durant la génération
+  * @retval string sambaLMPassword ou false si il y a un problÃ¨me durant la gÃ©nÃ©ration
   */
   function generate_sambaLMPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {

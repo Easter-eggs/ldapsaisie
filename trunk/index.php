@@ -27,7 +27,7 @@ $GLOBALS['LSsession'] = new LSsession();
 
 if($LSsession -> startLSsession()) {
 
-  // Définition du Titre de la page
+  // DÃ©finition du Titre de la page
   $GLOBALS['Smarty'] -> assign('pagetitle',_('Accueil'));
 
   // Template

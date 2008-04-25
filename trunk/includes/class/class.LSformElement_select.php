@@ -24,8 +24,8 @@
 /**
  * Element select d'un formulaire pour LdapSaisie
  *
- * Cette classe définis les éléments select des formulaires.
- * Elle étant la classe basic LSformElement.
+ * Cette classe dÃ©finis les Ã©lÃ©ments select des formulaires.
+ * Elle Ã©tant la classe basic LSformElement.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -33,9 +33,9 @@
 class LSformElement_select extends LSformElement {
 
  /*
-  * Retourn les infos d'affichage de l'élément
+  * Retourn les infos d'affichage de l'Ã©lÃ©ment
   * 
-  * Cette méthode retourne les informations d'affichage de l'élement
+  * Cette mÃ©thode retourne les informations d'affichage de l'Ã©lement
   *
   * @retval array
   */

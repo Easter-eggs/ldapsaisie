@@ -37,14 +37,14 @@ if($LSsession -> startLSsession()) {
               $objectname=$object -> getDisplayValue();
               $GLOBALS['Smarty'] -> assign('pagetitle',_('Suppression').' : '.$objectname);
               if ($object -> remove()) {
-                $GLOBALS['Smarty'] -> assign('question',$objectname.' '._('a bien été supprimé').'.');
+                $GLOBALS['Smarty'] -> assign('question',$objectname.' '._('a bien Ã©tÃ© supprimÃ©').'.');
               }
               else {
                 $GLOBALS['LSerror'] -> addErrorCode(35,$objectname);
               }
             }
             else {
-              // Définition du Titre de la page
+              // DÃ©finition du Titre de la page
               $GLOBALS['Smarty'] -> assign('pagetitle',_('Suppresion').' : '.$object -> getDisplayValue());
               $GLOBALS['Smarty'] -> assign('question',_('Voulez-vous vraiment supprimer').' <strong>'.$object -> getDisplayValue().'</strong> ?');
               $GLOBALS['Smarty'] -> assign('validation_url','remove.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$_GET['dn'].'&amp;valid');

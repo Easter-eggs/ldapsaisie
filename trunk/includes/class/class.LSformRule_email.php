@@ -21,19 +21,19 @@
 ******************************************************************************/
 
 /**
- * Règle de validation d'un email.
+ * RÃ¨gle de validation d'un email.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_email extends LSformRule {
  
  /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $value Valeur à vérifier
+   * @param string $value Valeur Ã  vÃ©rifier
    * @param array $options Options de validation : 
    *                                  - Check domain : $option['params']['checkDomain']
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */

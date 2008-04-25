@@ -22,7 +22,7 @@
 
 
  /*
-	* Données de configuration pour le support POSIX
+	* DonnÃ©es de configuration pour le support POSIX
 	*/
 
 			// Nom de l'attribut LDAP uid
@@ -48,18 +48,18 @@
 			// -- Message d'erreur --
 			// Support
 			$GLOBALS['error_code']['POSIX_SUPPORT_01']= array (
-				'msg' => _("POSIX Support : La constante %{const} n'est pas définie."),
+				'msg' => _("POSIX Support : La constante %{const} n'est pas dÃ©finie."),
 				'level' => 'c'
 			);
 
 			// Autres erreurs
 			$GLOBALS['error_code']['POSIX_01']= array (
-				'msg' => _("POSIX : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
+				'msg' => _("POSIX : L'attribut %{dependency} est introuvable. Impossible de gÃ©nÃ©rer l'attribut %{attr}."),
 				'level' => 'c'
 			);
 			
  /*
-	* Fin des données de configuration
+	* Fin des donnÃ©es de configuration
 	*/
 
 
@@ -68,7 +68,7 @@
 	* 
 	* @author Benjamin Renard <brenard@easter-eggs.com>
 	*
-	* @retval boolean true si Samba est pleinement supporté, false sinon
+	* @retval boolean true si Samba est pleinement supportÃ©, false sinon
 	*/
 	function LSaddon_posix_support() {
 		
@@ -100,7 +100,7 @@
 	* 
 	* @param[in] $ldapObject L'objet ldap
 	*
-	* @retval integer uidNumber ou false si il y a un problème durant la génération
+	* @retval integer uidNumber ou false si il y a un problÃ¨me durant la gÃ©nÃ©ration
 	*/
 	function generate_uidNumber($ldapObject) {
 
@@ -127,7 +127,7 @@
 	* 
 	* @param[in] $ldapObject L'objet ldap
 	*
-	* @retval integer gidNumber ou false si il y a un problème durant la génération
+	* @retval integer gidNumber ou false si il y a un problÃ¨me durant la gÃ©nÃ©ration
 	*/
 	function generate_gidNumber($ldapObject) {
 
@@ -154,7 +154,7 @@
 	* 
 	* @param[in] $ldapObject L'objet ldap
 	*
-	* @retval string homeDirectory ou false si il y a un problème durant la génération
+	* @retval string homeDirectory ou false si il y a un problÃ¨me durant la gÃ©nÃ©ration
 	*/
 	function generate_homeDirectory($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_POSIX_UID_ATTR ]) != 'LSattribute' ) {

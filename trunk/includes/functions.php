@@ -21,21 +21,21 @@
 ******************************************************************************/
 
 /**
- * Construction d'une chaine formatée
+ * Construction d'une chaine formatÃ©e
  *
- * Cette fonction retourne la valeur d'une chaine formatée selon le format
- * et les données passés en paramètre.
+ * Cette fonction retourne la valeur d'une chaine formatÃ©e selon le format
+ * et les donnÃ©es passÃ©s en paramÃ¨tre.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  *
  * @param[in] $format string Format de la chaine
- * @param[in] $data mixed Les données pour composés la chaine
- *                    Ce paramètre peut être un tableau de string, une string,
+ * @param[in] $data mixed Les donnÃ©es pour composÃ©s la chaine
+ *                    Ce paramÃ¨tre peut Ãªtre un tableau de string, une string,
  *                    une tableau d'objet ou un objet.
- * @param[in] $meth string Le nom de la methode de/des objet(s) à appeler pour
- *                         obtenir la valeur de remplacement dans la chaine formatée.
+ * @param[in] $meth string Le nom de la methode de/des objet(s) Ã  appeler pour
+ *                         obtenir la valeur de remplacement dans la chaine formatÃ©e.
  * 
- * @retval string La chaine formatée
+ * @retval string La chaine formatÃ©e
  */
 function getFData($format,$data,$meth=NULL) {
   $unique=false;
@@ -143,12 +143,12 @@ function debug_print($return=false) {
 }
 
   /**
-   * Vérifie la compatibilite des DN
+   * VÃ©rifie la compatibilite des DN
    *
-   * Vérifie que les DNs sont dans la même branche de l'annuaire.
+   * VÃ©rifie que les DNs sont dans la mÃªme branche de l'annuaire.
    *
    * @param[in] $dn Un premier DN.
-   * @param[in] $dn Un deuxième DN.
+   * @param[in] $dn Un deuxiÃ¨me DN.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -181,11 +181,11 @@ function debug_print($return=false) {
   /**
    * Fait la somme de DN
    *
-   * Retourne un DN qui correspond au point de séparation des DN si les DN 
+   * Retourne un DN qui correspond au point de sÃ©paration des DN si les DN 
    * ne sont pas dans la meme dans la meme branche ou le dn le plus long sinon.
    *
    * @param[in] $dn Un premier DN.
-   * @param[in] $dn Un deuxième DN.
+   * @param[in] $dn Un deuxiÃ¨me DN.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *

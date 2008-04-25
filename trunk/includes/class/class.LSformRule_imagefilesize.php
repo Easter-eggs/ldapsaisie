@@ -21,20 +21,20 @@
 ******************************************************************************/
 
 /**
- * Règle de validation : taille d'un fichier image
+ * RÃ¨gle de validation : taille d'un fichier image
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_imagefilesize extends LSformRule {
 
   /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $values Valeur à vérifier
+   * @param string $values Valeur Ã  vÃ©rifier
    * @param array $options Options de validation : 
    *                              - Taille max (en octet) : $options['param']['maxSize']
    *                              - Taille min (en octet) : $options['param']['minSize']
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */

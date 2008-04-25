@@ -98,21 +98,21 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
         'create' => 1
       ),
       'selectable_object' => array(
-          'object_type' => 'LSeepeople',                      // Nom de l'objet ‡ lister
-          'display_attribute' => '%{cn} (%{uidNumber})',      // SpÈcifie le attributs ‡ lister pour le choix,
-                                                              // si non dÈfinie => utilisation du 'select_display_attrs'
-                                                              // de la dÈfinition de l'objet
+          'object_type' => 'LSeepeople',                      // Nom de l'objet √† lister
+          'display_attribute' => '%{cn} (%{uidNumber})',      // Sp√©cifie le attributs √† lister pour le choix,
+                                                              // si non d√©finie => utilisation du 'select_display_attrs'
+                                                              // de la d√©finition de l'objet
                                               
-          'value_attribute' => '%{dn}',                       // SpÈcifie le attributs dont la valeur sera retournÈe par
+          'value_attribute' => '%{dn}',                       // Sp√©cifie le attributs dont la valeur sera retourn√©e par
       ),
       'possible_values' => array(
         'OTHER_OBJECT' => array(
-          'object_type' => 'LSeepeople',                      // Nom de l'objet ‡ lister
-          'display_attribute' => '%{cn} (%{uidNumber})',      // SpÈcifie le attributs ‡ lister pour le choix,
-                                                              // si non dÈfinie => utilisation du 'select_display_attrs'
-                                                              // de la dÈfinition de l'objet
+          'object_type' => 'LSeepeople',                      // Nom de l'objet √† lister
+          'display_attribute' => '%{cn} (%{uidNumber})',      // Sp√©cifie le attributs √† lister pour le choix,
+                                                              // si non d√©finie => utilisation du 'select_display_attrs'
+                                                              // de la d√©finition de l'objet
                                               
-          'value_attribute' => '%{dn}',                       // SpÈcifie le attributs dont la valeur sera retournÈe par
+          'value_attribute' => '%{dn}',                       // Sp√©cifie le attributs dont la valeur sera retourn√©e par
         )
       )
     )

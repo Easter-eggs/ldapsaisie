@@ -21,18 +21,18 @@
 ******************************************************************************/
 
 /**
- * Règle de validation de données requises
+ * RÃ¨gle de validation de donnÃ©es requises
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_required extends LSformRule {
 
   /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $value  Value à vérifier
+   * @param string $value  Value Ã  vÃ©rifier
    * @param array $options Options de validation (inutile ici)
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */ 

@@ -26,7 +26,7 @@ $GLOBALS['LSsession'] -> loadLSclass('LSattr_html');
 /**
  * Attribut Ldap
  *
- * Cette classe modélise un attribut Ldap
+ * Cette classe modÃ©lise un attribut Ldap
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -46,9 +46,9 @@ class LSattribute {
   /**
    * Constructeur
    *
-   * Cette methode construit l'objet et définis la configuration.
+   * Cette methode construit l'objet et dÃ©finis la configuration.
    * Elle lance la construction des objets LSattr_html et LSattr_ldap correspondant
-   * à ses types définis définis dans sa configuration
+   * Ã  ses types dÃ©finis dÃ©finis dans sa configuration
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -56,7 +56,7 @@ class LSattribute {
    * @param[in] $config array Configuration de l'objet
    * @param[in] &$ldapObject LSldapObject L'objet ldap parent
    *
-   * @retval boolean Retourne true si la création a réussi, false sinon.
+   * @retval boolean Retourne true si la crÃ©ation a rÃ©ussi, false sinon.
    */ 
   function LSattribute ($name,$config,&$ldapObject) {
     $this -> name = $name;
@@ -93,7 +93,7 @@ class LSattribute {
   }
   
   /**
-   * Défini la valeur de l'attribut
+   * DÃ©fini la valeur de l'attribut
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -105,7 +105,7 @@ class LSattribute {
   }
   
   /**
-   * Redéfini la valeur de l'attribut
+   * RedÃ©fini la valeur de l'attribut
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -121,7 +121,7 @@ class LSattribute {
   /**
    * Retourne la valeur de l'attribut
    *
-   * Retourne la valeur nouvelle si elle existe, sinon la valeur passé.
+   * Retourne la valeur nouvelle si elle existe, sinon la valeur passÃ©.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -176,17 +176,17 @@ class LSattribute {
   /**
    * Ajoute l'attribut au formualaire
    *
-   * Cette méthode ajoute l'attribut au formulaire $form si l'identifiant de celui-ci
+   * Cette mÃ©thode ajoute l'attribut au formulaire $form si l'identifiant de celui-ci
    * ($idForm) est connu dans la configuration de l'objet.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] object $form Le formulaire dans lequel doit être ajouté l'attribut
+   * @param[in] object $form Le formulaire dans lequel doit Ãªtre ajoutÃ© l'attribut
    * @param[in] string $idForm L'identifiant du formulaire
-   * @param[in] objet  &$obj Objet utilisable pour la génération de la valeur de l'attribut
-   * @param[in] array  $value valeur de l'élement
+   * @param[in] objet  &$obj Objet utilisable pour la gÃ©nÃ©ration de la valeur de l'attribut
+   * @param[in] array  $value valeur de l'Ã©lement
    *
-   * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
+   * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nÃ©cessaire, false sinon
    */
   function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
     if(isset($this -> config['form'][$idForm])) {
@@ -240,7 +240,7 @@ class LSattribute {
   }
 
   /**
-   * Récupération des droits de l'utilisateur sur l'attribut
+   * RÃ©cupÃ©ration des droits de l'utilisateur sur l'attribut
    * 
    * @retval string 'r'/'w'/'n' pour 'read'/'write'/'none'
    **/
@@ -277,13 +277,13 @@ class LSattribute {
   /**
    * Ajoute l'attribut au formualaire de vue
    *
-   * Cette méthode ajoute l'attribut au formulaire $form de vue si il doit l'être
+   * Cette mÃ©thode ajoute l'attribut au formulaire $form de vue si il doit l'Ãªtre
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] object $form Le formulaire dans lequel doit être ajouté l'attribut
+   * @param[in] object $form Le formulaire dans lequel doit Ãªtre ajoutÃ© l'attribut
    *
-   * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
+   * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nÃ©cessaire, false sinon
    */
   function addToView(&$form) {
     if((isset($this -> config['view'])) && ($this -> myRights() != 'n')) {
@@ -308,10 +308,10 @@ class LSattribute {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] object &$form LSform Le formulaire dans lequel doit être ajouté l'attribut
+   * @param[in] object &$form LSform Le formulaire dans lequel doit Ãªtre ajoutÃ© l'attribut
    * @param[in] string $idForm L'identifiant du formulaire
    *
-   * @retval boolean true si la valeur a été rafraichie ou que ce n'est pas nécessaire, false sinon
+   * @retval boolean true si la valeur a Ã©tÃ© rafraichie ou que ce n'est pas nÃ©cessaire, false sinon
    */
   function refreshForm(&$form,$idForm) {
     if(isset($this -> config['form'][$idForm]) && ($this -> myRights()=='w')) {
@@ -337,11 +337,11 @@ class LSattribute {
   }
   
   /**
-   * Définis les données de mises à jour si un changement a eut lieu
+   * DÃ©finis les donnÃ©es de mises Ã  jour si un changement a eut lieu
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] string $data Les données de mise à jour.
+   * @param[in] string $data Les donnÃ©es de mise Ã  jour.
    *
    * @retval void
    */
@@ -352,11 +352,11 @@ class LSattribute {
   }
   
   /**
-   * Vérifie si l'attribut a été validé
+   * VÃ©rifie si l'attribut a Ã©tÃ© validÃ©
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si l'attribut a été validé, false sinon
+   * @retval boolean true si l'attribut a Ã©tÃ© validÃ©, false sinon
    */
   function isValidate() {
     return $this -> is_validate;
@@ -374,18 +374,18 @@ class LSattribute {
   }
   
   /**
-   * Vérifie si l'attribut a été mise à jour
+   * VÃ©rifie si l'attribut a Ã©tÃ© mise Ã  jour
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si l'attribut a été mis à jour, false sinon
+   * @retval boolean true si l'attribut a Ã©tÃ© mis Ã  jour, false sinon
    */
   function isUpdate() {
     return ($this -> updateData)?true:false;
   }
   
   /**
-   * Vérifie si l'attribut est obligatoire
+   * VÃ©rifie si l'attribut est obligatoire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -396,22 +396,22 @@ class LSattribute {
   }
   
   /**
-   * Vérifie si la valeur de l'attribut peut être générée
+   * VÃ©rifie si la valeur de l'attribut peut Ãªtre gÃ©nÃ©rÃ©e
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la valeur de l'attribut peut être générée, false sinon
+   * @retval boolean true si la valeur de l'attribut peut Ãªtre gÃ©nÃ©rÃ©e, false sinon
    */
   function canBeGenerated() {
     return (function_exists($this -> config['generate_function']));
   }
 
   /**
-   * Génere la valeur de l'attribut à partir de la fonction de génération
+   * GÃ©nere la valeur de l'attribut Ã  partir de la fonction de gÃ©nÃ©ration
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la valeur à put être générée, false sinon
+   * @retval boolean true si la valeur Ã  put Ãªtre gÃ©nÃ©rÃ©e, false sinon
    */
   function generateValue() {
     if ( ! $this -> canBeGenerated() ) {
@@ -419,7 +419,7 @@ class LSattribute {
     }
     $value=call_user_func($this -> config['generate_function'],$this -> ldapObject);
     if (!empty($value)) {
-      //$this -> setValue($value); // pas nécéssaire ??
+      //$this -> setValue($value); // pas nÃ©cÃ©ssaire ??
       $this -> updateData=array($value);
       return true;
     }
@@ -428,7 +428,7 @@ class LSattribute {
   
   /**
    * Retourne la valeur de l'attribut pour son enregistrement dans l'annuaire
-   * si l'attribut à été modifié.
+   * si l'attribut Ã  Ã©tÃ© modifiÃ©.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -484,11 +484,11 @@ class LSattribute {
   }
 
   /**
-   * Retourne les attributs dépendants de celui-ci
+   * Retourne les attributs dÃ©pendants de celui-ci
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval array les noms des attributs dépendants
+   * @retval array les noms des attributs dÃ©pendants
    */
   function getDependsAttrs() {
     return $this -> config['dependAttrs'];

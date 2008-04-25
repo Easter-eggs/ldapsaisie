@@ -28,13 +28,13 @@
 class LSattr_html_select_list extends LSattr_html{
 
   /**
-   * Ajoute l'attribut au formualaire passer en paramètre
+   * Ajoute l'attribut au formualaire passer en paramÃ¨tre
    *
    * @param[in] &$form LSform Le formulaire
    * @param[in] $idForm L'identifiant du formulaire
    * @param[in] $data Valeur du champs du formulaire
    *
-   * @retval LSformElement L'element du formulaire ajouté
+   * @retval LSformElement L'element du formulaire ajoutÃ©
    */
   function addToForm (&$form,$idForm,$data=NULL) {
     /*if (count($data)>1) {
@@ -72,8 +72,8 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
-   *               la valeur des balises option et en valeur ce qui sera affiché.
+   * @retval array Tableau associatif des valeurs possible de la liste avec en clÃ©
+   *               la valeur des balises option et en valeur ce qui sera affichÃ©.
    */ 
   function getPossibleValues() {
     $retInfos = array();

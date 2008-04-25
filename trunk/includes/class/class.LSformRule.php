@@ -21,7 +21,7 @@
 ******************************************************************************/
 
 /**
- * Base d'une règle de validation de données
+ * Base d'une rÃ¨gle de validation de donnÃ©es
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -37,13 +37,13 @@ class LSformRule {
   }
   
   /**
-   * Validation de données
+   * Validation de donnÃ©es
   *
-  * @param  mixed $value Données à valider
+  * @param  mixed $value DonnÃ©es Ã  valider
   * @param array $options Options de validation
-  * @param object $formElement L'objet formElement attaché
+  * @param object $formElement L'objet formElement attachÃ©
   *
-  * @return boolean True si les données sont valide, False sinon.
+  * @return boolean True si les donnÃ©es sont valide, False sinon.
   */
   function validate($value,$options=NULL,$formElement) {
     return true;

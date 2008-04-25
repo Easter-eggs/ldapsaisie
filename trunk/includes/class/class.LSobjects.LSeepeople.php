@@ -30,13 +30,13 @@ class LSeepeople extends LSldapObject {
   /**
    * Constructeur
    *
-   * Cette methode construit l'objet et définis la configuration.
+   * Cette methode construit l'objet et dÃ©finis la configuration.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $config array La configuration de l'objet
    *
-   * @retval boolean true si l'objet a été construit, false sinon.
+   * @retval boolean true si l'objet a Ã©tÃ© construit, false sinon.
 	 *
 	 * @see LSldapObject::LSldapObject()
    */	

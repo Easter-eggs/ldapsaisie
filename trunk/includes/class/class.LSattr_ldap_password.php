@@ -29,7 +29,7 @@ class LSattr_ldap_password extends LSattr_ldap {
   var $clearPassword = NULL;
 
   /**
-   * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
+   * Retourne la valeur d'affichage de l'attribut aprÃ¨s traitement liÃ© Ã  son type ldap
    *
    * @param[in] $data mixed La valeur de l'attribut
    *
@@ -40,11 +40,11 @@ class LSattr_ldap_password extends LSattr_ldap {
   }
 
   /**
-   * Retourne la valeur de l'attribut après traitement lié à son type ldap
+   * Retourne la valeur de l'attribut aprÃ¨s traitement liÃ© Ã  son type ldap
    *
    * @param[in] $data mixed La valeur de l'attribut
    *
-   * @retval mixed La valeur traitée de l'attribut
+   * @retval mixed La valeur traitÃ©e de l'attribut
    */
   function getUpdateData($data) {
     $this -> clearPassword = $data[0];
@@ -52,7 +52,7 @@ class LSattr_ldap_password extends LSattr_ldap {
   }
  
   /**
-   * Retourne une salt (chaine de caractère aléatoire) de la longueur passée en paramètre
+   * Retourne une salt (chaine de caractÃ¨re alÃ©atoire) de la longueur passÃ©e en paramÃ¨tre
    *
    * @param[in] integer La longueur de la salt (par defaut : 8)
    *

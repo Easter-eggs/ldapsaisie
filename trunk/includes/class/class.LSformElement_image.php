@@ -24,8 +24,8 @@
 /**
  * Element texte d'un formulaire pour LdapSaisie
  *
- * Cette classe définis les éléments textes des formulaires.
- * Elle étant la classe basic LSformElement.
+ * Cette classe dÃ©finis les Ã©lÃ©ments textes des formulaires.
+ * Elle Ã©tant la classe basic LSformElement.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -36,9 +36,9 @@ class LSformElement_image extends LSformElement {
   var $tmp_file = array();
 
  /*
-  * Retourne les infos d'affichage de l'élément
+  * Retourne les infos d'affichage de l'Ã©lÃ©ment
   * 
-  * Cette méthode retourne les informations d'affichage de l'élement
+  * Cette mÃ©thode retourne les informations d'affichage de l'Ã©lement
   *
   * @retval array
   */
@@ -69,14 +69,14 @@ class LSformElement_image extends LSformElement {
   }
   
   /**
-   * Recupère la valeur de l'élement passée en POST
+   * RecupÃ¨re la valeur de l'Ã©lement passÃ©e en POST
    *
-   * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
-   * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+   * Cette mÃ©thode vÃ©rifie la prÃ©sence en POST de la valeur de l'Ã©lÃ©ment et la rÃ©cupÃ¨re
+   * pour la mettre dans le tableau passer en paramÃ¨tre avec en clef le nom de l'Ã©lÃ©ment
    *
-   * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
+   * @param[] array Pointeur sur le tableau qui recupÃ¨rera la valeur.
    *
-   * @retval boolean true si la valeur est présente en POST, false sinon
+   * @retval boolean true si la valeur est prÃ©sente en POST, false sinon
    */
   function getPostData(&$return) {
     if($this -> isFreeze()) {

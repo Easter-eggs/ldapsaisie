@@ -24,8 +24,8 @@
 /**
  * Element password d'un formulaire pour LdapSaisie
  *
- * Cette classe définis les éléments password des formulaires.
- * Elle étant la classe basic LSformElement.
+ * Cette classe dÃ©finis les Ã©lÃ©ments password des formulaires.
+ * Elle Ã©tant la classe basic LSformElement.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -33,19 +33,19 @@
 class LSformElement_password extends LSformElement {
 
   /**
-   * Recupère la valeur de l'élement passée en POST
+   * RecupÃ¨re la valeur de l'Ã©lement passÃ©e en POST
    *
-   * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
-   * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+   * Cette mÃ©thode vÃ©rifie la prÃ©sence en POST de la valeur de l'Ã©lÃ©ment et la rÃ©cupÃ¨re
+   * pour la mettre dans le tableau passer en paramÃ¨tre avec en clef le nom de l'Ã©lÃ©ment
    *
-   * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
+   * @param[] array Pointeur sur le tableau qui recupÃ¨rera la valeur.
    *
-   * @retval boolean true si la valeur est présente en POST, false sinon
+   * @retval boolean true si la valeur est prÃ©sente en POST, false sinon
    */
   function getPostData(&$return) {
-    // Récupère la valeur dans _POST, et les vérifie avec la fonction générale
+    // RÃ©cupÃ¨re la valeur dans _POST, et les vÃ©rifie avec la fonction gÃ©nÃ©rale
     $retval = parent :: getPostData($return);
-    // Si une valeur est recupérée
+    // Si une valeur est recupÃ©rÃ©e
     if ($retval) {
       $val = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue(); 
       if( (empty($return[$this -> name][0]) ) && ( ! empty( $val ) ) ) {
@@ -58,9 +58,9 @@ class LSformElement_password extends LSformElement {
   }
 
  /*
-  * Retourne les infos d'affichage de l'élément
+  * Retourne les infos d'affichage de l'Ã©lÃ©ment
   * 
-  * Cette méthode retourne les informations d'affichage de l'élement
+  * Cette mÃ©thode retourne les informations d'affichage de l'Ã©lement
   *
   * @retval array
   */

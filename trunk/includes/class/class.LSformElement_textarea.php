@@ -24,8 +24,8 @@
 /**
  * Element textarea d'un formulaire pour LdapSaisie
  *
- * Cette classe définis les éléments textarea des formulaires.
- * Elle étant la classe basic LSformElement.
+ * Cette classe dÃ©finis les Ã©lÃ©ments textarea des formulaires.
+ * Elle Ã©tant la classe basic LSformElement.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -33,9 +33,9 @@
 class LSformElement_textarea extends LSformElement {
 
  /*
-  * Retourne les infos d'affichage de l'élément
+  * Retourne les infos d'affichage de l'Ã©lÃ©ment
   * 
-  * Cette méthode retourne les informations d'affichage de l'élement
+  * Cette mÃ©thode retourne les informations d'affichage de l'Ã©lement
   *
   * @retval array
   */

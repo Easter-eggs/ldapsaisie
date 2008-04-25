@@ -72,13 +72,13 @@ define('NB_LSOBJECT_LIST_SELECT',11);
 
 define('MAX_SEND_FILE_SIZE',2000000);
 
-// Définitions des locales
+// DÃ©finitions des locales
 $textdomain = 'ldapsaisie';
 bindtextdomain($textdomain, '/var/www/ldapsaisie/trunk/l10n');
 textdomain($textdomain);
 setlocale(LC_ALL, $GLOBALS['LSconfig']['lang']);
 
-// Définitions des dossiers d'inclusions
+// DÃ©finitions des dossiers d'inclusions
 define('LS_CONF_DIR','conf/');
 define('LS_OBJECTS_DIR', LS_CONF_DIR . 'LSobjects/');
 define('LS_INCLUDE_DIR','includes/');

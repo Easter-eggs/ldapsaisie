@@ -2,6 +2,7 @@
  "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
     <link rel="stylesheet" type="text/css" href="templates/css/base.css" title="Normal" />
     <link rel="stylesheet" type="text/css" href="templates/css/base_print.css" media='print' title="Normal" />
@@ -39,5 +40,5 @@
       </form>
     {/if}
     <p id='status'>
-    Connecté en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='templates/images/logout.png' alt='Logout' title='Logout' /></a>
+    ConnectÃ© en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='templates/images/logout.png' alt='Logout' title='Logout' /></a>
     </p>

@@ -24,7 +24,7 @@
 /**
  * Formulaire pour LdapSaisie
  *
- * Cette classe gère les formulaires
+ * Cette classe gÃ¨re les formulaires
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -48,7 +48,7 @@ class LSform {
   /**
    * Constructeur
    *
-   * Cette methode construit l'objet et définis la configuration.
+   * Cette methode construit l'objet et dÃ©finis la configuration.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -135,14 +135,14 @@ class LSform {
   }  
   
   /**
-   * Défini l'erreur sur un champ
+   * DÃ©fini l'erreur sur un champ
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $attr [<b>required</b>] string Le nom du champ
-   * @param[in] $msg Le format du message d'erreur à afficher (pouvant comporter
-   *                 des valeurs %{[n'importe quoi]} qui seront remplacé par le label
-   *                 du champs concerné.
+   * @param[in] $msg Le format du message d'erreur Ã  afficher (pouvant comporter
+   *                 des valeurs %{[n'importe quoi]} qui seront remplacÃ© par le label
+   *                 du champs concernÃ©.
    *
    * @retval void
    */ 
@@ -151,17 +151,17 @@ class LSform {
       $msg_error=getFData($msg,$attr->getLabel());
     }
     else {
-      $msg_error=getFData(_("Les données pour l'attribut %{label} ne sont pas valides."),$attr->getLabel());
+      $msg_error=getFData(_("Les donnÃ©es pour l'attribut %{label} ne sont pas valides."),$attr->getLabel());
     }
     $this -> _elementsErrors[$attr->name][]=$msg_error;
   }
   
   /**
-   * Savoir si des erreurs son définie pour un élement du formulaire
+   * Savoir si des erreurs son dÃ©finie pour un Ã©lement du formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $element [<b>required</b>] string Le nom de l'élement
+   * @param[in] $element [<b>required</b>] string Le nom de l'Ã©lement
    * 
    * @retval boolean
    */ 
@@ -170,11 +170,11 @@ class LSform {
   }
   
   /**
-   * Verifie si le formulaire a été validé et que les données sont valides.
+   * Verifie si le formulaire a Ã©tÃ© validÃ© et que les donnÃ©es sont valides.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si le formulaire a été validé et que les données ont été validées, false sinon
+   * @retval boolean true si le formulaire a Ã©tÃ© validÃ© et que les donnÃ©es ont Ã©tÃ© validÃ©es, false sinon
    */ 
   function validate(){
     if(!$this -> can_validate)
@@ -184,12 +184,12 @@ class LSform {
         $GLOBALS['LSerror'] -> addErrorCode(201);
         return;
       }
-      //Validation des données ici !!! ///
+      //Validation des donnÃ©es ici !!! ///
       if (!$this -> checkData()) {
         $this -> setValuesFromPostData();
         return;
       }
-      debug("les données sont checkées");
+      debug("les donnÃ©es sont checkÃ©es");
       $this -> _isValidate = true;
       return true;
     }
@@ -197,7 +197,7 @@ class LSform {
   }
 
   /**
-   * Vérifier les données du formulaire à partir des régles définis sur les champs
+   * VÃ©rifier les donnÃ©es du formulaire Ã  partir des rÃ©gles dÃ©finis sur les champs
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -237,13 +237,13 @@ class LSform {
   }
 
   /**
-   * Vérifie si au moins une valeur est présente dans le tableau
+   * VÃ©rifie si au moins une valeur est prÃ©sente dans le tableau
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $data array tableau de valeurs
    *
-   * @retval boolean true si au moins une valeur est présente, false sinon
+   * @retval boolean true si au moins une valeur est prÃ©sente, false sinon
    */
   function checkRequired($data) {
     foreach($data as $val) {
@@ -254,11 +254,11 @@ class LSform {
   }
 
   /**
-   * Verifie si la saisie du formulaire est présente en POST
+   * Verifie si la saisie du formulaire est prÃ©sente en POST
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la saisie du formulaire est présente en POST, false sinon
+   * @retval boolean true si la saisie du formulaire est prÃ©sente en POST, false sinon
    */
   function isSubmit() {
     if( (isset($_POST['validate']) && ($_POST['validate']=='LSform')) && (isset($_POST['idForm']) && ($_POST['idForm'] == $this -> idForm)) )
@@ -267,11 +267,11 @@ class LSform {
   }
 
   /**
-   * Récupère les valeurs postées dans le formulaire
+   * RÃ©cupÃ¨re les valeurs postÃ©es dans le formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si les valeurs ont bien été récupérées, false sinon.
+   * @retval boolean true si les valeurs ont bien Ã©tÃ© rÃ©cupÃ©rÃ©es, false sinon.
    */
   function getPostData() {
     foreach($this -> elements as $element_name => $element) {
@@ -284,14 +284,14 @@ class LSform {
   }
 
   /*
-   * Ajoute un élément au formulaire
+   * Ajoute un Ã©lÃ©ment au formulaire
    * 
-   * Ajoute un élément au formulaire et définis les informations le concernant.
+   * Ajoute un Ã©lÃ©ment au formulaire et dÃ©finis les informations le concernant.
    *
-   * @param[in] $type string Le type de l'élément
-   * @param[in] $name string Le nom de l'élément
-   * @param[in] $label string Le label de l'élément
-   * @param[in] $param mixed Paramètres supplémentaires
+   * @param[in] $type string Le type de l'Ã©lÃ©ment
+   * @param[in] $name string Le nom de l'Ã©lÃ©ment
+   * @param[in] $label string Le label de l'Ã©lÃ©ment
+   * @param[in] $param mixed ParamÃ¨tres supplÃ©mentaires
    *
    * @retval LSformElement
    */
@@ -314,12 +314,12 @@ class LSform {
   }
 
   /*
-   * Ajoute une règle sur un élément du formulaire
+   * Ajoute une rÃ¨gle sur un Ã©lÃ©ment du formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $element string Le nom de l'élément conserné
-   * @param[in] $rule string Le nom de la règle à ajouter
+   * @param[in] $element string Le nom de l'Ã©lÃ©ment consernÃ©
+   * @param[in] $rule string Le nom de la rÃ¨gle Ã  ajouter
    * @param[in] $options array Options (facultative)
    *
    * @retval boolean
@@ -348,11 +348,11 @@ class LSform {
 
 
   /*
-   * Définis comme requis un élément
+   * DÃ©finis comme requis un Ã©lÃ©ment
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $element string Le nom de l'élément conserné
+   * @param[in] $element string Le nom de l'Ã©lÃ©ment consernÃ©
    *
    * @retval boolean
    */
@@ -364,13 +364,13 @@ class LSform {
   }
 
   /*
-   * Détermine la valider de la règle
+   * DÃ©termine la valider de la rÃ¨gle
    *
-   * Devra déterminer si la règle passez en paramètre est correcte
+   * Devra dÃ©terminer si la rÃ¨gle passez en paramÃ¨tre est correcte
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $element string Le nom de l'élément conserné
+   * @param[in] $element string Le nom de l'Ã©lÃ©ment consernÃ©
    */
   function isRuleRegistered($rule) {
     $GLOBALS['LSsession'] -> loadLSclass('LSformRule');
@@ -379,9 +379,9 @@ class LSform {
   }
 
   /**
-   * Retourne les valeurs validés du formulaire
+   * Retourne les valeurs validÃ©s du formulaire
    *
-   * @retval mixed Les valeurs validés du formulaire, ou false si elles ne le sont pas
+   * @retval mixed Les valeurs validÃ©s du formulaire, ou false si elles ne le sont pas
    */
   function exportValues() {
     if ($this -> _isValidate) {
@@ -393,20 +393,20 @@ class LSform {
   }
 
   /**
-   * Retourn un élement du formulaire
+   * Retourn un Ã©lement du formulaire
    *
-   * @param[in] string $element Nom de l'élement voulu
+   * @param[in] string $element Nom de l'Ã©lement voulu
    *
-   * @retval LSformElement L'élement du formulaire voulu
+   * @retval LSformElement L'Ã©lement du formulaire voulu
    */
   function getElement($element) {
     return $this -> elements[$element];
   }
 
   /**
-   * Défini les valeurs des élements à partir des valeurs postées
+   * DÃ©fini les valeurs des Ã©lements Ã  partir des valeurs postÃ©es
    *
-   * @retval boolean True si les valeurs ont été définies, false sinon.
+   * @retval boolean True si les valeurs ont Ã©tÃ© dÃ©finies, false sinon.
    */
   function setValuesFromPostData() {
     if (empty($this -> _postData)) {
@@ -436,7 +436,7 @@ class LSform {
   }
   
   /**
-   * Défini la taille maximal pour les fichiers envoyés par le formualaire
+   * DÃ©fini la taille maximal pour les fichiers envoyÃ©s par le formualaire
    * 
    * @param[in] $size La taille maximal en octets
    * 

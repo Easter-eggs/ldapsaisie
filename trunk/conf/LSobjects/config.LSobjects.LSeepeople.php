@@ -62,7 +62,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         array (
           'filter' => 'uid=%{val}',
           'result' => 0,
-          'msg' => _('Cet identifiant est déjà utilisé.')
+          'msg' => _('Cet identifiant est dÃ©jÃ  utilisÃ©.')
         )
       ),
       'rights' => array(
@@ -77,21 +77,21 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       )
     ),
     'uidNumber' => array (
-      'label' => _('Identifiant (numérique)'),
+      'label' => _('Identifiant (numÃ©rique)'),
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
       'generate_function' => 'generate_uidNumber',
       'check_data' => array (
         'numeric' => array(
-          'msg' => _("L'identifiant unique doit être un entier.")
+          'msg' => _("L'identifiant unique doit Ãªtre un entier.")
         ),
       ),
       'validation' => array (
         array (
           'filter' => 'uidNumber=%{val}',
           'result' => 0,
-          'msg' => _('Cet uid est déjà utilisé.')
+          'msg' => _('Cet uid est dÃ©jÃ  utilisÃ©.')
         )
       ),
       'rights' => array(
@@ -168,8 +168,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'validation' => array (
         array (
-          'object_type' => 'LSeegroup',           // 'object_type' : Permet definir le type d'objet recherchés
-          //'basedn' => 'o=company',                    // et d'utiliser les objectClass définis dans le fichier de configuration
+          'object_type' => 'LSeegroup',           // 'object_type' : Permet definir le type d'objet recherchÃ©s
+          //'basedn' => 'o=company',                    // et d'utiliser les objectClass dÃ©finis dans le fichier de configuration
           'filter' => '(gidNumber=%{val})',       // pour la recherche
           'result' => 1
         )
@@ -185,14 +185,14 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'possible_values' => array(
         'OTHER_OBJECT' => array(
-          'object_type' => 'LSeegroup',                      // Nom de l'objet à lister
-          'display_attribute' => '%{cn} (%{gidNumber})',     // Spécifie le attributs à lister pour le choix,
-                                                             // si non définie => utilisation du 'select_display_attrs'
-                                                             // de la définition de l'objet
+          'object_type' => 'LSeegroup',                      // Nom de l'objet Ã  lister
+          'display_attribute' => '%{cn} (%{gidNumber})',     // SpÃ©cifie le attributs Ã  lister pour le choix,
+                                                             // si non dÃ©finie => utilisation du 'select_display_attrs'
+                                                             // de la dÃ©finition de l'objet
                                               
-          'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par
-          /*'filter' =>                         // le formulaire spécifie les filtres de recherche pour
-            array (                           // l'établissement de la liste d'objets :
+          'value_attribute' => 'gidNumber',   // SpÃ©cifie le attributs dont la valeur sera retournÃ©e par
+          /*'filter' =>                         // le formulaire spÃ©cifie les filtres de recherche pour
+            array (                           // l'Ã©tablissement de la liste d'objets :
               array(                          // Premier filtre
                 'filter' => 'cn=*a*',
                 //'basedn' => 'o=company',
@@ -236,7 +236,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       )
     ),
     'homeDirectory' => array (
-      'label' => _('Répertoire personnel'),
+      'label' => _('RÃ©pertoire personnel'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -257,7 +257,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'check_data' => array (
         'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
+          'msg' => _("L'adresse e-mail entrÃ©e n'est pas valide.")
         ),
       ),
       'rights' => array(
@@ -294,13 +294,13 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       )
     ),
     'maildrop' => array (
-      'label' => _('Mail indésirable'),
+      'label' => _('Mail indÃ©sirable'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'multiple' => true,
       'check_data' => array (
         'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
+          'msg' => _("L'adresse e-mail entrÃ©e n'est pas valide.")
         ),
       ),
       'rights' => array(
@@ -313,13 +313,13 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       )
     ),
     'vacationActive' => array (
-      'label' => _('Réponse automatique'),
+      'label' => _('RÃ©ponse automatique'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_list',
       'default_value' => '',
       'check_data' => array (
         'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
+          'msg' => _("L'adresse e-mail entrÃ©e n'est pas valide.")
         ),
       ),
       'rights' => array(
@@ -356,7 +356,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_type' => 'text',
       'check_data' => array (
         'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
+          'msg' => _("L'adresse e-mail entrÃ©e n'est pas valide.")
         ),
       ),
       'rights' => array(
@@ -375,7 +375,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_type' => 'text',
       'check_data' => array (
         'numeric' => array(
-          'msg' => _("Le quota de l'adresse mail entrée n'est pas valide.")
+          'msg' => _("Le quota de l'adresse mail entrÃ©e n'est pas valide.")
         ),
       ),
       'rights' => array(

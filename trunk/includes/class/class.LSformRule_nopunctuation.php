@@ -21,18 +21,18 @@
 ******************************************************************************/
 
 /**
- * Règle de validation d'une chaine sans caractère de ponctuation.
+ * RÃ¨gle de validation d'une chaine sans caractÃ¨re de ponctuation.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_nopunctuation extends LSformRule {
   
   /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $values Valeur à vérifier
+   * @param string $values Valeur Ã  vÃ©rifier
    * @param array $options Options de validation (inutile ici)
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */

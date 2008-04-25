@@ -21,9 +21,9 @@
 ******************************************************************************/
 
 /**
- * Gestion de l'accès à l'annaire Ldap
+ * Gestion de l'accÃ¨s Ã  l'annaire Ldap
  *
- * Cette classe gère l'accès à l'annuaire ldap en s'appuyant sur PEAR :: Net_LDAP2
+ * Cette classe gÃ¨re l'accÃ¨s Ã  l'annuaire ldap en s'appuyant sur PEAR :: Net_LDAP2
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -35,8 +35,8 @@ class LSldap {
   /**
    * Constructeur
    *
-   * Cette methode définis la configuration de l'accès à l'annuaire
-   * et établie la connexion.
+   * Cette methode dÃ©finis la configuration de l'accÃ¨s Ã  l'annuaire
+   * et Ã©tablie la connexion.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -54,11 +54,11 @@ class LSldap {
   /**
    * Connection
    *
-   * Cette methode établie la connexion à l'annuaire Ldap
+   * Cette methode Ã©tablie la connexion Ã  l'annuaire Ldap
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la connection est établie, false sinon
+   * @retval boolean true si la connection est Ã©tablie, false sinon
    */
   function connect() {
     $this -> cnx = Net_LDAP2::connect($this -> config);
@@ -71,9 +71,9 @@ class LSldap {
   }
   
   /**
-   * Déconnection
+   * DÃ©connection
    *
-   * Cette methode clos la connexion à l'annuaire Ldap
+   * Cette methode clos la connexion Ã  l'annuaire Ldap
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -93,13 +93,13 @@ class LSldap {
    *
    * @param[in] $filter [<b>required</b>] string Filtre de recherche Ldap
    * @param[in] $basedn string DN de base pour la recherche
-   * @param[in] $params array Paramètres de recherche au format Net_LDAP2::search()
+   * @param[in] $params array ParamÃ¨tres de recherche au format Net_LDAP2::search()
    *
    * @see Net_LDAP2::search()
    *
    * @retval array Retourne un tableau associatif contenant :
-   *               - ['dn'] : le DN de l'entré
-   *               - ['attrs'] : tableau associatif contenant les attributs (clé)
+   *               - ['dn'] : le DN de l'entrÃ©
+   *               - ['attrs'] : tableau associatif contenant les attributs (clÃ©)
    *                             et leur valeur (valeur).
    */
   function search ($filter,$basedn=NULL,$params = array()) {
@@ -119,17 +119,17 @@ class LSldap {
    * Compte le nombre de retour d'une recherche dans l'annuaire
    *
    * Cette methode effectue une recherche dans l'annuaire et retourne le nombre
-   * d'entrés trouvées.
+   * d'entrÃ©s trouvÃ©es.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $filter [<b>required</b>] string Filtre de recherche Ldap
    * @param[in] $basedn string DN de base pour la recherche
-   * @param[in] $params array Paramètres de recherche au format Net_LDAP2::search()
+   * @param[in] $params array ParamÃ¨tres de recherche au format Net_LDAP2::search()
    *
    * @see Net_LDAP2::search()
    *
-   * @retval numeric Le nombre d'entré trouvées
+   * @retval numeric Le nombre d'entrÃ© trouvÃ©es
    */
   function getNumberResult ($filter,$basedn=NULL,$params = array() ) {
     if (empty($filter))
@@ -143,14 +143,14 @@ class LSldap {
   }
   
   /**
-   * Charge les valeurs des attributs d'une entré de l'annuaire
+   * Charge les valeurs des attributs d'une entrÃ© de l'annuaire
    *
-   * Cette methode recupère les valeurs des attributs d'une entrée de l'annaire
+   * Cette methode recupÃ¨re les valeurs des attributs d'une entrÃ©e de l'annaire
    * et les retournes sous la forme d'un tableau.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $dn string DN de l'entré Ldap
+   * @param[in] $dn string DN de l'entrÃ© Ldap
    *
    * @retval array Tableau associatif des valeurs des attributs avec en clef, le nom de l'attribut.
    */
@@ -168,12 +168,12 @@ class LSldap {
   }
   
   /**
-   * Retourne une entrée existante ou nouvelle
+   * Retourne une entrÃ©e existante ou nouvelle
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $object_type string Type de l'objet Ldap
-   * @param[in] $dn string DN de l'entré Ldap
+   * @param[in] $dn string DN de l'entrÃ© Ldap
    *
    * @retval ldapentry Un objet ldapentry (PEAR::Net_LDAP2)
    */
@@ -201,17 +201,17 @@ class LSldap {
   }
   
   /**
-   * Met à jour une entrée dans l'annuaire
+   * Met Ã  jour une entrÃ©e dans l'annuaire
    * 
    * Remarque : Supprime les valeurs vides de attributs et les attributs sans valeur.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $object_type string Type de l'objet Ldap
-   * @param[in] $dn string DN de l'entré Ldap
-   * @param[in] $change array Tableau des modifications à apporter
+   * @param[in] $dn string DN de l'entrÃ© Ldap
+   * @param[in] $change array Tableau des modifications Ã  apporter
    *
-   * @retval boolean true si l'objet a bien été mis à jour, false sinon
+   * @retval boolean true si l'objet a bien Ã©tÃ© mis Ã  jour, false sinon
    */
   function update($object_type,$dn,$change) {
     debug($change);
@@ -264,12 +264,12 @@ class LSldap {
   /**
    * Test de bind
    *
-   * Cette methode établie une connexion à l'annuaire Ldap et test un bind
-   * avec un login et un mot de passe passé en paramètre
+   * Cette methode Ã©tablie une connexion Ã  l'annuaire Ldap et test un bind
+   * avec un login et un mot de passe passÃ© en paramÃ¨tre
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la connection à réussi, false sinon
+   * @retval boolean true si la connection Ã  rÃ©ussi, false sinon
    */
   function checkBind($dn,$pwd) {
     $config = $this -> config;
@@ -283,9 +283,9 @@ class LSldap {
   }
 
   /**
-   * Retourne l'état de la connexion Ldap
+   * Retourne l'Ã©tat de la connexion Ldap
    *
-   * @retval boolean True si le serveur est connecté, false sinon.
+   * @retval boolean True si le serveur est connectÃ©, false sinon.
    */
   function isConnected() {
     return ($this -> cnx == NULL)?false:true;
@@ -294,9 +294,9 @@ class LSldap {
   /**
    * Supprime un objet de l'annuaire
    *
-   * @param[in] string DN de l'objet à supprimer
+   * @param[in] string DN de l'objet Ã  supprimer
    * 
-   * @retval boolean True si l'objet à été supprimé, false sinon
+   * @retval boolean True si l'objet Ã  Ã©tÃ© supprimÃ©, false sinon
    */
   function remove($dn) {
     return $this -> cnx -> delete($dn);

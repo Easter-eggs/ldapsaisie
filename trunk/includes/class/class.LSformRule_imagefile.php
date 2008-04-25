@@ -21,20 +21,20 @@
 ******************************************************************************/
 
 /**
- * Règle de validation : fichier de type image
+ * RÃ¨gle de validation : fichier de type image
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_imagefile extends LSformRule {
 
   /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $values Valeur à vérifier
+   * @param string $values Valeur Ã  vÃ©rifier
    * @param array $options Options de validation : 
    *                              - Type MIME : $options['param']['mimeType']
    *                              - Type MIME (regex) : $options['param']['mimeTypeRegEx']
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */

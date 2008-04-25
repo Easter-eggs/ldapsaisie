@@ -28,13 +28,13 @@
 class LSattr_html_image extends LSattr_html {
 
   /**
-   * Ajoute l'attribut au formualaire passer en paramètre
+   * Ajoute l'attribut au formualaire passer en paramÃ¨tre
    *
    * @param[in] &$form LSform Le formulaire
    * @param[in] $idForm L'identifiant du formulaire
    * @param[in] $data Valeur du champs du formulaire
    *
-   * @retval LSformElement L'element du formulaire ajouté
+   * @retval LSformElement L'element du formulaire ajoutÃ©
    */
   function addToForm (&$form,$idForm,$data=NULL) {
     $element=$form -> addElement('image', $this -> name, $this -> config['label'],$this -> config);

@@ -24,7 +24,7 @@
 /**
  * Element d'un formulaire pour LdapSaisie
  *
- * Cette classe gère les éléments des formulaires.
+ * Cette classe gÃ¨re les Ã©lÃ©ments des formulaires.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -42,14 +42,14 @@ class LSformElement {
   /**
    * Constructeur
    *
-   * Cette methode construit l'objet et définis sa configuration de base.
+   * Cette methode construit l'objet et dÃ©finis sa configuration de base.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] &$form [<b>required</b>] LSform L'objet LSform parent
-   * @param[in] $name [<b>required</b>] string Le nom de référence de l'élément
-   * @param[in] $label [<b>required</b>] string Le label de l'élément
-   * @param[in] $params mixed Paramètres supplémentaires
+   * @param[in] $name [<b>required</b>] string Le nom de rÃ©fÃ©rence de l'Ã©lÃ©ment
+   * @param[in] $label [<b>required</b>] string Le label de l'Ã©lÃ©ment
+   * @param[in] $params mixed ParamÃ¨tres supplÃ©mentaires
    *
    * @retval true
    */ 
@@ -63,13 +63,13 @@ class LSformElement {
   }
 
   /**
-   * Définis la valeur de l'élément
+   * DÃ©finis la valeur de l'Ã©lÃ©ment
    *
-   * Cette méthode définis la valeur de l'élément
+   * Cette mÃ©thode dÃ©finis la valeur de l'Ã©lÃ©ment
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] [<b>required</b>] string or array La futur valeur de l'élément
+   * @param[in] [<b>required</b>] string or array La futur valeur de l'Ã©lÃ©ment
    *
    * @retval boolean Retourne True
    */
@@ -83,13 +83,13 @@ class LSformElement {
   }
 
   /**
-   * Ajoute une valeur à l'élément
+   * Ajoute une valeur Ã  l'Ã©lÃ©ment
    *
-   * Cette méthode ajoute une valeur à l'élément
+   * Cette mÃ©thode ajoute une valeur Ã  l'Ã©lÃ©ment
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] [<b>required</b>] string or array La futur valeur de l'élément
+   * @param[in] [<b>required</b>] string or array La futur valeur de l'Ã©lÃ©ment
    *
    * @retval void
    */
@@ -103,9 +103,9 @@ class LSformElement {
   }
 
   /**
-   * Test si l'élément est éditable
+   * Test si l'Ã©lÃ©ment est Ã©ditable
    * 
-   * Cette méthode test si l'élément est éditable
+   * Cette mÃ©thode test si l'Ã©lÃ©ment est Ã©ditable
    *
    * @retval boolean
    */
@@ -114,9 +114,9 @@ class LSformElement {
   }
   
   /*
-   * Freeze l'élément
+   * Freeze l'Ã©lÃ©ment
    *
-   * Rend l'élément non-editable
+   * Rend l'Ã©lÃ©ment non-editable
    *
    * @retval void
    */
@@ -125,9 +125,9 @@ class LSformElement {
   }
 
   /*
-   * Défini la propriété required de l'élément.
+   * DÃ©fini la propriÃ©tÃ© required de l'Ã©lÃ©ment.
    *
-   * param[in] $isRequired boolean true si l'élément est requis, false sinon
+   * param[in] $isRequired boolean true si l'Ã©lÃ©ment est requis, false sinon
    *
    * @retval void
    */
@@ -136,9 +136,9 @@ class LSformElement {
   }
 
   /*
-   * Test si l'élément est requis
+   * Test si l'Ã©lÃ©ment est requis
    * 
-   * Cette méthode test si l'élément est requis
+   * Cette mÃ©thode test si l'Ã©lÃ©ment est requis
    *
    * @retval boolean
    */
@@ -147,7 +147,7 @@ class LSformElement {
   }
 
   /**
-   * Affiche le label de l'élement
+   * Affiche le label de l'Ã©lement
    *
    * @retval void
    */
@@ -162,7 +162,7 @@ class LSformElement {
   }
 
   /**
-   * Retourne le label de l'élement
+   * Retourne le label de l'Ã©lement
    *
    * @retval void
    */
@@ -175,14 +175,14 @@ class LSformElement {
   }
 
   /**
-   * Recupère la valeur de l'élement passée en POST
+   * RecupÃ¨re la valeur de l'Ã©lement passÃ©e en POST
    *
-   * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
-   * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+   * Cette mÃ©thode vÃ©rifie la prÃ©sence en POST de la valeur de l'Ã©lÃ©ment et la rÃ©cupÃ¨re
+   * pour la mettre dans le tableau passer en paramÃ¨tre avec en clef le nom de l'Ã©lÃ©ment
    *
-   * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
+   * @param[] array Pointeur sur le tableau qui recupÃ¨rera la valeur.
    *
-   * @retval boolean true si la valeur est présente en POST, false sinon
+   * @retval boolean true si la valeur est prÃ©sente en POST, false sinon
    */
   function getPostData(&$return) {
     if($this -> isFreeze()) {
@@ -204,11 +204,11 @@ class LSformElement {
   }
 
   /**
-   * Retourne le label de l'élement
+   * Retourne le label de l'Ã©lement
    *
    * Retourne $this -> label, ou $this -> params['label'], ou $this -> name
    *
-   * @retval string Le label de l'élément
+   * @retval string Le label de l'Ã©lÃ©ment
    */
   function getLabel() {
     if ($this -> label != "") {

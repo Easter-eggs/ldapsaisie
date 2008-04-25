@@ -21,18 +21,18 @@
 ******************************************************************************/
 
 /**
- * Règle de validation d'une valeur ne contenant que des lettres.
+ * RÃ¨gle de validation d'une valeur ne contenant que des lettres.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_lettersonly extends LSformRule {
   
   /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $value  Value à vérifier
+   * @param string $value  Value Ã  vÃ©rifier
    * @param array $options Options de validation (inutile ici)
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */

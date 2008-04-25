@@ -34,7 +34,7 @@ class LSattr_html {
   /**         
    * Constructeur
    *
-   * Cette methode construit l'objet et définis la configuration.
+   * Cette methode construit l'objet et dÃ©finis la configuration.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -54,7 +54,7 @@ class LSattr_html {
   /**
    * Retourne le label de l'attribut
    *
-   * Retourne le label de l'attribut ou son nom si aucun label n'est défini
+   * Retourne le label de l'attribut ou son nom si aucun label n'est dÃ©fini
    * dans la configuration.
    *
    * @retval string Le label de l'attribut.
@@ -69,24 +69,24 @@ class LSattr_html {
   }
   
   /**
-   * Ajoute l'attribut au formualaire passer en paramètre
+   * Ajoute l'attribut au formualaire passer en paramÃ¨tre
    *
    * @param[in] &$form LSform Le formulaire
    * @param[in] $idForm L'identifiant du formulaire
    * @param[in] $data Valeur du champs du formulaire
    *
-   * @retval LSformElement L'element du formulaire ajouté
+   * @retval LSformElement L'element du formulaire ajoutÃ©
    */
   function addToForm (&$form,$idForm,$data=NULL) {
     $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
   }
   
   /**
-   * Effectue les tâches nécéssaires au moment du rafraichissement du formulaire
+   * Effectue les tÃ¢ches nÃ©cÃ©ssaires au moment du rafraichissement du formulaire
    * 
    * @param[in] $data mixed La valeur de l'attribut
    * 
-   * @retval mixed La valeur formatée de l'attribut
+   * @retval mixed La valeur formatÃ©e de l'attribut
    **/
   function refreshForm($data) {
     return $data;

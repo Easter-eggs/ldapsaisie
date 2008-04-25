@@ -35,7 +35,7 @@ if($LSsession -> startLSsession()) {
   }
   
   if (isset($LSobject)) {
-    // Création d'un LSobject
+    // CrÃ©ation d'un LSobject
     if (class_exists($LSobject)) {
       if ( $GLOBALS['LSsession'] -> canCreate($LSobject) ) {
         $object = new $LSobject();
@@ -47,12 +47,12 @@ if($LSsession -> startLSsession()) {
           $form = $object -> getForm('create');
         }
         if ($form->validate()) {
-          // MàJ des données de l'objet LDAP
+          // MÃ J des donnÃ©es de l'objet LDAP
           if ($object -> updateData('create')) {
             header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
           }
         }
-        // Définition du Titre de la page
+        // DÃ©finition du Titre de la page
         $GLOBALS['Smarty'] -> assign('pagetitle',_('Nouveau').' : '.$object -> getLabel());
         $GLOBALS['LSsession'] -> setTemplate('create.tpl');
         $form -> display();

@@ -34,7 +34,7 @@ class LSattr_ldap {
   /**         
    * Constructeur
    *
-   * Cette methode construit l'objet et définis la configuration.
+   * Cette methode construit l'objet et dÃ©finis la configuration.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -51,18 +51,18 @@ class LSattr_ldap {
   }
 
   /**
-   * Retourne la valeur de l'attribut après traitement lié à son type ldap
+   * Retourne la valeur de l'attribut aprÃ¨s traitement liÃ© Ã  son type ldap
    *
    * @param[in] $data mixed La valeur de l'attribut
    *
-   * @retval mixed La valeur traitée de l'attribut
+   * @retval mixed La valeur traitÃ©e de l'attribut
    */
   function getUpdateData($data) {
     return $data;
   }
  
   /**
-   * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
+   * Retourne la valeur d'affichage de l'attribut aprÃ¨s traitement liÃ© Ã  son type ldap
    *
    * @param[in] $data mixed La valeur de l'attribut
    *

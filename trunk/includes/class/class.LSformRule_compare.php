@@ -21,7 +21,7 @@
 ******************************************************************************/
 
 /**
- * Règle de validation par comparaison de valeurs.
+ * RÃ¨gle de validation par comparaison de valeurs.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -33,7 +33,7 @@ class LSformRule_compare extends LSformRule {
    * @access private
    * @param  string  Nom de l'operateur
    *
-   * @return string  Operateur à utiliser
+   * @return string  Operateur Ã  utiliser
    */
   function _findOperator($operator_name) {
 
@@ -58,12 +58,12 @@ class LSformRule_compare extends LSformRule {
   }
 
   /**
-   * Vérification des valeurs.
+   * VÃ©rification des valeurs.
    *
-   * @param string $values Valeurs à vérifier
+   * @param string $values Valeurs Ã  vÃ©rifier
    * @param array $options Options de validation : 
    *                              - Operateur : $options['params']['operator']
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */

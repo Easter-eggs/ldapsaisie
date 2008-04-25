@@ -21,19 +21,19 @@
 ******************************************************************************/
 
 /**
- * Règle de validation d'expression régulière.
+ * RÃ¨gle de validation d'expression rÃ©guliÃ¨re.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_regex extends LSformRule {
   
   /**
-   * Vérification de la valeur.
+   * VÃ©rification de la valeur.
    *
-   * @param string $values Valeur à vérifier
+   * @param string $values Valeur Ã  vÃ©rifier
    * @param array $options Options de validation : 
    *                              - Regex : $option['params']['regex'] ou $option
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachÃ©
    *
    * @return boolean true si la valeur est valide, false sinon
    */ 
