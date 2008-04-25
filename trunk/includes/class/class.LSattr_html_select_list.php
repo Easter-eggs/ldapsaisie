@@ -84,6 +84,10 @@ class LSattr_html_select_list extends LSattr_html{
             $GLOBALS['LSerror'] -> addErrorCode(102,$this -> name);
             break;
           }
+          if (!$GLOBALS['LSsession'] -> loadLSobject($val['object_type'])) {
+            $GLOBALS['LSerror'] -> addErrorCode(1004,$val['object_type']);
+            return;
+          }
           $obj = new $val['object_type']();
           if($val['scope']) {
             $param=array('scope' => $this -> config['possible_values']['scope']);

@@ -22,10 +22,10 @@
 
 // Configuration LDAP Saisie :
 $GLOBALS['LSconfig'] = array(
-  'NetLDAP' => '/usr/share/php/Net/LDAP.php',
+  'NetLDAP2' => '/usr/share/php/Net/LDAP2.php',
   'Smarty' => '/var/www/tmp/Smarty-2.6.18/libs/Smarty.class.php',
   'lang' => 'fr_FR.UTF8',
-  'cacheLSrights' => true,
+  'cacheLSrights' => false,
   'ldap_servers' => array (
     array (
       'name' => 'LSexample',
@@ -54,25 +54,12 @@ $GLOBALS['LSconfig'] = array(
         ),
         'cacheLSrights' => false,
       'authobject' => 'LSeepeople',
-      'authobject_pwdattr' => 'userPassword'
-    ),
-    array (
-      'name' => 'Ldap 2',
-      'ldap_config'=> array(
-        'host'     => '127.0.0.1',
-        'port'     => 389,
-        'version'  => 3,
-        'starttls' => false,
-        'binddn'   => 'uid=toto,ou=people,o=com',
-        'bindpw'   => 'toto',
-        'basedn'   => 'o=com',
-        'options'  => array(),
-        'filter'   => '(objectClass=*)',
-        'scope'    => 'sub'
-      ),
-      'subdnobject' => 'LSeecompany',
-      'authobject' => 'LSeepeople',
-      'authobject_pwdattr' => 'userPassword'
+      'authobject_pwdattr' => 'userPassword',
+      'LSobjects' => array (
+        'LSeepeople',
+        'LSeegroup',
+        'LSeecompany'
+      )
     )
   )
 );
@@ -80,7 +67,8 @@ $GLOBALS['LSconfig'] = array(
 //Debug
 $GLOBALS['LSdebug']['active'] = true;
 
-define('NB_LSOBJECT_LIST',2);
+define('NB_LSOBJECT_LIST',20);
+define('NB_LSOBJECT_LIST_SELECT',11);
 
 define('MAX_SEND_FILE_SIZE',2000000);
 
@@ -92,6 +80,7 @@ setlocale(LC_ALL, $GLOBALS['LSconfig']['lang']);
 
 // Définitions des dossiers d'inclusions
 define('LS_CONF_DIR','conf/');
+define('LS_OBJECTS_DIR', LS_CONF_DIR . 'LSobjects/');
 define('LS_INCLUDE_DIR','includes/');
 define('LS_CLASS_DIR', LS_INCLUDE_DIR .'class/');
 define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');

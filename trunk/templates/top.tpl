@@ -27,4 +27,17 @@
     </ul>
   </div>
   <div id='right'>
-    <p id='status'>Connecté en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='templates/images/logout.png' alt='Logout' title='Logout' /></a></p>
+    
+    
+    {if $LSsession_topDn!=""}
+      <form action="{$PHP_SELF}" method='post' id='LSsession_topDn_form'>
+        <label>{$label_level}
+          <select name='LSsession_topDn' id='LSsession_topDn'>
+            {html_options values=$LSsession_topDn_index output=$LSsession_topDn_name selected=$LSsession_topDn}
+          </select>
+        </label>
+      </form>
+    {/if}
+    <p id='status'>
+    Connecté en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='templates/images/logout.png' alt='Logout' title='Logout' /></a>
+    </p>

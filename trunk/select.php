@@ -57,20 +57,27 @@ if($LSsession -> startLSsession()) {
           $filter=NULL;
           $GLOBALS['Smarty']->assign('LSobject_list_filter','');
         }
-        
-        $list=$object -> listObjects($filter);
+       
+       $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
+       if(isset($_REQUEST['LSselect_topDn'])) {
+        if ($GLOBALS['LSsession'] -> validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
+          $topDn = $object -> config['container_dn'].','.$_REQUEST['LSselect_topDn'];
+        }
+       }
+       
+       $list=$object -> listObjects($filter,$topDn);
         $nbObjects=count($list);
 
-        if ($nbObjects > NB_LSOBJECT_LIST) {
+        if ($nbObjects > NB_LSOBJECT_LIST_SELECT) {
           if (isset($_GET['page'])) {
-            $list = array_slice($list, ($_GET['page']) * NB_LSOBJECT_LIST, NB_LSOBJECT_LIST);
+            $list = array_slice($list, ($_GET['page']) * NB_LSOBJECT_LIST_SELECT, NB_LSOBJECT_LIST_SELECT);
             $GLOBALS['Smarty']->assign('LSobject_list_currentpage',$_GET['page']);
-            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST));
+            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST_SELECT));
           }
           else {
-            $list = array_slice($list, 0, NB_LSOBJECT_LIST);
+            $list = array_slice($list, 0, NB_LSOBJECT_LIST_SELECT);
             $GLOBALS['Smarty']->assign('LSobject_list_currentpage',0);
-            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST));
+            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST_SELECT));
           }
         }
         $c=0;

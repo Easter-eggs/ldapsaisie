@@ -18,6 +18,15 @@ var LSdefault = new Class({
       this.loading_img=[];
       LSdebug(this.loading_img);
       this.loading_img_id=-1;
+      
+      this.LSsession_topDn = $('LSsession_topDn');
+      if (this.LSsession_topDn) {
+        this.LSsession_topDn.addEvent('change',this.onLSsession_topDnChange.bind(this));
+      }
+    },
+
+    onLSsession_topDnChange: function() {
+      $('LSsession_topDn_form').submit();
     },
 
     onLSdebugHiddenClick: function(event){
@@ -34,6 +43,12 @@ var LSdefault = new Class({
       this.LSerror.empty();
       this.LSerror.setHTML(html);
       this.displayLSerror();
+    },
+
+    displayDebug: function(html) {
+      this.LSdebug.empty();
+      this.LSdebug.setHTML(html);
+      this.displayDebugBox();
     },
 
     displayLSerror: function() {

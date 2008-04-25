@@ -23,7 +23,7 @@
 /**
  * Gestion de l'accès à l'annaire Ldap
  *
- * Cette classe gère l'accès à l'annuaire ldap en s'appuyant sur PEAR :: Net_LDAP
+ * Cette classe gère l'accès à l'annuaire ldap en s'appuyant sur PEAR :: Net_LDAP2
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -40,11 +40,11 @@ class LSldap {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $config array Tableau de configuration au formar Net_LDAP
+   * @param[in] $config array Tableau de configuration au formar Net_LDAP2
    *
    * @retval void
    *
-   * @see Net_LDAP::connect()
+   * @see Net_LDAP2::connect()
    */
   function LSldap ($config) {
     $this -> config = $config;
@@ -61,8 +61,8 @@ class LSldap {
    * @retval boolean true si la connection est établie, false sinon
    */
   function connect() {
-    $this -> cnx = Net_LDAP::connect($this -> config);
-    if (Net_LDAP::isError($this -> cnx)) {
+    $this -> cnx = Net_LDAP2::connect($this -> config);
+    if (Net_LDAP2::isError($this -> cnx)) {
       $GLOBALS['LSerror'] -> addErrorCode(1,$this -> cnx -> getMessage());
       $this -> cnx = NULL;
       return;
@@ -93,9 +93,9 @@ class LSldap {
    *
    * @param[in] $filter [<b>required</b>] string Filtre de recherche Ldap
    * @param[in] $basedn string DN de base pour la recherche
-   * @param[in] $params array Paramètres de recherche au format Net_LDAP::search()
+   * @param[in] $params array Paramètres de recherche au format Net_LDAP2::search()
    *
-   * @see Net_LDAP::search()
+   * @see Net_LDAP2::search()
    *
    * @retval array Retourne un tableau associatif contenant :
    *               - ['dn'] : le DN de l'entré
@@ -104,7 +104,7 @@ class LSldap {
    */
   function search ($filter,$basedn=NULL,$params = array()) {
     $ret = $this -> cnx -> search($basedn,$filter,$params);
-    if (Net_LDAP::isError($ret)) {
+    if (Net_LDAP2::isError($ret)) {
       $GLOBALS['LSerror'] -> addErrorCode(2,$ret -> getMessage());
       return;
     }
@@ -125,9 +125,9 @@ class LSldap {
    *
    * @param[in] $filter [<b>required</b>] string Filtre de recherche Ldap
    * @param[in] $basedn string DN de base pour la recherche
-   * @param[in] $params array Paramètres de recherche au format Net_LDAP::search()
+   * @param[in] $params array Paramètres de recherche au format Net_LDAP2::search()
    *
-   * @see Net_LDAP::search()
+   * @see Net_LDAP2::search()
    *
    * @retval numeric Le nombre d'entré trouvées
    */
@@ -135,7 +135,7 @@ class LSldap {
     if (empty($filter))
       $filter=NULL;
     $ret = $this -> cnx -> search($basedn,$filter,$params);
-    if (Net_LDAP::isError($ret)) {
+    if (Net_LDAP2::isError($ret)) {
       $GLOBALS['LSerror'] -> addErrorCode(2,$ret -> getMessage());
       return;
     }
@@ -175,14 +175,14 @@ class LSldap {
    * @param[in] $object_type string Type de l'objet Ldap
    * @param[in] $dn string DN de l'entré Ldap
    *
-   * @retval ldapentry Un objet ldapentry (PEAR::Net_LDAP)
+   * @retval ldapentry Un objet ldapentry (PEAR::Net_LDAP2)
    */
   function getEntry($object_type,$dn) {
     if(isset($GLOBALS['LSobjects'][$object_type])){
       $obj_conf=$GLOBALS['LSobjects'][$object_type];
       $entry = $this -> cnx -> getEntry($dn);
-      if (Net_Ldap::isError($entry)) {
-        $newentry = new Net_Ldap_Entry(&$this -> cnx);
+      if (Net_LDAP2::isError($entry)) {
+        $newentry = new Net_LDAP2_Entry(&$this -> cnx);
         $newentry -> dn($dn);
         $newentry -> add(array('objectclass' => $obj_conf['objectclass']));
         foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
@@ -227,6 +227,12 @@ class LSldap {
             }
           }
         }
+        else {
+          if (!empty($attrVal)) {
+            $drop = false;
+            $changeData[$attrName][]=$attrVal;
+          }
+        }
         if($drop) {
           $dropAttr[] = $attrName;
         }
@@ -234,13 +240,14 @@ class LSldap {
       $entry -> replace($changeData);
       debug('change : '.print_r($changeData,true));
       debug('drop : '.print_r($dropAttr,true));
+
+      $ret = $entry -> update();
       if (!empty($dropAttr)) {
         foreach($dropAttr as $attr) {
           $entry -> delete($attr);
         }
       }
-      $ret = $entry -> update();
-      if (Net_Ldap::isError($ret)) {
+      if (Net_LDAP2::isError($ret)) {
         $GLOBALS['LSerror'] -> addErrorCode(5,$dn);
         debug('NetLdap-Error : '.$ret->getMessage());
       }
@@ -268,8 +275,8 @@ class LSldap {
     $config = $this -> config;
     $config['binddn'] = $dn;
     $config['bindpw'] = $pwd;
-    $cnx = Net_LDAP::connect($config);
-    if (Net_LDAP::isError($cnx)) {
+    $cnx = Net_LDAP2::connect($config);
+    if (Net_LDAP2::isError($cnx)) {
       return;
     }
     return true;

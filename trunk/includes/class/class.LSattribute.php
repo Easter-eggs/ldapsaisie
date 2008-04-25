@@ -261,12 +261,12 @@ class LSattribute {
         break;
       case 'self':
         if (($this -> config['rights']['self'] == 'w') || ($this -> config['rights']['self'] == 'r')) {
-          $return=$this -> config['self'];
+          $return=$this -> config['rights']['self'];
         }
         break;
       default:    //user
         if (($this -> config['rights']['user'] == 'w') || ($this -> config['rights']['user'] == 'r')) {
-            $return=$this -> config['user'];
+            $return=$this -> config['rights']['user'];
         }
         break;
     }
@@ -314,8 +314,8 @@ class LSattribute {
    * @retval boolean true si la valeur a été rafraichie ou que ce n'est pas nécessaire, false sinon
    */
   function refreshForm(&$form,$idForm) {
-    if(isset($this -> config['form'][$idForm])) {
-      $form_element = &$form -> getElement($this -> name);
+    if(isset($this -> config['form'][$idForm]) && ($this -> myRights()=='w')) {
+      $form_element = $form -> getElement($this -> name);
       $values = $this -> html -> refreshForm($this -> getFormVal());
       return $form_element -> setValue($values);
     }
@@ -420,7 +420,7 @@ class LSattribute {
     $value=call_user_func($this -> config['generate_function'],$this -> ldapObject);
     if (!empty($value)) {
       //$this -> setValue($value); // pas nécéssaire ??
-      $this -> updateData=$value;
+      $this -> updateData=array($value);
       return true;
     }
     return;

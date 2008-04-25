@@ -31,9 +31,9 @@ $GLOBALS['LSsession'] -> loadLSclass('LSattribute');
  */
 class LSldapObject { 
   
-  var $config;
+  var $config = array();
   var $type_name;
-  var $attrs;
+  var $attrs = array();
   var $forms;
   var $view;
   var $dn=false;
@@ -572,7 +572,7 @@ class LSldapObject {
    *
    * @param[in] $filter array (ou string) Filtre de recherche Ldap / Tableau de filtres de recherche
    * @param[in] $basedn string DN de base pour la recherche
-   * @param[in] $params array Paramètres de recherche au format Net_LDAP::search()
+   * @param[in] $params array Paramètres de recherche au format Net_LDAP2::search()
    *
    * @retval array Tableau d'objet correspondant au resultat de la recherche
    */ 
@@ -806,36 +806,19 @@ class LSldapObject {
       return ' ';
     }
   }
- 
-  /**
-   * Retourn une liste d'option pour un select d'un objet du même type
-   * 
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @retval string HTML code
-   */
-  function getSelectOptions() {
-    $list = $this -> listObjects();
-    $display='';
-    foreach($list as $object) {
-      $display.="<option value=\"".$object -> getDn()."\">".$object -> getDisplayValue()."</option>\n"; 
-    }
-    return $display;
-  }
 
   /**
    * Retourn un tableau pour un select d'un objet du même type
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval array['dn','display']
+   * @retval array('dn' => 'display')
    */
-  function getSelectArray() {
-    $list = $this -> listObjects();
+  function getSelectArray($topDn=NULL) {
+    $list = $this -> listObjects(NULL,$topDn);
     $return=array();
     foreach($list as $object) {
-      $return['dn'][] = $object -> getDn();
-      $return['display'][] = $object -> getDisplayValue();
+      $return[$object -> getDn()] = $object -> getDisplayValue(); 
     }
     return $return;
   }

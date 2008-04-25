@@ -258,7 +258,14 @@ $GLOBALS['LSerror_code'] = array (
   1015 => array (
     'msg' => _("LSrelations : Une erreur s'est produite durant la mise a jour de la relation %{relation}."),
     'level' => 'c'
+  ),
+  1016 => array (
+    'msg' => _("LSrelations : L'objet %{LSobject} de la relation %{relation} est inconnu."),
+    'level' => 'w'
+  ),
+  1017 => array (
+    'msg' => _("LSsession : Impossible de cr&eacute;er correctement la liste des niveaux. V&eacute;rifier la configuration."),
+    'level' => 'c'
   )
-
 );
 ?>

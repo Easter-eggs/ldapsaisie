@@ -1,0 +1,6 @@
+Pré-requis :
+	- Php 5 : magic_quotes_gpc = off
+	- php5-mhash
+	- Net_LDAP2  (http://pear.php.net/package/Net_LDAP2)
+	- Smarty (http://www.smarty.net/)
+	- tmp/ et template_c/ en ecriture

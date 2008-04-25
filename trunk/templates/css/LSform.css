@@ -38,6 +38,10 @@ ul.LSform {
   margin:                     0;
 }
 
+li.LSform {
+  overflow:                   auto;
+}
+
 .LSform-errors {
   color:                      #fff;
   background-color:           #f59a67;

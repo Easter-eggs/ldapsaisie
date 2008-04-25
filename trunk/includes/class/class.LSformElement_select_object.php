@@ -65,7 +65,7 @@ class LSformElement_select_object extends LSformElement {
     $return['html']="<ul class='LSform ".$class."' id='LSformElement_select_object_".$this -> name."_$id'>\n";
     $return['html'].=$addBtn;
     foreach ($this -> values as $value => $txt) {
-      $return['html'].="<li class='LSform ".$class."'>".$txt."<input type='hidden' class='LSformElement_select_object' name='".$this -> name."[]' value='".$value."' />$delete</li>";
+      $return['html'].="<li class='LSform ".$class."'>".$txt."<input type='hidden' class='LSformElement_select_object' name='".$this -> name."[]' value='".$value."' />$delete</li>\n";
     }
     $return['html'].="</ul>\n";
     if (!$this -> isFreeze()) {

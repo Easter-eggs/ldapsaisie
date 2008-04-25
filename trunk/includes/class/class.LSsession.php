@@ -75,12 +75,12 @@ class LSsession {
   */
   function loadConfig() {
     if (loadDir($this -> confDir, '^config\..*\.php$')) {
-      if ( @include_once $GLOBALS['LSconfig']['Smarty'] ) {
+      if ( include_once $GLOBALS['LSconfig']['Smarty'] ) {
         $GLOBALS['Smarty'] = new Smarty();
         return true;
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(1008);
+        die($GLOBALS['LSerror_code'][1008]['msg']);
         return;
       }
       return true;
@@ -121,7 +121,7 @@ class LSsession {
       return true;
     if($type!='')
       $type=$type.'.';
-    return @include_once LS_CLASS_DIR .'class.'.$type.$class.'.php';
+    return include_once LS_CLASS_DIR .'class.'.$type.$class.'.php';
   }
 
  /*
@@ -132,10 +132,13 @@ class LSsession {
   * @retval boolean true si le chargement a réussi, false sinon.
   */
   function loadLSobject($object) {
-    if (!$this -> loadLSclass($object,'LSobjects'))
+    $this -> loadLSclass('LSldapObject');
+    if (!$this -> loadLSclass($object,'LSobjects')) {
       return;
-    if (!require_once( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' ))
+    }
+    if (!require_once( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
       return;
+    }
     return true;
   }
 
@@ -143,7 +146,7 @@ class LSsession {
   * Chargement des objects LdapSaisie
   *
   * Chargement des LSobjects contenue dans la variable
-  * $GLOBALS['LSobjects_loads']
+  * $this -> ldapServer['LSobjects']
   *
   * @retval boolean true si le chargement a réussi, false sinon.
   */
@@ -151,12 +154,12 @@ class LSsession {
 
     $this -> loadLSclass('LSldapObject');
 
-    if(!is_array($GLOBALS['LSobjects_loads'])) {
+    if(!is_array($this -> ldapServer['LSobjects'])) {
       $GLOBALS['LSerror'] -> addErrorCode(1001,"LSobjects['loads']");
       return;
     }
 
-    foreach ($GLOBALS['LSobjects_loads'] as $object) {
+    foreach ($this -> ldapServer['LSobjects'] as $object) {
       if ( !$this -> loadLSobject($object) )
         return;
     }
@@ -211,7 +214,6 @@ class LSsession {
   * @retval boolean True si l'initialisation à réussi (utilisateur authentifié), false sinon.
   */
   function startLSsession() {
-      $this -> loadLSobjects();
       $this -> loadLSaddons();
       session_start();
 
@@ -235,23 +237,35 @@ class LSsession {
         $this -> rdn          = $_SESSION['LSsession']['rdn'];
         $this -> ldapServerId = $_SESSION['LSsession']['ldapServerId'];
         $this -> tmp_file     = $_SESSION['LSsession']['tmp_file'];
+        
         if ( ($GLOBALS['LSconfig']['cacheLSrights']) || ($this -> ldapServer['cacheLSrights']) ) {
           $this -> ldapServer = $_SESSION['LSsession']['ldapServer'];
           $this -> LSrights   = $_SESSION['LSsession']['LSrights'];
           $this -> LSaccess   = $_SESSION['LSsession']['LSaccess'];
           if (!$this -> LSldapConnect())
             return;
+          $this -> loadLSobjects();
         }
         else {
           $this -> setLdapServer($this -> ldapServerId);
           if (!$this -> LSldapConnect())
             return;
+          $this -> loadLSobjects();
           $this -> loadLSrights();
         }
+        $this -> loadLSobject($this -> ldapServer['authobject']);
         $this -> LSuserObject = new $this -> ldapServer['authobject']();
         $this -> LSuserObject -> loadData($this -> dn);
         $this -> loadLSaccess();
         $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
+        
+        if ($_POST['LSsession_topDn']) {
+          if ($this -> validSubDnLdapServer($_POST['LSsession_topDn'])) {
+            $this -> topDn = $_POST['LSsession_topDn'];
+            $_SESSION['LSsession']['topDn'] = $_POST['LSsession_topDn'];
+          } // end if
+        } // end if
+        
         return true;
         
       }
@@ -268,6 +282,7 @@ class LSsession {
 
           // Connexion au serveur LDAP
               if ($this -> LSldapConnect()) {
+
             // topDn
             if ( $_POST['LSsession_topDn'] != '' ){
               $this -> topDn = $_POST['LSsession_topDn'];
@@ -275,6 +290,7 @@ class LSsession {
             else {
               $this -> topDn = $this -> ldapServer['ldap_config']['basedn'];
             }
+            $_SESSION['LSsession_topDn']=$this -> topDn;
 
             if ( $this -> loadLSobject($this -> ldapServer['authobject']) ) {
               $authobject = new $this -> ldapServer['authobject']();
@@ -315,6 +331,10 @@ class LSsession {
             $GLOBALS['LSerror'] -> addErrorCode(1009);
           }
         }
+        if ($this -> ldapServerId) {
+          $GLOBALS['Smarty'] -> assign('ldapServerId',$this -> ldapServerId);
+        }
+        $GLOBALS['Smarty'] -> assign('topDn',$this -> topDn);
         $this -> displayLoginForm();
         return;
       }
@@ -348,7 +368,7 @@ class LSsession {
   */
   function LSldapConnect() {
     if ($this -> ldapServer) {
-      include_once($GLOBALS['LSconfig']['NetLDAP']);
+      include_once($GLOBALS['LSconfig']['NetLDAP2']);
       if (!$this -> loadLSclass('LSldap'))
         return;
         $GLOBALS['LSldap'] = new LSldap($this -> ldapServer['ldap_config']);
@@ -370,19 +390,46 @@ class LSsession {
   * @retval mixed Tableau des subDn, false si une erreur est survenue.
   */
   function getSubDnLdapServer() {
-    if ( isset($this ->ldapServer['subdnobject']) ) {
-      if( $this -> loadLSobject($this ->ldapServer['subdnobject']) ) {
-        if ($subdnobject = new $this ->ldapServer['subdnobject']()) {
-          return $subdnobject -> getSelectArray();
+    if ( is_array($this ->ldapServer['subDn']) ) {
+      $return=array();
+      foreach($this ->ldapServer['subDn'] as $subDn_name => $subDn_config) {
+        if ($subDn_name == 'LSobject') {
+          if (is_array($subDn_config)) {
+            foreach($subDn_config as $LSobject_name => $LSoject_topDn) {
+              if ($LSoject_topDn) {
+                $topDn = $LSoject_topDn;
+              }
+              else {
+                $topDn = NULL;
+              }
+              if( $this -> loadLSobject($LSobject_name) ) {
+                if ($subdnobject = new $LSobject_name()) {
+                  $tbl_return = $subdnobject -> getSelectArray($topDn);
+                  if (is_array($tbl_return)) {
+                    $return=array_merge($return,$tbl_return);
+                  }
+                  else {
+                    $GLOBALS['LSerror'] -> addErrorCode(1017);
+                  }
+                }
+                else {
+                  $GLOBALS['LSerror'] -> addErrorCode(1017);
+                }
+              }
+              else {
+                $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject_name);
+              }
+            }
+          }
+          else {
+            $GLOBALS['LSerror'] -> addErrorCode(1017);
+          }
         }
         else {
-          return;
+          $return[$subDn_config] = $subDn_name;
         }
       }
-      else {
-        $GLOBALS['LSerror'] -> addErrorCode(1004,$this ->ldapServer['subdnobject']);
-        return;
-      }
+      return $return;
     }
     else {
       return;
@@ -393,29 +440,38 @@ class LSsession {
   * Retourne les options d'une liste déroulante pour le choix du topDn
   * de connexion au serveur Ldap
   *
-  * Liste les subdnobject ($this ->ldapServer['subdnobject'])
+  * Liste les subdn ($this ->ldapServer['subDn'])
   *
   * @retval string Les options (<option>) pour la sélection du topDn.
   */
-  function getSubDnLdapServerOptions() {
-    if ( isset($this ->ldapServer['subdnobject']) ) {
-      
-      if( $this -> loadLSobject($this ->ldapServer['subdnobject']) ) {
-        if ($subdnobject = new $this ->ldapServer['subdnobject']()) {
-          return $subdnobject -> getSelectOptions();
+  function getSubDnLdapServerOptions($selected=NULL) {
+    $list = $this -> getSubDnLdapServer();
+    if ($list) {
+      $display='';
+      foreach($list as $dn => $txt) {
+        if ($selected && ($selected==$dn)) {
+          $selected_txt = ' selected';
         }
         else {
-          return;
+          $selected_txt = '';
         }
+        $display.="<option value=\"".$dn."\"$selected_txt>".$txt."</option>\n"; 
       }
-      else {
-        $GLOBALS['LSerror'] -> addErrorCode(1004,$this ->ldapServer['subdnobject']);
-        return;
-      }
+      return $display;
     }
-    else {
-      return;
-    }
+    return;
+  }
+
+  function validSubDnLdapServer($subDn) {
+    $listTopDn = $this -> getSubDnLdapServer();
+    if(is_array($listTopDn)) {
+      foreach($listTopDn as $dn => $txt) {
+        if ($subDn==$dn) {
+          return true;
+        } // end if
+      } // end foreach
+    } // end if
+    return;
   }
 
  /*
@@ -454,15 +510,6 @@ class LSsession {
     }
     $GLOBALS['Smarty'] -> assign('loginform_ldapservers_name',$ldapservers_name);
     $GLOBALS['Smarty'] -> assign('loginform_ldapservers_index',$ldapservers_index);
-
-    $this -> setLdapServer(0);
-    if ( $this -> LSldapConnect() ) {
-      $topDn_array = $this -> getSubDnLdapServer();
-      if ( $topDn_array ) {
-        $GLOBALS['Smarty'] -> assign('loginform_topdn_name',$topDn_array['display']);
-        $GLOBALS['Smarty'] -> assign('loginform_topdn_index',$topDn_array['dn']);
-      }
-    }
 
     $GLOBALS['Smarty'] -> assign('loginform_label_level',_('Niveau'));
     $GLOBALS['Smarty'] -> assign('loginform_label_user',_('Identifiant'));
@@ -550,7 +597,22 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('LSsession_css',$Css_txt);
 
     $GLOBALS['Smarty'] -> assign('LSaccess',$this -> LSaccess);
-
+    
+    // Niveau
+    $listTopDn = $this -> getSubDnLdapServer();
+    if (is_array($listTopDn)) {
+      $GLOBALS['Smarty'] -> assign('label_level',_('Niveau'));
+      $LSsession_topDn_index = array();
+      $LSsession_topDn_name = array();
+      foreach($listTopDn as $index => $name) {
+        $LSsession_topDn_index[]  = $index;
+        $LSsession_topDn_name[]   = $name;
+      }
+      $GLOBALS['Smarty'] -> assign('LSsession_topDn_index',$LSsession_topDn_index);
+      $GLOBALS['Smarty'] -> assign('LSsession_topDn_name',$LSsession_topDn_name);
+      $GLOBALS['Smarty'] -> assign('LSsession_topDn',$this -> topDn);
+    }
+    
     $GLOBALS['LSerror'] -> display();
     debug_print();
     if (!$this -> template)
@@ -791,7 +853,7 @@ class LSsession {
     if (!isset($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]))
       return;
     $whoami = $this -> whoami($dn);
-    
+
     if (($right=='w') || ($right=='r')) {
       if ($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$whoami] == $right) {
         return true;

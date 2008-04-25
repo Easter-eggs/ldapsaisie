@@ -10,6 +10,8 @@ var LSselect = new Class({
         el.addEvent('submit',this.onSubmitSearchForm.bindWithEvent(this,el));
       }, this);
       
+      this.LSselect_topDn = $('LSselect_topDn');
+      this.LSselect_topDn.addEvent('change',this.onChangeLSselect_topDn.bind(this));
     },
     
     initializeContent: function() {
@@ -66,8 +68,17 @@ var LSselect = new Class({
       this.initializeContent();
     },
     
+    onChangeLSselect_topDn: function() {
+      form = this.LSselect_topDn.getParent().getParent();
+      this.submitSearchForm(form);
+    },
+    
     onSubmitSearchForm: function(event, form) {
       new Event(event).stop();
+      this.submitSearchForm(form);
+    },
+    
+    submitSearchForm: function(form) {
       var imgload = varLSdefault.loadingImgDisplay($('title'),'inside');
       form.send({
         update: $('content'),

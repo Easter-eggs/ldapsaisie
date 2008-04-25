@@ -4,7 +4,6 @@ require_once 'includes/functions.php';
 require_once 'includes/class/class.LSsession.php';
 
 $GLOBALS['LSsession'] = new LSsession();
-$GLOBALS['LSsession'] -> loadLSobjects();
 
 if ($_REQUEST['template'] != 'login') {
   if ( !$GLOBALS['LSsession'] -> startLSsession() ) {
@@ -19,7 +18,9 @@ switch($_REQUEST['template']) {
         if ( isset($_REQUEST['server']) ) {
           $GLOBALS['LSsession'] -> setLdapServer($_REQUEST['server']);
           if ( $GLOBALS['LSsession'] -> LSldapConnect() ) {
-            $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions();
+            session_start();
+            $GLOBALS['LSsession'] -> loadLSobjects();
+            $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions($_SESSION['LSsession_topDn']);
             if (is_string($list)) {
               $list="<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
               $data = array('list_topDn' => $list, 'imgload' => $_REQUEST['imgload']);
@@ -298,6 +299,11 @@ switch($_REQUEST['template']) {
 
 if ($GLOBALS['LSerror']->errorsDefined()) {
   $data['LSerror'] = $GLOBALS['LSerror']->getErrors();
+}
+
+$debug_txt = debug_print(true);
+if ($debug_txt != "") {
+  $data['LSdebug'] = $debug_txt;
 }
 
 echo json_encode($data);

@@ -122,7 +122,7 @@ function debug($data,$get=true) {
   return true;
 }
 
-function debug_print() {
+function debug_print($return=false) {
   if (( $GLOBALS['LSdebug']['fields'] ) && ( $GLOBALS['LSdebug']['active'] )) {
     $txt='<ul>';
     foreach($GLOBALS['LSdebug']['fields'] as $debug) {
@@ -135,7 +135,11 @@ function debug_print() {
     }
     $txt.='</ul>';
     $GLOBALS['Smarty'] -> assign('LSdebug',$txt);
+		if ($return) {
+			return $txt;
+		}
   }
+	return;
 }
 
   /**

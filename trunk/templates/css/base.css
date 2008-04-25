@@ -65,6 +65,18 @@ hr {
   padding:            0.3em;
 }
 
+
+#LSsession_topDn {
+  height:                   1.5em;
+}
+
+#LSsession_topDn_form {
+  float:                    left;
+  font-size:                0.7em;
+  color:                    #fff;
+  
+}
+
 #user_name {
   font-weight:        bold;
 }
@@ -213,6 +225,14 @@ form.LSview_search {
   margin-right:       2em;
 }
 
+form.LSselect_search {
+  float:              none;
+}
+
+div.LSselect_search {
+  float:              right;
+}
+
 label.LSview_search {
   font-size:          0.6em;
   display:            block;
@@ -240,6 +260,13 @@ div.LSobject-select {
 
 .LSobject-select-check {
   width:              10px;
+}
+
+#LSselect_topDn_label {
+  float:              left;
+  font-size:          0.8em;
+  margin-left:        1em;
+  margin-top:         0.5em;
 }
 
 form.LSselect_search {

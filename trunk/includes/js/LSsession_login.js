@@ -4,6 +4,7 @@ var LSsession_login = new Class({
       if ( ! this.select_ldapserver ) 
         return;
       this.select_ldapserver.addEvent('change',this.onLdapServerChanged.bind(this));
+			this.onLdapServerChanged();
     },
 
     onLdapServerChanged: function(){
@@ -23,11 +24,14 @@ var LSsession_login = new Class({
       var data = Json.evaluate(responseText);
       LSdebug(data);
       if ( data ) {
+				if (data.LSdebug) {
+          varLSdefault.displayDebug(data.LSdebug);
+        }
         if (data.LSerror) {
           varLSdefault.displayError(data.LSerror);
           return;
         }
-        else {
+        if (data.list_topDn) {
           $('LSsession_topDn').getParent().setHTML(data.list_topDn);
           LSdebug($('LSsession_topDn').innerHTML);
           $$('.loginform-level').each(function(el) {

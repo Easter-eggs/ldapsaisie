@@ -99,23 +99,27 @@ if($LSsession -> startLSsession()) {
                 $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
                 $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
                 $GLOBALS['LSsession'] -> addJSscript('LSrelation.js');
-                
-                if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
-                  $objRel = new $relationConf['LSobject']();
-                  $list = $objRel -> $relationConf['list_function']($object);
-                  if (is_array($list)) {
-                    foreach($list as $o) {
-                      $return['objectList'][] = $o -> getDisplayValue();
+                if($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
+                  if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
+                    $objRel = new $relationConf['LSobject']();
+                    $list = $objRel -> $relationConf['list_function']($object);
+                    if (is_array($list)) {
+                      foreach($list as $o) {
+                        $return['objectList'][] = $o -> getDisplayValue();
+                      }
+                    }
+                    else {
+                      $return['objectList']=array();
                     }
                   }
                   else {
-                    $return['objectList']=array();
+                    $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
                   }
+                  $LSrelations[]=$return;
                 }
                 else {
-                  $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
+                    $GLOBALS['LSerror'] -> addErrorCode(1016,array('relation' => $relationName,'LSobject' => $relationConf['LSobject']));
                 }
-                $LSrelations[]=$return;
               }
             }
             $GLOBALS['Smarty'] -> assign('LSrelations',$LSrelations);
@@ -168,8 +172,10 @@ if($LSsession -> startLSsession()) {
           $filter=NULL;
           $GLOBALS['Smarty']->assign('LSobject_list_filter','');
         }
-        
-        $list=$object -> listObjects($filter);
+       
+       $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
+       
+        $list=$object -> listObjects($filter,$topDn);
         $nbObjects=count($list);
         $GLOBALS['Smarty']->assign('LSobject_list_nbresult',$nbObjects);
         if ($nbObjects > NB_LSOBJECT_LIST) {
@@ -211,7 +217,7 @@ if($LSsession -> startLSsession()) {
               );
             }
             
-            if ($GLOBALS['LSsession'] -> canRemove($thisObject -> getType(),$GLOBALS['LSsession']-> LSuserObject -> getValue('dn'))) {
+            if ($GLOBALS['LSsession'] -> canRemove($thisObject -> getType(),$thisObject -> getValue('dn'))) {
               $actions[] = array (
                 'label' => _('Supprimer'),
                 'url' => 'remove.php?LSobject='.$_REQUEST['LSobject'].'&amp;dn='.$thisObject -> getValue('dn'),
