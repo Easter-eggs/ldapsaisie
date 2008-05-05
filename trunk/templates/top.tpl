@@ -31,7 +31,7 @@
     
     
     {if $LSsession_topDn!=""}
-      <form action="{$PHP_SELF}" method='post' id='LSsession_topDn_form'>
+      <form action="index.php" method='post' id='LSsession_topDn_form'>
         <label>{$label_level}
           <select name='LSsession_topDn' id='LSsession_topDn'>
             {html_options values=$LSsession_topDn_index output=$LSsession_topDn_name selected=$LSsession_topDn}
