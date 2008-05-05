@@ -138,7 +138,9 @@
       return;
     }
 
-    $uidNumber = $ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ] -> getValue() * 2 + LS_SAMBA_SID_BASE_USER;
+		$uidnumber_attr_val = $ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ] -> getValue();
+		$uidnumber_attr_val = $uidnumber_attr_val[0];
+    $uidNumber = $uidnumber_attr_val * 2 + LS_SAMBA_SID_BASE_USER;
     $sambaSID = LS_SAMBA_DOMAIN_SID . '-' . $uidNumber;
 
     return ($sambaSID);
