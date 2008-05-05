@@ -299,7 +299,7 @@ class LSldap {
    * @retval boolean True si l'objet à été supprimé, false sinon
    */
   function remove($dn) {
-    return $this -> cnx -> delete($dn);
+    return $this -> cnx -> delete($dn,array('recursive' => true));
   }
 
 }

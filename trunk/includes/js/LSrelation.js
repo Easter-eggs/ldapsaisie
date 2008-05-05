@@ -140,8 +140,7 @@ var LSrelation = new Class({
             this.initializeBtn();
           }
       }
-    },
-    
+    }
 
 });
 
