@@ -24,6 +24,16 @@ var LSform = new Class({
         el.addEvent('click',this.onImageDeleteBtnClick.bind(this,el));
       }, this);
       
+      this.LSformElement_password_generate_inputHistory = [];
+      $$('img.LSformElement_password_generate_btn').each(function(el) {
+        el.addEvent('click',this.onLSformElement_password_generate_btnClick.bind(this,el));
+      }, this);
+      
+      $$('img.LSformElement_password_view_btn').each(function(el) {
+        el.addEvent('click',this.onLSformElement_password_view_btnClick.bind(this,el));
+      }, this);
+      this.initialiseLSformElement_password_generate();
+
       this.initialiseLSformElement_select_object();
     },
     
@@ -34,6 +44,12 @@ var LSform = new Class({
       
       $$('img.LSformElement_select_object_deleteBtn').each(function(el) {
         el.addEvent('click',this.LSformElement_select_object_deleteBtn.bind(this,el));
+      }, this);
+    },
+    
+    initialiseLSformElement_password_generate: function() {
+      $$('input.LSformElement_password_generate').each(function(el) {
+        el.addEvent('keyup',this.onLSformElement_password_generate_inputKeyUp.bind(this,el));
       }, this);
     },
     
@@ -58,20 +74,21 @@ var LSform = new Class({
         img:        img.id
       };
       LSdebug(data);
-      varLSdefault.loadingImgDisplay(img);
+      data.imgload = varLSdefault.loadingImgDisplay(img);
       new Ajax('index_ajax.php',  {data: data, onComplete: this.onAddFieldBtnClickComplete.bind(this)}).request();
     },
 
     onAddFieldBtnClickComplete: function(responseText, responseXML) {
-      varLSdefault.loadingImgHide();
       var data = Json.evaluate(responseText);
       LSdebug(data);
       if ( data ) {
         if ( typeof(data.LSerror) != "undefined" ) {
+            varLSdefault.loadingImgHide();
             varLSdefault.displayError(data.LSerror);
             return;
           } 
-          else {  
+          else {
+            varLSdefault.loadingImgHide(data.imgload);
             var li = new Element('li');
             var img = $(data.img);
             li.setHTML(data.html);
@@ -148,7 +165,6 @@ var LSform = new Class({
     
     onLSformElement_select_object_addBtnClickComplete: function(responseText, responseXML) {
       var data = Json.evaluate(responseText);
-      LSdebug(data);
       if ( data ) {
         if ( typeof(data.LSerror) != "undefined" ) {
             varLSdefault.displayError(data.LSerror);
@@ -196,6 +212,86 @@ var LSform = new Class({
     
     LSformElement_select_object_deleteBtn: function(img) {
       img.getParent().remove();
+    },
+
+    onLSformElement_password_generate_btnClick: function(img) {
+      var getAttrNameAndId = /LSformElement_password_generate_btn_(.*)_([0-9]*)/
+      var getAttrNameAndIdValues = getAttrNameAndId.exec(img.id);
+      var attrName = getAttrNameAndIdValues[1];
+      var fieldId = 'LSformElement_password_' + attrName + '_' + getAttrNameAndIdValues[2];
+
+      var data = {
+        template:   'LSform',
+        action:     'generatePassword',
+        attribute:  attrName,
+        objecttype: $('LSform_objecttype').value,
+        idform:     $('LSform_idform').value,
+        fieldId:    fieldId
+      };
+      data.imgload=varLSdefault.loadingImgDisplay(img);
+      new Ajax('index_ajax.php',  {data: data, onComplete: this.onLSformElement_password_generate_btnClickComplete.bind(this)}).request();
+    },
+    
+    onLSformElement_password_generate_btnClickComplete: function(responseText, responseXML) {
+      var data = Json.evaluate(responseText);
+      if ( data ) {
+        if ( typeof(data.LSerror) != "undefined" ) {
+          varLSdefault.loadingImgHide();
+          varLSdefault.displayError(data.LSerror);
+          return;
+        } 
+        else {  
+          varLSdefault.loadingImgHide(data.imgload);
+          this.changeInputType($(data.fieldId),'text');
+          $(data.fieldId).value=data.generatePassword;
+          this.LSformElement_password_generate_inputHistory[data.fieldId]=data.generatePassword;
+        }
+      }
+    },
+
+    onLSformElement_password_generate_inputKeyUp: function(input) {
+      if (input.type=='text') {
+        if((this.LSformElement_password_generate_inputHistory[input.id]!=input.value)&&(typeof(this.LSformElement_password_generate_inputHistory[input.id])!='undefined')&&(this.LSformElement_password_generate_inputHistory[input.id]!='')) {
+          this.onLSformElement_password_generate_inputModify(input);
+        }
+      }
+    },
+    
+    onLSformElement_password_generate_inputModify: function(input) {
+      input.value='';
+      input = this.changeInputType(input,'password');
+      this.LSformElement_password_generate_inputHistory[input.id]='';
+      input.focus();
+    },
+    
+    onLSformElement_password_view_btnClick: function(img) {
+      var getAttrNameAndId = /LSformElement_password_view_btn_(.*)_([0-9]*)/
+      var getAttrNameAndIdValues = getAttrNameAndId.exec(img.id);
+      var attrName = getAttrNameAndIdValues[1];
+      var fieldId = 'LSformElement_password_' + attrName + '_' + getAttrNameAndIdValues[2];
+      
+      input = $(fieldId);
+      
+      if (input.type=='password') {
+        input = this.changeInputType(input,'text');
+      }
+      else {
+        input = this.changeInputType(input,'password');
+      }
+      input.focus();
+    },
+    
+    changeInputType: function(input,newType) {
+      var newInput = new Element('input');
+      newInput.setProperty('name',input.getProperty('name'));
+      newInput.setProperty('type',newType);
+      newInput.setProperty('class',input.getProperty('class'));
+      newInput.setProperty('id',input.getProperty('id'));
+      newInput.setProperty('value',input.getProperty('value'));
+      newInput.injectAfter(input);
+      input.remove();
+      this.initialiseLSformElement_password_generate();
+      return newInput;
     }
 
 });

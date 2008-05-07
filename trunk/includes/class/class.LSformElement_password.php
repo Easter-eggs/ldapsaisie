@@ -67,7 +67,29 @@ class LSformElement_password extends LSformElement {
   function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
-      $return['html'] = "<input type='password' name='".$this -> name."[]' />\n";
+      $numberId=rand();      
+      $value_txt='';
+      $input_type='password';
+      $autogenerate_html='';      
+      $class_txt='';
+      
+      // AutoGenerate
+      if (($this -> params['html_options']['generationTool'])||(!isset($this -> params['html_options']['generationTool']))) {
+        if (($this -> params['html_options']['autoGenerate'])&&(empty($this -> values))) {
+          $value_txt="value='".$this->generatePassword()."'";
+          $input_type='text';
+        }
+        $class_txt="class='LSformElement_password_generate'";
+        $id = "LSformElement_password_generate_btn_".$this -> name."_".$numberId;
+        $autogenerate_html = "<img src='templates/images/generate.png' id='$id' class='LSformElement_password_generate_btn'/>\n";
+      }
+
+      $id = "LSformElement_password_".$this -> name."_".$numberId;
+      $return['html'] = "<input type='$input_type' name='".$this -> name."[]' $value_txt id='$id' $class_txt/>\n";
+      $return['html'] .= $autogenerate_html;
+      $id = "LSformElement_password_view_btn_".$this -> name."_".$numberId;
+      $return['html'] .= "<img src='templates/images/view.png' id='$id' class='LSformElement_password_view_btn'/>\n";
+      
       if (!empty($this -> values)) {
         $return['html'] .= "* "._('Modification uniquement').".";
       }
@@ -82,6 +104,28 @@ class LSformElement_password extends LSformElement {
 
     }
     return $return;
+  }
+  
+  function generatePassword() {
+    if (isset($this -> params['html_options']['chars'])) {
+      $chars=$this -> params['html_options']['chars'];
+    }
+    else {
+      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+    }
+    $nbChars=strlen($chars);
+    
+    if (isset($this -> params['html_options']['lenght'])) {
+      $lenght=$this -> params['html_options']['lenght'];
+    }
+    else {
+      $lenght=8;
+    }
+    $retVal='';
+    for($i=0;$i<$lenght;$i++){
+      $retVal.=$chars[rand(0,$nbChars-1)];
+    }
+    return $retVal;
   }
 }
   

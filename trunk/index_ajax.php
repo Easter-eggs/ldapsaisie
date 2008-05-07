@@ -23,7 +23,7 @@ switch($_REQUEST['template']) {
             $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions($_SESSION['LSsession_topDn']);
             if (is_string($list)) {
               $list="<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
-              $data = array('list_topDn' => $list, 'imgload' => $_REQUEST['imgload']);
+              $data = array('list_topDn' => $list);
             }
             else if (is_array($list)){
               $data = array('LSerror' => $GLOBALS['LSerror']->getErrors());
@@ -59,7 +59,7 @@ switch($_REQUEST['template']) {
         }
       break;
       case 'refreshField':
-        if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['imgload'])) ) {
+        if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
           $object = new $_REQUEST['objecttype']();
           //$object -> loadData($_REQUEST['objectdn']);
           $form = $object -> getForm($_REQUEST['idform']);
@@ -67,14 +67,31 @@ switch($_REQUEST['template']) {
           $val = $field -> getDisplay(true);
           if ( $val ) {
             $data = array(
-              'html'    => $val['html'],
-              'imgload' => $_REQUEST['imgload']
+              'html'    => $val['html']
             );
           }
           else {
             $data = array(
-              'LSerror' => $GLOBALS['LSerror']->getErrors(),
-              'imgload' => $_REQUEST['imgload']
+              'LSerror' => $GLOBALS['LSerror']->getErrors()
+              );
+          }
+        }
+      break;
+      case 'generatePassword':
+        if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['idform'])) ) {
+          $object = new $_REQUEST['objecttype']();
+          $form = $object -> getForm($_REQUEST['idform']);
+          $field=$form -> getElement($_REQUEST['attribute']);
+          $val = $field -> generatePassword();
+          if ( $val ) {
+            $data = array(
+              'generatePassword' => $val,
+              'fieldId' => $_REQUEST['fieldId']
+            );
+          }
+          else {
+            $data = array(
+              'LSerror' => $GLOBALS['LSerror']->getErrors()
               );
           }
         }
@@ -84,7 +101,7 @@ switch($_REQUEST['template']) {
   case 'LSrelation':
     switch($_REQUEST['action']) {
       case 'refreshSession':
-        if ((isset($_REQUEST['id'])) && (isset($_REQUEST['href'])) && (isset($_REQUEST['imgload']))) {
+        if ((isset($_REQUEST['id'])) && (isset($_REQUEST['href'])) ) {
           if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
             $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
             if ($GLOBALS['LSsession']->loadLSobject($conf['objectType'])) {
@@ -121,7 +138,6 @@ switch($_REQUEST['template']) {
             else {
               $GLOBALS['LSerror'] -> addErrorCode(1012);
             }
-            $data['imgload'] = $_REQUEST['imgload'];
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(1012);
@@ -129,7 +145,7 @@ switch($_REQUEST['template']) {
         }
       break;
       case 'refreshList':
-        if ((isset($_REQUEST['id'])) && (isset($_REQUEST['imgload']))) {
+        if (isset($_REQUEST['id'])) {
           if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
             $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
             if ($GLOBALS['LSsession']->loadLSobject($conf['objectType'])) {
@@ -177,7 +193,6 @@ switch($_REQUEST['template']) {
             else {
               $GLOBALS['LSerror'] -> addErrorCode(1012);
             }
-            $data['imgload'] = $_REQUEST['imgload'];
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(1012);
@@ -185,7 +200,7 @@ switch($_REQUEST['template']) {
         }
       break;
       case 'deleteByDisplayValue':
-        if ((isset($_REQUEST['id'])) && (isset($_REQUEST['value'])) && (isset($_REQUEST['imgload']))) {
+        if ((isset($_REQUEST['id'])) && (isset($_REQUEST['value']))) {
           if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
             $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
             if ($GLOBALS['LSsession']->loadLSobject($conf['objectType'])) {
@@ -232,7 +247,6 @@ switch($_REQUEST['template']) {
             else {
               $GLOBALS['LSerror'] -> addErrorCode(1012);
             }
-            $data['imgload'] = $_REQUEST['imgload'];
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(1012);
@@ -254,7 +268,6 @@ switch($_REQUEST['template']) {
             $_SESSION['LSselect'][$_REQUEST['objecttype']][]=$_REQUEST['objectdn'];
           }
         }
-        $data=$_REQUEST['imgload'];
       break;
       case 'dropLSselectobject-item':
         if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn']))) {
@@ -268,10 +281,9 @@ switch($_REQUEST['template']) {
             $_SESSION['LSselect'][$_REQUEST['objecttype']]=$result;
           }
         }
-        $data=$_REQUEST['imgload'];
       break;
       case 'refreshSession':
-        if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['values'])) && (isset($_REQUEST['imgload'])) && (isset($_REQUEST['href'])) ) {
+        if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['values'])) && (isset($_REQUEST['href'])) ) {
           $_SESSION['LSselect'][$_REQUEST['objecttype']]=array();
           $values=json_decode($_REQUEST['values'],false);
           if (is_array($values)) {
@@ -280,7 +292,6 @@ switch($_REQUEST['template']) {
             }
           }
           $data=array(
-            'imgload' => $_REQUEST['imgload'],
             'href' => $_REQUEST['href'],
             'values' => $values
           );
@@ -288,8 +299,7 @@ switch($_REQUEST['template']) {
         else {
           $GLOBALS['LSerror'] -> addErrorCode(1012);
           $data = array(
-            'LSerror' => $GLOBALS['LSerror']->getErrors(),
-            'imgload' => $_REQUEST['imgload']
+            'LSerror' => $GLOBALS['LSerror']->getErrors()
           );
         }
       break;
@@ -299,6 +309,10 @@ switch($_REQUEST['template']) {
 
 if ($GLOBALS['LSerror']->errorsDefined()) {
   $data['LSerror'] = $GLOBALS['LSerror']->getErrors();
+}
+
+if (isset($_REQUEST['imgload'])) {
+  $data['imgload'] = $_REQUEST['imgload'];
 }
 
 $debug_txt = debug_print(true);
