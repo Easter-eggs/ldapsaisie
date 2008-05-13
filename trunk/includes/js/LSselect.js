@@ -50,7 +50,7 @@ var LSselect = new Class({
 
     oncheckboxChangeComplete: function(responseText, responseXML) {
       var data = Json.evaluate(responseText);
-      varLSdefault.loadingImgHide(data);
+      varLSdefault.loadingImgHide(data.imgload);
     },
     
     onChangePageClick: function(event, a) {
