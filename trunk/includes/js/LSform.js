@@ -83,7 +83,7 @@ var LSform = new Class({
       LSdebug(data);
       if ( data ) {
         if ( typeof(data.LSerror) != "undefined" ) {
-            varLSdefault.loadingImgHide();
+            varLSdefault.loadingImgHide(data.imgload);
             varLSdefault.displayError(data.LSerror);
             return;
           } 
@@ -198,7 +198,7 @@ var LSform = new Class({
       var data = Json.evaluate(responseText);
       if ( data ) {
         if ( typeof(data.LSerror) != "undefined" ) {
-          varLSdefault.loadingImgHide();
+          varLSdefault.loadingImgHide(data.imgload);
           varLSdefault.displayError(data.LSerror);
           return;
         } 
@@ -236,7 +236,7 @@ var LSform = new Class({
       var data = Json.evaluate(responseText);
       if ( data ) {
         if ( typeof(data.LSerror) != "undefined" ) {
-          varLSdefault.loadingImgHide();
+          varLSdefault.loadingImgHide(data.imgload);
           varLSdefault.displayError(data.LSerror);
           return;
         } 
