@@ -497,7 +497,12 @@ class LSsession {
   */
   function displayLoginForm() {
     $GLOBALS['Smarty'] -> assign('pagetitle',_('Connexion'));
-    $GLOBALS['Smarty'] -> assign('loginform_action',$_SERVER['PHP_SELF']);
+    if (isset($_GET['LSsession_logout'])) {
+      $GLOBALS['Smarty'] -> assign('loginform_action','index.php');
+    }
+    else {
+      $GLOBALS['Smarty'] -> assign('loginform_action',$_SERVER['REQUEST_URI']);
+    }
     if (count($GLOBALS['LSconfig']['ldap_servers'])==1) {
       $GLOBALS['Smarty'] -> assign('loginform_ldapserver_style','style="display: none"');
     }
