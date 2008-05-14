@@ -81,6 +81,30 @@ class LSformElement {
     $this -> values = $data;
     return true;
   }
+  
+  /**
+   * Définis la valeur de l'élément à partir des données 
+   * envoyées en POST du formulaire
+   *
+   * Cette méthode définis la valeur de l'élément à partir des données 
+   * envoyées en POST du formulaire.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] [<b>required</b>] string or array La futur valeur de l'élément
+   *
+   * @retval boolean Retourne True
+   */
+  function setValueFromPostData($data) {
+    if (!is_array($data)) {
+      $data=array($data);
+    }
+
+    $data = $this -> attr_html -> refreshForm($data);
+
+    $this -> values = $data;
+    return true;
+  }
 
   /**
    * Ajoute une valeur à l'élément

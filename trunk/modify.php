@@ -46,7 +46,7 @@ if($LSsession -> startLSsession()) {
 
   if ((isset($dn)) && (isset($LSobject)) ) {
     // Création d'un LSobject
-    if (class_exists($LSobject)) {
+    if ($GLOBALS['LSsession'] -> loadLSobject($LSobject)) {
       if ( $GLOBALS['LSsession'] -> canEdit($LSobject,$dn) ) {
         $LSview_actions[] = array(
           'label' => _('Voir'),
@@ -90,7 +90,7 @@ if($LSsession -> startLSsession()) {
       }
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode(21);
+      $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject);
     }
   }
   else {

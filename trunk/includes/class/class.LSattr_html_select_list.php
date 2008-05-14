@@ -43,7 +43,7 @@ class LSattr_html_select_list extends LSattr_html{
     }*/
     $possible_values=$this -> getPossibleValues();
     $this -> config['text_possible_values'] = $possible_values;
-    $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config);
+    $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config, $this);
     if(!$element) {
       $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
       return;

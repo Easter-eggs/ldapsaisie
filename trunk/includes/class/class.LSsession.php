@@ -160,8 +160,9 @@ class LSsession {
     }
 
     foreach ($this -> ldapServer['LSobjects'] as $object) {
-      if ( !$this -> loadLSobject($object) )
+      if ( !$this -> loadLSobject($object) ) {
         return;
+      }
     }
     return true;
   }
@@ -279,6 +280,8 @@ class LSsession {
           else {
             $this -> setLdapServer(0);
           }
+          
+          $this -> loadLSobjects();
 
           // Connexion au serveur LDAP
               if ($this -> LSldapConnect()) {

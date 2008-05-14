@@ -295,7 +295,7 @@ class LSform {
    *
    * @retval LSformElement
    */
-  function addElement($type,$name,$label,$params=array(),&$attr_html=NULL) {
+  function addElement($type,$name,$label,$params=array(),&$attr_html) {
     $elementType='LSformElement_'.$type;
     $GLOBALS['LSsession'] -> loadLSclass($elementType);
     if (!class_exists($elementType)) {
@@ -413,7 +413,7 @@ class LSform {
       return;
     }
     foreach($this -> _postData as $element => $values) {
-      $this -> elements[$element] -> setValue($values);
+      $this -> elements[$element] -> setValueFromPostData($values);
     }
     return true;
   }
