@@ -64,7 +64,7 @@ class LSsession {
     }
   }
 
- /*
+ /**
   * Chargement de la configuration
   *
   * Chargement des fichiers de configuration et création de l'objet Smarty.
@@ -90,7 +90,7 @@ class LSsession {
     }
   }
 
- /*
+ /**
   * Initialisation de la gestion des erreurs
   *
   * Création de l'objet LSerror
@@ -106,7 +106,7 @@ class LSsession {
     return true;
   }
 
- /*
+ /**
   * Chargement d'une classe d'LdapSaisie
   *
   * @param[in] $class Nom de la classe à charger (Exemple : LSeepeople)
@@ -124,7 +124,7 @@ class LSsession {
     return include_once LS_CLASS_DIR .'class.'.$type.$class.'.php';
   }
 
- /*
+ /**
   * Chargement d'un object LdapSaisie
   *
   * @param[in] $object Nom de l'objet à charger
@@ -142,7 +142,7 @@ class LSsession {
     return true;
   }
 
- /*
+ /**
   * Chargement des objects LdapSaisie
   *
   * Chargement des LSobjects contenue dans la variable
@@ -167,7 +167,7 @@ class LSsession {
     return true;
   }
 
- /*
+ /**
   * Chargement d'un addons d'LdapSaisie
   *
   * @param[in] $addon Nom de l'addon à charger (Exemple : samba)
@@ -180,7 +180,7 @@ class LSsession {
     return require_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php';
   }
 
- /*
+ /**
   * Chargement des addons LdapSaisie
   *
   * Chargement des LSaddons contenue dans la variable
@@ -203,7 +203,7 @@ class LSsession {
     return true;
   }
 
- /*
+ /**
   * Initialisation de la session LdapSaisie
   *
   * Initialisation d'une LSsession :
@@ -343,7 +343,7 @@ class LSsession {
       }
   }
 
- /*
+ /**
   * Définition du serveur Ldap de la session
   *
   * Définition du serveur Ldap de la session à partir de son ID dans 
@@ -364,7 +364,7 @@ class LSsession {
     }
   }
 
- /*
+ /**
   * Connexion au serveur Ldap
   *
   * @retval boolean True sinon false.
@@ -387,7 +387,7 @@ class LSsession {
     }
   }
 
- /*
+ /**
   * Retourne les sous-dns du serveur Ldap courant
   *
   * @retval mixed Tableau des subDn, false si une erreur est survenue.
@@ -439,7 +439,7 @@ class LSsession {
     }
   }
 
- /*
+ /**
   * Retourne les options d'une liste déroulante pour le choix du topDn
   * de connexion au serveur Ldap
   *
@@ -477,7 +477,7 @@ class LSsession {
     return;
   }
 
- /*
+ /**
   * Test un couple LSobject/pwd
   *
   * Test un bind sur le serveur avec le dn de l'objet et le mot de passe fourni.
@@ -491,7 +491,7 @@ class LSsession {
     return $GLOBALS['LSldap'] -> checkBind($object -> getValue('dn'),$pwd);
   }
 
- /*
+ /**
   * Affiche le formulaire de login
   *
   * Défini les informations pour le template Smarty du formulaire de login.
@@ -527,7 +527,7 @@ class LSsession {
     $this -> addJSscript('LSsession_login.js');
   }
 
- /*
+ /**
   * Défini le template Smarty à utiliser
   *
   * Remarque : les fichiers de templates doivent se trouver dans le dossier 
@@ -541,7 +541,7 @@ class LSsession {
     $this -> template = $template;
   }
 
- /*
+ /**
   * Ajoute un script JS au chargement de la page
   *
   * Remarque : les scripts doivents être dans le dossier LS_JS_DIR.
@@ -556,7 +556,7 @@ class LSsession {
     $this -> JSscripts[]=$script;
   }
 
- /*
+ /**
   * Ajoute une feuille de style au chargement de la page
   *
   * Remarque : les scripts doivents être dans le dossiers templates/css/.
@@ -569,7 +569,7 @@ class LSsession {
     $this -> CssFiles[]=$file;
   }
 
- /*
+ /**
   * Affiche le template Smarty
   *
   * Charge les dépendances et affiche le template Smarty
@@ -887,7 +887,7 @@ class LSsession {
     return $this -> relationCanAccess($dn,$relationName,'w');
   }
 
-  /*
+  /**
    * Ajoute un fichier temporaire
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -946,7 +946,7 @@ class LSsession {
     }
   }
   
-  /*
+  /**
    * Supprime les fichiers temporaires
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>

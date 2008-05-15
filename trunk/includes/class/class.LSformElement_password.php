@@ -57,7 +57,7 @@ class LSformElement_password extends LSformElement {
     return $retval;
   }
 
- /*
+ /**
   * Retourne les infos d'affichage de l'élément
   * 
   * Cette méthode retourne les informations d'affichage de l'élement

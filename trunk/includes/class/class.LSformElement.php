@@ -137,7 +137,7 @@ class LSformElement {
     return $this -> _freeze;
   }
   
-  /*
+  /**
    * Freeze l'élément
    *
    * Rend l'élément non-editable
@@ -148,7 +148,7 @@ class LSformElement {
     $this -> _freeze = true;
   }
 
-  /*
+  /**
    * Défini la propriété required de l'élément.
    *
    * param[in] $isRequired boolean true si l'élément est requis, false sinon
@@ -159,7 +159,7 @@ class LSformElement {
     $this -> _required = $isRequired;
   }
 
-  /*
+  /**
    * Test si l'élément est requis
    * 
    * Cette méthode test si l'élément est requis

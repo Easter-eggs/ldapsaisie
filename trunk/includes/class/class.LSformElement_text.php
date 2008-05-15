@@ -32,7 +32,7 @@
 
 class LSformElement_text extends LSformElement {
 
- /*
+ /**
   * Retourne les infos d'affichage de l'élément
   * 
   * Cette méthode retourne les informations d'affichage de l'élement
@@ -71,7 +71,7 @@ class LSformElement_text extends LSformElement {
     return $return;
   }
 
- /*
+ /**
   * Retourne le code HTML d'un champ vide
   *
   * @retval string Code HTML d'un champ vide.

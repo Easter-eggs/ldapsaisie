@@ -32,7 +32,7 @@
 
 class LSformElement_select_object extends LSformElement {
 
- /*
+ /**
   * Retourn les infos d'affichage de l'élément
   * 
   * Cette méthode retourne les informations d'affichage de l'élement

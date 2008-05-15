@@ -35,7 +35,7 @@ class LSformElement_image extends LSformElement {
   var $postImage = NULL;
   var $tmp_file = array();
 
- /*
+ /**
   * Retourne les infos d'affichage de l'élément
   * 
   * Cette méthode retourne les informations d'affichage de l'élement

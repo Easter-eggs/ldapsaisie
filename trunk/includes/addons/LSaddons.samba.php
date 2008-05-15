@@ -21,7 +21,7 @@
 ******************************************************************************/
 
 
- /*
+ /**
   * Données de configuration pour le support SAMBA
   */
 
@@ -34,7 +34,7 @@
       // Nombre de base pour le calcul des sambaSID Groupe
       define('LS_SAMBA_SID_BASE_GROUP',1001); 
 
-     /*
+     /**
       * NB : C'est deux nombres doivent être pour l'un paire et pour l'autre impaire
       * pour conserver l'unicité des SID
       */
@@ -70,12 +70,12 @@
         'level' => 'c'
       );
       
- /*
+ /**
   * Fin des données de configuration
   */
 
 
- /*
+ /**
   * Verification du support Samba par ldapSaisie
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -120,7 +120,7 @@
     return $retval;
   }
 
- /*
+ /**
   * Generation de sambaSID
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -138,15 +138,15 @@
       return;
     }
 
-		$uidnumber_attr_val = $ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ] -> getValue();
-		$uidnumber_attr_val = $uidnumber_attr_val[0];
+    $uidnumber_attr_val = $ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ] -> getValue();
+    $uidnumber_attr_val = $uidnumber_attr_val[0];
     $uidNumber = $uidnumber_attr_val * 2 + LS_SAMBA_SID_BASE_USER;
     $sambaSID = LS_SAMBA_DOMAIN_SID . '-' . $uidNumber;
 
     return ($sambaSID);
   }
 
- /*
+ /**
   * Generation de sambaPrimaryGroupSID
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -170,7 +170,7 @@
     return ($sambaPrimaryGroupSID);
   }
 
- /*
+ /**
   * Generation de sambaNTPassword
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -196,7 +196,7 @@
     return $sambaNTPassword;
   }
 
- /*
+ /**
   * Generation de sambaLMPassword
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>

@@ -283,7 +283,7 @@ class LSform {
     return true;
   }
 
-  /*
+  /**
    * Ajoute un élément au formulaire
    * 
    * Ajoute un élément au formulaire et définis les informations le concernant.
@@ -313,7 +313,7 @@ class LSform {
     }
   }
 
-  /*
+  /**
    * Ajoute une règle sur un élément du formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -347,7 +347,7 @@ class LSform {
 
 
 
-  /*
+  /**
    * Définis comme requis un élément
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -363,7 +363,7 @@ class LSform {
       return;
   }
 
-  /*
+  /**
    * Détermine la valider de la règle
    *
    * Devra déterminer si la règle passez en paramètre est correcte
