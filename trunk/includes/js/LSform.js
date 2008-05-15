@@ -219,6 +219,7 @@ var LSform = new Class({
       var getAttrNameAndIdValues = getAttrNameAndId.exec(img.id);
       var attrName = getAttrNameAndIdValues[1];
       var fieldId = 'LSformElement_password_' + attrName + '_' + getAttrNameAndIdValues[2];
+      var viewBtnId = 'LSformElement_password_view_btn_userPassword_' + getAttrNameAndIdValues[2];
 
       var data = {
         template:   'LSform',
@@ -226,6 +227,7 @@ var LSform = new Class({
         attribute:  attrName,
         objecttype: $('LSform_objecttype').value,
         idform:     $('LSform_idform').value,
+        viewBtnId:  viewBtnId,
         fieldId:    fieldId
       };
       data.imgload=varLSdefault.loadingImgDisplay(img);
@@ -244,6 +246,7 @@ var LSform = new Class({
           varLSdefault.loadingImgHide(data.imgload);
           this.changeInputType($(data.fieldId),'text');
           $(data.fieldId).value=data.generatePassword;
+          $(data.viewBtnId).setProperty('src','templates/images/hide.png');
           this.LSformElement_password_generate_inputHistory[data.fieldId]=data.generatePassword;
         }
       }
@@ -260,6 +263,10 @@ var LSform = new Class({
     onLSformElement_password_generate_inputModify: function(input) {
       input.value='';
       input = this.changeInputType(input,'password');
+      var getAttrNameAndId = /LSformElement_password_(.*)_([0-9]*)/
+      var attrNameAndId = getAttrNameAndId.exec(input.id);
+      var viewBtnId = 'LSformElement_password_view_btn_' + attrNameAndId[1] + '_' + attrNameAndId[2];
+      $(viewBtnId).setProperty('src','templates/images/view.png');
       this.LSformElement_password_generate_inputHistory[input.id]='';
       input.focus();
     },
@@ -274,9 +281,11 @@ var LSform = new Class({
       
       if (input.type=='password') {
         input = this.changeInputType(input,'text');
+        img.setProperty('src','templates/images/hide.png');
       }
       else {
         input = this.changeInputType(input,'password');
+        img.setProperty('src','templates/images/view.png');
       }
       input.focus();
     },

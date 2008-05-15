@@ -79,7 +79,7 @@ if (!isset($_ERRORS)) {
           }
         break;
         case 'generatePassword':
-          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['idform'])) ) {
+          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['viewBtnId'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['idform'])) ) {
             $object = new $_REQUEST['objecttype']();
             $form = $object -> getForm($_REQUEST['idform']);
             $field=$form -> getElement($_REQUEST['attribute']);
@@ -87,7 +87,8 @@ if (!isset($_ERRORS)) {
             if ( $val ) {
               $data = array(
                 'generatePassword' => $val,
-                'fieldId' => $_REQUEST['fieldId']
+                'fieldId' => $_REQUEST['fieldId'],
+                'viewBtnId' => $_REQUEST['viewBtnId']
               );
             }
             else {
