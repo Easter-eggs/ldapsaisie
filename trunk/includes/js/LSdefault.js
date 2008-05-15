@@ -57,10 +57,16 @@ var LSdefault = new Class({
       (function(){new Fx.Style(this.LSerror,'opacity',{duration:500}).start(0.8,0);}).delay(5000, this);
     },
 
-    loadingImgDisplay: function(el,position) {
+    loadingImgDisplay: function(el,position,size) {
       this.loading_img_id++;
       this.loading_img[this.loading_img_id] = new Element('img');
-      this.loading_img[this.loading_img_id].src='templates/images/ajax-loader.gif';
+      if (size=='big') {
+        var src = 'templates/images/loading.gif';
+      }
+      else {
+        var src = 'templates/images/ajax-loader.gif';
+      }
+      this.loading_img[this.loading_img_id].src=src;
       if (position=='inside') {
         this.loading_img[this.loading_img_id].injectInside(el);
       }

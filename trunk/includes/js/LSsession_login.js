@@ -3,12 +3,26 @@ var LSsession_login = new Class({
       this.select_ldapserver = $('LSsession_ldapserver');
       if ( ! this.select_ldapserver ) 
         return;
+      this.loading_zone = $('loading_zone');
       this.select_ldapserver.addEvent('change',this.onLdapServerChanged.bind(this));
-			this.onLdapServerChanged();
+      this.onLdapServerChanged();
+    },
+
+    disableInput: function() {
+      $$('input').each(function(el) {
+        el.setProperty('disabled','1');
+      });
+    },
+
+    enableInput: function() {
+      $$('input').each(function(el) {
+        el.setProperty('disabled','');
+      });
     },
 
     onLdapServerChanged: function(){
-      var imgload = varLSdefault.loadingImgDisplay(this.select_ldapserver);
+      this.disableInput();
+      var imgload = varLSdefault.loadingImgDisplay(this.loading_zone,'inside','big');
       var server = this.select_ldapserver.value;
       var data = {
         template: 'login',
@@ -24,7 +38,7 @@ var LSsession_login = new Class({
       var data = Json.evaluate(responseText);
       LSdebug(data);
       if ( data ) {
-				if (data.LSdebug) {
+        if (data.LSdebug) {
           varLSdefault.displayDebug(data.LSdebug);
         }
         if (data.LSerror) {
@@ -38,6 +52,11 @@ var LSsession_login = new Class({
             el.setStyle('display','block');
           });
         }
+        else {
+          $$('.loginform-level').each(function(el) {
+            el.setStyle('display','none');
+          });
+        }
       }
       else {
         $$('.loginform-level').each(function(el) {
@@ -45,6 +64,7 @@ var LSsession_login = new Class({
         });
         $('LSsession_topDn').empty();
       }
+      this.enableInput();
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
