@@ -176,11 +176,11 @@ class LSldap {
    * @param[in] $dn string DN de l'entrÃ© Ldap
    *
    * @retval ldapentry|array Un objet ldapentry (PEAR::Net_LDAP2)
-	 * 												 ou un tableau (si c'est une nouvelle entrée):
-	 *													Array (
-	 *														'entry' => ldapentry,
-	 *														'new' => true
-	 *													)
+   *                         ou un tableau (si c'est une nouvelle entrée):
+   *                          Array (
+   *                            'entry' => ldapentry,
+   *                            'new' => true
+   *                          )
    */
   function getEntry($object_type,$dn) {
     if(isset($GLOBALS['LSobjects'][$object_type])){
@@ -189,17 +189,17 @@ class LSldap {
       if (Net_LDAP2::isError($entry)) {
         //$newentry = new Net_LDAP2_Entry(&$this -> cnx);
         //$newentry -> dn($dn);
-				//$newentry -> add(array('objectclass' => $obj_conf['objectclass']));
+        //$newentry -> add(array('objectclass' => $obj_conf['objectclass']));
         //foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
         //  $newentry->add(array($attr_name => $attr_conf['default_value']));
         //}
-				$attributes = array(
-					'objectclass' => $obj_conf['objectclass']
-				);
-				foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
-					if( isset($attr_conf['default_value']) ) {
-						$attributes[$attr_name]=$attr_conf['default_value'];
-					}
+        $attributes = array(
+          'objectclass' => $obj_conf['objectclass']
+        );
+        foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
+          if( isset($attr_conf['default_value']) ) {
+            $attributes[$attr_name]=$attr_conf['default_value'];
+          }
         }
         $newentry = Net_LDAP2_Entry::createFresh($dn,$attributes);
 
@@ -231,14 +231,14 @@ class LSldap {
   function update($object_type,$dn,$change) {
     debug($change);
     $dropAttr=array();
-		$entry=$this -> getEntry($object_type,$dn);
-		if (is_array($entry)) {
-			$new = $entry['new'];
-			$entry = $entry['entry'];
-		}
-		else {
-			$new = false;
-		}
+    $entry=$this -> getEntry($object_type,$dn);
+    if (is_array($entry)) {
+      $new = $entry['new'];
+      $entry = $entry['entry'];
+    }
+    else {
+      $new = false;
+    }
 
     if($entry) {
       foreach($change as $attrName => $attrVal) {
@@ -265,23 +265,28 @@ class LSldap {
       debug('change : <pre>'.print_r($changeData,true).'</pre>');
       debug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
 
-			if ($new) {
-				$ret = $this -> cnx -> add($entry);
-			}
-			else {
-	      $ret = $entry -> update();
-			}
-			
+      if ($new) {
+        $ret = $this -> cnx -> add($entry);
+      }
+      else {
+        $ret = $entry -> update();
+      }
+      
       if (Net_LDAP2::isError($ret)) {
         $GLOBALS['LSerror'] -> addErrorCode(5,$dn);
         debug('NetLdap-Error : '.$ret->getMessage());
       }
       else {
-				if (!empty($dropAttr)) {
-					foreach($dropAttr as $attr) {
-  	     		$entry -> delete($attr);
-    	 		}
-				}
+        if (!empty($dropAttr)) {
+          foreach($dropAttr as $attr) {
+            $entry -> delete($attr);
+          }
+          $ret = $entry -> update();
+          if (Net_LDAP2::isError($ret)) {
+            debug('Erreur durant la suppression des attributs vides');
+            debug('NetLdap-Error : '.$ret->getMessage());
+          }
+        }
         return true;
       }
     }
