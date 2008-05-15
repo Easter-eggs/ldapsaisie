@@ -25,6 +25,10 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("Erreur inconnue!"),
     'level' => 'c'
   ),
+  0 => array(
+    'msg' => "%{msg}",
+    'level' => 'c'
+  ),
   // LSldap
   1 => array (
     'msg' => _("LSldap : Erreur durant la connexion au serveur LDAP (%{msg})."),
@@ -45,6 +49,10 @@ $GLOBALS['LSerror_code'] = array (
   5 => array (
     'msg' => _("LSldap : Erreur durant la mise à jour de l'entrée Ldap (DN : %{dn})."),
     'level' => 'c'
+  ),
+  6 => array (
+    'msg' => _("LSldap : Erreur durant la suppression des attributs vides."),
+    'level' => 'w'
   ),
   
   // LSldapObject

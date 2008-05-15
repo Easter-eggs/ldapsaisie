@@ -274,7 +274,7 @@ class LSldap {
       
       if (Net_LDAP2::isError($ret)) {
         $GLOBALS['LSerror'] -> addErrorCode(5,$dn);
-        debug('NetLdap-Error : '.$ret->getMessage());
+        $GLOBALS['LSerror'] -> addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
       }
       else {
         if (!empty($dropAttr)) {
@@ -283,8 +283,8 @@ class LSldap {
           }
           $ret = $entry -> update();
           if (Net_LDAP2::isError($ret)) {
-            debug('Erreur durant la suppression des attributs vides');
-            debug('NetLdap-Error : '.$ret->getMessage());
+            $GLOBALS['LSerror'] -> addErrorCode(6);
+            $GLOBALS['LSerror'] -> addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
           }
         }
         return true;
