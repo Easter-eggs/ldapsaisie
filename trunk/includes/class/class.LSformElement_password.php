@@ -96,7 +96,7 @@ class LSformElement_password extends LSformElement {
     }
     else {
       if (empty($this -> values)) {
-        $return['html'] = _('Aucunes valeur definie');
+        $return['html'] = _('Aucune valeur definie');
       }
       else {
         $return['html'] = "********";
@@ -107,25 +107,7 @@ class LSformElement_password extends LSformElement {
   }
   
   function generatePassword() {
-    if (isset($this -> params['html_options']['chars'])) {
-      $chars=$this -> params['html_options']['chars'];
-    }
-    else {
-      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
-    }
-    $nbChars=strlen($chars);
-    
-    if (isset($this -> params['html_options']['lenght'])) {
-      $lenght=$this -> params['html_options']['lenght'];
-    }
-    else {
-      $lenght=8;
-    }
-    $retVal='';
-    for($i=0;$i<$lenght;$i++){
-      $retVal.=$chars[rand(0,$nbChars-1)];
-    }
-    return $retVal;
+    return generatePassword($this -> params['html_options']['chars'],$this -> params['html_options']['lenght']);
   }
 }
   

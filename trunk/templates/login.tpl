@@ -2,6 +2,7 @@
  "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
     <link rel="stylesheet" type="text/css" href="templates/css/login.css" media="screen" title="Normal" />
     {$LSsession_css}
@@ -33,6 +34,7 @@
   <dd><input type='submit' value='{$loginform_label_submit}' /></dd>
 </dl>
 </form>
+<a href='index.php?LSsession_recoverPassword' id='LSsession_lostPassword'>{$loginform_label_lostpassword}</a>
 </div>
 </body>
 </html>

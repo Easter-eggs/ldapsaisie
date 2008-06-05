@@ -34,7 +34,7 @@ $GLOBALS['LSconfig'] = array(
             'port'     => 389,
             'version'  => 3,
             'starttls' => false,
-        'binddn'   => 'uid=eeggs,ou=people,o=ls',
+        'binddn'   => 'uid=ldapsaisie,ou=sysaccounts,o=ls',
         'bindpw'   => 'toto',
         'basedn'   => 'o=ls',
         'options'  => array(),
@@ -55,6 +55,21 @@ $GLOBALS['LSconfig'] = array(
         'cacheLSrights' => false,
       'authobject' => 'LSeepeople',
       'authobject_pwdattr' => 'userPassword',
+      'recoverPassword' => array(
+        'mailAttr' => 'mail',
+        'passwordAttr' => 'userPassword',
+        'recoveryHashAttr' => 'lsRecoveryHash',
+        'recoveryEmailSender' => 'noreply-recover@lsexample.net',
+        'recoveryHashMail' => array(
+          'subject' => 'LSexample : Récupération de votre mot de passe.',
+          'msg' => "Pour poursuivre le processus de récupération de votre mot de passe,\nmerci de cliquer de vous rendre à l'adresse suivante :\n%{url}"
+        ),
+        'newPasswordMail' => array(
+          'subject' => 'LSexample : Votre nouveau mot de passe.',
+          'msg' => "Votre nouveau mot de passe : %{mdp}"
+        )
+      ),
+      'emailSender' => 'noreply@lsexample.net',
       'LSobjects' => array (
         'LSeepeople',
         'LSeegroup',

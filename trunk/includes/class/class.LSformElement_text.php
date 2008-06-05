@@ -59,7 +59,7 @@ class LSformElement_text extends LSformElement {
     else {
       $return['html'] = "<ul class='LSform'>\n";
       if (empty($this -> values)) {
-        $return['html'] .= "<li>"._('Aucunes valeur definie')."</li>\n";
+        $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
       }
       else {
         foreach ($this -> values as $value) {

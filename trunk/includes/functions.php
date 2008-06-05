@@ -112,7 +112,7 @@ function return_data($data) {
 
 function debug($data,$get=true) {
   if ($get) {
-    if (is_array($data)) {
+    if (is_array($data)||is_object($data)) {
       $GLOBALS['LSdebug']['fields'][]=$data;
     }
     else {
@@ -126,7 +126,7 @@ function debug_print($return=false) {
   if (( $GLOBALS['LSdebug']['fields'] ) && ( $GLOBALS['LSdebug']['active'] )) {
     $txt='<ul>';
     foreach($GLOBALS['LSdebug']['fields'] as $debug) {
-      if (is_array($debug)) {
+      if (is_array($debug)||is_object($debug)) {
         $txt.='<li><pre>'.print_r($debug,true).'</pre></li>';
       }
       else {
@@ -135,11 +135,11 @@ function debug_print($return=false) {
     }
     $txt.='</ul>';
     $GLOBALS['Smarty'] -> assign('LSdebug',$txt);
-		if ($return) {
-			return $txt;
-		}
+    if ($return) {
+      return $txt;
+    }
   }
-	return;
+  return;
 }
 
   /**
@@ -222,6 +222,41 @@ function debug_print($return=false) {
       }
     }
     return $basedn;
+  }
+  
+  function checkEmail($value,$checkDns=true) {
+    $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
+
+    if (!preg_match($regex, $value)) {
+      debug('checkEmail : regex fail');
+      return false;
+    }
+
+    if ($checkDns && function_exists('checkdnsrr')) {
+      $tokens = explode('@', $value);
+      if (!(checkdnsrr($tokens[1], 'MX') || checkdnsrr($tokens[1], 'A'))) {
+        debug('checkEmail : DNS fail');
+        return false;
+      }
+    }
+
+    return true;
+  }
+  
+  function generatePassword($chars=NULL,$lenght=NULL) {
+    if (!$chars) {
+      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+    }
+    $nbChars=strlen($chars);
+    
+    if (!$lenght) {
+      $lenght=8;
+    }
+    $retVal='';
+    for($i=0;$i<$lenght;$i++){
+      $retVal.=$chars[rand(0,$nbChars-1)];
+    }
+    return $retVal;
   }
 
 ?>

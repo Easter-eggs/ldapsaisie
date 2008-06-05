@@ -267,6 +267,35 @@ class LSform {
   }
 
   /**
+   * Défini arbitrairement des données en POST
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @param[in] $data array('attr' => array(values)) Tableau des données du formulaire
+   * @param[in] $consideredAsSubmit Définie si on force le formualaire comme envoyer
+   * 
+   * @retval boolean true si les données ont été définies, false sinon
+   */
+  function setPostData($data,$consideredAsSubmit=false) {
+    if (is_array($data)) {
+      foreach($data as $key => $values) {
+        if (!is_array($values)) {
+          $values = array($values);
+        }
+        $_POST[$key] = $values;
+      }
+      
+      if ($consideredAsSubmit) {
+        $_POST['validate']='LSform';
+        $_POST['idForm']=$this -> idForm;
+      }
+      
+      return true;
+    }
+    return;
+  }
+
+  /**
    * Récupère les valeurs postées dans le formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>

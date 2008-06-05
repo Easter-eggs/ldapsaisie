@@ -33,9 +33,6 @@ if($LSsession -> startLSsession()) {
   // Template
   $GLOBALS['LSsession'] -> setTemplate('accueil.tpl');
 }
-else {
-  $GLOBALS['LSsession'] -> setTemplate('login.tpl');
-}
 
 // Affichage des retours d'erreurs
 $GLOBALS['LSsession'] -> displayTemplate();

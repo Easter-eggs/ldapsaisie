@@ -1,175 +1,48 @@
-# Easter-eggs OID: 1.3.6.1.4.1.10650
-# 1.3.6.1.4.1.10650.2            LDAP OID
-# 1.3.6.1.4.1.10650.3            Customers OID
-# 
-# 1.3.6.1.4.1.10650.2.1          Ldap Attributes
-# 1.3.6.1.4.1.10650.2.1.1        Admin sys Ldap Attributes
-# 1.3.6.1.4.1.10650.2.1.2        Dev Ldap Attributes
-# 1.3.6.1.4.1.10650.2.1.3        Global Attributes
-# 1.3.6.1.4.1.10650.2.2          Ldap Objectclass
-# 1.3.6.1.4.1.10650.2.2.1        Admin sys Ldap Objectclass
-# 1.3.6.1.4.1.10650.2.2.2        Dev Ldap Objectclass
-# 1.3.6.1.4.1.10650.2.2.3        Global OC
+# LdapSaisie - LDAP Schema - Example
+# Web Site : http://ldapsaisie.labs.libre-entreprise.org
+objectIdentifier EeRoot                 1.3.6.1.4.1.10650
+objectIdentifier LeRoot                 EeRoot:4
+objectIdentifier LsRoot                 LeRoot:10000
+objectIdentifier LsLDAP                 LsRoot:2
+objectIdentifier LsLDAPAttribute        LsLDAP:1
+objectIdentifier LsLDAPObjectClass      LsLDAP:2
 
-# Ost
-# 1.3.6.1.4.1.10650.3.1127.2.1 Ldap attributes
-# 1.3.6.1.4.1.10650.3.1127.2.2 Ldap OC
-
-
-# <Ee attributes>
-attributetype (1.3.6.1.4.1.10650.2.1.1.1
-  NAME 'eeallowedservices'
+# <Ls attributes>
+attributetype (LsLDAPAttribute:1
+  NAME 'lsAllowedServices'
   DESC 'List of allowed services'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
 
-# </Ee attributes>
-
-# <From qmail schema>
-attributetype ( 1.3.6.1.4.1.7914.1.2.1.4 NAME 'mailAlternateAddress'
-        SUBSTR caseIgnoreSubstringsMatch
-        DESC 'Secondary (alias) mailaddresses for the same user'
-        EQUALITY caseIgnoreIA5Match
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
-
-attributetype ( 1.3.6.1.4.1.7914.1.2.1.7 NAME 'mailForwardingAddress'
-        DESC 'Address(es) to forward all incoming messages to.'
-        EQUALITY caseIgnoreIA5Match
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
-
-# </From qmail schema>
-
-# <From courier.schema>
-attributetype ( 1.3.6.1.4.1.10018.1.1.1 NAME 'mailbox'
-        DESC 'The absolute path to the mailbox for a mail account in a non-default location'
-        EQUALITY caseExactIA5Match
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
-
-
-attributetype ( 1.3.6.1.4.1.10018.1.1.4 NAME 'maildrop'
-        DESC 'RFC822 Mailbox - mail alias'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
-# </From courier.schema>
-
-# <From postfix>
-attributetype ( 1.3.6.1.4.1.7914.1.2.1.5 NAME 'mailQuota'
-        DESC 'The amount of space the user can use until all further messages get bounced.'
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.44
-        SINGLE-VALUE )
-# </From postfix>
-
-# <From gnarwl>
-# Original
-#attributetype ( 1.3.6.1.4.1.11048.1.1.1.1
-#       NAME 'vacationActive'
-#       SINGLE-VALUE
-#       EQUALITY booleanMatch
-#       DESC 'A flag, for marking the user as being away'
-#       SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
-
-# Ee
-attributetype ( 1.3.6.1.4.1.11048.1.1.1.1
-        NAME 'vacationActive'
-        SINGLE-VALUE
-        DESC 'Equal to uid@autoreponse.foo.bar, for marking the user as being away'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
-
-attributetype ( 1.3.6.1.4.1.11048.1.1.1.3
-        NAME 'vacationInfo'
-        SINGLE-VALUE
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
-        DESC 'Absentee note to leave behind, while on vacation'
-        EQUALITY octetStringMatch )
-
-attributetype ( 1.3.6.1.4.1.11048.1.1.1.4
-        NAME 'vacationStart'
-        SINGLE-VALUE
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
-        DESC 'Beginning of vacation'
-        EQUALITY octetStringMatch )
-
-# Original
-#attributetype ( 1.3.6.1.4.1.11048.1.1.1.5
-#       NAME 'vacationEnd'
-#       SINGLE-VALUE
-#       SYNTAX 1.3.6.1.4.1.1466.115.121.1.40
-#       DESC 'End of vacation'
-#       EQUALITY octetStringMatch )
-
-# Ee
-attributetype ( 1.3.6.1.4.1.11048.1.1.1.5
-        NAME 'vacationEnd'
-        SINGLE-VALUE
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.24
-        DESC 'End of vacation'
-        ORDERING generalizedTimeOrderingMatch
-        EQUALITY generalizedTimeMatch )
-
-attributetype (1.3.6.1.4.1.11048.1.1.1.10
-        NAME 'vacationForward'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256}
-        DESC 'Where to forward mails to, while on vacation' )
-
-# </From gnarwl>
-
-## Objectclasses
-# LS people
-objectclass (1.3.6.1.4.1.10650.3.1127.2.2.1
+attributetype ( LsLDAPAttribute:2 NAME 'lsRecoveryHash'
+  DESC 'Password Recover Hash'
+  EQUALITY caseIgnoreMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+# </Ls attributes>
+        
+# <Ls Objectclass>
+objectclass (LsLDAPObjectClass:1
   NAME 'lspeople'
   DESC 'LS people Objectclass'
   STRUCTURAL
   MUST ( uid $ cn )
-  MAY ( jpegPhoto $ sn $ givenName $ postalAddress $ postalCode $ l $ st $ c $ telephoneNumber $ mobile $ fax $ mail $ mailalternateaddress $ personalTitle $ description $ userPassword $ eeallowedservices $ mailforwardingaddress $ maildrop $ mailquota $ mailbox $ vacationActive $ vacationInfo $ vacationEnd $ vacationForward ))
+  MAY ( jpegPhoto $ sn $ givenName $ postalAddress $ postalCode $ l $ st $ c $
+        telephoneNumber $ mobile $ fax $ mail $ personalTitle $ description $
+        userPassword $ lsallowedservices $ lsRecoveryHash ))
 
-# LS Alias
-objectclass (1.3.6.1.4.1.10650.3.1127.2.2.2
-  NAME 'lsalias'
-  DESC 'LS alias Objectclass'
-  STRUCTURAL
-  MUST ( mail $ maildrop )
-  MAY  ( mailalternateaddress $ description ))
-
-# LS group
-objectclass (1.3.6.1.4.1.10650.3.1127.2.2.3
+objectclass (LsLDAPObjectClass:3
   NAME 'lsgroup'
   DESC 'LS group Objectclass'
   STRUCTURAL
   MUST ( cn )
   MAY ( uniquemember $ description ))
 
-# LS system account
-objectclass (1.3.6.1.4.1.10650.3.1127.2.2.4
+objectclass (LsLDAPObjectClass:4
   NAME 'lssysaccount'
   DESC 'LS system account Objectclass'
   STRUCTURAL
   MUST ( uid )
-  MAY (userpassword $ description))
-
-# Ost mailbox
-objectclass (1.3.6.1.4.1.10650.3.1127.2.2.5
-  NAME 'lsmailbox'
-  DESC 'LS custom mailbox Objectclass'
-  STRUCTURAL
-  MUST ( uid )
-  MAY ( userPassword $ description $ eeallowedservices $ maildrop $ mailbox $ mail $ mailalternateaddress $ mailforwardingaddress $ mailquota ))
-
-# Ost computer
-objectclass (1.3.6.1.4.1.10650.3.1127.2.2.6
-  NAME 'lscomputer'
-  DESC 'LS computer Objectclass'
-  STRUCTURAL
-  MUST ( uid ))
-
-# Ost samba domains
-objectclass (1.3.6.1.4.1.10650.3.1127.2.2.8
-  NAME 'lssambadomain'
-  DESC 'LS samba domain Objectclass'
-  STRUCTURAL) 
+  MAY (userPassword $ description))
+# </Ls Objectclass>
 

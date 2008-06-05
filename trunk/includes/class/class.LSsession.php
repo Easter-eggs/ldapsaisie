@@ -25,7 +25,7 @@ define('LS_DEFAULT_CONF_DIR','conf');
 /**
  * Gestion des sessions
  *
- * Cette classe gère les sessions d'utilisateurs.
+ * Cette classe gÃ¨re les sessions d'utilisateurs.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -67,11 +67,11 @@ class LSsession {
  /**
   * Chargement de la configuration
   *
-  * Chargement des fichiers de configuration et création de l'objet Smarty.
+  * Chargement des fichiers de configuration et crÃ©ation de l'objet Smarty.
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval true si tout c'est bien passé, false sinon
+  * @retval true si tout c'est bien passÃ©, false sinon
   */
   function loadConfig() {
     if (loadDir($this -> confDir, '^config\..*\.php$')) {
@@ -93,11 +93,11 @@ class LSsession {
  /**
   * Initialisation de la gestion des erreurs
   *
-  * Création de l'objet LSerror
+  * CrÃ©ation de l'objet LSerror
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   *
-  * @retval boolean true si l'initialisation a réussi, false sinon.
+  * @retval boolean true si l'initialisation a rÃ©ussi, false sinon.
   */
   function startLSerror() {
     if(!$this -> loadLSclass('LSerror'))
@@ -109,12 +109,12 @@ class LSsession {
  /**
   * Chargement d'une classe d'LdapSaisie
   *
-  * @param[in] $class Nom de la classe à charger (Exemple : LSeepeople)
-  * @param[in] $type (Optionnel) Type de classe à charger (Exemple : LSobjects)
+  * @param[in] $class Nom de la classe Ã  charger (Exemple : LSeepeople)
+  * @param[in] $type (Optionnel) Type de classe Ã  charger (Exemple : LSobjects)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   * 
-  * @retval boolean true si le chargement a réussi, false sinon.
+  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSclass($class,$type='') {
     if (class_exists($class))
@@ -127,9 +127,9 @@ class LSsession {
  /**
   * Chargement d'un object LdapSaisie
   *
-  * @param[in] $object Nom de l'objet à charger
+  * @param[in] $object Nom de l'objet Ã  charger
   *
-  * @retval boolean true si le chargement a réussi, false sinon.
+  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSobject($object) {
     $this -> loadLSclass('LSldapObject');
@@ -148,7 +148,7 @@ class LSsession {
   * Chargement des LSobjects contenue dans la variable
   * $this -> ldapServer['LSobjects']
   *
-  * @retval boolean true si le chargement a réussi, false sinon.
+  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSobjects() {
 
@@ -170,11 +170,11 @@ class LSsession {
  /**
   * Chargement d'un addons d'LdapSaisie
   *
-  * @param[in] $addon Nom de l'addon à charger (Exemple : samba)
+  * @param[in] $addon Nom de l'addon Ã  charger (Exemple : samba)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   * 
-  * @retval boolean true si le chargement a réussi, false sinon.
+  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSaddon($addon) {
     return require_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php';
@@ -186,7 +186,7 @@ class LSsession {
   * Chargement des LSaddons contenue dans la variable
   * $GLOBALS['LSaddons']['loads']
   *
-  * @retval boolean true si le chargement a réussi, false sinon.
+  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSaddons() {
     if(!is_array($GLOBALS['LSaddons']['loads'])) {
@@ -207,19 +207,19 @@ class LSsession {
   * Initialisation de la session LdapSaisie
   *
   * Initialisation d'une LSsession :
-  * - Authentification et activation du mécanisme de session de LdapSaisie
-  * - ou Chargement des paramètres de la session à partir de la variable 
+  * - Authentification et activation du mÃ©canisme de session de LdapSaisie
+  * - ou Chargement des paramÃ¨tres de la session Ã  partir de la variable 
   *   $_SESSION['LSsession'].
   * - ou Destruction de la session en cas de $_GET['LSsession_logout'].
   *
-  * @retval boolean True si l'initialisation à réussi (utilisateur authentifié), false sinon.
+  * @retval boolean True si l'initialisation Ã  rÃ©ussi (utilisateur authentifiÃ©), false sinon.
   */
   function startLSsession() {
       $this -> loadLSaddons();
       session_start();
 
-      // Déconnexion
-      if (isset($_GET['LSsession_logout'])) {
+      // DÃ©connexion
+      if (isset($_GET['LSsession_logout'])||isset($_GET['LSsession_recoverPassword'])) {
         session_destroy();
         
         if (is_array($_SESSION['LSsession']['tmp_file'])) {
@@ -229,7 +229,11 @@ class LSsession {
         unset($_SESSION['LSsession']);
       }
       
-
+      // Récupération de mot de passe
+      if (isset($_GET['recoveryHash'])) {
+        $_POST['LSsession_user'] = 'a determiner plus tard';
+      }
+      
       if(isset($_SESSION['LSsession'])) {
         // Session existante
         $this -> confDir      = $_SESSION['LSsession']['confDir'];
@@ -272,6 +276,7 @@ class LSsession {
       }
       else {
         // Session inexistante
+        $recoveryPasswordInfos=array();
 
         if (isset($_POST['LSsession_user'])) {
           if (isset($_POST['LSsession_ldapserver'])) {
@@ -297,32 +302,178 @@ class LSsession {
 
             if ( $this -> loadLSobject($this -> ldapServer['authobject']) ) {
               $authobject = new $this -> ldapServer['authobject']();
-              $result = $authobject -> searchObject($_POST['LSsession_user'],$this -> topDn);
-              $nbresult=count($result);
+              $find=true;
+              if (isset($_GET['recoveryHash'])) {
+                $filter=$this -> ldapServer['recoverPassword']['recoveryHashAttr']."=".$_GET['recoveryHash'];
+                $result = $authobject -> listObjects($filter,$this -> topDn);
+                $nbresult=count($result);
+                if ($nbresult==1) {
+                  $_POST['LSsession_user'] = $result[0] -> getValue('rdn');
+                  $find=false;
+                }
+              }
+              if ($find) {
+                $result = $authobject -> searchObject($_POST['LSsession_user'],$this -> topDn);
+                $nbresult=count($result);
+              }
               if ($nbresult==0) {
                 // identifiant incorrect
                 debug('identifiant incorrect');
                 $GLOBALS['LSerror'] -> addErrorCode(1006);
               }
               else if ($nbresult>1) {
-                // duplication d'authentité
+                // duplication d'authentitÃ©
                 $GLOBALS['LSerror'] -> addErrorCode(1007);
               }
               else {
-                if ( $this -> checkUserPwd($result[0],$_POST['LSsession_pwd']) ) {
-                  // Authentification réussi
-                  $this -> LSuserObject = $result[0];
-                  $this -> dn = $result[0]->getValue('dn');
-                  $this -> rdn = $_POST['LSsession_user'];
-                  $this -> loadLSrights();
-                  $this -> loadLSaccess();
-                  $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
-                  $_SESSION['LSsession']=get_object_vars($this);
-                  return true;
+                if (isset($_GET['LSsession_recoverPassword'])) {
+                  debug('Recover : Id trouvé');
+                  if ($this -> ldapServer['recoverPassword']) {
+                    debug('Récupération active');
+                    $user=$result[0];
+                    $emailAddress = $user -> getValue($this -> ldapServer['recoverPassword']['mailAttr']);
+                    
+                    // Header des mails
+                    $headers="Content-Type: text/plain; charset=UTF-8; format=flowed";
+                    if ($this -> ldapServer['recoverPassword']['recoveryEmailSender']) {
+                      $headers.="\nFrom: ".$this -> ldapServer['recoverPassword']['recoveryEmailSender'];
+                    }
+                    else if($this -> ldapServer['emailSender']) {
+                      $headers.="\nFrom: ".$this -> ldapServer['emailSender'];
+                    }
+                    
+                    if (checkEmail($emailAddress)) {
+                      debug('Email : '.$emailAddress);
+                      $this -> dn = $user -> getDn();
+                      // 1ère étape : envoie du recoveryHash
+                      if (!isset($_GET['recoveryHash'])) {
+                        // Generer un hash
+                        $recovery_hash = md5($user -> getValue('rdn') . strval(time()) . strval(rand()));
+                        
+                        $lostPasswdForm = $user -> getForm('lostPassword');
+                        $lostPasswdForm -> setPostData(
+                          array(
+                            $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => $recovery_hash
+                          )
+                          ,true
+                        );
+                        
+                        if($lostPasswdForm -> validate()) {
+                          if ($user -> updateData('lostPassword')) {
+                            // recoveryHash de l'utilisateur mis à jour
+                            if ($_SERVER['HTTPS']=='on') {
+                              $recovery_url='https://';
+                            }
+                            else {
+                              $recovery_url='http://';
+                            }
+                            $recovery_url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'&recoveryHash='.$recovery_hash;
+
+                            if (
+                              mail(
+                                $emailAddress,
+                                $this -> ldapServer['recoverPassword']['recoveryHashMail']['subject'],
+                                getFData($this -> ldapServer['recoverPassword']['recoveryHashMail']['msg'],$recovery_url),
+                                $headers
+                              )
+                            ){
+                              // Mail a bien été envoyé
+                              $recoveryPasswordInfos['recoveryHashMail']=$emailAddress;
+                            }
+                            else {
+                              // Problème durant l'envoie du mail
+                              debug("Problème durant l'envoie du mail");
+                              $GLOBALS['LSerror'] -> addErrorCode(1020);
+                            }
+                          }
+                          else {
+                            // Erreur durant la mise à jour de l'objet
+                            debug("Erreur durant la mise à jour de l'objet");
+                            $GLOBALS['LSerror'] -> addErrorCode(1020);
+                          }
+                        }
+                        else {
+                          // Erreur durant la validation du formulaire de modification de perte de password
+                          debug("Erreur durant la validation du formulaire de modification de perte de password");
+                          $GLOBALS['LSerror'] -> addErrorCode(1020);
+                        }
+                      }
+                      // 2nd étape : génération du mot de passe + envoie par mail
+                      else {
+                        $attr=$user -> attrs[$this -> ldapServer['recoverPassword']['passwordAttr']];
+                        if ($attr instanceof LSattribute) {
+                          $mdp = generatePassword($attr -> config['html_options']['chars'],$attr -> config['html_options']['lenght']);
+                          debug('Nvx mpd : '.$mdp);
+                          $lostPasswdForm = $user -> getForm('lostPassword');
+                          $lostPasswdForm -> setPostData(
+                            array(
+                              $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => array(''),
+                              $this -> ldapServer['recoverPassword']['passwordAttr'] => array($mdp)
+                            )
+                            ,true
+                          );
+                          if($lostPasswdForm -> validate()) {
+                            if ($user -> updateData('lostPassword')) {
+                              if (
+                                mail(
+                                  $emailAddress,
+                                  $this -> ldapServer['recoverPassword']['newPasswordMail']['subject'],
+                                  getFData($this -> ldapServer['recoverPassword']['newPasswordMail']['msg'],$mdp),
+                                  $headers
+                                )
+                              ){
+                                // Mail a bien été envoyé
+                                $recoveryPasswordInfos['newPasswordMail']=$emailAddress;
+                              }
+                              else {
+                                // Problème durant l'envoie du mail
+                                debug("Problème durant l'envoie du mail");
+                                $GLOBALS['LSerror'] -> addErrorCode(1020);
+                              }
+                            }
+                            else {
+                              // Erreur durant la mise à jour de l'objet
+                              debug("Erreur durant la mise à jour de l'objet");
+                              $GLOBALS['LSerror'] -> addErrorCode(1020);
+                            }
+                          }
+                          else {
+                            // Erreur durant la validation du formulaire de modification de perte de password
+                            debug("Erreur durant la validation du formulaire de modification de perte de password");
+                            $GLOBALS['LSerror'] -> addErrorCode(1020);
+                          }
+                        }
+                        else {
+                          // l'attribut password n'existe pas
+                          debug("L'attribut password n'existe pas");
+                          $GLOBALS['LSerror'] -> addErrorCode(1020);
+                        }
+                      }
+                    }
+                    else {
+                      $GLOBALS['LSerror'] -> addErrorCode(1019);
+                    }
+                  }
+                  else {
+                    $GLOBALS['LSerror'] -> addErrorCode(1018);
+                  }
                 }
                 else {
-                  $GLOBALS['LSerror'] -> addErrorCode(1006);
-                  debug('mdp incorrect');
+                  if ( $this -> checkUserPwd($result[0],$_POST['LSsession_pwd']) ) {
+                    // Authentification rÃ©ussi
+                    $this -> LSuserObject = $result[0];
+                    $this -> dn = $result[0]->getValue('dn');
+                    $this -> rdn = $_POST['LSsession_user'];
+                    $this -> loadLSrights();
+                    $this -> loadLSaccess();
+                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
+                    $_SESSION['LSsession']=get_object_vars($this);
+                    return true;
+                  }
+                  else {
+                    $GLOBALS['LSerror'] -> addErrorCode(1006);
+                    debug('mdp incorrect');
+                  }
                 }
               }
             }
@@ -338,15 +489,20 @@ class LSsession {
           $GLOBALS['Smarty'] -> assign('ldapServerId',$this -> ldapServerId);
         }
         $GLOBALS['Smarty'] -> assign('topDn',$this -> topDn);
-        $this -> displayLoginForm();
+        if (isset($_GET['LSsession_recoverPassword'])) {
+          $this -> displayRecoverPasswordForm($recoveryPasswordInfos);
+        }
+        else {
+          $this -> displayLoginForm();
+        }
         return;
       }
   }
 
  /**
-  * Définition du serveur Ldap de la session
+  * DÃ©finition du serveur Ldap de la session
   *
-  * Définition du serveur Ldap de la session à partir de son ID dans 
+  * DÃ©finition du serveur Ldap de la session Ã  partir de son ID dans 
   * le tableau $GLOBALS['LSconfig']['ldap_servers'].
   *
   * @param[in] integer Index du serveur Ldap
@@ -440,12 +596,12 @@ class LSsession {
   }
 
  /**
-  * Retourne les options d'une liste déroulante pour le choix du topDn
+  * Retourne les options d'une liste dÃ©roulante pour le choix du topDn
   * de connexion au serveur Ldap
   *
   * Liste les subdn ($this ->ldapServer['subDn'])
   *
-  * @retval string Les options (<option>) pour la sélection du topDn.
+  * @retval string Les options (<option>) pour la sÃ©lection du topDn.
   */
   function getSubDnLdapServerOptions($selected=NULL) {
     $list = $this -> getSubDnLdapServer();
@@ -483,9 +639,9 @@ class LSsession {
   * Test un bind sur le serveur avec le dn de l'objet et le mot de passe fourni.
   *
   * @param[in] LSobject L'object "user" pour l'authentification
-  * @param[in] string Le mot de passe à tester
+  * @param[in] string Le mot de passe Ã  tester
   *
-  * @retval boolean True si l'authentification à réussi, false sinon.
+  * @retval boolean True si l'authentification Ã  rÃ©ussi, false sinon.
   */
   function checkUserPwd($object,$pwd) {
     return $GLOBALS['LSldap'] -> checkBind($object -> getValue('dn'),$pwd);
@@ -494,7 +650,7 @@ class LSsession {
  /**
   * Affiche le formulaire de login
   *
-  * Défini les informations pour le template Smarty du formulaire de login.
+  * DÃ©fini les informations pour le template Smarty du formulaire de login.
   *
   * @retval void
   */
@@ -523,12 +679,72 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('loginform_label_user',_('Identifiant'));
     $GLOBALS['Smarty'] -> assign('loginform_label_pwd',_('Mot de passe'));
     $GLOBALS['Smarty'] -> assign('loginform_label_submit',_('Connexion'));
-
+    $GLOBALS['Smarty'] -> assign('loginform_label_lostpassword',_('Mot de passe oublié ?'));
+    
+    $this -> setTemplate('login.tpl');
     $this -> addJSscript('LSsession_login.js');
   }
 
  /**
-  * Défini le template Smarty à utiliser
+  * Affiche le formulaire de récupération de mot de passe
+  *
+  * Défini les informations pour le template Smarty du formulaire de 
+  * récupération de mot de passe
+  * 
+  * @param[in] $infos array() Information sur le status du processus de 
+  *                           recouvrement de mot de passe
+  *
+  * @retval void
+  */
+  function displayRecoverPasswordForm($recoveryPasswordInfos) {
+    $GLOBALS['Smarty'] -> assign('pagetitle',_('Récupération de votre mot de passe'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
+    
+    if (count($GLOBALS['LSconfig']['ldap_servers'])==1) {
+      $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapserver_style','style="display: none"');
+    }
+    
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_ldapserver',_('Serveur LDAP'));
+    $ldapservers_name=array();
+    $ldapservers_index=array();
+    foreach($GLOBALS['LSconfig']['ldap_servers'] as $id => $infos) {
+      $ldapservers_index[]=$id;
+      $ldapservers_name[]=$infos['name'];
+    }
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapservers_name',$ldapservers_name);
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapservers_index',$ldapservers_index);
+
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_user',_('Identifiant'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_submit',_('Valider'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_back',_('Retour'));
+    
+    if (isset($recoveryPasswordInfos['recoveryHashMail'])) {
+      $GLOBALS['Smarty'] -> assign(
+        'recoverpassword_msg',
+        getFData(
+          _("Un mail vient de vous être envoyé à l'adresse %{mail}. " .
+          "Merci de suivre les indications contenus dans ce mail."),
+          $recoveryPasswordInfos['recoveryHashMail']
+        )
+      );
+    }
+    
+    if (isset($recoveryPasswordInfos['newPasswordMail'])) {
+      $GLOBALS['Smarty'] -> assign(
+        'recoverpassword_msg',
+        getFData(
+          _("Votre nouveau mot de passe vient de vous être envoyé à l'adresse %{mail}. "),
+          $recoveryPasswordInfos['newPasswordMail']
+        )
+      );
+    }
+    
+    $this -> setTemplate('recoverpassword.tpl');
+    $this -> addJSscript('LSsession_recoverpassword.js');
+  }
+
+ /**
+  * DÃ©fini le template Smarty Ã  utiliser
   *
   * Remarque : les fichiers de templates doivent se trouver dans le dossier 
   * templates/.
@@ -544,9 +760,9 @@ class LSsession {
  /**
   * Ajoute un script JS au chargement de la page
   *
-  * Remarque : les scripts doivents être dans le dossier LS_JS_DIR.
+  * Remarque : les scripts doivents Ãªtre dans le dossier LS_JS_DIR.
   *
-  * @param[in] $script Le nom du fichier de script à charger.
+  * @param[in] $script Le nom du fichier de script Ã  charger.
   *
   * @retval void
   */
@@ -559,9 +775,9 @@ class LSsession {
  /**
   * Ajoute une feuille de style au chargement de la page
   *
-  * Remarque : les scripts doivents être dans le dossiers templates/css/.
+  * Remarque : les scripts doivents Ãªtre dans le dossiers templates/css/.
   *
-  * @param[in] $script Le nom du fichier css à charger.
+  * @param[in] $script Le nom du fichier css Ã  charger.
   *
   * @retval void
   */
@@ -572,7 +788,7 @@ class LSsession {
  /**
   * Affiche le template Smarty
   *
-  * Charge les dépendances et affiche le template Smarty
+  * Charge les dÃ©pendances et affiche le template Smarty
   *
   * @retval void
   */
@@ -631,7 +847,7 @@ class LSsession {
   /**
    * Charge les droits LS de l'utilisateur
    * 
-   * @retval boolean True si le chargement à réussi, false sinon.
+   * @retval boolean True si le chargement Ã  rÃ©ussi, false sinon.
    **/
   function loadLSrights() {
     if (is_array($this -> ldapServer['LSadmins'])) {
@@ -650,11 +866,11 @@ class LSsession {
                     }
                   }
                   else {
-                    debug('Impossible de chargé le dn : '.$dn);
+                    debug('Impossible de chargÃ© le dn : '.$dn);
                   }
                 }
                 else {
-                  debug('Impossible de créer l\'objet de type : '.$conf['LSobject']);
+                  debug('Impossible de crÃ©er l\'objet de type : '.$conf['LSobject']);
                 }
               }
               else {
@@ -682,7 +898,7 @@ class LSsession {
   }
   
   /**
-   * Charge les droits d'accès de l'utilisateur pour construire le menu de l'interface
+   * Charge les droits d'accÃ¨s de l'utilisateur pour construire le menu de l'interface
    *
    * @retval void
    */
@@ -710,7 +926,7 @@ class LSsession {
   }
   
   /**
-   * Dit si l'utilisateur est admin de le DN spécifié
+   * Dit si l'utilisateur est admin de le DN spÃ©cifiÃ©
    *
    * @param[in] string DN de l'objet
    * 
@@ -729,11 +945,11 @@ class LSsession {
   }
   
   /**
-   * Retourne qui est l'utilisateur par rapport à l'object
+   * Retourne qui est l'utilisateur par rapport Ã  l'object
    *
    * @param[in] string Le DN de l'objet
    * 
-   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui même ou un simple utilisateur
+   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
    */
   function whoami($dn) {
     if ($this -> isAdmin($dn)) {
@@ -748,14 +964,14 @@ class LSsession {
   }
   
   /**
-   * Retourne le droit de l'utilisateur à accèder à un objet
+   * Retourne le droit de l'utilisateur Ã  accÃ¨der Ã  un objet
    * 
    * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
-   * @param[in] string $right Le type de droit d'accès à tester ('r'/'w')
-   * @param[in] string $attr Le nom de l'attribut auquel on test l'accès
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
+   * @param[in] string $right Le type de droit d'accÃ¨s Ã  tester ('r'/'w')
+   * @param[in] string $attr Le nom de l'attribut auquel on test l'accÃ¨s
    *
-   * @retval boolean True si l'utilisateur a accès, false sinon
+   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
   function canAccess($LSobject,$dn=NULL,$right=NULL,$attr=NULL) {
     if (!$this -> loadLSobject($LSobject))
@@ -812,49 +1028,49 @@ class LSsession {
   }
   
   /**
-   * Retourne le droit de l'utilisateur à editer à un objet
+   * Retourne le droit de l'utilisateur Ã  editer Ã  un objet
    * 
    * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
-   * @param[in] string $attr Le nom de l'attribut auquel on test l'accès
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
+   * @param[in] string $attr Le nom de l'attribut auquel on test l'accÃ¨s
    *
-   * @retval boolean True si l'utilisateur a accès, false sinon
+   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
   function canEdit($LSobject,$dn=NULL,$attr=NULL) {
     return $this -> canAccess($LSobject,$dn,'w',$attr);
   }
 
   /**
-   * Retourne le droit de l'utilisateur à supprimer un objet
+   * Retourne le droit de l'utilisateur Ã  supprimer un objet
    * 
    * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    *
-   * @retval boolean True si l'utilisateur a accès, false sinon
+   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */  
   function canRemove($LSobject,$dn) {
     return $this -> canAccess($LSobject,$dn,'w','rdn');
   }
   
   /**
-   * Retourne le droit de l'utilisateur à créer un objet
+   * Retourne le droit de l'utilisateur Ã  crÃ©er un objet
    * 
    * @param[in] string $LSobject Le type de l'objet
    *
-   * @retval boolean True si l'utilisateur a accès, false sinon
+   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */    
   function canCreate($LSobject) {
     return $this -> canAccess($LSobject,NULL,'w','rdn');
   }
   
   /**
-   * Retourne le droit de l'utilisateur à gérer la relation d'objet
+   * Retourne le droit de l'utilisateur Ã  gÃ©rer la relation d'objet
    * 
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    * @param[in] string $relationName Le nom de la relation avec l'objet
-   * @param[in] string $right Le type de droit a vérifier ('r' ou 'w')
+   * @param[in] string $right Le type de droit a vÃ©rifier ('r' ou 'w')
    *
-   * @retval boolean True si l'utilisateur a accès, false sinon
+   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
   function relationCanAccess($dn,$relationName,$right=NULL) {
     $LSobject=$this -> LSuserObject -> getType();
@@ -876,12 +1092,12 @@ class LSsession {
   }
 
   /**
-   * Retourne le droit de l'utilisateur à modifier la relation d'objet
+   * Retourne le droit de l'utilisateur Ã  modifier la relation d'objet
    * 
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par défaut)
+   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    * @param[in] string $relationName Le nom de la relation avec l'objet
    *
-   * @retval boolean True si l'utilisateur a accès, false sinon
+   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */  
   function relationCanEdit($dn,$relationName) {
     return $this -> relationCanAccess($dn,$relationName,'w');
@@ -922,8 +1138,8 @@ class LSsession {
   /**
    * Retourne le chemin du fichier temporaire
    * 
-   * Retourne le chemin du fichier temporaire qu'il créera à partir de la valeur
-   * s'il n'existe pas déjà.
+   * Retourne le chemin du fichier temporaire qu'il crÃ©era Ã  partir de la valeur
+   * s'il n'existe pas dÃ©jÃ .
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
    * 

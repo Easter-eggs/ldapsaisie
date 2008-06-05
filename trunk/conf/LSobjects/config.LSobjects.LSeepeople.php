@@ -257,7 +257,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'check_data' => array (
         'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
+          'msg' => _("L'adresse e-mail entrée n'est pas valide."),
+          'param' => array('checkDomain' => false)
         ),
       ),
       'rights' => array(
@@ -291,100 +292,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'M.' => 'M.',
         'Mme' => 'Mme',
         'Mlle' => 'Mlle'
-      )
-    ),
-    'maildrop' => array (
-      'label' => _('Mail indésirable'),
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'multiple' => true,
-      'check_data' => array (
-        'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
-        ),
-      ),
-      'rights' => array(
-        'self' => 'w',
-        'admin' => 'w'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-      )
-    ),
-    'vacationActive' => array (
-      'label' => _('Réponse automatique'),
-      'ldap_type' => 'ascii',
-      'html_type' => 'select_list',
-      'default_value' => '',
-      'check_data' => array (
-        'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
-        ),
-      ),
-      'rights' => array(
-        'self' => 'w',
-        'admin' => 'w',
-        'user' => 'r'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-      ),
-      'possible_values' => array(
-        '' => 'Non',
-        '%{uid}@autoreponse.example.fr' => 'Oui'
-      )
-    ),
-    'vacationInfo' => array (
-      'label' => _('Message en reponse'),
-      'ldap_type' => 'ascii',
-      'html_type' => 'textarea',
-      'multiple' => true,
-      'rights' => array(
-        'self' => 'w',
-        'admin' => 'w'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-      )
-    ),
-    'vacationForward' => array (
-      'label' => _('Transfert de mail'),
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'check_data' => array (
-        'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide.")
-        ),
-      ),
-      'rights' => array(
-        'self' => 'w',
-        'user' => 'r',
-        'admin' => 'w'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-      )
-    ),
-    'mailQuota' => array (
-      'label' => _('Quota boite mail'),
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'check_data' => array (
-        'numeric' => array(
-          'msg' => _("Le quota de l'adresse mail entrée n'est pas valide.")
-        ),
-      ),
-      'rights' => array(
-        'self' => 'r',
-        'admin' => 'w'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
       )
     ),
     'description' => array (
@@ -423,7 +330,21 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'form' => array (
         'modify' => 1,
-        'create' => 1
+        'create' => 1,
+        'lostPassword' => 1
+      )
+    ),
+    'lsRecoveryHash' => array (
+      'label' => _('Hash de recouvrement du mot de passe'),
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 0,
+      'form' => array (
+        'lostPassword' => 1
+      ),
+      'rights' => array(
+        'self' => 'w',
+        'admin' => 'w'
       )
     ),
     'sambaLMPassword' => array (

@@ -43,6 +43,7 @@ var LSsession_login = new Class({
         }
         if (data.LSerror) {
           varLSdefault.displayError(data.LSerror);
+          this.loginformLevelHide();
           return;
         }
         if (data.list_topDn) {
@@ -53,18 +54,20 @@ var LSsession_login = new Class({
           });
         }
         else {
-          $$('.loginform-level').each(function(el) {
-            el.setStyle('display','none');
-          });
+          this.loginformLevelHide();
         }
       }
       else {
-        $$('.loginform-level').each(function(el) {
-          el.setStyle('display','none');
-        });
-        $('LSsession_topDn').empty();
+        this.loginformLevelHide();
       }
       this.enableInput();
+    },
+    
+    loginformLevelHide: function(){
+      $$('.loginform-level').each(function(el) {
+        el.setStyle('display','none');
+      });
+      $('LSsession_topDn').empty();
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {

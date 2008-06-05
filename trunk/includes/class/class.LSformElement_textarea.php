@@ -57,7 +57,7 @@ class LSformElement_textarea extends LSformElement {
     }
     else {
       if (empty($this -> values)) {
-        $return['html'].="<li class='LSform'>"._('Aucunes valeur definie')."</li>\n";
+        $return['html'].="<li class='LSform'>"._('Aucune valeur definie')."</li>\n";
       }
       else {
         foreach ($this -> values as $value) {
