@@ -400,7 +400,7 @@ class LSsession {
                       }
                       // 2nd étape : génération du mot de passe + envoie par mail
                       else {
-                        $attr=$user -> attrs[$this -> ldapServer['recoverPassword']['passwordAttr']];
+                        $attr=$user -> attrs[$this -> ldapServer['authobject_pwdattr']];
                         if ($attr instanceof LSattribute) {
                           $mdp = generatePassword($attr -> config['html_options']['chars'],$attr -> config['html_options']['lenght']);
                           debug('Nvx mpd : '.$mdp);
@@ -408,7 +408,7 @@ class LSsession {
                           $lostPasswdForm -> setPostData(
                             array(
                               $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => array(''),
-                              $this -> ldapServer['recoverPassword']['passwordAttr'] => array($mdp)
+                              $this -> ldapServer['authobject_pwdattr'] => array($mdp)
                             )
                             ,true
                           );
