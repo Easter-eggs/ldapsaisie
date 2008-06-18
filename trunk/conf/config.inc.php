@@ -25,7 +25,9 @@ $GLOBALS['LSconfig'] = array(
   'NetLDAP2' => '/usr/share/php/Net/LDAP2.php',
   'Smarty' => '/var/www/tmp/Smarty-2.6.18/libs/Smarty.class.php',
   'lang' => 'fr_FR.UTF8',
-  'cacheLSrights' => false,
+  'cacheLSrights' => true,
+  'cacheSubDn' => true,
+  'cacheSearch' => true,
   'ldap_servers' => array (
     array (
       'name' => 'LSexample',
@@ -53,6 +55,7 @@ $GLOBALS['LSconfig'] = array(
           )
         ),
         'cacheLSrights' => false,
+        'cacheSearch' => true,
       'authobject' => 'LSeepeople',
       'authobject_pwdattr' => 'userPassword',
       'recoverPassword' => array(

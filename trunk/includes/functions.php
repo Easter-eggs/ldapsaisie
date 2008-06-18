@@ -258,5 +258,12 @@ function debug_print($return=false) {
     }
     return $retVal;
   }
+  
+  function compareDn($a,$b) {
+    if (substr_count($a,',') > substr_count($b,','))
+      return -1;
+    else 
+      return 1;
+  }
 
 ?>

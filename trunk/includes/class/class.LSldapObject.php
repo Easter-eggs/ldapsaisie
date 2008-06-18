@@ -746,10 +746,15 @@ class LSldapObject {
         // Si recherche unique
         else {
           // préparation du retour finale
-          $ret_final=array();
-          foreach($ret as $obj)
-            $ret_final[]=$obj['dn'];
-          $ret=$ret_final;
+          if (is_array($ret)) {
+            $ret_final=array();
+            foreach($ret as $obj)
+              $ret_final[]=$obj['dn'];
+            $ret=$ret_final;
+          }
+          else {
+            $ret=array();
+          }
           break;
         }
       }

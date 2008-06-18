@@ -2,12 +2,18 @@
   <tr class='LSobject-list'>
     <th class='LSobject-list LSobject-select-check'></th>
     <th class='LSobject-list'>{$LSobject_list_objectname}</th>
+    {if $label_level}<th class='LSobject-list'>{$label_level}</th>{/if}
   </tr>
 {foreach from=$LSobject_list item=object}
     <tr class='LSobject-list{if $object.tr=='bis'} LSobject-list-bis{/if}'>
         <td class='LSobject-list LSobject-select-check'><input type='checkbox' name='LSobjects_selected[]' value='{$object.dn}' {if $object.select}checked{/if} class='LSobject-select' /></td>
         <td class='LSobject-list LSobject-select-names'>{$object.displayValue}</td>
+        {if $label_level}<td class='LSobject-list LSobject-select-level'>{$object.subDn}</td>{/if}
     </tr>
+{foreachelse}
+    <tr class='LSobject-list'>
+      <td colspan='3' class='LSobject-list-without-result'>{$LSobject_list_without_result_label}</td>
+    </tr> 
 {/foreach}
 </table>
 {if $LSobject_list_nbpage}
@@ -21,3 +27,7 @@
   {/section}
   </p>
 {/if}
+<script type='text/javascript'>
+debug_txt = {$debug_txt};
+error_txt = {$error_txt};
+</script>

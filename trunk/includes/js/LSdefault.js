@@ -31,7 +31,7 @@ var LSdefault = new Class({
 
     onLSdebugHiddenClick: function(event){
       new Event(event).stop();
-      new Fx.Style(this.LSdebug,'opacity',{duration:500}).start(1,0);
+      new Fx.Style(this.LSdebug,'opacity',{duration:500}).start(0.8,0);
     },
 
     displayDebugBox: function() {
@@ -46,8 +46,7 @@ var LSdefault = new Class({
     },
 
     displayDebug: function(html) {
-      this.LSdebug.empty();
-      this.LSdebug.setHTML(html);
+      this.LSdebugInfos.setHTML(html);
       this.displayDebugBox();
     },
 

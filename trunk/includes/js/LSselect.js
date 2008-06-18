@@ -1,17 +1,24 @@
 var LSselect = new Class({
     initialize: function(){
-      this.initializeContent();
+      this.main_page = $('LSobject-select-main-div').getParent();
+      this.content = $('content');
       
-      $$('form.LSselect_search').each(function(el) {
-        var input = new Element('input');
-        input.setProperty('name','ajax');
-        input.setProperty('type','hidden');
-        input.injectInside(el);
-        el.addEvent('submit',this.onSubmitSearchForm.bindWithEvent(this,el));
-      }, this);
+      this.LSselect_search_form = $('LSselect_search_form');
+      var input = new Element('input');
+      input.setProperty('name','ajax');
+      input.setProperty('type','hidden');
+      input.injectInside(this.LSselect_search_form);
+      
+      this.LSselect_search_form.addEvent('submit',this.onSubmitSearchForm.bindWithEvent(this));
       
       this.LSselect_topDn = $('LSselect_topDn');
-      this.LSselect_topDn.addEvent('change',this.onChangeLSselect_topDn.bind(this));
+      if (this.LSselect_topDn) {
+        this.LSselect_topDn.addEvent('change',this.onChangeLSselect_topDn.bind(this));
+      }
+      this.LSselect_refresh_btn = $('LSselect_refresh_btn');
+      this.LSselect_refresh_btn.addEvent('click',this.onClickLSselect_refresh_btn.bind(this));
+      
+      this.initializeContent();
     },
     
     initializeContent: function() {
@@ -32,10 +39,8 @@ var LSselect = new Class({
           objectdn:   checkbox.value,
           objecttype: $('LSselect-object').getProperties('caption').caption
         };
-        LSdebug('plus');
       }
       else {
-        LSdebug('mois');
         var data = {
           template:   'LSselect',
           action:     'dropLSselectobject-item',
@@ -64,40 +69,50 @@ var LSselect = new Class({
     
     onChangePageClickComplete: function(responseText, responseXML) {
       varLSdefault.loadingImgHide(this.searchImgload);
-      $('content').setHTML(responseText);
+      this.content.setHTML(responseText);
       this.initializeContent();
     },
     
     onChangeLSselect_topDn: function() {
-      form = this.LSselect_topDn.getParent().getParent();
-      this.submitSearchForm(form);
+      this.submitSearchForm();
     },
     
-    onSubmitSearchForm: function(event, form) {
+    onSubmitSearchForm: function(event) {
       new Event(event).stop();
-      this.submitSearchForm(form);
+      this.submitSearchForm();
     },
     
-    submitSearchForm: function(form) {
+    submitSearchForm: function() {
       var imgload = varLSdefault.loadingImgDisplay($('title'),'inside');
-      form.send({
-        update: $('content'),
-        onComplete: this.onSubmitSearchFormComplete.bind(this,imgload)
+      this.LSselect_search_form.send({
+        update: this.content,
+        onComplete: this.onSubmitSearchFormComplete.bind(this,imgload),
+        evalScripts: true
       });
     },
     
     onSubmitSearchFormComplete: function(imgload) {
       varLSdefault.loadingImgHide(imgload);
+      if (typeof(debug_txt)!="undefined") {
+        var debug = Json.evaluate(debug_txt);
+        if (debug) {
+          varLSdefault.displayDebug(debug.toString());
+        }
+      }
+      if (typeof(error_txt)!="undefined") {
+        var error=Json.evaluate(error_txt);
+        if (error) {
+          varLSdefault.displayDebug(error.toString());
+        }
+      }
       this.initializeContent();
     },
-    
-    submit: function() {
-      var values = new Array();
-      $('content').getElements('input[name^=LSobjects_selected]').each(function(el) {
-        values.push(el.value);
-      },this);
-      return values;
+
+    onClickLSselect_refresh_btn: function() {
+      var input = new Element('input');
+      input.setProperty('name','refresh');
+      input.setProperty('type','hidden');
+      input.injectInside(this.LSselect_search_form);
+      this.submitSearchForm();
     }
-
-
 });

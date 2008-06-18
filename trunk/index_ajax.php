@@ -24,7 +24,10 @@ if (!isset($_ERRORS)) {
               $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions($_SESSION['LSsession_topDn']);
               if (is_string($list)) {
                 $list="<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
-                $data = array('list_topDn' => $list);
+                $data = array(
+                  'list_topDn' => $list,
+                  'levelLabel' => $GLOBALS['LSsession'] -> getLevelLabel()
+                );
               }
               else if (is_array($list)){
                 $data = array('LSerror' => $GLOBALS['LSerror']->getErrors());

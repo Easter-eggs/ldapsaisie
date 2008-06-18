@@ -49,6 +49,7 @@ var LSsession_login = new Class({
         if (data.list_topDn) {
           $('LSsession_topDn').getParent().setHTML(data.list_topDn);
           LSdebug($('LSsession_topDn').innerHTML);
+          $('LSsession_topDn_label').setHTML(data.levelLabel);
           $$('.loginform-level').each(function(el) {
             el.setStyle('display','block');
           });

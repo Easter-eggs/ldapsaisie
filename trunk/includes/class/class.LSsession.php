@@ -46,6 +46,8 @@ class LSsession {
   );
   var $LSaccess = array();
   var $tmp_file = array();
+  var $_subDnLdapServer = array();
+  var $ajaxDisplay = false;
 
   /**
    * Constructeur
@@ -243,7 +245,7 @@ class LSsession {
         $this -> ldapServerId = $_SESSION['LSsession']['ldapServerId'];
         $this -> tmp_file     = $_SESSION['LSsession']['tmp_file'];
         
-        if ( ($GLOBALS['LSconfig']['cacheLSrights']) || ($this -> ldapServer['cacheLSrights']) ) {
+        if ( $this -> cacheLSrights() ) {
           $this -> ldapServer = $_SESSION['LSsession']['ldapServer'];
           $this -> LSrights   = $_SESSION['LSsession']['LSrights'];
           $this -> LSaccess   = $_SESSION['LSsession']['LSaccess'];
@@ -258,6 +260,11 @@ class LSsession {
           $this -> loadLSobjects();
           $this -> loadLSrights();
         }
+        
+        if ( $this -> cacheSudDn() && (!isset($_REQUEST['LSsession_topDn_refresh'])) ) {
+          $this -> _subDnLdapServer = $_SESSION['LSsession_subDnLdapServer'];
+        }
+        
         $this -> loadLSobject($this -> ldapServer['authobject']);
         $this -> LSuserObject = new $this -> ldapServer['authobject']();
         $this -> LSuserObject -> loadData($this -> dn);
@@ -466,7 +473,7 @@ class LSsession {
                     $this -> rdn = $_POST['LSsession_user'];
                     $this -> loadLSrights();
                     $this -> loadLSaccess();
-                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
+                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getValue('rdn'));
                     $_SESSION['LSsession']=get_object_vars($this);
                     return true;
                   }
@@ -549,6 +556,9 @@ class LSsession {
   * @retval mixed Tableau des subDn, false si une erreur est survenue.
   */
   function getSubDnLdapServer() {
+    if ($this -> cacheSudDn() && isset($this -> _subDnLdapServer[$this -> ldapServerId])) {
+      return $this -> _subDnLdapServer[$this -> ldapServerId];
+    }
     if ( is_array($this ->ldapServer['subDn']) ) {
       $return=array();
       foreach($this ->ldapServer['subDn'] as $subDn_name => $subDn_config) {
@@ -588,11 +598,31 @@ class LSsession {
           $return[$subDn_config] = $subDn_name;
         }
       }
+      if ($this -> cacheSudDn()) {
+        $this -> _subDnLdapServer[$this -> ldapServerId]=$return;
+        $_SESSION['LSsession_subDnLdapServer'] = $this -> _subDnLdapServer;
+      }
       return $return;
     }
     else {
       return;
     }
+  }
+  
+  /**
+   * Retourne la liste de subDn du serveur Ldap utilise
+   * trié par la profondeur dans l'arboressence (ordre décroissant)
+   * 
+   * @return array() Tableau des subDn trié
+   */  
+  function getSortSubDnLdapServer() {
+    if(isset($_SESSION['LSsession']['LSview_subDnLdapServer']) && $this -> cacheSudDn()) {
+      return $_SESSION['LSsession']['LSview_subDnLdapServer'];
+    }
+    $subDnLdapServer = $this  -> getSubDnLdapServer();
+    uksort($subDnLdapServer,"compareDn");
+    $_SESSION['LSsession']['LSview_subDnLdapServer']=$subDnLdapServer;
+    return $subDnLdapServer;
   }
 
  /**
@@ -825,20 +855,28 @@ class LSsession {
     // Niveau
     $listTopDn = $this -> getSubDnLdapServer();
     if (is_array($listTopDn)) {
-      $GLOBALS['Smarty'] -> assign('label_level',_('Niveau'));
+      $GLOBALS['Smarty'] -> assign('label_level',$this -> getLevelLabel());
+      $GLOBALS['Smarty'] -> assign('_refresh',_('Rafraîchir'));
       $LSsession_topDn_index = array();
       $LSsession_topDn_name = array();
       foreach($listTopDn as $index => $name) {
         $LSsession_topDn_index[]  = $index;
         $LSsession_topDn_name[]   = $name;
       }
-      $GLOBALS['Smarty'] -> assign('LSsession_topDn_index',$LSsession_topDn_index);
-      $GLOBALS['Smarty'] -> assign('LSsession_topDn_name',$LSsession_topDn_name);
-      $GLOBALS['Smarty'] -> assign('LSsession_topDn',$this -> topDn);
+      $GLOBALS['Smarty'] -> assign('LSsession_subDn_indexes',$LSsession_topDn_index);
+      $GLOBALS['Smarty'] -> assign('LSsession_subDn_names',$LSsession_topDn_name);
+      $GLOBALS['Smarty'] -> assign('LSsession_subDn',$this -> topDn);
+      $GLOBALS['Smarty'] -> assign('LSsession_subDnName',$this -> getSubDnName());
     }
     
-    $GLOBALS['LSerror'] -> display();
-    debug_print();
+    if ($this -> ajaxDisplay) {
+      $GLOBALS['Smarty'] -> assign('error_txt',json_encode($GLOBALS['LSerror']->getErrors()));
+      $GLOBALS['Smarty'] -> assign('debug_txt',json_encode(debug_print(true)));
+    }
+    else {
+      $GLOBALS['LSerror'] -> display();
+      debug_print();
+    }
     if (!$this -> template)
       $this -> setTemplate('empty.tpl');
     $GLOBALS['Smarty'] -> display($this -> template);
@@ -1182,6 +1220,69 @@ class LSsession {
       $this -> tmp_file = array();
       $_SESSION['LSsession']['tmp_file'] = array();
     }
+  }
+
+  /**
+   * Retourne true si le cache des droits est activé
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @retval boolean True si le cache des droits est activé, false sinon.
+   */
+  function cacheLSrights() {
+    return ( ($GLOBALS['LSconfig']['cacheLSrights']) || ($this -> ldapServer['cacheLSrights']) );
+  }
+
+  /**
+   * Retourne true si le cache des subDn est activé
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @retval boolean True si le cache des subDn est activé, false sinon.
+   */
+  function cacheSudDn() {
+    return (($GLOBALS['LSconfig']['cacheSubDn']) || ($this -> ldapServer['cacheSubDn']));
+  }
+  
+  /**
+   * Retourne true si le cache des recherches est activé
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @retval boolean True si le cache des recherches est activé, false sinon.
+   */
+  function cacheSearch() {
+    return (($GLOBALS['LSconfig']['cacheSearch']) || ($this -> ldapServer['cacheSearch']));
+  }
+  
+  /**
+   * Retourne le label des niveaux pour le serveur ldap courant
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @retval string Le label des niveaux pour le serveur ldap dourant
+   */
+  function getLevelLabel() {
+    return ($this -> ldapServer['levelLabel']!='')?$this -> ldapServer['levelLabel']:_('Niveau');
+  }
+  
+  /**
+   * Retourne le nom du subDn
+   * 
+   * @param[in] $subDn string subDn
+   * 
+   * @return string Le nom du subDn ou '' sinon
+   */
+  function getSubDnName($subDn=false) {
+    if (!$subDn) {
+      $subDn = $this -> topDn;
+    }
+    if ($this -> getSubDnLdapServer()) {
+      if (isset($this -> _subDnLdapServer[$this -> ldapServerId][$subDn])) {
+        return $this -> _subDnLdapServer[$this -> ldapServerId][$subDn];
+      }
+    }
+    return '';
   }
 
 }

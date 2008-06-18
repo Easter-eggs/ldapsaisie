@@ -29,121 +29,253 @@ if($LSsession -> startLSsession()) {
   if (isset($_REQUEST['LSobject'])) {
     $LSobject = $_REQUEST['LSobject'];
     
-    if ( $GLOBALS['LSsession'] -> loadLSobject($_REQUEST['LSobject']) ) {
-        $objectList=array();
-        $object = new $_REQUEST['LSobject']();
-        
-        
-        if ( $_REQUEST['LSview_pattern']!='' ) {
-          $filter='(|';
-          if ( isset($_REQUEST['LSview_approx']) ) {
-            foreach ($object -> attrs as $attr_name => $attr_val) {
-              $filter.='('.$attr_name.'~='.$_REQUEST['LSview_pattern'].')';
-            }
-          }
-          else {
-            foreach ($object -> attrs as $attr_name => $attr_val) {
-              $filter.='('.$attr_name.'=*'.$_REQUEST['LSview_pattern'].'*)';
-            }              
-          }
-          $filter.=')';
-          $GLOBALS['Smarty']->assign('LSobject_list_filter','filter='.urlencode($filter));
-        }
-        else if ($_REQUEST['filter']) {
-          $filter=urldecode($_REQUEST['filter']);
-          $GLOBALS['Smarty']->assign('LSobject_list_filter','filter='.$_REQUEST['filter']);
+    if ( $GLOBALS['LSsession'] -> loadLSobject($LSobject) ) {
+      $objectList=array();
+      $object = new $LSobject();
+      
+      $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
+      $GLOBALS['Smarty']->assign('LSobject_list_objectname',$object -> getLabel());
+      
+      if (isset($_SESSION['LSsession']['LSsearch'][$LSobject])) {
+        $filter = $_SESSION['LSsession']['LSsearch'][$LSobject]['filter'];
+        if (isCompatibleDNs($_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'],$GLOBALS['LSsession'] -> topDn)) {
+          $topDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'];
+          debug("topDn from cache : ".$topDn);
         }
         else {
-          $filter=NULL;
-          $GLOBALS['Smarty']->assign('LSobject_list_filter','');
+          $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
+          debug("topDn from cache : ".$topDn);
         }
-       
-       $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
-       if(isset($_REQUEST['LSselect_topDn'])) {
-        if ($GLOBALS['LSsession'] -> validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
-          $topDn = $object -> config['container_dn'].','.$_REQUEST['LSselect_topDn'];
+        $params = $_SESSION['LSsession']['LSsearch'][$LSobject]['params'];
+        $pattern = $_SESSION['LSsession']['LSsearch'][$LSobject]['pattern'];
+        $recur = $_SESSION['LSsession']['LSsearch'][$LSobject]['recur'];
+        $approx = $_SESSION['LSsession']['LSsearch'][$LSobject]['approx'];
+        $selectedTopDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'];
+      }
+      else {
+        $filter = NULL;
+        $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
+        $params = array('scope' => 'one');
+        $pattern = false;
+        $recur = false;
+        $approx = false;
+        $selectedTopDn = $GLOBALS['LSsession'] -> topDn;
+      }
+      
+      if (isset($_REQUEST['LSview_search_submit'])) {
+        if (isset($_REQUEST['LSview_pattern']) && ($_REQUEST['LSview_pattern']!=$pattern)) {
+          $pattern = $_REQUEST['LSview_pattern'];
         }
-       }
-       
-       $list=$object -> listObjects($filter,$topDn);
-        $nbObjects=count($list);
 
-        if ($nbObjects > NB_LSOBJECT_LIST_SELECT) {
-          if (isset($_GET['page'])) {
-            $list = array_slice($list, ($_GET['page']) * NB_LSOBJECT_LIST_SELECT, NB_LSOBJECT_LIST_SELECT);
-            $GLOBALS['Smarty']->assign('LSobject_list_currentpage',$_GET['page']);
-            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST_SELECT));
+        $approx = (isset($_REQUEST['LSview_approx']));
+        
+        if ($pattern && $pattern!='') {
+          $filter='(|';
+          if ($approx) {
+            foreach ($object -> attrs as $attr_name => $attr_val) {
+              $filter.='('.$attr_name.'~='.$pattern.')';
+            }
           }
           else {
-            $list = array_slice($list, 0, NB_LSOBJECT_LIST_SELECT);
-            $GLOBALS['Smarty']->assign('LSobject_list_currentpage',0);
-            $GLOBALS['Smarty']->assign('LSobject_list_nbpage',ceil($nbObjects / NB_LSOBJECT_LIST_SELECT));
+            foreach ($object -> attrs as $attr_name => $attr_val) {
+              $filter.='('.$attr_name.'=*'.$pattern.'*)';
+            }
+          }
+          $filter.=')';
+        }
+        else {
+          $filter = NULL;
+        }
+        
+        if (isset($_REQUEST['LSview_recur'])) {
+          $recur = true;
+          $params['scope'] = 'sub';
+          if ($GLOBALS['LSsession'] -> validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
+            $topDn = $_REQUEST['LSselect_topDn'];
+            $selectedTopDn = $topDn;
+          }
+          else {
+            $topDn = $GLOBALS['LSsession'] -> topDn;
+            $selectedTopDn = $topDn;
           }
         }
+        else {
+          $recur = false;
+          $params['scope'] = 'one';
+          if ($GLOBALS['LSsession'] -> validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
+            $topDn = $object -> config['container_dn'].','.$_REQUEST['LSselect_topDn'];
+            $selectedTopDn = $_REQUEST['LSselect_topDn'];
+          }
+          else {
+            $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
+            $selectedTopDn = $GLOBALS['LSsession'] -> topDn;
+          }
+        }
+      }
+      
+      // Sauvegarde en Session
+      $_SESSION['LSsession']['LSsearch'][$LSobject] = array(
+        'filter' => $filter,
+        'topDn' => $topDn,
+        'params' => $params,
+        'pattern' => $pattern,
+        'recur' => $recur,
+        'approx' => $approx,
+        'selectedTopDn' => $selectedTopDn
+      );
+
+      $GLOBALS['Smarty']->assign('LSview_search_pattern',$pattern);
+
+      if ($recur) {
+        $GLOBALS['Smarty']->assign('LSview_search_recur',true);
+      }
+      if ($approx) {
+        $GLOBALS['Smarty']->assign('LSview_search_approx',true);
+      }
+      $GLOBALS['Smarty']->assign('LSselect_topDn',$selectedTopDn);
+      
+      // Hidden fields
+      $GLOBALS['Smarty']->assign('LSview_search_hidden_fields',array(
+        'LSobject' => $LSobject,
+        'LSview_search_submit' => 1,
+        'ajax' => 1
+      ));
+      
+      // Hash de la recherche déterminer à partir des paramètres de la recherche
+      $hash = mhash (MHASH_MD5, 
+        print_r(
+          array(
+            'LSobject' => $LSobject,
+            'filter' => $filter,
+            'topDn' => $topDn,
+            'params' => $params
+          ),
+          true
+        )
+      );
+      
+      
+      
+      if (($GLOBALS['LSsession'] -> cacheSearch()) && isset($_SESSION['LSsession']['LSsearch'][$hash]) && (!isset($_REQUEST['refresh']))) {
+        // On affiche à partir du cache
+        $searchData=$_SESSION['LSsession']['LSsearch'][$hash];
+        debug('From cache');
+      }
+      else {
+        debug('Load');
+        $LSview_actions[] = array (
+          'label' => _('Rafraîchir'),
+          'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
+          'action' => 'refresh'
+        );
+        
+        $list=$object -> listObjects($filter,$topDn,$params);
+        $nbObjects=count($list);
+        $searchData['LSobject_list_nbresult']=$nbObjects;
+
         $c=0;
+        
+        $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
         foreach($list as $thisObject) {
-          $c++;
-          unset($actions);
-          if ($GLOBALS['LSsession'] -> canAccess($_REQUEST['LSobject'],$thisObject->getValue('dn'))) {
-            if ($c%2==0) {
-              $tr='bis';
-            }
-            else {
-              $tr='';
-            }
+          if ($GLOBALS['LSsession'] -> canAccess($LSobject,$thisObject->getValue('dn'))) {
+
+            $c++;
+            unset($actions);
             
-            if (is_array($_SESSION['LSselect'][$_REQUEST['LSobject']])) {
-              if(in_array($thisObject -> getValue('dn'),$_SESSION['LSselect'][$_REQUEST['LSobject']])) {
-                $select = true;
+            $subDn_name=false;
+            reset($subDnLdapServer);
+            while (!$subDn_name && next($subDnLdapServer)) {
+              if (isCompatibleDNs(key($subDnLdapServer),$thisObject -> getValue('dn'))) {
+                $subDn_name=current($subDnLdapServer);
               }
-              else {
-                $select = false;
-              }
-            }
-            else {
-              $select = false;
             }
             
             $objectList[]=array(
               'dn' => $thisObject->getValue('dn'),
               'displayValue' => $thisObject->getDisplayValue(),
-              'actions' => $actions,
-              'tr' => $tr,
-              'select' => $select
+              'subDn' => $subDn_name
             );
           }
+          else {
+            debug($thisObject->getValue('dn'));
+          }
         }
-        
-        
-        $GLOBALS['LSsession'] -> addJSscript('LSview.js');
-        //$GLOBALS['LSsession'] -> addJSscript('LSselect.js');
-        
-        $GLOBALS['Smarty']->assign('LSview_search',array(
-          'action' => $_SERVER['PHP_SELF'],
-          'submit' => _('Rechercher'),
-          'LSobject' => $_REQUEST['LSobject']
-        ));
-        
-        $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
-        $GLOBALS['Smarty']->assign('LSobject_list_objectname',$object -> getLabel());
-        $GLOBALS['Smarty']->assign('LSobject_list_nbresult',$nbObjects);
-        $GLOBALS['Smarty']->assign('LSobject_list',$objectList);
-        $GLOBALS['Smarty']->assign('LSobject_list_objecttype',$_REQUEST['LSobject']);
-        if (isset($_REQUEST['ajax'])) {
-          $GLOBALS['LSsession'] -> setTemplate('select_table.tpl');
+        $searchData['objectList']=$objectList;
+        $searchData['LSview_actions'] = $LSview_actions;
+        if ($GLOBALS['LSsession'] -> cacheSearch()) {
+          $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
+        }
+      }
+      $GLOBALS['Smarty']->assign('LSobject_list_nbresult',$searchData['LSobject_list_nbresult']);
+      
+      // Pagination
+      if ($searchData['LSobject_list_nbresult'] > NB_LSOBJECT_LIST) {
+        if (isset($_REQUEST['page'])) {
+          $searchData['objectList'] = array_slice($searchData['objectList'], ($_REQUEST['page']) * NB_LSOBJECT_LIST, NB_LSOBJECT_LIST);
+          $GLOBALS['Smarty']->assign('LSobject_list_currentpage',$_REQUEST['page']);
+          
         }
         else {
-          $GLOBALS['LSsession'] -> setTemplate('select.tpl');
+          $searchData['objectList'] = array_slice($searchData['objectList'], 0, NB_LSOBJECT_LIST);
+          $GLOBALS['Smarty']->assign('LSobject_list_currentpage',0);
         }
+        $searchData['LSobject_list_nbpage']=ceil($searchData['LSobject_list_nbresult'] / NB_LSOBJECT_LIST);
+        $GLOBALS['Smarty']->assign('LSobject_list_nbpage',$searchData['LSobject_list_nbpage']);
+      }
+      
+      // Bis/Pas Bis + Select/Pas Select
+      for($i=0;$i<count($searchData['objectList']);$i++) {
+        if ($i%2==0) {
+          $tr='bis';
+        }
+        else {
+          $tr='';
+        }
+        $searchData['objectList'][$i]['tr']=$tr;
+        
+        if (is_array($_SESSION['LSselect'][$LSobject])) {
+          if(in_array($searchData['objectList'][$i]['dn'],$_SESSION['LSselect'][$LSobject])) {
+            $select = true;
+          }
+          else {
+            $select = false;
+          }
+        }
+        else {
+          $select = false;
+        }
+        $searchData['objectList'][$i]['select']=$select;
+      }        
+      
+      $GLOBALS['LSsession'] -> addJSscript('LSview.js');
+      
+      $GLOBALS['Smarty']->assign('LSview_search',array(
+        'action' => $_SERVER['PHP_SELF'],
+        'submit' => _('Rechercher'),
+        'LSobject' => $LSobject
+      ));
+      
+      $GLOBALS['Smarty']->assign('LSview_search_recur_label',_('Recherche récursive'));
+      $GLOBALS['Smarty']->assign('LSview_search_approx_label',_('Recherche approximative'));
+
+      $GLOBALS['Smarty']->assign('LSobject_list_without_result_label',_("Cette recherche n'a retourné aucun résultat."));
+      $GLOBALS['Smarty']->assign('LSobject_list',$searchData['objectList']);
+      $GLOBALS['Smarty']->assign('LSobject_list_objecttype',$LSobject);
+      $GLOBALS['Smarty'] -> assign('LSview_actions',$searchData['LSview_actions']);
+      if (isset($_REQUEST['ajax'])) {
+        $GLOBALS['LSsession'] -> setTemplate('select_table.tpl');
+      }
+      else {
+        $GLOBALS['LSsession'] -> setTemplate('select.tpl');
+      }
+      $GLOBALS['LSsession'] -> ajaxDisplay = true;
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['LSobject']);
-      $GLOBALS['LSsession'] -> setTemplate('blank.tpl');
+      $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject);
     }
   }
   else {
     $GLOBALS['LSerror'] -> addErrorCode(1012);
-    $GLOBALS['LSsession'] -> setTemplate('blank.tpl');
   }
 }
 else {

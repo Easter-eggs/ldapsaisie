@@ -22,8 +22,8 @@ var LSsmoothbox = new Class({
       this.pnav = new Element('p');
       this.pnav.setProperty('id','pnav-LSsmoothbox');
       
-      this.pnav.injectInside(this.win);
       this.frame.injectInside(this.win);      
+      this.pnav.injectInside(this.win);
       
       $$('a.LSsmoothbox').each(function(el) {
         el.addEvent('click',this.clickA.bindWithEvent(this,el));

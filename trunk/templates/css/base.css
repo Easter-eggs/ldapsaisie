@@ -68,13 +68,13 @@ hr {
 
 #LSsession_topDn {
   height:                   1.5em;
+  width:                    150px;
 }
 
 #LSsession_topDn_form {
-  float:                    left;
-  font-size:                0.7em;
+  width:                    150px;
+  margin:                   5px;
   color:                    #fff;
-  
 }
 
 #user_name {
@@ -108,9 +108,17 @@ td.LSobject-list {
   padding:            0.1em;
 }
 
+td.LSobject-list-without-result {
+  text-align:         center;
+}
+
 th.LSobject-list {
   background-color:   #52bce5;
   color:              #fff;
+}
+
+td.LSobject-list-subdn {
+  width:              15em;
 }
 
 tr.LSobject-list-bis {
@@ -233,9 +241,13 @@ div.LSselect_search {
   float:              right;
 }
 
+#LSview_search_param {
+  margin:             0px;
+  padding:            0px;
+}
+
 label.LSview_search {
   font-size:          0.6em;
-  display:            block;
 }
 
 input[type='text'].LSview_search {
@@ -275,4 +287,14 @@ form.LSselect_search {
 
 img.LSrelation-btn {
   margin-left:        0.5em;
+}
+
+.btn {
+  cursor:             pointer;
+}
+
+#LSview_subDnName {
+  float:              left;
+  margin:             0.5em;
+  margin-bottom:      0em;
 }
