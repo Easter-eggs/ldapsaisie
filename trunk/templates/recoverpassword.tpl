@@ -31,9 +31,7 @@
 </dl>
 </form>
 
-{if recoverpassword_msg!=''}
-  <p id='recoverpassword_msg'>{$recoverpassword_msg}</p>
-{/if}
+<p id='recoverpassword_msg'>{$recoverpassword_msg}</p>
 
 <a href='index.php' id='recoverpassword_back'>{$recoverpasswordform_label_back}</a>
 </div>

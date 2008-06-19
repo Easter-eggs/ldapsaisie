@@ -748,26 +748,24 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_submit',_('Valider'));
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_back',_('Retour'));
     
+    $recoverpassword_msg = _('Veuillez saisir votre identifiant pour poursuivre le processus de récupération de votre mot de passe');
+    
     if (isset($recoveryPasswordInfos['recoveryHashMail'])) {
-      $GLOBALS['Smarty'] -> assign(
-        'recoverpassword_msg',
-        getFData(
-          _("Un mail vient de vous être envoyé à l'adresse %{mail}. " .
-          "Merci de suivre les indications contenus dans ce mail."),
-          $recoveryPasswordInfos['recoveryHashMail']
-        )
+      $recoverpassword_msg = getFData(
+        _("Un mail vient de vous être envoyé à l'adresse %{mail}. " .
+        "Merci de suivre les indications contenus dans ce mail."),
+        $recoveryPasswordInfos['recoveryHashMail']
       );
     }
     
     if (isset($recoveryPasswordInfos['newPasswordMail'])) {
-      $GLOBALS['Smarty'] -> assign(
-        'recoverpassword_msg',
-        getFData(
-          _("Votre nouveau mot de passe vient de vous être envoyé à l'adresse %{mail}. "),
-          $recoveryPasswordInfos['newPasswordMail']
-        )
+      $recoverpassword_msg = getFData(
+        _("Votre nouveau mot de passe vient de vous être envoyé à l'adresse %{mail}. "),
+        $recoveryPasswordInfos['newPasswordMail']
       );
     }
+    
+    $GLOBALS['Smarty'] -> assign('recoverpassword_msg',$recoverpassword_msg);
     
     $this -> setTemplate('recoverpassword.tpl');
     $this -> addJSscript('LSsession_recoverpassword.js');
