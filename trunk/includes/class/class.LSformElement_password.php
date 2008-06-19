@@ -89,6 +89,10 @@ class LSformElement_password extends LSformElement {
       $return['html'] .= $autogenerate_html;
       $id = "LSformElement_password_view_btn_".$this -> name."_".$numberId;
       $return['html'] .= "<img src='templates/images/view.png' id='$id' class='LSformElement_password_view_btn'/>\n";
+      if (!$this -> attr_html -> attribute -> ldapObject-> isNew()) {
+        $id = "LSformElement_password_verify_btn_".$this -> name."_".$numberId;
+        $return['html'] .= "<img src='templates/images/verify.png' id='$id' class='LSformElement_password_verify_btn' alt=\"".('Vérifier le mot de passe')."\" title=\"".('Vérifier le mot de passe')."\" />\n";
+      }
       
       if (!empty($this -> values)) {
         $return['html'] .= "* "._('Modification uniquement').".";
@@ -108,6 +112,13 @@ class LSformElement_password extends LSformElement {
   
   function generatePassword() {
     return generatePassword($this -> params['html_options']['chars'],$this -> params['html_options']['lenght']);
+  }
+  
+  function verifyPassword($pwd) {
+    if ($this -> attr_html -> attribute -> ldapObject -> isNew()) {
+      return false;
+    }
+    return $GLOBALS['LSsession'] -> checkUserPwd($this -> attr_html -> attribute -> ldapObject,$pwd);
   }
 }
   

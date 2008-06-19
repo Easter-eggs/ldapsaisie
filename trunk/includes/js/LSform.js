@@ -32,7 +32,14 @@ var LSform = new Class({
       $$('img.LSformElement_password_view_btn').each(function(el) {
         el.addEvent('click',this.onLSformElement_password_view_btnClick.bind(this,el));
       }, this);
+      
+      this.LSformElement_password_background_color = [];
+      
       this.initialiseLSformElement_password_generate();
+      
+      $$('img.LSformElement_password_verify_btn').each(function(el) {
+        el.addEvent('click',this.onLSformElement_password_verify_btnClick.bind(this,el));
+      }, this);
 
       this.initialiseLSformElement_select_object();
     },
@@ -49,6 +56,8 @@ var LSform = new Class({
     
     initialiseLSformElement_password_generate: function() {
       $$('input.LSformElement_password_generate').each(function(el) {
+        this.LSformElement_password_background_color[el.id] = el.getStyle('background-color');
+        el.addEvent('click',this.onLSformElement_password_verify_inputClick.bind(this,el));
         el.addEvent('keyup',this.onLSformElement_password_generate_inputKeyUp.bind(this,el));
       }, this);
     },
@@ -219,7 +228,7 @@ var LSform = new Class({
       var getAttrNameAndIdValues = getAttrNameAndId.exec(img.id);
       var attrName = getAttrNameAndIdValues[1];
       var fieldId = 'LSformElement_password_' + attrName + '_' + getAttrNameAndIdValues[2];
-      var viewBtnId = 'LSformElement_password_view_btn_userPassword_' + getAttrNameAndIdValues[2];
+      var viewBtnId = 'LSformElement_password_view_btn_' + attrName + '_' + getAttrNameAndIdValues[2];
 
       var data = {
         template:   'LSform',
@@ -301,6 +310,54 @@ var LSform = new Class({
       input.remove();
       this.initialiseLSformElement_password_generate();
       return newInput;
+    },
+    
+    onLSformElement_password_verify_btnClick: function(img) {
+      var getAttrNameAndId = /LSformElement_password_verify_btn_(.*)_([0-9]*)/
+      var getAttrNameAndIdValues = getAttrNameAndId.exec(img.id);
+      var attrName = getAttrNameAndIdValues[1];
+      var fieldId = 'LSformElement_password_' + attrName + '_' + getAttrNameAndIdValues[2];
+      var verifyBtnId = 'LSformElement_password_verify_btn_' + attrName + '_' + getAttrNameAndIdValues[2];
+
+      var data = {
+        template:   'LSform',
+        action:     'verifyPassword',
+        attribute:  attrName,
+        objecttype: $('LSform_objecttype').value,
+        idform:     $('LSform_idform').value,
+        fieldId:    fieldId,
+        fieldValue: $(fieldId).value,
+        objectdn:   $('LSform_objectdn').value
+      };
+      LSdebug(data);
+      data.imgload=varLSdefault.loadingImgDisplay(img);
+      new Ajax('index_ajax.php',  {data: data, onComplete: this.onLSformElement_password_verify_btnClickComplete.bind(this)}).request();
+    },
+    
+    onLSformElement_password_verify_btnClickComplete: function(responseText, responseXML) {
+      var data = Json.evaluate(responseText);
+      if ( data ) {
+        if ( typeof(data.LSerror) != "undefined" ) {
+          varLSdefault.loadingImgHide(data.imgload);
+          varLSdefault.displayError(data.LSerror);
+          return;
+        } 
+        else {  
+          varLSdefault.loadingImgHide(data.imgload);
+          if (data.verifyPassword) {
+            // ok
+            $(data.fieldId).setStyle('background-color','#73F386');
+          }
+          else {
+            // nok
+            $(data.fieldId).setStyle('background-color','#f59a67');
+          }
+        }
+      }
+    },
+    
+    onLSformElement_password_verify_inputClick: function(input) {
+      input.setStyle('background-color',this.LSformElement_password_background_color[input.id]);
     }
 
 });

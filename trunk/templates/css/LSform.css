@@ -74,6 +74,6 @@ li.LSformElement_select_object_addBtn {
   text-align:                 center;
 }
 
-img.LSformElement_select_object_deleteBtn, img.LSformElement_password_view_btn, img.LSformElement_password_generate_btn {
+img.LSformElement_select_object_deleteBtn, img.LSformElement_password_view_btn, img.LSformElement_password_generate_btn, img.LSformElement_password_verify_btn {
   cursor:                     pointer;
 }

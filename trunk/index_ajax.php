@@ -101,6 +101,19 @@ if (!isset($_ERRORS)) {
             }
           }
         break;
+        case 'verifyPassword':
+          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
+            $object = new $_REQUEST['objecttype']();
+            $form = $object -> getForm($_REQUEST['idform']);
+            $object -> loadData($_REQUEST['objectdn']);
+            $field=$form -> getElement($_REQUEST['attribute']);
+            $val = $field -> verifyPassword($_REQUEST['fieldValue']);
+            $data = array(
+              'verifyPassword' => $val,
+              'fieldId' => $_REQUEST['fieldId']
+            );
+          }
+        break;
       }
     break;
     case 'LSrelation':

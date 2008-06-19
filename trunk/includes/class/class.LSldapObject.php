@@ -574,7 +574,7 @@ class LSldapObject {
    * @param[in] $basedn string DN de base pour la recherche
    * @param[in] $params array Paramètres de recherche au format Net_LDAP2::search()
    *
-   * @retval array Tableau d'objet correspondant au resultat de la recherche
+   * @retval array Tableau d'objets correspondant au resultat de la recherche
    */ 
   function listObjects($filter='',$basedn=NULL,$params=array()) {
     $retInfos=array();
@@ -769,6 +769,17 @@ class LSldapObject {
     return $retInfos;
   }
  
+ 
+  /**
+   * Recherche un objet � partir de la valeur exact de son RDN
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @param[in] $name string Valeur de son RDN
+   * @param[in] $basedn string Le DN de base de la recherche
+   * 
+   * @retval array Tableau d'objets correspondant au resultat de la recherche
+   */
   function searchObject($name,$basedn=NULL) {
     $filter = $this -> config['rdn'].'='.$name; 
     return $this -> listObjects($filter,$basedn); 
@@ -864,6 +875,8 @@ class LSldapObject {
   /**
    * Retourne le type de l'objet
    *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
    * @retval string Le type de l'objet ($this -> type_name)
    */
   function getType() {
@@ -873,6 +886,8 @@ class LSldapObject {
   /**
    * Retourne qui est l'utilisateur par rapport à cet object
    *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
    * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui même ou un simple utilisateur
    */
   function whoami() {
@@ -884,6 +899,8 @@ class LSldapObject {
   /**
    * Retourne le label de l'objet
    *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
    * @retval string Le label de l'objet ($this -> config['label'])
    */
   function getLabel() {
@@ -894,10 +911,23 @@ class LSldapObject {
   /**
    * Supprime l'objet dans l'annuaire
    *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
    * @retval boolean True si l'objet à été supprimé, false sinon
    */
   function remove() {
     return $GLOBALS['LSldap'] -> remove($this -> getDn());
+  }
+  
+  /**
+   * L'objet est-il nouveau
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @retval boolean True si l'objet est nouveau, false sinon
+   */
+  function isNew() {
+    return (!$this -> dn);
   }
 }
 
