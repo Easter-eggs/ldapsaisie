@@ -1,14 +1,15 @@
 <table class='LSobject-list' id='LSselect-object' caption='{$LSobject_list_objecttype}'>
   <tr class='LSobject-list'>
     <th class='LSobject-list LSobject-select-check'></th>
-    <th class='LSobject-list'>{$LSobject_list_objectname}</th>
-    {if $label_level}<th class='LSobject-list'>{$label_level}</th>{/if}
+    <th class='LSobject-list sortBy_displayValue'>{if $LSobject_list_orderby == 'displayValue'}<strong>{$LSobject_list_objectname}</strong><img src='templates/images/{$LSobject_list_ordersense}.png' class='LSobject-list-ordersense' alt='{$LSobject_list_ordersense}'/>{else}{$LSobject_list_objectname}{/if}</th>
+    {if $LSobject_list_subDn}<th class='LSobject-list LSobject-list-subdn sortBy_subDn'>{if $LSobject_list_orderby == 'subDn'}<strong>{$label_level}</strong><img src='templates/images/{$LSobject_list_ordersense}.png' class='LSobject-list-ordersense' alt='{$LSobject_list_ordersense}'/>{else}{$label_level}{/if}</th>{/if}
   </tr>
+{assign var='bis' value=false}
 {foreach from=$LSobject_list item=object}
-    <tr class='LSobject-list{if $object.tr=='bis'} LSobject-list-bis{/if}'>
+    <tr class='LSobject-list{if $bis} LSobject-list-bis{assign var='bis' value=false}{else}{assign var='bis' value=true}{/if}'>
         <td class='LSobject-list LSobject-select-check'><input type='checkbox' name='LSobjects_selected[]' value='{$object.dn}' {if $object.select}checked{/if} class='LSobject-select' /></td>
         <td class='LSobject-list LSobject-select-names'>{$object.displayValue}</td>
-        {if $label_level}<td class='LSobject-list LSobject-select-level'>{$object.subDn}</td>{/if}
+        {if $LSobject_list_subDn}<td class='LSobject-list LSobject-select-level'>{$object.subDn}</td>{/if}
     </tr>
 {foreachelse}
     <tr class='LSobject-list'>

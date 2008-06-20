@@ -145,6 +145,8 @@ if($LSsession -> startLSsession()) {
         $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
         $GLOBALS['Smarty']->assign('LSobject_list_objectname',$object -> getLabel());
         
+        $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
+        
         if (isset($_SESSION['LSsession']['LSsearch'][$LSobject])) {
           $filter = $_SESSION['LSsession']['LSsearch'][$LSobject]['filter'];
           $params = $_SESSION['LSsession']['LSsearch'][$LSobject]['params'];
@@ -157,6 +159,9 @@ if($LSsession -> startLSsession()) {
             $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
           }
           $approx = $_SESSION['LSsession']['LSsearch'][$LSobject]['approx'];
+          $orderby = $_SESSION['LSsession']['LSsearch'][$LSobject]['orderby'];
+          $ordersense = $_SESSION['LSsession']['LSsearch'][$LSobject]['ordersense'];
+          $doSubDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['doSubDn'];
         }
         else {
           $filter = NULL;
@@ -165,6 +170,9 @@ if($LSsession -> startLSsession()) {
           $pattern = false;
           $recur = false;
           $approx = false;
+          $orderby = false;
+          $ordersense = 'ASC';
+          $doSubDn = (($subDnLdapServer)&&(!$GLOBALS['LSsession']->isSubDnLSobject($LSobject)));
         }
         
         if (isset($_REQUEST['LSview_search_submit'])) {
@@ -204,6 +212,23 @@ if($LSsession -> startLSsession()) {
           }
         }
         
+        $sort=false;
+        if ((isset($_REQUEST['orderby']))) {
+          $possible_values= array('displayValue','subDn');
+          if (in_array($_REQUEST['orderby'],$possible_values)) {
+            $sort=true;
+            if ($orderby==$_REQUEST['orderby']) {
+              $ordersense = ($ordersense=='ASC')?'DESC':'ASC';
+            }
+            else {
+              $ordersense = 'ASC';
+            }
+            $orderby=$_REQUEST['orderby'];
+          }
+        }
+        
+        $GLOBALS['Smarty']->assign('LSobject_list_subDn',$doSubDn);
+        
         // Sauvegarde en Session
         $_SESSION['LSsession']['LSsearch'][$LSobject] = array(
           'filter' => $filter,
@@ -211,7 +236,10 @@ if($LSsession -> startLSsession()) {
           'params' => $params,
           'pattern' => $pattern,
           'recur' => $recur,
-          'approx' => $approx
+          'approx' => $approx,
+          'orderby' => $orderby,
+          'ordersense' => $ordersense,
+          'doSubDn' => $doSubDn
         );
 
         $GLOBALS['Smarty']->assign('LSview_search_pattern',$pattern);
@@ -269,11 +297,10 @@ if($LSsession -> startLSsession()) {
 
           $c=0;
           
-          $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
           foreach($list as $thisObject) {
             if ($GLOBALS['LSsession'] -> canAccess($LSobject,$thisObject->getValue('dn'))) {
               $subDn_name=false;
-              if ($subDnLdapServer) {
+              if ($doSubDn) {
                 reset($subDnLdapServer);
                 while (!$subDn_name && next($subDnLdapServer)) {
                   if (isCompatibleDNs(key($subDnLdapServer),$thisObject -> getValue('dn'))) {
@@ -314,18 +341,10 @@ if($LSsession -> startLSsession()) {
                 );
               }
               
-              if (count($objectList)%2==0) {
-                $tr='bis';
-              }
-              else {
-                $tr='';
-              }
-              
               $objectList[]=array(
                 'dn' => $thisObject->getValue('dn'),
                 'displayValue' => $thisObject->getDisplayValue(),
                 'actions' => $actions,
-                'tr' => $tr,
                 'subDn' => $subDn_name
               );
             }
@@ -341,6 +360,34 @@ if($LSsession -> startLSsession()) {
         }
         
         $GLOBALS['Smarty']->assign('LSobject_list_nbresult',$searchData['LSobject_list_nbresult']);
+        
+        // Order by if $sort
+        if ($sort) {
+          function sortBy($a,$b) {
+            global $ordersense;
+            global $orderby;
+            
+            if ($ordersense=='ASC') {
+              $sense = -1;
+            }
+            else {
+              $sense = 1;
+            }
+            
+            if ($a == $b) return 0;
+            $sort = array($a[$orderby],$b[$orderby]);
+            sort($sort);
+            if ($sort[0]==$a[$orderby])
+              return 1*$sense;
+            return -1*$sense;
+          }
+          if (!uasort($searchData['objectList'],'sortBy')) {
+            debug('Erreur durant le trie.');
+          }
+          $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
+        }
+        $GLOBALS['Smarty']->assign('LSobject_list_orderby',$orderby);
+        $GLOBALS['Smarty']->assign('LSobject_list_ordersense',$ordersense);
         
         // Pagination
         if ($searchData['LSobject_list_nbresult'] > NB_LSOBJECT_LIST) {

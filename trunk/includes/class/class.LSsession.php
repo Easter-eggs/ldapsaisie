@@ -620,6 +620,9 @@ class LSsession {
       return $_SESSION['LSsession']['LSview_subDnLdapServer'];
     }
     $subDnLdapServer = $this  -> getSubDnLdapServer();
+    if (!$subDnLdapServer) {
+      return array();
+    }
     uksort($subDnLdapServer,"compareDn");
     $_SESSION['LSsession']['LSview_subDnLdapServer']=$subDnLdapServer;
     return $subDnLdapServer;
@@ -1283,6 +1286,25 @@ class LSsession {
     return '';
   }
 
+  /**
+   * L'objet est t-il utilisé pour listé les subDnS
+   * 
+   * @param[in] $type string Le type d'objet
+   * 
+   * @return boolean true si le type d'objet est un subDnObject, false sinon
+   */
+  function isSubDnLSobject($type) {
+    debug('seach : '.$type);
+    $result = false;
+    if (is_array($this -> ldapServer['subDn']['LSobject'])) {
+      foreach($this -> ldapServer['subDn']['LSobject'] as $key => $value) {
+        if ($key==$type) {
+          $result=true;
+        }
+      }
+    }
+    return $result;
+  }
 }
 
 ?>

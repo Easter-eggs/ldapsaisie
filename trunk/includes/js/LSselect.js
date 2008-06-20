@@ -29,6 +29,14 @@ var LSselect = new Class({
       $$('a.LSobject-list-page').each(function(el) {
         el.addEvent('click',this.onChangePageClick.bindWithEvent(this,el));
       }, this);
+      
+      $$('.sortBy_displayValue').each(function(el) {
+        el.addEvent('click',this.sortBy.bind(this,'displayValue'));
+      }, this);
+      
+      $$('.sortBy_subDn').each(function(el) {
+        el.addEvent('click',this.sortBy.bind(this,'subDn'));
+      }, this);
     },
 
     oncheckboxChange: function(checkbox){
@@ -114,5 +122,16 @@ var LSselect = new Class({
       input.setProperty('type','hidden');
       input.injectInside(this.LSselect_search_form);
       this.submitSearchForm();
+      input.remove();
+    },
+    
+    sortBy: function(value) {
+      var input = new Element('input');
+      input.setProperty('name','orderby');
+      input.setProperty('type','hidden');
+      input.setProperty('value',value);
+      input.injectInside(this.LSselect_search_form);
+      this.submitSearchForm();
+      input.remove();
     }
 });
