@@ -36,8 +36,6 @@ if($LSsession -> startLSsession()) {
       $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
       $GLOBALS['Smarty']->assign('LSobject_list_objectname',$object -> getLabel());
       
-      $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
-      
       if (isset($_SESSION['LSsession']['LSsearch'][$LSobject])) {
         $filter = $_SESSION['LSsession']['LSsearch'][$LSobject]['filter'];
         if (isCompatibleDNs($_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'],$GLOBALS['LSsession'] -> topDn)) {
@@ -67,6 +65,7 @@ if($LSsession -> startLSsession()) {
         $selectedTopDn = $GLOBALS['LSsession'] -> topDn;
         $orderby = false;
         $ordersense = 'ASC';
+        $subDnLdapServer = $GLOBALS['LSsession'] -> getSubDnLdapServer();
         $doSubDn = (($subDnLdapServer)&&(!$GLOBALS['LSsession']->isSubDnLSobject($LSobject)));
       }
       
@@ -211,12 +210,7 @@ if($LSsession -> startLSsession()) {
             
             $subDn_name=false;
             if ($doSubDn) {
-              reset($subDnLdapServer);
-              while (!$subDn_name && next($subDnLdapServer)) {
-                if (isCompatibleDNs(key($subDnLdapServer),$thisObject -> getValue('dn'))) {
-                  $subDn_name=current($subDnLdapServer);
-                }
-              }
+              $subDn_name = $thisObject -> getSubDnName();
             }
             
             $objectList[]=array(

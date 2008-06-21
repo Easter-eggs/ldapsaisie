@@ -248,7 +248,7 @@ $GLOBALS['LSerror_code'] = array (
     'level' => 'c'
   ),
   1011 => array (
-    'msg' => _("LSsession : Vous n'Ãªtes pas authorisÃ© Ã  effectuer cette action."),
+    'msg' => _("LSsession : Vous n'êtes pas authorisé à  effectuer cette action."),
     'level' => 'c'
   ),
   1012 => array (

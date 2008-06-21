@@ -54,10 +54,15 @@ $GLOBALS['LSconfig'] = array(
             )
           )
         ),
-        'cacheLSrights' => false,
+        'cacheLSrights' => true,
         'cacheSearch' => true,
       'authobject' => 'LSeepeople',
       'authobject_pwdattr' => 'userPassword',
+      'LSaccess' => array(
+        'LSeepeople',
+        'LSeegroup',
+        'LSeecompany'
+      ),
       'recoverPassword' => array(
         'mailAttr' => 'mail',
         'recoveryHashAttr' => 'lsRecoveryHash',
@@ -71,12 +76,7 @@ $GLOBALS['LSconfig'] = array(
           'msg' => "Votre nouveau mot de passe : %{mdp}"
         )
       ),
-      'emailSender' => 'noreply@lsexample.net',
-      'LSobjects' => array (
-        'LSeepeople',
-        'LSeegroup',
-        'LSeecompany'
-      )
+      'emailSender' => 'noreply@lsexample.net'
     )
   )
 );

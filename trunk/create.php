@@ -36,7 +36,7 @@ if($LSsession -> startLSsession()) {
   
   if (isset($LSobject)) {
     // Création d'un LSobject
-    if (class_exists($LSobject)) {
+    if ($GLOBALS['LSsession'] -> loadLSobject($LSobject)) {
       if ( $GLOBALS['LSsession'] -> canCreate($LSobject) ) {
         $object = new $LSobject();
         

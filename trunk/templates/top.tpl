@@ -25,7 +25,7 @@
     {if $LSsession_subDn!=""}
       <form action="index.php" method='post' id='LSsession_topDn_form'>
         <label>{$label_level}
-          <a href="index.php?LSsession_topDn_refresh"><img src='templates/images/refresh.png' alt='{$_refresh}' title='{$_refresh}' /></a>
+          <a href="index.php?LSsession_refresh"><img src='templates/images/refresh.png' alt='{$_refresh}' title='{$_refresh}' /></a>
           <select name='LSsession_topDn' id='LSsession_topDn'>
             {html_options values=$LSsession_subDn_indexes output=$LSsession_subDn_names selected=$LSsession_subDn}
           </select>
@@ -33,8 +33,8 @@
       </form>
     {/if}
     <ul class='menu'>
-    {foreach from=$LSaccess item=item key=LSobject_type}
-      <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{$item.label}</a></li>
+    {foreach from=$LSaccess item=label key=LSobject_type}
+      <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{$label}</a></li>
     {/foreach}
     </ul>
   </div>

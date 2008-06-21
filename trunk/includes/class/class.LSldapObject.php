@@ -40,6 +40,7 @@ class LSldapObject {
   var $other_values=array();
   var $submitError=true;
   var $_whoami=NULL;
+  var $_subDn_value=NULL;
   
   /**
    * Constructeur
@@ -928,6 +929,38 @@ class LSldapObject {
    */
   function isNew() {
     return (!$this -> dn);
+  }
+
+  /**
+   * Retourne la valeur (DN) du subDn de l'objet  
+   * 
+   * @return string La valeur du subDn de l'object
+   */
+  function getSubDnValue() {
+    if ($this -> _subDn_value) {
+      return $this -> _subDn_value;
+    }
+    $dn = $this -> getValue('dn');
+    $subDn_value='';
+    $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
+    foreach ($subDnLdapServer as $subDn => $subDn_name) {
+      if (isCompatibleDNs($subDn,$dn)&&($subDn!=$dn)) {
+        $subDn_value=$subDn;
+        break;
+      }
+    }
+    $this -> _subDn_value = $subDn_value;
+    return $subDn_value;
+  }
+
+  /**
+   * Retourne la nom du subDn de l'objet  
+   * 
+   * @return string Le nom du subDn de l'object
+   */
+  function getSubDnName() {
+    $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
+    return $subDnLdapServer[$this -> getSubDnValue()];
   }
 }
 

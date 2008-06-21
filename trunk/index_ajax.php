@@ -20,7 +20,6 @@ if (!isset($_ERRORS)) {
             $GLOBALS['LSsession'] -> setLdapServer($_REQUEST['server']);
             if ( $GLOBALS['LSsession'] -> LSldapConnect() ) {
               session_start();
-              $GLOBALS['LSsession'] -> loadLSobjects();
               $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions($_SESSION['LSsession_topDn']);
               if (is_string($list)) {
                 $list="<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
@@ -29,15 +28,6 @@ if (!isset($_ERRORS)) {
                   'levelLabel' => $GLOBALS['LSsession'] -> getLevelLabel()
                 );
               }
-              else if (is_array($list)){
-                $data = array('LSerror' => $GLOBALS['LSerror']->getErrors());
-              }
-              else {
-                $data = null;
-              }
-            }
-            else {
-              $data = array('LSerror' => $GLOBALS['LSerror']->getErrors());
             }
           }
         break;
@@ -47,71 +37,77 @@ if (!isset($_ERRORS)) {
       switch($_REQUEST['action']) {
         case 'onAddFieldBtnClick':
           if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['img'])) ) {
-            $object = new $_REQUEST['objecttype']();
-            $object -> loadData($_REQUEST['objectdn']);
-            $form = $object -> getForm($_REQUEST['idform']);
-            $emptyField=$form -> getEmptyField($_REQUEST['attribute']);
-            if ( $emptyField ) {
-              $data = array(
-                'html' => $form -> getEmptyField($_REQUEST['attribute']),
-                'img' => $_REQUEST['img'],
-              );
+            if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
+              $object = new $_REQUEST['objecttype']();
+              $object -> loadData($_REQUEST['objectdn']);
+              $form = $object -> getForm($_REQUEST['idform']);
+              $emptyField=$form -> getEmptyField($_REQUEST['attribute']);
+              if ( $emptyField ) {
+                $data = array(
+                  'html' => $form -> getEmptyField($_REQUEST['attribute']),
+                  'img' => $_REQUEST['img'],
+                );
+              }
             }
             else {
-              $data = array('LSerror' => $GLOBALS['LSerror']->getErrors());
+              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
             }
           }
         break;
         case 'refreshField':
           if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
-            $object = new $_REQUEST['objecttype']();
-            //$object -> loadData($_REQUEST['objectdn']);
-            $form = $object -> getForm($_REQUEST['idform']);
-            $field=$form -> getElement($_REQUEST['attribute']);
-            $val = $field -> getDisplay(true);
-            if ( $val ) {
-              $data = array(
-                'html'    => $val['html']
-              );
+            if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
+              $object = new $_REQUEST['objecttype']();
+              $form = $object -> getForm($_REQUEST['idform']);
+              $field=$form -> getElement($_REQUEST['attribute']);
+              $val = $field -> getDisplay(true);
+              if ( $val ) {
+                $data = array(
+                  'html'    => $val['html']
+                );
+              }
             }
             else {
-              $data = array(
-                'LSerror' => $GLOBALS['LSerror']->getErrors()
-                );
+              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
             }
           }
         break;
         case 'generatePassword':
           if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['viewBtnId'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['idform'])) ) {
-            $object = new $_REQUEST['objecttype']();
-            $form = $object -> getForm($_REQUEST['idform']);
-            $field=$form -> getElement($_REQUEST['attribute']);
-            $val = $field -> generatePassword();
-            if ( $val ) {
-              $data = array(
-                'generatePassword' => $val,
-                'fieldId' => $_REQUEST['fieldId'],
-                'viewBtnId' => $_REQUEST['viewBtnId']
-              );
+            if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
+              $object = new $_REQUEST['objecttype']();
+              $form = $object -> getForm($_REQUEST['idform']);
+              $field=$form -> getElement($_REQUEST['attribute']);
+              $val = $field -> generatePassword();
+              if ( $val ) {
+                $data = array(
+                  'generatePassword' => $val,
+                  'fieldId' => $_REQUEST['fieldId'],
+                  'viewBtnId' => $_REQUEST['viewBtnId']
+                );
+              }
             }
             else {
-              $data = array(
-                'LSerror' => $GLOBALS['LSerror']->getErrors()
-                );
+              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
             }
           }
         break;
         case 'verifyPassword':
           if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
-            $object = new $_REQUEST['objecttype']();
-            $form = $object -> getForm($_REQUEST['idform']);
-            $object -> loadData($_REQUEST['objectdn']);
-            $field=$form -> getElement($_REQUEST['attribute']);
-            $val = $field -> verifyPassword($_REQUEST['fieldValue']);
-            $data = array(
-              'verifyPassword' => $val,
-              'fieldId' => $_REQUEST['fieldId']
-            );
+            if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
+              $object = new $_REQUEST['objecttype']();
+              $form = $object -> getForm($_REQUEST['idform']);
+              $object -> loadData($_REQUEST['objectdn']);
+              $field=$form -> getElement($_REQUEST['attribute']);
+              $val = $field -> verifyPassword($_REQUEST['fieldValue']);
+              $data = array(
+                'verifyPassword' => $val,
+                'fieldId' => $_REQUEST['fieldId']
+              );
+            }
+            else {
+              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
+            }
           }
         break;
       }
@@ -126,27 +122,32 @@ if (!isset($_ERRORS)) {
                 $object = new $conf['objectType']();
                 if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
                   $relationConf = $object->config['relations'][$conf['relationName']];
-                  if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
-                    if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
-                      $objRel = new $relationConf['LSobject']();
-                      $list = $objRel -> $relationConf['list_function']($object);
-                      $_SESSION['LSselect'][$relationConf['LSobject']]=array();
-                      if (is_array($list)) {
-                        foreach($list as $o) {
-                          $_SESSION['LSselect'][$relationConf['LSobject']][] = $o -> getDn();
+                  if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
+                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
+                      if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
+                        $objRel = new $relationConf['LSobject']();
+                        $list = $objRel -> $relationConf['list_function']($object);
+                        $_SESSION['LSselect'][$relationConf['LSobject']]=array();
+                        if (is_array($list)) {
+                          foreach($list as $o) {
+                            $_SESSION['LSselect'][$relationConf['LSobject']][] = $o -> getDn();
+                          }
                         }
+                        $data = array(
+                          'href' => $_REQUEST['href'],
+                          'id' => $_REQUEST['id']
+                        );
                       }
-                      $data = array(
-                        'href' => $_REQUEST['href'],
-                        'id' => $_REQUEST['id']
-                      );
+                      else {
+                        $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
+                      }
                     }
                     else {
-                      $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
+                      $GLOBALS['LSerror'] -> addErrorCode(1011);
                     }
                   }
                   else {
-                    $GLOBALS['LSerror'] -> addErrorCode(1011);
+                    $GLOBALS['LSerror'] -> addErrorCode(1004,$relationConf['LSobject']);
                   }
                 }
                 else {
@@ -170,38 +171,43 @@ if (!isset($_ERRORS)) {
                 $object = new $conf['objectType']();
                 if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
                   $relationConf = $object->config['relations'][$conf['relationName']];
-                  if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
-                    if (is_array($_SESSION['LSselect'][$relationConf['LSobject']])) {
-                      if (method_exists($relationConf['LSobject'],$relationConf['update_function'])) {
-                        $objRel = new $relationConf['LSobject']();
-                        if($objRel -> $relationConf['update_function']($object,$_SESSION['LSselect'][$relationConf['LSobject']])) {
-                          if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
-                            $list = $objRel -> $relationConf['list_function']($object);
-                            if (is_array($list)) {
-                              foreach($list as $o) {
-                                $data['html'].= "<li class='LSrelation'>".$o -> getDisplayValue()."</li>\n";
+                  if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
+                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
+                      if (is_array($_SESSION['LSselect'][$relationConf['LSobject']])) {
+                        if (method_exists($relationConf['LSobject'],$relationConf['update_function'])) {
+                          $objRel = new $relationConf['LSobject']();
+                          if($objRel -> $relationConf['update_function']($object,$_SESSION['LSselect'][$relationConf['LSobject']])) {
+                            if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
+                              $list = $objRel -> $relationConf['list_function']($object);
+                              if (is_array($list)) {
+                                foreach($list as $o) {
+                                  $data['html'].= "<li class='LSrelation'>".$o -> getDisplayValue()."</li>\n";
+                                }
                               }
+                              else {
+                                $data['html'] = "<li>"._('Liste vide.')."</li>\n";
+                              }
+                              $data['id'] = $_REQUEST['id'];
                             }
                             else {
-                              $data['html'] = "<li>"._('Liste vide.')."</li>\n";
+                              $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
                             }
-                            $data['id'] = $_REQUEST['id'];
                           }
                           else {
-                            $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
+                            $GLOBALS['LSerror'] -> addErrorCode(1015,$relationName);
                           }
                         }
                         else {
-                          $GLOBALS['LSerror'] -> addErrorCode(1015,$relationName);
+                          $GLOBALS['LSerror'] -> addErrorCode(1014,$relationName);
                         }
                       }
-                      else {
-                        $GLOBALS['LSerror'] -> addErrorCode(1014,$relationName);
-                      }
+                    }
+                    else {
+                      $GLOBALS['LSerror'] -> addErrorCode(1011);
                     }
                   }
                   else {
-                    $GLOBALS['LSerror'] -> addErrorCode(1011);
+                    $GLOBALS['LSerror'] -> addErrorCode(1004,$relationConf['LSobject']);
                   }
                 }
                 else {
@@ -225,37 +231,42 @@ if (!isset($_ERRORS)) {
                 $object = new $conf['objectType']();
                 if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
                   $relationConf = $object->config['relations'][$conf['relationName']];
-                  if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
-                    if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
-                      $objRel = new $relationConf['LSobject']();
-                      $list = $objRel -> $relationConf['list_function']($object);
-                      if (is_array($list)) {
-                        $ok=false;
-                        foreach($list as $o) {
-                          if($o -> getDisplayValue() == $_REQUEST['value']) {
-                            if (!$o -> deleteOneMember($object)) {
-                              $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
-                            }
-                            else {
-                              $ok = true;
+                  if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
+                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
+                      if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
+                        $objRel = new $relationConf['LSobject']();
+                        $list = $objRel -> $relationConf['list_function']($object);
+                        if (is_array($list)) {
+                          $ok=false;
+                          foreach($list as $o) {
+                            if($o -> getDisplayValue() == $_REQUEST['value']) {
+                              if (!$o -> deleteOneMember($object)) {
+                                $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
+                              }
+                              else {
+                                $ok = true;
+                              }
                             }
                           }
+                          if (!$ok) {
+                            $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
+                          }
                         }
-                        if (!$ok) {
+                        else {
                           $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
+                          $GLOBALS['LSerror'] -> addErrorCode(1);
                         }
                       }
                       else {
-                        $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
-                        $GLOBALS['LSerror'] -> addErrorCode(1);
+                        $GLOBALS['LSerror'] -> addErrorCode(1013,$conf['relationName']);
                       }
                     }
                     else {
-                      $GLOBALS['LSerror'] -> addErrorCode(1013,$conf['relationName']);
+                      $GLOBALS['LSerror'] -> addErrorCode(1011);
                     }
                   }
                   else {
-                    $GLOBALS['LSerror'] -> addErrorCode(1011);
+                    $GLOBALS['LSerror'] -> addErrorCode(1004,$relationConf['LSobject']);
                   }
                 }
                 else {
@@ -316,9 +327,6 @@ if (!isset($_ERRORS)) {
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(1012);
-            $data = array(
-              'LSerror' => $GLOBALS['LSerror']->getErrors()
-            );
           }
         break;
       }

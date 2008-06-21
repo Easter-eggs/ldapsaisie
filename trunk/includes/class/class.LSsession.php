@@ -145,31 +145,6 @@ class LSsession {
   }
 
  /**
-  * Chargement des objects LdapSaisie
-  *
-  * Chargement des LSobjects contenue dans la variable
-  * $this -> ldapServer['LSobjects']
-  *
-  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
-  */
-  function loadLSobjects() {
-
-    $this -> loadLSclass('LSldapObject');
-
-    if(!is_array($this -> ldapServer['LSobjects'])) {
-      $GLOBALS['LSerror'] -> addErrorCode(1001,"LSobjects['loads']");
-      return;
-    }
-
-    foreach ($this -> ldapServer['LSobjects'] as $object) {
-      if ( !$this -> loadLSobject($object) ) {
-        return;
-      }
-    }
-    return true;
-  }
-
- /**
   * Chargement d'un addons d'LdapSaisie
   *
   * @param[in] $addon Nom de l'addon Ã  charger (Exemple : samba)
@@ -245,30 +220,36 @@ class LSsession {
         $this -> ldapServerId = $_SESSION['LSsession']['ldapServerId'];
         $this -> tmp_file     = $_SESSION['LSsession']['tmp_file'];
         
-        if ( $this -> cacheLSrights() ) {
+        if ( $this -> cacheLSrights() && !isset($_REQUEST['LSsession_refresh']) ) {
           $this -> ldapServer = $_SESSION['LSsession']['ldapServer'];
           $this -> LSrights   = $_SESSION['LSsession']['LSrights'];
           $this -> LSaccess   = $_SESSION['LSsession']['LSaccess'];
           if (!$this -> LSldapConnect())
             return;
-          $this -> loadLSobjects();
         }
         else {
           $this -> setLdapServer($this -> ldapServerId);
           if (!$this -> LSldapConnect())
             return;
-          $this -> loadLSobjects();
           $this -> loadLSrights();
         }
         
-        if ( $this -> cacheSudDn() && (!isset($_REQUEST['LSsession_topDn_refresh'])) ) {
+        if ( $this -> cacheSudDn() && (!isset($_REQUEST['LSsession_refresh'])) ) {
           $this -> _subDnLdapServer = $_SESSION['LSsession_subDnLdapServer'];
         }
         
-        $this -> loadLSobject($this -> ldapServer['authobject']);
+        if (!$this -> loadLSobject($this -> ldapServer['authobject'])) {
+          $GLOBALS['LSerror'] -> addErrorCode(1004,$this -> ldapServer['authobject']);
+          return;
+        }
+        
         $this -> LSuserObject = new $this -> ldapServer['authobject']();
         $this -> LSuserObject -> loadData($this -> dn);
-        $this -> loadLSaccess();
+        
+        if ( !$this -> cacheLSrights() || isset($_REQUEST['LSsession_refresh']) ) {
+          $this -> loadLSaccess();
+        }
+        
         $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
         
         if ($_POST['LSsession_topDn']) {
@@ -293,8 +274,6 @@ class LSsession {
             $this -> setLdapServer(0);
           }
           
-          $this -> loadLSobjects();
-
           // Connexion au serveur LDAP
               if ($this -> LSldapConnect()) {
 
@@ -564,9 +543,9 @@ class LSsession {
       foreach($this ->ldapServer['subDn'] as $subDn_name => $subDn_config) {
         if ($subDn_name == 'LSobject') {
           if (is_array($subDn_config)) {
-            foreach($subDn_config as $LSobject_name => $LSoject_topDn) {
-              if ($LSoject_topDn) {
-                $topDn = $LSoject_topDn;
+            foreach($subDn_config as $LSobject_name => $LSoject_config) {
+              if ($LSoject_config['topDn']) {
+                $topDn = $LSoject_config['topDn'];
               }
               else {
                 $topDn = NULL;
@@ -595,7 +574,9 @@ class LSsession {
           }
         }
         else {
-          $return[$subDn_config] = $subDn_name;
+          if ((isCompatibleDNs($subDn_config['dn'],$this -> ldapServer['ldap_config']['basedn']))&&($subDn_config['dn']!="")) {
+            $return[$subDn_config['dn']] = $subDn_name;
+          }
         }
       }
       if ($this -> cacheSudDn()) {
@@ -616,15 +597,11 @@ class LSsession {
    * @return array() Tableau des subDn trié
    */  
   function getSortSubDnLdapServer() {
-    if(isset($_SESSION['LSsession']['LSview_subDnLdapServer']) && $this -> cacheSudDn()) {
-      return $_SESSION['LSsession']['LSview_subDnLdapServer'];
-    }
     $subDnLdapServer = $this  -> getSubDnLdapServer();
     if (!$subDnLdapServer) {
       return array();
     }
     uksort($subDnLdapServer,"compareDn");
-    $_SESSION['LSsession']['LSview_subDnLdapServer']=$subDnLdapServer;
     return $subDnLdapServer;
   }
 
@@ -850,8 +827,8 @@ class LSsession {
       $Css_txt.="<link rel='stylesheet' type='text/css' href='templates/css/$file' />\n";
     }
     $GLOBALS['Smarty'] -> assign('LSsession_css',$Css_txt);
-
-    $GLOBALS['Smarty'] -> assign('LSaccess',$this -> LSaccess);
+  
+    $GLOBALS['Smarty'] -> assign('LSaccess',$this -> LSaccess[$this -> topDn]);
     
     // Niveau
     $listTopDn = $this -> getSubDnLdapServer();
@@ -942,26 +919,91 @@ class LSsession {
    * @retval void
    */
   function loadLSaccess() {
-    if ($this -> canAccess($this -> LSuserObject -> getType(),$this -> dn)) {
-      $LSaccess = array(
-        'SELF' => array(
-          'label' => _('Mon compte'),
-          'DNs' => $this -> dn
-        )
-      );
-    }
-    else {
-      $LSaccess = array();
-    }
-    foreach ($GLOBALS['LSobjects'] as $objecttype => $objectconf) {
-      if ($this -> canAccess($objecttype) ) {
-        $LSaccess[$objecttype] = array (
-          'label' => $objectconf['label'],
-          'Dns' => 'All'
-        );
+    $LSaccess=array();
+    if (is_array($this -> ldapServer['subDn'])) {
+      foreach($this -> ldapServer['subDn'] as $name => $config) {
+        if ($name=='LSobject') {
+          if (is_array($config)) {
+
+            // Définition des subDns 
+            foreach($config as $objectType => $objectConf) {
+              if ($this -> loadLSobject($objectType)) {
+                if ($subdnobject = new $objectType()) {
+                  $tbl = $subdnobject -> getSelectArray();
+                  if (is_array($tbl)) {
+                    // Définition des accès
+                    $access=array();
+                    if (is_array($objectConf['LSobjects'])) {
+                      foreach($objectConf['LSobjects'] as $type) {
+                        if ($this -> loadLSobject($type)) {
+                          if ($this -> canAccess($type)) {
+                            $access[$type] = $GLOBALS['LSobjects'][$type]['label'];
+                          }
+                        }
+                        else {
+                          $GLOBALS['LSerror'] -> addErrorCode(1004,$type);
+                        }
+                      }
+                    }
+                    foreach($tbl as $dn => $dn_name) {
+                      $LSaccess[$dn]=$access;
+                    }
+                  }
+                }
+              }
+              else {
+                $GLOBALS['LSerror'] -> addErrorCode(1004,$objectType);
+              }
+            }
+          }
+        }
+        else {
+          if ((isCompatibleDNs($this -> ldapServer['ldap_config']['basedn'],$config['dn']))&&($config['dn']!='')) {
+            $access=array();
+            if (is_array($config['LSobjects'])) {
+              foreach($config['LSobjects'] as $objectType) {
+                if ($this -> loadLSobject($objectType)) {
+                  if ($this -> canAccess($objectType)) {
+                    $access[$objectType] = $GLOBALS['LSobjects'][$objectType]['label'];
+                  }
+                }
+                else {
+                  $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject_name);
+                }
+              }
+            }
+            $LSaccess[$config['dn']]=$access;
+          }
+        }
       }
     }
+    else {
+      if(is_array($this -> ldapServer['LSaccess'])) {
+        $access=array();
+        foreach($this -> ldapServer['LSaccess'] as $objectType) {
+          if ($this -> loadLSobject($objectType)) {
+            if ($this -> canAccess($objectType)) {
+                $access[$objectType] = $GLOBALS['LSobjects'][$objectType]['label'];
+            }
+          }
+          else {
+            $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject_name);
+          }
+        }
+        $LSaccess[$this -> topDn] = $access;
+      }
+    }
+    foreach($LSaccess as $dn => $access) {
+      $LSaccess[$dn] = array_merge(
+        array(
+          'SELF' => _('Mon compte')
+        ),
+        $access
+      );
+    }
+    
     $this -> LSaccess = $LSaccess;
+    $_SESSION['LSsession']['LSaccess'] = $LSaccess;
   }
   
   /**
@@ -1013,10 +1055,24 @@ class LSsession {
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
   function canAccess($LSobject,$dn=NULL,$right=NULL,$attr=NULL) {
-    if (!$this -> loadLSobject($LSobject))
+    if (!$this -> loadLSobject($LSobject)) {
+      $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject);
       return;
+    }
     if ($dn) {
       $whoami = $this -> whoami($dn);
+      if ($dn==$this -> LSuserObject -> getValue('dn')) {
+        if (!$this -> in_menu('SELF')) {
+          return;
+        }
+      }
+      else {
+        $obj = new $LSobject();
+        $obj -> dn = $dn;
+        if (!$this -> in_menu($LSobject,$obj -> getSubDnValue())) {
+          return;
+        }
+      }
     }
     else {
       $objectdn=$GLOBALS['LSobjects'][$LSobject]['container_dn'].','.$this -> topDn;
@@ -1272,7 +1328,7 @@ class LSsession {
    * 
    * @param[in] $subDn string subDn
    * 
-   * @return string Le nom du subDn ou '' sinon
+   * @retval string Le nom du subDn ou '' sinon
    */
   function getSubDnName($subDn=false) {
     if (!$subDn) {
@@ -1291,10 +1347,9 @@ class LSsession {
    * 
    * @param[in] $type string Le type d'objet
    * 
-   * @return boolean true si le type d'objet est un subDnObject, false sinon
+   * @retval boolean true si le type d'objet est un subDnObject, false sinon
    */
   function isSubDnLSobject($type) {
-    debug('seach : '.$type);
     $result = false;
     if (is_array($this -> ldapServer['subDn']['LSobject'])) {
       foreach($this -> ldapServer['subDn']['LSobject'] as $key => $value) {
@@ -1304,6 +1359,18 @@ class LSsession {
       }
     }
     return $result;
+  }
+  
+  /**
+   * Retourne si un type d'objet est dans le menu courant
+   * 
+   * @retval boolean true si le type d'objet est dans le menu, false sinon
+   */
+  function in_menu($LSobject,$topDn=NULL) {
+    if (!$topDn) {
+      $topDn=$this -> topDn;
+    }
+    return isset($this -> LSaccess[$topDn][$LSobject]);
   }
 }
 
