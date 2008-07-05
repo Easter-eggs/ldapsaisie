@@ -11,7 +11,7 @@
     {if $LSsession_subDn!=""}
       <label id='LSselect_topDn_label'>{$label_level}
         <select name='LSselect_topDn' id='LSselect_topDn'>
-          {html_options values=$LSsession_subDn_indexes output=$LSsession_subDn_names selected=$LSselect_subDn}
+          {html_options values=$LSsession_subDn_indexes output=$LSsession_subDn_names selected=$LSselect_topDn}
         </select>
       </label>
     {/if}

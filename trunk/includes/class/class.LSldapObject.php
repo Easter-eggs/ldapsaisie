@@ -136,14 +136,20 @@ class LSldapObject {
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $spe [<i>optionnel</i>] string Format d'affichage de l'objet
+   * @param[in] $full [<i>optionnel</i>] boolean True pour afficher en plus le
+   *                                             subDnName
    *
    * @retval string Valeur descriptive d'affichage de l'objet
    */ 
-  function getDisplayValue($spe='') {
+  function getDisplayValue($spe='',$full=false) {
     if ($spe=='') {
       $spe = $this -> getDisplayAttributes();
     }
-    return $this -> getFData($spe,&$this -> attrs,'getDisplayValue');
+    $val = $this -> getFData($spe,&$this -> attrs,'getDisplayValue');
+    if ($GLOBALS['LSsession'] -> haveSubDn() && $full) {
+      $val.=' ('.$this -> getSubDnName().')';
+    }
+    return $val;
   }
   
   /**

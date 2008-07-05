@@ -47,23 +47,24 @@ class LSformElement_image extends LSformElement {
     if (!$this -> isFreeze()) {
       $id=$this -> name.'_'.rand();
       $return = $this -> getLabelInfos();
-      $return['html'] = "<input type='file' name='".$this -> name."' class='LSform' id='$id' />\n";
+      $return['html'] = "<input type='file' name='".$this -> name."' class='LSform' id='LSformElement_image_input_$id' />\n";
       $this -> form -> setMaxFileSize(MAX_SEND_FILE_SIZE);
     }
 
     if (!empty($this -> values[0])) {
       $img_path = $GLOBALS['LSsession'] -> getTmpFile($this -> values[0]);
-      $GLOBALS['Smarty'] -> assign('LSform_image',array(
+      $GLOBALS['Smarty'] -> assign('LSformElement_image',array(
         'img' => $img_path,
         'id'  => $id,
       ));
       if (!$this -> isFreeze()) {
-        $GLOBALS['Smarty'] -> assign('LSform_image_actions','delete');
+        $GLOBALS['Smarty'] -> assign('LSformElement_image_actions','delete');
       }
       
       if ($this -> form -> definedError($this -> name)) {
-        $GLOBALS['Smarty'] -> assign('LSform_image_errors',true);
+        $GLOBALS['Smarty'] -> assign('LSformElement_image_errors',true);
       }
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_image.js');
     }
     return $return;
   }

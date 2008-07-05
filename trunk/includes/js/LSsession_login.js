@@ -30,26 +30,18 @@ var LSsession_login = new Class({
         server:   server,
         imgload:  imgload
       };
-      new Ajax('index_ajax.php',  {data: data, onComplete: this.onLdapServerChangedComplete.bind(this)}).request();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLdapServerChangedComplete.bind(this)}).send();
     },
 
     onLdapServerChangedComplete: function(responseText, responseXML){
       varLSdefault.loadingImgHide();
-      var data = Json.evaluate(responseText);
+      var data = JSON.decode(responseText);
       LSdebug(data);
-      if ( data ) {
-        if (data.LSdebug) {
-          varLSdefault.displayDebug(data.LSdebug);
-        }
-        if (data.LSerror) {
-          varLSdefault.displayError(data.LSerror);
-          this.loginformLevelHide();
-          return;
-        }
+      if ( varLSdefault.checkAjaxReturn(data) ) {
         if (data.list_topDn) {
-          $('LSsession_topDn').getParent().setHTML(data.list_topDn);
+          $('LSsession_topDn').getParent().set('html',data.list_topDn);
           LSdebug($('LSsession_topDn').innerHTML);
-          $('LSsession_topDn_label').setHTML(data.levelLabel);
+          $('LSsession_topDn_label').set('html',data.levelLabel);
           $$('.loginform-level').each(function(el) {
             el.setStyle('display','block');
           });

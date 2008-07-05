@@ -1,24 +1,24 @@
 {include file='top.tpl'}
     {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
     {if $LSview_actions != ''}
-    <p class='LSview-actions'>
+    <ul class='LSview-actions'>
       {foreach from=$LSview_actions item=item}
-        <a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a>
+        <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a></li>
       {/foreach}
-    </p>
+    </ul>
     {/if}
     
-    {if $LSform_image!=''}
-    <div class='LSform_image{if $LSform_image_errors} LSform_image_errors{/if}'>
-      {if $LSform_image_actions!='' && !$LSform_image_errors}
-      <ul class='LSform_image_actions'>
-          <li><img src='templates/images/zoom.png' class='LSform_image_actions LSform_image_action_zoom' id='LSform_image_action_zoom_{$LSform_image.id}' /></li>
-        {foreach from=$LSform_image_actions item=item}
-          <li><img src='templates/images/{$item}.png' class='LSform_image_actions LSform_image_action_{$item}' id='LSform_image_action_{$item}_{$LSform_image.id}' /></li>
+    {if $LSformElement_image!=''}
+    <div class='LSformElement_image{if $LSformElement_image_errors} LSformElement_image_errors{/if}'>
+      {if $LSformElement_image_actions!='' && !$LSformElement_image_errors}
+      <ul class='LSformElement_image_actions'>
+          <li><img src='templates/images/zoom.png' class='LSformElement_image_actions LSformElement_image_action_zoom' id='LSformElement_image_action_zoom_{$LSformElement_image.id}' /></li>
+        {foreach from=$LSformElement_image_actions item=item}
+          <li><img src='templates/images/{$item}.png' class='LSformElement_image_actions LSformElement_image_action_{$item}' id='LSformElement_image_action_{$item}_{$LSformElement_image.id}' /></li>
         {/foreach}
       </ul>
       {/if}
-      <img src='{$LSform_image.img}' class='LSform_image LSsmoothbox' />
+      <img src='{$LSformElement_image.img}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id}' />
     </div>
     {/if}
     

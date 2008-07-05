@@ -28,7 +28,5 @@
   {/section}
   </p>
 {/if}
-<script type='text/javascript'>
-debug_txt = {$debug_txt};
-error_txt = {$error_txt};
-</script>
+<div id='LSdebug_txt'>{$LSdebug_txt}</div>
+<div id='LSerror_txt'>{$LSerror_txt}</div>

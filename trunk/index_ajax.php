@@ -181,7 +181,7 @@ if (!isset($_ERRORS)) {
                               $list = $objRel -> $relationConf['list_function']($object);
                               if (is_array($list)) {
                                 foreach($list as $o) {
-                                  $data['html'].= "<li class='LSrelation'>".$o -> getDisplayValue()."</li>\n";
+                                  $data['html'].= "<li class='LSrelation'><span id='".$o -> getDn()."'>".$o -> getDisplayValue()."</span></li>\n";
                                 }
                               }
                               else {
@@ -223,8 +223,8 @@ if (!isset($_ERRORS)) {
             }
           }
         break;
-        case 'deleteByDisplayValue':
-          if ((isset($_REQUEST['id'])) && (isset($_REQUEST['value']))) {
+        case 'deleteByDn':
+          if ((isset($_REQUEST['id'])) && (isset($_REQUEST['dn']))) {
             if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
               $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
               if ($GLOBALS['LSsession']->loadLSobject($conf['objectType'])) {
@@ -239,7 +239,7 @@ if (!isset($_ERRORS)) {
                         if (is_array($list)) {
                           $ok=false;
                           foreach($list as $o) {
-                            if($o -> getDisplayValue() == $_REQUEST['value']) {
+                            if($o -> getDn() == $_REQUEST['dn']) {
                               if (!$o -> deleteOneMember($object)) {
                                 $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
                               }
@@ -249,7 +249,13 @@ if (!isset($_ERRORS)) {
                             }
                           }
                           if (!$ok) {
+                            debug($_REQUEST['value']." introuvé parmi la liste");
                             $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
+                          }
+                          else {
+                            $data=array(
+                              'dn' => $_REQUEST['dn']
+                            );
                           }
                         }
                         else {

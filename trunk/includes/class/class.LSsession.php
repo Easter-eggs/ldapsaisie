@@ -822,7 +822,6 @@ class LSsession {
 
     // Css
     $Css_txt="<link rel='stylesheet' type='text/css' href='templates/css/LSdefault.css' />\n";
-    $Css_txt="<link rel='stylesheet' type='text/css' href='templates/css/LSdefault.css' />\n";
     foreach ($this -> CssFiles as $file) {
       $Css_txt.="<link rel='stylesheet' type='text/css' href='templates/css/$file' />\n";
     }
@@ -848,8 +847,8 @@ class LSsession {
     }
     
     if ($this -> ajaxDisplay) {
-      $GLOBALS['Smarty'] -> assign('error_txt',json_encode($GLOBALS['LSerror']->getErrors()));
-      $GLOBALS['Smarty'] -> assign('debug_txt',json_encode(debug_print(true)));
+      $GLOBALS['Smarty'] -> assign('LSerror_txt',$GLOBALS['LSerror']->getErrors());
+      $GLOBALS['Smarty'] -> assign('LSdebug_txt',debug_print(true));
     }
     else {
       $GLOBALS['LSerror'] -> display();
@@ -1362,7 +1361,7 @@ class LSsession {
   }
   
   /**
-   * Retourne si un type d'objet est dans le menu courant
+   * Indique si un type d'objet est dans le menu courant
    * 
    * @retval boolean true si le type d'objet est dans le menu, false sinon
    */
@@ -1371,6 +1370,15 @@ class LSsession {
       $topDn=$this -> topDn;
     }
     return isset($this -> LSaccess[$topDn][$LSobject]);
+  }
+  
+  /**
+   * Indique si le serveur LDAP courant a des subDn
+   * 
+   * @retval boolean true si le serveur LDAP courant a des subDn, false sinon
+   */
+  function haveSubDn() {
+    return (is_array($this -> ldapServer['subDn']));
   }
 }
 

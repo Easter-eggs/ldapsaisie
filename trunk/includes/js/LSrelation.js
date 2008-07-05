@@ -4,6 +4,7 @@ var LSrelation = new Class({
       this.deleteBtn = [];
       this.deleteBtnId = 0;
       this.refreshRelation=0;
+      this._confirmDelete=1;
       $$('a.LSrelation_modify').each(function(el) {
         this.edit=1;
         el.addEvent('click',this.onLSrelationModifyBtnClick.bindWithEvent(this,el));
@@ -15,7 +16,7 @@ var LSrelation = new Class({
     
     initializeBtn: function() {
       $$('img.LSrelation-btn').each(function(el) {
-        el.remove();
+        el.destroy();
       }, this);
       this.deleteBtnId = 0;
       $$('li.LSrelation').each(function(li) {
@@ -31,43 +32,48 @@ var LSrelation = new Class({
     },
     
     onDeleteBtnClick: function(img) {
-      li = img.getParent();
-      ul = li.getParent();
-      img.remove();
+      if (this._confirmDelete) {
+        var li = img.getParent();
+        var span = li.getFirst('span');
+        this.confirmBox = new LSconfirmBox({
+          text:         'Etês-vous sur de vouloir supprimer "'+span.innerHTML+'" ?', 
+          startElement: img,
+          onConfirm:    this.deleteFromImg.bind(this,img)
+        });
+      }
+      else {
+        this.deleteFromImg(img);
+      }
+    },
+    
+    deleteFromImg: function(img) {
+      var li = img.getParent();
+      var span = li.getFirst('span');
+      var ul = li.getParent();
+      img.destroy();
       LSdebug(ul.id);
       var getId = /LSrelation_ul_([0-9]*)/
       var id = getId.exec(ul.id)[1];
       
       var data = {
         template:   'LSrelation',
-        action:     'deleteByDisplayValue',
+        action:     'deleteByDn',
         id:         id,
-        value:      li.innerHTML
+        dn:         span.id
       };
-      this.deleteLi = li;
       data.imgload=varLSdefault.loadingImgDisplay(li.id,'inside');
-      LSdebug(data);
-      new Ajax('index_ajax.php',  {data: data, onComplete: this.onDeleteBtnClickComplete.bind(this)}).request();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.deleteFromImgComplete.bind(this)}).send();
     },
     
-    onDeleteBtnClickComplete: function(responseText, responseXML) {
-      var data = Json.evaluate(responseText);
-      LSdebug(data);
-      if ( data ) {
-        if ( typeof(data.LSerror) != "undefined" ) {
-            if (data.imgload!='') {
-              varLSdefault.loadingImgHide(data.imgload);
-            }
-            else {
-              varLSdefault.loadingImgHide();
-            }
-            varLSdefault.displayError(data.LSerror);
-            return;
-          } 
-          else {
-            varLSdefault.loadingImgHide(data.imgload);
-            this.deleteLi.remove();
-          }
+    deleteFromImgComplete: function(responseText, responseXML) {
+      var data = JSON.decode(responseText);
+      if ( varLSdefault.checkAjaxReturn(data) ) {
+        try  {
+          $(data.dn).getParent().destroy();
+        }
+        catch(e) {
+          LSdebug('Erreur durant la suppression du li du DN : '+data.dn);
+        }
       }
     },
     
@@ -84,27 +90,14 @@ var LSrelation = new Class({
       LSdebug(data);
       this.refreshRelation=a.id;
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+a.id,'inside');
-      new Ajax('index_ajax.php',  {data: data, onComplete: this.onLSrelationModifyBtnClickComplete.bind(this)}).request();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSrelationModifyBtnClickComplete.bind(this)}).send();
     },
     
     onLSrelationModifyBtnClickComplete: function(responseText, responseXML) {
-      var data = Json.evaluate(responseText);
-      LSdebug(data);
-      if ( data ) {
-        if ( typeof(data.LSerror) != "undefined" ) {
-            if (data.imgload!='') {
-              varLSdefault.loadingImgHide(data.imgload);
-            }
-            else {
-              varLSdefault.loadingImgHide();
-            }
-            varLSdefault.displayError(data.LSerror);
-            return;
-          } 
-          else {
-            varLSdefault.loadingImgHide(data.imgload);
-            varLSsmoothbox.openURL(data.href,this);
-          }
+      var data = JSON.decode(responseText);
+      if ( varLSdefault.checkAjaxReturn(data) ) {
+        varLSsmoothbox.setRefreshElement(this);
+        varLSsmoothbox.openURL(data.href,{startElement: $(data.id), width: 615});
       }
     },
     
@@ -117,28 +110,14 @@ var LSrelation = new Class({
       
       LSdebug(data);
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+this.refreshRelation,'inside');
-      new Ajax('index_ajax.php',  {data: data, onComplete: this.onRrefreshComplete.bind(this)}).request();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onRrefreshComplete.bind(this)}).send();
     },
     
     onRrefreshComplete: function(responseText, responseXML) {
-      var data = Json.evaluate(responseText);
-      LSdebug(data);
-      if ( data ) {
-        if ( typeof(data.LSerror) != "undefined" ) {
-            if (data.imgload!='') {
-              varLSdefault.loadingImgHide(data.imgload);
-            }
-            else {
-              varLSdefault.loadingImgHide();
-            }
-            varLSdefault.displayError(data.LSerror);
-            return;
-          } 
-          else {
-            varLSdefault.loadingImgHide(data.imgload);
-            $('LSrelation_ul_'+this.refreshRelation).setHTML(data.html);
-            this.initializeBtn();
-          }
+      var data = JSON.decode(responseText);
+      if ( varLSdefault.checkAjaxReturn(data) ) {
+        $('LSrelation_ul_'+this.refreshRelation).set('html',data.html);
+        this.initializeBtn();
       }
     }
 
@@ -147,5 +126,3 @@ var LSrelation = new Class({
 window.addEvent(window.ie ? 'load' : 'domready', function() {
   varLSrelation = new LSrelation();
 });
-
-LSdebug('titi');

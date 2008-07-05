@@ -22,7 +22,7 @@ var LSview = new Class({
     },
     
     onTdLSobjectListNamesOut: function(td) {
-      td.imgEdit.remove();
+      td.imgEdit.destroy();
     }
 
 });

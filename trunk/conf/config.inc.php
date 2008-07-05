@@ -107,13 +107,10 @@ define('LS_TMP_DIR', 'tmp/');
 
 // Javascript
 $GLOBALS['defaultJSscipts']=array(
-  'mootools.js',
+  'mootools-core.js',
+  'mootools-more.js',
   'LSdefault.js'
 );
-
-if ($GLOBALS['LSdebug']['active']) {
-  $GLOBALS['defaultJSscipts'][]='Debugger.js';
-}
 
 // PHP values
 ini_set( 'magic_quotes_gpc', 'off' );

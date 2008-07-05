@@ -14,7 +14,7 @@ a:hover {
 
 h1 {
   margin:             0.5em;
-  margin-bottom:      0em;
+  margin-bottom:      1px;
   border-bottom:      1px solid #0072b8;
   color:              #0072b8;
   clear:              left;
@@ -30,12 +30,18 @@ hr {
   height:             0px;
 }
 
+.btn {
+  cursor:             pointer;
+}
+
+/*
+ * Interface
+ */
 #main {
   width:              1000px;
   margin:             auto;
   border:             1px solid #52bce5;
   background:         #fff url(../images/fd_menu.png) repeat-y scroll left top;
-  height:             100%;
 }
 
 #left {
@@ -65,7 +71,13 @@ hr {
   padding:            0.3em;
 }
 
+#user_name {
+  font-weight:        bold;
+}
 
+/*
+ * LSsession
+ */
 #LSsession_topDn {
   height:                   1.5em;
   width:                    150px;
@@ -77,10 +89,11 @@ hr {
   color:                    #fff;
 }
 
-#user_name {
-  font-weight:        bold;
-}
-
+/*
+ ******************
+ * Menu
+ ******************
+ */
 ul.menu {
   list-style-image:   url(../images/puce.png);
 }
@@ -94,6 +107,12 @@ a.menu {
   text-decoration:    none;
 }
 
+/*
+ ****************
+ * LSobject-list
+ ****************
+ */
+
 table.LSobject-list {
   margin-left:        1em;
   margin-top:         0.5em;
@@ -103,15 +122,9 @@ table.LSobject-list {
   clear:              both;
 }
 
-td.LSobject-list {
-  border:             1px solid #52bce5;
-  padding:            0.1em;
-}
-
-td.LSobject-list-without-result {
-  text-align:         center;
-}
-
+/*
+ * th
+ */
 th.LSobject-list {
   background-color:   #52bce5;
   color:              #fff;
@@ -125,8 +138,32 @@ th.LSobject-list-subdn {
   width:              15em;
 }
 
+img.LSobject-list-ordersense {
+  vertical-align:     middle;
+}
+
+th.LSobject-list a {
+  color:              #fff;
+  text-decoration:    none;
+}
+
+/*
+ * tr
+ */
 tr.LSobject-list-bis {
   background-color:   #ecf8fd;
+}
+
+/*
+ * td
+ */
+td.LSobject-list {
+  border:             1px solid #52bce5;
+  padding:            0.1em;
+}
+
+td.LSobject-list-without-result {
+  text-align:         center;
 }
 
 a.LSobject-list {
@@ -134,6 +171,7 @@ a.LSobject-list {
   text-decoration:    none;
 }
 
+/* Action */
 a.LSobject-list-actions {
   color:              #0072b8;
   text-decoration:    none;
@@ -144,17 +182,21 @@ a.LSobject-list-actions:hover {
 }
 
 td.LSobject-list-actions {
-  width:              7em;
+  width:              5em;
 }
 
+/* Name */
 td.LSobject-list-names {
   cursor:             pointer;
 }
 
+/*
+ * Liste des pages
+ */
 p.LSobject-list-page {
   text-align:         center;
   margin:             0.5em;
-  width:              30em;
+  //width:              100%;
 }
 
 a.LSobject-list-page {
@@ -170,25 +212,42 @@ strong.LSobject-list-page {
   color:              #0072b8;
 }
 
-p.LSview-actions {
+/*
+ *******************
+ * LSview-actions
+ *******************
+ */
+a.LSview-actions {
+  text-decoration:    none;
+  color:              #000;
+}
+
+ul.LSview-actions {
   clear:              both;
   text-align:         right;
   font-size:          0.8em;
   margin:             0;
-  margin-top:         0.3em;
+  margin-top:         0.4em;
   margin-right:       3em;
   margin-bottom:      0.8em;
   color:              #0072b8;
 }
 
-a.LSview-actions {
+li.LSview-actions {
   text-decoration:    none;
   color:              #000;
   border:             1px solid #0072b8;
   border-top:         0;
   padding:            0.4em;
+  display:            inline;
+  margin-right:       1px;
 }
 
+/*
+ *******************
+ * question
+ *******************
+ */
 p.question {
   margin-left:        3em;
 }
@@ -199,50 +258,16 @@ a.question {
   color:              #0072b8;
 }
 
-div.LSform_image {
-  float:              right;
-  clear:              both;
-  margin:             2em;
-  background-color:   #52bce5;
-  width:              160px;
-  padding:            5px;
-  text-align:         center;
-  -moz-border-radius: 1em;
-}
-
-div.LSform_image_errors {
-  background-color:   #f59a67;
-}
-
-img.LSform_image {
-  width:              150px;
-  border:             1px solid #fff;
-  margin:             5px;
-}
-
-ul.LSform_image_actions {
-  list-style-type:    none;
-  position:           absolute;
-  margin-top:         8px;
-  margin-left:        135px;
-  padding:            0;
-  visibility:         hidden;
-  cursor:             pointer;
-}
-
+/*
+ *********************
+ * LSview_search
+ *********************
+ */
 form.LSview_search {
   float:              right;
   margin:             0;
   margin-top:         0.5em;
   margin-right:       2em;
-}
-
-form.LSselect_search {
-  float:              none;
-}
-
-div.LSselect_search {
-  float:              right;
 }
 
 #LSview_search_param {
@@ -264,54 +289,4 @@ input[type='submit'].LSview_search {
   width:              8em;
   background-color:   #52bce5;
   color:              #fff;
-}
-
-div.LSobject-select {
-  width:              600px;
-}
-
-#LSselect-object {
-  width:              570px;
-}
-
-.sortBy_displayValue, .sortBy_subDn {
-  cursor:             pointer;
-}
-
-.LSobject-select-check {
-  width:              10px;
-}
-
-#LSselect_topDn_label {
-  float:              left;
-  font-size:          0.8em;
-  margin-left:        1em;
-  margin-top:         0.5em;
-}
-
-form.LSselect_search {
-  margin-top:         0.5em;
-}
-
-img.LSrelation-btn {
-  margin-left:        0.5em;
-}
-
-.btn {
-  cursor:             pointer;
-}
-
-#LSview_subDnName {
-  float:              left;
-  margin:             0.5em;
-  margin-bottom:      0em;
-}
-
-img.LSobject-list-ordersense {
-  vertical-align:     middle;
-}
-
-th.LSobject-list a {
-  color:              #fff;
-  text-decoration:    none;
 }

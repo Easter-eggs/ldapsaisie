@@ -1,0 +1,40 @@
+/*
+ ************************
+ * LSselect
+ ************************
+ */
+
+#LSselect-object {
+  width:              570px;
+}
+
+.sortBy_displayValue, .sortBy_subDn {
+  cursor:             pointer;
+}
+
+.LSobject-select-check {
+  width:              10px;
+}
+
+#LSselect_topDn_label {
+  float:              left;
+  font-size:          0.8em;
+  margin-left:        1em;
+  margin-top:         0.5em;
+}
+ 
+ /*
+  * LSselect_search
+  */
+form.LSselect_search {
+  float:              none;
+  margin-top:         0.5em;
+}
+
+div.LSselect_search {
+  float:              right;
+}
+
+div.LSobject-select {
+  width:              600px;
+}

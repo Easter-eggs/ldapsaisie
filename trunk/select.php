@@ -40,17 +40,16 @@ if($LSsession -> startLSsession()) {
         $filter = $_SESSION['LSsession']['LSsearch'][$LSobject]['filter'];
         if (isCompatibleDNs($_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'],$GLOBALS['LSsession'] -> topDn)) {
           $topDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'];
-          debug("topDn from cache : ".$topDn);
+          $selectedTopDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'];
         }
         else {
+          $selectedTopDn  = $GLOBALS['LSsession'] -> topDn;
           $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
-          debug("topDn from cache : ".$topDn);
         }
         $params = $_SESSION['LSsession']['LSsearch'][$LSobject]['params'];
         $pattern = $_SESSION['LSsession']['LSsearch'][$LSobject]['pattern'];
         $recur = $_SESSION['LSsession']['LSsearch'][$LSobject]['recur'];
         $approx = $_SESSION['LSsession']['LSsearch'][$LSobject]['approx'];
-        $selectedTopDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'];
         $orderby = $_SESSION['LSsession']['LSsearch'][$LSobject]['orderby'];
         $ordersense = $_SESSION['LSsession']['LSsearch'][$LSobject]['ordersense'];
         $doSubDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['doSubDn'];
@@ -70,7 +69,7 @@ if($LSsession -> startLSsession()) {
       }
       
       if (isset($_REQUEST['LSview_search_submit'])) {
-        if (isset($_REQUEST['LSview_pattern']) && ($_REQUEST['LSview_pattern']!=$pattern)) {
+        if ( $_REQUEST['LSview_pattern']!=$pattern ) {
           $pattern = $_REQUEST['LSview_pattern'];
         }
 
@@ -180,8 +179,6 @@ if($LSsession -> startLSsession()) {
           true
         )
       );
-      
-      
       
       if (($GLOBALS['LSsession'] -> cacheSearch()) && isset($_SESSION['LSsession']['LSsearch'][$hash]) && (!isset($_REQUEST['refresh']))) {
         // On affiche à partir du cache

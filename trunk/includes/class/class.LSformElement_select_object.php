@@ -69,10 +69,14 @@ class LSformElement_select_object extends LSformElement {
     }
     $return['html'].="</ul>\n";
     if (!$this -> isFreeze()) {
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object.js');
       $GLOBALS['LSsession'] -> addJSscript('LSform.js');
       $GLOBALS['LSsession'] -> addJSscript('LSselect.js');
+      $GLOBALS['LSsession'] -> addCssFile('LSselect.css');
       $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
       $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
+      $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
+      $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
     }
     return $return;
   }

@@ -3,25 +3,32 @@ var LSdefault = new Class({
       this.LSdebug = $('LSdebug');
       this.LSdebugInfos = $('LSdebug_infos');
       this.LSdebug.setOpacity(0);
-      if (this.LSdebugInfos.innerHTML != '') {
-        this.displayDebugBox();
-      }
 
       this.LSdebugHidden = $('LSdebug_hidden');
       this.LSdebugHidden.addEvent('click',this.onLSdebugHiddenClick.bindWithEvent(this));
+      
       this.LSerror = $('LSerror');
       this.LSerror.setOpacity(0);
-      if (this.LSerror.innerHTML != '') {
-        this.displayLSerror();
-      }
-      
+
       this.loading_img=[];
-      LSdebug(this.loading_img);
       this.loading_img_id=-1;
       
       this.LSsession_topDn = $('LSsession_topDn');
       if (this.LSsession_topDn) {
         this.LSsession_topDn.addEvent('change',this.onLSsession_topDnChange.bind(this));
+      }
+      
+      this.fx = {
+        LSdebug:  new Fx.Tween(this.LSdebug,{property: 'opacity',duration:600}),
+        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500})
+      };
+      
+      if (this.LSdebugInfos.innerHTML != '') {
+        this.displayDebugBox();
+      }
+      
+      if (this.LSerror.innerHTML != '') {
+        this.displayErrorBox.bind(this);
       }
     },
 
@@ -31,29 +38,55 @@ var LSdefault = new Class({
 
     onLSdebugHiddenClick: function(event){
       new Event(event).stop();
-      new Fx.Style(this.LSdebug,'opacity',{duration:500}).start(0.8,0);
+      this.fx.LSdebug.start(0.8,0);
     },
 
-    displayDebugBox: function() {
-      this.LSdebug.setStyle('top',getScrollTop()+10);
-      new Fx.Style(this.LSdebug,'opacity',{duration:500}).start(0,0.8);
+    checkAjaxReturn: function(data) {
+      if (typeof(data) == 'object') {
+        if (typeof(data.imgload) != "undefined") {
+          this.loadingImgHide(data.imgload);
+        }
+        else {
+          this.loadingImgHide();
+        }
+        
+        if (typeof(data.LSdebug) != "undefined") {
+          LSdebug(data.LSdebug);
+          this.displayDebug(data.LSdebug);
+        }
+        
+        if (typeof(data.LSerror) != "undefined") {
+          this.displayError(data.LSerror);
+          return;
+        }
+        return true;
+      }
+      else {
+        LSdebug('retour non-interprétable');
+        this.loadingImgHide();
+        return;
+      }
     },
 
     displayError: function(html) {
-      this.LSerror.empty();
-      this.LSerror.setHTML(html);
-      this.displayLSerror();
+      this.LSerror.set('html',html);
+      this.displayErrorBox();
     },
 
     displayDebug: function(html) {
-      this.LSdebugInfos.setHTML(html);
+      this.LSdebugInfos.set('html',html);
       this.displayDebugBox();
     },
 
-    displayLSerror: function() {
+    displayErrorBox: function() {
       this.LSerror.setStyle('top',getScrollTop()+10);
-      new Fx.Style(this.LSerror,'opacity',{duration:500}).start(0,0.8);
-      (function(){new Fx.Style(this.LSerror,'opacity',{duration:500}).start(0.8,0);}).delay(5000, this);
+      this.fx.LSerror.start(0,0.8);
+      (function(){this.fx.LSerror.start(0.8,0);}).delay(10000, this);
+    },
+    
+    displayDebugBox: function() {
+      this.LSdebug.setStyle('top',getScrollTop()+10);
+      this.fx.LSdebug.start(0,0.8);
     },
 
     loadingImgDisplay: function(el,position,size) {
@@ -72,7 +105,6 @@ var LSdefault = new Class({
       else {
         this.loading_img[this.loading_img_id].injectAfter(el);
       }
-      LSdebug(this.loading_img_id);
       return this.loading_img_id;
     },
 
@@ -80,12 +112,30 @@ var LSdefault = new Class({
       if (isNaN(id)) {
         this.loading_img.each(function(el)  {
           if (typeof(el) != 'undefined')
-            el.remove();
+            el.destroy();
         },this);
         this.loading_img_id=-1;
       }
       else {
-        this.loading_img[id].remove();
+        this.loading_img[id].destroy();
+      }
+    },
+    
+    ajaxDisplayDebugAndError: function() {
+      var LSdebug_txt = $('LSdebug_txt');
+      if (LSdebug_txt) {
+        var debug = LSdebug_txt.innerHTML;
+        if (debug) {
+          this.displayDebug(debug.toString());
+        }
+      }
+      
+      var LSerror_txt = $('LSerror_txt');
+      if (LSerror_txt) {
+        var error=LSerror_txt.innerHTML;
+        if (error) {
+          this.displayError(error.toString());
+        }
       }
     }
 

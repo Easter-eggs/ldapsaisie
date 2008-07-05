@@ -97,6 +97,8 @@ class LSformElement_password extends LSformElement {
       if (!empty($this -> values)) {
         $return['html'] .= "* "._('Modification uniquement').".";
       }
+      
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_password.js');
     }
     else {
       if (empty($this -> values)) {

@@ -1,15 +1,15 @@
 {include file='top.tpl'}
     {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
     {if $LSview_actions != ''}
-    <p class='LSview-actions'>
+    <ul class='LSview-actions'>
       {foreach from=$LSview_actions item=item}
-        <a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a>
+        <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions' ><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a></li>
       {/foreach}
-    </p>
+    </ul>
     {/if}
-    {if $LSform_image!=''}
-    <div class='LSform_image'>
-      <a href='{$LSform_image.img}'><img src='{$LSform_image.img}' class='LSform_image LSsmoothbox' /></a>
+    {if $LSformElement_image!=''}
+    <div class='LSformElement_image'>
+      <a href='{$LSformElement_image.img}.png' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id}' /></a>
     </div>
     {/if}
     <dl class='LSform'>

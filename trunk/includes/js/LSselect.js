@@ -9,6 +9,8 @@ var LSselect = new Class({
       input.setProperty('type','hidden');
       input.injectInside(this.LSselect_search_form);
       
+      this.tempInput = [];
+      
       this.LSselect_search_form.addEvent('submit',this.onSubmitSearchForm.bindWithEvent(this));
       
       this.LSselect_topDn = $('LSselect_topDn');
@@ -56,13 +58,12 @@ var LSselect = new Class({
           objecttype: $('LSselect-object').getProperties('caption').caption
         };        
       }
-      LSdebug(data);
       data.imgload=varLSdefault.loadingImgDisplay(checkbox.getParent().getNext(),'inside');
-      new Ajax('index_ajax.php',  {data: data, onComplete: this.oncheckboxChangeComplete.bind(this)}).request();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.oncheckboxChangeComplete.bind(this)}).send();
     },
 
     oncheckboxChangeComplete: function(responseText, responseXML) {
-      var data = Json.evaluate(responseText);
+      var data = JSON.decode(responseText);
       varLSdefault.loadingImgHide(data.imgload);
     },
     
@@ -72,12 +73,12 @@ var LSselect = new Class({
         ajax:         true
       };
       this.searchImgload = varLSdefault.loadingImgDisplay($('title'),'inside');
-      new Ajax(a.href,  {data: data, onComplete: this.onChangePageClickComplete.bind(this)}).request();
+      new Request({url: a.href, data: data, onSuccess: this.onChangePageClickComplete.bind(this)}).send();
     },
     
     onChangePageClickComplete: function(responseText, responseXML) {
       varLSdefault.loadingImgHide(this.searchImgload);
-      this.content.setHTML(responseText);
+      this.content.set('html',responseText);
       this.initializeContent();
     },
     
@@ -91,47 +92,45 @@ var LSselect = new Class({
     },
     
     submitSearchForm: function() {
-      var imgload = varLSdefault.loadingImgDisplay($('title'),'inside');
-      this.LSselect_search_form.send({
-        update: this.content,
-        onComplete: this.onSubmitSearchFormComplete.bind(this,imgload),
-        evalScripts: true
+      this.searchImgload = varLSdefault.loadingImgDisplay($('title'),'inside');
+      this.LSselect_search_form.set('send',{
+        data:         this.LSselect_search_form,
+        evalScripts:  true,
+        onSuccess:    this.onSubmitSearchFormComplete.bind(this),
+        url:          this.LSselect_search_form.get('action')
       });
+      this.LSselect_search_form.send();
     },
     
-    onSubmitSearchFormComplete: function(imgload) {
-      varLSdefault.loadingImgHide(imgload);
-      if (typeof(debug_txt)!="undefined") {
-        var debug = Json.evaluate(debug_txt);
-        if (debug) {
-          varLSdefault.displayDebug(debug.toString());
-        }
-      }
-      if (typeof(error_txt)!="undefined") {
-        var error=Json.evaluate(error_txt);
-        if (error) {
-          varLSdefault.displayDebug(error.toString());
-        }
-      }
+    onSubmitSearchFormComplete: function(responseText, responseXML) {
+      varLSdefault.loadingImgHide(this.searchImgload);
+      
+      this.content.set('html',responseText);
+      
+      varLSdefault.ajaxDisplayDebugAndError();
+      
+      this.tempInput.each(function(el) {
+        el.destroy();
+      },this);
+      
       this.initializeContent();
     },
 
     onClickLSselect_refresh_btn: function() {
-      var input = new Element('input');
-      input.setProperty('name','refresh');
-      input.setProperty('type','hidden');
-      input.injectInside(this.LSselect_search_form);
+      this.tempInput['refresh'] = new Element('input');
+      this.tempInput['refresh'].setProperty('name','refresh');
+      this.tempInput['refresh'].setProperty('type','hidden');
+      this.tempInput['refresh'].setProperty('value',1);
+      this.tempInput['refresh'].injectInside(this.LSselect_search_form);
       this.submitSearchForm();
-      input.remove();
     },
     
     sortBy: function(value) {
-      var input = new Element('input');
-      input.setProperty('name','orderby');
-      input.setProperty('type','hidden');
-      input.setProperty('value',value);
-      input.injectInside(this.LSselect_search_form);
+      this.tempInput['sortBy'] = new Element('input');
+      this.tempInput['sortBy'].setProperty('name','orderby');
+      this.tempInput['sortBy'].setProperty('type','hidden');
+      this.tempInput['sortBy'].setProperty('value',value);
+      this.tempInput['sortBy'].injectInside(this.LSselect_search_form);
       this.submitSearchForm();
-      input.remove();
     }
 });

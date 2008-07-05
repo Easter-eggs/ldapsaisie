@@ -78,7 +78,7 @@ if($LSsession -> startLSsession()) {
             $view = $object -> getView();
             $view -> displayView();
             
-                      // Relations
+            // Relations
             if (is_array($object -> config['relations'])) {
               $LSrelations=array();
               foreach($object -> config['relations'] as $relationName => $relationConf) {
@@ -101,16 +101,23 @@ if($LSsession -> startLSsession()) {
                   }
                   
                   $GLOBALS['LSsession'] -> addJSscript('LSselect.js');
+                  $GLOBALS['LSsession'] -> addCssFile('LSselect.css');
                   $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
                   $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
                   $GLOBALS['LSsession'] -> addJSscript('LSrelation.js');
+                  $GLOBALS['LSsession'] -> addCssFile('LSrelation.css');
+                  
                   if($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
                     if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
                       $objRel = new $relationConf['LSobject']();
                       $list = $objRel -> $relationConf['list_function']($object);
                       if (is_array($list)) {
                         foreach($list as $o) {
-                          $return['objectList'][] = $o -> getDisplayValue();
+                          $o_infos = array(
+                            'text' => $o -> getDisplayValue(NULL,true),
+                            'dn' => $o -> getDn()
+                          );
+                          $return['objectList'][] = $o_infos;
                         }
                       }
                       else {
@@ -127,6 +134,8 @@ if($LSsession -> startLSsession()) {
                   }
                 }
               }
+              $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
+              $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
               $GLOBALS['Smarty'] -> assign('LSrelations',$LSrelations);
             }
             
@@ -303,42 +312,11 @@ if($LSsession -> startLSsession()) {
                   $subDn_name = $thisObject -> getSubDnName();
                 }
                 $nbObjects++;
-                unset($actions);
-                
-                $actions[] = array(
-                  'label' => _('Voir'),
-                  'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$thisObject -> getValue('dn'),
-                  'action' => 'view'
-                );
-                
-                if ($GLOBALS['LSsession'] -> canEdit($LSobject,$thisObject->getValue('dn'))) {
-                  $actions[]=array(
-                    'label' => _('Modifier'),
-                    'url' => 'modify.php?LSobject='.$LSobject.'&amp;dn='.$thisObject->getValue('dn'),
-                    'action' => 'modify'
-                  );
-                }
-                
-                if ($canCopy) {
-                  $actions[] = array(
-                    'label' => _('Copier'),
-                    'url' =>'create.php?LSobject='.$LSobject.'&amp;load='.$thisObject -> getValue('dn'),
-                    'action' => 'copy'
-                  );
-                }
-                
-                if ($GLOBALS['LSsession'] -> canRemove($thisObject -> getType(),$thisObject -> getValue('dn'))) {
-                  $actions[] = array (
-                    'label' => _('Supprimer'),
-                    'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$thisObject -> getValue('dn'),
-                    'action' => 'delete'
-                  );
-                }
+
                 
                 $objectList[]=array(
                   'dn' => $thisObject->getValue('dn'),
                   'displayValue' => $thisObject->getDisplayValue(),
-                  'actions' => $actions,
                   'subDn' => $subDn_name
                 );
               }
@@ -348,8 +326,44 @@ if($LSsession -> startLSsession()) {
             
             $searchData['objectList']=$objectList;
             $searchData['LSview_actions'] = $LSview_actions;
-            if ($GLOBALS['LSsession'] -> cacheSearch()) {
-              $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
+            
+          }
+          
+          if ((!isset($searchData['objectList'][0]['actions']))&&(!empty($searchData['objectList']))) {
+            debug('Load actions');
+            for($i=0;$i<$searchData['LSobject_list_nbresult'];$i++) {
+              $actions=array();
+              
+              $actions[] = array(
+                'label' => _('Voir'),
+                'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$searchData['objectList'][$i]['dn'],
+                'action' => 'view'
+              );
+              
+              if ($GLOBALS['LSsession'] -> canEdit($LSobject,$searchData['objectList'][$i]['dn'])) {
+                $actions[]=array(
+                  'label' => _('Modifier'),
+                  'url' => 'modify.php?LSobject='.$LSobject.'&amp;dn='.$searchData['objectList'][$i]['dn'],
+                  'action' => 'modify'
+                );
+              }
+              
+              if ($canCopy) {
+                $actions[] = array(
+                  'label' => _('Copier'),
+                  'url' =>'create.php?LSobject='.$LSobject.'&amp;load='.$searchData['objectList'][$i]['dn'],
+                  'action' => 'copy'
+                );
+              }
+              
+              if ($GLOBALS['LSsession'] -> canRemove($LSobject,$searchData['objectList'][$i]['dn'])) {
+                $actions[] = array (
+                  'label' => _('Supprimer'),
+                  'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$searchData['objectList'][$i]['dn'],
+                  'action' => 'delete'
+                );
+              }
+              $searchData['objectList'][$i]['actions']=$actions;
             }
           }
           
@@ -378,10 +392,13 @@ if($LSsession -> startLSsession()) {
             if (!uasort($searchData['objectList'],'sortBy')) {
               debug('Erreur durant le trie.');
             }
-            $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
           }
           $GLOBALS['Smarty']->assign('LSobject_list_orderby',$orderby);
           $GLOBALS['Smarty']->assign('LSobject_list_ordersense',$ordersense);
+          
+          if ($GLOBALS['LSsession'] -> cacheSearch()) {
+            $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
+          }
           
           // Pagination
           if ($searchData['LSobject_list_nbresult'] > NB_LSOBJECT_LIST) {

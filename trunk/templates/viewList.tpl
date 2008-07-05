@@ -15,11 +15,11 @@
     </h1>
     
     {if $LSview_actions != ''}
-    <p class='LSview-actions'>
+    <ul class='LSview-actions'>
       {foreach from=$LSview_actions item=item}
-        <a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a>
+        <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='templates/images/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a></li>
       {/foreach}
-    </p>
+    </ul>
     {/if}
 
       <table class='LSobject-list'>
