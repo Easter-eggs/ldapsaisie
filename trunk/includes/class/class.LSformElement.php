@@ -259,6 +259,15 @@ class LSformElement {
       return '';
     }
   }
+  
+ /**
+  * Retourne le titre du champ
+  * 
+  * @retval string Titre du champ
+  **/
+  function getTitle() {
+    return $this -> form -> ldapObject -> getDisplayValue().' - '.$this -> getLabel();
+  }
 }
 
 ?>

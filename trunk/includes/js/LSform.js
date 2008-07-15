@@ -1,12 +1,23 @@
 var LSform = new Class({
     initialize: function(){
-      $$('img.LSform-add-field-btn').each(function(el) {
-        el.addEvent('click',this.onAddFieldBtnClick.bind(this,el));
+      this._modules=[];
+      this.initializeLSform_AddAndRemoveBtns();
+    },
+    
+    initializeLSform_AddAndRemoveBtns: function(el) {
+      if (typeof(el) == 'undefined') {
+        el = document;
+      }
+      el.getElements('img[class=LSform-add-field-btn]').each(function(btn) {
+        btn.addEvent('click',this.onAddFieldBtnClick.bind(this,btn));
       }, this);
-
-      $$('img.LSform-remove-field-btn').each(function(el) {
-        el.addEvent('click',this.onRemoveFieldBtnClick.bind(this,el));
+      el.getElements('img[class=LSform-remove-field-btn]').each(function(btn) {
+        btn.addEvent('click',this.onRemoveFieldBtnClick.bind(this,btn));
       }, this);
+    },
+    
+    addModule: function(name,obj) {
+      this._modules[name]=obj;
     },
     
     onAddFieldBtnClick: function(img){
@@ -36,12 +47,15 @@ var LSform = new Class({
         var img = $(data.img);
         li.set('html',data.html);
         li.injectAfter(img.getParent());
-        li.getElements('img[class=LSform-add-field-btn]').each(function(el) {
-          el.addEvent('click',this.onAddFieldBtnClick.bind(this,el));
-        }, this);
-        li.getElements('img[class=LSform-remove-field-btn]').each(function(el) {
-          el.addEvent('click',this.onRemoveFieldBtnClick.bind(this,el));
-        }, this);
+        this.initializeLSform_AddAndRemoveBtns(li);
+        if (typeof(this._modules[data.fieldtype]) != "undefined") {
+          try {
+            this._modules[data.fieldtype].reinitialize(li);
+          }
+          catch(e) {
+            LSdebug('Pas de reinitialise pour ' + data.fieldtype);
+          }
+        }
       }
     },
 

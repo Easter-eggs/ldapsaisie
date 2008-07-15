@@ -326,7 +326,9 @@ if($LSsession -> startLSsession()) {
             
             $searchData['objectList']=$objectList;
             $searchData['LSview_actions'] = $LSview_actions;
-            
+            if ($orderby) {
+              $sort=true;
+            }
           }
           
           if ((!isset($searchData['objectList'][0]['actions']))&&(!empty($searchData['objectList']))) {

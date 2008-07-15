@@ -144,7 +144,7 @@ window.addEvent(window.ie ? 'load' : 'domready', function() {
   varLSdefault = new LSdefault();
 });
 
-LSdebug_active = 0;
+var LSdebug_active = 0;
 
 function LSdebug() {
     if (LSdebug_active != 1) return;

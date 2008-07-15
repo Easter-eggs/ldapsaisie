@@ -225,6 +225,9 @@ if($LSsession -> startLSsession()) {
         if ($GLOBALS['LSsession'] -> cacheSearch()) {
           $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
         }
+        if ($orderby) {
+          $sort=true;
+        }
       }
       $GLOBALS['Smarty']->assign('LSobject_list_nbresult',$searchData['LSobject_list_nbresult']);
       

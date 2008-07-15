@@ -46,6 +46,7 @@ if (!isset($_ERRORS)) {
                 $data = array(
                   'html' => $form -> getEmptyField($_REQUEST['attribute']),
                   'img' => $_REQUEST['img'],
+                  'fieldtype' => get_class($form -> getElement($_REQUEST['attribute']))
                 );
               }
             }
