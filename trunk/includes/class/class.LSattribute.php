@@ -294,8 +294,9 @@ class LSattribute {
         $data='';
       }
       $element = $this -> html -> addToForm($form,'view',$data);
-      if(!$element) {
+      if(!$element instanceof LSformElement) {
         $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+        return;
       }
       $element -> freeze();
       return true;

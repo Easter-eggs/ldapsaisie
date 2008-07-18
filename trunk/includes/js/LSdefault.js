@@ -36,7 +36,7 @@ var LSdefault = new Class({
       }
       
       if (this.LSerror.innerHTML != '') {
-        this.displayErrorBox.bind(this);
+        this.displayErrorBox();
       }
     },
 

@@ -43,10 +43,6 @@ class LSattr_html_textarea extends LSattr_html {
       return;
     }
 
-    if (count($data)>1) {
-      $GLOBALS['LSerror'] -> addErrorCode(103,'textarea');
-      return;
-    }
     if ($data) {
       $element -> setValue($data);
     }

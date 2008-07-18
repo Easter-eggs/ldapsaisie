@@ -42,8 +42,18 @@ class LSattr_html_image extends LSattr_html {
       $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
       return;
     }
+    
+    if (count($data)>1) {
+      $GLOBALS['LSerror'] -> addErrorCode(103,'password');
+    }
+    
     if ($data) {
-      $element -> setValue($data);
+      if(is_array($data)) {
+        $element -> setValue($data[0]);
+      }
+      else {
+        $element -> setValue($data);
+      }
     }
     return $element; 
   }
