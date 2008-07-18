@@ -819,6 +819,12 @@ class LSldapObject {
     else if(($val=='rdn')||($val=='%{rdn}')) {
       return $this -> attrs[ $this -> config['rdn'] ] -> getValue();
     }
+    else if(($val=='subDn')||($val=='%{subDn}')) {
+      return $this -> getSubDnValue();
+    }
+    else if(($val=='subDnName')||($val=='%{subDnName}')) {
+      return $this -> getSubDnName();
+    }
     else if(isset($this ->  attrs[$val])){
       if (method_exists($this ->  attrs[$val],'getValue'))
         return $this -> attrs[$val] -> getValue();

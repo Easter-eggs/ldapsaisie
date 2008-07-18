@@ -616,6 +616,7 @@ class LSsession {
   */
   function getSubDnLdapServerOptions($selected=NULL) {
     $list = $this -> getSubDnLdapServer();
+    asort($list);
     if ($list) {
       $display='';
       foreach($list as $dn => $txt) {
@@ -860,6 +861,7 @@ class LSsession {
     
     // Niveau
     $listTopDn = $this -> getSubDnLdapServer();
+    asort($listTopDn);
     if (is_array($listTopDn)) {
       $GLOBALS['Smarty'] -> assign('label_level',$this -> getLevelLabel());
       $GLOBALS['Smarty'] -> assign('_refresh',_('Rafraîchir'));
