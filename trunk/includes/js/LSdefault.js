@@ -10,6 +10,14 @@ var LSdefault = new Class({
       this.LSerror = $('LSerror');
       this.LSerror.setOpacity(0);
 
+      this.LSjsConfigEl = $('LSjsConfig');
+      if ($type(this.LSjsConfigEl)) {
+        this.LSjsConfig = JSON.decode(this.LSjsConfigEl.innerHTML);
+      }
+      else {
+        this.LSjsConfig = [];
+      }
+
       this.loading_img=[];
       this.loading_img_id=-1;
       

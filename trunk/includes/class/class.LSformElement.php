@@ -107,6 +107,15 @@ class LSformElement {
   }
 
   /**
+   * Exporte les valeurs de l'élément
+   * 
+   * @retval Array Les valeurs de l'élement
+   */
+  function exportValues(){
+    return $this -> values;
+  }
+
+  /**
    * Ajoute une valeur à l'élément
    *
    * Cette méthode ajoute une valeur à l'élément

@@ -39,6 +39,7 @@ class LSsession {
   var $dn = NULL;
   var $rdn = NULL;
   var $JSscripts = array();
+  var $_JSconfigParams = array();
   var $CssFiles = array();
   var $template = NULL;
   var $LSrights = array (
@@ -774,10 +775,26 @@ class LSsession {
   *
   * @retval void
   */
-  function addJSscript($script) {
+  function addJSscript($file,$path=NULL) {
+    $script=array(
+      'file' => $file,
+      'path' => $path
+    );
     if (in_array($script, $this -> JSscripts))
       return;
     $this -> JSscripts[]=$script;
+  }
+
+ /**
+  * Ajouter un paramètre de configuration Javascript
+  * 
+  * @param[in] $name string Nom de la variable de configuration
+  * @param[in] $val mixed Valeur de la variable de configuration
+  *
+  * @retval void
+  */
+  function addJSconfigParam($name,$val) {
+    $this -> _JSconfigParams[$name]=$val;
   }
 
  /**
@@ -789,8 +806,12 @@ class LSsession {
   *
   * @retval void
   */
-  function addCssFile($file) {
-    $this -> CssFiles[]=$file;
+  function addCssFile($file,$path=NULL) {
+    $cssFile=array(
+      'file' => $file,
+      'path' => $path
+    );
+    $this -> CssFiles[]=$cssFile;
   }
 
  /**
@@ -808,8 +829,13 @@ class LSsession {
     }
 
     foreach ($this -> JSscripts as $script) {
-      $JSscript_txt.="<script src='".LS_JS_DIR.$script."' type='text/javascript'></script>\n";
+      if (!$script['path']) {
+        $script['path']=LS_JS_DIR;
+      }
+      $JSscript_txt.="<script src='".$script['path'].'/'.$script['file']."' type='text/javascript'></script>\n";
     }
+
+    $GLOBALS['Smarty'] -> assign('LSjsConfig',json_encode($this -> _JSconfigParams));
     
     if ($GLOBALS['LSdebug']['active']) {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";
@@ -823,7 +849,10 @@ class LSsession {
     // Css
     $Css_txt="<link rel='stylesheet' type='text/css' href='templates/css/LSdefault.css' />\n";
     foreach ($this -> CssFiles as $file) {
-      $Css_txt.="<link rel='stylesheet' type='text/css' href='templates/css/$file' />\n";
+      if (!$file['path']) {
+        $file['path']=LS_CSS_DIR;
+      }
+      $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file['path'].$file['file']."' />\n";
     }
     $GLOBALS['Smarty'] -> assign('LSsession_css',$Css_txt);
   

@@ -10,6 +10,9 @@
     {$LSsession_js}
   </head>
 <body>
+<div id='LSjsConfig'>
+{$LSjsConfig}
+</div>
 <div id='LSerror'>
 {$LSerrors}
 </div>

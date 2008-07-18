@@ -91,6 +91,21 @@ class LSformElement_select_object extends LSformElement {
   function setSelectableObject($object) {
     $this -> selectableObject = $object;
   }
+  
+  /**
+   * Exporte les valeurs de l'élément
+   * 
+   * @retval Array Les valeurs de l'élement
+   */
+  function exportValues(){
+    $retval=array();
+    if (is_array($this -> values)) {
+      foreach($this -> values as $val => $name) {
+        $retval[] = $val;
+      }
+    }
+    return $retval;
+  }
 
 
 

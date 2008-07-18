@@ -28,6 +28,10 @@
   display:                  none;
 }
 
+#LSjsConfig {
+  display:                  none;
+}
+
 #LSdebug_hidden {
   float:                    right;
   color:                    #fff;

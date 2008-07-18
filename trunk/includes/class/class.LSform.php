@@ -184,9 +184,9 @@ class LSform {
         $GLOBALS['LSerror'] -> addErrorCode(201);
         return;
       }
+      $this -> setValuesFromPostData();
       //Validation des données ici !!! ///
       if (!$this -> checkData()) {
-        $this -> setValuesFromPostData();
         return;
       }
       debug("les données sont checkées");
@@ -414,7 +414,11 @@ class LSform {
    */
   function exportValues() {
     if ($this -> _isValidate) {
-      return $this -> _postData;
+      $retval=array();
+      foreach($this -> _postData as $element => $values) {
+        $retval[$element] = $this -> elements[$element] -> exportValues();
+      }
+      return $retval;
     }
     else {
       return;

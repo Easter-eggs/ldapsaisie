@@ -293,6 +293,9 @@ class LSldapObject {
       }
     }
     $new_data = $LSform -> exportValues();
+    if(!is_array($new_data)) {
+      return;
+    }
     foreach($new_data as $attr_name => $attr_val) {
       if(isset($this -> attrs[$attr_name])) {
         $this -> attrs[$attr_name] -> setUpdateData($attr_val);

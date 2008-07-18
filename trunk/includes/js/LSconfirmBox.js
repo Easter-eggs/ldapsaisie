@@ -88,7 +88,6 @@ var LSconfirmBox = new Class({
       this.box.empty();
       this.box.destroy();
       delete this.fx;
-      delete this;
     },
     
     getStartStyles: function() {
