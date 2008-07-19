@@ -39,6 +39,10 @@ var LSselect = new Class({
       $$('.sortBy_subDn').each(function(el) {
         el.addEvent('click',this.sortBy.bind(this,'subDn'));
       }, this);
+      
+      $$('td.LSobject-select-names').each(function(el) {
+        el.addEvent('click',this.onNameClick.bind(this,el));
+      }, this);
     },
 
     oncheckboxChange: function(checkbox){
@@ -132,5 +136,11 @@ var LSselect = new Class({
       this.tempInput['sortBy'].setProperty('value',value);
       this.tempInput['sortBy'].injectInside(this.LSselect_search_form);
       this.submitSearchForm();
+    },
+    
+    onNameClick: function(td) {
+      var input = td.getParent().getFirst().getFirst();
+      input.checked = (!input.checked);
+      input.fireEvent('click');
     }
 });

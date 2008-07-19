@@ -55,7 +55,7 @@ var LSconfirmBox = new Class({
       
       this.fx = {
         open:   new Fx.Morph(this.box, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onComplete: this.displayContent.bind(this)}),
-        close:  new Fx.Morph(this.box, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onComplete: this.onClose.bind(this)}),
+        close:  new Fx.Morph(this.box, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onComplete: this.onClose.bind(this)})
       };
     },
     

@@ -16,6 +16,10 @@
   width:              10px;
 }
 
+.LSobject-select-names {
+  cursor:             pointer;
+}
+
 #LSselect_topDn_label {
   float:              left;
   font-size:          0.8em;

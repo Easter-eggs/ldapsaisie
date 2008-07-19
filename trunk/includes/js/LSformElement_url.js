@@ -42,7 +42,7 @@ var LSformElement_url = new Class({
         if (window.sidebar) {
           window.sidebar.addPanel(name,href,'');
         }
-        else if(document.all) {
+        else if(window.external) {
           window.external.AddFavorite(href,name);
         }
         else {
