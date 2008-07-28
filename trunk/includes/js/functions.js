@@ -34,7 +34,7 @@ function LSdebug() {
  * @retval string La chaine formatée
  */
 function getFData(format,data,meth) {
-  var getMotif = /%{([A-Za-z0-9]+)}/
+  var getMotif =  new RegExp('%\{([A-Za-z0-9]+)\}');
   var find=1;  
   if(($type(data)=='object') || ($type(data)=='array')) {
     if ($type(data[meth])!='function') {
@@ -42,7 +42,7 @@ function getFData(format,data,meth) {
         var ch = getMotif.exec(format);
         if ($type(ch)) {
           format=format.replace (
-                  new RegExp('%{'+ch[1]+'}'),
+                  new RegExp('%\{'+ch[1]+'\}'),
                   data[ch[1]]
                 );
         }
@@ -57,7 +57,7 @@ function getFData(format,data,meth) {
         if ($type(ch)) {
           try {
             format=format.replace (
-                    new RegExp('%{'+ch[1]+'}'),
+                    new RegExp('%\{'+ch[1]+'\}'),
                     data[meth](ch[1])
                   );
           }
