@@ -6,6 +6,7 @@ var LSformElement_text_field = new Class({
       this.params = varLSdefault.LSjsConfig[this.name];
       this._auto=1;
       this.input.addEvent('change',this.unauto.bind(this));
+      this.onChangeColor = '#f16d6d';
     },
     
     start: function() {
@@ -24,6 +25,7 @@ var LSformElement_text_field = new Class({
               var input = this.parent.getInput.bind(this.parent)(el);
               input.addEvent('change',this.refreshValue.bind(this));
             },this);
+            this.oldBg=this.input.getStyle('background-color');
             this.fx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
           }
         }
@@ -41,8 +43,7 @@ var LSformElement_text_field = new Class({
     refreshValue: function() {
       if (this._auto) {
         this.input.value=getFData(this.format,this.parent,'getValue');
-        this.oldBg=this.input.getStyle('background-color');
-        this.fx.start('#f16d6d');
+        this.fx.start(this.onChangeColor);
         (function() {this.fx.start(this.oldBg);}).delay(1000,this);
       }
     },
