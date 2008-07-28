@@ -52,7 +52,9 @@ var LSsmoothbox = new Class({
       };
       
       this._open=0;
+      this._scrolling=0;
       window.addEvent('resize', this.position.bind(this));
+      window.addEvent('scroll', this.positionWhenScrolling.bind(this));
     },
     
     position: function(){ 
@@ -66,6 +68,20 @@ var LSsmoothbox = new Class({
           top:      endStyles.top,
           left:     endStyles.left
         });
+      }
+    },
+    
+    positionWhenScrolling: function(oldValue) {
+      if (this._scrolling==0||$type(oldValue)) {
+        this._scrolling = 1;
+        var current = window.getScrollTop().toInt();
+        if (oldValue == current) {
+          this.position();
+          this._scrolling=0;
+        }
+        else {
+          this.positionWhenScrolling.delay(200,this,current);
+        }
       }
     },
     

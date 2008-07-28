@@ -43,7 +43,10 @@ class LSformElement_text extends LSformElement {
     $return = $this -> getLabelInfos();
     // value
     if (!$this -> isFreeze()) {
-      $return['html'] = "<ul class='LSform'>\n";
+      $return['html'] = "<ul class='LSform LSformElement_text'>\n";
+      if ($this -> params['html_options']['generate_value_format']!="") {
+        $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$this -> params['html_options']);
+      }
       if (empty($this -> values)) {
         $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
       }
@@ -51,19 +54,21 @@ class LSformElement_text extends LSformElement {
         foreach ($this -> values as $value) {
           $multiple = $this -> getMultipleData();
           $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>".$multiple."</li>\n";
+          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."' class='LSformElement_text' />".$multiple."</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_text_field.js');
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_text.js');
     }
     else {
-      $return['html'] = "<ul class='LSform'>\n";
+      $return['html'] = "<ul class='LSform LSformElement_text'>\n";
       if (empty($this -> values)) {
-        $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
+        $return['html'] .= "<li><span class='LSformElement_text'>"._('Aucune valeur definie')."</span><input type='hidden' name='".$this -> name."[]' class='LSformElement_text' value=''/></li>\n";
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li>".$value."</li>\n";
+          $return['html'] .= "<li><span class='LSformElement_text'>".$value."</span><input type='hidden' name='".$this -> name."[]' class='LSformElement_text' value=\"$value\"/></li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -78,7 +83,7 @@ class LSformElement_text extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$multiple;
+    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'  class='LSformElement_text' />".$multiple;
   }
 }
 

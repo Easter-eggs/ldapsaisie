@@ -103,24 +103,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'modify' => 0,
       )
     ),
-    'cn' => array (
-      'label' => _('Nom complet'),
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'required' => 1,
-      'default_value' => 'titi',
-      'validation' => 'valid',
-      'rights' => array(
-        'self' => 'w',
-        'user' => 'r',
-        'admin' => 'w'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-        'create' => 1
-      )
-    ),
     'givenName' => array (
       'label' => _('Prenom'),
       'ldap_type' => 'ascii',
@@ -149,6 +131,27 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
+      'rights' => array(
+        'self' => 'w',
+        'user' => 'r',
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1,
+        'create' => 1
+      )
+    ),
+    'cn' => array (
+      'label' => _('Nom complet'),
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'html_options' => array(
+        'generate_value_format' => '%{givenName} %{sn}',
+        'autoGenerateOnModify' => false   // default : false
+      ),
+      'required' => 1,
+      'validation' => 'valid',
       'rights' => array(
         'self' => 'w',
         'user' => 'r',
@@ -254,6 +257,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'label' => _('Adresse e-mail'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
+      'html_options' => array(
+        'generate_value_format' => '%{uid}@ls.com',
+        'autoGenerateOnModify' => true
+      ),
       'required' => 1,
       'check_data' => array (
         'email' => array(

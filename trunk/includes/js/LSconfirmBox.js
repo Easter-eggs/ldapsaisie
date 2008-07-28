@@ -57,18 +57,34 @@ var LSconfirmBox = new Class({
         open:   new Fx.Morph(this.box, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onComplete: this.displayContent.bind(this)}),
         close:  new Fx.Morph(this.box, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onComplete: this.onClose.bind(this)})
       };
+      this._scrolling=0;
     },
     
     display: function() {
       this.box.setStyle('display','block');
       this.position(true);
       window.addEvent('resize', this.position.bind(this));
+      window.addEvent('scroll', this.positionWhenScrolling.bind(this));
+    },
+    
+    positionWhenScrolling: function(oldValue) {
+      if (this._scrolling==0||$type(oldValue)) {
+        this._scrolling = 1;
+        var current = window.getScrollTop().toInt();
+        if (oldValue == current) {
+          this.position();
+          this._scrolling=0;
+        }
+        else {
+          this.positionWhenScrolling.delay(200,this,current);
+        }
+      }
     },
     
     displayContent: function() {
       [this.title, this.closeBtn, this.text, this.btnsBox].each(function(el) {
         var fx = new Fx.Tween(el,{duration: 200});
-        fx.start('opacity',0,1);
+        fx.start('opacity',1);
       },this);
     },
     
@@ -138,19 +154,13 @@ var LSconfirmBox = new Class({
     },
     
     confirm: function() {
-      if (this._options.onConfirm) {
-        try {
-          this._options.onConfirm();
-        }
-        catch (e){
-          console.log('onConfirm : rater');
-        }
-      }
       this.hide();
+      if (this._options.onConfirm) {
+        $try(this._options.onConfirm);
+      }
     },
     
     cancel: function() {
       this.hide();
     }
-    
 });

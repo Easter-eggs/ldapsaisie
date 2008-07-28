@@ -110,6 +110,7 @@ define('LS_CSS_DIR', 'templates/css/');
 $GLOBALS['defaultJSscipts']=array(
   'mootools-core.js',
   'mootools-more.js',
+  'functions.js',
   'LSdefault.js'
 );
 

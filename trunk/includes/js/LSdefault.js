@@ -148,14 +148,7 @@ var LSdefault = new Class({
     }
 
 });
+
 window.addEvent(window.ie ? 'load' : 'domready', function() {
   varLSdefault = new LSdefault();
 });
-
-var LSdebug_active = 0;
-
-function LSdebug() {
-    if (LSdebug_active != 1) return;
-    if (typeof console == 'undefined') return;
-    console.log.apply(this, arguments);
-}
