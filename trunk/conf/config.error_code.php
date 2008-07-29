@@ -54,6 +54,10 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("LSldap : Erreur durant la suppression des attributs vides."),
     'level' => 'w'
   ),
+  7 => array (
+    'msg' => _("LSldap : Erreur durant le changement du DN de l'objet."),
+    'level' => 'w'
+  ),
   
   // LSldapObject
   21 => array (

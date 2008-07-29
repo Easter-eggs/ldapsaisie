@@ -334,7 +334,12 @@ class LSldap {
    * @retval boolean True si l'objet Ã  Ã©tÃ© supprimÃ©, false sinon
    */
   function remove($dn) {
-    return $this -> cnx -> delete($dn,array('recursive' => true));
+    $ret = $this -> cnx -> delete($dn,array('recursive' => true));
+    if (Net_LDAP2::isError($ret)) {
+      $GLOBALS['LSerror'] -> addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
+      return;
+    }
+    return true;
   }
 
   /**
@@ -346,7 +351,13 @@ class LSldap {
    * @retval boolean True si l'objet a été déplacé, false sinon
    */
   function move($old,$new) {
-    return (!Net_LDAP2::isError($this -> cnx -> move($old,$new)));
+    $ret = $this -> cnx -> move($old,$new);
+    if (Net_LDAP2::isError($ret)) {
+      $GLOBALS['LSerror'] -> addErrorCode(7);
+      $GLOBALS['LSerror'] -> addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
+      return;
+    }
+    return true;
   }
 }
 
