@@ -40,7 +40,12 @@ if($LSsession -> startLSsession()) {
         $filter = $_SESSION['LSsession']['LSsearch'][$LSobject]['filter'];
         if (isCompatibleDNs($_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'],$GLOBALS['LSsession'] -> topDn)) {
           $topDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'];
-          $selectedTopDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'];
+          if (isset($_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'])) {
+            $selectedTopDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'];
+          }
+          else {
+            $selectedTopDn = $GLOBALS['LSsession'] -> topDn;
+          }
         }
         else {
           $selectedTopDn  = $GLOBALS['LSsession'] -> topDn;
