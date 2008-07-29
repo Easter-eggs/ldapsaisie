@@ -241,7 +241,7 @@ if (!isset($_ERRORS)) {
                           $ok=false;
                           foreach($list as $o) {
                             if($o -> getDn() == $_REQUEST['dn']) {
-                              if (!$o -> deleteOneMember($object)) {
+                              if (!$o -> $relationConf['remove_function']($object)) {
                                 $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
                               }
                               else {

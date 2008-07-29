@@ -487,6 +487,34 @@ class LSsession {
   }
 
  /**
+  * Modifie l'utilisateur connecté à la volé
+  * 
+  * @param[in] $object Mixed  L'objet Ldap du nouvel utilisateur
+  *                           le type doit correspondre à
+  *                           $this -> ldapServer['authobject']
+  * 
+  * @retval boolean True en cas de succès, false sinon
+  */
+ function changeAuthUser($object) {
+  if ($object instanceof $this -> ldapServer['authobject']) {
+    $this -> dn = $object -> getDn();
+    $rdn = $object -> getValue('rdn');
+    if(is_array($rdn)) {
+      $rdn = $rdn[0];
+    }
+    $this -> rdn = $rdn;
+    $this -> LSuserObject = $object;
+    
+    if($this -> loadLSrights()) {
+      $this -> loadLSaccess();
+      $_SESSION['LSsession']=get_object_vars($this);
+      return true;
+    }
+  }
+  return;
+ }
+
+ /**
   * DÃ©finition du serveur Ldap de la session
   *
   * DÃ©finition du serveur Ldap de la session Ã  partir de son ID dans 

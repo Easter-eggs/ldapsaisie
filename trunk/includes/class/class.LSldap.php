@@ -337,6 +337,17 @@ class LSldap {
     return $this -> cnx -> delete($dn,array('recursive' => true));
   }
 
+  /**
+   * Déplace un objet LDAP dans l'annuaire
+   * 
+   * @param[in] $old string Le DN actuel
+   * @param[in] $new string Le futur DN
+   * 
+   * @retval boolean True si l'objet a été déplacé, false sinon
+   */
+  function move($old,$new) {
+    return (!Net_LDAP2::isError($this -> cnx -> move($old,$new)));
+  }
 }
 
 ?>

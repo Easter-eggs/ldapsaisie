@@ -149,7 +149,7 @@ class LSformElement_date extends LSformElement {
       $GLOBALS['LSsession'] -> addJSscript('calendar-en.js',LS_LIB_DIR.'jscalendar/lang/');
       $codeLang = strtolower($GLOBALS['LSconfig']['lang'][0].$GLOBALS['LSconfig']['lang'][1]);
       $GLOBALS['LSsession'] -> addJSscript('calendar-'.$codeLang.'.js',LS_LIB_DIR.'jscalendar/lang/');
-      $GLOBALS['LSsession'] -> addJSscript('calendar-setup.js',LS_LIB_DIR.'jscalendar/');
+      //$GLOBALS['LSsession'] -> addJSscript('calendar-setup.js',LS_LIB_DIR.'jscalendar/');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_date_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_date.js');
     }

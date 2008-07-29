@@ -45,20 +45,6 @@ if($LSsession -> startLSsession()) {
     // Création d'un LSobject
     if ($GLOBALS['LSsession'] -> loadLSobject($LSobject)) {
       if ( $GLOBALS['LSsession'] -> canEdit($LSobject,$dn) ) {
-        $LSview_actions[] = array(
-          'label' => _('Voir'),
-          'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$dn,
-          'action' => 'view'
-        );
-        
-        if ($GLOBALS['LSsession'] -> canRemove($LSobject,$dn)) {
-          $LSview_actions[] = array(
-            'label' => _('Supprimer'),
-            'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$dn,
-            'action' => 'delete'
-          );
-        }
-        
         $object = new $LSobject();
         if ($object -> loadData($dn)) {
           // Définition du Titre de la page
@@ -68,8 +54,21 @@ if($LSsession -> startLSsession()) {
             // MàJ des données de l'objet LDAP
             if ($object -> updateData('modify')) {
               debug('ok');
-              //header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
             }
+          }
+          
+          $LSview_actions[] = array(
+            'label' => _('Voir'),
+            'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
+            'action' => 'view'
+          );
+        
+          if ($GLOBALS['LSsession'] -> canRemove($LSobject,$object -> getDn())) {
+            $LSview_actions[] = array(
+              'label' => _('Supprimer'),
+              'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
+              'action' => 'delete'
+            );
           }
           
 

@@ -27,6 +27,8 @@
  */
 class LSeegroup extends LSldapObject {
 
+  var $userObjectType = 'LSeepeople';
+
   /**
    * Constructeur
    *
@@ -50,7 +52,7 @@ class LSeegroup extends LSldapObject {
    * Retourne un tableau de LSeegroup correspondant aux groupes
    * auxquels appartient un utilisateur
    * 
-   * @param[in] $userObject Un object LSeepeople
+   * @param[in] $userObject Un object user (type : $this -> userObjectType)
    * 
    * @retval Array of LSeegroup Les groupes de l'utilisateur
    **/
@@ -64,12 +66,12 @@ class LSeegroup extends LSldapObject {
   /**
    * Ajoute un utilisateur au groupe
    * 
-   * @param[in] $object Un object LSeepeople : l'utilisateur à ajouter
+   * @param[in] $object Un object user ($this -> userObjectType) : l'utilisateur à ajouter
    * 
    * @retval boolean true si l'utilisateur à été ajouté, False sinon
    **/  
   function addOneMember($object) {
-    if ($object instanceof LSeepeople) {
+    if ($object instanceof $this -> userObjectType) {
       if ($this -> attrs['uniqueMember'] instanceof LSattribute) {
         $dn = $object -> getDn();
         $values = $this -> attrs['uniqueMember'] -> getValue();
@@ -92,12 +94,12 @@ class LSeegroup extends LSldapObject {
   /**
    * Supprime un utilisateur du groupe
    * 
-   * @param[in] $object Un object LSeepeople : l'utilisateur à supprimer
+   * @param[in] $object Un object (type : $this -> userObjectType) : l'utilisateur à supprimer
    * 
    * @retval boolean true si l'utilisateur à été supprimé, False sinon
    **/  
   function deleteOneMember($object) {
-    if ($object instanceof LSeepeople) {
+    if ($object instanceof $this -> userObjectType) {
       if ($this -> attrs['uniqueMember'] instanceof LSattribute) {
         $dn = $object -> getDn();
         $values = $this -> attrs['uniqueMember'] -> getValue();
@@ -113,7 +115,38 @@ class LSeegroup extends LSldapObject {
           }
           return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array('uniqueMember' => $updateData));
         }
-        return;
+      }
+    }
+    return;
+  }
+  
+ /**
+  * Renome un utilisateur
+  * 
+  * @param[in] $object Un object (type : $this -> userObjectType) : l'utilisateur à renomer
+  * @param[in] $oldDn string L'ancien DN de l'utilisateur
+  * 
+  * @retval boolean True en cas de succès, False sinon
+  */
+  function renameOneMember($object,$oldDn) {
+    if ($object instanceof $this -> userObjectType) {
+      if ($this -> attrs['uniqueMember'] instanceof LSattribute) {
+        $values = $this -> attrs['uniqueMember'] -> getValue();
+        if ((!is_array($values)) && (!empty($values))) {
+          $values = array($values);
+        }
+        if (is_array($values)) {
+          $updateData=array();
+          foreach($values as $value) {
+            if ($value!=$oldDn) {
+              $updateData[] = $value;
+            }
+            else {
+              $updateData[] = $object-> getDn();
+            }
+          }
+          return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array('uniqueMember' => $updateData));
+        }
       }
     }
     return;
@@ -122,7 +155,7 @@ class LSeegroup extends LSldapObject {
   /**
    * Met à jour les groupes d'un utilisateur
    * 
-   * @param[in] $userObject LSeepeople Un object LSeepeople : l'utilisateur
+   * @param[in] $userObject Mixed Un object (type : $this -> userObjectType) : l'utilisateur
    * @param[in] $listDns Array(string) Un tableau des DNs des groupes de l'utilisateur
    * 
    * @retval boolean true si tout c'est bien passé, False sinon

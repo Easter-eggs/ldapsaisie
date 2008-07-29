@@ -41,6 +41,7 @@ class LSldapObject {
   var $submitError=true;
   var $_whoami=NULL;
   var $_subDn_value=NULL;
+  var $_relationsCache=array();
   
   /**
    * Constructeur
@@ -447,7 +448,7 @@ class LSldapObject {
               }
             }
             else {
-              if($ret<=0) {
+              if($ret<0) {
                 $LSform -> setElementError($attr,$msg_error);
                 return;
               }
@@ -512,7 +513,31 @@ class LSldapObject {
     $submitData=array();
     foreach($this -> attrs as $attr) {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
-        $submitData[$attr -> name] = $attr -> getUpdateData();
+        if($attr -> name == $this -> config['rdn']) {
+          debug('Rename');
+          if (!$this -> beforeRename()) {
+            $GLOBALS['LSerror'] -> addErrorCode(36);
+            return;
+          }
+          $oldDn = $this -> getDn();
+          $this -> dn = false;
+          $newDn = $this -> getDn();
+          if ($newDn) {
+            if (!$GLOBALS['LSldap'] -> move($oldDn,$newDn)) {
+              return;
+            }
+            if (!$this -> afterRename($oldDn,$newDn)) {
+              $GLOBALS['LSerror'] -> addErrorCode(37);
+              return;
+            }
+          }
+          else {
+            return;
+          }
+        }
+        else {
+          $submitData[$attr -> name] = $attr -> getUpdateData();
+        }
       }
     }
     if(!empty($submitData)) {
@@ -976,6 +1001,77 @@ class LSldapObject {
   function getSubDnName() {
     $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
     return $subDnLdapServer[$this -> getSubDnValue()];
+  }
+  
+  /**
+   * Methode executant les actions nécéssaires avant le changement du DN de
+   * l'objet.
+   * 
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
+   * pour les objets plus complexe.
+   * 
+   * @retval True en cas de cas ce succès, False sinon.
+   */
+  function beforeRename() {
+    if (is_array($this->config['relations'])) {
+      foreach($this->config['relations'] as $relation_name => $relation_conf) {
+        if ( isset($relation_conf['list_function']) && isset($relation_conf['rename_function']) ) {
+          if ($GLOBALS['LSsession'] -> loadLSobject($relation_conf['LSobject'])) {
+            $obj = new $relation_conf['LSobject']();
+            if (method_exists($obj,$relation_conf['list_function'])) {
+              $list = $obj -> $relation_conf['list_function']($this);
+              if (is_array($list)) {
+                $this -> _relationsCache[$relation_name] = $list; 
+              }
+              else {
+                return;
+              }
+            }
+            else {
+              return;
+            }
+          }
+          else {
+            return;
+          }
+        }
+      }
+    }
+    return true;
+  }
+  
+  /**
+   * Methode executant les actions nécéssaires après le changement du DN de
+   * l'objet.
+   * 
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
+   * pour les objets plus complexe.
+   * 
+   * @param[in] $oldDn string L'ancien DN de l'objet
+   * @param[in] $newDn string Le nouveau DN de l'objet
+   * 
+   * @retval True en cas de cas ce succès, False sinon.
+   */
+  function afterRename($oldDn,$newDn) {
+    $error = 0;
+    if($GLOBALS['LSsession'] -> dn == $oldDn) {
+      $GLOBALS['LSsession'] -> changeAuthUser($this);
+    }
+    
+    foreach($this -> _relationsCache as $relation_name => $objList) {
+      foreach($objList as $obj) {
+        $meth = $this->config['relations'][$relation_name]['rename_function'];
+        if (method_exists($obj,$meth)) {
+          if (!($obj -> $meth($this,$oldDn))) {
+            $error=1;
+          }
+        }
+        else {
+          $error=1;
+        }
+      }
+    }
+    return !$error;
   }
 }
 

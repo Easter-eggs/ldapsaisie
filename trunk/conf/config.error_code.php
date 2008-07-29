@@ -116,8 +116,16 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("LSldapObject : Erreur durant la suppression de %{objectname}."),
     'level' => 'c'
   ),
+  36 => array (
+    'msg' => _("LSldapObject : Erreur durant les actions avant renomage."),
+    'level' => 'c'
+  ),
+  37 => array (
+    'msg' => _("LSldapObject : Erreur durant les actions après renomage."),
+    'level' => 'c'
+  ),
   
-  // LSldapObject
+  // LSattribute
   41 => array (
     'msg' => _("LSattribute : Attribut %{attr} : Type d'attribut (ldap // html) inconnu (ldap = %{ldap} | html = %{html})."),
     'level' => 'c'

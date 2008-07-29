@@ -53,7 +53,11 @@ function getFData($format,$data,$meth=NULL) {
       else {
         while (ereg("%{([A-Za-z0-9]+)}",$format[$i],$ch)) {
           if (method_exists($data[$ch[1]],$meth)) {
-            $format[$i]=ereg_replace($ch[0],$data[$ch[1]] -> $meth(),$format[$i]);
+            $value = $data[$ch[1]] -> $meth();
+            if (is_array($value)) {
+              $value = $value[0];
+            }
+            $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(901,array('meth' => $meth,'obj' => $ch[1]));
@@ -70,7 +74,11 @@ function getFData($format,$data,$meth=NULL) {
       else {
         while (ereg("%{([A-Za-z0-9]+)}",$format[$i],$ch)) {
           if (method_exists($data,$meth)) {
-            $format[$i]=ereg_replace($ch[0],$data -> $meth($ch[1]),$format[$i]);
+            $value = $data -> $meth($ch[1]);
+            if (is_array($value)) {
+              $value = $value[0];
+            }
+            $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(901,array('meth' => $meth,'obj' => get_class($data)));

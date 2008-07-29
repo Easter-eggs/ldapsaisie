@@ -404,7 +404,15 @@ class LSattribute {
    * @retval boolean true si la valeur de l'attribut peut être générée, false sinon
    */
   function canBeGenerated() {
-    return (function_exists($this -> config['generate_function']));
+    if (function_exists($this -> config['generate_function'])) {
+      return true;
+    }
+    else if (isset($this -> config['generate_value_format'])) {
+      return true;
+    }
+    else {
+      return ;
+    }
   }
 
   /**
@@ -415,10 +423,12 @@ class LSattribute {
    * @retval boolean true si la valeur à put être générée, false sinon
    */
   function generateValue() {
-    if ( ! $this -> canBeGenerated() ) {
-      return;
+    if (function_exists($this -> config['generate_function'])) {
+      $value=call_user_func($this -> config['generate_function'],$this -> ldapObject);
     }
-    $value=call_user_func($this -> config['generate_function'],$this -> ldapObject);
+    else if (isset($this -> config['generate_value_format'])) {
+      $value = $this -> ldapObject -> getFData($this -> config['generate_value_format']);
+    }
     if (!empty($value)) {
       //$this -> setValue($value); // pas nécéssaire ??
       $this -> updateData=array($value);

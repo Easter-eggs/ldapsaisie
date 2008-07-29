@@ -39,7 +39,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'LSobject' => 'LSeegroup',
       'list_function' => 'listUserGroups',
       'update_function' => 'updateUserGroups',
-      'remove_function' => 'removeMember',
+      'remove_function' => 'deleteOneMember',
+      'rename_function' => 'renameOneMember',
       'rights' => array(
         'self' => 'r',
         'admin' => 'w'
@@ -72,8 +73,11 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0,
+        'modify' => 1,
         'create' => 1
+      ),
+      'dependAttrs' => array(
+        'homeDirectory'
       )
     ),
     'uidNumber' => array (
@@ -243,15 +247,11 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
-      'default_value' => '/home/%{uid}',
       'generate_function' => 'generate_homeDirectory',
       'rights' => array(
         'self' => 'r'
       ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-      )
+      'view' => 1
     ),
     'mail' => array (
       'label' => _('Adresse e-mail'),
