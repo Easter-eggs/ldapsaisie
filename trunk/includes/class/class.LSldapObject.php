@@ -513,7 +513,7 @@ class LSldapObject {
     $submitData=array();
     foreach($this -> attrs as $attr) {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
-        if($attr -> name == $this -> config['rdn']) {
+        if(($attr -> name == $this -> config['rdn'])&&(!$this -> isNew())) {
           debug('Rename');
           if (!$this -> beforeRename()) {
             $GLOBALS['LSerror'] -> addErrorCode(36);
