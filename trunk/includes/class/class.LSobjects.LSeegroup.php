@@ -60,7 +60,7 @@ class LSeegroup extends LSldapObject {
     $dn = $userObject -> getDn();
     $filter = $this -> getObjectFilter();
     $filter = '(&'.$filter.'(uniqueMember='.$dn.'))';
-    return $this -> listObjects($filter);
+    return $this -> listObjects($filter,$GLOBALS['LSsession'] -> ldapServer['ldap_config']['basedn'],array('scope' => 'sub'));
   }
 
   /**

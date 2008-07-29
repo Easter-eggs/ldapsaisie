@@ -21,6 +21,7 @@ var LSselect = new Class({
       this.LSselect_refresh_btn.addEvent('click',this.onClickLSselect_refresh_btn.bind(this));
       
       this.initializeContent();
+      varLSdefault.ajaxDisplayDebugAndError();
     },
     
     initializeContent: function() {

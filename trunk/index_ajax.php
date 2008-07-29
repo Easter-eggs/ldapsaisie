@@ -182,7 +182,7 @@ if (!isset($_ERRORS)) {
                               $list = $objRel -> $relationConf['list_function']($object);
                               if (is_array($list)) {
                                 foreach($list as $o) {
-                                  $data['html'].= "<li class='LSrelation'><span id='".$o -> getDn()."'>".$o -> getDisplayValue()."</span></li>\n";
+                                  $data['html'].= "<li class='LSrelation'><span id='".$o -> getDn()."'>".$o -> getDisplayValue(NULL,true)."</span></li>\n";
                                 }
                               }
                               else {
