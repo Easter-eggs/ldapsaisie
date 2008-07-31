@@ -34,7 +34,7 @@ var LSrelation = new Class({
     onDeleteBtnClick: function(img) {
       if (this._confirmDelete) {
         var li = img.getParent();
-        var span = li.getFirst('span');
+        var span = li.getFirst().getFirst('span');
         this.confirmBox = new LSconfirmBox({
           text:         'Etês-vous sur de vouloir supprimer "'+span.innerHTML+'" ?', 
           startElement: img,
@@ -48,7 +48,7 @@ var LSrelation = new Class({
     
     deleteFromImg: function(img) {
       var li = img.getParent();
-      var span = li.getFirst('span');
+      var span = li.getFirst().getFirst('span');
       var ul = li.getParent();
       img.destroy();
       LSdebug(ul.id);
@@ -69,7 +69,7 @@ var LSrelation = new Class({
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         try  {
-          $(data.dn).getParent().destroy();
+          $(data.dn).getParent().getParent().destroy();
         }
         catch(e) {
           LSdebug('Erreur durant la suppression du li du DN : '+data.dn);
