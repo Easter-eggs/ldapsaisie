@@ -356,13 +356,14 @@ class LSldapObject {
   function validateAttrsData($idForm) {
     $LSform=$this -> forms[$idForm][0];
     foreach($this -> attrs as $attr) {
+      $attr_values = $attr -> getValue();
       if (!$attr -> isValidate()) {
         if($attr -> isUpdate()) {
           if (!$this -> validateAttrData($LSform, $attr)) {
             return;
           }
         }
-        else if( ($attr -> getValue() == '') && ($attr -> isRequired()) ) { 
+        else if( (empty($attr_values)) && ($attr -> isRequired()) ) { 
           if ( $attr -> canBeGenerated()) {
             if ($attr -> generateValue()) {
               if (!$this -> validateAttrData($LSform, $attr)) {

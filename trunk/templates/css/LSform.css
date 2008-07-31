@@ -73,7 +73,7 @@ img.LSform-add-field-btn, img.LSform-remove-field-btn {
 /*
  * LSformElement_select_object
  */
-a.LSformElement_select_object_addBtn {
+a.LSformElement_select_object {
   text-decoration:            none;
   color:                      #000;
   font-weight:                normal;

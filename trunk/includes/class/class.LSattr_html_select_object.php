@@ -114,7 +114,9 @@ class LSattr_html_select_object extends LSattr_html{
         }
         else {
           for($i=0;$i<count($list);$i++) {
-            $retInfos[$list[$i] -> attrs[$val['value_attribute']] -> getValue()]=$list[$i] -> getDisplayValue($conf['display_attribute']);
+            $key = $val['value_attribute'] -> getValue();
+            $key = $key[0];
+            $retInfos[$list[$i] -> attrs[$key]]=$list[$i] -> getDisplayValue($conf['display_attribute']);
             $DNs[]=$list[$i] -> dn;
           }
         }
@@ -156,7 +158,9 @@ class LSattr_html_select_object extends LSattr_html{
               $retInfos[$obj -> dn]=$obj -> getDisplayValue($conf['display_attribute']);
             }
             else {
-              $retInfos[$obj -> attrs[$val['value_attribute']] -> getValue()]=$obj -> getDisplayValue($conf['display_attribute']);
+              $key = $val['value_attribute'] -> getValue();
+              $key = $key[0];
+              $retInfos[$obj -> attrs[$key]]=$obj -> getDisplayValue($conf['display_attribute']);
             }
             $DNs[]=$dn;
           }

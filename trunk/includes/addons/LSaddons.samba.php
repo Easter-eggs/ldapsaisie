@@ -163,8 +163,9 @@
       $GLOBALS['LSerror'] -> addErrorCode('SAMBA_02',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaPrimaryGroupSID'));
       return;
     }
-
-    $gidNumber = $ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ] -> getValue() * 2 + LS_SAMBA_SID_BASE_GROUP;
+    
+    $gidNumber = $ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ] -> getValue();
+    $gidNumber = $gidNumber[0] * 2 + LS_SAMBA_SID_BASE_GROUP;
     $sambaPrimaryGroupSID = LS_SAMBA_DOMAIN_SID . '-' . $gidNumber;
 
     return ($sambaPrimaryGroupSID);

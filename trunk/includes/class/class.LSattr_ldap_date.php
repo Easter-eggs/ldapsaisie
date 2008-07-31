@@ -34,12 +34,17 @@ class LSattr_ldap_date extends LSattr_ldap {
    * @retval mixed La valeur d'affichage de l'attribut
    */
   function getDisplayValue($data) {
-    $date = strptime($data,$this -> getFormat());
-    if (is_array($date)) {
-      return mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900); 
+    if(!is_array($data)) {
+      $data=array($data);
     }
-    else 
-      return;
+    $retval=array();
+    foreach($data as $val) {
+      $date = strptime($val,$this -> getFormat());
+      if (is_array($date)) {
+        $retval[] = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900); 
+      }
+    }
+    return $retval;
   }
 
   /**

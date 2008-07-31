@@ -8,6 +8,6 @@
 {/if}
 <ul id='LSrelation_ul_{$item.id}' class='LSrelation'>
 {foreach from=$item.objectList item=object}
-    <li class='LSrelation'><span id='{$object.dn}'>{$object.text}</span></li>
+    <li class='LSrelation'><a href='view.php?LSobject={$item.LSobject}&amp;dn={$object.dn}' class='LSrelation'><span id='{$object.dn}'>{$object.text}</span></a></li>
 {/foreach}
 </ul>

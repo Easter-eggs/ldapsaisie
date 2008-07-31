@@ -100,6 +100,9 @@ class LSattribute {
    * @retval boolean true
    */
   function loadData($attr_data) {
+    if ((!is_array($attr_data))&&(!empty($attr_data))) {
+      $attr_data = array($attr_data);
+    }
     $this -> data = $attr_data;
     return true;
   }
@@ -112,6 +115,9 @@ class LSattribute {
    * @retval boolean true
    */
   function reloadData($attr_data) {
+    if ((!is_array($attr_data))&&(!empty($attr_data))) {
+      $attr_data = array($attr_data);
+    }
     $this -> data = $attr_data;
     $this -> updateData=false;
     $this -> is_validate=false;
@@ -315,7 +321,7 @@ class LSattribute {
    * @retval boolean true si la valeur a été rafraichie ou que ce n'est pas nécessaire, false sinon
    */
   function refreshForm(&$form,$idForm) {
-    if(isset($this -> config['form'][$idForm]) && ($this -> myRights()=='w')) {
+    if(isset($this -> config['form'][$idForm])) {
       $form_element = $form -> getElement($this -> name);
       $values = $this -> html -> refreshForm($this -> getFormVal());
       return $form_element -> setValue($values);

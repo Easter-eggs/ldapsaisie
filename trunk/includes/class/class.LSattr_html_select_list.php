@@ -103,7 +103,8 @@ class LSattr_html_select_list extends LSattr_html{
           }
           else {
             for($i=0;$i<count($list);$i++) {
-              $retInfos[$list[$i] -> attrs[$val['value_attribute']] -> getValue()]=$list[$i] -> getDisplayValue($val['display_attribute']);
+              $key = $list[$i] -> attrs[$val['value_attribute']] -> getValue();
+              $retInfos[$key[0]]=$list[$i] -> getDisplayValue($val['display_attribute']);
             }
           }
         }

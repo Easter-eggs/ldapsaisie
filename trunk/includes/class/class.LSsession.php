@@ -295,7 +295,9 @@ class LSsession {
                 $result = $authobject -> listObjects($filter,$this -> topDn);
                 $nbresult=count($result);
                 if ($nbresult==1) {
-                  $_POST['LSsession_user'] = $result[0] -> getValue('rdn');
+                  $rdn = $result[0] -> getValue('rdn');
+                  $rdn = $rdn[0];
+                  $_POST['LSsession_user'] = $rdn;
                   $find=false;
                 }
               }
@@ -319,6 +321,7 @@ class LSsession {
                     debug('Récupération active');
                     $user=$result[0];
                     $emailAddress = $user -> getValue($this -> ldapServer['recoverPassword']['mailAttr']);
+                    $emailAddress = $emailAddress[0];
                     
                     // Header des mails
                     $headers="Content-Type: text/plain; charset=UTF-8; format=flowed";
@@ -335,7 +338,9 @@ class LSsession {
                       // 1ère étape : envoie du recoveryHash
                       if (!isset($_GET['recoveryHash'])) {
                         // Generer un hash
-                        $recovery_hash = md5($user -> getValue('rdn') . strval(time()) . strval(rand()));
+                        $rdn=$user -> getValue('rdn');
+                        $rdn = $rdn[0];
+                        $recovery_hash = md5($rdn . strval(time()) . strval(rand()));
                         
                         $lostPasswdForm = $user -> getForm('lostPassword');
                         $lostPasswdForm -> setPostData(
@@ -453,7 +458,7 @@ class LSsession {
                     $this -> rdn = $_POST['LSsession_user'];
                     $this -> loadLSrights();
                     $this -> loadLSaccess();
-                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getValue('rdn'));
+                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
                     $_SESSION['LSsession']=get_object_vars($this);
                     return true;
                   }

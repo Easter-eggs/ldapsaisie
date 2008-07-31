@@ -83,7 +83,10 @@ if($LSsession -> startLSsession()) {
               $LSrelations=array();
               foreach($object -> config['relations'] as $relationName => $relationConf) {
                 if ($GLOBALS['LSsession'] -> relationCanAccess($object -> getValue('dn'),$relationName)) {
-                  $return=array('label' => $relationConf['label']);
+                  $return=array(
+                    'label' => $relationConf['label'],
+                    'LSobject' => $relationConf['LSobject']
+                  );
                   
                   $id=rand();
                   $return['id']=$id;
