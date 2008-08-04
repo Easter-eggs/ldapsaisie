@@ -24,7 +24,7 @@ var LSformElement_xmpp = new Class({
       if (typeof(href)=="undefined") {
         href = 'xmpp:'+btn.getParent().getFirst().value;
       }
-      if (href!="") {
+      if ((href!="")&&(href!="xmpp:")) {
         location.href = href;
       }
     }

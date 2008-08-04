@@ -80,7 +80,7 @@ class LSformElement_rss extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/go.png' class='LSformElement_rss_btn btn' alt='"._('Afficher la file RSS.')."' title='"._('Afficher la file RSS.')."'/>".$multiple;
+    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/rss.png' class='LSformElement_rss_btn btn' alt='"._('Afficher la file RSS.')."' title='"._('Afficher la file RSS.')."'/>".$multiple;
   }
 }
 

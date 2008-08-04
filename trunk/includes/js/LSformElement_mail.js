@@ -24,7 +24,7 @@ var LSformElement_mail = new Class({
       if (typeof(href)=="undefined") {
         href = 'mailto:'+btn.getParent().getFirst().value;
       }
-      if (href!="") {
+      if ((href!="")&&(href!="mailto:")) {
         location.href = href;
       }
     }

@@ -80,7 +80,7 @@ class LSformElement_mail extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/go.png' class='LSformElement_mail_btn btn' alt='"._('Envoyer un mail.')."' title='"._('Envoyer un mail.')."'/>".$multiple;
+    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/mail.png' class='LSformElement_mail_btn btn' alt='"._('Envoyer un mail.')."' title='"._('Envoyer un mail.')."'/>".$multiple;
   }
 }
 

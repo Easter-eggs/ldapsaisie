@@ -80,7 +80,7 @@ class LSformElement_xmpp extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/go.png' class='LSformElement_xmpp_btn btn' alt='"._('Dialoguer')."' title='"._('Dialoguer')."'/>".$multiple;
+    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/xmpp.png' class='LSformElement_xmpp_btn btn' alt='"._('Dialoguer')."' title='"._('Dialoguer')."'/>".$multiple;
   }
 }
 
