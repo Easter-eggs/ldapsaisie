@@ -128,6 +128,18 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("LSldapObject : Erreur durant les actions après renomage."),
     'level' => 'c'
   ),
+  38 => array (
+    'msg' => _("LSldapObject : Erreur durant les actions avant suppression."),
+    'level' => 'c'
+  ),
+  39 => array (
+    'msg' => _("LSldapObject : Erreur durant les actions après suppresion."),
+    'level' => 'c'
+  ),
+  40 => array (
+    'msg' => _("LSldapObject : Erreur durant les actions après la création. L'objet est pour autant créé."),
+    'level' => 'c'
+  ),
   
   // LSattribute
   41 => array (

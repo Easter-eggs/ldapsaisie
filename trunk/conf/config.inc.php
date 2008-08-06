@@ -36,32 +36,31 @@ $GLOBALS['LSconfig'] = array(
             'port'     => 389,
             'version'  => 3,
             'starttls' => false,
-        'binddn'   => 'uid=ldapsaisie,ou=sysaccounts,o=ls',
-        'bindpw'   => 'toto',
-        'basedn'   => 'o=ls',
-        'options'  => array(),
-        'filter'   => '(objectClass=*)',
-        'scope'    => 'sub'
+            'binddn'   => 'uid=ldapsaisie,ou=sysaccounts,o=ls',
+            'bindpw'   => 'toto',
+            'basedn'   => 'o=ls',
+            'options'  => array(),
+            'filter'   => '(objectClass=*)',
+            'scope'    => 'sub'
+      ),
+      'LSadmins' => array (
+        'o=ls' => array (
+          'uid=eeggs,ou=people,o=ls' => NULL
         ),
-        'LSadmins' => array (
-          'o=ls' => array (
-            'uid=eeggs,ou=people,o=ls' => NULL
-          ),
-          'ou=people,o=ls' => array (
-            'cn=adminldap,ou=groups,o=ls' => array (
-              'attr' => 'uniqueMember',
-              'LSobject' => 'LSeegroup'
-            )
+        'ou=people,o=ls' => array (
+          'cn=adminldap,ou=groups,o=ls' => array (
+            'attr' => 'uniqueMember',
+            'LSobject' => 'LSeegroup'
           )
-        ),
-        'cacheLSrights' => true,
-        'cacheSearch' => true,
+        )
+      ),
+      'cacheLSrights' => true,
+      'cacheSearch' => true,
       'authobject' => 'LSeepeople',
       'authobject_pwdattr' => 'userPassword',
       'LSaccess' => array(
         'LSeepeople',
-        'LSeegroup',
-        'LSeecompany'
+        'LSeegroup'
       ),
       'recoverPassword' => array(
         'mailAttr' => 'mail',
@@ -76,7 +75,78 @@ $GLOBALS['LSconfig'] = array(
           'msg' => "Votre nouveau mot de passe : %{mdp}"
         )
       ),
-      'emailSender' => 'noreply@lsexample.net'
+      'emailSender' => 'noreply@lsexample.net',
+      'LSobjects' => array (
+        'LSeepeople',
+        'LSeegroup'
+      )
+    ),
+    array (
+      'name' => 'LSexample - multi-sociétés',
+      'ldap_config'=> array(
+        'host'     => '127.0.0.1',
+        'port'     => 389,
+        'version'  => 3,
+        'starttls' => false,
+        'binddn'   => 'uid=ldapsaisie,ou=sysaccounts,o=ls',
+        'bindpw'   => 'toto',
+        'basedn'   => 'o=ls',
+        'options'  => array(),
+        'filter'   => '(objectClass=*)',
+        'scope'    => 'sub'
+      ),
+      'LSadmins' => array (
+        'o=ls' => array (
+          'uid=eeggs,ou=people,o=ls' => NULL,
+          'cn=adminldap,ou=groups,o=ls' => array (
+            'attr' => 'uniqueMember',
+            'LSobject' => 'LSeegroup'
+          )
+        )
+      ),
+      'authobject' => 'LSeepeople',
+      'levelLabel' => _('Société'),
+      'subDn' => array(
+        '== Toutes ==' => array(
+          'dn' => 'o=ls',
+          'LSobjects' => array(
+            'LSeepeople',
+            'LSeegroup',
+            'LSeecompany'
+          )
+        ),
+        'LSobject' => array(
+          'LSeecompany' => array(
+            'LSobjects' => array(
+              'LSeepeople',
+              'LSeegroup'
+            )
+          )
+        )
+      ),
+      'cacheLSrights' => true,
+      'cacheSearch' => true,
+      'authobject_pwdattr' => 'userPassword',
+      'recoverPassword' => array(
+        'mailAttr' => 'mail',
+        'passwordAttr' => 'userPassword',
+        'recoveryHashAttr' => 'lsRecoveryHash',
+        'recoveryEmailSender' => 'noreply-recover@lsexample.net',
+        'recoveryHashMail' => array(
+          'subject' => 'LSexample : Récupération de votre mot de passe.',
+          'msg' => "Pour poursuivre le processus de récupération de votre mot de passe,\nmerci de cliquer de vous rendre à l'adresse suivante :\n%{url}"
+        ),
+        'newPasswordMail' => array(
+          'subject' => 'LSexample : Votre nouveau mot de passe.',
+          'msg' => "Votre nouveau mot de passe : %{mdp}"
+        )
+      ),
+      'emailSender' => 'noreply@lsexample.net',
+      'LSobjects' => array (
+        'LSeepeople',
+        'LSeegroup',
+        'LSeecompany'
+      )
     )
   )
 );

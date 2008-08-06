@@ -48,7 +48,7 @@ if($LSsession -> startLSsession()) {
         }
         if ($form->validate()) {
           // MàJ des données de l'objet LDAP
-          if ($object -> updateData('create')) {
+          if (($object -> updateData('create'))&&(!$GLOBALS['LSerror']->errorsDefined())) {
             header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
           }
         }

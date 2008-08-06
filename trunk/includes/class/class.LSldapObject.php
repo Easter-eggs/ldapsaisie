@@ -512,9 +512,11 @@ class LSldapObject {
    */ 
   function submitChange($idForm) {
     $submitData=array();
+    $new = $this -> isNew();
     foreach($this -> attrs as $attr) {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
-        if(($attr -> name == $this -> config['rdn'])&&(!$this -> isNew())) {
+        if(($attr -> name == $this -> config['rdn'])&&(!$new)) {
+          $new = true;
           debug('Rename');
           if (!$this -> beforeRename()) {
             $GLOBALS['LSerror'] -> addErrorCode(36);
@@ -546,7 +548,16 @@ class LSldapObject {
       if($dn) {
         $this -> dn=$dn;
         debug($submitData);
-        return $GLOBALS['LSldap'] -> update($this -> getType(),$dn, $submitData);
+        if (!$GLOBALS['LSldap'] -> update($this -> getType(),$dn, $submitData)) {
+          return;
+        }
+        if ($new) {
+          if (!$this -> afterCreate()) {
+            $GLOBALS['LSerror'] -> addErrorCode(40);
+            return;
+          }
+        }
+        return true;
       }
       else {
         $GLOBALS['LSerror'] -> addErrorCode(33);
@@ -958,7 +969,18 @@ class LSldapObject {
    * @retval boolean True si l'objet Ã  Ã©tÃ© supprimÃ©, false sinon
    */
   function remove() {
-    return $GLOBALS['LSldap'] -> remove($this -> getDn());
+    if ($this -> beforeDelete()) {
+      if ($GLOBALS['LSldap'] -> remove($this -> getDn())) {
+        if ($this -> afterDelete()) {
+          return true;
+        }
+        $GLOBALS['LSerror'] -> addErrorCode(39);
+      }
+    }
+    else {
+      $GLOBALS['LSerror'] -> addErrorCode(38);
+    }
+    return;
   }
   
   /**
@@ -1005,18 +1027,16 @@ class LSldapObject {
   }
   
   /**
-   * Methode executant les actions nécéssaires avant le changement du DN de
-   * l'objet.
-   * 
-   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
-   * pour les objets plus complexe.
+   * Methode créant la liste des objets en relations avec l'objet courant et qui
+   * la met en cache ($this -> _relationsCache)
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function beforeRename() {
+  function updateRelationsCache() {
+    $this -> _relationsCache=array();
     if (is_array($this->config['relations'])) {
       foreach($this->config['relations'] as $relation_name => $relation_conf) {
-        if ( isset($relation_conf['list_function']) && isset($relation_conf['rename_function']) ) {
+        if ( isset($relation_conf['list_function']) ) {
           if ($GLOBALS['LSsession'] -> loadLSobject($relation_conf['LSobject'])) {
             $obj = new $relation_conf['LSobject']();
             if (method_exists($obj,$relation_conf['list_function'])) {
@@ -1042,6 +1062,19 @@ class LSldapObject {
   }
   
   /**
+   * Methode executant les actions nécéssaires avant le changement du DN de
+   * l'objet.
+   * 
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
+   * pour les objets plus complexe.
+   * 
+   * @retval True en cas de cas ce succès, False sinon.
+   */
+  function beforeRename() {
+    return $this -> updateRelationsCache();
+  }
+  
+  /**
    * Methode executant les actions nécéssaires après le changement du DN de
    * l'objet.
    * 
@@ -1060,20 +1093,105 @@ class LSldapObject {
     }
     
     foreach($this -> _relationsCache as $relation_name => $objList) {
-      foreach($objList as $obj) {
-        $meth = $this->config['relations'][$relation_name]['rename_function'];
-        if (method_exists($obj,$meth)) {
-          if (!($obj -> $meth($this,$oldDn))) {
+      if (isset($this->config['relations'][$relation_name]['rename_function'])) {
+        foreach($objList as $obj) {
+          $meth = $this->config['relations'][$relation_name]['rename_function'];
+          if (method_exists($obj,$meth)) {
+            if (!($obj -> $meth($this,$oldDn))) {
+              $error=1;
+            }
+          }
+          else {
             $error=1;
           }
-        }
-        else {
-          $error=1;
         }
       }
     }
     return !$error;
   }
+  
+  /**
+   * Methode executant les actions nécéssaires avant la suppression de
+   * l'objet.
+   * 
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
+   * pour les objets plus complexe.
+   * 
+   * @retval True en cas de cas ce succès, False sinon.
+   */
+  function beforeDelete() {
+    return $this -> updateRelationsCache();
+  }
+  
+  /**
+   * Methode executant les actions nécéssaires après la suppression de
+   * l'objet.
+   * 
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
+   * pour les objets plus complexe.
+   * 
+   * @retval True en cas de cas ce succès, False sinon.
+   */
+  function afterDelete() {
+    $error = 0;
+    foreach($this -> _relationsCache as $relation_name => $objList) {
+      if (isset($this->config['relations'][$relation_name]['remove_function'])) {
+        foreach($objList as $obj) {
+          $meth = $this->config['relations'][$relation_name]['remove_function'];
+          if (method_exists($obj,$meth)) {
+            if (!($obj -> $meth($this))) {
+              $error=1;
+            }
+          }
+          else {
+            $error=1;
+          }
+        }
+      }
+    }
+    return !$error;
+  }
+  
+  /**
+   * Methode executant les actions nécéssaires après la création de
+   * l'objet.
+   * 
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
+   * pour les objets plus complexe.
+   * 
+   * @retval True en cas de cas ce succès, False sinon.
+   */
+  function afterCreate() {
+    debug('after');
+    $error = 0;
+    if ($GLOBALS['LSsession'] -> isSubDnLSobject($this -> getType())) {
+      if (is_array($GLOBALS['LSsession'] -> ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'])) {
+        foreach($GLOBALS['LSsession'] -> ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'] as $type) {
+          if ($GLOBALS['LSsession'] -> loadLSobject($type)) {
+            if (isset($GLOBALS['LSobjects'][$type]['container_auto_create'])&&isset($GLOBALS['LSobjects'][$type]['container_dn'])) {
+              $dn = $GLOBALS['LSobjects'][$type]['container_dn'].','.$this -> getDn();
+              if(!$GLOBALS['LSldap'] -> getNewEntry($dn,$GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],$GLOBALS['LSobjects'][$type]['container_auto_create']['attrs'],true)) {
+                debug("Impossible de créer l'entrée fille : ".print_r(
+                  array(
+                    'dn' => $dn,
+                    'objectClass' => $GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],
+                    'attrs' => $GLOBALS['LSobjects'][$type]['container_auto_create']['attrs']
+                  )
+                ,true));
+                $error=1;
+              }
+            }
+          }
+          else {
+            $GLOBALS['LSerror'] -> addErrorCode(1004,$type);
+            $error=1;
+          }
+        }
+      }
+    }
+    return !$error;
+  }
+  
 }
 
 ?>

@@ -22,20 +22,21 @@
 
 $GLOBALS['LSobjects']['LSeecompany'] = array (
   'objectclass' => array(
+    'top',
     'lscompany'
   ),
-  'rdn' => 'o',
+  'rdn' => 'ou',
   'container_dn' => 'ou=companies',
-  'select_display_attrs' => '%{dc}',
+  'select_display_attrs' => '%{ou}',
   'label' => _('Sociétés'),
   'attrs' => array (
-    'o' => array (
+    'ou' => array (
       'label' => _('Nom'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
       'check_data' => array (
-        'alphanumeric'
+        'alphanumeric' => NULL
       ),
       'view' => 1,
       'rights' => array(
@@ -43,15 +44,15 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
         'admin' => 'w'
       ),
       'form' => array (
-        'modify' => 1,
+        'modify' => 0,
         'create' => 1
       )
     ),
-    'dc' => array (
-      'label' => _('Domaine'),
+    'description' => array (
+      'label' => _('Description'),
       'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'required' => 1,
+      'html_type' => 'textarea',
+      'required' => 0,
       'rights' => array(
         'user' => 'r',
         'admin' => 'w'

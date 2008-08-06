@@ -29,6 +29,15 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   ),
   'rdn' => 'uid',
   'container_dn' => 'ou=people',
+  'container_auto_create' => array(
+    'objectclass' => array(
+      'top',
+      'organizationalUnit'
+    ),
+    'attrs' => array(
+      'ou' => 'people'
+    )
+  ),
   'before_save' => 'valid',
   'after_save' => 'valid',
   'select_display_attrs' => '%{cn}',

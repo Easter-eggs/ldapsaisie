@@ -70,7 +70,9 @@ gidNumber: 102001
 sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205003
 sambaGroupType: 2
 structuralObjectClass: lsgroup
-uniqueMember: uid=secretariat,ou=people,o=ls
+uniqueMember: uid=hmartin,ou=people,o=ls
+uniqueMember: uid=ls,ou=people,o=ls
+uniqueMember: uid=eeggs,ou=people,o=ls
 
 dn: cn=informatique,ou=groups,o=ls
 objectClass: top
@@ -82,7 +84,6 @@ sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205019
 sambaGroupType: 2
 structuralObjectClass: lsgroup
 cn: informatique
-uniqueMember: uid=eeggs,ou=people,o=ls
 
 dn: cn=direction,ou=groups,o=ls
 objectClass: top
@@ -94,6 +95,7 @@ gidNumber: 102007
 sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205015
 sambaGroupType: 2
 structuralObjectClass: lsgroup
+uniqueMember: uid=eeggs,ou=people,o=ls
 
 dn: cn=administratif,ou=groups,o=ls
 objectClass: top
@@ -128,26 +130,148 @@ objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
 objectClass: sambaSamAccount
-uid: eeggs
 uidNumber: 100000
 sambaSID: S-1-5-21-2421470416-3566881284-3047381809-201000
 structuralObjectClass: lspeople
-gidNumber: 102009
-mail: eeggs@ldapsaisie.biz
 facsimileTelephoneNumber: 030000000
-lsallowedservices: MAIL
-lsallowedservices: FTP
+lsAllowedServices: MAIL
+lsAllowedServices: FTP
 description: Utilisateur test Easter-eggs
 cn: Easter Eggs
 sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-205019
 personalTitle: M.
-userPassword: toto
-sambaLMPassword: AAD3B435B51404EEAAD3B435B51404EE
-sambaNTPassword: 31D6CFE0D16AE931B73C59D7E0C089C0
-homeDirectory: /home/eeggs
 loginShell: /bin/false
-givenName: Easter
 sn: Eggs
+givenName: Easter
+jpegPhoto:: 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
+uid: eeggs
+homeDirectory: /home/eeggs
+gidNumber: 102009
+userPassword: toto
+sambaLMPassword: BAC14D04669EE1D1AAD3B435B51404EE
+sambaNTPassword: FBBF55D0EF0E34D39593F55C5F2CA5F2
+mail: eeggs@ls.com
 
 dn: uid=invite,ou=people,o=ls
 objectClass: top
@@ -166,9 +290,9 @@ userPassword: toto
 sambaAcctFlags: [U          ]
 sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-203019
 sambaSID: S-1-5-21-2421470416-3566881284-3047381809-203024
-lsallowedservices: MAIL
-lsallowedservices: SAMBA
-lsallowedservices: FTP
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
 mail: invite@ldapsaisie.biz
 structuralObjectClass: lspeople
 sambaNTPassword: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -190,9 +314,9 @@ givenName: Henri
 sn: MARTIN
 gidNumber: 102001
 mail: henri.martin@ldapsaisie.biz
-lsallowedservices: MAIL
-lsallowedservices: SAMBA
-lsallowedservices: FTP
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
 cn: Henri MARTIN
 sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-205003
 personalTitle: M.
@@ -219,9 +343,9 @@ givenName: Secretariat
 sn: Secretariat
 gidNumber: 70513
 mail: secretariat@ldapsaisie.biz
-lsallowedservices: MAIL
-lsallowedservices: SAMBA
-lsallowedservices: FTP
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
 cn: Secretariat Secretariat
 sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-513
 
@@ -244,9 +368,9 @@ givenName: _
 sn: LdapSaisie
 gidNumber: 102001
 mail: ls@ldapsaisie.biz
-lsallowedservices: MAIL
-lsallowedservices: SAMBA
-lsallowedservices: FTP
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
 cn: LS
 sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-205003
 
@@ -265,9 +389,9 @@ structuralObjectClass: lspeople
 sn: PAGEARD
 gidNumber: 102009
 mail: erwan.page@ldapsaisie.biz
-lsallowedservices: MAIL
-lsallowedservices: SAMBA
-lsallowedservices: FTP
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
 cn: Erwan PAGE
 sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-205019
 personalTitle: M.
@@ -275,3 +399,167 @@ givenName: Erwan
 userPassword: toto
 sambaLMPassword: BAC14D04669EE1D1AAD3B435B51404EE
 sambaNTPassword: FBBF55D0EF0E34D39593F55C5F2CA5F2
+
+dn: uid=eeggs2,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+uid: eeggs2
+uidNumber: 1000000
+gidNumber: 102009
+facsimileTelephoneNumber: 030000000
+lsAllowedServices: MAIL
+lsAllowedServices: FTP
+description: Utilisateur test Easter-eggs 2
+cn: Easter Eggs 2
+personalTitle: M.
+homeDirectory: /home/eeggs
+loginShell: /bin/false
+sn: Eggs
+givenName: Easter
+mail: bn8@zionetrix.net
+userPassword: toto
+structuralObjectClass: lspeople
+
+dn: uid=eeggs3,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+uid: eeggs3
+uidNumber: 10000000
+gidNumber: 102009
+facsimileTelephoneNumber: 030000000
+lsAllowedServices: MAIL
+lsAllowedServices: FTP
+description: Utilisateur test Easter-eggs 2
+cn: Easter Eggs 2
+personalTitle: M.
+homeDirectory: /home/eeggs
+loginShell: /bin/false
+sn: Eggs
+givenName: Easter
+mail: bn8@zionetrix.net
+userPassword: toto
+structuralObjectClass: lspeople
+
+dn: ou=companies,o=ls
+objectClass: organizationalUnit
+objectClass: top
+ou: companies
+structuralObjectClass: organizationalUnit
+
+dn: ou=company2,ou=companies,o=ls
+objectClass: top
+objectClass: lscompany
+ou: company2
+description:: dGVzdCAyIA==
+structuralObjectClass: lscompany
+
+dn: ou=people,ou=company2,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+structuralObjectClass: organizationalUnit
+
+dn: ou=groups,ou=company2,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+structuralObjectClass: organizationalUnit
+
+dn: ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: lscompany
+ou: company1
+description: Test company 1
+structuralObjectClass: lscompany
+
+dn: ou=people,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+structuralObjectClass: organizationalUnit
+
+dn: ou=groups,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+structuralObjectClass: organizationalUnit
+
+dn: ou=company3,ou=companies,o=ls
+objectClass: top
+objectClass: lscompany
+ou: company3
+description: test 3
+structuralObjectClass: lscompany
+
+dn: ou=people,ou=company3,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+structuralObjectClass: organizationalUnit
+
+dn: ou=groups,ou=company3,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+structuralObjectClass: organizationalUnit
+
+dn: cn=test,ou=groups,ou=company2,ou=companies,o=ls
+objectClass: lsgroup
+objectClass: posixGroup
+cn: test
+gidNumber: 102010
+structuralObjectClass: lsgroup
+
+dn: cn=group1,ou=groups,ou=company1,ou=companies,o=ls
+objectClass: lsgroup
+objectClass: posixGroup
+cn: group1
+gidNumber: 102011
+structuralObjectClass: lsgroup
+uniqueMember: uid=user1,ou=people,ou=company1,ou=companies,o=ls
+
+dn: uid=user1,ou=people,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: sambaSamAccount
+givenName: prenom1
+loginShell: /bin/false
+personalTitle: M.
+uid: user1
+uidNumber: 10000001
+sn: nom1
+cn: prenom1 nom1
+gidNumber: 101009
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001002
+homeDirectory: /home/user1
+mail: user1@ls.com
+description: user1
+userPassword: toto
+sambaLMPassword: FC26CDB2863917C1AAD3B435B51404EE
+sambaNTPassword: 00B2C85DDFBD8CC81602D6FC7340EB0B
+structuralObjectClass: lspeople
+
+dn: uid=user2,ou=people,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: sambaSamAccount
+givenName: prenom2
+loginShell: /bin/false
+personalTitle: M.
+uid: user2
+uidNumber: 10000002
+sn: nom2
+cn: prenom2 nom2
+gidNumber: 102001
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001004
+homeDirectory: /home/user2
+mail: user2@ls.com
+userPassword: toto
+sambaLMPassword: C53D7C8685D27214AAD3B435B51404EE
+sambaNTPassword: C549EE84021E5E8372E10CEDEAFD02A8
+structuralObjectClass: lspeople
+

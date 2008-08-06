@@ -27,6 +27,15 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
   ),
   'rdn' => 'cn',
   'container_dn' => 'ou=groups',
+  'container_auto_create' => array(
+    'objectclass' => array(
+      'top',
+      'organizationalUnit'
+    ),
+    'attrs' => array(
+      'ou' => 'groups'
+    )
+  ),
   'select_display_attrs' => '%{cn}',
   'label' => _('Groupes'),
   'attrs' => array (

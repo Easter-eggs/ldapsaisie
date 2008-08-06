@@ -193,16 +193,18 @@ class LSldap {
         //foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
         //  $newentry->add(array($attr_name => $attr_conf['default_value']));
         //}
-        $attributes = array(
-          'objectclass' => $obj_conf['objectclass']
-        );
+        $attributes = array();
         foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
           if( isset($attr_conf['default_value']) ) {
             $attributes[$attr_name]=$attr_conf['default_value'];
           }
         }
-        $newentry = Net_LDAP2_Entry::createFresh($dn,$attributes);
-
+        
+        $newentry = $this -> getNewEntry($dn,$obj_conf['objectclass'],$attributes);
+        
+        if (!$newentry) {
+          return;
+        }
         return array('entry' => $newentry,'new' => true);
       }
       else {
@@ -213,6 +215,28 @@ class LSldap {
       $GLOBALS['LSerror'] -> addErrorCode(3);
       return;
     }
+  }
+  
+ /**
+  * Retourne une nouvelle entrée
+  * 
+  * @param[in] $dn string Le DN de l'objet
+  * @param[in] $objectClass array Un tableau contenant les objectClass de l'objet
+  * @param[in] $attrs array Un tabeau du type array('attr_name' => attr_value, ...)
+  * 
+  * @retval mixed Le nouvelle objet en cas de succès, false sinon
+  */
+  function getNewEntry($dn,$objectClass,$attrs,$add=false) {
+    $newentry = Net_LDAP2_Entry::createFresh($dn,array_merge(array('objectclass' =>$objectClass),(array)$attrs));
+    if(Net_LDAP2::isError($newentry)) {
+      return false;
+    }
+    if($add) {
+      if(!$this -> cnx -> add($newentry)) {
+        return;
+      }
+    }
+    return $newentry;
   }
   
   /**

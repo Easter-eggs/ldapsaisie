@@ -43,6 +43,14 @@ objectclass (LsLDAPObjectClass:4
   DESC 'LS system account Objectclass'
   STRUCTURAL
   MUST ( uid )
-  MAY (userPassword $ description))
+  MAY (userpassword $ description))
+
+objectclass ( LsLDAPObjectClass:5
+	NAME 'lscompany'
+	SUP organizationalUnit
+	STRUCTURAL
+	MUST ( ou )
+	MAY ( description ))
+
 # </Ls Objectclass>
 
