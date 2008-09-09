@@ -9,6 +9,8 @@ var LSdefault = new Class({
       
       this.LSerror = $('LSerror');
       this.LSerror.setOpacity(0);
+      
+      this.LSinfos = $('LSinfos');
 
       this.LSjsConfigEl = $('LSjsConfig');
       if ($type(this.LSjsConfigEl)) {
@@ -28,7 +30,8 @@ var LSdefault = new Class({
       
       this.fx = {
         LSdebug:  new Fx.Tween(this.LSdebug,{property: 'opacity',duration:600}),
-        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500})
+        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500}),
+        LSinfos:  new Fx.Tween(this.LSinfos,{property: 'opacity',duration:500})
       };
       
       if (this.LSdebugInfos.innerHTML != '') {
@@ -37,6 +40,10 @@ var LSdefault = new Class({
       
       if (this.LSerror.innerHTML != '') {
         this.displayErrorBox();
+      }
+      
+      if (this.LSinfos.innerHTML != '') {
+        this.displayInfosBox();
       }
     },
 
@@ -90,6 +97,12 @@ var LSdefault = new Class({
       this.LSerror.setStyle('top',getScrollTop()+10);
       this.fx.LSerror.start(0,0.8);
       (function(){this.fx.LSerror.start(0.8,0);}).delay(10000, this);
+    },
+    
+    displayInfosBox: function() {
+      this.LSinfos.setStyle('top',getScrollTop()+10);
+      this.fx.LSinfos.start(0,0.9);
+      (function(){this.fx.LSinfos.start(0.9,0);}).delay(5000, this);
     },
     
     displayDebugBox: function() {

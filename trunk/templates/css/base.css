@@ -182,7 +182,8 @@ a.LSobject-list-actions:hover {
 }
 
 td.LSobject-list-actions {
-  width:              5em;
+  text-align:         center;
+  width:              7em;
 }
 
 /* Name */

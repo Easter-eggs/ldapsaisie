@@ -13,6 +13,7 @@
 <div id='LSjsConfig'>
 {$LSjsConfig}
 </div>
+<div id='LSinfos'>{$LSinfos}</div>
 <div id='LSerror'>
 {$LSerrors}
 </div>

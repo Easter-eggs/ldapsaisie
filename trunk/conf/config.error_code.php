@@ -85,19 +85,19 @@ $GLOBALS['LSerror_code'] = array (
     'level' => 'c'
   ),
   27 => array (
-    'msg' => _("LSldapObject : La fonction %{func} devant Ãªtre executÃ©e avant l'enregistrement n'existe pas."),
+    'msg' => _("LSldapObject : La fonction %{func} devant Ãªtre executÃ©e avant la modification n'existe pas."),
     'level' => 'c'
   ),
   28 => array (
-    'msg' => _("LSldapObject : L'execution de la fonction %{func} devant Ãªtre executÃ©e avant l'enregistrement a Ã©chouÃ©e."),
+    'msg' => _("LSldapObject : L'execution de la fonction %{func} devant Ãªtre executÃ©e avant la modification a Ã©chouÃ©e."),
     'level' => 'c'
   ),
   29 => array (
-    'msg' => _("LSldapObject : La fonction %{func} devant Ãªtre executÃ©e aprÃ¨s l'enregistrement n'existe pas."),
+    'msg' => _("LSldapObject : La fonction %{func} devant Ãªtre executÃ©e aprÃ¨s la modification n'existe pas."),
     'level' => 'c'
   ),
   30 => array (
-    'msg' => _("LSldapObject : L'execution de la fonction %{func} devant Ãªtre executÃ©e aprÃ¨s l'enregistrement a Ã©chouÃ©e."),
+    'msg' => _("LSldapObject : L'execution de la fonction %{func} devant Ãªtre executÃ©e aprÃ¨s la modification a Ã©chouÃ©e."),
     'level' => 'c'
   ),
   31 => array (
@@ -136,8 +136,24 @@ $GLOBALS['LSerror_code'] = array (
     'msg' => _("LSldapObject : Erreur durant les actions après suppresion."),
     'level' => 'c'
   ),
-  40 => array (
+  301 => array (
     'msg' => _("LSldapObject : Erreur durant les actions après la création. L'objet est pour autant créé."),
+    'level' => 'c'
+  ),
+  302 => array (
+    'msg' => _("LSldapObject : La fonction %{fonction} devant être éxecutée après la création de l'objet n'existe pas."),
+    'level' => 'c'
+  ),
+  303 => array (
+    'msg' => _("LSldapObject : Erreur durant l'exection de la fonction %{fonction} devant être éxecutée après la création de l'objet."),
+    'level' => 'c'
+  ),
+  304 => array (
+    'msg' => _("LSldapObject : La fonction %{fonction} devant être éxecutée après la suppression de l'objet n'existe pas."),
+    'level' => 'c'
+  ),
+  305 => array (
+    'msg' => _("LSldapObject : Erreur durant l'exection de la fonction %{fonction} devant être éxecutée après la suppression de l'objet."),
     'level' => 'c'
   ),
   

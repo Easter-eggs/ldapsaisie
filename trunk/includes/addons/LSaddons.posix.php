@@ -42,18 +42,37 @@
 
       // Dossier contenant les homes des utilisateurs (defaut: /home/)
       define('LS_POSIX_HOMEDIRECTORY','/home/');
-
+      
+      // Create homeDirectory by FTP - Host
+      define('LS_POSIX_HOMEDIRECTORY_FTP_HOST','127.0.0.1');
+      
+      // Create homeDirectory by FTP - Port
+      define('LS_POSIX_HOMEDIRECTORY_FTP_PORT',21);
+      
+      // Create homeDirectory by FTP - User
+      define('LS_POSIX_HOMEDIRECTORY_FTP_USER','admin');
+      
+      // Create homeDirectory by FTP - Password
+      define('LS_POSIX_HOMEDIRECTORY_FTP_PWD','password');
+      
+      // Create homeDirectory by FTP - Path
+      define('LS_POSIX_HOMEDIRECTORY_FTP_PATH','%{homeDirectory}');
 
 
       // -- Message d'erreur --
       // Support
-      $GLOBALS['error_code']['POSIX_SUPPORT_01']= array (
+      $GLOBALS['LSerror_code']['POSIX_SUPPORT_01']= array (
         'msg' => _("POSIX Support : La constante %{const} n'est pas définie."),
+        'level' => 'c'
+      );
+      
+      $GLOBALS['LSerror_code']['POSIX_SUPPORT_02']= array (
+        'msg' => _("POSIX Support : Impossible de charger LSaddons::FTP."),
         'level' => 'c'
       );
 
       // Autres erreurs
-      $GLOBALS['error_code']['POSIX_01']= array (
+      $GLOBALS['LSerror_code']['POSIX_01']= array (
         'msg' => _("POSIX : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
         'level' => 'c'
       );
@@ -73,6 +92,14 @@
   function LSaddon_posix_support() {
     
     $retval=true;
+    
+    // Dependance de librairie
+    if (!function_exists('createDirsByFTP')) {
+      if(!$GLOBALS['LSsession'] -> loadLSaddon('ftp')) {
+        $GLOBALS['LSerror'] -> addErrorCode('POSIX_SUPPORT_02');
+        $retval=false;
+      }
+    }
 
     $MUST_DEFINE_CONST= array(
       'LS_POSIX_UID_ATTR',
@@ -80,7 +107,12 @@
       'LS_POSIX_GIDNUMBER_ATTR',
       'LS_POSIX_UIDNUMBER_MIN_VAL',
       'LS_POSIX_GIDNUMBER_MIN_VAL',
-      'LS_POSIX_HOMEDIRECTORY'
+      'LS_POSIX_HOMEDIRECTORY',
+      'LS_POSIX_HOMEDIRECTORY_FTP_HOST',
+      'LS_POSIX_HOMEDIRECTORY_FTP_PORT',
+      'LS_POSIX_HOMEDIRECTORY_FTP_USER',
+      'LS_POSIX_HOMEDIRECTORY_FTP_PWD',
+      'LS_POSIX_HOMEDIRECTORY_FTP_PATH'
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
@@ -166,6 +198,24 @@
     $home = LS_POSIX_HOMEDIRECTORY . $uid[0];
     return $home;
 
+  }
+  
+ /**
+  * Generation de homeDirectory
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval string homeDirectory ou false si il y a un problème durant la génération
+  */
+  function createHomeDirectoryByFTP($ldapObject) {
+    $dir = getFData(LS_POSIX_HOMEDIRECTORY_FTP_PATH,$ldapObject,'getValue');
+    if (!createDirsByFTP(LS_POSIX_HOMEDIRECTORY_FTP_HOST,LS_POSIX_HOMEDIRECTORY_FTP_PORT,LS_POSIX_HOMEDIRECTORY_FTP_USER,LS_POSIX_HOMEDIRECTORY_FTP_PWD,$dir)) {
+      $GLOBALS['LSerror'] -> addErrorCode('POSIX_02');
+      return;
+    }
+    return true;
   }
 
 ?>

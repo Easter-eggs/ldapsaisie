@@ -50,22 +50,22 @@
 
       // Message d'erreur
 
-      $GLOBALS['error_code']['SAMBA_SUPPORT_01']= array (
+      $GLOBALS['LSerror_code']['SAMBA_SUPPORT_01']= array (
         'msg' => _("SAMBA Support : la classe smHash ne peut pas être chargée."),
         'level' => 'c'
       );
-      $GLOBALS['error_code']['SAMBA_SUPPORT_02']= array (
+      $GLOBALS['LSerror_code']['SAMBA_SUPPORT_02']= array (
         'msg' => _("SAMBA Support : La constante %{const} n'est pas définie."),
         'level' => 'c'
       );
 
-      $GLOBALS['error_code']['SAMBA_SUPPORT_03']= array (
+      $GLOBALS['LSerror_code']['SAMBA_SUPPORT_03']= array (
         'msg' => _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID."),
         'level' => 'c'
       );
 
 
-      $GLOBALS['error_code']['SAMBA_01']= array (
+      $GLOBALS['LSerror_code']['SAMBA_01']= array (
         'msg' => _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
         'level' => 'c'
       );
@@ -89,7 +89,7 @@
     // Dependance de librairie
     if ( !class_exists('smbHash') ) {
       if ( ! @include_once(LS_LIB_DIR . 'class.smbHash.php') ) {
-        $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_O1');
+        $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_01');
         $retval=false;
       }
     }
@@ -106,14 +106,14 @@
 
     foreach($MUST_DEFINE_CONST as $const) {
       if ( constant($const) == '' ) {
-        $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_O2',$const);
+        $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_02',$const);
         $retval=false;
       }
     }
 
     // Pour l'intégrité des SID
     if ( (LS_SAMBA_SID_BASE_USER % 2) == (LS_SAMBA_SID_BASE_GROUP % 2) ) {
-        $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_O3');
+        $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_03');
         $retval=false;
     }
     

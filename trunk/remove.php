@@ -37,7 +37,8 @@ if($LSsession -> startLSsession()) {
               $objectname=$object -> getDisplayValue();
               $GLOBALS['Smarty'] -> assign('pagetitle',_('Suppression').' : '.$objectname);
               if ($object -> remove()) {
-                $GLOBALS['Smarty'] -> assign('question',$objectname.' '._('a bien été supprimé').'.');
+                $GLOBALS['LSsession'] -> addInfo($objectname.' '._('a bien été supprimé').'.');
+                $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
               }
               else {
                 $GLOBALS['LSerror'] -> addErrorCode(35,$objectname);

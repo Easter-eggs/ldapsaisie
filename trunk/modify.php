@@ -53,7 +53,8 @@ if($LSsession -> startLSsession()) {
           if ($form->validate()) {
             // MàJ des données de l'objet LDAP
             if ($object -> updateData('modify')) {
-              debug('ok');
+              $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été modifié."));
+              $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
             }
           }
           

@@ -909,6 +909,17 @@ class LSsession {
       $GLOBALS['Smarty'] -> assign('LSsession_subDn',$this -> topDn);
       $GLOBALS['Smarty'] -> assign('LSsession_subDnName',$this -> getSubDnName());
     }
+
+    // Infos
+    if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
+      $txt_infos="<ul>\n";
+      foreach($_SESSION['LSsession_infos'] as $info) {
+        $txt_infos.="<li>$info</li>\n";
+      }
+      $txt_infos.="</ul>\n";
+      $GLOBALS['Smarty'] -> assign('LSinfos',$txt_infos);
+      $_SESSION['LSsession_infos']=array();
+    }
     
     if ($this -> ajaxDisplay) {
       $GLOBALS['Smarty'] -> assign('LSerror_txt',$GLOBALS['LSerror']->getErrors());
@@ -1443,6 +1454,33 @@ class LSsession {
    */
   function haveSubDn() {
     return (is_array($this -> ldapServer['subDn']));
+  }
+
+  /**
+   * Ajoute une information à afficher
+   * 
+   * @param[in] $msg string Le message à afficher
+   * 
+   * @retval void
+   */
+  function addInfo($msg) {
+    $_SESSION['LSsession_infos'][]=$msg;
+  }
+  
+  /**
+   * Redirection de l'utilisateur vers une autre URL
+   * 
+   * @param[in] $url string L'URL
+   * @param[in] $exit boolean Si true, l'execution script s'arrête après la redirection
+   * 
+   * @retval void
+   */  
+  function redirect($url,$exit=true) {
+    $GLOBALS['Smarty'] -> assign('url',$url);
+    $GLOBALS['Smarty'] -> display('redirect.tpl');
+    if ($exit) {
+      exit();
+    }
   }
 }
 

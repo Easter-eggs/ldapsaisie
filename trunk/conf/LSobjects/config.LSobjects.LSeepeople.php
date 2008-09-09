@@ -38,8 +38,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'ou' => 'people'
     )
   ),
-  'before_save' => 'valid',
-  'after_save' => 'valid',
+  'before_modify' => 'valid',
+  'after_modify' => 'valid',
+  'after_create' => 'createMaildirByFTP',
+  'after_delete' => 'removeMaildirByFTP',
   'select_display_attrs' => '%{cn}',
   'label' => _('Utilisateurs'),
   'relations' => array(

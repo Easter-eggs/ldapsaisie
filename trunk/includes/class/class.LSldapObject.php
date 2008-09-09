@@ -304,15 +304,15 @@ class LSldapObject {
     }
     if($this -> validateAttrsData($idForm)) {
       debug("les données sont validées");
-      if(isset($this -> config['before_save'])) {
-        if(function_exists($this -> config['before_save'])) {
-          if(!$this -> config['before_save']($this)) {
-            $GLOBALS['LSerror'] -> addErrorCode(28,$this -> config['before_save']);
+      if(isset($this -> config['before_modify'])) {
+        if(function_exists($this -> config['before_modify'])) {
+          if(!$this -> config['before_modify']($this)) {
+            $GLOBALS['LSerror'] -> addErrorCode(28,$this -> config['before_modify']);
             return;
           }
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode(27,$this -> config['before_save']);
+          $GLOBALS['LSerror'] -> addErrorCode(27,$this -> config['before_modify']);
           return;
         }
       }
@@ -325,15 +325,15 @@ class LSldapObject {
       else {
         return;
       }
-      if((isset($this -> config['after_save']))&&(!$this -> submitError)) {
-        if(function_exists($this -> config['after_save'])) {
-          if(!$this -> config['after_save']($this)) {
-            $GLOBALS['LSerror'] -> addErrorCode(30,$this -> config['after_save']);
+      if((isset($this -> config['after_modify']))&&(!$this -> submitError)) {
+        if(function_exists($this -> config['after_modify'])) {
+          if(!$this -> config['after_modify']($this)) {
+            $GLOBALS['LSerror'] -> addErrorCode(30,$this -> config['after_modify']);
             return;
           }
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode(29,$this -> config['after_save']);
+          $GLOBALS['LSerror'] -> addErrorCode(29,$this -> config['after_modify']);
           return;
         }
       }
@@ -553,7 +553,7 @@ class LSldapObject {
         }
         if ($new) {
           if (!$this -> afterCreate()) {
-            $GLOBALS['LSerror'] -> addErrorCode(40);
+            $GLOBALS['LSerror'] -> addErrorCode(301);
             return;
           }
         }
@@ -1149,6 +1149,28 @@ class LSldapObject {
         }
       }
     }
+    
+    if (isset($this -> config['after_delete'])) {
+      if (is_array($this -> config['after_delete'])) {
+        $config = $this -> config['after_delete'];
+      }
+      else {
+        $config = array($this -> config['after_delete']);
+      }
+      foreach($config as $action) {
+        if(function_exists($action)) {
+          if(!$action($this)) {
+            $GLOBALS['LSerror'] -> addErrorCode(305,$action);
+            $error=true;
+          }
+        }
+        else {
+          $GLOBALS['LSerror'] -> addErrorCode(304,$action);
+          $error=true;
+        }
+      }
+    }
+    
     return !$error;
   }
   
@@ -1189,6 +1211,28 @@ class LSldapObject {
         }
       }
     }
+    
+    if (isset($this -> config['after_create'])) {
+      if (is_array($this -> config['after_create'])) {
+        $config = $this -> config['after_create'];
+      }
+      else {
+        $config = array($this -> config['after_create']);
+      }
+      foreach($config as $action) {
+        if(function_exists($action)) {
+          if(!$action($this)) {
+            $GLOBALS['LSerror'] -> addErrorCode(303,$action);
+            $error=true;
+          }
+        }
+        else {
+          $GLOBALS['LSerror'] -> addErrorCode(302,$action);
+          $error=true;
+        }
+      }
+    }
+    
     return !$error;
   }
   
