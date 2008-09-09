@@ -9,6 +9,7 @@
     {$LSsession_js}
   </head>
 <body>
+<div id='LSinfos'>{$LSinfos}</div>
 <div id='LSerror'>
 {$LSerrors}
 </div>
