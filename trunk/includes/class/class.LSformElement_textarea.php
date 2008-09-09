@@ -45,23 +45,23 @@ class LSformElement_textarea extends LSformElement {
     $return['html'] = "<ul class='LSform'>\n";
     if (!$this -> isFreeze()) {
       if (empty($this -> values)) {
-        $return['html'] .= "<li class='LSform'>".$this -> getEmptyField()."</li>\n";
+        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
       }
       else {
         foreach($this -> values as $value) {
           $multiple = $this -> getMultipleData();
           $id = "LSform_".$this -> name."_".rand();
-          $return['html'].="<li class='LSform'><textarea name='".$this -> name."[]' id='".$id."' class='LSform'>".$value."</textarea>\n".$multiple."</li>";
+          $return['html'].="<li><textarea name='".$this -> name."[]' id='".$id."' class='LSform'>".$value."</textarea>\n".$multiple."</li>";
         }
       }
     }
     else {
       if (empty($this -> values)) {
-        $return['html'].="<li class='LSform'>"._('Aucune valeur definie')."</li>\n";
+        $return['html'].="<li>"._('Aucune valeur definie')."</li>\n";
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'].="<li class='LSform'>".$value."</li>\n";
+          $return['html'].="<li>".$value."</li>\n";
         }
       }
     }

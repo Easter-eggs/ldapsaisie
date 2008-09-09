@@ -46,28 +46,28 @@ class LSformElement_ssh_key extends LSformElement {
     $return['html'] = "<ul class='LSform'>\n";
     if (!$this -> isFreeze()) {
       if (empty($this -> values)) {
-        $return['html'] .= "<li class='LSform'>".$this -> getEmptyField()."</li>\n";
+        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
       }
       else {
         foreach($this -> values as $value) {
           $multiple = $this -> getMultipleData();
           $id = "LSform_".$this -> name."_".rand();
-          $return['html'].="<li class='LSform LSformElement_ssh_key'><textarea name='".$this -> name."[]' id='".$id."' class='LSform LSformElement_ssh_key'>".$value."</textarea>\n".$multiple."</li>";
+          $return['html'].="<li class='LSformElement_ssh_key'><textarea name='".$this -> name."[]' id='".$id."' class='LSform LSformElement_ssh_key'>".$value."</textarea>\n".$multiple."</li>";
         }
       }
     }
     else {
       if (empty($this -> values)) {
-        $return['html'].="<li class='LSform'>"._('Aucune valeur definie')."</li>\n";
+        $return['html'].="<li>"._('Aucune valeur definie')."</li>\n";
       }
       else {
         $GLOBALS['LSsession'] -> addJSscript('LSformElement_ssh_key.js');
         foreach ($this -> values as $value) {
           if (ereg('^ssh-([a-z]+) (.*)== (.*)$',$value,$regs)) {
-            $return['html'].="<li class='LSform'><span class='LSformElement_ssh_key_short_display' title='"._("Cliquer pour afficher la valeur complète")."'>".substr($regs[2],0,10)."...</span> (Type : ".$regs[1].") <a href='mailto:".$regs[3]."'>".$regs[3]."</a><p class='LSformElement_ssh_key_value'>".$value."</p></li>\n";
+            $return['html'].="<li><span class='LSformElement_ssh_key_short_display' title='"._("Cliquer pour afficher la valeur complète")."'>".substr($regs[2],0,10)."...</span> (Type : ".$regs[1].") <a href='mailto:".$regs[3]."'>".$regs[3]."</a><p class='LSformElement_ssh_key_value'>".$value."</p></li>\n";
           }
           else {
-            $return['html'].="<li class='LSform'><span class='LSformElement_ssh_key_short_display'>".substr($value,0,15)."...</span> ("._('Type non reconnu').")<p class='LSformElement_ssh_key_value'>".$value."</p></li>\n";
+            $return['html'].="<li><span class='LSformElement_ssh_key_short_display'>".substr($value,0,15)."...</span> ("._('Type non reconnu').")<p class='LSformElement_ssh_key_value'>".$value."</p></li>\n";
           }
         }
       }

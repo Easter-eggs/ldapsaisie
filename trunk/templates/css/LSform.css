@@ -34,8 +34,9 @@ ul.LSform {
   margin:                     0;
 }
 
-li.LSform {
+ul.LSform li {
   overflow:                   auto;
+  margin-bottom:              2px;
 }
 
 /*

@@ -50,7 +50,7 @@ class LSformElement_select_object extends LSformElement {
     
     
     if (!$this -> isFreeze()) {
-      $addBtn="<li class='LSform LSformElement_select_object_addBtn'>
+      $addBtn="<li class='LSformElement_select_object_addBtn'>
       <a href='select.php?LSobject=".$this -> selectableObject."' class='LSformElement_select_object LSformElement_select_object_addBtn' id='a_LSformElement_select_object_".$this -> name."_$id'>"._('Modifier')."</a>\n
       <input type='hidden' name='LSformElement_select_object_objecttype' id='LSformElement_select_object_objecttype_$id' value='".$this -> selectableObject."' />\n
       </li>\n";
@@ -66,7 +66,7 @@ class LSformElement_select_object extends LSformElement {
     $return['html']="<ul class='LSform ".$class."' id='LSformElement_select_object_".$this -> name."_$id'>\n";
     $return['html'].=$addBtn;
     foreach ($this -> values as $value => $txt) {
-      $return['html'].="<li class='LSform ".$class."'><a href='view.php?LSobject=".$this -> selectableObject."&amp;dn=".$value."' title='"._('Voir')." ' class='LSformElement_select_object'>".$txt."</a><input type='hidden' class='LSformElement_select_object' name='".$this -> name."[]' value='".$value."' />$delete</li>\n";
+      $return['html'].="<li class='".$class."'><a href='view.php?LSobject=".$this -> selectableObject."&amp;dn=".$value."' title='"._('Voir')." ' class='LSformElement_select_object'>".$txt."</a><input type='hidden' class='LSformElement_select_object' name='".$this -> name."[]' value='".$value."' />$delete</li>\n";
     }
     $return['html'].="</ul>\n";
     if (!$this -> isFreeze()) {

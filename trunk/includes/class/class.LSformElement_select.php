@@ -65,7 +65,7 @@ class LSformElement_select extends LSformElement {
     else {
       $return['html']="<ul class='LSform'>\n";
       foreach ($this -> values as $value) {
-        $return['html'].="<li class='LSform'>".$this -> params['text_possible_values'][$value]."</strong></li>";
+        $return['html'].="<li>".$this -> params['text_possible_values'][$value]."</strong></li>";
       }
       $return['html'].="</ul>\n";
     }
