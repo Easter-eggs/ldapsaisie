@@ -40,6 +40,7 @@ class LSformElement_select_object extends LSformElement {
   * @retval array
   */
   function getDisplay($refresh=NULL){
+    $GLOBALS['LSsession'] -> addCssFile('LSformElement_select_object');
     if ($refresh) {
       $this -> values = $this -> attr_html -> getValuesFromSession();
     }

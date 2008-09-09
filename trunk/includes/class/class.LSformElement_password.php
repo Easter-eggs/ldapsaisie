@@ -65,6 +65,7 @@ class LSformElement_password extends LSformElement {
   * @retval array
   */
   function getDisplay(){
+    $GLOBALS['LSsession'] -> addCssFile('LSformElement_password');
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
       $numberId=rand();      

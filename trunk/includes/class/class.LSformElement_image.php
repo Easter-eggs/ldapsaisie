@@ -43,6 +43,7 @@ class LSformElement_image extends LSformElement {
   * @retval array
   */
   function getDisplay(){
+    $GLOBALS['LSsession'] -> addCssFile('LSformElement_image');
     $return = true;
     if (!$this -> isFreeze()) {
       $id=$this -> name.'_'.rand();

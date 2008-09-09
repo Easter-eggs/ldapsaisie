@@ -42,7 +42,7 @@ li.LSform {
  * Champs du formulaire
  */
 .LSform input, .LSform select, .LSform textarea {
-  border:                     1px inset #ccc;
+  border:                     1px solid #ccc;
   width:                      300px;
   background-color:           #b5e4f6;
 }
@@ -62,81 +62,4 @@ input[type='submit'].LSform {
 /* Bouton JS */
 img.LSform-add-field-btn, img.LSform-remove-field-btn {
   cursor:                     pointer;
-}
-
-/*
- ************************
- * LSformElement
- ************************
- */
-
-/*
- * LSformElement_select_object
- */
-a.LSformElement_select_object {
-  text-decoration:            none;
-  color:                      #000;
-  font-weight:                normal;
- 
-}
-
-ul.LSformElement_select_object {
-  border:                     1px solid #b5e4f6;
-  border-bottom:              none;
-  width:                      300px;
-}
-
-li.LSformElement_select_object {
-  padding:                    0.1em;
-  border-bottom:              1px solid #b5e4f6;
-}
-
-li.LSformElement_select_object_addBtn {
-  background-color:           #b5e4f6;
-  text-align:                 center;
-}
-
-img.LSformElement_select_object_deleteBtn {
-  cursor:                     pointer;
-}
-
-/*
- * LSformElement_password
- */
-img.LSformElement_password_view_btn, img.LSformElement_password_generate_btn, img.LSformElement_password_verify_btn {
-  cursor:                     pointer;
-}
-
-/*
- * LSformElement_image
- */
-div.LSformElement_image {
-  float:              right;
-  clear:              both;
-  margin:             2em;
-  background-color:   #52bce5;
-  width:              160px;
-  padding:            5px;
-  text-align:         center;
-  -moz-border-radius: 1em;
-}
-
-img.LSformElement_image {
-  width:              150px;
-  border:             1px solid #fff;
-  margin:             5px;
-}
-
-div.LSformElement_image_errors {
-  background-color:   #f59a67;
-}
-
-ul.LSformElement_image_actions {
-  list-style-type:    none;
-  position:           absolute;
-  margin-top:         8px;
-  margin-left:        135px;
-  padding:            0;
-  visibility:         hidden;
-  cursor:             pointer;
 }

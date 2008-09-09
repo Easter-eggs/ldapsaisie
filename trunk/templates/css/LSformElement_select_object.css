@@ -1,0 +1,29 @@
+/*
+ * LSformElement_select_object
+ */
+a.LSformElement_select_object {
+  text-decoration:            none;
+  color:                      #000;
+  font-weight:                normal;
+ 
+}
+
+ul.LSformElement_select_object {
+  border:                     1px solid #b5e4f6;
+  border-bottom:              none;
+  width:                      300px;
+}
+
+li.LSformElement_select_object {
+  padding:                    0.1em;
+  border-bottom:              1px solid #b5e4f6;
+}
+
+li.LSformElement_select_object_addBtn {
+  background-color:           #b5e4f6;
+  text-align:                 center;
+}
+
+img.LSformElement_select_object_deleteBtn {
+  cursor:                     pointer;
+}
