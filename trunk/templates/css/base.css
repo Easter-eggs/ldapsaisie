@@ -42,6 +42,7 @@ hr {
   margin:             auto;
   border:             1px solid #52bce5;
   background:         #fff url(../images/fd_menu.png) repeat-y scroll left top;
+  min-height:         500px;
 }
 
 #left {

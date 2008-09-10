@@ -40,7 +40,7 @@ class LSformElement_ssh_key extends LSformElement {
   * @retval array
   */
   function getDisplay(){
-    $GLOBALS['LSsession'] -> addCssFile('LSformElement_ssh_key');
+    $GLOBALS['LSsession'] -> addCssFile('LSformElement_ssh_key.css');
     $return = $this -> getLabelInfos();
     // value
     $return['html'] = "<ul class='LSform'>\n";
