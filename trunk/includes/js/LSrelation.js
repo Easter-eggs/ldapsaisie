@@ -96,12 +96,13 @@ var LSrelation = new Class({
     onLSrelationModifyBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
-        varLSsmoothbox.setRefreshElement(this);
+        varLSsmoothbox.asNew();
+        varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.openURL(data.href,{startElement: $(data.id), width: 615});
       }
     },
     
-    refresh: function() {
+    onLSsmoothboxValid: function() {
       var data = {
         template:   'LSrelation',
         action:     'refreshList',
@@ -110,10 +111,10 @@ var LSrelation = new Class({
       
       LSdebug(data);
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+this.refreshRelation,'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onRrefreshComplete.bind(this)}).send();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
     },
     
-    onRrefreshComplete: function(responseText, responseXML) {
+    onLSsmoothboxValidComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         $('LSrelation_ul_'+this.refreshRelation).set('html',data.html);

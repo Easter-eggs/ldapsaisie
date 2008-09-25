@@ -1,5 +1,32 @@
 var LSsmoothbox = new Class({
     initialize: function(options) {
+      
+      this.build();
+      
+      // Events
+      $$('a.LSsmoothbox').each(function(el) {
+        el.addEvent('click',this.clickA.bindWithEvent(this,el));
+      },this);
+      
+      $$('img.LSsmoothbox').each(function(el) {
+        el.addEvent('click',this.clickImg.bindWithEvent(this,el));
+        el.setStyle('cursor','pointer');
+      },this);
+      
+      // Fx
+      this.fx = {
+        over:      new Fx.Tween(this.over, {property: 'opacity', duration: 300}),
+        winOpen:   new Fx.Morph(this.win, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.displayContent.bind(this)}),
+        winClose:  new Fx.Morph(this.win, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.resetWin.bind(this)})
+      };
+      
+      this.asNew(options);
+      
+      window.addEvent('resize', this.position.bind(this));
+      window.addEvent('scroll', this.positionWhenScrolling.bind(this));
+    },
+    
+    build: function() {
       this.over = new Element('div');
       this.over.setProperty('id','over-LSsmoothbox');
       this.over.setStyles({
@@ -23,8 +50,6 @@ var LSsmoothbox = new Class({
       
       this.frame.injectInside(this.win);
       
-      this._closeConfirm = true;
-      
       this.closeBtn = new Element('span');
       this.closeBtn.setProperty('id','closeBtn-LSsmoothbox');
       this.closeBtn.injectInside(this.win);
@@ -35,26 +60,24 @@ var LSsmoothbox = new Class({
       this.validBtn.setProperty('id','validBtn-LSsmoothbox');
       this.validBtn.set('html','Valider');
       this.validBtn.injectInside(this.win);
-      this.validBtn.addEvent('click',this.close.bindWithEvent(this,true));
+      this.validBtn.addEvent('click',this.valid.bindWithEvent(this,true));
+    },
+    
+    asNew: function(options) {
+      this._options = ($type(options))?option:{};
       
-      $$('a.LSsmoothbox').each(function(el) {
-        el.addEvent('click',this.clickA.bindWithEvent(this,el));
-      },this);
-      
-      $$('img.LSsmoothbox').each(function(el) {
-        el.addEvent('click',this.clickImg.bindWithEvent(this,el));
-        el.setStyle('cursor','pointer');
-      },this);
-      this.fx = {
-        over:      new Fx.Tween(this.over, {property: 'opacity', duration: 300}),
-        winOpen:   new Fx.Morph(this.win, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.displayContent.bind(this)}),
-        winClose:  new Fx.Morph(this.win, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.resetWin.bind(this)})
+      // Listeners
+      this.listeners = {
+        close:    new Array(),
+        valid:    new Array(),
+        cancel:   new Array()
       };
+            
+      this._closeConfirm = true;
+      this._closeConfirmOpened = 0;
       
       this._open=0;
       this._scrolling=0;
-      window.addEvent('resize', this.position.bind(this));
-      window.addEvent('scroll', this.positionWhenScrolling.bind(this));
     },
     
     position: function(){ 
@@ -178,27 +201,34 @@ var LSsmoothbox = new Class({
       this.closeBtn.setStyle('visibility','visible');
     },
     
-    closeConfirm: function(refresh) {
+    closeConfirm: function() {
       if (this._closeConfirm && this._displayValidBtn) {
-        this.confirmBox = new LSconfirmBox({
-          text:         'Etês-vous sur de vouloir fermer cette fênetre et perdre toute les modifications apportées ?',
-          startElement: this.closeBtn,
-          onConfirm:    this.close.bind(this)
-        });
+        if (!this._closeConfirmOpened) {
+          this._closeConfirmOpened = 1;
+          this.confirmBox = new LSconfirmBox({
+            text:         'Etês-vous sur de vouloir fermer cette fênetre et perdre toute les modifications apportées ?',
+            startElement: this.closeBtn,
+            onConfirm:    this.cancel.bind(this),
+            onClose:      (function(){this._closeConfirmOpened=0;}).bind(this)
+          });
+        }
       }
       else {
-        this.close();
+        this.cancel();
       }
     },
     
-    close: function(refresh) {
-      if (typeof(refresh)=='undefined') {
-        refresh=false;
-      }
-      else {
-        refresh=true;
-      }
-      
+    valid: function() {
+      this.close();
+      this.fireEvent('valid');
+    },
+    
+    cancel: function() {
+      this.close();
+      this.fireEvent('cancel');
+    },
+    
+    close: function() {
       if (this._closeConfirm) {
         delete this.confirmBox;
       }
@@ -214,17 +244,13 @@ var LSsmoothbox = new Class({
         opacity:  [1, 0]
       });
       this._open=0;
+      
       [this.validBtn,this.closeBtn,this.frame].each(function(el){
         el.setStyle('display','none');
       },this);
-      if (refresh) {
-        try {
-          this.refreshElement.refresh();
-        }
-        catch (e){
-          console.log('rater');
-        }
-      }
+      
+      this.fireEvent('close');
+      
     },
     
     resetWin: function() {
@@ -300,10 +326,6 @@ var LSsmoothbox = new Class({
       this.img.injectInside(this.frame);
     },
 
-    setRefreshElement: function(el) {
-      this.refreshElement = el;
-    },
-    
     displayValidBtn: function() {
       this._displayValidBtn = true;
     },
@@ -324,6 +346,39 @@ var LSsmoothbox = new Class({
       new Request.HTML(options).send();
       this.openOptions = openOptions;
       this.open();
+    },
+    
+    openHTML: function(html,openOptions) {
+      this.displayValidBtn();
+      this.frame.set('html',html);
+      this.openOptions = openOptions;
+      this.open();
+    },
+    
+    setOption: function(name,value) {
+      this._options[name]=value;
+    },
+    
+    addEvent: function(event,fnct) {
+      if ($type(this.listeners[event])) {
+        if ($type(fnct)=="function") {
+          this.listeners[event].include(fnct);
+        }
+      }
+    },
+    
+    fireEvent: function(event) {
+      LSdebug('LSsmoothbox :: fireEvent('+event+')');
+      if ($type(this.listeners[event])) {
+        this.listeners[event].each(function(fnct) {
+          try {
+            fnct(this);
+          }
+          catch(e) {
+            LSdebug('LSsmoothbox :: '+event+'() -> rater');
+          }
+        },this);
+      }
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {

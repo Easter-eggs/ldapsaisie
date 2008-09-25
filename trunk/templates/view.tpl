@@ -12,6 +12,8 @@
       <a href='{$LSformElement_image.img}.png' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id}' /></a>
     </div>
     {/if}
+    <input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='{$LSform_object.type}'/>
+    <input type='hidden' name='LSform_objectdn' id='LSform_objectdn'  value='{$LSform_object.dn}'/>
     <dl class='LSform'>
       {foreach from=$LSform_fields item=field}
       <dt class='LSform'>{$field.label}</dt>

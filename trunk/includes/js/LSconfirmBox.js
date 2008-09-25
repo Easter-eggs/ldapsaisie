@@ -97,6 +97,9 @@ var LSconfirmBox = new Class({
     onClose: function() {
       this.box.setStyle('display','none');
       this.purge();
+      if (this._options.onClose) {
+        $try(this._options.onClose);
+      }
     },
     
     purge: function() {
@@ -162,5 +165,8 @@ var LSconfirmBox = new Class({
     
     cancel: function() {
       this.hide();
+      if (this._options.onCancel) {
+        $try(this._options.onCancel);
+      }
     }
 });

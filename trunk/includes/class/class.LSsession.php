@@ -155,7 +155,14 @@ class LSsession {
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSaddon($addon) {
-    return require_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php';
+    if(require_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php') {
+      if (!call_user_func('LSaddon_'. $addon .'_support')) {
+        $GLOBALS['LSerror'] -> addErrorCode(1002,$addon);
+        return;
+      }
+      return true;
+    }
+    return;
   }
 
  /**
@@ -174,9 +181,6 @@ class LSsession {
 
     foreach ($GLOBALS['LSaddons']['loads'] as $addon) {
       $this -> loadLSaddon($addon);
-      if (!call_user_func('LSaddon_'. $addon .'_support')) {
-        $GLOBALS['LSerror'] -> addErrorCode(1002,$addon);
-      }
     }
     return true;
   }
@@ -328,8 +332,8 @@ class LSsession {
                     if ($this -> ldapServer['recoverPassword']['recoveryEmailSender']) {
                       $headers.="\nFrom: ".$this -> ldapServer['recoverPassword']['recoveryEmailSender'];
                     }
-                    else if($this -> ldapServer['emailSender']) {
-                      $headers.="\nFrom: ".$this -> ldapServer['emailSender'];
+                    else if($this -> getEmailSender()) {
+                      $headers.="\nFrom: ".$this -> getEmailSender();
                     }
                     
                     if (checkEmail($emailAddress)) {
@@ -1481,6 +1485,15 @@ class LSsession {
     if ($exit) {
       exit();
     }
+  }
+  
+  /**
+   * Retourne l'adresse mail d'emission configurée pour le serveur courant
+   * 
+   * @retval string Adresse mail d'emission
+   */
+  function getEmailSender() {
+    return $this -> ldapServer['emailSender'];  
   }
 }
 

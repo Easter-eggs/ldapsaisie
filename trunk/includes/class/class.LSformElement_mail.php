@@ -55,7 +55,6 @@ class LSformElement_mail extends LSformElement {
         }
       }
       $return['html'] .= "</ul>\n";
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_mail.js');
     }
     else {
       $return['html'] = "<ul class='LSform'>\n";
@@ -65,11 +64,16 @@ class LSformElement_mail extends LSformElement {
       else {
         foreach ($this -> values as $value) {
           $return['html'] .= "<li><a href='mailto:".$value."'>".$value."</a><img src='templates/images/mail.png' alt='"._('Envoyer un mail.')."' title='"._('Envoyer un mail.')."' class='LSformElement_mail_btn btn'></li>\n";
-          $GLOBALS['LSsession'] -> addJSscript('LSformElement_mail.js');
         }
       }
       $return['html'] .= "</ul>\n";
     }
+    $GLOBALS['LSsession'] -> addJSscript('LSmail.js');
+    $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
+    $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
+    $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
+    $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
+    $GLOBALS['LSsession'] -> addJSscript('LSformElement_mail.js');
     return $return;
   }
 

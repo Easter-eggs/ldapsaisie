@@ -92,7 +92,12 @@ var LSdefault = new Class({
       this.LSdebugInfos.set('html',html);
       this.displayDebugBox();
     },
-
+    
+    displayInfos: function(html) {
+      this.LSinfos.set('html',html);
+      this.displayInfosBox();
+    },
+    
     displayErrorBox: function() {
       this.LSerror.setStyle('top',getScrollTop()+10);
       this.fx.LSerror.start(0,0.8);

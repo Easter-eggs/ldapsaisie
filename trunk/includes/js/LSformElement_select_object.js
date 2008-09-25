@@ -41,13 +41,14 @@ var LSformElement_select_object = new Class({
     onLSformElement_select_object_addBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
-        varLSsmoothbox.setRefreshElement(this);
+        varLSsmoothbox.asNew();
+        varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.displayValidBtn();
         varLSsmoothbox.openURL(data.href,{width: 615});
       }
     },
     
-    refresh: function() {
+    onLSsmoothboxValid: function() {
       var getAttrName = /LSformElement_select_object_(.*)_[0-9]*/
       var attrName = getAttrName.exec(this.refreshFields)[1];
       var data = {
@@ -60,10 +61,10 @@ var LSformElement_select_object = new Class({
         ul:         this.refreshFields
       };
       data.imgload=varLSdefault.loadingImgDisplay($('a_' + this.refreshFields));
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onRefreshComplete.bind(this)}).send();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
     },
     
-    onRefreshComplete: function(responseText, responseXML) {
+    onLSsmoothboxValidComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         $(this.refreshFields).getParent().set('html',data.html);

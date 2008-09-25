@@ -4,6 +4,7 @@ var LSformElement_mail = new Class({
       if (typeof(varLSform) != "undefined") {
         varLSform.addModule("LSformElement_mail",this);
       }
+      this.LSmail_open = 0;
     },
     
     initialiseLSformElement_mail: function(el) {
@@ -20,13 +21,33 @@ var LSformElement_mail = new Class({
     },
     
     onBtnClick: function(btn) {
-      var href = btn.getParent().getFirst().href;
-      if (typeof(href)=="undefined") {
-        href = 'mailto:'+btn.getParent().getFirst().value;
+      if (this.LSmail_open==0) {
+        var mail = btn.getParent().getFirst().innerHTML;
+        if ((typeof(mail)!='string')||(mail=='')) {
+           mail = btn.getParent().getFirst().value;
+        }
+        if(!$type(this.LSmail)) {
+          this.LSmail = new LSmail();
+          this.LSmail.addEvent('close',this.onLSmailClose.bind(this));
+          this.LSmail.addEvent('valid',this.onLSmailValid.bind(this));
+        }
+        if ((mail!="")) {
+          this.LSmail_open = 1;
+          this.LSmail.setMails([mail]);
+          this.LSmail.setObject($('LSform_objecttype').value,$('LSform_objectdn').value);
+          this.LSmail.open(btn);
+        }
       }
-      if ((href!="")&&(href!="mailto:")) {
-        location.href = href;
-      }
+    },
+    
+    onLSmailClose: function(LSmail) {
+      LSdebug('LSformElement_mail : close LSmail');
+      this.LSmail_open = 0;
+    },
+    
+    onLSmailValid: function(LSmail) {
+      LSdebug('LSformElement_mail : valid LSmail');
+      LSmail.send();
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
