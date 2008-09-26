@@ -247,7 +247,7 @@ class LSform {
    */
   function checkRequired($data) {
     foreach($data as $val) {
-      if (!empty($val))
+      if (!empty($val)||(is_string($val)&&($val=="0")))
         return true;
     }
     return;

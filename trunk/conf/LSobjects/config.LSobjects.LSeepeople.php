@@ -163,7 +163,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_type' => 'text',
       'html_options' => array(
         'generate_value_format' => '%{givenName} %{sn}',
-        'autoGenerateOnModify' => false   // default : false
+        'autoGenerateOnModify' => true   // default : false
       ),
       'required' => 1,
       'validation' => 'valid',
@@ -222,8 +222,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     ),
     'loginShell' => array (
       'label' => _('Interpreteur de commande'),
-      'ldap_type' => 'ascii',
-      'html_type' => 'select_list',
+      'ldap_type' => 'boolean',
+      'html_type' => 'boolean',
       'required' => 1,
       'default_value' => '/bin/false',
       'rights' => array(
@@ -235,10 +235,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'modify' => 1,
         'create' => 1
       ),
-      'possible_values' => array(
-        '/bin/false' => _('Aucun'),
-        '/bin/bash' => 'Bash',
-      )
+      'true_value' => '/bin/bash',
+      'false_value' => '/bin/false'
     ),
     'sambaSID' => array (
       'label' => _('Identifiant Samba'),
