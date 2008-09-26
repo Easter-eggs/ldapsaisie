@@ -311,7 +311,7 @@ class LSsession {
               }
               if ($nbresult==0) {
                 // identifiant incorrect
-                debug('identifiant incorrect');
+                LSdebug('identifiant incorrect');
                 $GLOBALS['LSerror'] -> addErrorCode(1006);
               }
               else if ($nbresult>1) {
@@ -320,9 +320,9 @@ class LSsession {
               }
               else {
                 if (isset($_GET['LSsession_recoverPassword'])) {
-                  debug('Recover : Id trouvé');
+                  LSdebug('Recover : Id trouvé');
                   if ($this -> ldapServer['recoverPassword']) {
-                    debug('Récupération active');
+                    LSdebug('Récupération active');
                     $user=$result[0];
                     $emailAddress = $user -> getValue($this -> ldapServer['recoverPassword']['mailAttr']);
                     $emailAddress = $emailAddress[0];
@@ -337,7 +337,7 @@ class LSsession {
                     }
                     
                     if (checkEmail($emailAddress)) {
-                      debug('Email : '.$emailAddress);
+                      LSdebug('Email : '.$emailAddress);
                       $this -> dn = $user -> getDn();
                       // 1ère étape : envoie du recoveryHash
                       if (!isset($_GET['recoveryHash'])) {
@@ -378,19 +378,19 @@ class LSsession {
                             }
                             else {
                               // Problème durant l'envoie du mail
-                              debug("Problème durant l'envoie du mail");
+                              LSdebug("Problème durant l'envoie du mail");
                               $GLOBALS['LSerror'] -> addErrorCode(1020);
                             }
                           }
                           else {
                             // Erreur durant la mise à jour de l'objet
-                            debug("Erreur durant la mise à jour de l'objet");
+                            LSdebug("Erreur durant la mise à jour de l'objet");
                             $GLOBALS['LSerror'] -> addErrorCode(1020);
                           }
                         }
                         else {
                           // Erreur durant la validation du formulaire de modification de perte de password
-                          debug("Erreur durant la validation du formulaire de modification de perte de password");
+                          LSdebug("Erreur durant la validation du formulaire de modification de perte de password");
                           $GLOBALS['LSerror'] -> addErrorCode(1020);
                         }
                       }
@@ -399,7 +399,7 @@ class LSsession {
                         $attr=$user -> attrs[$this -> ldapServer['authobject_pwdattr']];
                         if ($attr instanceof LSattribute) {
                           $mdp = generatePassword($attr -> config['html_options']['chars'],$attr -> config['html_options']['lenght']);
-                          debug('Nvx mpd : '.$mdp);
+                          LSdebug('Nvx mpd : '.$mdp);
                           $lostPasswdForm = $user -> getForm('lostPassword');
                           $lostPasswdForm -> setPostData(
                             array(
@@ -423,25 +423,25 @@ class LSsession {
                               }
                               else {
                                 // Problème durant l'envoie du mail
-                                debug("Problème durant l'envoie du mail");
+                                LSdebug("Problème durant l'envoie du mail");
                                 $GLOBALS['LSerror'] -> addErrorCode(1020);
                               }
                             }
                             else {
                               // Erreur durant la mise à jour de l'objet
-                              debug("Erreur durant la mise à jour de l'objet");
+                              LSdebug("Erreur durant la mise à jour de l'objet");
                               $GLOBALS['LSerror'] -> addErrorCode(1020);
                             }
                           }
                           else {
                             // Erreur durant la validation du formulaire de modification de perte de password
-                            debug("Erreur durant la validation du formulaire de modification de perte de password");
+                            LSdebug("Erreur durant la validation du formulaire de modification de perte de password");
                             $GLOBALS['LSerror'] -> addErrorCode(1020);
                           }
                         }
                         else {
                           // l'attribut password n'existe pas
-                          debug("L'attribut password n'existe pas");
+                          LSdebug("L'attribut password n'existe pas");
                           $GLOBALS['LSerror'] -> addErrorCode(1020);
                         }
                       }
@@ -468,7 +468,7 @@ class LSsession {
                   }
                   else {
                     $GLOBALS['LSerror'] -> addErrorCode(1006);
-                    debug('mdp incorrect');
+                    LSdebug('mdp incorrect');
                   }
                 }
               }
@@ -870,7 +870,10 @@ class LSsession {
       if (!$script['path']) {
         $script['path']=LS_JS_DIR;
       }
-      $JSscript_txt.="<script src='".$script['path'].'/'.$script['file']."' type='text/javascript'></script>\n";
+      else {
+        $script['path'].='/';
+      }
+      $JSscript_txt.="<script src='".$script['path'].$script['file']."' type='text/javascript'></script>\n";
     }
 
     $GLOBALS['Smarty'] -> assign('LSjsConfig',json_encode($this -> _JSconfigParams));
@@ -927,11 +930,11 @@ class LSsession {
     
     if ($this -> ajaxDisplay) {
       $GLOBALS['Smarty'] -> assign('LSerror_txt',$GLOBALS['LSerror']->getErrors());
-      $GLOBALS['Smarty'] -> assign('LSdebug_txt',debug_print(true));
+      $GLOBALS['Smarty'] -> assign('LSdebug_txt',LSdebug_print(true));
     }
     else {
       $GLOBALS['LSerror'] -> display();
-      debug_print();
+      LSdebug_print();
     }
     if (!$this -> template)
       $this -> setTemplate('empty.tpl');
@@ -960,11 +963,11 @@ class LSsession {
                     }
                   }
                   else {
-                    debug('Impossible de chargÃ© le dn : '.$dn);
+                    LSdebug('Impossible de chargÃ© le dn : '.$dn);
                   }
                 }
                 else {
-                  debug('Impossible de crÃ©er l\'objet de type : '.$conf['LSobject']);
+                  LSdebug('Impossible de crÃ©er l\'objet de type : '.$conf['LSobject']);
                 }
               }
               else {

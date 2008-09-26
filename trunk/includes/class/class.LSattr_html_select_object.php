@@ -102,7 +102,6 @@ class LSattr_html_select_object extends LSattr_html{
             $filter.='('.$conf['value_attribute'].'='.$val.')';
           }
           $filter.=')';
-          debug($filter);
           $obj = new $conf['object_type']();
           $list = $obj -> listObjects($filter);
         }
@@ -122,7 +121,6 @@ class LSattr_html_select_object extends LSattr_html{
         }
       }
       else {
-        debug($values);
         return false;
       }
       $_SESSION['LSselect'][$conf['object_type']]=$DNs;

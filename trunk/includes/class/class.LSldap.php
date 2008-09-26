@@ -253,7 +253,7 @@ class LSldap {
    * @retval boolean true si l'objet a bien été mis à jour, false sinon
    */
   function update($object_type,$dn,$change) {
-    debug($change);
+    LSdebug($change);
     $dropAttr=array();
     $entry=$this -> getEntry($object_type,$dn);
     if (is_array($entry)) {
@@ -286,8 +286,8 @@ class LSldap {
         }
       }
       $entry -> replace($changeData);
-      debug('change : <pre>'.print_r($changeData,true).'</pre>');
-      debug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
+      LSdebug('change : <pre>'.print_r($changeData,true).'</pre>');
+      LSdebug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
 
       if ($new) {
         $ret = $this -> cnx -> add($entry);

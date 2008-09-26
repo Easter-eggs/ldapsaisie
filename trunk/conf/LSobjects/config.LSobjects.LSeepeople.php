@@ -222,6 +222,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     ),
     'loginShell' => array (
       'label' => _('Interpreteur de commande'),
+      'help_info' => _("Permet ou non a l'utilisateur de se connecter à un système POSIX."),
       'ldap_type' => 'boolean',
       'html_type' => 'boolean',
       'required' => 1,

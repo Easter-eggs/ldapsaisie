@@ -286,10 +286,10 @@ if($LSsession -> startLSsession()) {
           if (($GLOBALS['LSsession'] -> cacheSearch()) && isset($_SESSION['LSsession']['LSsearch'][$hash]) && (!isset($_REQUEST['refresh']))) {
             // On affiche à partir du cache
             $searchData=$_SESSION['LSsession']['LSsearch'][$hash];
-            debug('Recherche : From cache');
+            LSdebug('Recherche : From cache');
           }
           else {
-            debug('Recherche : Load');
+            LSdebug('Recherche : Load');
             if ($GLOBALS['LSsession'] -> canCreate($LSobject)) {
               $LSview_actions[] = array (
                 'label' => _('Nouveau'),
@@ -335,7 +335,7 @@ if($LSsession -> startLSsession()) {
           }
           
           if ((!isset($searchData['objectList'][0]['actions']))&&(!empty($searchData['objectList']))) {
-            debug('Load actions');
+            LSdebug('Load actions');
             for($i=0;$i<$searchData['LSobject_list_nbresult'];$i++) {
               $actions=array();
               
@@ -395,7 +395,7 @@ if($LSsession -> startLSsession()) {
               return -1*$sense;
             }
             if (!uasort($searchData['objectList'],'sortBy')) {
-              debug('Erreur durant le trie.');
+              LSdebug('Erreur durant le trie.');
             }
           }
           $GLOBALS['Smarty']->assign('LSobject_list_orderby',$orderby);

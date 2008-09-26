@@ -110,7 +110,7 @@ function loadDir($dir,$regexpr='^.*\.php$') {
 
 
 function valid($obj) {
-  debug('Validation : ok');
+  LSdebug('Validation : ok');
   return true;
 }
 
@@ -118,8 +118,14 @@ function return_data($data) {
   return $data;
 }
 
-function debug($data,$get=true) {
-  if ($get) {
+function LSdebug($data,$dump=false) {
+  if ($dump) {
+    ob_start();
+    var_dump($data);
+    $GLOBALS['LSdebug']['fields'][]=ob_get_contents(); 
+    ob_end_clean();
+  }
+  else {
     if (is_array($data)||is_object($data)) {
       $GLOBALS['LSdebug']['fields'][]=$data;
     }
@@ -130,7 +136,7 @@ function debug($data,$get=true) {
   return true;
 }
 
-function debug_print($return=false) {
+function LSdebug_print($return=false) {
   if (( $GLOBALS['LSdebug']['fields'] ) && ( $GLOBALS['LSdebug']['active'] )) {
     $txt='<ul>';
     foreach($GLOBALS['LSdebug']['fields'] as $debug) {
@@ -236,14 +242,14 @@ function debug_print($return=false) {
     $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
 
     if (!preg_match($regex, $value)) {
-      debug('checkEmail : regex fail');
+      LSdebug('checkEmail : regex fail');
       return false;
     }
 
     if ($checkDns && function_exists('checkdnsrr')) {
       $tokens = explode('@', $value);
       if (!(checkdnsrr($tokens[1], 'MX') || checkdnsrr($tokens[1], 'A'))) {
-        debug('checkEmail : DNS fail');
+        LSdebug('checkEmail : DNS fail');
         return false;
       }
     }

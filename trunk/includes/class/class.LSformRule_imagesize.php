@@ -42,7 +42,6 @@ class LSformRule_imagesize extends LSformRule {
    */
   function validate ($value,$options,$formElement) {
     $file = $GLOBALS['LSsession'] -> getTmpFile($value);
-    debug('Verify : '.$file.' - Options : '.print_r($options,true));
     list($width, $height, $type, $attr) = getimagesize($file);
     
     if (is_int($options['param']['maxWidth'])) {

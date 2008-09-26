@@ -250,7 +250,7 @@ if (!isset($_ERRORS)) {
                             }
                           }
                           if (!$ok) {
-                            debug($_REQUEST['value']." introuvé parmi la liste");
+                            LSdebug($_REQUEST['value']." introuvé parmi la liste");
                             $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
                           }
                           else {
@@ -403,7 +403,7 @@ if (isset($_REQUEST['imgload'])) {
   $data['imgload'] = $_REQUEST['imgload'];
 }
 
-$debug_txt = debug_print(true);
+$debug_txt = LSdebug_print(true);
 if ($debug_txt != "") {
   $data['LSdebug'] = $debug_txt;
 }

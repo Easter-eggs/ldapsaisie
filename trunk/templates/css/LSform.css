@@ -64,3 +64,23 @@ input[type='submit'].LSform {
 img.LSform-add-field-btn, img.LSform-remove-field-btn {
   cursor:                     pointer;
 }
+
+/* Tips */
+.tip-top {
+  color: #fff;
+  width: 139px;
+  z-index: 13000;
+}
+ 
+.tip-title {
+  font-weight:      bold;
+  font-size:        11px;
+  margin:           0;
+  color:            #b5e4f6;
+  padding:          2px;
+  background:       #333;
+  opacity:          0.8;
+  -moz-border-radius:   2px;
+  width:            200px;
+  text-align:       justify;
+}

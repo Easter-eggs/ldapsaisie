@@ -61,7 +61,6 @@ class LSattr_html_select_list extends LSattr_html{
         $regex_check_data.='|^'.preg_quote($val,'/').'$';
     }
     $regex_check_data.='/';
-    debug($this -> name.' : < '.$regex_check_data." ><br/>",$GLOBALS['debug_stat']);
     $form -> addRule($this -> name, 'regex', array('msg'=> 'Valeur incorrect','params' => array('regex' => $regex_check_data)) );
     // On retourne un pointeur vers l'element ajouter
     return $element;

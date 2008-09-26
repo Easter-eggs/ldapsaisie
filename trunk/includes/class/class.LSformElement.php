@@ -204,6 +204,9 @@ class LSformElement {
         $return['required']=true;
     }
     $return['label'] = $this -> getLabel();
+    if (isset($this -> params['help_info'])) {
+      $return['help_info']=$this -> params['help_info'];
+    }
     return $return;
   }
 

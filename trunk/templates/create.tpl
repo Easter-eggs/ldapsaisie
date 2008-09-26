@@ -5,7 +5,7 @@
     {$LSform_header}
     <dl class='LSform'>
       {foreach from=$LSform_fields item=field}
-      <dt class='LSform'>{$field.label}</dt>
+      <dt class='LSform'>{$field.label}{if $field.help_info!=""} <img class='LStips' src="templates/images/help.png" alt='?' title="{$field.help_info}"/>{/if}</dt>
       <dd class='LSform'>{$field.html}{if $field.add != ''} <span class='LSform-addfield'>+ Ajouter un champ</span>{/if}</dd>
       {if $field.errors != ''}
         {foreach from=$field.errors item=error}

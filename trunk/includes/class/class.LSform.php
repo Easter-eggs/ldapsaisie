@@ -189,7 +189,7 @@ class LSform {
       if (!$this -> checkData()) {
         return;
       }
-      debug("les données sont checkées");
+      LSdebug("les données sont checkées");
       $this -> _isValidate = true;
       return true;
     }

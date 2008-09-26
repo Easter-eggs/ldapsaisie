@@ -303,7 +303,7 @@ class LSldapObject {
       }
     }
     if($this -> validateAttrsData($idForm)) {
-      debug("les donnÃ©es sont validÃ©es");
+      LSdebug("les donnÃ©es sont validÃ©es");
       if(isset($this -> config['before_modify'])) {
         if(function_exists($this -> config['before_modify'])) {
           if(!$this -> config['before_modify']($this)) {
@@ -317,7 +317,7 @@ class LSldapObject {
         }
       }
       if ($this -> submitChange($idForm)) {
-        debug('Les modifications sont submitÃ©es');
+        LSdebug('Les modifications sont submitÃ©es');
         $this -> submitError = false;
         $this -> reloadData();
         $this -> refreshForm($idForm);
@@ -517,7 +517,7 @@ class LSldapObject {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
         if(($attr -> name == $this -> config['rdn'])&&(!$new)) {
           $new = true;
-          debug('Rename');
+          LSdebug('Rename');
           if (!$this -> beforeRename()) {
             $GLOBALS['LSerror'] -> addErrorCode(36);
             return;
@@ -547,7 +547,7 @@ class LSldapObject {
       $dn=$this -> getDn();
       if($dn) {
         $this -> dn=$dn;
-        debug($submitData);
+        LSdebug($submitData);
         if (!$GLOBALS['LSldap'] -> update($this -> getType(),$dn, $submitData)) {
           return;
         }
@@ -1184,7 +1184,7 @@ class LSldapObject {
    * @retval True en cas de cas ce succès, False sinon.
    */
   function afterCreate() {
-    debug('after');
+    LSdebug('after');
     $error = 0;
     if ($GLOBALS['LSsession'] -> isSubDnLSobject($this -> getType())) {
       if (is_array($GLOBALS['LSsession'] -> ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'])) {
@@ -1193,7 +1193,7 @@ class LSldapObject {
             if (isset($GLOBALS['LSobjects'][$type]['container_auto_create'])&&isset($GLOBALS['LSobjects'][$type]['container_dn'])) {
               $dn = $GLOBALS['LSobjects'][$type]['container_dn'].','.$this -> getDn();
               if(!$GLOBALS['LSldap'] -> getNewEntry($dn,$GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],$GLOBALS['LSobjects'][$type]['container_auto_create']['attrs'],true)) {
-                debug("Impossible de créer l'entrée fille : ".print_r(
+                LSdebug("Impossible de créer l'entrée fille : ".print_r(
                   array(
                     'dn' => $dn,
                     'objectClass' => $GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],

@@ -187,7 +187,6 @@
     }
 
     $password = $ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ] -> ldap -> getClearPassword();
-    debug('pwd : '.$password);
     $sambapassword = new smbHash;
     $sambaNTPassword = $sambapassword -> nthash($password);
 

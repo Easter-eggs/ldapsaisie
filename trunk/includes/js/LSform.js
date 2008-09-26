@@ -2,6 +2,7 @@ var LSform = new Class({
     initialize: function(){
       this._modules=[];
       this.initializeLSform_AddAndRemoveBtns();
+      this.LStips = new Tips('.LStips');
     },
     
     initializeLSform_AddAndRemoveBtns: function(el) {

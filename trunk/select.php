@@ -188,10 +188,10 @@ if($LSsession -> startLSsession()) {
       if (($GLOBALS['LSsession'] -> cacheSearch()) && isset($_SESSION['LSsession']['LSsearch'][$hash]) && (!isset($_REQUEST['refresh']))) {
         // On affiche à partir du cache
         $searchData=$_SESSION['LSsession']['LSsearch'][$hash];
-        debug('From cache');
+        LSdebug('From cache');
       }
       else {
-        debug('Load');
+        LSdebug('Load');
         $LSview_actions[] = array (
           'label' => _('Rafraîchir'),
           'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
@@ -222,7 +222,7 @@ if($LSsession -> startLSsession()) {
             );
           }
           else {
-            debug($thisObject->getValue('dn'));
+            LSdebug($thisObject->getValue('dn'));
           }
         }
         $searchData['objectList']=$objectList;
@@ -257,7 +257,7 @@ if($LSsession -> startLSsession()) {
           return -1*$sense;
         }
         if (!uasort($searchData['objectList'],'sortBy')) {
-          debug('Erreur durant le trie.');
+          LSdebug('Erreur durant le trie.');
         }
         $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
       }
