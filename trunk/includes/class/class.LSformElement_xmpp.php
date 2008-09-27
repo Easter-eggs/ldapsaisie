@@ -51,7 +51,7 @@ class LSformElement_xmpp extends LSformElement {
         foreach ($this -> values as $value) {
           $multiple = $this -> getMultipleData();
           $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'><img src='templates/images/xmpp.png' class='LSformElement_xmpp_btn btn' alt='"._('Dialoguer')."' title='"._('Dialoguer')."'/>".$multiple."</li>\n";
+          $return['html'] .= "<li><input class='LSformElement_xmpp' type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>$multiple</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -64,7 +64,7 @@ class LSformElement_xmpp extends LSformElement {
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li><a href='xmpp:".$value."'>".$value."</a><img src='templates/images/xmpp.png' alt='"._('Dialoguer')."' title='"._('Dialoguer')."' class='LSformElement_xmpp_btn btn'></li>\n";
+          $return['html'] .= "<li><a class='LSformElement_xmpp' href='xmpp:".$value."'>".$value."</a></li>\n";
           $GLOBALS['LSsession'] -> addJSscript('LSformElement_xmpp.js');
         }
       }
@@ -80,7 +80,7 @@ class LSformElement_xmpp extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/xmpp.png' class='LSformElement_xmpp_btn btn' alt='"._('Dialoguer')."' title='"._('Dialoguer')."'/>".$multiple;
+    return "<input class='LSformElement_xmpp' type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$multiple;
   }
 }
 

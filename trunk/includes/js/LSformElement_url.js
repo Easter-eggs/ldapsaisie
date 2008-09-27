@@ -10,12 +10,34 @@ var LSformElement_url = new Class({
       if (typeof(el) == 'undefined') {
         el = document;
       }
-      el.getElements('img.LSformElement_url_go_btn').each(function(btn) {
-        btn.addEvent('click',this.onGoBtnClick.bind(this,btn));
+      el.getElements('input.LSformElement_url').each(function(input) {
+        this.addBtnAfter.bind(this)(input);
       }, this);
-      el.getElements('img.LSformElement_url_add_favorite_btn').each(function(btn) {
-        btn.addEvent('click',this.onAddFavoriteBtnClick.bind(this,btn));
+      el.getElements('a.LSformElement_url').each(function(a) {
+        this.addBtnAfter.bind(this)(a);
       }, this);
+    },
+    
+    addBtnAfter: function(el) {
+      var btn_go = new Element('img');
+      btn_go.setProperties({
+        src:    'templates/images/url_go.png',
+        alt:    'Suivre le lien',
+        title:  'Suivre le lien'
+      });
+      btn_go.addClass('btn');
+      btn_go.injectAfter(el);
+      btn_go.addEvent('click',this.onGoBtnClick.bind(this,btn_go));
+      
+      var btn_fav = new Element('img');
+      btn_fav.setProperties({
+        src:    'templates/images/url_add.png',
+        alt:    'Ajouter aux favoris',
+        title:  'Ajouter aux favoris'
+      });
+      btn_fav.addClass('btn');
+      btn_fav.injectAfter(btn_go);
+      btn_fav.addEvent('click',this.onAddFavoriteBtnClick.bind(this,btn_fav));
     },
     
     reinitialize: function(el) {

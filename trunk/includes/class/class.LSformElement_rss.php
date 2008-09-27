@@ -51,7 +51,7 @@ class LSformElement_rss extends LSformElement {
         foreach ($this -> values as $value) {
           $multiple = $this -> getMultipleData();
           $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'><img src='templates/images/rss.png' class='LSformElement_rss_btn btn' alt='"._('Afficher la file RSS.')."' title='"._('Afficher la file RSS.')."'/>".$multiple."</li>\n";
+          $return['html'] .= "<li><input class='LSformElement_rss' type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>$multiple</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -64,7 +64,7 @@ class LSformElement_rss extends LSformElement {
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li><a href='".$value."'>".$value."</a><img src='templates/images/rss.png' alt='"._('Afficher la file RSS.')."' title='"._('Afficher la file RSS.')."' class='LSformElement_rss_btn btn'></li>\n";
+          $return['html'] .= "<li><a class='LSformElement_rss' href='".$value."'>".$value."</a></li>\n";
           $GLOBALS['LSsession'] -> addJSscript('LSformElement_rss.js');
         }
       }
@@ -80,7 +80,7 @@ class LSformElement_rss extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/rss.png' class='LSformElement_rss_btn btn' alt='"._('Afficher la file RSS.')."' title='"._('Afficher la file RSS.')."'/>".$multiple;
+    return "<input class='LSformElement_rss' type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$multiple;
   }
 }
 

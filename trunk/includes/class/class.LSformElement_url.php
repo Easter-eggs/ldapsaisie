@@ -51,7 +51,7 @@ class LSformElement_url extends LSformElement {
         foreach ($this -> values as $value) {
           $multiple = $this -> getMultipleData();
           $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."' title=\"".$this -> getTitle()."\"><img src='templates/images/url_go.png' class='LSformElement_url_go_btn btn' alt='"._('Suivre le lien.')."' title='"._('Suivre le lien.')."'/> <img src='templates/images/url_add.png' class='LSformElement_url_add_favorite_btn btn' alt='"._('Ajouter aux favoris.')."' title='"._('Ajouter aux favoris.')."'/>".$multiple."</li>\n";
+          $return['html'] .= "<li><input class='LSformElement_url' type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."' title=\"".$this -> getTitle()."\">$multiple</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -64,7 +64,7 @@ class LSformElement_url extends LSformElement {
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li><a href='".$value."' title=\"".$this -> getTitle()."\">".$value."</a><img src='templates/images/url_go.png' class='LSformElement_url_go_btn btn' alt='"._('Suivre le lien.')."' title='"._('Suivre le lien.')."'> <img src='templates/images/url_add.png' class='LSformElement_url_add_favorite_btn btn' alt='"._('Ajouter aux favoris.')."' title='"._('Ajouter aux favoris.')."'/></li>\n";
+          $return['html'] .= "<li><a class='LSformElement_url' href='".$value."' title=\"".$this -> getTitle()."\">".$value."</a></li>\n";
         }
         $GLOBALS['LSsession'] -> addJSscript('LSformElement_url.js');
       }
@@ -80,7 +80,7 @@ class LSformElement_url extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."' title=\"".$this -> getTitle()."\"><img src='templates/images/url_go.png' class='LSformElement_url_go_btn btn' alt='"._('Suivre le lien.')."' title='"._('Suivre le lien.')."'/> <img src='templates/images/url_add.png' class='LSformElement_url_add_favorite_btn btn' alt='"._('Ajouter aux favoris.')."' title='"._('Ajouter aux favoris.')."'/>".$multiple;
+    return "<input class='LSformElement_url' type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."' title=\"".$this -> getTitle()."\">".$multiple;
   }
 
 }

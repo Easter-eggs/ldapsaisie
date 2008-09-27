@@ -11,9 +11,24 @@ var LSformElement_mail = new Class({
       if (typeof(el) == 'undefined') {
         el = document;
       }
-      el.getElements('img.LSformElement_mail_btn').each(function(btn) {
-        btn.addEvent('click',this.onBtnClick.bind(this,btn));
+      el.getElements('input.LSformElement_mail').each(function(input) {
+        this.addBtnAfter.bind(this)(input);
       }, this);
+      el.getElements('a.LSformElement_mail').each(function(a) {
+        this.addBtnAfter.bind(this)(a);
+      }, this);
+    },
+    
+    addBtnAfter: function(el) {
+      var btn = new Element('img');
+      btn.setProperties({
+        src:    'templates/images/mail.png',
+        alt:    'Envoyer un mail',
+        title:  'Envoyer un mail'
+      });
+      btn.addClass('btn');
+      btn.injectAfter(el);
+      btn.addEvent('click',this.onBtnClick.bind(this,btn));
     },
     
     reinitialize: function(el) {

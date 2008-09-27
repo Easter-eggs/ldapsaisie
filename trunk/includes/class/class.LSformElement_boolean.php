@@ -45,14 +45,15 @@ class LSformElement_boolean extends LSformElement {
     if (!$this -> isFreeze()) {
       $return['html'] = "<ul class='LSform'>\n";
       if (empty($this -> values)) {
-        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
+        $return['html'] .= "<li class='LSformElement_boolean'>".$this -> getEmptyField()."</li>\n";
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li><input type='radio' value='1' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'checked':'')." /> "._('Oui')."<input type='radio' value='0' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'':'checked')." /> "._('Non')."</li>\n";
+          $return['html'] .= "<li class='LSformElement_boolean'><input type='radio' value='1' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'checked':'')." /> "._('Oui')."<input type='radio' value='0' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'':'checked')." /> "._('Non')."</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_boolean.js');
     }
     else {
       $return['html'] = "<ul class='LSform LSformElement_text'>\n";

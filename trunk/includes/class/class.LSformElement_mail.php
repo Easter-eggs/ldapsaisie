@@ -51,7 +51,7 @@ class LSformElement_mail extends LSformElement {
         foreach ($this -> values as $value) {
           $multiple = $this -> getMultipleData();
           $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'><img src='templates/images/mail.png' class='LSformElement_mail_btn btn' alt='"._('Envoyer un mail.')."' title='"._('Envoyer un mail.')."'/>".$multiple."</li>\n";
+          $return['html'] .= "<li><input class='LSformElement_mail' type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>$multiple</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -63,7 +63,7 @@ class LSformElement_mail extends LSformElement {
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li><a href='mailto:".$value."'>".$value."</a><img src='templates/images/mail.png' alt='"._('Envoyer un mail.')."' title='"._('Envoyer un mail.')."' class='LSformElement_mail_btn btn'></li>\n";
+          $return['html'] .= "<li><a class='LSformElement_mail' href='mailto:".$value."'>".$value."</a></li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -84,7 +84,7 @@ class LSformElement_mail extends LSformElement {
   */
   function getEmptyField() {
     $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'><img src='templates/images/mail.png' class='LSformElement_mail_btn btn' alt='"._('Envoyer un mail.')."' title='"._('Envoyer un mail.')."'/>".$multiple;
+    return "<input type='text' class='LSformElement_mail' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'/>".$multiple;
   }
 }
 

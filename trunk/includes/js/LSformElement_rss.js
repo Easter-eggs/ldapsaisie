@@ -10,9 +10,24 @@ var LSformElement_rss = new Class({
       if (typeof(el) == 'undefined') {
         el = document;
       }
-      el.getElements('img.LSformElement_rss_btn').each(function(btn) {
-        btn.addEvent('click',this.onBtnClick.bind(this,btn));
+      el.getElements('input.LSformElement_rss').each(function(input) {
+        this.addBtnAfter.bind(this)(input);
       }, this);
+      el.getElements('a.LSformElement_rss').each(function(a) {
+        this.addBtnAfter.bind(this)(a);
+      }, this);
+    },
+    
+    addBtnAfter: function(el) {
+      var btn = new Element('img');
+      btn.setProperties({
+        src:    'templates/images/rss.png',
+        alt:    'File RSS',
+        title:  'File RSS'
+      });
+      btn.addClass('btn');
+      btn.injectAfter(el);
+      btn.addEvent('click',this.onBtnClick.bind(this,btn));
     },
     
     reinitialize: function(el) {

@@ -10,9 +10,24 @@ var LSformElement_xmpp = new Class({
       if (typeof(el) == 'undefined') {
         el = document;
       }
-      el.getElements('img.LSformElement_xmpp_btn').each(function(btn) {
-        btn.addEvent('click',this.onBtnClick.bind(this,btn));
+      el.getElements('input.LSformElement_xmpp').each(function(input) {
+        this.addBtnAfter.bind(this)(input);
       }, this);
+      el.getElements('a.LSformElement_xmpp').each(function(a) {
+        this.addBtnAfter.bind(this)(a);
+      }, this);
+    },
+    
+    addBtnAfter: function(el) {
+      var btn = new Element('img');
+      btn.setProperties({
+        src:    'templates/images/xmpp.png',
+        alt:    'Chat',
+        title:  'Chat'
+      });
+      btn.addClass('btn');
+      btn.injectAfter(el);
+      btn.addEvent('click',this.onBtnClick.bind(this,btn));
     },
     
     reinitialize: function(el) {

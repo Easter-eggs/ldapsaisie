@@ -61,6 +61,7 @@ class LSformElement_select extends LSformElement {
         $return['html'].="<option value=\"".$choice_value."\"$selected>$choice_text</option>\n";
       }
       $return['html'].="</select>\n";
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_select.js');
     }
     else {
       $return['html']="<ul class='LSform'>\n";
