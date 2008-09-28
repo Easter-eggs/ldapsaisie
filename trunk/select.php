@@ -165,11 +165,14 @@ if($LSsession -> startLSsession()) {
       }
       $GLOBALS['Smarty']->assign('LSselect_topDn',$selectedTopDn);
       
+      $multiple = (isset($_REQUEST['multiple']))?1:0;
+      
       // Hidden fields
       $GLOBALS['Smarty']->assign('LSview_search_hidden_fields',array(
         'LSobject' => $LSobject,
         'LSview_search_submit' => 1,
-        'ajax' => 1
+        'ajax' => 1,
+        'multiple' => $multiple
       ));
       
       // Hash de la recherche déterminer à partir des paramètres de la recherche
@@ -265,17 +268,17 @@ if($LSsession -> startLSsession()) {
       $GLOBALS['Smarty']->assign('LSobject_list_ordersense',$ordersense);
       
       // Pagination
-      if ($searchData['LSobject_list_nbresult'] > NB_LSOBJECT_LIST) {
+      if ($searchData['LSobject_list_nbresult'] > NB_LSOBJECT_LIST_SELECT) {
         if (isset($_REQUEST['page'])) {
-          $searchData['objectList'] = array_slice($searchData['objectList'], ($_REQUEST['page']) * NB_LSOBJECT_LIST, NB_LSOBJECT_LIST);
+          $searchData['objectList'] = array_slice($searchData['objectList'], ($_REQUEST['page']) * NB_LSOBJECT_LIST_SELECT, NB_LSOBJECT_LIST_SELECT);
           $GLOBALS['Smarty']->assign('LSobject_list_currentpage',$_REQUEST['page']);
           
         }
         else {
-          $searchData['objectList'] = array_slice($searchData['objectList'], 0, NB_LSOBJECT_LIST);
+          $searchData['objectList'] = array_slice($searchData['objectList'], 0, NB_LSOBJECT_LIST_SELECT);
           $GLOBALS['Smarty']->assign('LSobject_list_currentpage',0);
         }
-        $searchData['LSobject_list_nbpage']=ceil($searchData['LSobject_list_nbresult'] / NB_LSOBJECT_LIST);
+        $searchData['LSobject_list_nbpage']=ceil($searchData['LSobject_list_nbresult'] / NB_LSOBJECT_LIST_SELECT);
         $GLOBALS['Smarty']->assign('LSobject_list_nbpage',$searchData['LSobject_list_nbpage']);
       }
       
@@ -310,6 +313,7 @@ if($LSsession -> startLSsession()) {
       $GLOBALS['Smarty']->assign('LSobject_list',$searchData['objectList']);
       $GLOBALS['Smarty']->assign('LSobject_list_objecttype',$LSobject);
       $GLOBALS['Smarty'] -> assign('LSview_actions',$searchData['LSview_actions']);
+      $GLOBALS['Smarty'] -> assign('LSselect_multiple',$multiple);
       if (isset($_REQUEST['ajax'])) {
         $GLOBALS['LSsession'] -> setTemplate('select_table.tpl');
       }

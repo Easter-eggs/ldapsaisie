@@ -3,6 +3,8 @@ var LSselect = new Class({
       this.main_page = $('LSobject-select-main-div').getParent();
       this.content = $('content');
       
+      this.multiple = LSselect_multiple;
+      
       this.LSselect_search_form = $('LSselect_search_form');
       var input = new Element('input');
       input.setProperty('name','ajax');
@@ -52,7 +54,8 @@ var LSselect = new Class({
           template:   'LSselect',
           action:     'addLSselectobject-item',
           objectdn:   checkbox.value,
-          objecttype: $('LSselect-object').getProperties('caption').caption
+          objecttype: $('LSselect-object').getProperties('caption').caption,
+          multiple:   this.multiple
         };
       }
       else {
@@ -60,8 +63,9 @@ var LSselect = new Class({
           template:   'LSselect',
           action:     'dropLSselectobject-item',
           objectdn:   checkbox.value,
-          objecttype: $('LSselect-object').getProperties('caption').caption
-        };        
+          objecttype: $('LSselect-object').getProperties('caption').caption,
+          multiple:   this.multiple
+        };
       }
       data.imgload=varLSdefault.loadingImgDisplay(checkbox.getParent().getNext(),'inside');
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.oncheckboxChangeComplete.bind(this)}).send();
@@ -102,7 +106,8 @@ var LSselect = new Class({
         data:         this.LSselect_search_form,
         evalScripts:  true,
         onSuccess:    this.onSubmitSearchFormComplete.bind(this),
-        url:          this.LSselect_search_form.get('action')
+        url:          this.LSselect_search_form.get('action'),
+        multiple:     this.multiple
       });
       this.LSselect_search_form.send();
     },

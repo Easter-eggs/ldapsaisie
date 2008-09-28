@@ -294,8 +294,11 @@ if (!isset($_ERRORS)) {
     case 'LSselect':
       switch($_REQUEST['action']) {
         case 'addLSselectobject-item':
-          if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn']))) {
-            if (is_array($_SESSION['LSselect'][$_REQUEST['objecttype']])) {
+          if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['multiple']))) {
+            if (!$_REQUEST['multiple']) {
+              $_SESSION['LSselect'][$_REQUEST['objecttype']]=array($_REQUEST['objectdn']);
+            }
+            else if (is_array($_SESSION['LSselect'][$_REQUEST['objecttype']])) {
               if (!in_array($_REQUEST['objectdn'],$_SESSION['LSselect'][$_REQUEST['objecttype']])) {
                 $_SESSION['LSselect'][$_REQUEST['objecttype']][]=$_REQUEST['objectdn'];
               }
@@ -319,7 +322,7 @@ if (!isset($_ERRORS)) {
           }
         break;
         case 'refreshSession':
-          if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['values'])) && (isset($_REQUEST['href'])) ) {
+          if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['values'])) ) {
             $_SESSION['LSselect'][$_REQUEST['objecttype']]=array();
             $values=json_decode($_REQUEST['values'],false);
             if (is_array($values)) {
@@ -328,7 +331,6 @@ if (!isset($_ERRORS)) {
               }
             }
             $data=array(
-              'href' => $_REQUEST['href'],
               'values' => $values
             );
           }

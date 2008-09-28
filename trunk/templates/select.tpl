@@ -30,5 +30,6 @@
   </div>
 </div>
 <script type='text/javascript'>
+LSselect_multiple = {$LSselect_multiple};
 varLSselect = new LSselect();
 </script>

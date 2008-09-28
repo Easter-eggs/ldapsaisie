@@ -98,7 +98,7 @@ if($LSsession -> startLSsession()) {
                   if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$relationName)) {
                     $return['actions'][] = array(
                       'label' => _('Modifier'),
-                      'url' => 'select.php?LSobject='.$relationConf['LSobject'],
+                      'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1',
                       'action' => 'modify'
                     );
                   }

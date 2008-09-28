@@ -49,19 +49,12 @@ class LSformElement_select_object extends LSformElement {
     
     $params=array();
     if (!$this -> isFreeze()) {
-      $params['addBtn']=array(
-        'href'  =>  "select.php?LSobject=".$this -> selectableObject,
-        'id'    =>  "a_LSformElement_select_object_".$this -> name,
-        'label' =>  _('Modifier')
-      );
-      $params['inputHidden'] = array(
-        'id'    => "LSformElement_select_object_objecttype_".$this -> name,
-        'name'  => 'LSformElement_select_object_objecttype_'.$this -> name,
-        'value' => $this -> selectableObject
-      );
-      $params['deleteBtns'] = array(
-        'alt' => _('Supprimer')
-      );
+      $params['attr_name'] = $this -> name;
+      $params['object_type'] = $this -> selectableObject;
+      $params['addBtn'] = _('Modifier');
+      $params['deleteBtns'] = _('Supprimer');
+      $params['multiple'] = ($this -> params['multiple'])?1:0;
+      $params['noValueLabel'] = _('Aucune valeur definie');
     }
     
     $ul_id="LSformElement_select_object_".$this -> name;
@@ -79,6 +72,7 @@ class LSformElement_select_object extends LSformElement {
     }
     $return['html'].="</ul>\n";
     if (!$this -> isFreeze()) {
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object.js');
       $GLOBALS['LSsession'] -> addJSscript('LSform.js');
       $GLOBALS['LSsession'] -> addJSscript('LSselect.js');
