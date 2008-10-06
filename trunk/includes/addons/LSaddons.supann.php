@@ -28,7 +28,7 @@
       define('LS_SUPANN_LASTNAME_ATTR','sn');
       
       // Nom de l'attribut LDAP prenom
-      define('LS_SUPANN_FIRSTNAME_ATTR','givenname');
+      define('LS_SUPANN_FIRSTNAME_ATTR','givenName');
       
       
       // Message d'erreur
