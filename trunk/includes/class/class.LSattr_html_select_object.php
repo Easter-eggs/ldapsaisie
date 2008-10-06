@@ -91,7 +91,7 @@ class LSattr_html_select_object extends LSattr_html{
         return;
       }
       
-      if (is_array($values)) {
+      if ((is_array($values))&&(!empty($values))) {
         if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
           $list=array();
           foreach($values as $dn) {
@@ -102,13 +102,20 @@ class LSattr_html_select_object extends LSattr_html{
           }
         }
         else {
-          $filter='(|';
+          $filter='';
           foreach($values as $val) {
-            $filter.='('.$conf['value_attribute'].'='.$val.')';
+            if (!empty($val)) {
+              $filter.='('.$conf['value_attribute'].'='.$val.')';
+            }
           }
-          $filter.=')';
-          $obj = new $conf['object_type']();
-          $list = $obj -> listObjects($filter);
+          if ($filter!='') {
+            $filter='(|'.$filter.')';
+            $obj = new $conf['object_type']();
+            $list = $obj -> listObjects($filter);
+          }
+          else {
+            $list=array();
+          }
         }
         if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
           for($i=0;$i<count($list);$i++) {
