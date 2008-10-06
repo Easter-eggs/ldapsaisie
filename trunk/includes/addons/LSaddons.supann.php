@@ -91,10 +91,10 @@
       return;
     }
 
-    $nom = $ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ] -> getValue();
-    $prenom = $ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ] -> getValue();
+    $noms = $ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ] -> getValue();
+    $prenoms = $ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ] -> getValue();
 
-    return ($prenom.' '.$nom);
+    return ($prenoms[0].' '.$noms[0]);
   }
   
  /**
@@ -116,10 +116,10 @@
       return;
     }
 
-    $nom = $ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ] -> getValue();
-    $prenom = $ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ] -> getValue();
+    $noms = $ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ] -> getValue();
+    $prenoms = $ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ] -> getValue();
 
-    return (replaceAccents($nom).' '.replaceAccents($prenom));
+    return (replaceAccents($noms[0]).' '.replaceAccents($prenoms[0]));
   }
   
   
