@@ -24,6 +24,7 @@ $GLOBALS['LSaddons']['loads'] = array (
   'samba',
   'posix',
   'ftp',
+  'supann',
   'maildir'
 );
 
