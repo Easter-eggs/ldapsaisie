@@ -18,7 +18,7 @@
 {$LSerrors}
 </div>
 <div id='LSdebug'>
-  <a href='#' id='LSdebug_hidden'>X</a> 
+  <span id='LSdebug_hidden'>X</span> 
   <div id='LSdebug_infos'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
 </div>
 

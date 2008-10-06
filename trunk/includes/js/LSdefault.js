@@ -1,11 +1,12 @@
 var LSdefault = new Class({
     initialize: function(){
       this.LSdebug = $('LSdebug');
+      this.LSdebug.addEvent('dblclick',this.LSdebugHidde.bind(this));
       this.LSdebugInfos = $('LSdebug_infos');
       this.LSdebug.setOpacity(0);
 
       this.LSdebugHidden = $('LSdebug_hidden');
-      this.LSdebugHidden.addEvent('click',this.onLSdebugHiddenClick.bindWithEvent(this));
+      this.LSdebugHidden.addEvent('click',this.LSdebugHidde.bind(this));
       
       this.LSerror = $('LSerror');
       this.LSerror.setOpacity(0);
@@ -51,8 +52,7 @@ var LSdefault = new Class({
       $('LSsession_topDn_form').submit();
     },
 
-    onLSdebugHiddenClick: function(event){
-      new Event(event).stop();
+    LSdebugHidde: function(){
       this.fx.LSdebug.start(0.8,0);
     },
 
