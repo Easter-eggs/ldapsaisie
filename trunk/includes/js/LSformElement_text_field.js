@@ -27,6 +27,11 @@ var LSformElement_text_field = new Class({
             },this);
             this.oldBg=this.input.getStyle('background-color');
             this.fx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
+            this.generateBtn = new Element('img');
+            this.generateBtn.addClass('btn');
+            this.generateBtn.src='templates/images/generate.png';
+            this.generateBtn.addEvent('click',this.refreshValue.bind(this));
+            this.generateBtn.injectAfter(this.input);
           }
         }
       }
@@ -42,7 +47,13 @@ var LSformElement_text_field = new Class({
     
     refreshValue: function() {
       if (this._auto) {
-        this.input.value=getFData(this.format,this.parent,'getValue');
+        var val=getFData(this.format,this.parent,'getValue');
+        if ($type(this.params['withoutAccents'])) {
+          if(this.params['withoutAccents']) {
+            val = replaceAccents(val);
+          }
+        }
+        this.input.value = val;
         this.fx.start(this.onChangeColor);
         (function() {this.fx.start(this.oldBg);}).delay(1000,this);
       }

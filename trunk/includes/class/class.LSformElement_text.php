@@ -44,7 +44,7 @@ class LSformElement_text extends LSformElement {
     // value
     if (!$this -> isFreeze()) {
       $return['html'] = "<ul class='LSform LSformElement_text'>\n";
-      if ($this -> params['html_options']['generate_value_format']!="") {
+      if (isset($this -> params['html_options'])) {
         $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$this -> params['html_options']);
       }
       if (empty($this -> values)) {

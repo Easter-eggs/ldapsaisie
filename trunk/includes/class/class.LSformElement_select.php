@@ -68,6 +68,9 @@ class LSformElement_select extends LSformElement {
       foreach ($this -> values as $value) {
         $return['html'].="<li>".$this -> params['text_possible_values'][$value]."</strong></li>";
       }
+      if (empty($this -> values)) {
+        $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
+      }
       $return['html'].="</ul>\n";
     }
     return $return;

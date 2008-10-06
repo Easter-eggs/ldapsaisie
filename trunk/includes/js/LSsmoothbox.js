@@ -78,6 +78,10 @@ var LSsmoothbox = new Class({
       
       this._open=0;
       this._scrolling=0;
+      
+      this.openOptions = {};
+      
+      this.frame.set('html','');
     },
     
     position: function(){ 
@@ -335,12 +339,13 @@ var LSsmoothbox = new Class({
     },
 
     openURL: function(href,openOptions) {
+      this.load.bind(this)();
       var options = {
           method:       'post',
           update:       this.frame,
           url:          href,
           evalScripts:  true,
-          onComplete:   varLSdefault.ajaxDisplayDebugAndError()
+          onComplete:   (function(){varLSdefault.ajaxDisplayDebugAndError();this.resize()}).bind(this)
       };
       this.displayValidBtn();
       new Request.HTML(options).send();

@@ -83,7 +83,12 @@ class LSattr_html_select_object extends LSattr_html{
       $conf=$this -> config['selectable_object'];
       if (!isset($conf['object_type'])) {
         $GLOBALS['LSerror'] -> addErrorCode(102,$this -> name);
-        break;
+        return;
+      }
+      
+      if (!$GLOBALS['LSsession'] -> loadLSobject($conf['object_type'])) {
+        $GLOBALS['LSerror'] -> addErrorCode(1004,$conf['object_type']);
+        return;
       }
       
       if (is_array($values)) {

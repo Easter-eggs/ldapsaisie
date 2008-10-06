@@ -73,3 +73,25 @@ function getFData(format,data,meth) {
   }
   return format;
 }
+
+/**
+* Supprime les accents d'une chaine
+* 
+* @param[in] $string La chaine originale
+* 
+* @retval string La chaine sans les accents
+*/
+function replaceAccents(str) {
+  var new_str = String(str);
+  var accent = 
+    new Array("à","á","â","ã","ä","ç","è","é","ê","ë","ì","í","î","ï","ñ","ò","ó","ô","õ","ö","ù","ú","û","ü","ý","ÿ","À","Á","Â","Ã","Ä","Ç","È","É","Ê","Ë","Ì","Í","Î","Ï","Ñ","Ò","Ó","Ô","Õ","Ö","Ù","Ú","Û","Ü","Ý");
+  var sans_accent = 
+    new Array("a","a","a","a","a","c","e","e","e","e","i","i","i","i","n","o","o","o","o","o","u","u","u","u","y","y","A","A","A","A","A","C","E","E","E","E","I","I","I","I","N","O","O","O","O","O","U","U","U","U","Y");
+  if (str && str!= "") {
+    for (i=0; i<accent.length; i++) {
+      var reg_exp= RegExp(accent[i], "gi");
+      new_str = new_str.replace (reg_exp, sans_accent[i]);
+    }
+  }
+  return new_str;
+}
