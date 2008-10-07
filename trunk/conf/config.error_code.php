@@ -235,7 +235,7 @@ $GLOBALS['LSerror_code'] = array (
     'level' => 'c'
   ),
 
-  301 => array(
+  801 => array(
     'msg' => _("LSformRule : Aucune regex n'a Ã©tÃ© fournis pour la validation des donnÃ©es."),
     'level' => 'w'
   ),

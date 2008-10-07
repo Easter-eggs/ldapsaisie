@@ -43,7 +43,7 @@ class LSformRule_regex extends LSformRule {
         $regex=$option['params']['regex'];
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(301);
+        $GLOBALS['LSerror'] -> addErrorCode(801);
         return;
       }
     }
