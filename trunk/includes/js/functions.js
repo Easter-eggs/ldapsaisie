@@ -95,3 +95,23 @@ function replaceAccents(str) {
   }
   return new_str;
 }
+
+/**
+* Remplace les espaces ou les tabulations d'une chaine
+* 
+* @param[in] $string La chaine originale
+* @param[in] $string Le caractère à mettre à la place
+* 
+* @retval string La chaine sans espace
+*/
+function replaceSpaces(str,to) {
+  if (!$type(to)) {
+    to = '';
+  }
+  var new_str = String(str);
+  if (str && str!= "") {
+    var reg_exp= RegExp('[ \t]', "gi");
+    new_str = new_str.replace (reg_exp, to);
+  }
+  return new_str;
+}

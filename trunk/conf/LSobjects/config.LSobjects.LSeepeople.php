@@ -266,10 +266,12 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     'mail' => array (
       'label' => _('Adresse e-mail'),
       'ldap_type' => 'ascii',
-      'html_type' => 'mail',
+      'html_type' => 'text',
       'html_options' => array(
-        'generate_value_format' => '%{uid}@ls.com',
-        'autoGenerateOnModify' => true
+        'generate_value_format' => '%{givenName}.%{sn}@ls.com',
+        'withoutAccent' => 1,
+        'replaceSpaces' => '.',
+        'lowerCase' => 1
       ),
       'required' => 1,
       'check_data' => array (

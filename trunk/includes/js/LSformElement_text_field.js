@@ -51,9 +51,24 @@ var LSformElement_text_field = new Class({
     refreshValue: function() {
       if (this._auto) {
         var val=getFData(this.format,this.parent,'getValue');
-        if ($type(this.params['withoutAccents'])) {
-          if(this.params['withoutAccents']) {
+        if ($type(this.params['withoutAccent'])) {
+          if(this.params['withoutAccent']) {
             val = replaceAccents(val);
+          }
+        }
+        if ($type(this.params['replaceSpaces'])) {
+          if(this.params['replaceSpaces']) {
+            val = replaceSpaces(val,this.params['replaceSpaces']);
+          }
+        }
+        if ($type(this.params['upperCase'])) {
+          if(this.params['upperCase']) {
+            val = val.toUpperCase();
+          }
+        }
+        if ($type(this.params['lowerCase'])) {
+          if(this.params['lowerCase']) {
+            val = val.toLowerCase();
           }
         }
         this.input.value = val;
