@@ -99,9 +99,6 @@ class LSformElement {
     if (!is_array($data)) {
       $data=array($data);
     }
-
-    $data = $this -> attr_html -> refreshForm($data);
-
     $this -> values = $data;
     return true;
   }
