@@ -38,7 +38,7 @@ class LSformRule_email extends LSformRule {
    * @return boolean true si la valeur est valide, false sinon
    */
   function validate($value,$option=array(),$formElement) {
-    return checkEmail($value,$option['param']['checkDomain']);
+    return checkEmail($value,$option['param']['domain'],$option['param']['checkDomain']);
   }
 
 }

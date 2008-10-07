@@ -2,9 +2,13 @@
   <dt class='LSform'>{$LSmail_mail_label}</dt>
   <dd class='LSform'>
     {if $LSmail_mails != ""}
+      {if $LSmail_mails|@count==1}
+      <input type='text' name='LSmail_mail' id='LSmail_mail' value='{$LSmail_mails[0]}'/>
+      {else}
       <select name='LSmail_mail' id='LSmail_mail'>
         {html_options values=$LSmail_mails output=$LSmail_mails}
       </select>
+      {/if}
     {else}
       <input type='text' name='LSmail_mail' id='LSmail_mail'/>
     {/if}
