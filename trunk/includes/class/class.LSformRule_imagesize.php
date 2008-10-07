@@ -32,10 +32,10 @@ class LSformRule_imagesize extends LSformRule {
    *
    * @param string $values Valeur à vérifier
    * @param array $options Options de validation : 
-   *                              - Largeur max : $options['param']['maxWidth']
-   *                              - Largeur min : $options['param']['minWidth']
-   *                              - Hauteur max : $options['param']['maxHeight']
-   *                              - Hauteur min : $options['param']['minHeight']
+   *                              - Largeur max : $options['params']['maxWidth']
+   *                              - Largeur min : $options['params']['minWidth']
+   *                              - Hauteur max : $options['params']['maxHeight']
+   *                              - Hauteur min : $options['params']['minHeight']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
@@ -44,23 +44,23 @@ class LSformRule_imagesize extends LSformRule {
     $file = $GLOBALS['LSsession'] -> getTmpFile($value);
     list($width, $height, $type, $attr) = getimagesize($file);
     
-    if (is_int($options['param']['maxWidth'])) {
-      if ($width > $options['param']['maxWidth']) {
+    if (is_int($options['params']['maxWidth'])) {
+      if ($width > $options['params']['maxWidth']) {
         return;
       }
     }
-    if (is_int($options['param']['minWidth'])) {
-      if ($width < $options['param']['minWidth']) {
+    if (is_int($options['params']['minWidth'])) {
+      if ($width < $options['params']['minWidth']) {
         return;
       }
     }
-    if (is_int($options['param']['maxHeight'])) {
-      if ($height > $options['param']['maxHeight']) {
+    if (is_int($options['params']['maxHeight'])) {
+      if ($height > $options['params']['maxHeight']) {
         return;
       }
     }
-    if (is_int($options['param']['minHeight'])) {
-      if ($height < $options['param']['minHeight']) {
+    if (is_int($options['params']['minHeight'])) {
+      if ($height < $options['params']['minHeight']) {
         return;
       }
     }

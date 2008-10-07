@@ -32,8 +32,8 @@ class LSformRule_imagefilesize extends LSformRule {
    *
    * @param string $values Valeur à vérifier
    * @param array $options Options de validation : 
-   *                              - Taille max (en octet) : $options['param']['maxSize']
-   *                              - Taille min (en octet) : $options['param']['minSize']
+   *                              - Taille max (en octet) : $options['params']['maxSize']
+   *                              - Taille min (en octet) : $options['params']['minSize']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
@@ -43,14 +43,14 @@ class LSformRule_imagefilesize extends LSformRule {
     
     $size = filesize($file);
     
-    if (is_int($options['param']['maxSize'])) {
-      if ($size > $options['param']['maxSize']) {
+    if (is_int($options['params']['maxSize'])) {
+      if ($size > $options['params']['maxSize']) {
         return;
       }
     }
 
-    if (is_int($options['param']['minSize'])) {
-      if ($size < $options['param']['minSize']) {
+    if (is_int($options['params']['minSize'])) {
+      if ($size < $options['params']['minSize']) {
         return;
       }
     }

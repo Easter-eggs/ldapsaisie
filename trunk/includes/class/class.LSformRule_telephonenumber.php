@@ -32,7 +32,6 @@ class LSformRule_telephonenumber extends LSformRule {
    *
    * @param string $value Valeur à vérifier
    * @param array $options Options de validation : 
-   *                                  - Check domain : $option['params']['checkDomain']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon

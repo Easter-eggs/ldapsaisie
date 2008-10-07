@@ -32,8 +32,8 @@ class LSformRule_imagefile extends LSformRule {
    *
    * @param string $values Valeur à vérifier
    * @param array $options Options de validation : 
-   *                              - Type MIME : $options['param']['mimeType']
-   *                              - Type MIME (regex) : $options['param']['mimeTypeRegEx']
+   *                              - Type MIME : $options['params']['mimeType']
+   *                              - Type MIME (regex) : $options['params']['mimeTypeRegEx']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
@@ -43,14 +43,14 @@ class LSformRule_imagefile extends LSformRule {
     
     $mimetype = mime_content_type($file);
     
-    if (isset($options['param']['mimeType'])) {
-      if ($mimetype != $options['param']['mimeType']) {
+    if (isset($options['params']['mimeType'])) {
+      if ($mimetype != $options['params']['mimeType']) {
         return;
       }
     }
     else {
-      if (isset($options['param']['mimeTypeRegEx'])) {
-        $regex = $options['param']['mimeTypeRegEx'];
+      if (isset($options['params']['mimeTypeRegEx'])) {
+        $regex = $options['params']['mimeTypeRegEx'];
       }
       else {
         $regex = '/image\/.*/';

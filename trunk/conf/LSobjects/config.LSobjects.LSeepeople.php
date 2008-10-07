@@ -275,7 +275,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'check_data' => array (
         'email' => array(
           'msg' => _("L'adresse e-mail entrée n'est pas valide."),
-          'param' => array('checkDomain' => false)
+          'params' => array('checkDomain' => false)
         ),
       ),
       'rights' => array(
@@ -393,13 +393,13 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'check_data' => array (
         'imagesize' => array(
           'msg' => _("La taille de l'image n'est pas valide."),
-          'param' => array(
+          'params' => array(
             'maxWidth' => 2000
           )
         ),
         'imagefilesize' => array(
           'msg' => _("La taille du fichier image n'est pas valide."),
-          'param' => array(
+          'params' => array(
             'maxSize' => 3000000   // taille du fichier en octets
           )
         ),
