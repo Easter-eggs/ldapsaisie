@@ -63,7 +63,7 @@ class LSattr_html_select_object extends LSattr_html{
    * 
    * @retval mixed La valeur formatée de l'attribut (array('DNs' => 'displayValue'))
    **/
-  function refreshForm($data,$fromDNs=true) {
+  function refreshForm($data,$fromDNs=false) {
     return $this -> getFormValues($data,$fromDNs);
   }
 

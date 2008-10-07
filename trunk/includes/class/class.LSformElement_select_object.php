@@ -121,7 +121,7 @@ class LSformElement_select_object extends LSformElement {
    */
   function setValueFromPostData($data) {
     LSformElement::setValueFromPostData($data);
-    $this -> values = $this -> attr_html -> refreshForm($this -> values,false);
+    $this -> values = $this -> attr_html -> refreshForm($this -> values,true);
     return true;
   }
 
