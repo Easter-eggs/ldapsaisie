@@ -10,28 +10,31 @@ var LSformElement_text_field = new Class({
     },
     
     start: function() {
-      var force=0;
       if ($type(this.params)) {
-        if (this.params.autoGenerateOnModify) {
-          force = 1;
-        }
-      }
-      if ((this.input.value=='')||(force)) {
-        if ($type(this.params)) {
-          if ($type(this.params['generate_value_format'])) {
-            this.format = this.params['generate_value_format'];
+        if ($type(this.params['generate_value_format'])) {
+          this.format = this.params['generate_value_format'];
+          this.oldBg=this.input.getStyle('background-color');
+          
+          this.fx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
+          
+          // GenerateBtn
+          this.generateBtn = new Element('img');
+          this.generateBtn.addClass('btn');
+          this.generateBtn.src='templates/images/generate.png';
+          this.generateBtn.addEvent('click',this.refreshValue.bind(this));
+          this.generateBtn.injectAfter(this.input);
+
+          // Auto
+          var force=0;
+          if (this.params.autoGenerateOnModify) {
+            force = 1;
+          }
+          if ((this.input.value=='')||(force)) {
             this.dependsFields = this.parent.getDependsFields(this.format);
             this.dependsFields.each(function(el) {
               var input = this.parent.getInput.bind(this.parent)(el);
               input.addEvent('change',this.refreshValue.bind(this));
             },this);
-            this.oldBg=this.input.getStyle('background-color');
-            this.fx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
-            this.generateBtn = new Element('img');
-            this.generateBtn.addClass('btn');
-            this.generateBtn.src='templates/images/generate.png';
-            this.generateBtn.addEvent('click',this.refreshValue.bind(this));
-            this.generateBtn.injectAfter(this.input);
           }
         }
       }
