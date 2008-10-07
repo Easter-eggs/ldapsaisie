@@ -44,7 +44,7 @@ class LSattr_html_select_object extends LSattr_html{
       return;
     }
     if ($data) {
-      $values=$this -> getValues($data);
+      $values=$this -> getFormValues($data);
       if ($values) {
         $element -> setValue($values);
       }
@@ -64,21 +64,20 @@ class LSattr_html_select_object extends LSattr_html{
    * @retval mixed La valeur formatée de l'attribut (array('DNs' => 'displayValue'))
    **/
   function refreshForm($data) {
-    return $this -> getValues($data);
+    return $this -> getFormValues($data,true);
   }
 
   /**
-   * Retourne un tableau des valeurs possibles de la liste
+   * Retourne un tableau des valeurs de l'attribut à partir des valeurs du formulaire
    *
-   * @param[in] mixed Tableau des valeurs de l'attribut
+   * @param[in] mixed Tableau des valeurs du formulaire
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
-   *               la valeur des balises option et en valeur ce qui sera affiché.
+   * @retval array  Tableau des valeurs de l'attribut
    */ 
-  function getValues($values=NULL) {
-    $retInfos = array();
+  function getValuesFromFormValues($values=NULL) {
+    $retValues = array();
     if (isset($this -> config['selectable_object'])) {
       $conf=$this -> config['selectable_object'];
       if (!isset($conf['object_type'])) {
@@ -92,12 +91,61 @@ class LSattr_html_select_object extends LSattr_html{
       }
       
       if ((is_array($values))&&(!empty($values))) {
-        if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
-          $list=array();
-          foreach($values as $dn) {
-            $obj=new $conf['object_type']();
-            if ($obj -> loadData($dn)) {
-              $list[]=$obj;
+        $obj=new $conf['object_type']();
+        foreach($values as $dn => $name) {
+          if ($obj -> loadData($dn)) {
+            if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
+              $val = $dn;
+            }
+            else {
+              $val = $obj -> getValue($conf['value_attribute']);
+              $val = $val[0];
+            }
+            if (empty($val)) {
+              continue;
+            }
+            $retValues[]=$val;
+          }
+        }
+        return $retValues;
+      }
+    }
+    return;
+  }
+
+  /**
+   * Retourne un tableau des objects selectionnés
+   *
+   * @param[in] mixed $values Tableau des valeurs de l'attribut
+   * @param[in] boolean $fromDNs True si les valeurs passées en paramètre sont des DNs
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval array Tableau associatif des objects selectionés avec en clé
+   *               le DN et en valeur ce qui sera affiché.
+   */ 
+  function getFormValues($values=NULL,$fromDNs=false) {
+    $retInfos = array();
+    $DNs=array();
+    if (isset($this -> config['selectable_object'])) {
+      $conf=$this -> config['selectable_object'];
+      if (!isset($conf['object_type'])) {
+        $GLOBALS['LSerror'] -> addErrorCode(102,$this -> name);
+        return;
+      }
+      
+      if (!$GLOBALS['LSsession'] -> loadLSobject($conf['object_type'])) {
+        $GLOBALS['LSerror'] -> addErrorCode(1004,$conf['object_type']);
+        return;
+      }
+      
+      if ((is_array($values))&&(!empty($values))) {
+        if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')||$fromDNs) {
+          $DNs=$values;
+          $obj = new $conf['object_type']();
+          foreach($DNs as $dn) {
+            if($obj -> loadData($dn)) {
+              $retInfos[$dn] = $obj -> getDisplayValue($conf['display_attribute']);
             }
           }
         }
@@ -111,24 +159,11 @@ class LSattr_html_select_object extends LSattr_html{
           if ($filter!='') {
             $filter='(|'.$filter.')';
             $obj = new $conf['object_type']();
-            $list = $obj -> listObjects($filter);
-          }
-          else {
-            $list=array();
-          }
-        }
-        if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
-          for($i=0;$i<count($list);$i++) {
-            $retInfos[$list[$i] -> dn]=$list[$i] -> getDisplayValue($conf['display_attribute']);
-            $DNs[]=$list[$i] -> dn;
-          }
-        }
-        else {
-          for($i=0;$i<count($list);$i++) {
-            $key = $val['value_attribute'] -> getValue();
-            $key = $key[0];
-            $retInfos[$list[$i] -> attrs[$key]]=$list[$i] -> getDisplayValue($conf['display_attribute']);
-            $DNs[]=$list[$i] -> dn;
+            $listobj = $obj -> listObjects($filter);
+            foreach($listobj as $one) {
+              $DNs[]=$one -> getDn();
+              $retInfos[$one -> getDn()] = $one -> getDisplayValue($conf['display_attribute']);
+            }
           }
         }
       }
@@ -139,7 +174,6 @@ class LSattr_html_select_object extends LSattr_html{
       return $retInfos;
     }
     return false;
-    
   }
 
 
@@ -148,39 +182,12 @@ class LSattr_html_select_object extends LSattr_html{
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
-   *               la valeur des balises option et en valeur ce qui sera affiché.
+   * @retval array Tableau associatif des objects selectionnés avec en clé
+   *               le DN et en valeur ce qui sera affiché.
    */
   function getValuesFromSession() {
-    $retInfos = array();
-    if (isset($this -> config['selectable_object'])) {
-      $conf=$this -> config['selectable_object'];
-      if (!isset($conf['object_type'])) {
-        $GLOBALS['LSerror'] -> addErrorCode(102,$this -> name);
-        break;
-      }
-      
-      if(is_array($_SESSION['LSselect'][$conf['object_type']])) {
-        foreach($_SESSION['LSselect'][$conf['object_type']] as $dn) {
-          $obj = new $conf['object_type']();
-          if ($obj->loadData($dn)) {
-            if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
-              $retInfos[$obj -> dn]=$obj -> getDisplayValue($conf['display_attribute']);
-            }
-            else {
-              $key = $val['value_attribute'] -> getValue();
-              $key = $key[0];
-              $retInfos[$obj -> attrs[$key]]=$obj -> getDisplayValue($conf['display_attribute']);
-            }
-            $DNs[]=$dn;
-          }
-        }
-      }
-      else {
-        return false;
-      }
-      $_SESSION['LSselect'][$conf['object_type']]=$DNs;
-      return $retInfos;
+    if(is_array($_SESSION['LSselect'][$this -> config['selectable_object']['object_type']])) {
+      return $this -> getFormValues($_SESSION['LSselect'][$this -> config['selectable_object']['object_type']],true);
     }
     return false;
   }

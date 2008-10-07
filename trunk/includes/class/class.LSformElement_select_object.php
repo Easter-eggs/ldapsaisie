@@ -102,13 +102,8 @@ class LSformElement_select_object extends LSformElement {
    * @retval Array Les valeurs de l'élement
    */
   function exportValues(){
-    $retval=array();
-    if (is_array($this -> values)) {
-      foreach($this -> values as $val => $name) {
-        $retval[] = $val;
-      }
-    }
-    return $retval;
+    $values = $this -> attr_html -> getValuesFromFormValues($this -> values);
+    return $values;
   }
 
 

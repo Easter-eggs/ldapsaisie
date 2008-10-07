@@ -112,17 +112,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
                                                               // si non définie => utilisation du 'select_display_attrs'
                                                               // de la définition de l'objet
                                               
-          'value_attribute' => '%{dn}',                       // Spécifie le attributs dont la valeur sera retournée par
-      ),
-      'possible_values' => array(
-        'OTHER_OBJECT' => array(
-          'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
-          'display_attribute' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
-                                                              // si non définie => utilisation du 'select_display_attrs'
-                                                              // de la définition de l'objet
-                                              
-          'value_attribute' => '%{dn}',                       // Spécifie le attributs dont la valeur sera retournée par
-        )
+          'value_attribute' => 'dn',                          // Spécifie le attributs dont la valeur sera retournée par
       )
     )
   )
