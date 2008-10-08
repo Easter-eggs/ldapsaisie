@@ -82,7 +82,7 @@ if($LSsession -> startLSsession()) {
             if (is_array($object -> config['relations'])) {
               $LSrelations=array();
               foreach($object -> config['relations'] as $relationName => $relationConf) {
-                if ($GLOBALS['LSsession'] -> relationCanAccess($object -> getValue('dn'),$relationName)) {
+                if ($GLOBALS['LSsession'] -> relationCanAccess($object -> getValue('dn'),$LSobject,$relationName)) {
                   $return=array(
                     'label' => $relationConf['label'],
                     'LSobject' => $relationConf['LSobject']
@@ -95,7 +95,7 @@ if($LSsession -> startLSsession()) {
                     'objectType' => $object -> getType(),
                     'objectDn' => $object -> getDn(),
                   );
-                  if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$relationName)) {
+                  if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$LSobject,$relationName)) {
                     $return['actions'][] = array(
                       'label' => _('Modifier'),
                       'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1',

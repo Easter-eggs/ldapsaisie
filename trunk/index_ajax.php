@@ -124,7 +124,7 @@ if (!isset($_ERRORS)) {
                 if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
                   $relationConf = $object->config['relations'][$conf['relationName']];
                   if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
-                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
+                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                       if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
                         $objRel = new $relationConf['LSobject']();
                         $list = $objRel -> $relationConf['list_function']($object);
@@ -173,7 +173,7 @@ if (!isset($_ERRORS)) {
                 if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
                   $relationConf = $object->config['relations'][$conf['relationName']];
                   if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
-                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
+                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                       if (is_array($_SESSION['LSselect'][$relationConf['LSobject']])) {
                         if (method_exists($relationConf['LSobject'],$relationConf['update_function'])) {
                           $objRel = new $relationConf['LSobject']();
@@ -233,7 +233,7 @@ if (!isset($_ERRORS)) {
                 if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
                   $relationConf = $object->config['relations'][$conf['relationName']];
                   if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
-                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$conf['relationName'])) {
+                    if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                       if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
                         $objRel = new $relationConf['LSobject']();
                         $list = $objRel -> $relationConf['list_function']($object);

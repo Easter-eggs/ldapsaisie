@@ -1243,13 +1243,13 @@ class LSsession {
    * Retourne le droit de l'utilisateur Ã  gÃ©rer la relation d'objet
    * 
    * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
+   * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $relationName Le nom de la relation avec l'objet
    * @param[in] string $right Le type de droit a vÃ©rifier ('r' ou 'w')
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
-  function relationCanAccess($dn,$relationName,$right=NULL) {
-    $LSobject=$this -> LSuserObject -> getType();
+  function relationCanAccess($dn,$LSobject,$relationName,$right=NULL) {
     if (!isset($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]))
       return;
     $whoami = $this -> whoami($dn);
@@ -1271,12 +1271,13 @@ class LSsession {
    * Retourne le droit de l'utilisateur Ã  modifier la relation d'objet
    * 
    * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
+   * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $relationName Le nom de la relation avec l'objet
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */  
-  function relationCanEdit($dn,$relationName) {
-    return $this -> relationCanAccess($dn,$relationName,'w');
+  function relationCanEdit($dn,$LSobject,$relationName) {
+    return $this -> relationCanAccess($dn,$LSobject,$relationName,'w');
   }
 
   /**
