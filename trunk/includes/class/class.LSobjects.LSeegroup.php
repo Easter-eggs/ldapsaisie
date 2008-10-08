@@ -51,12 +51,12 @@ class LSeegroup extends LSldapObject {
   /**
    * Retourne la liste des groupes pour utilisateur
    * 
-   * Retourne un tableau de LSinhaGroup correspondant aux groupes
+   * Retourne un tableau de LSeegroup correspondant aux groupes
    * auxquels appartient un utilisateur
    * 
    * @param[in] $userObject Un object user (type : $this -> userObjectType)
    * 
-   * @retval Array of LSinhaGroup Les groupes de l'utilisateur
+   * @retval Array of LSeegroup Les groupes de l'utilisateur
    **/
   function listUserGroups($userObject) {
     return $this -> listObjectsInRelation($userObject,$this -> memberAttr,$this -> userObjectType);
