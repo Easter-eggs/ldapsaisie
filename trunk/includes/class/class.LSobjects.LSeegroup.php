@@ -28,6 +28,7 @@
 class LSeegroup extends LSldapObject {
 
   var $userObjectType = 'LSeepeople';
+  var $memberAttr = 'uniqueMember';
 
   /**
    * Constructeur
@@ -46,21 +47,19 @@ class LSeegroup extends LSldapObject {
     $this -> LSldapObject('LSeegroup',$config);
   }
 
+  /* ========== Members ========== */
   /**
-   * Retourne la liste des groupes d'un utilisateur
+   * Retourne la liste des groupes pour utilisateur
    * 
-   * Retourne un tableau de LSeegroup correspondant aux groupes
+   * Retourne un tableau de LSinhaGroup correspondant aux groupes
    * auxquels appartient un utilisateur
    * 
    * @param[in] $userObject Un object user (type : $this -> userObjectType)
    * 
-   * @retval Array of LSeegroup Les groupes de l'utilisateur
+   * @retval Array of LSinhaGroup Les groupes de l'utilisateur
    **/
   function listUserGroups($userObject) {
-    $dn = $userObject -> getDn();
-    $filter = $this -> getObjectFilter();
-    $filter = '(&'.$filter.'(uniqueMember='.$dn.'))';
-    return $this -> listObjects($filter,$GLOBALS['LSsession'] -> ldapServer['ldap_config']['basedn'],array('scope' => 'sub'));
+    return $this -> listObjectsInRelation($userObject,$this -> memberAttr,$this -> userObjectType);
   }
 
   /**
@@ -71,24 +70,7 @@ class LSeegroup extends LSldapObject {
    * @retval boolean true si l'utilisateur à été ajouté, False sinon
    **/  
   function addOneMember($object) {
-    if ($object instanceof $this -> userObjectType) {
-      if ($this -> attrs['uniqueMember'] instanceof LSattribute) {
-        $dn = $object -> getDn();
-        $values = $this -> attrs['uniqueMember'] -> getValue();
-        if (!is_array($values)) {
-          $updateData = array($dn);
-        }
-        else if (!in_array($dn,$values)) {
-          $values[]=$dn;
-          $updateData = $values;
-        }
-        if (isset($updateData)) {
-          return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array('uniqueMember' => $updateData));
-        }
-        return true;
-      }
-    }
-    return;
+    return $this -> addOneObjectInRelation($object,$this -> memberAttr, $this -> userObjectType);
   }
   
   /**
@@ -99,29 +81,11 @@ class LSeegroup extends LSldapObject {
    * @retval boolean true si l'utilisateur à été supprimé, False sinon
    **/  
   function deleteOneMember($object) {
-    if ($object instanceof $this -> userObjectType) {
-      if ($this -> attrs['uniqueMember'] instanceof LSattribute) {
-        $dn = $object -> getDn();
-        $values = $this -> attrs['uniqueMember'] -> getValue();
-        if ((!is_array($values)) && (!empty($values))) {
-          $values = array($values);
-        }
-        if (is_array($values)) {
-          $updateData=array();
-          foreach($values as $value) {
-            if ($value!=$dn) {
-              $updateData[]=$value;
-            }
-          }
-          return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array('uniqueMember' => $updateData));
-        }
-      }
-    }
-    return;
+    return $this -> deleteOneObjectInRelation($object,$this -> memberAttr,$this -> userObjectType);
   }
   
  /**
-  * Renome un utilisateur
+  * Renome un utilisateur du groupe
   * 
   * @param[in] $object Un object (type : $this -> userObjectType) : l'utilisateur à renomer
   * @param[in] $oldDn string L'ancien DN de l'utilisateur
@@ -129,98 +93,19 @@ class LSeegroup extends LSldapObject {
   * @retval boolean True en cas de succès, False sinon
   */
   function renameOneMember($object,$oldDn) {
-    if ($object instanceof $this -> userObjectType) {
-      if ($this -> attrs['uniqueMember'] instanceof LSattribute) {
-        $values = $this -> attrs['uniqueMember'] -> getValue();
-        if ((!is_array($values)) && (!empty($values))) {
-          $values = array($values);
-        }
-        if (is_array($values)) {
-          $updateData=array();
-          foreach($values as $value) {
-            if ($value!=$oldDn) {
-              $updateData[] = $value;
-            }
-            else {
-              $updateData[] = $object-> getDn();
-            }
-          }
-          return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array('uniqueMember' => $updateData));
-        }
-      }
-    }
-    return;
+    return $this -> renameOneObjectInRelation($object,$oldDn,$this -> memberAttr,$this -> userObjectType);
   }
   
   /**
    * Met à jour les groupes d'un utilisateur
    * 
-   * @param[in] $userObject Mixed Un object (type : $this -> userObjectType) : l'utilisateur
+   * @param[in] $object Mixed Un object (type : $this -> userObjectType) : l'utilisateur
    * @param[in] $listDns Array(string) Un tableau des DNs des groupes de l'utilisateur
    * 
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
-  function updateUserGroups($userObject,$listDns) {
-    $currentGroups = $this -> listUserGroups($userObject);
-    $type=$this -> getType();
-    if(is_array($currentGroups)) {
-      if (is_array($listDns)) {
-        $dontDelete=array();
-        $dontAdd=array();
-        for ($i=0;$i<count($currentGroups);$i++) {
-          $dn = $currentGroups[$i] -> getDn();
-          if (in_array($dn, $listDns)) {
-            $dontDelete[$i]=true;
-            $dontAdd[]=$dn;
-          }
-        }
-        
-        for($i=0;$i<count($currentGroups);$i++) {
-          if ($dontDelete[$i]) {
-            continue;
-          }
-          else {
-            if (!$currentGroups[$i] -> deleteOneMember($userObject)) {
-              return;
-            }
-          }
-        }
-        
-        foreach($listDns as $dn) {
-          if (in_array($dn,$dontAdd)) {
-            continue;
-          }
-          else {
-            $object = new $type();
-            if ($object -> loadData($dn)) {
-              if (!$object -> addOneMember($userObject)) {
-                return;
-              }
-            }
-            else {
-              return;
-            }
-          }
-        }
-        return true;
-      }
-    }
-    else {
-      if(!is_array($listDns)) {
-        return true;
-      }
-      foreach($listDns as $dn) {
-        $object = new $type();
-        if ($object -> loadData($dn)) {
-          if (!$object -> addOneMember($userObject)) {
-            return;
-          }
-        }
-        else {
-          return;
-        }
-      }
-    }
+  function updateUserGroups($object,$listDns) {
+    return $this -> updateObjectsInRelation($object,$listDns,$this -> memberAttr,$this -> userObjectType);
   }
 }
 
