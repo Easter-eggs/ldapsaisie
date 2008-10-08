@@ -326,6 +326,10 @@ $GLOBALS['LSerror_code'] = array (
   1020 => array (
     'msg' => _("LSsession : Erreur durant la rÃ©cupÃ©ration de votre mot de passe. Contactez l'administrateur du systÃ¨me."),
     'level' => 'c'
+  ),
+  1021 => array (
+    'msg' => _("LSrelation : Des paramètres sont manquants dans l'invocation des méthodes de manipulations de relations standarts (Méthode : %{meth})."),
+    'level' => 'c'
   )
 );
 ?>
