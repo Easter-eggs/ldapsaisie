@@ -47,6 +47,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   'relations' => array(
     'groups' => array(
       'label' => _('Appartient aux groupes...'),
+      'emptyText' => _("N'appartient à aucun groupe."),
       'LSobject' => 'LSeegroup',
       'list_function' => 'listUserGroups',
       'update_function' => 'updateUserGroups',
