@@ -81,6 +81,7 @@ if($LSsession -> startLSsession()) {
             // Relations
             if (is_array($object -> config['relations'])) {
               $LSrelations=array();
+              $LSrelations_JSparams=array();
               foreach($object -> config['relations'] as $relationName => $relationConf) {
                 if ($GLOBALS['LSsession'] -> relationCanAccess($object -> getValue('dn'),$LSobject,$relationName)) {
                   $return=array(
@@ -88,8 +89,18 @@ if($LSsession -> startLSsession()) {
                     'LSobject' => $relationConf['LSobject']
                   );
                   
+                  if (isset($relationConf['emptyText'])) {
+                    $return['emptyText'] = $relationConf['emptyText'];
+                  }
+                  else {
+                    $return['emptyText'] = _('Aucun objet en relation.');
+                  }
+                  
                   $id=rand();
                   $return['id']=$id;
+                  $LSrelations_JSparams[$id]=array(
+                    'emptyText' => $return['emptyText']
+                  );
                   $_SESSION['LSrelation'][$id] = array(
                     'relationName' => $relationName,
                     'objectType' => $object -> getType(),
@@ -137,9 +148,11 @@ if($LSsession -> startLSsession()) {
                   }
                 }
               }
+              
               $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
               $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
               $GLOBALS['Smarty'] -> assign('LSrelations',$LSrelations);
+              $GLOBALS['LSsession'] -> addJSconfigParam('LSrelations',$LSrelations_JSparams);
             }
             
             $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);

@@ -1,4 +1,4 @@
-<h1 id='LSrelation_title_{$item.id}'>{$item.label}</h1>
+<h1 id='LSrelation_title_{$item.id}' class='LSrelation'>{$item.label}</h1>
 {if $item.actions!=''}
   <ul class='LSview-actions'>
   {foreach from=$item.actions item=action}
@@ -8,6 +8,8 @@
 {/if}
 <ul id='LSrelation_ul_{$item.id}' class='LSrelation'>
 {foreach from=$item.objectList item=object}
-    <li class='LSrelation'><a href='view.php?LSobject={$item.LSobject}&amp;dn={$object.dn}' class='LSrelation'><span id='{$object.dn}'>{$object.text}</span></a></li>
+  <li class='LSrelation'><a href='view.php?LSobject={$item.LSobject}&amp;dn={$object.dn}' class='LSrelation' id='{$object.dn}'>{$object.text}</a></li>
+{foreachelse}
+  <li class='LSrelation'>{$item.emptyText}</li>
 {/foreach}
 </ul>

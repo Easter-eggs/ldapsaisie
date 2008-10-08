@@ -180,13 +180,18 @@ if (!isset($_ERRORS)) {
                           if($objRel -> $relationConf['update_function']($object,$_SESSION['LSselect'][$relationConf['LSobject']])) {
                             if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
                               $list = $objRel -> $relationConf['list_function']($object);
-                              if (is_array($list)) {
+                              if (is_array($list)&&(!empty($list))) {
                                 foreach($list as $o) {
-                                  $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".$o -> getDn()."' class='LSrelation'><span id='".$o -> getDn()."'>".$o -> getDisplayValue(NULL,true)."</span></li>\n";
+                                  $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".$o -> getDn()."' class='LSrelation' id='".$o -> getDn()."'>".$o -> getDisplayValue(NULL,true)."</a></li>\n";
                                 }
                               }
                               else {
-                                $data['html'] = "<li>"._('Liste vide.')."</li>\n";
+                                if (isset($relationConf['emptyText'])) {
+                                  $data['html'] = "<li>".$relationConf['emptyText']."</li>\n";
+                                }
+                                else {
+                                  $data['html'] = "<li>"._('Aucun objet en relation.')."</li>\n";
+                                }
                               }
                               $data['id'] = $_REQUEST['id'];
                             }

@@ -19,24 +19,23 @@ var LSrelation = new Class({
         el.destroy();
       }, this);
       this.deleteBtnId = 0;
-      $$('li.LSrelation').each(function(li) {
+      $$('a.LSrelation').each(function(a) {
         this.deleteBtn[this.deleteBtnId] = new Element('img');
         this.deleteBtn[this.deleteBtnId].src = 'templates/images/delete.png';
         this.deleteBtn[this.deleteBtnId].setStyle('cursor','pointer');
         this.deleteBtn[this.deleteBtnId].addClass('LSrelation-btn');
         this.deleteBtn[this.deleteBtnId].addEvent('click',this.onDeleteBtnClick.bind(this,this.deleteBtn[this.deleteBtnId]));
-        this.deleteBtn[this.deleteBtnId].injectInside(li);
-        li.id=this.deleteBtnId;
+        this.deleteBtn[this.deleteBtnId].injectAfter(a);
+        a.getParent().id=this.deleteBtnId;
         this.deleteBtnId++;
       }, this);
     },
     
     onDeleteBtnClick: function(img) {
       if (this._confirmDelete) {
-        var li = img.getParent();
-        var span = li.getFirst().getFirst('span');
+        var a = img.getPrevious('a');
         this.confirmBox = new LSconfirmBox({
-          text:         'Etês-vous sur de vouloir supprimer "'+span.innerHTML+'" ?', 
+          text:         'Etês-vous sur de vouloir supprimer "'+a.innerHTML+'" ?', 
           startElement: img,
           onConfirm:    this.deleteFromImg.bind(this,img)
         });
@@ -48,7 +47,7 @@ var LSrelation = new Class({
     
     deleteFromImg: function(img) {
       var li = img.getParent();
-      var span = li.getFirst().getFirst('span');
+      var a = img.getPrevious('a');
       var ul = li.getParent();
       img.destroy();
       LSdebug(ul.id);
@@ -59,9 +58,9 @@ var LSrelation = new Class({
         template:   'LSrelation',
         action:     'deleteByDn',
         id:         id,
-        dn:         span.id
+        dn:         a.id
       };
-      data.imgload=varLSdefault.loadingImgDisplay(li.id,'inside');
+      data.imgload=varLSdefault.loadingImgDisplay(li,'inside');
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.deleteFromImgComplete.bind(this)}).send();
     },
     
@@ -69,7 +68,18 @@ var LSrelation = new Class({
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         try  {
-          $(data.dn).getParent().getParent().destroy();
+          var li = $(data.dn).getParent();
+          var ul=$(data.dn).getParent().getParent();
+          li.destroy();
+          if (!$type(ul.getFirst())) {
+            var getId = /LSrelation_ul_([0-9]*)/
+            var id = getId.exec(ul.id)[1];
+            
+            var newli = new Element('li');
+            newli.addClass('LSrelation');
+            newli.set('html',varLSdefault.LSjsConfig['LSrelations'][id]['emptyText']);
+            newli.injectInside(ul);
+          }
         }
         catch(e) {
           LSdebug('Erreur durant la suppression du li du DN : '+data.dn);
