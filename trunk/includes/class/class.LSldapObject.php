@@ -1242,8 +1242,8 @@ class LSldapObject {
    * 
    * Retourne un tableau de d'objet (type : $objectType) correspondant à la 
    * relation entre l'objet $object et les objets de type $objectType. Cette relation
-   * est établis par la présence du DN de l'objet dans l'attribut des objets de type
-   * $objectType.
+   * est établis par la présence de la valeur de référence à l'objet dans 
+   * l'attribut des objets de type $objectType.
    * 
    * @param[in] $object Un object de type $objectType
    * @param[in] $attr L'attribut dans lequel l'objet doit apparaitre
@@ -1436,7 +1436,7 @@ class LSldapObject {
       $GLOBALS['LSerror'] -> addErrorCode(1021,'updateObjectsInRelation');
       return;
     }
-    $currentObjects = $this -> listObjectsInRelation($object,$attr,$objectType);
+    $currentObjects = $this -> listObjectsInRelation($object,$attr,$objectType,$attrValue);
     $type=$this -> getType();
     if(is_array($currentObjects)) {
       if (is_array($listDns)) {
@@ -1475,7 +1475,7 @@ class LSldapObject {
             continue;
           }
           else {
-            if (!$currentObjects[$i] -> deleteOneObjectInRelation($object,$attr,$objectType)) {
+            if (!$currentObjects[$i] -> deleteOneObjectInRelation($object,$attr,$objectType,$attrValue)) {
               return;
             }
           }
@@ -1488,7 +1488,7 @@ class LSldapObject {
           else {
             $obj = new $type();
             if ($obj -> loadData($dn)) {
-              if (!$obj -> addOneObjectInRelation($object,$attr,$objectType)) {
+              if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue)) {
                 return;
               }
             }
@@ -1507,7 +1507,7 @@ class LSldapObject {
       foreach($listDns as $dn) {
         $obj = new $type();
         if ($obj -> loadData($dn)) {
-          if (!$obj -> addOneObjectInRelation($object,$attr,$objectType)) {
+          if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue)) {
             return;
           }
         }
