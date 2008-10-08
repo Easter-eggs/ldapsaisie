@@ -1248,18 +1248,30 @@ class LSldapObject {
    * @param[in] $object Un object de type $objectType
    * @param[in] $attr L'attribut dans lequel l'objet doit apparaitre
    * @param[in] $objectType Le type d'objet en relation
+   * @param[in] $value La valeur que doit avoir l'attribut :
+   *                      - soit le dn (par defaut)
+   *                      - soit la valeur [0] d'un attribut
    * 
    * @retval Array of $objectType Les objets en relations
    **/
-  function listObjectsInRelation($object,$attr,$objectType) {
+  function listObjectsInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       $GLOBALS['LSerror'] -> addErrorCode(1021,'listObjectsInRelation');
       return;
     }
-    $dn = $object -> getDn();
-    $filter = $this -> getObjectFilter();
-    $filter = '(&'.$filter.'('.$attr.'='.$dn.'))';
-    return $this -> listObjects($filter,$GLOBALS['LSsession'] -> ldapServer['ldap_config']['basedn'],array('scope' => 'sub'));
+    if ($attrValue=='dn') {
+      $val = $object -> getDn();
+    }
+    else {
+      $val = $object -> getValue($attrValue);
+      $val = $val[0];
+    }
+    if ($val) {
+      $filter = $this -> getObjectFilter();
+      $filter = '(&'.$filter.'('.$attr.'='.$val.'))';
+      return $this -> listObjects($filter,$GLOBALS['LSsession'] -> ldapServer['ldap_config']['basedn'],array('scope' => 'sub'));
+    }
+    return;
   }
 
   /**
@@ -1268,24 +1280,40 @@ class LSldapObject {
    * @param[in] $object Un objet de type $objectType à ajouter
    * @param[in] $attr L'attribut dans lequel l'objet doit être ajouté
    * @param[in] $objectType Le type d'objet en relation
+   * @param[in] $attrValue La valeur que doit avoir l'attribut :
+   *                      - soit le dn (par defaut)
+   *                      - soit la valeur [0] d'un attribut
    * 
    * @retval boolean true si l'objet à été ajouté, False sinon
    **/  
-  function addOneObjectInRelation($object,$attr,$objectType) {
+  function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       $GLOBALS['LSerror'] -> addErrorCode(1021,'addOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
       if ($this -> attrs[$attr] instanceof LSattribute) {
-        $dn = $object -> getDn();
-        $values = $this -> attrs[$attr] -> getValue();
-        if (!is_array($values)) {
-          $updateData = array($dn);
+        if ($attrValue=='dn') {
+          $val = $object -> getDn();
         }
-        else if (!in_array($dn,$values)) {
-          $values[]=$dn;
-          $updateData = $values;
+        else {
+          $val = $object -> getValue($attrValue);
+          $val = $val[0];
+        }
+        $values = $this -> attrs[$attr] -> getValue();
+        if ($this -> attrs[$attr] -> config['multiple']) {
+          if (!is_array($values)) {
+            $updateData = array($val);
+          }
+          else if (!in_array($val,$values)) {
+            $values[]=$val;
+            $updateData = $values;
+          }
+        }
+        else {
+          if (($values[0]!=$val)&&($values!=$val)) {
+            $updateData = array($val);
+          }
         }
         if (isset($updateData)) {
           return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array($attr => $updateData));
@@ -1302,17 +1330,26 @@ class LSldapObject {
    * @param[in] $object Un objet de type $objectType à supprimer
    * @param[in] $attr L'attribut dans lequel l'objet doit être supprimé
    * @param[in] $objectType Le type d'objet en relation
+   * @param[in] $attrValue La valeur que doit avoir l'attribut :
+   *                      - soit le dn (par defaut)
+   *                      - soit la valeur [0] d'un attribut
    * 
    * @retval boolean true si l'objet à été supprimé, False sinon
    **/  
-  function deleteOneObjectInRelation($object,$attr,$objectType) {
+  function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       $GLOBALS['LSerror'] -> addErrorCode(1021,'deleteOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
       if ($this -> attrs[$attr] instanceof LSattribute) {
-        $dn = $object -> getDn();
+        if ($attrValue=='dn') {
+          $val = $object -> getDn();
+        }
+        else {
+          $val = $object -> getValue($attrValue);
+          $val = $val[0];
+        }
         $values = $this -> attrs[$attr] -> getValue();
         if ((!is_array($values)) && (!empty($values))) {
           $values = array($values);
@@ -1320,7 +1357,7 @@ class LSldapObject {
         if (is_array($values)) {
           $updateData=array();
           foreach($values as $value) {
-            if ($value!=$dn) {
+            if ($value!=$val) {
               $updateData[]=$value;
             }
           }
@@ -1335,13 +1372,16 @@ class LSldapObject {
   * Renome un objet en relation dans l'attribut $attr de $this
   * 
   * @param[in] $object Un objet de type $objectType à renomer
-  * @param[in] $oldDn string L'ancien DN de l'objet
+  * @param[in] $oldValue string L'ancienne valeur faisant référence à l'objet
   * @param[in] $attr L'attribut dans lequel l'objet doit être supprimé
   * @param[in] $objectType Le type d'objet en relation
+  * @param[in] $attrValue La valeur que doit avoir l'attribut :
+  *                      - soit le dn (par defaut)
+  *                      - soit la valeur [0] d'un attribut
   *  
   * @retval boolean True en cas de succès, False sinon
   */
-  function renameOneObjectInRelation($object,$oldDn,$attr,$objectType) {
+  function renameOneObjectInRelation($object,$oldValue,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       $GLOBALS['LSerror'] -> addErrorCode(1021,'renameOneObjectInRelation');
       return;
@@ -1355,11 +1395,18 @@ class LSldapObject {
         if (is_array($values)) {
           $updateData=array();
           foreach($values as $value) {
-            if ($value!=$oldDn) {
+            if ($value!=$oldValue) {
               $updateData[] = $value;
             }
             else {
-              $updateData[] = $object-> getDn();
+              if ($attrValue=='dn') {
+                $val = $object -> getDn();
+              }
+              else {
+                $val = $object -> getValue($attrValue);
+                $val = $val[0];
+              }
+              $updateData[] = $val;
             }
           }
           return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array($attr => $updateData));
@@ -1375,12 +1422,16 @@ class LSldapObject {
    * en relation
    * 
    * @param[in] $object Mixed Un object (type : $this -> userObjectType) : l'utilisateur
-   * @param[in] $listDns Array(string) Un tableau des DNs des groupes de l'utilisateur
+   * @param[in] $listDns Array(string) Un tableau des DNs des objets en relation
    * @param[in] $attr L'attribut dans lequel l'utilisateur doit apparaitre
+   * @param[in] $objectType Le type d'objet en relation
+   * @param[in] $attrValue La valeur que doit avoir l'attribut :
+   *                      - soit le dn (par defaut)
+   *                      - soit la valeur [0] d'un attribut
    * 
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
-  function updateObjectsInRelation($object,$listDns,$attr,$objectType) {
+  function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       $GLOBALS['LSerror'] -> addErrorCode(1021,'updateObjectsInRelation');
       return;
@@ -1389,13 +1440,33 @@ class LSldapObject {
     $type=$this -> getType();
     if(is_array($currentObjects)) {
       if (is_array($listDns)) {
+        $values=array();
+        if ($attrValue!='dn') {
+          $obj=new $objectType();
+          foreach ($listDns as $dn) {
+            $obj -> loadData($dn);
+            $val = $obj -> getValue($attrValue);
+            $values[$dn] = $val[0];
+          }
+        }
+        else {
+          foreach($listDns as $dn) {
+            $values[$dn] = $dn;
+          }
+        }
         $dontDelete=array();
         $dontAdd=array();
         for ($i=0;$i<count($currentObjects);$i++) {
-          $dn = $currentObjects[$i] -> getDn();
-          if (in_array($dn, $listDns)) {
+          if ($attrValue=='dn') {
+            $val = $currentObjects[$i] -> getDn();
+          }
+          else {
+            $val = $currentObjects[$i] -> getValue($attrValue);
+            $val = $val[0];
+          }
+          if (in_array($val, $listDns)) {
             $dontDelete[$i]=true;
-            $dontAdd[]=$dn;
+            $dontAdd[]=$val;
           }
         }
         
@@ -1410,8 +1481,8 @@ class LSldapObject {
           }
         }
         
-        foreach($listDns as $dn) {
-          if (in_array($dn,$dontAdd)) {
+        foreach($values as $dn => $val) {
+          if (in_array($val,$dontAdd)) {
             continue;
           }
           else {
