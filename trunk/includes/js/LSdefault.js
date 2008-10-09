@@ -119,10 +119,10 @@ var LSdefault = new Class({
       this.loading_img_id++;
       this.loading_img[this.loading_img_id] = new Element('img');
       if (size=='big') {
-        var src = 'templates/images/loading.gif';
+        var src = this.imagePath('loading.gif');
       }
       else {
-        var src = 'templates/images/ajax-loader.gif';
+        var src = this.imagePath('ajax-loader.gif');
       }
       this.loading_img[this.loading_img_id].src=src;
       if (position=='inside') {

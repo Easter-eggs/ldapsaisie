@@ -529,6 +529,7 @@ class LSldapObject {
             if (!$GLOBALS['LSldap'] -> move($oldDn,$newDn)) {
               return;
             }
+            $this -> dn = $newDn;
             if (!$this -> afterRename($oldDn,$newDn)) {
               $GLOBALS['LSerror'] -> addErrorCode(37);
               return;
@@ -1039,10 +1040,16 @@ class LSldapObject {
         if ( isset($relation_conf['list_function']) ) {
           if ($GLOBALS['LSsession'] -> loadLSobject($relation_conf['LSobject'])) {
             $obj = new $relation_conf['LSobject']();
-            if (method_exists($obj,$relation_conf['list_function'])) {
+            if ((method_exists($obj,$relation_conf['list_function']))&&(method_exists($obj,$relation_conf['getkeyvalue_function']))) {
               $list = $obj -> $relation_conf['list_function']($this);
               if (is_array($list)) {
-                $this -> _relationsCache[$relation_name] = $list; 
+                // Key Value
+                $key = $obj -> $relation_conf['getkeyvalue_function']($this);
+                
+                $this -> _relationsCache[$relation_name] = array(
+                  'list' => $list,
+                  'keyvalue' => $key
+                );
               }
               else {
                 return;
@@ -1092,12 +1099,12 @@ class LSldapObject {
       $GLOBALS['LSsession'] -> changeAuthUser($this);
     }
     
-    foreach($this -> _relationsCache as $relation_name => $objList) {
-      if (isset($this->config['relations'][$relation_name]['rename_function'])) {
-        foreach($objList as $obj) {
+    foreach($this -> _relationsCache as $relation_name => $objInfos) {
+      if ((isset($this->config['relations'][$relation_name]['rename_function']))&&(is_array($objInfos['list']))) {
+        foreach($objInfos['list'] as $obj) {
           $meth = $this->config['relations'][$relation_name]['rename_function'];
           if (method_exists($obj,$meth)) {
-            if (!($obj -> $meth($this,$oldDn))) {
+            if (!($obj -> $meth($this,$objInfos['keyvalue']))) {
               $error=1;
             }
           }
@@ -1134,9 +1141,9 @@ class LSldapObject {
    */
   function afterDelete() {
     $error = 0;
-    foreach($this -> _relationsCache as $relation_name => $objList) {
-      if (isset($this->config['relations'][$relation_name]['remove_function'])) {
-        foreach($objList as $obj) {
+    foreach($this -> _relationsCache as $relation_name => $objInfos) {
+      if ((isset($this->config['relations'][$relation_name]['remove_function']))&&(is_array($objInfos['list']))) {
+        foreach($objInfos['list'] as $obj) {
           $meth = $this->config['relations'][$relation_name]['remove_function'];
           if (method_exists($obj,$meth)) {
             if (!($obj -> $meth($this))) {
@@ -1234,6 +1241,33 @@ class LSldapObject {
     }
     
     return !$error;
+  }
+  
+  /**
+   * Retourne la valeur clef d'un objet en relation
+   * 
+   * @param[in] $object Un object de type $objectType
+   * @param[in] $attr L'attribut dans lequel l'objet doit apparaitre
+   * @param[in] $objectType Le type d'objet en relation
+   * @param[in] $value La valeur que doit avoir l'attribut :
+   *                      - soit le dn (par defaut)
+   *                      - soit la valeur [0] d'un attribut
+   * 
+   * @retval Mixed La valeur clef d'un objet en relation
+   **/
+  function getObjectKeyValueInRelation($object,$attr,$objectType,$attrValue='dn') {
+    if ((!$attr)||(!$objectType)) {
+      $GLOBALS['LSerror'] -> addErrorCode(1021,'getObjectKeyValueInRelation');
+      return;
+    }
+    if ($attrValue=='dn') {
+      $val = $object -> getDn();
+    }
+    else {
+      $val = $object -> getValue($attrValue);
+      $val = $val[0];
+    }
+    return $val;
   }
   
   /**

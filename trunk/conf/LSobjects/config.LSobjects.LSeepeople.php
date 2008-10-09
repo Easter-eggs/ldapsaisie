@@ -50,6 +50,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'emptyText' => _("N'appartient à aucun groupe."),
       'LSobject' => 'LSeegroup',
       'list_function' => 'listUserGroups',
+      'getkeyvalue_function' => 'getMemberKeyValue',
       'update_function' => 'updateUserGroups',
       'remove_function' => 'deleteOneMember',
       'rename_function' => 'renameOneMember',

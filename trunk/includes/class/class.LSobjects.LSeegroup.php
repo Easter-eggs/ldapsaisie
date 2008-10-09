@@ -49,6 +49,17 @@ class LSeegroup extends LSldapObject {
 
   /* ========== Members ========== */
   /**
+   * Retourne la valeur clef d'un membre
+   * 
+   * @param[in] $object Un object utilisateur
+   * 
+   * @retval Mixed La valeur clef d'un membre
+   **/
+  function getMemberKeyValue($object) {
+    return $this -> getObjectKeyValueInRelation($object,$this -> memberAttr,$this -> userObjectType);
+  }
+  
+  /**
    * Retourne la liste des groupes pour utilisateur
    * 
    * Retourne un tableau de LSeegroup correspondant aux groupes

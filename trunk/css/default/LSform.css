@@ -43,7 +43,7 @@ ul.LSform li {
  * Champs du formulaire
  */
 .LSform input[type=text], .LSform input[type=file], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea {
-  border:                     1px solid #84ff6a;
+  border:                     1px solid #ccc;
   width:                      300px;
   background-color:           #b5e4f6;
 }
