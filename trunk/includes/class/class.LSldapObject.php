@@ -1036,15 +1036,18 @@ class LSldapObject {
   function updateRelationsCache() {
     $this -> _relationsCache=array();
     if (is_array($this->config['relations'])) {
+      $type = $this -> getType();
+      $me = new $type();
+      $me -> loadData($this -> getDn());
       foreach($this->config['relations'] as $relation_name => $relation_conf) {
         if ( isset($relation_conf['list_function']) ) {
           if ($GLOBALS['LSsession'] -> loadLSobject($relation_conf['LSobject'])) {
             $obj = new $relation_conf['LSobject']();
             if ((method_exists($obj,$relation_conf['list_function']))&&(method_exists($obj,$relation_conf['getkeyvalue_function']))) {
-              $list = $obj -> $relation_conf['list_function']($this);
+              $list = $obj -> $relation_conf['list_function']($me);
               if (is_array($list)) {
                 // Key Value
-                $key = $obj -> $relation_conf['getkeyvalue_function']($this);
+                $key = $obj -> $relation_conf['getkeyvalue_function']($me);
                 
                 $this -> _relationsCache[$relation_name] = array(
                   'list' => $list,
