@@ -1,0 +1,95 @@
+/*
+ ******************
+ * LSForm
+ ******************
+ */
+ 
+/*
+ * Architecture
+ */ 
+dl.LSform {
+  margin:                     0;
+  margin-left:                2em;
+  padding:                    0;
+}
+
+.LSform dt {
+  position:                   relative;
+  left:                       0.2em;
+  top:                        1.2em;
+  width:                      15em;
+  font-weight:                bold;
+  font-size:                  0.9em;
+  color:                      #433f3a;
+}
+
+dd.LSform {
+  margin-left:                15em;
+  padding:                    0;
+}
+
+ul.LSform {
+  list-style-type:            none;
+  padding:                    0;
+  margin:                     0;
+}
+
+ul.LSform li {
+  overflow:                   auto;
+  margin-bottom:              2px;
+}
+
+/*
+ * Champs du formulaire
+ */
+.LSform input[type=text], .LSform input[type=file], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea {
+  border:                     1px solid #cac9c4;
+  width:                      300px;
+  background-color:           #dedede;
+}
+
+.LSform input[type=radio] {
+  width:                      undefinded;
+}
+
+input[type='submit'].LSform {
+  border:                     1px outset #cac9c4;
+  margin-top:                 1em;
+  margin-left:                6em;
+  width:                      8em;
+}
+
+dd.LSform-errors {
+  color:                      #fff;
+  background-color:           #f59a67;
+  width:                      302px;
+}
+
+dt.LSform-errors {
+  color:                      #f59a67;
+}
+
+/* Bouton JS */
+img.LSform-add-field-btn, img.LSform-remove-field-btn {
+  cursor:                     pointer;
+}
+
+/* Tips */
+.tip-top {
+  color: #fff;
+  width: 139px;
+  z-index: 13000;
+}
+ 
+.tip-title {
+  font-weight:      bold;
+  font-size:        11px;
+  margin:           0;
+  color:            #dedede;
+  padding:          2px;
+  background:       #33302b;
+  opacity:          0.8;
+  -moz-border-radius:   2px;
+  max-width:        500px;
+  text-align:       justify;
+}

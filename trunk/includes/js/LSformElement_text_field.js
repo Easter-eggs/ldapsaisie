@@ -20,7 +20,7 @@ var LSformElement_text_field = new Class({
           // GenerateBtn
           this.generateBtn = new Element('img');
           this.generateBtn.addClass('btn');
-          this.generateBtn.src='templates/images/generate.png';
+          this.generateBtn.src=varLSdefault.imagePath('generate.png');
           this.generateBtn.addEvent('click',this.refreshValue.bind(this));
           this.generateBtn.injectAfter(this.input);
 

@@ -21,7 +21,7 @@ var LSformElement_url = new Class({
     addBtnAfter: function(el) {
       var btn_go = new Element('img');
       btn_go.setProperties({
-        src:    'templates/images/url_go.png',
+        src:    varLSdefault.imagePath('url_go.png'),
         alt:    'Suivre le lien',
         title:  'Suivre le lien'
       });
@@ -31,7 +31,7 @@ var LSformElement_url = new Class({
       
       var btn_fav = new Element('img');
       btn_fav.setProperties({
-        src:    'templates/images/url_add.png',
+        src:    varLSdefault.imagePath('url_add.png'),
         alt:    'Ajouter aux favoris',
         title:  'Ajouter aux favoris'
       });

@@ -21,7 +21,7 @@ var LSformElement_rss = new Class({
     addBtnAfter: function(el) {
       var btn = new Element('img');
       btn.setProperties({
-        src:    'templates/images/rss.png',
+        src:    varLSdefault.imagePath('rss.png'),
         alt:    'File RSS',
         title:  'File RSS'
       });

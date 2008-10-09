@@ -1,0 +1,296 @@
+body {
+  font-family:        sans-serif;
+  margin:             0;
+  padding:            0;
+}
+
+img {
+  vertical-align:     bottom;
+}
+
+a:hover {
+  text-decoration:    underline;
+}
+
+h1 {
+  margin:             0.5em;
+  margin-bottom:      1px;
+  border-bottom:      1px solid #0072b8;
+  color:              #0072b8;
+  clear:              left;
+}
+
+a img {
+  border:             none;
+}
+
+hr {
+  visibility:         hidden;
+  clear:              both;
+  height:             0px;
+}
+
+.btn {
+  cursor:             pointer;
+  margin:             2px;
+}
+
+/*
+ * Interface
+ */
+#main {
+  width:              1000px;
+  margin:             auto;
+  border:             1px solid #52bce5;
+  background:         #fff url(../../images/default/fd_menu.png) repeat-y scroll left top;
+  min-height:         500px;
+}
+
+#left {
+  float:              left;
+  width:              160px;
+}
+
+#right {
+  margin:             0;
+  float:              left;
+  width:              840px;
+}
+
+#logo {
+  margin:             auto;
+  width:              142px;
+  margin-left:        9px;
+}
+
+#status {
+  margin:             0;
+  padding:            0;
+  font-size:          0.7em;
+  color:              #fff;
+  text-align:         right;
+  background-color:   #52bce5;
+  padding:            0.3em;
+}
+
+#user_name {
+  font-weight:        bold;
+}
+
+/*
+ * LSsession
+ */
+#LSsession_topDn {
+  height:                   1.5em;
+  width:                    150px;
+}
+
+#LSsession_topDn_form {
+  width:                    150px;
+  margin:                   5px;
+  color:                    #fff;
+}
+
+/*
+ ******************
+ * Menu
+ ******************
+ */
+ul.menu {
+  list-style-image:   url(../../images/default/puce.png);
+}
+
+li.menu {
+  color:              #fff;
+}
+
+a.menu {
+  color:              #fff;
+  text-decoration:    none;
+}
+
+/*
+ ****************
+ * LSobject-list
+ ****************
+ */
+
+table.LSobject-list {
+  margin-left:        1em;
+  margin-top:         0.5em;
+  border:             1px solid #52bce5;
+  width:              805px;
+  border-collapse:    collapse;
+  clear:              both;
+}
+
+/*
+ * th
+ */
+th.LSobject-list {
+  background-color:   #52bce5;
+  color:              #fff;
+}
+
+a th.LSobject-list {
+  text-decoration:    none;
+}
+
+th.LSobject-list-subdn {
+  width:              15em;
+}
+
+img.LSobject-list-ordersense {
+  vertical-align:     middle;
+}
+
+th.LSobject-list a {
+  color:              #fff;
+  text-decoration:    none;
+}
+
+/*
+ * tr
+ */
+tr.LSobject-list-bis {
+  background-color:   #ecf8fd;
+  background-color:   #bddff1;
+  background-color:   #c1d7e3;
+}
+
+/*
+ * td
+ */
+td.LSobject-list {
+  border:             1px solid #52bce5;
+  padding:            0.1em;
+}
+
+td.LSobject-list-without-result {
+  text-align:         center;
+}
+
+a.LSobject-list {
+  color:              #000;
+  text-decoration:    none;
+}
+
+/* Action */
+a.LSobject-list-actions {
+  color:              #0072b8;
+  text-decoration:    none;
+}
+
+a.LSobject-list-actions:hover {
+  text-decoration:    underline;
+}
+
+td.LSobject-list-actions {
+  text-align:         center;
+  width:              7em;
+}
+
+/* Name */
+td.LSobject-list-names {
+  cursor:             pointer;
+}
+
+/*
+ * Liste des pages
+ */
+p.LSobject-list-page {
+  text-align:         center;
+  margin:             0.5em;
+}
+
+a.LSobject-list-page {
+  color:              #52bce5;
+  text-decoration:    none;
+}
+
+a.LSobject-list-page:hover {
+  color:              #0072b8;
+}
+
+strong.LSobject-list-page {
+  color:              #0072b8;
+}
+
+/*
+ *******************
+ * LSview-actions
+ *******************
+ */
+a.LSview-actions {
+  text-decoration:    none;
+  color:              #000;
+}
+
+ul.LSview-actions {
+  clear:              both;
+  text-align:         right;
+  font-size:          0.8em;
+  margin:             0;
+  margin-top:         0.4em;
+  margin-right:       3em;
+  margin-bottom:      0.8em;
+  color:              #0072b8;
+}
+
+li.LSview-actions {
+  text-decoration:    none;
+  color:              #000;
+  border:             1px solid #0072b8;
+  border-top:         0;
+  padding:            0.4em;
+  display:            inline;
+  margin-right:       1px;
+}
+
+/*
+ *******************
+ * question
+ *******************
+ */
+p.question {
+  margin-left:        3em;
+}
+
+a.question {
+  margin-left:        10em;
+  margin-top:         3em;
+  color:              #0072b8;
+}
+
+/*
+ *********************
+ * LSview_search
+ *********************
+ */
+form.LSview_search {
+  float:              right;
+  margin:             0;
+  margin-top:         0.5em;
+  margin-right:       2em;
+}
+
+#LSview_search_param {
+  margin:             0px;
+  padding:            0px;
+}
+
+label.LSview_search {
+  font-size:          0.6em;
+}
+
+input[type='text'].LSview_search {
+  border:             1px solid #0072b8;
+  width:              12em;
+}
+
+input[type='submit'].LSview_search {
+  border:             1px solid #0072b8;
+  width:              8em;
+  background-color:   #52bce5;
+  color:              #fff;
+}

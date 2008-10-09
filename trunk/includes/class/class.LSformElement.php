@@ -262,7 +262,7 @@ class LSformElement {
    */
   function getMultipleData() {
     if ($this -> params['multiple'] == true ) {
-      return "<img src='templates/images/add.png' id='LSform_add_field_btn_".$this -> name."_".rand()."' class='LSform-add-field-btn' alt='"._('Ajouter')."'/><img src='templates/images/remove.png' class='LSform-remove-field-btn' alt='"._('Supprimer')."'/>";
+      return "<img src='".LS_IMAGES_DIR."/add.png' id='LSform_add_field_btn_".$this -> name."_".rand()."' class='LSform-add-field-btn' alt='"._('Ajouter')."'/><img src='".LS_IMAGES_DIR."/remove.png' class='LSform-remove-field-btn' alt='"._('Supprimer')."'/>";
     }
     else {
       return '';

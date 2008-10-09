@@ -50,7 +50,7 @@ var LSformElement_password = new Class({
       if ( varLSdefault.checkAjaxReturn(data) ) {
         this.changeInputType($(data.fieldId),'text');
         $(data.fieldId).value=data.generatePassword;
-        $(data.viewBtnId).setProperty('src','templates/images/hide.png');
+        $(data.viewBtnId).setProperty('src',varLSdefault.imagePath('hide.png'));
         this.LSformElement_password_generate_inputHistory[data.fieldId]=data.generatePassword;
       }
     },
@@ -69,7 +69,7 @@ var LSformElement_password = new Class({
       var getAttrNameAndId = /LSformElement_password_(.*)_([0-9]*)/
       var attrNameAndId = getAttrNameAndId.exec(input.id);
       var viewBtnId = 'LSformElement_password_view_btn_' + attrNameAndId[1] + '_' + attrNameAndId[2];
-      $(viewBtnId).setProperty('src','templates/images/view.png');
+      $(viewBtnId).setProperty('src',varLSdefault.imagePath('view.png'));
       this.LSformElement_password_generate_inputHistory[input.id]='';
       input.focus();
     },
@@ -84,11 +84,11 @@ var LSformElement_password = new Class({
       
       if (input.type=='password') {
         input = this.changeInputType(input,'text');
-        img.setProperty('src','templates/images/hide.png');
+        img.setProperty('src',varLSdefault.imagePath('hide.png'));
       }
       else {
         input = this.changeInputType(input,'password');
-        img.setProperty('src','templates/images/view.png');
+        img.setProperty('src',varLSdefault.imagePath('view.png'));
       }
       input.focus();
     },

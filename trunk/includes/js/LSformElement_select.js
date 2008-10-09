@@ -7,7 +7,7 @@ var LSformElement_select = new Class({
       $$('select.LSform').each(function(el) {
         var btn = new Element('img');
         btn.setProperties({
-          src:    'templates/images/clear.png',
+          src:    varLSdefault.imagePath('clear.png'),
           alt:    'Reset',
           title:  'Reset'
         });

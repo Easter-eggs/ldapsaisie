@@ -151,6 +151,17 @@ $GLOBALS['LSconfig'] = array(
   )
 );
 
+// Interface
+// Theme Black
+//define('LS_THEME','black');
+//define('LS_TEMPLATES_DIR', 'templates/default');
+
+// Theme Default
+define('LS_THEME','default');
+define('LS_TEMPLATES_DIR', 'templates/'.LS_THEME);
+define('LS_IMAGES_DIR', 'images/'.LS_THEME);
+define('LS_CSS_DIR', 'css/'.LS_THEME);
+
 //Debug
 $GLOBALS['LSdebug']['active'] = true;
 
@@ -174,7 +185,7 @@ define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
 define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
 define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
 define('LS_TMP_DIR', 'tmp/');
-define('LS_CSS_DIR', 'templates/css/');
+
 
 // Javascript
 $GLOBALS['defaultJSscipts']=array(

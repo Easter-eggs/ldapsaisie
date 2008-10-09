@@ -21,7 +21,7 @@ var LSformElement_select_object_field = new Class({
         var btn = new Element('img');
         btn.addClass('btn');
         btn.setProperties({
-          src:    'templates/images/delete.png',
+          src:    varLSdefault.imagePath('delete.png'),
           alt:    this.params.deleteBtns
         });
         btn.addEvent('click',this.LSformElement_select_object_deleteBtn.bind(this,btn));
@@ -53,7 +53,7 @@ var LSformElement_select_object_field = new Class({
     
     addSingleAddBtn: function(insideEl) {
       this.addBtn = new Element('img');
-      this.addBtn.setProperty('src','templates/images/modify.png');
+      this.addBtn.setProperty('src',varLSdefault.imagePath('modify.png'));
       this.addBtn.addClass('btn');
       this.addBtn.addEvent('click',this.onLSformElement_select_object_addBtnClick.bindWithEvent(this));
       this.addBtn.injectInside(insideEl);

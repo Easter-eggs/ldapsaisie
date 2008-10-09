@@ -82,17 +82,17 @@ class LSformElement_password extends LSformElement {
         }
         $class_txt="class='LSformElement_password_generate'";
         $id = "LSformElement_password_generate_btn_".$this -> name."_".$numberId;
-        $autogenerate_html = "<img src='templates/images/generate.png' id='$id' class='LSformElement_password_generate_btn'/>\n";
+        $autogenerate_html = "<img src='".LS_IMAGES_DIR."/generate.png' id='$id' class='LSformElement_password_generate_btn'/>\n";
       }
 
       $id = "LSformElement_password_".$this -> name."_".$numberId;
       $return['html'] = "<input type='$input_type' name='".$this -> name."[]' $value_txt id='$id' $class_txt/>\n";
       $return['html'] .= $autogenerate_html;
       $id = "LSformElement_password_view_btn_".$this -> name."_".$numberId;
-      $return['html'] .= "<img src='templates/images/view.png' id='$id' class='LSformElement_password_view_btn'/>\n";
+      $return['html'] .= "<img src='".LS_IMAGES_DIR."/view.png' id='$id' class='LSformElement_password_view_btn'/>\n";
       if (!$this -> attr_html -> attribute -> ldapObject-> isNew()) {
         $id = "LSformElement_password_verify_btn_".$this -> name."_".$numberId;
-        $return['html'] .= "<img src='templates/images/verify.png' id='$id' class='LSformElement_password_verify_btn' alt=\"".('Vérifier le mot de passe')."\" title=\"".('Vérifier le mot de passe')."\" />\n";
+        $return['html'] .= "<img src='".LS_IMAGES_DIR."/verify.png' id='$id' class='LSformElement_password_verify_btn' alt=\"".('Vérifier le mot de passe')."\" title=\"".('Vérifier le mot de passe')."\" />\n";
       }
       
       if (!empty($this -> values)) {

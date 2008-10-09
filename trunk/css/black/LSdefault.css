@@ -1,0 +1,54 @@
+#LSerror {
+  width:                    50%;
+  position:                 absolute;
+  top:                      10px;
+  left:                     10px;
+  background-color:         #f00;
+  visibility:               hidden;
+  color:                    #fff;
+  z-index:                  100;
+}
+
+#LSerror_txt {
+  display:                  none;
+}
+
+#LSdebug {
+  width:                    50%;
+  position:                 absolute;
+  top:                      10px;
+  left:                     50%;
+  background-color:         #84ff6a;
+  visibility:               hidden;
+  color:                    #fff;
+  z-index:                  100;
+}
+
+#LSdebug_txt {
+  display:                  none;
+}
+
+#LSjsConfig {
+  display:                  none;
+}
+
+#LSdebug_hidden {
+  float:                    right;
+  color:                    #fff;
+  text-decoration:          none;
+  font-weight:              bold;
+  cursor:                   pointer;
+}
+
+#LSinfos {
+  position:                 absolute;
+  width:                    50%;
+  left:                     25%;
+  background-color:         #dedede;
+  border:                   1px solid #53504b;
+  visibility:               hidden;
+  color:                    #53504b;
+  z-index:                  100;
+  top:                      10px;
+  font-weight:              bold;
+}

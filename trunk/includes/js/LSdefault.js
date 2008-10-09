@@ -163,6 +163,10 @@ var LSdefault = new Class({
           this.displayError(error.toString());
         }
       }
+    },
+    
+    imagePath: function(image) {
+      return this.LSjsConfig['LS_IMAGES_DIR'] + '/' + image;
     }
 
 });

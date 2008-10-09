@@ -188,7 +188,7 @@ class LSformElement_date extends LSformElement {
       'firstDayOfWeek' => $this -> getFirstDayOfWeek()
     );
     $GLOBALS['LSsession'] -> addJSconfigParam($id,$params);
-    return "<img id='$id' class='LSformElement_date_calendar_btn btn' src='templates/images/calendar.png' title='"._('Calendrier')."' alt='"._('Calendrier')."'/>";
+    return "<img id='$id' class='LSformElement_date_calendar_btn btn' src='".LS_IMAGES_DIR."/calendar.png' title='"._('Calendrier')."' alt='"._('Calendrier')."'/>";
   }
  
  /**

@@ -80,6 +80,13 @@ class LSsession {
     if (loadDir($this -> confDir, '^config\..*\.php$')) {
       if ( include_once $GLOBALS['LSconfig']['Smarty'] ) {
         $GLOBALS['Smarty'] = new Smarty();
+        $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
+        $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
+        
+        $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
+        $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
+        
+        $this -> addJSconfigParam('LS_IMAGES_DIR',LS_IMAGES_DIR);
         return true;
       }
       else {
@@ -838,7 +845,7 @@ class LSsession {
  /**
   * Ajoute une feuille de style au chargement de la page
   *
-  * Remarque : les scripts doivents Ãªtre dans le dossiers templates/css/.
+  * Remarque : les scripts doivents Ãªtre dans le dossier LS_CSS_DIR.
   *
   * @param[in] $script Le nom du fichier css Ã  charger.
   *
@@ -888,10 +895,10 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('LSsession_js',$JSscript_txt);
 
     // Css
-    $Css_txt="<link rel='stylesheet' type='text/css' href='templates/css/LSdefault.css' />\n";
+    $this -> addCssFile("LSdefault.css");
     foreach ($this -> CssFiles as $file) {
       if (!$file['path']) {
-        $file['path']=LS_CSS_DIR;
+        $file['path']=LS_CSS_DIR.'/';
       }
       $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file['path'].$file['file']."' />\n";
     }

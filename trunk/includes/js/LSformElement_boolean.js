@@ -7,7 +7,7 @@ var LSformElement_boolean = new Class({
       $$('li.LSformElement_boolean').each(function(el) {
         var btn = new Element('img');
         btn.setProperties({
-          src:    'templates/images/clear.png',
+          src:    varLSdefault.imagePath('clear.png'),
           alt:    'Reset',
           title:  'Reset'
         });

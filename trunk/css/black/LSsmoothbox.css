@@ -1,0 +1,55 @@
+#over-LSsmoothbox {
+  background-color:     #33302b;
+  border:               1px solid #33302b;
+  margin: 0;
+  padding:  0;
+}
+
+#win-LSsmoothbox {
+  background-color:     #fff;
+  border:               10px solid #33302b;
+  -moz-border-radius:   5px;
+  margin:               auto;
+  position:             absolute;
+  z-index:              3;
+  display:              none;
+}
+
+#frame-LSsmoothbox {
+  overflow:             auto;
+  height:               100%;
+  width:                100%;
+  display:              none;
+}
+
+#closeBtn-LSsmoothbox {
+  background:           url(../../images/black/close.png) no-repeat;
+  width:                20px;
+  height:               20px;
+  position:             absolute;
+  top:                  -20px;
+  right:                -20px;
+  cursor:               pointer;
+  display:              none;
+}
+
+#validBtn-LSsmoothbox {
+  background-color:     #33302b;
+  -moz-border-radius:   5px;
+  height:               22px;
+  font-size:            18px;
+  color:                #fff;
+  font-weight:          bold;
+  padding:              0px 5px 0px 5px;
+  position:             absolute;
+  bottom:               -25px;
+  right:                20px;
+  cursor:               pointer;
+  display:              none;
+}
+
+#loadingImage-LSsmoothbox {
+  width:                100px;
+  height:               100px;
+  margin:               10px;
+}

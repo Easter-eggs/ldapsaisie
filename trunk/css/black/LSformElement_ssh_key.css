@@ -1,0 +1,22 @@
+/*
+ * LSformElement_ssh_key
+ */
+.LSformElement_ssh_key_value {
+  display:            none;
+  width:              30em;
+  font-style:         italic;
+  font-family:        courier;
+  background-color:   #dedede;
+  border:             1px solid #cac9c4;
+  overflow:           auto;
+}
+
+.LSformElement_ssh_key_short_display {
+  font-style:         italic;
+  font-family:        courier;
+  cursor:             pointer;
+}
+
+textarea.LSformElement_ssh_key {
+  height:             10em;
+}
