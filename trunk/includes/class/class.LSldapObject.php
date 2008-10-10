@@ -1055,14 +1055,17 @@ class LSldapObject {
                 );
               }
               else {
+                LSdebug('Problème durant la mise en cache de la relation '.$relation_name);
                 return;
               }
             }
             else {
+              LSdebug('Les méthodes de mise en cache de la relation '.$relation_name. ' ne sont pas toutes disponibles.');
               return;
             }
           }
           else {
+            $GLOBALS['LSerror'] -> addErrorCode(1004,$relation_conf['LSobject']);
             return;
           }
         }
