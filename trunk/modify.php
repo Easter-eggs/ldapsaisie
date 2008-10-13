@@ -54,7 +54,7 @@ if($LSsession -> startLSsession()) {
             // MàJ des données de l'objet LDAP
             if ($object -> updateData('modify')) {
               $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été modifié."));
-              if (!$GLOBALS['LSdebug']['active']) {
+              if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
                 $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
               }
             }

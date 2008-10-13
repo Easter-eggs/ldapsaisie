@@ -410,9 +410,8 @@ if (isset($_REQUEST['imgload'])) {
   $data['imgload'] = $_REQUEST['imgload'];
 }
 
-$debug_txt = LSdebug_print(true);
-if ($debug_txt != "") {
-  $data['LSdebug'] = $debug_txt;
+if (LSdebugDefined()) {
+  $data['LSdebug'] = LSdebug_print(true);
 }
 
 echo json_encode($data);

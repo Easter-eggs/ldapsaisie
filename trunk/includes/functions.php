@@ -156,6 +156,12 @@ function LSdebug_print($return=false) {
   return;
 }
 
+function LSdebugDefined() {
+  if (!$GLOBALS['LSdebug']['active'])
+    return;
+  return (!empty($GLOBALS['LSdebug']['fields']));
+}
+
   /**
    * Vérifie la compatibilite des DN
    *
