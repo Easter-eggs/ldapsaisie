@@ -303,7 +303,10 @@ class LSldap {
       else {
         if (!empty($dropAttr)) {
           foreach($dropAttr as $attr) {
-            $entry -> delete($attr);
+            // Méthode buggé : suppression impossible de certain attribut
+            // exemple : jpegPhoto
+            // $entry -> delete($attr);
+            $entry -> replace(array($attr =>array()));
           }
           $ret = $entry -> update();
           if (Net_LDAP2::isError($ret)) {
