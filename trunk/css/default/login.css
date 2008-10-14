@@ -54,7 +54,7 @@ dl.loginform {
   margin-left:            1em;
 }
 
-#LSsession_recoverPassword {
+a.LSsession_recoverPassword {
   float:                  right;
   font-size:              0.8em;
   text-decoration:        none;

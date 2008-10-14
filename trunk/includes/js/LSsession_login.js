@@ -4,7 +4,7 @@ var LSsession_login = new Class({
       if ( ! this.select_ldapserver ) 
         return;
       this.loading_zone = $('loading_zone');
-      this.recoverPassword = $('LSsession_recoverPassword');
+      this.recoverPasswordElements = $$('.LSsession_recoverPassword');
       this.select_ldapserver.addEvent('change',this.onLdapServerChanged.bind(this));
       this.onLdapServerChanged();
     },
@@ -51,10 +51,14 @@ var LSsession_login = new Class({
           this.loginformLevelHide();
         }
         if (data.recoverPassword) {
-          this.recoverPassword.removeClass('LSsession_recoverPassword_hidden');
+          this.recoverPasswordElements.each(function(el) {
+            el.removeClass('LSsession_recoverPassword_hidden');
+          },this);
         }
         else {
-          this.recoverPassword.addClass('LSsession_recoverPassword_hidden');
+          this.recoverPasswordElements.each(function(el) {
+            el.addClass('LSsession_recoverPassword_hidden');
+          },this);
         }
       }
       else {

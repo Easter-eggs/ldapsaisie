@@ -35,7 +35,7 @@
   <dd><input type='submit' value='{$loginform_label_submit}' /></dd>
 </dl>
 </form>
-<a href='index.php?LSsession_recoverPassword' id='LSsession_recoverPassword'>{$loginform_label_recoverPassword}</a>
+<a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword'>{$loginform_label_recoverPassword}</a>
 </div>
 </body>
 </html>
