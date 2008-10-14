@@ -290,9 +290,11 @@ class LSldap {
       LSdebug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
 
       if ($new) {
+        LSdebug('LSldap :: add()');
         $ret = $this -> cnx -> add($entry);
       }
       else {
+        LSdebug('LSldap :: update()');
         $ret = $entry -> update();
       }
       
