@@ -48,8 +48,13 @@ if($LSsession -> startLSsession()) {
         }
         if ($form->validate()) {
           // MàJ des données de l'objet LDAP
-          if (($object -> updateData('create'))&&(!$GLOBALS['LSerror']->errorsDefined())) {
-            header('Location: view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+          if ($object -> updateData('create')) {
+            if (!$GLOBALS['LSerror']->errorsDefined()) {
+              $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été ajouté."));
+            }
+            if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
+              $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+            }
           }
         }
         // Définition du Titre de la page
