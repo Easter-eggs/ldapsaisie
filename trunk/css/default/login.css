@@ -54,10 +54,14 @@ dl.loginform {
   margin-left:            1em;
 }
 
-#LSsession_lostPassword {
+#LSsession_recoverPassword {
   float:                  right;
   font-size:              0.8em;
   text-decoration:        none;
   color:                  #4096b8;
   font-weight:            bold;
+}
+
+.LSsession_recoverPassword_hidden {
+  visibility:             hidden;
 }

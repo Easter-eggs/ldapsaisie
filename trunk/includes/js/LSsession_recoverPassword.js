@@ -1,10 +1,9 @@
-var LSsession_login = new Class({
+var LSsession_recoverPassword = new Class({
     initialize: function(){
       this.select_ldapserver = $('LSsession_ldapserver');
       if ( ! this.select_ldapserver ) 
         return;
       this.loading_zone = $('loading_zone');
-      this.recoverPassword = $('LSsession_recoverPassword');
       this.select_ldapserver.addEvent('change',this.onLdapServerChanged.bind(this));
       this.onLdapServerChanged();
     },
@@ -26,7 +25,7 @@ var LSsession_login = new Class({
       var imgload = varLSdefault.loadingImgDisplay(this.loading_zone,'inside','big');
       var server = this.select_ldapserver.value;
       var data = {
-        template: 'login',
+        template: 'recoverPassword',
         action:   'onLdapServerChanged',
         server:   server,
         imgload:  imgload
@@ -39,28 +38,10 @@ var LSsession_login = new Class({
       var data = JSON.decode(responseText);
       LSdebug(data);
       if ( varLSdefault.checkAjaxReturn(data) ) {
-        if (data.list_topDn) {
-          $('LSsession_topDn').getParent().set('html',data.list_topDn);
-          LSdebug($('LSsession_topDn').innerHTML);
-          $('LSsession_topDn_label').set('html',data.levelLabel);
-          $$('.loginform-level').each(function(el) {
-            el.setStyle('display','block');
-          });
-        }
-        else {
-          this.loginformLevelHide();
-        }
         if (data.recoverPassword) {
-          this.recoverPassword.removeClass('LSsession_recoverPassword_hidden');
-        }
-        else {
-          this.recoverPassword.addClass('LSsession_recoverPassword_hidden');
+          this.enableInput();
         }
       }
-      else {
-        this.loginformLevelHide();
-      }
-      this.enableInput();
     },
     
     loginformLevelHide: function(){
@@ -71,5 +52,5 @@ var LSsession_login = new Class({
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
-  varLSsession_login = new LSsession_login();
+  varLSsession_recoverPassword = new LSsession_recoverPassword();
 });

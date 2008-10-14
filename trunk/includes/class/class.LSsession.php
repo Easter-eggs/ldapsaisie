@@ -734,9 +734,7 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('loginform_label_user',_('Identifiant'));
     $GLOBALS['Smarty'] -> assign('loginform_label_pwd',_('Mot de passe'));
     $GLOBALS['Smarty'] -> assign('loginform_label_submit',_('Connexion'));
-    if (isset($GLOBALS['LSconfig']['ldap_servers'][0]['recoverPassword'])) {
-      $GLOBALS['Smarty'] -> assign('loginform_label_lostpassword',_('Mot de passe oublié ?'));
-    }
+    $GLOBALS['Smarty'] -> assign('loginform_label_recoverPassword',_('Mot de passe oublié ?'));
     
     $this -> setTemplate('login.tpl');
     $this -> addJSscript('LSsession_login.js');
@@ -795,7 +793,7 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('recoverpassword_msg',$recoverpassword_msg);
     
     $this -> setTemplate('recoverpassword.tpl');
-    $this -> addJSscript('LSsession_recoverpassword.js');
+    $this -> addJSscript('LSsession_recoverPassword.js');
   }
 
  /**

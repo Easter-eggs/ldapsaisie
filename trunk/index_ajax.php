@@ -5,7 +5,7 @@ require_once 'includes/class/class.LSsession.php';
 
 $GLOBALS['LSsession'] = new LSsession();
 
-if ($_REQUEST['template'] != 'login') {
+if (($_REQUEST['template'] != 'login')&&($_REQUEST['template'] != 'recoverPassword')) {
   if ( !$GLOBALS['LSsession'] -> startLSsession() ) {
     $_ERRORS = 'LSsession : Impossible d\'initialiser la LSsession.';
   }
@@ -18,17 +18,26 @@ if (!isset($_ERRORS)) {
         case 'onLdapServerChanged':
           if ( isset($_REQUEST['server']) ) {
             $GLOBALS['LSsession'] -> setLdapServer($_REQUEST['server']);
+            $data = array();
             if ( $GLOBALS['LSsession'] -> LSldapConnect() ) {
               session_start();
               $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions($_SESSION['LSsession_topDn']);
               if (is_string($list)) {
-                $list="<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
-                $data = array(
-                  'list_topDn' => $list,
-                  'levelLabel' => $GLOBALS['LSsession'] -> getLevelLabel()
-                );
+                $data['list_topDn'] = "<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
+                $data['levelLabel'] = $GLOBALS['LSsession'] -> getLevelLabel();
               }
             }
+            $data['recoverPassword'] = isset($GLOBALS['LSsession'] -> ldapServer['recoverPassword']);
+          }
+        break;
+      }
+    break;
+    case 'recoverPassword':
+      switch($_REQUEST['action']) {
+        case 'onLdapServerChanged':
+          if ( isset($_REQUEST['server']) ) {
+            $GLOBALS['LSsession'] -> setLdapServer($_REQUEST['server']);
+            $data=array('recoverPassword' => isset($GLOBALS['LSsession'] -> ldapServer['recoverPassword']));
           }
         break;
       }
