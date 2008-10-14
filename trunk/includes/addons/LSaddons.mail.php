@@ -130,16 +130,15 @@
   *
   * @retval boolean true si MAIL est pleinement supporté, false sinon
   */
-  function sendMail($to,$subject,$msg) {
+  function sendMail($to,$subject,$msg,$headers=array()) {
     $mail_obj  = & Mail::factory(MAIL_SEND_METHOD, $MAIL_SEND_PARAMS);
     
     if(is_array($MAIL_HEARDERS)) {
-      $headers = $MAIL_HEARDERS;
+      $headers = array_merge($headers,$MAIL_HEARDERS);
     }
-    else {
-      $headers = array();
+    if ($subject) {
+      $headers["Subject"] = $subject;
     }
-    $headers["Subject"] = $subject;
     if (!isset($headers['From']) && ($GLOBALS['LSsession'] -> getEmailSender() != "")) {
       $headers['From'] = $GLOBALS['LSsession'] -> getEmailSender();
     }

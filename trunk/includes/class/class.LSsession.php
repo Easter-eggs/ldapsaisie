@@ -329,104 +329,57 @@ class LSsession {
                 if (isset($_GET['LSsession_recoverPassword'])) {
                   LSdebug('Recover : Id trouvé');
                   if ($this -> ldapServer['recoverPassword']) {
-                    LSdebug('Récupération active');
-                    $user=$result[0];
-                    $emailAddress = $user -> getValue($this -> ldapServer['recoverPassword']['mailAttr']);
-                    $emailAddress = $emailAddress[0];
-                    
-                    // Header des mails
-                    $headers="Content-Type: text/plain; charset=UTF-8; format=flowed";
-                    if ($this -> ldapServer['recoverPassword']['recoveryEmailSender']) {
-                      $headers.="\nFrom: ".$this -> ldapServer['recoverPassword']['recoveryEmailSender'];
-                    }
-                    else if($this -> getEmailSender()) {
-                      $headers.="\nFrom: ".$this -> getEmailSender();
-                    }
-                    
-                    if (checkEmail($emailAddress)) {
-                      LSdebug('Email : '.$emailAddress);
-                      $this -> dn = $user -> getDn();
-                      // 1ère étape : envoie du recoveryHash
-                      if (!isset($_GET['recoveryHash'])) {
-                        // Generer un hash
-                        $rdn=$user -> getValue('rdn');
-                        $rdn = $rdn[0];
-                        $recovery_hash = md5($rdn . strval(time()) . strval(rand()));
-                        
-                        $lostPasswdForm = $user -> getForm('lostPassword');
-                        $lostPasswdForm -> setPostData(
-                          array(
-                            $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => $recovery_hash
-                          )
-                          ,true
-                        );
-                        
-                        if($lostPasswdForm -> validate()) {
-                          if ($user -> updateData('lostPassword')) {
-                            // recoveryHash de l'utilisateur mis à jour
-                            if ($_SERVER['HTTPS']=='on') {
-                              $recovery_url='https://';
-                            }
-                            else {
-                              $recovery_url='http://';
-                            }
-                            $recovery_url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'&recoveryHash='.$recovery_hash;
-
-                            if (
-                              mail(
-                                $emailAddress,
-                                $this -> ldapServer['recoverPassword']['recoveryHashMail']['subject'],
-                                getFData($this -> ldapServer['recoverPassword']['recoveryHashMail']['msg'],$recovery_url),
-                                $headers
-                              )
-                            ){
-                              // Mail a bien été envoyé
-                              $recoveryPasswordInfos['recoveryHashMail']=$emailAddress;
-                            }
-                            else {
-                              // Problème durant l'envoie du mail
-                              LSdebug("Problème durant l'envoie du mail");
-                              $GLOBALS['LSerror'] -> addErrorCode(1020);
-                            }
-                          }
-                          else {
-                            // Erreur durant la mise à jour de l'objet
-                            LSdebug("Erreur durant la mise à jour de l'objet");
-                            $GLOBALS['LSerror'] -> addErrorCode(1020);
-                          }
-                        }
-                        else {
-                          // Erreur durant la validation du formulaire de modification de perte de password
-                          LSdebug("Erreur durant la validation du formulaire de modification de perte de password");
-                          $GLOBALS['LSerror'] -> addErrorCode(1020);
-                        }
+                    if ($this -> loadLSaddon('mail')) {
+                      LSdebug('Récupération active');
+                      $user=$result[0];
+                      $emailAddress = $user -> getValue($this -> ldapServer['recoverPassword']['mailAttr']);
+                      $emailAddress = $emailAddress[0];
+                      
+                      // Header des mails
+                      $sendParams=array();
+                      if ($this -> ldapServer['recoverPassword']['recoveryEmailSender']) {
+                        $sendParams['From']=$this -> ldapServer['recoverPassword']['recoveryEmailSender'];
                       }
-                      // 2nd étape : génération du mot de passe + envoie par mail
-                      else {
-                        $attr=$user -> attrs[$this -> ldapServer['authobject_pwdattr']];
-                        if ($attr instanceof LSattribute) {
-                          $mdp = generatePassword($attr -> config['html_options']['chars'],$attr -> config['html_options']['lenght']);
-                          LSdebug('Nvx mpd : '.$mdp);
+                      
+                      if (checkEmail($emailAddress)) {
+                        LSdebug('Email : '.$emailAddress);
+                        $this -> dn = $user -> getDn();
+                        // 1ère étape : envoie du recoveryHash
+                        if (!isset($_GET['recoveryHash'])) {
+                          // Generer un hash
+                          $rdn=$user -> getValue('rdn');
+                          $rdn = $rdn[0];
+                          $recovery_hash = md5($rdn . strval(time()) . strval(rand()));
+                          
                           $lostPasswdForm = $user -> getForm('lostPassword');
                           $lostPasswdForm -> setPostData(
                             array(
-                              $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => array(''),
-                              $this -> ldapServer['authobject_pwdattr'] => array($mdp)
+                              $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => $recovery_hash
                             )
                             ,true
                           );
+                          
                           if($lostPasswdForm -> validate()) {
                             if ($user -> updateData('lostPassword')) {
+                              // recoveryHash de l'utilisateur mis à jour
+                              if ($_SERVER['HTTPS']=='on') {
+                                $recovery_url='https://';
+                              }
+                              else {
+                                $recovery_url='http://';
+                              }
+                              $recovery_url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'&recoveryHash='.$recovery_hash;
+
                               if (
-                                mail(
+                                sendMail(
                                   $emailAddress,
-                                  $this -> ldapServer['recoverPassword']['newPasswordMail']['subject'],
-                                  getFData($this -> ldapServer['recoverPassword']['newPasswordMail']['msg'],$mdp),
-                                  $headers
+                                  $this -> ldapServer['recoverPassword']['recoveryHashMail']['subject'],
+                                  getFData($this -> ldapServer['recoverPassword']['recoveryHashMail']['msg'],$recovery_url),
+                                  $sendParams
                                 )
                               ){
                                 // Mail a bien été envoyé
-                                $recoveryPasswordInfos['newPasswordMail']=$emailAddress;
+                                $recoveryPasswordInfos['recoveryHashMail']=$emailAddress;
                               }
                               else {
                                 // Problème durant l'envoie du mail
@@ -446,15 +399,61 @@ class LSsession {
                             $GLOBALS['LSerror'] -> addErrorCode(1020);
                           }
                         }
+                        // 2nd étape : génération du mot de passe + envoie par mail
                         else {
-                          // l'attribut password n'existe pas
-                          LSdebug("L'attribut password n'existe pas");
-                          $GLOBALS['LSerror'] -> addErrorCode(1020);
+                          $attr=$user -> attrs[$this -> ldapServer['authobject_pwdattr']];
+                          if ($attr instanceof LSattribute) {
+                            $mdp = generatePassword($attr -> config['html_options']['chars'],$attr -> config['html_options']['lenght']);
+                            LSdebug('Nvx mpd : '.$mdp);
+                            $lostPasswdForm = $user -> getForm('lostPassword');
+                            $lostPasswdForm -> setPostData(
+                              array(
+                                $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => array(''),
+                                $this -> ldapServer['authobject_pwdattr'] => array($mdp)
+                              )
+                              ,true
+                            );
+                            if($lostPasswdForm -> validate()) {
+                              if ($user -> updateData('lostPassword')) {
+                                if (
+                                  sendMail(
+                                    $emailAddress,
+                                    $this -> ldapServer['recoverPassword']['newPasswordMail']['subject'],
+                                    getFData($this -> ldapServer['recoverPassword']['newPasswordMail']['msg'],$mdp),
+                                    $sendParams
+                                  )
+                                ){
+                                  // Mail a bien été envoyé
+                                  $recoveryPasswordInfos['newPasswordMail']=$emailAddress;
+                                }
+                                else {
+                                  // Problème durant l'envoie du mail
+                                  LSdebug("Problème durant l'envoie du mail");
+                                  $GLOBALS['LSerror'] -> addErrorCode(1020);
+                                }
+                              }
+                              else {
+                                // Erreur durant la mise à jour de l'objet
+                                LSdebug("Erreur durant la mise à jour de l'objet");
+                                $GLOBALS['LSerror'] -> addErrorCode(1020);
+                              }
+                            }
+                            else {
+                              // Erreur durant la validation du formulaire de modification de perte de password
+                              LSdebug("Erreur durant la validation du formulaire de modification de perte de password");
+                              $GLOBALS['LSerror'] -> addErrorCode(1020);
+                            }
+                          }
+                          else {
+                            // l'attribut password n'existe pas
+                            LSdebug("L'attribut password n'existe pas");
+                            $GLOBALS['LSerror'] -> addErrorCode(1020);
+                          }
                         }
                       }
-                    }
-                    else {
-                      $GLOBALS['LSerror'] -> addErrorCode(1019);
+                      else {
+                        $GLOBALS['LSerror'] -> addErrorCode(1019);
+                      }
                     }
                   }
                   else {
