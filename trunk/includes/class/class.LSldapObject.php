@@ -25,7 +25,7 @@ $GLOBALS['LSsession'] -> loadLSclass('LSattribute');
 /**
  * Base d'un objet ldap
  *
- * Cette classe définis la base de tout objet ldap géré par LdapSaisie
+ * Cette classe dÃ©finis la base de tout objet ldap gÃ©rÃ© par LdapSaisie
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -46,15 +46,15 @@ class LSldapObject {
   /**
    * Constructeur
    *
-   * Cette methode construit l'objet et définis la configuration.
-   * Elle lance la construction du tableau d'attributs représentés par un objet LSattribute.
+   * Cette methode construit l'objet et dÃ©finis la configuration.
+   * Elle lance la construction du tableau d'attributs reprÃ©sentÃ©s par un objet LSattribute.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $type_name [<b>required</b>] string Le nom du type de l'objet
    * @param[in] $config array La configuration de l'objet
    *
-   * @retval boolean true si l'objet a été construit, false sinon.
+   * @retval boolean true si l'objet a Ã©tÃ© construit, false sinon.
    */ 
   function LSldapObject($type_name,$config='auto') {
     $this -> type_name = $type_name;
@@ -77,16 +77,16 @@ class LSldapObject {
   }
   
   /**
-   * Charge les données de l'objet
+   * Charge les donnÃ©es de l'objet
    *
-   * Cette methode définis le DN de l'objet et charge les valeurs de attributs de l'objet
-   * à partir de l'annuaire.
+   * Cette methode dÃ©finis le DN de l'objet et charge les valeurs de attributs de l'objet
+   * Ã  partir de l'annuaire.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $dn string Le DN de l'objet.
    *
-   * @retval boolean true si la chargement a réussi, false sinon.
+   * @retval boolean true si la chargement a rÃ©ussi, false sinon.
    */ 
   function loadData($dn) {
     $this -> dn = $dn;
@@ -102,11 +102,11 @@ class LSldapObject {
   }
   
   /**
-   * Recharge les données de l'objet
+   * Recharge les donnÃ©es de l'objet
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la rechargement a réussi, false sinon.
+   * @retval boolean true si la rechargement a rÃ©ussi, false sinon.
    */ 
   function reloadData() {
     $data = $GLOBALS['LSldap'] -> getAttrs($this -> dn);
@@ -132,7 +132,7 @@ class LSldapObject {
    * Retourne la valeur descriptive d'affichage de l'objet
    * 
    * Cette fonction retourne la valeur descriptive d'affichage de l'objet en fonction
-   * du format défini dans la configuration de l'objet ou spécifié en paramètre.
+   * du format dÃ©fini dans la configuration de l'objet ou spÃ©cifiÃ© en paramÃ¨tre.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -154,16 +154,16 @@ class LSldapObject {
   }
   
   /**
-   * Chaine formatée
+   * Chaine formatÃ©e
    * 
-   * Cette fonction retourne la valeur d'une chaine formatée en prennant les valeurs
+   * Cette fonction retourne la valeur d'une chaine formatÃ©e en prennant les valeurs
    * de l'objet.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $format string Format de la chaine
    *
-   * @retval string Valeur d'une chaine formatée
+   * @retval string Valeur d'une chaine formatÃ©e
    */ 
   function getFData($format) {
     $format=getFData($format,$this,'getValue');
@@ -173,15 +173,15 @@ class LSldapObject {
   /**
    * Construit un formulaire de l'objet
    * 
-   * Cette méthode construit un formulaire LSform à partir de la configuration de l'objet
+   * Cette mÃ©thode construit un formulaire LSform Ã  partir de la configuration de l'objet
    * et de chaque attribut.
    *
-   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a créer
-   * @param[in] $load DN d'un objet similaire dont la valeur des attribut doit être chargé dans le formulaire.
+   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a crÃ©er
+   * @param[in] $load DN d'un objet similaire dont la valeur des attribut doit Ãªtre chargÃ© dans le formulaire.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval LSform Le formulaire crée
+   * @retval LSform Le formulaire crÃ©e
    */ 
   function getForm($idForm,$load=NULL) {
     $GLOBALS['LSsession'] -> loadLSclass('LSform');
@@ -216,15 +216,15 @@ class LSldapObject {
   /**
    * Construit un formulaire de l'objet
    * 
-   * Cette méthode construit un formulaire LSform à partir de la configuration de l'objet
+   * Cette mÃ©thode construit un formulaire LSform Ã  partir de la configuration de l'objet
    * et de chaque attribut.
    *
-   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a créer
-   * @param[in] $config Configuration spécifique pour le formulaire
+   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a crÃ©er
+   * @param[in] $config Configuration spÃ©cifique pour le formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval LSform Le formulaire crée
+   * @retval LSform Le formulaire crÃ©e
    */ 
   function getView() {
     $GLOBALS['LSsession'] -> loadLSclass('LSform');
@@ -239,13 +239,13 @@ class LSldapObject {
   /**
    * Rafraichis le formulaire de l'objet
    * 
-   * Cette méthode recharge les données d'un formulaire LSform.
+   * Cette mÃ©thode recharge les donnÃ©es d'un formulaire LSform.
    *
-   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a créer
+   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a crÃ©er
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true sile formulaire a été rafraichis, false sinon
+   * @retval boolean true sile formulaire a Ã©tÃ© rafraichis, false sinon
    */ 
   function refreshForm($idForm) {
     $LSform = $this -> forms[$idForm][0];
@@ -258,15 +258,15 @@ class LSldapObject {
   }
   
   /**
-   * Met à jour les données de l'objet et de l'entré de l'annuaire
+   * Met Ã  jour les donnÃ©es de l'objet et de l'entrÃ© de l'annuaire
    * 
-   * Met à jour les données de l'objet à partir d'un retour d'un formulaire.
+   * Met Ã  jour les donnÃ©es de l'objet Ã  partir d'un retour d'un formulaire.
    *
    * @param[in] $idForm Identifiant du formulaire d'origine
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la mise à jour a réussi, false sinon
+   * @retval boolean true si la mise Ã  jour a rÃ©ussi, false sinon
    *
    * @see validateAttrsData()
    * @see submitChange()
@@ -316,8 +316,24 @@ class LSldapObject {
           return;
         }
       }
+      // $this -> attrs[*] => before_modify
+      foreach($new_data as $attr_name => $attr_val) {
+        if(isset($this -> config['attrs'][$attr_name]['before_modify'])) {
+          if(function_exists($this -> config['attrs'][$attr_name]['before_modify'])) {
+            if(!$this -> config['attrs'][$attr_name]['before_modify']($this)) {
+              $GLOBALS['LSerror'] -> addErrorCode(309,array('func' => $this -> config['attrs'][$attr_name]['before_modify'],'attr' => $attr_name));
+              return;
+            }
+          }
+          else {
+            $GLOBALS['LSerror'] -> addErrorCode(308,array('func' => $this -> config['attrs'][$attr_name]['before_modify'],'attr' => $attr_name));
+            return;
+          }
+        }
+      }
+      
       if ($this -> submitChange($idForm)) {
-        LSdebug('Les modifications sont submitées');
+        LSdebug('Les modifications sont submitÃ©es');
         $this -> submitError = false;
         $this -> reloadData();
         $this -> refreshForm($idForm);
@@ -337,6 +353,22 @@ class LSldapObject {
           return;
         }
       }
+      
+      // $this -> attrs[*] => After Modify
+      foreach($new_data as $attr_name => $attr_val) {
+        if(isset($this -> config['attrs'][$attr_name]['after_modify'])) {
+          if(function_exists($this -> config['attrs'][$attr_name]['after_modify'])) {
+            if(!$this -> config['attrs'][$attr_name]['after_modify']($this)) {
+              $GLOBALS['LSerror'] -> addErrorCode(307,array('func' => $this -> config['after_modify'],'attr' => $attr_name));
+              return;
+            }
+          }
+          else {
+            $GLOBALS['LSerror'] -> addErrorCode(306,array('func' => $this -> config['after_modify'],'attr' => $attr_name));
+            return;
+          }
+        }
+      }
       return true;
     }
     else {
@@ -345,13 +377,13 @@ class LSldapObject {
   }
   
   /**
-   * Valide les données retournées par un formulaire
+   * Valide les donnÃ©es retournÃ©es par un formulaire
    *
    * @param[in] $idForm Identifiant du formulaire d'origine
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si les données sont valides, false sinon
+   * @retval boolean true si les donnÃ©es sont valides, false sinon
    */ 
   function validateAttrsData($idForm) {
     $LSform=$this -> forms[$idForm][0];
@@ -388,14 +420,14 @@ class LSldapObject {
   }
 
    /**
-   * Valide les données d'un attribut
+   * Valide les donnÃ©es d'un attribut
    *
    * @param[in] $LSForm Formulaire d'origine
-   * @param[in] &$attr Attribut à valider
+   * @param[in] &$attr Attribut Ã  valider
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si les données sont valides, false sinon
+   * @retval boolean true si les donnÃ©es sont valides, false sinon
    */
   function validateAttrData(&$LSform,&$attr) {
     $vconfig=$attr -> getValidateConfig();
@@ -408,12 +440,12 @@ class LSldapObject {
     // Validation des valeurs de l'attribut
     if(is_array($vconfig)) {
       foreach($vconfig as $test) {
-        // Définition du basedn par défaut
+        // DÃ©finition du basedn par dÃ©faut
         if (!isset($test['basedn'])) {
           $test['basedn']=$GLOBALS['LSsession']->topDn;
         }
 
-        // Définition du message d'erreur
+        // DÃ©finition du message d'erreur
         if (!empty($test['msg'])) {
           $msg_error=getFData($test['msg'],$this,'getValue');
         }
@@ -475,7 +507,7 @@ class LSldapObject {
         }
       }
     }
-    // Génération des valeurs des attributs dépendants
+    // GÃ©nÃ©ration des valeurs des attributs dÃ©pendants
     $dependsAttrs=$attr->getDependsAttrs();
     if (!empty($dependsAttrs)) {
       foreach($dependsAttrs as $dependAttr) {
@@ -502,13 +534,13 @@ class LSldapObject {
   }
 
   /**
-   * Met à jour les données modifiés dans l'annuaire
+   * Met Ã  jour les donnÃ©es modifiÃ©s dans l'annuaire
    *
    * @param[in] $idForm Identifiant du formulaire d'origine
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la mise à jour a réussi, false sinon
+   * @retval boolean true si la mise Ã  jour a rÃ©ussi, false sinon
    */ 
   function submitChange($idForm) {
     $submitData=array();
@@ -578,8 +610,8 @@ class LSldapObject {
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval array Tableau : 
-   *                  - [0] : le premier paramètre
-   *                  - [1] : les paramètres suivants
+   *                  - [0] : le premier paramÃ¨tre
+   *                  - [1] : les paramÃ¨tres suivants
    */ 
   function getDnInfos($dn) {
     $infos=ldap_explode_dn($dn,0);
@@ -611,16 +643,16 @@ class LSldapObject {
   }
   
   /**
-   * Retourne une liste d'objet du même type.
+   * Retourne une liste d'objet du mÃªme type.
    *
-   * Effectue une recherche en fonction des paramètres passé et retourne un
+   * Effectue une recherche en fonction des paramÃ¨tres passÃ© et retourne un
    * tableau d'objet correspond au resultat de la recherche.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $filter array (ou string) Filtre de recherche Ldap / Tableau de filtres de recherche
    * @param[in] $basedn string DN de base pour la recherche
-   * @param[in] $params array Paramètres de recherche au format Net_LDAP2::search()
+   * @param[in] $params array ParamÃ¨tres de recherche au format Net_LDAP2::search()
    *
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */ 
@@ -636,22 +668,22 @@ class LSldapObject {
 
     for($i=0;$i<$nbFilter;$i++) {
       $new_attrs=array();
-      // Défintion des paramètres de base pour la recherche
+      // DÃ©fintion des paramÃ¨tres de base pour la recherche
       $sbasedn=$basedn;
       $sparams=$params;
       $ret=array();
       if (isset($filter[$i]['scope']))
         $sparams["scope"]=$filter[$i]['scope'];
       
-      // Definition des critères de recherche correspondant au type d'objet à lister
+      // Definition des critÃ¨res de recherche correspondant au type d'objet Ã  lister
       if(($nbFilter==1)||(!isset($filter[$i]['attr']))) {
-        // Filtre sur l'objet souhaité
+        // Filtre sur l'objet souhaitÃ©
         $sfilter='(&';
         $sfilter.=$this -> getObjectFilter();
         $sfilter_end=')';
         $check_final_dn=true;
       }
-      // Initialisation des critères d'une recherche intermédiaire
+      // Initialisation des critÃ¨res d'une recherche intermÃ©diaire
       else {
         if(isset($filter[$i]['object_type'])) {
           $obj_tmp=new $filter[$i]['object_type']();
@@ -670,17 +702,17 @@ class LSldapObject {
           $sbasedn=$filter[$i]['basedn'];
         }
       }
-      // Dans le cas d'une recherche intermédiaire ou finale
+      // Dans le cas d'une recherche intermÃ©diaire ou finale
       if($attrs!=false) {
         // Initialisation des variables
         $ret_gen=array();
         $new_attrs=array();
         
-        // Pour tout les attributs retournés
+        // Pour tout les attributs retournÃ©s
         for($ii=0;$ii<count($attrs);$ii++) {
           $sfilter_for='';
-          // Définition du filtre de recherche à partir des paramètres utilisateurs et
-          // des paramètres de recherche de l'objet à listé (dans le cas d'une recherche finale
+          // DÃ©finition du filtre de recherche Ã  partir des paramÃ¨tres utilisateurs et
+          // des paramÃ¨tres de recherche de l'objet Ã  listÃ© (dans le cas d'une recherche finale
           if((isset($filter[$i]['filter']))&&(!empty($filter[$i]['filter']))) {
             $sfilter_user=getFData($filter[$i]['filter'],$attrs[$ii]);
             if($sfilter_user[0]=='(')
@@ -697,7 +729,7 @@ class LSldapObject {
             if ((!$this -> isCompatibleDNs($sbasedn,$basedn))&&($check_final_dn)) continue;
           }
         
-          // Vérification de la compatibilité du basedn de la recherche et du basedn générale
+          // VÃ©rification de la compatibilitÃ© du basedn de la recherche et du basedn gÃ©nÃ©rale
           // Finalisation du filtre
           $sfilter_for.=$sfilter_end;
         
@@ -707,7 +739,7 @@ class LSldapObject {
           
           // Si il y un retour
           if(isset($ret[0])) {
-            // si il ya une suite (recherche intermédiaire)
+            // si il ya une suite (recherche intermÃ©diaire)
             if($filter[$i]['attr']){
               for($iii=0;$iii<count($ret);$iii++) {
                 if(isset($ret[$iii]['attrs'][$filter[$i]['attr']])) {
@@ -725,7 +757,7 @@ class LSldapObject {
               }
             }
             else {
-              // vérification de la compatibilité de la compatibilité du DN resultant
+              // vÃ©rification de la compatibilitÃ© de la compatibilitÃ© du DN resultant
               // et du basedn de recherche 
               if (!$this -> isCompatibleDNs($ret[0]['dn'],$basedn))
                 continue;
@@ -740,9 +772,9 @@ class LSldapObject {
           $ret=$ret_gen;
           break;
         }
-        // dans le cas d'une suite prévu mais d'un retour nul de la précédente recherche
+        // dans le cas d'une suite prÃ©vu mais d'un retour nul de la prÃ©cÃ©dente recherche
         else if(empty($new_attrs)) {
-            // retour vide et arrêt de la recherche
+            // retour vide et arrÃªt de la recherche
             $ret=array();
             break;
         }
@@ -752,7 +784,7 @@ class LSldapObject {
       }
       // Dans le cas de la recherche initiale
       else {
-        // Déclaration du filtre de recherche
+        // DÃ©claration du filtre de recherche
         if((isset($filter[$i]['filter']))&&(!empty($filter[$i]['filter']))) {
           if($filter[$i]['filter'][0]=='(') {
             $sfilter.=$filter[$i]['filter'];
@@ -767,7 +799,7 @@ class LSldapObject {
         // Lancement de la recherche
         $ret=$GLOBALS['LSldap'] -> search ($sfilter,$sbasedn,$sparams);
         
-        //Si filtre multiple => on recupère une liste d'attributs
+        //Si filtre multiple => on recupÃ¨re une liste d'attributs
         if(isset($filter[$i]['attr'])) {
           for($ii=0;$ii<count($ret);$ii++) {
             if(isset($ret[$ii]['attrs'][$filter[$i]['attr']])) {
@@ -784,16 +816,16 @@ class LSldapObject {
             }
           }
           
-          // Si aucunne valeur n'est retournées
+          // Si aucunne valeur n'est retournÃ©es
           if(empty($attrs)){
-            // arrêt et retour à zéro
+            // arrÃªt et retour Ã  zÃ©ro
             $ret=array();
             break;
           }
         }
         // Si recherche unique
         else {
-          // préparation du retour finale
+          // prÃ©paration du retour finale
           if (is_array($ret)) {
             $ret_final=array();
             foreach($ret as $obj)
@@ -808,7 +840,7 @@ class LSldapObject {
       }
     }
     
-    // Création d'un tableau d'objet correspondant au valeur retourné
+    // CrÃ©ation d'un tableau d'objet correspondant au valeur retournÃ©
     for($i=0;$i<count($ret);$i++) {
       $retInfos[$i] = new $this -> type_name($this -> config);
       $retInfos[$i] -> loadData($ret[$i]);
@@ -819,7 +851,7 @@ class LSldapObject {
  
  
   /**
-   * Recherche un objet � partir de la valeur exact de son RDN
+   * Recherche un objet à partir de la valeur exact de son RDN
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
    * 
@@ -836,7 +868,7 @@ class LSldapObject {
   /**
    * Retourne une valeur de l'objet
    *
-   * Retourne une valeur en fonction du paramètre. Si la valeur est inconnue, la valeur retourné est ' '.
+   * Retourne une valeur en fonction du paramÃ¨tre. Si la valeur est inconnue, la valeur retournÃ© est ' '.
    * tableau d'objet correspond au resultat de la recherche.
    *
    * Valeurs possibles :
@@ -846,9 +878,9 @@ class LSldapObject {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $val string Le nom de la valeur demandée
+   * @param[in] $val string Le nom de la valeur demandÃ©e
    *
-   * @retval mixed la valeur demandé ou ' ' si celle-ci est inconnue.
+   * @retval mixed la valeur demandÃ© ou ' ' si celle-ci est inconnue.
    */ 
   function getValue($val) {
     if(($val=='dn')||($val=='%{dn}')) {
@@ -878,7 +910,7 @@ class LSldapObject {
   }
 
   /**
-   * Retourn un tableau pour un select d'un objet du même type
+   * Retourn un tableau pour un select d'un objet du mÃªme type
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -896,7 +928,7 @@ class LSldapObject {
   /**
    * Retourne le DN de l'objet
    *
-   * Cette methode retourne le DN de l'objet. Si celui-ci n'existe pas, il le construit à partir de la 
+   * Cette methode retourne le DN de l'objet. Si celui-ci n'existe pas, il le construit Ã  partir de la 
    * configuration de l'objet et la valeur de son attribut rdn.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -938,11 +970,11 @@ class LSldapObject {
   }
   
   /**
-   * Retourne qui est l'utilisateur par rapport à cet object
+   * Retourne qui est l'utilisateur par rapport Ã  cet object
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    * 
-   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui même ou un simple utilisateur
+   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
    */
   function whoami() {
     if (!$this -> _whoami)
@@ -967,7 +999,7 @@ class LSldapObject {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    * 
-   * @retval boolean True si l'objet à été supprimé, false sinon
+   * @retval boolean True si l'objet Ã  Ã©tÃ© supprimÃ©, false sinon
    */
   function remove() {
     if ($this -> beforeDelete()) {
@@ -1028,10 +1060,10 @@ class LSldapObject {
   }
   
   /**
-   * Methode cr�ant la liste des objets en relations avec l'objet courant et qui
+   * Methode créant la liste des objets en relations avec l'objet courant et qui
    * la met en cache ($this -> _relationsCache)
    * 
-   * @retval True en cas de cas ce succ�s, False sinon.
+   * @retval True en cas de cas ce succès, False sinon.
    */
   function updateRelationsCache() {
     $this -> _relationsCache=array();
@@ -1055,12 +1087,12 @@ class LSldapObject {
                 );
               }
               else {
-                LSdebug('Probl�me durant la mise en cache de la relation '.$relation_name);
+                LSdebug('Problème durant la mise en cache de la relation '.$relation_name);
                 return;
               }
             }
             else {
-              LSdebug('Les m�thodes de mise en cache de la relation '.$relation_name. ' ne sont pas toutes disponibles.');
+              LSdebug('Les méthodes de mise en cache de la relation '.$relation_name. ' ne sont pas toutes disponibles.');
               return;
             }
           }
@@ -1075,29 +1107,29 @@ class LSldapObject {
   }
   
   /**
-   * Methode executant les actions n�c�ssaires avant le changement du DN de
+   * Methode executant les actions nécéssaires avant le changement du DN de
    * l'objet.
    * 
-   * Cette m�thode n'est qu'un exemple et elle doit �tre certainement r��crite
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
    * pour les objets plus complexe.
    * 
-   * @retval True en cas de cas ce succ�s, False sinon.
+   * @retval True en cas de cas ce succès, False sinon.
    */
   function beforeRename() {
     return $this -> updateRelationsCache();
   }
   
   /**
-   * Methode executant les actions n�c�ssaires apr�s le changement du DN de
+   * Methode executant les actions nécéssaires après le changement du DN de
    * l'objet.
    * 
-   * Cette m�thode n'est qu'un exemple et elle doit �tre certainement r��crite
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
    * pour les objets plus complexe.
    * 
    * @param[in] $oldDn string L'ancien DN de l'objet
    * @param[in] $newDn string Le nouveau DN de l'objet
    * 
-   * @retval True en cas de cas ce succ�s, False sinon.
+   * @retval True en cas de cas ce succès, False sinon.
    */
   function afterRename($oldDn,$newDn) {
     $error = 0;
@@ -1124,26 +1156,26 @@ class LSldapObject {
   }
   
   /**
-   * Methode executant les actions n�c�ssaires avant la suppression de
+   * Methode executant les actions nécéssaires avant la suppression de
    * l'objet.
    * 
-   * Cette m�thode n'est qu'un exemple et elle doit �tre certainement r��crite
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
    * pour les objets plus complexe.
    * 
-   * @retval True en cas de cas ce succ�s, False sinon.
+   * @retval True en cas de cas ce succès, False sinon.
    */
   function beforeDelete() {
     return $this -> updateRelationsCache();
   }
   
   /**
-   * Methode executant les actions n�c�ssaires apr�s la suppression de
+   * Methode executant les actions nécéssaires après la suppression de
    * l'objet.
    * 
-   * Cette m�thode n'est qu'un exemple et elle doit �tre certainement r��crite
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
    * pour les objets plus complexe.
    * 
-   * @retval True en cas de cas ce succ�s, False sinon.
+   * @retval True en cas de cas ce succès, False sinon.
    */
   function afterDelete() {
     $error = 0;
@@ -1188,13 +1220,13 @@ class LSldapObject {
   }
   
   /**
-   * Methode executant les actions n�c�ssaires apr�s la cr�ation de
+   * Methode executant les actions nécéssaires après la création de
    * l'objet.
    * 
-   * Cette m�thode n'est qu'un exemple et elle doit �tre certainement r��crite
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
    * pour les objets plus complexe.
    * 
-   * @retval True en cas de cas ce succ�s, False sinon.
+   * @retval True en cas de cas ce succès, False sinon.
    */
   function afterCreate() {
     LSdebug('after');
@@ -1206,7 +1238,7 @@ class LSldapObject {
             if (isset($GLOBALS['LSobjects'][$type]['container_auto_create'])&&isset($GLOBALS['LSobjects'][$type]['container_dn'])) {
               $dn = $GLOBALS['LSobjects'][$type]['container_dn'].','.$this -> getDn();
               if(!$GLOBALS['LSldap'] -> getNewEntry($dn,$GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],$GLOBALS['LSobjects'][$type]['container_auto_create']['attrs'],true)) {
-                LSdebug("Impossible de cr�er l'entr�e fille : ".print_r(
+                LSdebug("Impossible de créer l'entrée fille : ".print_r(
                   array(
                     'dn' => $dn,
                     'objectClass' => $GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],
@@ -1277,12 +1309,12 @@ class LSldapObject {
   }
   
   /**
-   * Retourne la liste des relations pour l'objet en fonction de sa pr�sence 
+   * Retourne la liste des relations pour l'objet en fonction de sa présence 
    * dans un des attributs
    * 
-   * Retourne un tableau de d'objet (type : $objectType) correspondant � la 
+   * Retourne un tableau de d'objet (type : $objectType) correspondant à la 
    * relation entre l'objet $object et les objets de type $objectType. Cette relation
-   * est �tablis par la pr�sence de la valeur de r�f�rence � l'objet dans 
+   * est établis par la présence de la valeur de référence à l'objet dans 
    * l'attribut des objets de type $objectType.
    * 
    * @param[in] $object Un object de type $objectType
@@ -1317,14 +1349,14 @@ class LSldapObject {
   /**
    * Ajoute un objet en relation dans l'attribut $attr de $this
    * 
-   * @param[in] $object Un objet de type $objectType � ajouter
-   * @param[in] $attr L'attribut dans lequel l'objet doit �tre ajout�
+   * @param[in] $object Un objet de type $objectType à ajouter
+   * @param[in] $attr L'attribut dans lequel l'objet doit être ajouté
    * @param[in] $objectType Le type d'objet en relation
    * @param[in] $attrValue La valeur que doit avoir l'attribut :
    *                      - soit le dn (par defaut)
    *                      - soit la valeur [0] d'un attribut
    * 
-   * @retval boolean true si l'objet � �t� ajout�, False sinon
+   * @retval boolean true si l'objet à été ajouté, False sinon
    **/  
   function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
@@ -1367,14 +1399,14 @@ class LSldapObject {
   /**
    * Supprime un objet en relation dans l'attribut $attr de $this
    * 
-   * @param[in] $object Un objet de type $objectType � supprimer
-   * @param[in] $attr L'attribut dans lequel l'objet doit �tre supprim�
+   * @param[in] $object Un objet de type $objectType à supprimer
+   * @param[in] $attr L'attribut dans lequel l'objet doit être supprimé
    * @param[in] $objectType Le type d'objet en relation
    * @param[in] $attrValue La valeur que doit avoir l'attribut :
    *                      - soit le dn (par defaut)
    *                      - soit la valeur [0] d'un attribut
    * 
-   * @retval boolean true si l'objet � �t� supprim�, False sinon
+   * @retval boolean true si l'objet à été supprimé, False sinon
    **/  
   function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
@@ -1411,15 +1443,15 @@ class LSldapObject {
  /**
   * Renome un objet en relation dans l'attribut $attr de $this
   * 
-  * @param[in] $object Un objet de type $objectType � renomer
-  * @param[in] $oldValue string L'ancienne valeur faisant r�f�rence � l'objet
-  * @param[in] $attr L'attribut dans lequel l'objet doit �tre supprim�
+  * @param[in] $object Un objet de type $objectType à renomer
+  * @param[in] $oldValue string L'ancienne valeur faisant référence à l'objet
+  * @param[in] $attr L'attribut dans lequel l'objet doit être supprimé
   * @param[in] $objectType Le type d'objet en relation
   * @param[in] $attrValue La valeur que doit avoir l'attribut :
   *                      - soit le dn (par defaut)
   *                      - soit la valeur [0] d'un attribut
   *  
-  * @retval boolean True en cas de succ�s, False sinon
+  * @retval boolean True en cas de succès, False sinon
   */
   function renameOneObjectInRelation($object,$oldValue,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
@@ -1457,7 +1489,7 @@ class LSldapObject {
   }
   
   /**
-   * Met � jour les objets du meme type que $this en relation avec l'objet $object
+   * Met à jour les objets du meme type que $this en relation avec l'objet $object
    * de type $objectType en modifiant la valeur de leur attribut $attr des objets
    * en relation
    * 
@@ -1469,7 +1501,7 @@ class LSldapObject {
    *                      - soit le dn (par defaut)
    *                      - soit la valeur [0] d'un attribut
    * 
-   * @retval boolean true si tout c'est bien pass�, False sinon
+   * @retval boolean true si tout c'est bien passé, False sinon
    **/  
   function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {

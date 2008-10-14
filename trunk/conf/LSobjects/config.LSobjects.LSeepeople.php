@@ -353,7 +353,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'modify' => 1,
         'create' => 1,
         'lostPassword' => 1
-      )
+      ),
+      'after_modify' => 'valid'
     ),
     'lsRecoveryHash' => array (
       'label' => _('Hash de recouvrement du mot de passe'),
