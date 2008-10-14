@@ -56,8 +56,10 @@ if($LSsession -> startLSsession()) {
               if ($GLOBALS['LSerror']->errorsDefined()) {
                 $GLOBALS['LSsession'] -> addInfo(_("L'objet a été modifié partiellement."));
               }
-              if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
+              else {
                 $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été modifié."));
+              }
+              if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
                 $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
               }
             }
