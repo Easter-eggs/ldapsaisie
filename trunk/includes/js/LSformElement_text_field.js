@@ -29,7 +29,7 @@ var LSformElement_text_field = new Class({
           if (this.params.autoGenerateOnModify) {
             force = 1;
           }
-          if ((this.input.value=='')||(force)) {
+          if (((this.input.value=='')&&(this.params.autoGenerateOnCreate))||(force)) {
             this.dependsFields = this.parent.getDependsFields(this.format);
             this.dependsFields.each(function(el) {
               var input = this.parent.getInput.bind(this.parent)(el);

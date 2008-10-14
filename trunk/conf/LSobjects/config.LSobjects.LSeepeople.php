@@ -165,7 +165,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_type' => 'text',
       'html_options' => array(
         'generate_value_format' => '%{givenName} %{sn}',
-        'autoGenerateOnModify' => true   // default : false
+        'autoGenerateOnModify' => true,   // default : false
+        'autoGenerateOnCreate' => true    // default : false
       ),
       'required' => 1,
       'validation' => 'valid',
