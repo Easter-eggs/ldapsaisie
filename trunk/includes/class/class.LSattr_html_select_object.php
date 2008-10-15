@@ -90,7 +90,7 @@ class LSattr_html_select_object extends LSattr_html{
         return;
       }
       
-      if ((is_array($values))&&(!empty($values))) {
+      if (is_array($values)) {
         $obj=new $conf['object_type']();
         foreach($values as $dn => $name) {
           if ($obj -> loadData($dn)) {
@@ -139,7 +139,7 @@ class LSattr_html_select_object extends LSattr_html{
         return;
       }
       
-      if ((is_array($values))&&(!empty($values))) {
+      if (is_array($values)) {
         if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')||$fromDNs) {
           $DNs=$values;
           $obj = new $conf['object_type']();

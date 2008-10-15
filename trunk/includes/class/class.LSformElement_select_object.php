@@ -54,7 +54,6 @@ class LSformElement_select_object extends LSformElement {
       $params['addBtn'] = _('Modifier');
       $params['deleteBtns'] = _('Supprimer');
       $params['multiple'] = ($this -> params['multiple'])?1:0;
-      $params['noValueLabel'] = _('Aucune valeur definie');
     }
     
     $ul_id="LSformElement_select_object_".$this -> name;

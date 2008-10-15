@@ -389,7 +389,7 @@ class LSattribute {
    * @retval boolean true si l'attribut a été mis à jour, false sinon
    */
   function isUpdate() {
-    return ($this -> updateData)?true:false;
+    return ($this -> updateData===false)?false:true;
   }
   
   /**

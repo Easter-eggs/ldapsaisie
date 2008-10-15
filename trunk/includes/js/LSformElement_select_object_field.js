@@ -115,24 +115,18 @@ var LSformElement_select_object_field = new Class({
     },
     
     LSformElement_select_object_deleteBtn: function(img) {
-      img.getParent().destroy();
-      if (!$type(this.ul.getFirst('li.LSformElement_select_object'))) {
-        this.addNoValueField();
-      }
-    },
-    
-    addNoValueField: function() {
-      var li = new Element('li');
-      
-      li.set('html',this.params.noValueLabel);
-      
-      if (!this.params.multiple) {
-        this.addSingleAddBtn(li);
+      var li = img.getParent();
+      var a = li.getFirst('a');
+      var input = li.getFirst('input');
+      if (a.hasClass('LSformElement_select_object_deleted')) {
+        input.name=this.params['attr_name']+'[]';
+        a.addClass('LSformElement_select_object');
+        a.removeClass('LSformElement_select_object_deleted');
       }
       else {
-        li.addClass('LSformElement_select_object');
+        input.name=($random(1,10000));
+        a.addClass('LSformElement_select_object_deleted');
+        a.removeClass('LSformElement_select_object');
       }
-      
-      li.injectInside(this.ul);
     }
 });

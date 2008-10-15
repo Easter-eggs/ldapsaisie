@@ -5,7 +5,12 @@ a.LSformElement_select_object {
   text-decoration:            none;
   color:                      #33302b;
   font-weight:                normal;
- 
+}
+
+a.LSformElement_select_object_deleted {
+  font-style:                 italic;
+  color:                      #777;
+  text-decoration:            line-through;
 }
 
 ul.LSformElement_select_object_edit {
