@@ -32,6 +32,10 @@
 
 class LSformElement_text extends LSformElement {
 
+  var $JSscripts = array();
+  var $CSSfiles = array();
+  var $fieldTemplate = 'LSformElement_text_field.tpl';
+
  /**
   * Retourne les infos d'affichage de l'élément
   * 
@@ -43,47 +47,20 @@ class LSformElement_text extends LSformElement {
     $return = $this -> getLabelInfos();
     // value
     if (!$this -> isFreeze()) {
-      $return['html'] = "<ul class='LSform LSformElement_text'>\n";
       if (isset($this -> params['html_options'])) {
         $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$this -> params['html_options']);
       }
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $multiple = $this -> getMultipleData();
-          $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."' class='LSformElement_text' />".$multiple."</li>\n";
-        }
-      }
-      $return['html'] .= "</ul>\n";
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_text_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_text.js');
     }
-    else {
-      $return['html'] = "<ul class='LSform LSformElement_text'>\n";
-      if (empty($this -> values)) {
-        $return['html'] .= "<li><span class='LSformElement_text'>"._('Aucune valeur definie')."</span><input type='hidden' name='".$this -> name."[]' class='LSformElement_text' value=''/></li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $return['html'] .= "<li><span class='LSformElement_text'>".$value."</span><input type='hidden' name='".$this -> name."[]' class='LSformElement_text' value=\"$value\"/></li>\n";
-        }
-      }
-      $return['html'] .= "</ul>\n";
+    foreach ($this -> JSscripts as $js) {
+      $GLOBALS['LSsession'] -> addJSscript($js);
     }
+    foreach ($this -> CSSfiles as $css) {
+      $GLOBALS['LSsession'] -> addCssFile($css);
+    }
+    $return['html'] = $this -> fetchTemplate();
     return $return;
-  }
-
- /**
-  * Retourne le code HTML d'un champ vide
-  *
-  * @retval string Code HTML d'un champ vide.
-  */
-  function getEmptyField() {
-    $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'  class='LSformElement_text' />".$multiple;
   }
 }
 

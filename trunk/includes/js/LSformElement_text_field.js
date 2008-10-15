@@ -1,5 +1,6 @@
 var LSformElement_text_field = new Class({
     initialize: function(name,input,parent){
+      this._start = false;
       this.name = name;
       this.parent = parent;
       this.input = input;
@@ -10,6 +11,9 @@ var LSformElement_text_field = new Class({
     },
     
     start: function() {
+      if (this._start) {
+        return true;
+      }
       if ($type(this.params)) {
         if ($type(this.params['generate_value_format'])) {
           this.format = this.params['generate_value_format'];
@@ -36,6 +40,7 @@ var LSformElement_text_field = new Class({
               input.addEvent('change',this.refreshValue.bind(this));
             },this);
           }
+          this._start=true;
         }
       }
     },

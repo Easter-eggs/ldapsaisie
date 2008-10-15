@@ -45,7 +45,7 @@ if (!isset($_ERRORS)) {
     case 'LSform':
       switch($_REQUEST['action']) {
         case 'onAddFieldBtnClick':
-          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['img'])) ) {
+          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['fieldId'])) ) {
             if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
               $object = new $_REQUEST['objecttype']();
               $object -> loadData($_REQUEST['objectdn']);
@@ -54,7 +54,7 @@ if (!isset($_ERRORS)) {
               if ( $emptyField ) {
                 $data = array(
                   'html' => $form -> getEmptyField($_REQUEST['attribute']),
-                  'img' => $_REQUEST['img'],
+                  'fieldId' => $_REQUEST['fieldId'],
                   'fieldtype' => get_class($form -> getElement($_REQUEST['attribute']))
                 );
               }

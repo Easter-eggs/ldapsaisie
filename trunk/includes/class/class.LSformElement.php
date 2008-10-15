@@ -38,6 +38,8 @@ class LSformElement {
   var $_required = false;
   var $_freeze = false;
   var $attr_html;
+  var $fieldTemplate = 'LSformElement_field.tpl';
+  var $template = 'LSformElement.tpl';
 
   /**
    * Constructeur
@@ -272,6 +274,10 @@ class LSformElement {
     }
   }
   
+  function isMultiple() {
+    return ($this -> params['multiple'] == true);
+  }
+  
  /**
   * Retourne le titre du champ
   * 
@@ -279,6 +285,44 @@ class LSformElement {
   **/
   function getTitle() {
     return $this -> form -> ldapObject -> getDisplayValue().' - '.$this -> getLabel();
+  }
+  
+ /**
+  * Retournne un template Smarty compilé dans le contexte d'un LSformElement
+  *
+  * @param[in] string $template Le template à retourner
+  * @param[in] array $variables Variables Smarty à assigner avant l'affichage
+  * 
+  * @retval string Le HTML compilé du template
+  */
+  function fetchTemplate($template=NULL,$variables=array()) {
+    if (!$template) {
+      $template = $this -> template;
+    }
+    return $GLOBALS['LSsession'] -> fetchTemplate(
+      $template,
+      array_merge_recursive(
+        $variables,
+        array(
+          'freeze' => $this -> isFreeze(),
+          'multiple'=> $this -> isMultiple(),
+          'value' => '',
+          'values' => $this -> values,
+          'attr_name' => $this -> name,
+          'noValueTxt' => _('Aucune valeur definie'),
+          'fieldTemplate' => $this -> fieldTemplate
+        )
+      )
+    );
+  }
+  
+ /**
+  * Retourne le code HTML d'un champ vide
+  *
+  * @retval string Code HTML d'un champ vide.
+  */
+  function getEmptyField() {
+    return $this -> fetchTemplate($this -> fieldTemplate);
   }
 }
 

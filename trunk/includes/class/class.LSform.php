@@ -76,6 +76,8 @@ class LSform {
       $GLOBALS['LSsession'] -> addJSscript('LSview.js');
     }
     else {
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_field.js');
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement.js');
       $GLOBALS['LSsession'] -> addJSscript('LSform.js');
     }
     $GLOBALS['LSsession'] -> addCssFile('LSform.css');

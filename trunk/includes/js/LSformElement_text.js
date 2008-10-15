@@ -1,24 +1,35 @@
 var LSformElement_text = new Class({
     initialize: function(){
-      this.fields =  new Hash();
+      this.elements =  new Hash();
       this.initialiseLSformElement_text();
+      if ($type(varLSform)) {
+        varLSform.addModule("LSformElement_text",this);
+      }
     },
     
     initialiseLSformElement_text: function(el) {
+      
       if (typeof(el) == 'undefined') {
         el = document;
       }
       var getName = /^(.*)\[\]$/
-      el.getElements('ul.LSformElement_text').each(function(ul) {
-        var first = ul.getElement('input.LSformElement_text');
-        if ($type(first)) {
-          var name = getName.exec(first.name)[1];
-          this.fields[name] = new LSformElement_text_field(name,first,this);
+      el.getElements('input.LSformElement_text').each(function(input) {
+        var name = getName.exec(input.name)[1];
+        if (!$type(this.elements[name])) {
+          this.elements[name] = new Hash();
         }
+        var id = this.elements[name].getLength(); 
+        this.elements[name][id] = new LSformElement_text_field(name,input,this);
       }, this);
-      this.fields.each(function(el) {
-        el.start.bind(el)();  
+      this.elements.each(function(element) {
+        element.each(function(field) {
+          field.start.bind(field)();
+        },this);
       },this);
+    },
+    
+    reinitialize: function(el) {
+      this.initialiseLSformElement_text(el);
     },
     
     getDependsFields: function(format) {
@@ -43,11 +54,11 @@ var LSformElement_text = new Class({
     },
     
     getInput: function(name) {
-      return this.fields[name].getInput();
+      return this.elements[name][0].getInput();
     },
     
     getValue: function(name) {
-      return this.fields[name].getValue();
+      return this.elements[name][0].getValue();
     }
     
 });

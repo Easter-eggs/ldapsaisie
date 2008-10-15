@@ -32,6 +32,8 @@
 
 class LSformElement_textarea extends LSformElement {
 
+  var $fieldTemplate = 'LSformElement_textarea_field.tpl';
+
  /**
   * Retourne les infos d'affichage de l'élément
   * 
@@ -41,44 +43,12 @@ class LSformElement_textarea extends LSformElement {
   */
   function getDisplay(){
     $return = $this -> getLabelInfos();
-    // value
-    $return['html'] = "<ul class='LSform'>\n";
     if (!$this -> isFreeze()) {
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
-      }
-      else {
-        foreach($this -> values as $value) {
-          $multiple = $this -> getMultipleData();
-          $id = "LSform_".$this -> name."_".rand();
-          $return['html'].="<li><textarea name='".$this -> name."[]' id='".$id."' class='LSform'>".$value."</textarea>\n".$multiple."</li>";
-        }
-      }
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_textarea.js');
     }
-    else {
-      if (empty($this -> values)) {
-        $return['html'].="<li>"._('Aucune valeur definie')."</li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $return['html'].="<li>".$value."</li>\n";
-        }
-      }
-    }
-    $return['html'] .= "</ul>\n"; 
+    $return['html'] = $this -> fetchTemplate();
     return $return;
   }
-
- /**
-  * Retourne le code HTML d'un champ vide
-  *
-  * @retval string Code HTML d'un champ vide.
-  */
-  function getEmptyField() {
-    $multiple = $this -> getMultipleData();
-    return "<textarea name='".$this -> name."[]' id='LSform".$this -> name."_".rand()."' class='LSform'></textarea>\n".$multiple;
-  }
-
 }
 
 ?>

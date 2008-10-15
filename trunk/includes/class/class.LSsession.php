@@ -946,6 +946,21 @@ class LSsession {
       $this -> setTemplate('empty.tpl');
     $GLOBALS['Smarty'] -> display($this -> template);
   }
+ 
+ /**
+  * Retournne un template Smarty compilé
+  *
+  * @param[in] string $template Le template à retourner
+  * @param[in] array $variables Variables Smarty à assigner avant l'affichage
+  * 
+  * @retval string Le HTML compilé du template
+  */
+  function fetchTemplate($template,$variables=array()) {
+    foreach($variables as $name => $val) {
+      $GLOBALS['Smarty'] -> assign($name,$val);
+    }
+    return $GLOBALS['Smarty'] -> fetch($template);
+  }
   
   /**
    * Charge les droits LS de l'utilisateur
