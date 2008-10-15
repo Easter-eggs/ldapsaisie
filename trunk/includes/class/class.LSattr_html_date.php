@@ -27,6 +27,8 @@
  */
 class LSattr_html_date extends LSattr_html {
 
+  var $LSformElement_type = 'date';
+
   /**
    * Ajoute l'attribut au formualaire passer en paramètre
    *
@@ -37,15 +39,8 @@ class LSattr_html_date extends LSattr_html {
    * @retval LSformElement L'element du formulaire ajouté
    */
   function addToForm (&$form,$idForm,$data=NULL) {
-    $element=$form -> addElement('date', $this -> name, $this -> config['label'],$this -> config, $this);
-    if(!$element) {
-      $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
-      return;
-    }
+    $element = parent::addToForm($form,$idForm,$data);
     $form -> addRule($this -> name, 'date', array('format' => $element -> getFormat()) );
-    if ($data) {
-      $element -> setValue($data);
-    }
     return $element; 
   }
   

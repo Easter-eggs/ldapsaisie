@@ -30,6 +30,7 @@ class LSattr_html {
   var $name;
   var $config;
   var $attribute;
+  var $LSformElement_type = false;
 
   /**         
    * Constructeur
@@ -78,7 +79,19 @@ class LSattr_html {
    * @retval LSformElement L'element du formulaire ajouté
    */
   function addToForm (&$form,$idForm,$data=NULL) {
-    $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
+    if (!$this -> LSformElement_type) {
+      $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
+      return;
+    }
+    $element=$form -> addElement($this -> LSformElement_type, $this -> name, $this -> config['label'],$this -> config, $this);
+    if(!$element) {
+      $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+      return;
+    }
+    if ($data) {
+      $element -> setValue($data);
+    }
+    return $element; 
   }
   
   /**

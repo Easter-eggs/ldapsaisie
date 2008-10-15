@@ -27,27 +27,8 @@
  */
 class LSattr_html_boolean extends LSattr_html {
 
-  /**
-   * Ajoute l'attribut au formualaire passer en paramètre
-   *
-   * @param[in] &$form LSform Le formulaire
-   * @param[in] $idForm L'identifiant du formulaire
-   * @param[in] $data Valeur du champs du formulaire
-   *
-   * @retval LSformElement L'element du formulaire ajouté
-   */
-  function addToForm (&$form,$idForm,$data=NULL) {
-    $element=$form -> addElement('boolean', $this -> name, $this -> config['label'],$this -> config, $this);
-    if(!$element) {
-      $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
-      return;
-    }
-    if ($data) {
-      $element -> setValue($data);
-    }
-    return $element; 
-  }
-  
+  var $LSformElement_type = 'boolean';
+
 }
 
 ?>
