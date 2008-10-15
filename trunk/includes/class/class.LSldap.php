@@ -305,6 +305,10 @@ class LSldap {
       else {
         if (!empty($dropAttr)) {
           foreach($dropAttr as $attr) {
+            if(Net_LDAP2::isError($entry -> getValue($attr))) {
+              // Attribut n'existe pas dans l'annuaire
+              continue;
+            }
             // Méthode buggé : suppression impossible de certain attribut
             // exemple : jpegPhoto
             // $entry -> delete($attr);
