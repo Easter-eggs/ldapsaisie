@@ -31,6 +31,7 @@ var LSformElement_rss = new Class({
     },
     
     reinitialize: function(el) {
+      varLSform.initializeModule('LSformElement_text',el);
       this.initialiseLSformElement_rss(el);
     },
     

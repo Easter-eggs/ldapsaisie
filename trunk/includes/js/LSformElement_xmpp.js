@@ -31,6 +31,7 @@ var LSformElement_xmpp = new Class({
     },
     
     reinitialize: function(el) {
+      varLSform.initializeModule('LSformElement_text',el);
       this.initialiseLSformElement_xmpp(el);
     },
     

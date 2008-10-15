@@ -41,6 +41,7 @@ var LSformElement_url = new Class({
     },
     
     reinitialize: function(el) {
+      varLSform.initializeModule('LSformElement_text',el);
       this.initialiseLSformElement_url(el);
     },
     
@@ -59,8 +60,8 @@ var LSformElement_url = new Class({
       if (typeof(href)=="undefined") {
         href = btn.getParent().getFirst().href;
       }
-      var name = btn.getParent().getFirst().title;
       if (href!="") {
+        var name = href;
         if (window.sidebar) {
           window.sidebar.addPanel(name,href,'');
         }

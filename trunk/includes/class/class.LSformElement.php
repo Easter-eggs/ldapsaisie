@@ -40,6 +40,7 @@ class LSformElement {
   var $attr_html;
   var $fieldTemplate = 'LSformElement_field.tpl';
   var $template = 'LSformElement.tpl';
+  var $fetchVariables = array();
 
   /**
    * Constructeur
@@ -303,6 +304,7 @@ class LSformElement {
       $template,
       array_merge_recursive(
         $variables,
+        $this -> fetchVariables,
         array(
           'freeze' => $this -> isFreeze(),
           'multiple'=> $this -> isMultiple(),

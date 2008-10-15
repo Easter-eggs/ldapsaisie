@@ -42,7 +42,13 @@ class LSformElement_mail extends LSformElement_text {
     'LSsmoothbox.css',
     'LSconfirmBox.css'
   );
-  var $fieldTemplate = 'LSformElement_mail_field.tpl';
+  
+  var $fetchVariables = array(
+    'uriClass' => 'LSformElement_mail',
+    'uriPrefix' => 'mailto:'
+  );
+  
+  var $fieldTemplate = 'LSformElement_uri_field.tpl';
 }
 
 ?>

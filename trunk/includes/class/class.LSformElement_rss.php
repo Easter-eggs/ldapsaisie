@@ -30,58 +30,17 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 
-class LSformElement_rss extends LSformElement {
+class LSformElement_rss extends LSformElement_text {
 
- /**
-  * Retourne les infos d'affichage de l'élément
-  * 
-  * Cette méthode retourne les informations d'affichage de l'élement
-  *
-  * @retval array
-  */
-  function getDisplay(){
-    $return = $this -> getLabelInfos();
-    // value
-    if (!$this -> isFreeze()) {
-      $return['html'] = "<ul class='LSform'>\n";
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $multiple = $this -> getMultipleData();
-          $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input class='LSformElement_rss' type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>$multiple</li>\n";
-        }
-      }
-      $return['html'] .= "</ul>\n";
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_rss.js');
-    }
-    else {
-      $return['html'] = "<ul class='LSform'>\n";
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $return['html'] .= "<li><a class='LSformElement_rss' href='".$value."'>".$value."</a></li>\n";
-          $GLOBALS['LSsession'] -> addJSscript('LSformElement_rss.js');
-        }
-      }
-      $return['html'] .= "</ul>\n";
-    }
-    return $return;
-  }
-
- /**
-  * Retourne le code HTML d'un champ vide
-  *
-  * @retval string Code HTML d'un champ vide.
-  */
-  function getEmptyField() {
-    $multiple = $this -> getMultipleData();
-    return "<input class='LSformElement_rss' type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$multiple;
-  }
+  var $JSscripts = array(
+    'LSformElement_rss.js'
+  );
+  var $fetchVariables = array(
+    'uriClass' => 'LSformElement_rss'
+  );
+  
+  var $fieldTemplate = 'LSformElement_uri_field.tpl';
+  
 }
 
 ?>
