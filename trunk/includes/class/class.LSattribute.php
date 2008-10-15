@@ -338,6 +338,9 @@ class LSattribute {
    */
   function getFormVal() {
     $data=$this -> getDisplayValue();
+    if ($data==NULL) {
+      $data=array();
+    }
     if(!is_array($data)) {
       $data=array($data);
     }
