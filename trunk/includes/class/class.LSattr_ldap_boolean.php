@@ -34,9 +34,11 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    * @retval mixed La valeur d'affichage de l'attribut
    */
   function getDisplayValue($data) {
-    if ($data==NULL)
-      return;
-    return ($this -> isTrue($data))?'yes':'no';
+    if ($this -> isTrue($data))
+      return 'yes';
+    if ($this -> isFalse($data))
+      return 'no';
+    return;
   }
 
   /**
@@ -50,9 +52,10 @@ class LSattr_ldap_boolean extends LSattr_ldap {
     if ($data[0]=='yes') {
       return array($this -> config['true_value']);
     }
-    else {
+    if ($data[0]=='no') {
       return array($this -> config['false_value']);
     }
+    return array();
   }
  
   /**
@@ -67,6 +70,23 @@ class LSattr_ldap_boolean extends LSattr_ldap {
       $data=array($data);
     }
     if ($data[0] == $this -> config['true_value']) {
+      return true;
+    }
+    return;
+  }
+  
+  /**
+   * Determine si la valeur passé en paramètre correspond a False ou non
+   *
+   * @param[in] $data La valeur de l'attribut
+   *
+   * @retval boolean True ou False
+   */
+  function isFalse($data) {
+    if (!is_array($data)) {
+      $data=array($data);
+    }
+    if ($data[0] == $this -> config['false_value']) {
       return true;
     }
     return;

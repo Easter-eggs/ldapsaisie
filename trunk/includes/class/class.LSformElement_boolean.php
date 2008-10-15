@@ -49,7 +49,7 @@ class LSformElement_boolean extends LSformElement {
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li class='LSformElement_boolean'><input type='radio' value='yes' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'checked':'')." /> "._('Oui')."<input type='radio' value='no' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'':'checked')." /> "._('Non')."</li>\n";
+          $return['html'] .= "<li class='LSformElement_boolean'><input type='radio' value='yes' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'checked':'')." /> "._('Oui')."<input type='radio' value='no' name='".$this -> name."[0]' ".(($this -> isFalse($this -> values))?'checked':'')." /> "._('Non')."</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -92,6 +92,23 @@ class LSformElement_boolean extends LSformElement {
       $data=array($data);
     }
     if($data[0]=='yes') {
+      return true;
+    }
+    return;
+  }
+  
+  /**
+   * Determine si la valeur passé en paramètre correspond a False ou non
+   *
+   * @param[in] $data La valeur de l'attribut
+   *
+   * @retval boolean True ou False
+   */
+  function isFalse($data) {
+    if(!is_array($data)) {
+      $data=array($data);
+    }
+    if($data[0]=='no') {
       return true;
     }
     return;
