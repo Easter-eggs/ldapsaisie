@@ -222,11 +222,14 @@ class LSformElement {
       return true;
     }
     if (isset($_POST[$this -> name])) {
+      $return[$this -> name]=array();
       if(!is_array($_POST[$this -> name])) {
         $_POST[$this -> name] = array($_POST[$this -> name]);
       }
       foreach($_POST[$this -> name] as $key => $val) {
+        if (!empty($val)) {
           $return[$this -> name][$key] = $val;
+        }
       }
       return true;
     }

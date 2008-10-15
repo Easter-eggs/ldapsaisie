@@ -49,7 +49,7 @@ class LSformElement_boolean extends LSformElement {
       }
       else {
         foreach ($this -> values as $value) {
-          $return['html'] .= "<li class='LSformElement_boolean'><input type='radio' value='1' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'checked':'')." /> "._('Oui')."<input type='radio' value='0' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'':'checked')." /> "._('Non')."</li>\n";
+          $return['html'] .= "<li class='LSformElement_boolean'><input type='radio' value='yes' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'checked':'')." /> "._('Oui')."<input type='radio' value='no' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'':'checked')." /> "._('Non')."</li>\n";
         }
       }
       $return['html'] .= "</ul>\n";
@@ -74,7 +74,7 @@ class LSformElement_boolean extends LSformElement {
   * @retval string Code HTML d'un champ vide.
   */
   function getEmptyField() {
-    return "<input type='radio' value='1' name='".$this -> name."[0]' /> "._('Oui')."<input type='radio' value='0' name='".$this -> name."[0]' /> "._('Non');
+    return "<input type='radio' value='yes' name='".$this -> name."[0]' /> "._('Oui')."<input type='radio' value='no' name='".$this -> name."[0]' /> "._('Non');
   }
   
   /**
@@ -91,7 +91,7 @@ class LSformElement_boolean extends LSformElement {
     if(!is_array($data)) {
       $data=array($data);
     }
-    if($data[0]==1) {
+    if($data[0]=='yes') {
       return true;
     }
     return;

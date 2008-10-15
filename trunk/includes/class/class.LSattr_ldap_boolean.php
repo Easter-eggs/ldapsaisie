@@ -36,7 +36,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
   function getDisplayValue($data) {
     if ($data==NULL)
       return;
-    return ($this -> isTrue($data))?1:0;
+    return ($this -> isTrue($data))?'yes':'no';
   }
 
   /**
@@ -47,7 +47,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    * @retval mixed La valeur traitée de l'attribut
    */
   function getUpdateData($data) {
-    if ($data[0]==1) {
+    if ($data[0]=='yes') {
       return array($this -> config['true_value']);
     }
     else {
