@@ -32,6 +32,9 @@
 
 class LSformElement_boolean extends LSformElement {
 
+  var $fieldTemplate = 'LSformElement_boolean_field.tpl';
+  var $template = 'LSformElement_boolean.tpl';
+
  /**
   * Retourne les infos d'affichage de l'élément
   * 
@@ -41,79 +44,19 @@ class LSformElement_boolean extends LSformElement {
   */
   function getDisplay(){
     $return = $this -> getLabelInfos();
-    // value
     if (!$this -> isFreeze()) {
-      $return['html'] = "<ul class='LSform'>\n";
-      if (empty($this -> values)) {
-        $return['html'] .= "<li class='LSformElement_boolean'>".$this -> getEmptyField()."</li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $return['html'] .= "<li class='LSformElement_boolean'><input type='radio' value='yes' name='".$this -> name."[0]' ".(($this -> isTrue($this -> values))?'checked':'')." /> "._('Oui')."<input type='radio' value='no' name='".$this -> name."[0]' ".(($this -> isFalse($this -> values))?'checked':'')." /> "._('Non')."</li>\n";
-        }
-      }
-      $return['html'] .= "</ul>\n";
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_boolean.js');
     }
-    else {
-      $return['html'] = "<ul class='LSform LSformElement_text'>\n";
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
-      }
-      else {
-        $return['html'] .= "<li>".(($this -> isTrue($this -> values))?_('Oui'):_('Non'))."</li>\n";
-      }
-      $return['html'] .= "</ul>\n";
-    }
+    $return['html'] = $this -> fetchTemplate(
+      NULL,
+      array(
+        'yesTxt' => _('Oui'),
+        'noTxt' => _('Non')
+      )
+    );
     return $return;
   }
 
- /**
-  * Retourne le code HTML d'un champ vide
-  *
-  * @retval string Code HTML d'un champ vide.
-  */
-  function getEmptyField() {
-    return "<input type='radio' value='yes' name='".$this -> name."[0]' /> "._('Oui')."<input type='radio' value='no' name='".$this -> name."[0]' /> "._('Non');
-  }
-  
-  /**
-   * Determine si la valeur passé en paramètre correspond a True ou non
-   * 
-   * - true = si $data[] contient un champ à 1
-   * - false = sinon
-   *
-   * @param[in] $data La valeur de l'attribut
-   *
-   * @retval boolean True ou False
-   */
-  function isTrue($data) {
-    if(!is_array($data)) {
-      $data=array($data);
-    }
-    if($data[0]=='yes') {
-      return true;
-    }
-    return;
-  }
-  
-  /**
-   * Determine si la valeur passé en paramètre correspond a False ou non
-   *
-   * @param[in] $data La valeur de l'attribut
-   *
-   * @retval boolean True ou False
-   */
-  function isFalse($data) {
-    if(!is_array($data)) {
-      $data=array($data);
-    }
-    if($data[0]=='no') {
-      return true;
-    }
-    return;
-  }
-  
 }
 
 ?>
