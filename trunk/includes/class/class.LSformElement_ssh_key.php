@@ -32,6 +32,9 @@
 
 class LSformElement_ssh_key extends LSformElement {
 
+  var $template = 'LSformElement_ssh_key.tpl';
+  var $fieldTemplate = 'LSformElement_ssh_key_field.tpl';
+
  /**
   * Retourne les infos d'affichage de l'élément
   * 
@@ -42,50 +45,36 @@ class LSformElement_ssh_key extends LSformElement {
   function getDisplay(){
     $GLOBALS['LSsession'] -> addCssFile('LSformElement_ssh_key.css');
     $return = $this -> getLabelInfos();
-    // value
-    $return['html'] = "<ul class='LSform'>\n";
+    $params = array();
     if (!$this -> isFreeze()) {
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
-      }
-      else {
-        foreach($this -> values as $value) {
-          $multiple = $this -> getMultipleData();
-          $id = "LSform_".$this -> name."_".rand();
-          $return['html'].="<li class='LSformElement_ssh_key'><textarea name='".$this -> name."[]' id='".$id."' class='LSform LSformElement_ssh_key'>".$value."</textarea>\n".$multiple."</li>";
-        }
-      }
+      $params['values_txt'] = $this -> values;
     }
     else {
-      if (empty($this -> values)) {
-        $return['html'].="<li>"._('Aucune valeur definie')."</li>\n";
-      }
-      else {
-        $GLOBALS['LSsession'] -> addJSscript('LSformElement_ssh_key.js');
-        foreach ($this -> values as $value) {
-          if (ereg('^ssh-([a-z]+) (.*)== (.*)$',$value,$regs)) {
-            $return['html'].="<li><span class='LSformElement_ssh_key_short_display' title='"._("Cliquer pour afficher la valeur complète")."'>".substr($regs[2],0,10)."...</span> (Type : ".$regs[1].") <a href='mailto:".$regs[3]."'>".$regs[3]."</a><p class='LSformElement_ssh_key_value'>".$value."</p></li>\n";
-          }
-          else {
-            $return['html'].="<li><span class='LSformElement_ssh_key_short_display'>".substr($value,0,15)."...</span> ("._('Type non reconnu').")<p class='LSformElement_ssh_key_value'>".$value."</p></li>\n";
-          }
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_ssh_key.js');
+      $values_txt = array();
+      foreach ($this -> values as $value) {
+        if (ereg('^ssh-([a-z]+) (.*)== (.*)$',$value,$regs)) {
+          $values_txt[] = array(
+            'type' => $regs[1],
+            'shortTxt' => substr($regs[2],0,10),
+            'mail' => $regs[3],
+            'value' => $value
+          );
+        }
+        else {
+          $values_txt[] = array(
+            'shortTxt' => substr($value,0,15),
+            'value' => $value
+          );
         }
       }
+      $params['values_txt'] = $values_txt;
+      $params['unknowTypeTxt'] = _('Type non reconnu');
     }
-    $return['html'] .= "</ul>\n"; 
+    $return['html'] = $this -> fetchTemplate(NULL,$params);
     return $return;
   }
-
- /**
-  * Retourne le code HTML d'un champ vide
-  *
-  * @retval string Code HTML d'un champ vide.
-  */
-  function getEmptyField() {
-    $multiple = $this -> getMultipleData();
-    return "<textarea name='".$this -> name."[]' id='LSform".$this -> name."_".rand()."' class='LSform LSformElement_ssh_key'></textarea>\n".$multiple;
-  }
-
+  
 }
 
 ?>
