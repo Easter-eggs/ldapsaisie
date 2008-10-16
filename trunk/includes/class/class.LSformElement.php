@@ -180,21 +180,6 @@ class LSformElement {
   }
 
   /**
-   * Affiche le label de l'élement
-   *
-   * @retval void
-   */
-  function displayLabel() {
-    if ($this -> isRequired()) {
-        $required=" <span class='required_elements'>*</span>";
-    }
-    else {
-        $required="";
-    }
-    echo "\t\t<td>".$this -> getLabel()."$required</td>\n";
-  }
-
-  /**
    * Retourne le label de l'élement
    *
    * @retval void
@@ -262,30 +247,12 @@ class LSformElement {
   }
 
   /**
-   * Retourne l'HTML pour les boutons d'ajout et de suppression de champs du formulaire LSform
+   * Le champ est-il a valeur multiple
    *
-   * @retval string Le code HTML des boutons
+   * @retval boolean True si le champ est à valeur multiple, False sinon
    */
-  function getMultipleData() {
-    if ($this -> params['multiple'] == true ) {
-      return "<img src='".LS_IMAGES_DIR."/add.png' id='LSform_add_field_btn_".$this -> name."_".rand()."' class='LSform-add-field-btn' alt='"._('Ajouter')."'/><img src='".LS_IMAGES_DIR."/remove.png' class='LSform-remove-field-btn' alt='"._('Supprimer')."'/>";
-    }
-    else {
-      return '';
-    }
-  }
-  
   function isMultiple() {
     return ($this -> params['multiple'] == true);
-  }
-  
- /**
-  * Retourne le titre du champ
-  * 
-  * @retval string Titre du champ
-  **/
-  function getTitle() {
-    return $this -> form -> ldapObject -> getDisplayValue().' - '.$this -> getLabel();
   }
   
  /**

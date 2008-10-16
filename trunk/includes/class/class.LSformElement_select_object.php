@@ -32,6 +32,9 @@
 
 class LSformElement_select_object extends LSformElement {
 
+  var $fieldTemplate = 'LSformElement_select_object_field.tpl';
+  var $template = 'LSformElement_select_object.tpl';
+
  /**
   * Retourn les infos d'affichage de l'élément
   * 
@@ -45,32 +48,18 @@ class LSformElement_select_object extends LSformElement {
       $this -> values = $this -> attr_html -> getValuesFromSession();
     }
     $return = $this -> getLabelInfos();
-    // value
-    
-    $params=array();
+
     if (!$this -> isFreeze()) {
-      $params['attr_name'] = $this -> name;
-      $params['object_type'] = $this -> selectableObject;
-      $params['addBtn'] = _('Modifier');
-      $params['deleteBtns'] = _('Supprimer');
-      $params['multiple'] = ($this -> params['multiple'])?1:0;
-    }
-    
-    $ul_id="LSformElement_select_object_".$this -> name;
-    $params['freeze'] = $this -> isFreeze();
-    $GLOBALS['LSsession'] -> addJSconfigParam($ul_id,$params);
-    
-    $return['html']="<ul class='LSform LSformElement_select_object' id='$ul_id'>\n";
-    if (empty($this -> values)) {
-      $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
-    }
-    else {
-      foreach ($this -> values as $value => $txt) {
-        $return['html'].="<li><a href='view.php?LSobject=".$this -> selectableObject."&amp;dn=".$value."' title='"._('Voir')." ' class='LSformElement_select_object'>".$txt."</a><input type='hidden' class='LSformElement_select_object' name='".$this -> name."[]' value='".$value."' /></li>\n";
-      }     
-    }
-    $return['html'].="</ul>\n";
-    if (!$this -> isFreeze()) {
+      $GLOBALS['LSsession'] -> addJSconfigParam(
+        $this -> name,
+        array(
+          'object_type' => $this -> selectableObject,
+          'addBtn' => _('Modifier'),
+          'deleteBtns' => _('Supprimer'),
+          'multiple' => (($this -> params['multiple'])?1:0)
+        )
+      );
+      
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object.js');
       $GLOBALS['LSsession'] -> addJSscript('LSform.js');
@@ -80,7 +69,9 @@ class LSformElement_select_object extends LSformElement {
       $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
       $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
       $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
+      
     }
+    $return['html'] = $this -> fetchTemplate(NULL,array('selectableObject' => $this -> selectableObject));
     return $return;
   }
   

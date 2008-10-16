@@ -2,11 +2,10 @@ var LSformElement_select_object_field = new Class({
     initialize: function(ul){
       this.ul=ul;
       this.dd=ul.getParent();
-      this.params = varLSdefault.LSjsConfig[ul.id];
+      this.name = ul.id;
+      this.params = varLSdefault.LSjsConfig[this.name];
       if ($type(this.params)) {
-        if (!this.params.freeze) {
-          this.initializeLSformElement_select_object();
-        }
+        this.initializeLSformElement_select_object();
       }
     },
     
@@ -97,7 +96,7 @@ var LSformElement_select_object_field = new Class({
       var data = {
         template:   'LSform',
         action:     'refreshField',
-        attribute:  this.params['attr_name'],
+        attribute:  this.name,
         objecttype: $('LSform_objecttype').value,
         objectdn:   $('LSform_objectdn').value,
         idform:     $('LSform_idform').value
@@ -119,7 +118,7 @@ var LSformElement_select_object_field = new Class({
       var a = li.getFirst('a');
       var input = li.getFirst('input');
       if (a.hasClass('LSformElement_select_object_deleted')) {
-        input.name=this.params['attr_name']+'[]';
+        input.name=this.name+'[]';
         a.addClass('LSformElement_select_object');
         a.removeClass('LSformElement_select_object_deleted');
       }
