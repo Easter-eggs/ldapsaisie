@@ -1,10 +1,15 @@
 var LSformElement_date_field = new Class({
-    initialize: function(calendarBtn){
-      this.calendarBtn = calendarBtn;
+    initialize: function(name,input){
+      this.name = name;
+      this.input = input;
+      this.calendarBtn = new Element('img');
+      this.calendarBtn.src = varLSdefault.imagePath('calendar.png');
+      this.calendarBtn.addClass('btn');
       this.calendarBtn.addEvent('click',this.onCalendarBtnClick.bind(this));
+      this.calendarBtn.injectAfter(this.input);
       
       // Récupération des paramètres à partir de l'attribut 'rem' du bouton
-      this.params = varLSdefault.LSjsConfig[this.calendarBtn.id];
+      this.params = varLSdefault.LSjsConfig[this.name];
       if (!$type(this.params)) {
         this.params={};
       }
@@ -15,7 +20,6 @@ var LSformElement_date_field = new Class({
         this.params.firstDayOfWeek=0;
       }
       
-      this.input = calendarBtn.getParent().getFirst();
       this.input.addEvent('click',this.onCalendarBtnClick.bind(this));
       
       this.date = Date.parseDate(this.input.value,this.params.format);

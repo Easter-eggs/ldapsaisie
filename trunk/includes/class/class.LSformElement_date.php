@@ -32,6 +32,8 @@
 
 class LSformElement_date extends LSformElement {
 
+  var $fieldTemplate = 'LSformElement_date_field.tpl';
+
   var $_php2js_format = array(
     "a" => "a",
     "A" => "A",
@@ -132,18 +134,12 @@ class LSformElement_date extends LSformElement {
     $return = $this -> getLabelInfos();
     // value
     if (!$this -> isFreeze()) {
-      $return['html'] = "<ul class='LSform'>\n";
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>".$this -> getEmptyField()."</li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $multiple = $this -> getMultipleData();
-          $id = "LSform_".$this -> name."_".rand();
-          $return['html'] .= "<li><input type='text' name='".$this -> name."[]' value=\"".$value."\" id='".$id."'>".$this -> getBtnHTML().$multiple."</li>\n";
-        }
-      }
-      $return['html'] .= "</ul>\n";
+      $params = array(
+        'format' => $this -> php2js_format($this -> getFormat()),
+        'firstDayOfWeek' => $this -> getFirstDayOfWeek()
+      );
+      $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$params);
+      
       $GLOBALS['LSsession'] -> addCssFile('theme.css',LS_LIB_DIR.'jscalendar/skins/aqua/');
       $GLOBALS['LSsession'] -> addJSscript('calendar.js',LS_LIB_DIR.'jscalendar/');
       $GLOBALS['LSsession'] -> addJSscript('calendar-en.js',LS_LIB_DIR.'jscalendar/lang/');
@@ -152,43 +148,8 @@ class LSformElement_date extends LSformElement {
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_date_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_date.js');
     }
-    else {
-      $return['html'] = "<ul class='LSform'>\n";
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
-      }
-      else {
-        foreach ($this -> values as $value) {
-          $return['html'] .= "<li>".$value."</li>\n";
-        }
-      }
-      $return['html'] .= "</ul>\n";
-    }
+    $return['html'] = $this -> fetchTemplate();
     return $return;
-  }
-
- /**
-  * Retourne le code HTML d'un champ vide
-  *
-  * @retval string Code HTML d'un champ vide.
-  */
-  function getEmptyField() {
-    $multiple = $this -> getMultipleData();
-    return "<input type='text' name='".$this -> name."[]' id='LSform_".$this -> name."_".rand()."'>".$this -> getBtnHTML().$multiple;
-  }
- /**
-  * Retour le code HTML du bouton
-  * 
-  * @retval string Code HTML du bouton
-  */
-  function getBtnHTML() {
-    $id = "LSformElement_data_calendar_btn_".rand();
-    $params = array(
-      'format' => $this -> php2js_format($this -> getFormat()),
-      'firstDayOfWeek' => $this -> getFirstDayOfWeek()
-    );
-    $GLOBALS['LSsession'] -> addJSconfigParam($id,$params);
-    return "<img id='$id' class='LSformElement_date_calendar_btn btn' src='".LS_IMAGES_DIR."/calendar.png' title='"._('Calendrier')."' alt='"._('Calendrier')."'/>";
   }
  
  /**
