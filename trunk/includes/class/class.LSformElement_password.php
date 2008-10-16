@@ -31,6 +31,9 @@
  */
 
 class LSformElement_password extends LSformElement {
+  
+  var $fieldTemplate = 'LSformElement_password_field.tpl';
+  var $template = 'LSformElement_password.tpl';
 
   /**
    * Recupère la valeur de l'élement passée en POST
@@ -67,49 +70,22 @@ class LSformElement_password extends LSformElement {
   function getDisplay(){
     $GLOBALS['LSsession'] -> addCssFile('LSformElement_password.css');
     $return = $this -> getLabelInfos();
+    $pwd = "";
     if (!$this -> isFreeze()) {
-      $numberId=rand();      
-      $value_txt='';
-      $input_type='password';
-      $autogenerate_html='';      
-      $class_txt='';
-      
-      // AutoGenerate
-      if (($this -> params['html_options']['generationTool'])||(!isset($this -> params['html_options']['generationTool']))) {
-        if (($this -> params['html_options']['autoGenerate'])&&(empty($this -> values))) {
-          $value_txt="value='".$this->generatePassword()."'";
-          $input_type='text';
-        }
-        $class_txt="class='LSformElement_password_generate'";
-        $id = "LSformElement_password_generate_btn_".$this -> name."_".$numberId;
-        $autogenerate_html = "<img src='".LS_IMAGES_DIR."/generate.png' id='$id' class='LSformElement_password_generate_btn'/>\n";
-      }
-
-      $id = "LSformElement_password_".$this -> name."_".$numberId;
-      $return['html'] = "<input type='$input_type' name='".$this -> name."[]' $value_txt id='$id' $class_txt/>\n";
-      $return['html'] .= $autogenerate_html;
-      $id = "LSformElement_password_view_btn_".$this -> name."_".$numberId;
-      $return['html'] .= "<img src='".LS_IMAGES_DIR."/view.png' id='$id' class='LSformElement_password_view_btn'/>\n";
-      if (!$this -> attr_html -> attribute -> ldapObject-> isNew()) {
-        $id = "LSformElement_password_verify_btn_".$this -> name."_".$numberId;
-        $return['html'] .= "<img src='".LS_IMAGES_DIR."/verify.png' id='$id' class='LSformElement_password_verify_btn' alt=\"".('Vérifier le mot de passe')."\" title=\"".('Vérifier le mot de passe')."\" />\n";
+      if (($this -> params['html_options']['generationTool'])&&($this -> params['html_options']['autoGenerate'])&&(empty($this -> values))) {
+        $pwd=$this->generatePassword();
       }
       
-      if (!empty($this -> values)) {
-        $return['html'] .= "* "._('Modification uniquement').".";
-      }
+      $params = array(
+        'generate' => ($this -> params['html_options']['generationTool']==True),
+        'verify' => (!$this -> attr_html -> attribute -> ldapObject-> isNew())
+      );
+      $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$params);
       
+      $GLOBALS['LSsession'] -> addJSscript('LSformElement_password_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_password.js');
     }
-    else {
-      if (empty($this -> values)) {
-        $return['html'] = _('Aucune valeur definie');
-      }
-      else {
-        $return['html'] = "********";
-      }
-
-    }
+    $return['html'] = $this -> fetchTemplate(NULL,array('pwd' => $pwd));
     return $return;
   }
   

@@ -83,7 +83,7 @@ if (!isset($_ERRORS)) {
           }
         break;
         case 'generatePassword':
-          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['viewBtnId'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['idform'])) ) {
+          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['idform'])) ) {
             if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
               $object = new $_REQUEST['objecttype']();
               $form = $object -> getForm($_REQUEST['idform']);
@@ -91,9 +91,7 @@ if (!isset($_ERRORS)) {
               $val = $field -> generatePassword();
               if ( $val ) {
                 $data = array(
-                  'generatePassword' => $val,
-                  'fieldId' => $_REQUEST['fieldId'],
-                  'viewBtnId' => $_REQUEST['viewBtnId']
+                  'generatePassword' => $val
                 );
               }
             }
@@ -103,7 +101,7 @@ if (!isset($_ERRORS)) {
           }
         break;
         case 'verifyPassword':
-          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldId'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
+          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
             if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
               $object = new $_REQUEST['objecttype']();
               $form = $object -> getForm($_REQUEST['idform']);
@@ -111,8 +109,7 @@ if (!isset($_ERRORS)) {
               $field=$form -> getElement($_REQUEST['attribute']);
               $val = $field -> verifyPassword($_REQUEST['fieldValue']);
               $data = array(
-                'verifyPassword' => $val,
-                'fieldId' => $_REQUEST['fieldId']
+                'verifyPassword' => $val
               );
             }
             else {

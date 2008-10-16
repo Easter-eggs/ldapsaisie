@@ -167,6 +167,13 @@ var LSdefault = new Class({
     
     imagePath: function(image) {
       return this.LSjsConfig['LS_IMAGES_DIR'] + '/' + image;
+    },
+    
+    getParams: function(name) {
+      if ($type(this.LSjsConfig[name])) {
+        return this.LSjsConfig[name];
+      }
+      return new Hash();
     }
 
 });
