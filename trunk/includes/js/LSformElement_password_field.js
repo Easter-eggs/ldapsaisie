@@ -33,6 +33,15 @@ var LSformElement_password_field = new Class({
         this.generateBtn.addEvent('click',this.onGenerateBtnClick.bind(this));
         this.generateBtn.injectAfter(this.input);
       }
+      
+      this.initialize_input();
+    },
+    
+    initialize_input: function() {
+      // Verify
+      if (this.params['verify']) {
+        this.verifyFx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
+      }
     },
     
     onGenerateBtnClick: function() {
@@ -51,11 +60,14 @@ var LSformElement_password_field = new Class({
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         this.input.value=data.generatePassword;
-        this.changeInputType();
+        this.changeInputType('view');
       }
     },
 
-    changeInputType: function() {
+    changeInputType: function(state) {
+      if (((this.input.type=='password')&&(state=='hide'))||((this.input.type=='text')&&(state=='view'))) {
+        return this.input;
+      }
       if (this.input.type=='password') {
         var newType = 'text';
         this.viewBtn.src=varLSdefault.imagePath('hide.png');
@@ -72,6 +84,7 @@ var LSformElement_password_field = new Class({
       newInput.injectAfter(this.input);
       this.input.destroy();
       this.input = newInput;
+      this.initialize_input();
       return newInput;
     },
     
