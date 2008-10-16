@@ -32,6 +32,9 @@
 
 class LSformElement_select extends LSformElement {
 
+  var $template = 'LSformElement_select.tpl';
+  var $fieldTemplate = 'LSformElement_select.tpl';
+
  /**
   * Retourn les infos d'affichage de l'élément
   * 
@@ -41,38 +44,12 @@ class LSformElement_select extends LSformElement {
   */
   function getDisplay(){
     $return = $this -> getLabelInfos();
-    // value
+    $params = array();
     if (!$this -> isFreeze()) {
-      if ($this -> params['multiple']==0) {
-        $multiple_tag='';
-      }
-      else {
-        $multiple_tag='multiple';
-      }
-        
-      $return['html'] = "<select name='".$this -> name."[]' $multiple_tag class='LSform'>\n";
-      foreach ($this -> params['text_possible_values'] as $choice_value => $choice_text) {
-        if (in_array($choice_value, $this -> values)) {
-          $selected=' selected';
-        }
-        else {
-          $selected='';
-        }
-        $return['html'].="<option value=\"".$choice_value."\"$selected>$choice_text</option>\n";
-      }
-      $return['html'].="</select>\n";
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_select.js');
     }
-    else {
-      $return['html']="<ul class='LSform'>\n";
-      foreach ($this -> values as $value) {
-        $return['html'].="<li>".$this -> params['text_possible_values'][$value]."</strong></li>";
-      }
-      if (empty($this -> values)) {
-        $return['html'] .= "<li>"._('Aucune valeur definie')."</li>\n";
-      }
-      $return['html'].="</ul>\n";
-    }
+    $params['possible_values'] = $this -> params['text_possible_values'];
+    $return['html'] = $this -> fetchTemplate(NULL,$params);
     return $return;
   }
 

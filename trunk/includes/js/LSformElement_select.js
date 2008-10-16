@@ -4,7 +4,7 @@ var LSformElement_select = new Class({
     },
     
     initialiseLSformElement_select: function() {
-      $$('select.LSform').each(function(el) {
+      $$('select.LSformElement_select').each(function(el) {
         var btn = new Element('img');
         btn.setProperties({
           src:    varLSdefault.imagePath('clear.png'),
@@ -13,13 +13,12 @@ var LSformElement_select = new Class({
         });
         btn.addClass('btn');
         btn.setStyle('vertical-align','top');
-        btn.addEvent('click',this.onClearBtnClick.bind(this,btn));
+        btn.addEvent('click',this.onClearBtnClick.bind(this,el));
         btn.injectAfter(el);
       }, this);
     },
     
-    onClearBtnClick: function(btn) {
-      var select = btn.getPrevious();
+    onClearBtnClick: function(select) {
       this.resetSelect(select);
     },
     
