@@ -323,8 +323,13 @@ class LSattribute {
   function refreshForm(&$form,$idForm) {
     if(isset($this -> config['form'][$idForm])) {
       $form_element = $form -> getElement($this -> name);
-      $values = $this -> html -> refreshForm($this -> getFormVal());
-      return $form_element -> setValue($values);
+      if ($form_element) {
+        $values = $this -> html -> refreshForm($this -> getFormVal());
+        return $form_element -> setValue($values);
+      }
+      else {
+        LSdebug('LSformElement "'.$this -> name.'" n\'existe pas');
+      }
     }
     return true;
   }
