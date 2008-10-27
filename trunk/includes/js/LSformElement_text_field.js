@@ -25,7 +25,7 @@ var LSformElement_text_field = new Class({
           this.generateBtn = new Element('img');
           this.generateBtn.addClass('btn');
           this.generateBtn.src=varLSdefault.imagePath('generate.png');
-          this.generateBtn.addEvent('click',this.refreshValue.bind(this));
+          this.generateBtn.addEvent('click',this.refreshValue.bind(this,true));
           this.generateBtn.injectAfter(this.input);
 
           // Auto
@@ -53,8 +53,11 @@ var LSformElement_text_field = new Class({
       return this.input.value;
     },
     
-    refreshValue: function() {
-      if (this._auto) {
+    refreshValue: function(force) {
+      if (force==true) {
+        this._auto=1;
+      }
+      if ((this._auto)||(force==true)) {
         var val=getFData(this.format,this.parent,'getValue');
         if ($type(this.params['withoutAccent'])) {
           if(this.params['withoutAccent']) {
