@@ -34,6 +34,7 @@ class LSformElement_image extends LSformElement {
 
   var $postImage = NULL;
   var $tmp_file = array();
+  var $fieldTemplate = 'LSformElement_image_field.tpl';
 
  /**
   * Retourne les infos d'affichage de l'élément
@@ -48,7 +49,7 @@ class LSformElement_image extends LSformElement {
     if (!$this -> isFreeze()) {
       $id=$this -> name.'_'.rand();
       $return = $this -> getLabelInfos();
-      $return['html'] = "<input type='file' name='".$this -> name."' class='LSform' id='LSformElement_image_input_$id' />\n";
+      $return['html'] = $this -> fetchTemplate(NULL,array('id' => 'LSformElement_image_input_'.$id));
       $this -> form -> setMaxFileSize(MAX_SEND_FILE_SIZE);
     }
 
