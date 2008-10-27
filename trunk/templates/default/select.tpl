@@ -21,7 +21,7 @@
       <img src='{$LS_IMAGES_DIR}/refresh.png' alt='{$_refresh}' title='{$_refresh}' id='LSselect_refresh_btn' />
       <p id='LSview_search_param'>
         <label class='LSview_search'>{$LSview_search_approx_label} : <input type='checkbox' name='LSview_approx' class='LSview_search' {if $LSview_search_approx!=''}checked{/if} /></label>
-        <label class='LSview_search'>{$LSview_search_recur_label} : <input type='checkbox' name='LSview_recur' class='LSview_search' {if $LSview_search_recur!=''}checked{/if}/></label>
+        {if $LSsession_subDn!=""}<label class='LSview_search'>{$LSview_search_recur_label} : <input type='checkbox' name='LSview_recur' class='LSview_search' {if $LSview_search_recur!=''}checked{/if}/></label>{/if}
       </p>
     </div>
   </form>
