@@ -35,12 +35,12 @@ var LSformElement_text = new Class({
     getDependsFields: function(format) {
       var retval=new Array();
       var find = 1;
-      var getMotif =  new RegExp('%\{([A-Za-z0-9]+)\}');
+      var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)\}');
       var ch = null;
       while (find) {
         ch = getMotif.exec(format);
         if ($type(ch)) {
-          retval.include(ch[1]);
+          retval.include(ch[2]);
           format=format.replace (
                   new RegExp('%\{'+ch[1]+'\}'),
                   ''

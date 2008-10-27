@@ -8,6 +8,30 @@ var LSformElement_password_field = new Class({
     },
     
     initialiseLSformElement_password_field: function() {
+      // Mail
+      if (this.params['mail']) {
+        if (this.params.mail['ask']) {
+          this.mailBtn = new Element('img');
+          this.mailBtn.addClass('btn');
+          this.mailBtn.addEvent('click',this.onMailBtnClick.bind(this));
+          this.mailInput = new Element('input');
+          this.mailInput.setProperties({
+            name: 'LSformElement_password_' + this.name + '_send',
+            type: 'hidden'
+          });
+          if (this.params.mail['send']) {
+            this.mailInput.value = 1;
+            this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+          }  
+          else {
+            this.mailInput.value = 0;
+            this.mailBtn.src = varLSdefault.imagePath('mail.png');
+          }
+          this.mailBtn.injectAfter(this.input);
+          this.mailInput.injectAfter(this.mailBtn);
+        }
+      }
+      
       // ViewBtn
       this.viewBtn = new Element('img');
       this.viewBtn.src = varLSdefault.imagePath('view.png');
@@ -41,6 +65,17 @@ var LSformElement_password_field = new Class({
       // Verify
       if (this.params['verify']) {
         this.verifyFx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
+      }
+    },
+    
+    onMailBtnClick: function() {
+      if (this.mailInput.value==1) {
+        this.mailInput.value = 0;
+        this.mailBtn.src = varLSdefault.imagePath('mail.png');
+      }
+      else {
+        this.mailInput.value = 1;
+        this.mailBtn.src = varLSdefault.imagePath('nomail.png');
       }
     },
     
