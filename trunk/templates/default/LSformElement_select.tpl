@@ -7,7 +7,11 @@
     {/foreach}
   </ul>
 {else}
-  <select name='{$attr_name}[]' {if $multiple}multiple{/if} class='LSformElement_select'>
-    {html_options options=$possible_values selected=$values}
-  </select>
+  <ul class='LSform'>
+    <li>
+      <select name='{$attr_name}[]' {if $multiple}multiple{/if} class='LSformElement_select'>
+        {html_options options=$possible_values selected=$values}
+      </select>
+    </li>
+  </ul>
 {/if}
