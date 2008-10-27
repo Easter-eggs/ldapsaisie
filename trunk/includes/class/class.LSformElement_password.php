@@ -34,8 +34,6 @@ class LSformElement_password extends LSformElement {
   
   var $fieldTemplate = 'LSformElement_password_field.tpl';
   var $template = 'LSformElement_password.tpl';
-  
-  var $sendMail = false;
 
   /**
    * Recupère la valeur de l'élement passée en POST
@@ -57,16 +55,6 @@ class LSformElement_password extends LSformElement {
         unset($return[$this -> name]);
         $this -> form -> _notUpdate[$this -> name] == true;
         return true;
-      }
-      
-      //Mail
-      if (isset($_POST['LSformElement_password_'.$this -> name.'_send'])) {
-        if ($_POST['LSformElement_password_'.$this -> name.'_send']==1) {
-          $this -> sendMail = true;
-        }
-      }
-      else if ($this -> params['html_options']['mail']['send']==1) {
-        $this -> sendMail = true;
       }
     }
     return $retval;
@@ -92,9 +80,6 @@ class LSformElement_password extends LSformElement {
         'generate' => ($this -> params['html_options']['generationTool']==True),
         'verify' => (!$this -> attr_html -> attribute -> ldapObject-> isNew())
       );
-      if (isset($this -> params['html_options']['mail'])) {
-        $params['mail'] = $this -> params['html_options']['mail'];
-      }
       $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$params);
       
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_password_field.js');

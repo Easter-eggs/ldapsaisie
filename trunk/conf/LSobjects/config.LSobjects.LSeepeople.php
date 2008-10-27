@@ -27,7 +27,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     'posixAccount',
     'sambaSamAccount',
   ),
-  'orderby' => 'displayValue',  // Valeurs possibles : 'displayValue' ou 'subDn'
   'rdn' => 'uid',
   'container_dn' => 'ou=people',
   'container_auto_create' => array(
@@ -67,12 +66,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'label' => _('Identifiant'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
-      'html_options' => array(
-        'generate_value_format' => '%{givenName:1}.%{sn}',
-        'withoutAccent' => 1,
-        'replaceSpaces' => '.',
-        'lowerCase' => 1
-      ),
       'required' => 1,
       'check_data' => array (
         'alphanumeric' => array(
@@ -347,13 +340,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'generationTool' => true,
         'autoGenerate' => false,
         'chars' => 'abcdefgh',
-        'lenght' => 5,
-        'mail' => array(
-          'send' => 1,
-          'ask' => 1,
-          'subject' => "LSexample : votre nouveau mot de passe",
-          'msg' => "Votre mot de passe vient d'être modifié.\nNouveau mot de passe : %{mdp}"
-        )
+        'lenght' => 5
       ),
       'required' => 1,
       'rights' => array(
