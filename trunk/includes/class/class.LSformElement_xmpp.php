@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+$GLOBALS['LSsession'] -> loadLSclass('LSformElement_text');
 
 /**
  * Element xmpp d'un formulaire pour LdapSaisie

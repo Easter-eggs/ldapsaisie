@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+$GLOBALS['LSsession'] -> loadLSclass('LSformElement_text');
 
 /**
  * Element mail d'un formulaire pour LdapSaisie
