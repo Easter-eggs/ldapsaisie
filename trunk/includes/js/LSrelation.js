@@ -46,9 +46,9 @@ var LSrelation = new Class({
     },
     
     deleteFromImg: function(img) {
-      var li = img.getParent();
+      var li = img.getParent('li');
       var a = img.getPrevious('a');
-      var ul = li.getParent();
+      var ul = li.getParent('ul');
       img.destroy();
       LSdebug(ul.id);
       var getId = /LSrelation_ul_([0-9]*)/
