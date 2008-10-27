@@ -321,7 +321,7 @@ class LSattribute {
    * @retval boolean true si la valeur a été rafraichie ou que ce n'est pas nécessaire, false sinon
    */
   function refreshForm(&$form,$idForm) {
-    if(isset($this -> config['form'][$idForm])) {
+    if(isset($this -> config['form'][$idForm])&&($this -> myRights()!='n')) {
       $form_element = $form -> getElement($this -> name);
       if ($form_element) {
         $values = $this -> html -> refreshForm($this -> getFormVal());
