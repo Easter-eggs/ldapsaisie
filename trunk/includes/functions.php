@@ -39,6 +39,7 @@
  */
 function getFData($format,$data,$meth=NULL) {
   $unique=false;
+  $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?}";
   if(!is_array($format)) {
     $format=array($format);
     $unique=true;
@@ -46,16 +47,41 @@ function getFData($format,$data,$meth=NULL) {
   for($i=0;$i<count($format);$i++) {
     if(is_array($data)) {
       if ($meth==NULL) {
-        while (ereg("%{([A-Za-z0-9]+)}",$format[$i],$ch)) {
-          $format[$i]=ereg_replace($ch[0],$data[$ch[1]],$format[$i]);
+        while (ereg($expr,$format[$i],$ch)) {
+          if($ch[3]) {
+            if ($ch[5]) {
+              $s=$ch[3];
+              $l=$ch[5];
+            }
+            else {
+              $s=0;
+              $l=$ch[3];
+            }
+            $val=substr((string)$data[$ch[1]],$s,$l);
+          }
+          else {
+            $val=$data[$ch[1]];
+          }
+          $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
         }
       }
       else {
-        while (ereg("%{([A-Za-z0-9]+)}",$format[$i],$ch)) {
+        while (ereg($expr,$format[$i],$ch)) {
           if (method_exists($data[$ch[1]],$meth)) {
             $value = $data[$ch[1]] -> $meth();
             if (is_array($value)) {
               $value = $value[0];
+            }
+            if($ch[3]) {
+              if ($ch[5]) {
+                $s=$ch[3];
+                $l=$ch[5];
+              }
+              else {
+                $s=0;
+                $l=$ch[3];
+              }
+              $value=substr((string)$value,$s,$l);
             }
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
@@ -68,15 +94,41 @@ function getFData($format,$data,$meth=NULL) {
     }
     else {
       if ($meth==NULL) {
-        while (ereg("%{([A-Za-z0-9]+)}",$format[$i],$ch))
-          $format[$i]=ereg_replace($ch[0],$data,$format[$i]);
+        while (ereg($expr,$format[$i],$ch)) {
+          if($ch[3]) {
+            if ($ch[5]) {
+              $s=$ch[3];
+              $l=$ch[5];
+            }
+            else {
+              $s=0;
+              $l=$ch[3];
+            }
+            $val=substr((string)$data,$s,$l);
+          }
+          else {
+            $val=$data;
+          }
+          $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
+        }
       }
       else {
-        while (ereg("%{([A-Za-z0-9]+)}",$format[$i],$ch)) {
+        while (ereg($expr,$format[$i],$ch)) {
           if (method_exists($data,$meth)) {
             $value = $data -> $meth($ch[1]);
             if (is_array($value)) {
               $value = $value[0];
+            }
+            if($ch[3]) {
+              if ($ch[5]) {
+                $s=$ch[3];
+                $l=$ch[5];
+              }
+              else {
+                $s=0;
+                $l=$ch[3];
+              }
+              $value=substr((string)$value,$s,$l);
             }
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }

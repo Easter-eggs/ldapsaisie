@@ -34,17 +34,29 @@ function LSdebug() {
  * @retval string La chaine formatée
  */
 function getFData(format,data,meth) {
-  var getMotif =  new RegExp('%\{([A-Za-z0-9]+)\}');
+  var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)\}');
   var find=1;  
+  var val="";
   if(($type(data)=='object') || ($type(data)=='array')) {
     if ($type(data[meth])!='function') {
       while (find) {
         var ch = getMotif.exec(format);
         if ($type(ch)) {
-          format=format.replace (
-                  new RegExp('%\{'+ch[1]+'\}'),
-                  data[ch[1]]
-                );
+          if($type(ch[4])) {
+            if ($type(ch[6])) {
+              var s=ch[4];
+              var l=ch[6];
+            }
+            else {
+              var s=0;
+              var l=ch[4];
+            }
+            var val=data[ch[2]].substr(s,l);
+          }
+          else {
+            val=data[ch[2]];
+          }
+          format=format.replace(new RegExp('%\{'+ch[1]+'\}'),val);
         }
         else {
           find=0;
@@ -56,14 +68,25 @@ function getFData(format,data,meth) {
         var ch = getMotif.exec(format);
         if ($type(ch)) {
           try {
-            format=format.replace (
-                    new RegExp('%\{'+ch[1]+'\}'),
-                    data[meth](ch[1])
-                  );
+            val=data[meth](ch[2]);
           }
           catch(e) {
             return;
           }
+          
+          if($type(ch[4])) {
+            if ($type(ch[6])) {
+              var s=ch[4];
+              var l=ch[6];
+            }
+            else {
+              var s=0;
+              var l=ch[4];
+            }
+            val=val.substr(s,l);
+          }
+          
+          format=format.replace(new RegExp('%\{'+ch[1]+'\}'),val);
         }
         else {
           find=0;
