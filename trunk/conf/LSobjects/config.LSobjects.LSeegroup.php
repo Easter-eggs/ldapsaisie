@@ -26,6 +26,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     'posixGroup'
   ),
   'rdn' => 'cn',
+  'orderby' => 'displayValue',  // Valeurs possibles : 'displayValue' ou 'subDn'
   'container_dn' => 'ou=groups',
   'container_auto_create' => array(
     'objectclass' => array(

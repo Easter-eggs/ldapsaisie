@@ -196,6 +196,7 @@ if($LSsession -> startLSsession()) {
             $recur = false;
             $approx = false;
             $orderby = false;
+            $_REQUEST['orderby']=$GLOBALS['LSobjects'][$LSobject]['orderby'];
             $ordersense = 'ASC';
             $subDnLdapServer = $GLOBALS['LSsession'] -> getSubDnLdapServer();
             $doSubDn = (($subDnLdapServer)&&(!$GLOBALS['LSsession']->isSubDnLSobject($LSobject)));
