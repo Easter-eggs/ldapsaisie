@@ -8,6 +8,38 @@ var LSformElement_password_field = new Class({
     },
     
     initialiseLSformElement_password_field: function() {
+      // Mail
+      if (this.params['mail']) {
+        if ((this.params.mail['canEdit']==1)||(!$type(this.params.mail['canEdit']))) {
+          this.editMailBtn = new Element('img');
+          this.editMailBtn.src = varLSdefault.imagePath('mail-edit.png');
+          this.editMailBtn.addClass('btn');
+          this.editMailBtn.addEvent('click',this.onEditMailBtnClick.bind(this));
+          this.LSmail_open = 0;
+          this.editMailBtn.injectAfter(this.input);
+        }
+        if (this.params.mail['ask']) {
+          this.mailBtn = new Element('img');
+          this.mailBtn.addClass('btn');
+          this.mailBtn.addEvent('click',this.onMailBtnClick.bind(this));
+          this.mailInput = new Element('input');
+          this.mailInput.setProperties({
+            name: 'LSformElement_password_' + this.name + '_send',
+            type: 'hidden'
+          });
+          if (this.params.mail['send']) {
+            this.mailInput.value = 1;
+            this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+          }  
+          else {
+            this.mailInput.value = 0;
+            this.mailBtn.src = varLSdefault.imagePath('mail.png');
+          }
+          this.mailBtn.injectAfter(this.input);
+          this.mailInput.injectAfter(this.mailBtn);
+        }
+      }
+      
       // ViewBtn
       this.viewBtn = new Element('img');
       this.viewBtn.src = varLSdefault.imagePath('view.png');
@@ -41,6 +73,57 @@ var LSformElement_password_field = new Class({
       // Verify
       if (this.params['verify']) {
         this.verifyFx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
+      }
+    },
+    
+    onMailBtnClick: function() {
+      if (this.mailInput.value==1) {
+        this.mailInput.value = 0;
+        this.mailBtn.src = varLSdefault.imagePath('mail.png');
+      }
+      else {
+        this.mailInput.value = 1;
+        this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+      }
+    },
+    
+    onEditMailBtnClick: function(btn) {
+      if(!$type(this.LSmail)) {
+        this.LSmail = new LSmail();
+        this.LSmail.addEvent('close',this.onLSmailClose.bind(this));
+        this.LSmail.addEvent('valid',this.onLSmailValid.bind(this));
+      }
+      
+      var mail = varLSform.getValue(this.params.mail['mail_attr']);
+
+      this.LSmail_open = 1;
+      this.LSmail.setMails(mail);
+      this.LSmail.setSubject(this.params.mail['subject']);
+      this.LSmail.setMsg(this.params.mail['msg']);
+      this.LSmail.open(this.editMailBtn);
+    },
+    
+    onLSmailClose: function(LSmail) {
+      LSdebug('LSformElement_password : close LSmail');
+      this.LSmail_open = 0;
+    },
+    
+    onLSmailValid: function(LSmail) {
+      LSdebug('LSformElement_password : valid LSmail');
+      this.setMail(LSmail.getMail());
+    },
+    
+    setMail: function(mail) {
+      if ($type(mail)) {
+        if (!$type(this.msgInput)) {
+          this.msgInput = new Element('input');
+          this.msgInput.setProperties({
+            name: 'LSformElement_password_' + this.name + '_msg',
+            type: 'hidden'
+          });
+          this.msgInput.injectAfter(this.editMailBtn);
+        }
+        this.msgInput.value = JSON.encode(mail);
       }
     },
     

@@ -33,6 +33,32 @@ var LSform = new Class({
           LSdebug('Pas de reinitialise pour ' + fieldType);
         }
       }
+    },
+    
+    getValue: function(fieldName) {
+      var retVal = Array();
+      var ul = $(fieldName);
+      if ($type(ul)) {
+        var elements = ul.getElements('input');
+        elements.combine(ul.getElements('textarea'));
+        elements.combine(ul.getElements('select'));
+        
+        var getName = new RegExp('([a-zA-Z0-9]*)(\[.*\])?');
+        elements.each(function(el){
+          var name = getName.exec(el.name);
+          LSdebug(name);
+          if (name) {
+            if (name[1]==fieldName) {
+              if ($type(el.value)) {
+                if (el.value!="") {
+                  retVal.include(el.value);
+                }
+              }
+            }
+          }
+        },this);
+      }
+      return retVal;
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {

@@ -42,6 +42,8 @@ class LSattribute {
   var $is_validate=false;
   var $_finalUpdateData=false;
   var $_myRights=NULL;
+  var $_events=array();
+  var $_objectEvents=array();
   
   /**
    * Constructeur
@@ -520,6 +522,133 @@ class LSattribute {
     return $this -> config['dependAttrs'];
   }
 
+  /**
+   * Ajouter une action lors d'un événement
+   * 
+   * @param[in] $event string Le nom de l'événement
+   * @param[in] $fct string Le nom de la fonction à exectuer
+   * @param[in] $params mixed Paramètres pour le lancement de la fonction
+   * @param[in] $class Nom de la classe possèdant la méthode $fct à executer
+   * 
+   * @retval void
+   */
+  function addEvent($event,$fct,$params,$class=NULL) {
+    $this -> _events[$event][] = array(
+      'function'  => $fct,
+      'params'    => $params,
+      'class'     => $class
+    );
+  }
+  
+  /**
+   * Ajouter une action sur un objet lors d'un événement
+   * 
+   * @param[in] $event string Le nom de l'événement
+   * @param[in] $obj object L'objet dont la méthode doit être executé
+   * @param[in] $meth string Le nom de la méthode
+   * @param[in] $params mixed Paramètres d'execution de la méthode
+   * 
+   * @retval void
+   */
+  function addObjectEvent($event,&$obj,$meth,$params=NULL) {
+    $this -> _objectEvents[$event][] = array(
+      'obj'  => $obj,
+      'meth'  => $meth,
+      'params'    => $params
+    );
+  }
+  
+  /**
+   * Lance les actions à executer lors d'un événement
+   * 
+   * @param[in] $event string Le nom de l'événement
+   * 
+   * @retval boolean True si tout c'est bien passé, false sinon
+   */
+  function fireEvent($event) {
+    $return = true;
+    if(isset($this -> config[$event])) {
+      if (!is_array($this -> config[$event])) {
+        $funcs = array($this -> config[$event]);
+      }
+      else {
+        $funcs = $this -> config[$event];
+      }
+      foreach($funcs as $func) {
+        if(function_exists($func)) {
+          if(!$func($this -> ldapObject)) {
+            $return = false;
+          }
+        }
+        else {
+          $return = false;
+        }
+      }
+    }
+    
+    if (is_array($this -> _events[$event])) {
+      foreach ($this -> _events[$event] as $e) {
+        if ($e['class']) {
+          if (class_exists($e['class'])) {
+            $obj = new $e['class']();
+            if (method_exists($obj,$e['fct'])) {
+              try {
+                $obj -> $e['fct']($e['params']);
+              }
+              catch(Exception $er) {
+                $return = false;
+                LSdebug("Event ".$event." : Erreur durant l'execution de la méthode ".$e['fct']." de la classe ".$e['class']);
+              }
+            }
+            else {
+              LSdebug("Event ".$event." : La méthode ".$e['fct']." de la classe ".$e['class']." n'existe pas.");
+              $return = false;
+            }
+          }
+          else {
+            $return = false;
+            LSdebug("Event ".$event." : La classe ".$e['class']." n'existe pas");
+          }
+        }
+        else {
+          if (function_exists($e['fct'])) {
+            try {
+              $e['fct']($e['params']);
+            }
+            catch(Exception $er) {
+              LSdebug("Event ".$event." : Erreur durant l'execution de la function ".$e['fct']);
+              $return = false;
+            }
+          }
+          else {
+            LSdebug("Event ".$event." : la function ".$e['fct']." n'existe pas");
+            $return = false;
+          }
+        }
+      }
+    }
+    
+    if (is_array($this -> _objectEvents[$event])) {
+      foreach ($this -> _objectEvents[$event] as $e) {
+        if (method_exists($e['obj'],$e['meth'])) {
+          try {
+            $e['obj'] -> $e['meth']($e['params']);
+          }
+          catch(Exception $er) {
+            $return = false;
+            LSdebug("Event ".$event." : Erreur durant l'execution de la méthode ".$e['meth']." sur l'objet.");
+          }
+        }
+        else {
+          LSdebug("Event ".$event." : La méthode ".$e['meth']." de l'objet n'existe pas.");
+          $return = false;
+        }
+      }
+    }
+    
+    return $return;
+  }
+  
 }
 
 ?>

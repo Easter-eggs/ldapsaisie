@@ -1,8 +1,9 @@
 var LSmail = new Class({
-    initialize: function(mails,msg){
+    initialize: function(mails,subject,msg){
       this.href = "LSmail.php";
       this.setMails(mails);
       this.setMsg(msg);
+      this.setSubject(subject);
       this.object = {};
       this.opened = 0;
       this.listeners = {
@@ -29,6 +30,15 @@ var LSmail = new Class({
       }      
     },
     
+    setSubject: function(subject) {
+      if ($type(subject)) {
+        this.subject = subject;
+      }
+      else {
+        this.subject = "";
+      }      
+    },
+    
     setObject: function(type,dn) {
       this.object = {
         type:   type,
@@ -43,7 +53,8 @@ var LSmail = new Class({
           action:     'display',
           object:     this.object,
           mails:      this.mails,
-          msg:        this.msg
+          msg:        this.msg,
+          subject:    this.subject
         };
         
         if ($type(startElement)) {
@@ -57,7 +68,6 @@ var LSmail = new Class({
     onOpenGetHtmlComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
-        //varLSsmoothbox.setRefreshElement(this);
         varLSsmoothbox.asNew();
         varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.addEvent('close',this.onLSsmoothboxClose.bind(this));
@@ -92,6 +102,10 @@ var LSmail = new Class({
         data.imgload=varLSdefault.loadingImgDisplay(this.startElement,'inside');
         new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSendComplete.bind(this)}).send();
       }
+    },
+    
+    getMail: function() {
+      return this.sendInfos;
     },
     
     onSendComplete: function(responseText, responseXML) {

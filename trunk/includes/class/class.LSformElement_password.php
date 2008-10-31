@@ -34,6 +34,8 @@ class LSformElement_password extends LSformElement {
   
   var $fieldTemplate = 'LSformElement_password_field.tpl';
   var $template = 'LSformElement_password.tpl';
+  
+  var $sendMail = false;
 
   /**
    * Recupère la valeur de l'élement passée en POST
@@ -55,6 +57,40 @@ class LSformElement_password extends LSformElement {
         unset($return[$this -> name]);
         $this -> form -> _notUpdate[$this -> name] == true;
         return true;
+      }
+      
+      //Mail
+      if (isset($_POST['LSformElement_password_'.$this -> name.'_send'])) {
+        if ($_POST['LSformElement_password_'.$this -> name.'_send']==1) {
+          $this -> sendMail = true;
+          LSdebug ('send by form');
+        }
+      }
+      else if ($this -> params['html_options']['mail']['send']==1) {
+        $this -> sendMail = true;
+        LSdebug ('send by config');
+      }
+      if ($this -> sendMail && $GLOBALS['LSsession'] -> loadLSaddon('mail')) {
+        $msg = getFData($this -> params['html_options']['mail']['msg'],$return[$this -> name][0]);
+        $subject = $this -> params['html_options']['mail']['subject'];
+        if (isset($_POST['LSformElement_password_'.$this -> name.'_msg'])) {
+          $msgInfos = json_decode($_POST['LSformElement_password_'.$this -> name.'_msg']);
+          if ($msgInfos -> subject) {
+            $subject = $msgInfos -> subject;
+          }
+          if ($msgInfos -> msg) {
+            $msg = getFData($msgInfos -> msg,$return[$this -> name][0]);
+          }
+          if ($msgInfos -> mail) {
+            $mail = $msgInfos -> mail;
+          }
+        }
+        $this -> sendMail = array (
+          'subject' => $subject,
+          'msg' => $msg,
+          'mail' => $mail
+        );
+        $this -> attr_html -> attribute -> addObjectEvent('after_modify',$this,'send');
       }
     }
     return $retval;
@@ -80,6 +116,9 @@ class LSformElement_password extends LSformElement {
         'generate' => ($this -> params['html_options']['generationTool']==True),
         'verify' => (!$this -> attr_html -> attribute -> ldapObject-> isNew())
       );
+      if (isset($this -> params['html_options']['mail'])) {
+        $params['mail'] = $this -> params['html_options']['mail'];
+      }
       $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$params);
       
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_password_field.js');
@@ -98,6 +137,39 @@ class LSformElement_password extends LSformElement {
       return false;
     }
     return $GLOBALS['LSsession'] -> checkUserPwd($this -> attr_html -> attribute -> ldapObject,$pwd);
+  }
+  
+  function send($params) {
+    if (is_array($this -> sendMail)) {
+      $mail = (String)$this -> sendMail['mail'];
+      Lsdebug($mail);
+      if ($mail=="") {
+        $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$this -> params['html_options']['mail']['mail_attr']];
+        if ($mail_attr instanceOf LSattribute) {
+          $mail = $mail_attr -> getValue();
+          $mail=$mail[0];
+        }
+        else {
+          LSdebug("L'attribut $mail_attr pour l'envoie du nouveau mot de passe n'existe pas.");
+          return;
+        }
+      }
+              
+      if (checkEmail($mail,NULL,true)) {
+        if (sendMail(
+          $mail,
+          $this -> sendMail['subject'],
+          $this -> sendMail['msg']
+        )) {
+          $GLOBALS['LSsession'] -> addInfo(_('Mail de changement de mot de passe envoyé.'));
+        }
+      }
+      else {
+        LSdebug('Adresse mail incorrect : '.$mail);
+        return;
+      }
+    }
+    return true;
   }
 }
   

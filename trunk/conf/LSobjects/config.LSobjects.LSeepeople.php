@@ -27,6 +27,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     'posixAccount',
     'sambaSamAccount',
   ),
+  'orderby' => 'displayValue',  // Valeurs possibles : 'displayValue' ou 'subDn'
   'rdn' => 'uid',
   'container_dn' => 'ou=people',
   'container_auto_create' => array(
@@ -66,6 +67,13 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'label' => _('Identifiant'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
+      'html_options' => array(
+        'generate_value_format' => '%{givenName:1}.%{sn}',
+        'autoGenerateOnModify' => true,   // default : false
+        'withoutAccent' => 1,
+        'replaceSpaces' => '.',
+        'lowerCase' => 1
+      ),
       'required' => 1,
       'check_data' => array (
         'alphanumeric' => array(
@@ -340,7 +348,31 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'generationTool' => true,
         'autoGenerate' => false,
         'chars' => 'abcdefgh',
-        'lenght' => 5
+        'lenght' => 5,
+        'mail' => array(
+          'send' => 1,
+          'ask' => 1,
+          'subject' => "LSexample : votre nouveau mot de passe",
+          'msg' => "Votre mot de passe vient d'etre modifie.\nNouveau mot de passe : %{mdp}",
+          'mail_attr' => 'mail'
+        )
+      ),
+      'check_data' => array(
+        'password' => array(
+          'msg' => 'Le mot de passe doit contenir entre 8 et 10 caractères.',
+          'params' => array(
+            'minLength' => 8,
+            'maxLength' => 10,
+            'prohibitedValues' => array(
+              'azertyui',
+              '12345678'
+            ),
+            'regex' => array(
+              '[a-z]+',
+              '[0-9]+'
+            )
+          )
+        )
       ),
       'required' => 1,
       'rights' => array(

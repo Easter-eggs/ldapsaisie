@@ -142,6 +142,7 @@
     if (!isset($headers['From']) && ($GLOBALS['LSsession'] -> getEmailSender() != "")) {
       $headers['From'] = $GLOBALS['LSsession'] -> getEmailSender();
     }
+    $headers["To"] = $to;
     
     $ret = $mail_obj -> send($to,$headers,$msg);
     

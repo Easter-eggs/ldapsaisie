@@ -15,7 +15,7 @@
   </dd>
   <dt class='LSform'>{$LSmail_subject_label}</dt>
   <dd class='LSform'>
-    <input type='text' name='LSmail_subject' id='LSmail_subject'/>
+    <input type='text' name='LSmail_subject' id='LSmail_subject' value="{$LSmail_subject}"/>
   </dd>
   <dt class='LSform'>{$LSmail_msg_label}</dt>
   <dd class='LSform'>

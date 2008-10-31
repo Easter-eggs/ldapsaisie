@@ -65,7 +65,7 @@ $GLOBALS['LSconfig'] = array(
       'recoverPassword' => array(
         'mailAttr' => 'mail',
         'recoveryHashAttr' => 'lsRecoveryHash',
-        'recoveryEmailSender' => 'noreply-recover@lsexample.net',
+        'recoveryEmailSender' => 'noreply-recover@ls.com',
         'recoveryHashMail' => array(
           'subject' => 'LSexample : Récupération de votre mot de passe.',
           'msg' => "Pour poursuivre le processus de récupération de votre mot de passe,\nmerci de cliquer de vous rendre à l'adresse suivante :\n%{url}"
@@ -75,7 +75,7 @@ $GLOBALS['LSconfig'] = array(
           'msg' => "Votre nouveau mot de passe : %{mdp}"
         )
       ),
-      'emailSender' => 'noreply@lsexample.net',
+      'emailSender' => 'noreply@ls.com',
       'LSobjects' => array (
         'LSeepeople',
         'LSeegroup'

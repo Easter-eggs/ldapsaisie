@@ -318,26 +318,7 @@ class LSldapObject {
       }
       // $this -> attrs[*] => before_modify
       foreach($new_data as $attr_name => $attr_val) {
-        if(isset($this -> config['attrs'][$attr_name]['before_modify'])) {
-          if (!is_array($this -> config['attrs'][$attr_name]['before_modify'])) {
-            $funcs = array($this -> config['attrs'][$attr_name]['before_modify']);
-          }
-          else {
-            $funcs = $this -> config['attrs'][$attr_name]['before_modify'];
-          }
-          foreach($funcs as $func) {
-            if(function_exists($func)) {
-              if(!$func($this)) {
-                $GLOBALS['LSerror'] -> addErrorCode(309,array('func' => $func,'attr' => $attr_name));
-                return;
-              }
-            }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(308,array('func' => $func,'attr' => $attr_name));
-              return;
-            }
-          }
-        }
+        $this -> attrs[$attr_name] -> fireEvent('before_modify');
       }
       
       if ($this -> submitChange($idForm)) {
@@ -364,26 +345,7 @@ class LSldapObject {
       
       // $this -> attrs[*] => After Modify
       foreach($new_data as $attr_name => $attr_val) {
-        if(isset($this -> config['attrs'][$attr_name]['after_modify'])) {
-          if (!is_array($this -> config['attrs'][$attr_name]['after_modify'])) {
-            $funcs = array($this -> config['attrs'][$attr_name]['after_modify']);
-          }
-          else {
-            $funcs = $this -> config['attrs'][$attr_name]['after_modify'];
-          }
-          foreach($funcs as $func) {
-            if(function_exists($func)) {
-              if(!$func($this)) {
-                $GLOBALS['LSerror'] -> addErrorCode(307,array('func' => $func,'attr' => $attr_name));
-                return;
-              }
-            }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(306,array('func' => $func,'attr' => $attr_name));
-              return;
-            }
-          }
-        }
+        $this -> attrs[$attr_name] -> fireEvent('after_modify');
       }
       return true;
     }

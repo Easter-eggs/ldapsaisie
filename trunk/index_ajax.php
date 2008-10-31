@@ -354,38 +354,37 @@ if (!isset($_ERRORS)) {
     case 'LSmail':
       switch($_REQUEST['action']) {
         case 'display':
-          if ((isset($_REQUEST['object'])) && (isset($_REQUEST['mails'])) && (isset($_REQUEST['msg'])) ) {
-            if (isset($_REQUEST['object']['type']) && isset($_REQUEST['object']['dn'])) {
-              if ($GLOBALS['LSsession']->loadLSobject($_REQUEST['object']['type'])) {
-                $obj = new $_REQUEST['object']['type']();
-                $obj -> loadData($_REQUEST['object']['dn']);
-                $msg = $obj -> getFData($_REQUEST['msg']);
-              }
-              else {
-                $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['object']['type']);
-              }
+          if (isset($_REQUEST['object']['type']) && isset($_REQUEST['object']['dn'])) {
+            if ($GLOBALS['LSsession']->loadLSobject($_REQUEST['object']['type'])) {
+              $obj = new $_REQUEST['object']['type']();
+              $obj -> loadData($_REQUEST['object']['dn']);
+              $msg = $obj -> getFData($_REQUEST['msg']);
+              $subject = $obj -> getFData($_REQUEST['subject']);
             }
             else {
-              $msg = $_REQUEST['msg'];
+              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['object']['type']);
             }
-            $GLOBALS['Smarty'] -> assign('LSmail_msg',$msg);
-            if (is_array($_REQUEST['mails'])) {
-              $GLOBALS['Smarty'] -> assign('LSmail_mails',$_REQUEST['mails']);
-            }
-            else if(empty($_REQUEST['mails'])) {
-              $GLOBALS['Smarty'] -> assign('LSmail_mails',array($_REQUEST['mails']));
-            }
-            $GLOBALS['Smarty'] -> assign('LSmail_mail_label',_('E-mail'));
-            $GLOBALS['Smarty'] -> assign('LSmail_subject_label',_('Sujet'));
-            $GLOBALS['Smarty'] -> assign('LSmail_msg_label',_('Message'));
-            
-            $data = array(
-              'html' => $GLOBALS['Smarty'] -> fetch('LSmail.tpl')
-            );
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(1012);
-          } 
+            $msg = $_REQUEST['msg'];
+            $subject = $_REQUEST['subject'];
+          }
+          
+          $GLOBALS['Smarty'] -> assign('LSmail_msg',$msg);
+          $GLOBALS['Smarty'] -> assign('LSmail_subject',$subject);
+          if (is_array($_REQUEST['mails'])) {
+            $GLOBALS['Smarty'] -> assign('LSmail_mails',$_REQUEST['mails']);
+          }
+          else if(empty($_REQUEST['mails'])) {
+            $GLOBALS['Smarty'] -> assign('LSmail_mails',array($_REQUEST['mails']));
+          }
+          $GLOBALS['Smarty'] -> assign('LSmail_mail_label',_('E-mail'));
+          $GLOBALS['Smarty'] -> assign('LSmail_subject_label',_('Sujet'));
+          $GLOBALS['Smarty'] -> assign('LSmail_msg_label',_('Message'));
+          
+          $data = array(
+            'html' => $GLOBALS['Smarty'] -> fetch('LSmail.tpl')
+          );
         break;
         case 'send':
           if (isset($_REQUEST['infos'])) {
