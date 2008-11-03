@@ -16,7 +16,7 @@ ul.LSform_layout_active {
 
 li.LSform_layout a {
   text-decoration:    none;
-  color:              #0072B8;
+  color:              #433F3A;
 }
 
 li.LSform_layout_active a {
@@ -26,7 +26,7 @@ li.LSform_layout_active a {
 li.LSform_layout_active {
   text-decoration:    none;
   color:              #fff;
-  background-color:   #52BCE5;
+  background-color:   #cac9c4;
   -moz-border-radius: 3px 3px 0px 0px;
   padding:            4px;
   display:            inline;
@@ -35,7 +35,7 @@ li.LSform_layout_active {
 
 li.LSform_layout_current {
   color:              #fff;
-  background-color:   #0072B8;
+  background-color:   #433F3A;
 }
 
 h2.LSform_layout_active {
@@ -43,7 +43,7 @@ h2.LSform_layout_active {
 }
 
 div.LSform_layout {
-  border:             1px solid #0072B8;
+  border:             1px solid #433F3A;
   margin:             1em;
   padding:            0.5em;
 }
