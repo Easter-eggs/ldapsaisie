@@ -1,5 +1,5 @@
 <div class='LSobject-select' id='LSobject-select-main-div'>
-  <h1 id='title'>
+  <h1 id='LSselect_title'>
     {$pagetitle}
   </h1>
 

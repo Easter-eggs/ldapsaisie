@@ -81,7 +81,7 @@ var LSselect = new Class({
       var data = {
         ajax:         true
       };
-      this.searchImgload = varLSdefault.loadingImgDisplay($('title'),'inside');
+      this.searchImgload = varLSdefault.loadingImgDisplay($('LSselect_title'),'inside');
       new Request({url: a.href, data: data, onSuccess: this.onChangePageClickComplete.bind(this)}).send();
     },
     
@@ -101,7 +101,7 @@ var LSselect = new Class({
     },
     
     submitSearchForm: function() {
-      this.searchImgload = varLSdefault.loadingImgDisplay($('title'),'inside');
+      this.searchImgload = varLSdefault.loadingImgDisplay($('LSselect_title'),'inside');
       this.LSselect_search_form.set('send',{
         data:         this.LSselect_search_form,
         evalScripts:  true,
