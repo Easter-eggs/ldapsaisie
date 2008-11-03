@@ -21,6 +21,13 @@ h1 {
   clear:              left;
 }
 
+h2 {
+  margin:             0.7em;
+  margin-bottom:      1px;
+  color:              #0072b8;
+  clear:              left;
+}
+
 a img {
   border:             none;
 }
