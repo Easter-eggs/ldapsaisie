@@ -50,7 +50,7 @@ var LSformElement_mail = new Class({
         if ((mail!="")) {
           this.LSmail_open = 1;
           this.LSmail.setMails([mail]);
-          this.LSmail.setObject($('LSform_objecttype').value,$('LSform_objectdn').value);
+          this.LSmail.setObject(varLSform.objecttype,varLSform.objectdn);
           this.LSmail.open(btn);
         }
       }

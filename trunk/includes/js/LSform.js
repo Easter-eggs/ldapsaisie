@@ -3,21 +3,67 @@ var LSform = new Class({
       this._modules=[];
       this._elements=[];
       
-      this.objecttype = $('LSform_objecttype').value,
-      this.objectdn = $('LSform_objectdn').value,
-      this.idform = $('LSform_idform').value,
+      if ($type($('LSform_idform'))) {
+        this.objecttype = $('LSform_objecttype').value;
+        this.objectdn = $('LSform_objectdn').value;
+        this.idform = $('LSform_idform').value;
+      }
       
       this.initializeLSform();
+      this.initializeLSformLayout();
     },
     
     initializeLSform: function(el) {
       this.LStips = new Tips('.LStips');
-      if (typeof(el) == 'undefined') {
-        el = document;
+      if (this.idform) {
+        if (typeof(el) == 'undefined') {
+          el = document;
+        }
+        el.getElements('ul.LSform').each(function(ul) {
+          this._elements[ul.id] = new LSformElement(this,ul.id,ul);
+        }, this);
       }
-      el.getElements('ul.LSform').each(function(ul) {
-        this._elements[ul.id] = new LSformElement(this,ul.id,ul);
-      }, this);
+    },
+    
+    initializeLSformLayout: function(el) {
+      $$('.LSform_layout').each(function(el) {
+        el.addClass('LSform_layout_active');
+      },this);
+      
+      var LIs = $$('li.LSform_layout');
+      LIs.each(function(li) {
+        li.getFirst('a').addEvent('click',this.onTabBtnClick.bindWithEvent(this,li));
+      },this);
+      
+      if (LIs.length != 0) {
+        this._currentTab = 'default_value';
+        document.getElement('li.LSform_layout').getFirst('a').fireEvent('click');
+      }
+    },
+    
+    onTabBtnClick: function(event,li) {
+      if ($type(event)) {
+        new Event(event).stop();
+      }
+      
+      if (this._currentTab!='default_value') {
+        var oldLi = $$('li.LSform_layout[title='+this._currentTab+']');
+        if ($type(oldLi)) {
+          oldLi.removeClass('LSform_layout_current');
+        }
+        var oldDiv = $$('div.LSform_layout[title='+this._currentTab+']');
+        if ($type(oldDiv)) {
+          oldDiv.removeClass('LSform_layout_current');
+        }
+      }
+      
+      this._currentTab = li.title;
+      li.addClass('LSform_layout_current');
+      var div = $$('div.LSform_layout[title='+this._currentTab+']');
+      if ($type(div)) {
+        div.addClass('LSform_layout_current');
+      }
+      
     },
     
     addModule: function(name,obj) {

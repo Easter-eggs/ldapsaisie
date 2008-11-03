@@ -74,6 +74,7 @@ class LSform {
   function display(){
     if ($this -> idForm == 'view') {
       $GLOBALS['LSsession'] -> addJSscript('LSview.js');
+      $GLOBALS['LSsession'] -> addJSscript('LSform.js');
     }
     else {
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_field.js');
@@ -93,6 +94,12 @@ class LSform {
       'dn' => $this -> ldapObject -> getValue('dn')
     );
     $GLOBALS['Smarty'] -> assign('LSform_object',$LSform_object);
+    
+    if (is_array($GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout'])) {
+      $GLOBALS['Smarty'] -> assign('LSform_layout',$GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout']);
+      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('Aucun champ.'));
+    }
+    
     $fields = array();
     foreach($this -> elements as $element) {
       $field = array();
@@ -100,7 +107,7 @@ class LSform {
       if (isset($this -> _elementsErrors[$element -> name])) {
         $field['errors']= $this -> _elementsErrors[$element -> name];
       }
-      $fields[] = $field;
+      $fields[$element -> name] = $field;
     }
     
     if ($this -> maxFileSize) {
@@ -123,6 +130,7 @@ class LSform {
    */ 
   function displayView(){
     $GLOBALS['LSsession'] -> addCssFile('LSform.css');
+    $GLOBALS['LSsession'] -> addJSscript('LSform.js');
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getDn()
@@ -131,9 +139,14 @@ class LSform {
     $fields = array();
     foreach($this -> elements as $element) {
       $field = $element -> getDisplay();
-      $fields[] = $field;
+      $fields[$element -> name] = $field;
     }
     $GLOBALS['Smarty'] -> assign('LSform_fields',$fields);
+    
+    if (is_array($GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout'])) {
+      $GLOBALS['Smarty'] -> assign('LSform_layout',$GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout']);
+      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('Aucun champ.'));
+    }
   }  
   
   /**

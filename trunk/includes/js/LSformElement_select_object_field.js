@@ -97,9 +97,9 @@ var LSformElement_select_object_field = new Class({
         template:   'LSform',
         action:     'refreshField',
         attribute:  this.name,
-        objecttype: $('LSform_objecttype').value,
-        objectdn:   $('LSform_objectdn').value,
-        idform:     $('LSform_idform').value
+        objecttype: varLSform.objecttype,
+        objectdn:   varLSform.objectdn,
+        idform:     varLSform.idform
       };
       data.imgload=varLSdefault.loadingImgDisplay(this.addBtn);
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();

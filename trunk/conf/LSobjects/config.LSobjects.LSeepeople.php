@@ -30,6 +30,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   'orderby' => 'displayValue',  // Valeurs possibles : 'displayValue' ou 'subDn'
   'rdn' => 'uid',
   'container_dn' => 'ou=people',
+  
   'container_auto_create' => array(
     'objectclass' => array(
       'top',
@@ -39,12 +40,15 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'ou' => 'people'
     )
   ),
+  
   'before_modify' => 'valid',
   'after_modify' => 'valid',
   'after_create' => 'createMaildirByFTP',
   'after_delete' => 'removeMaildirByFTP',
   'select_display_attrs' => '%{cn}',
   'label' => _('Utilisateurs'),
+  
+  // LSrelation
   'relations' => array(
     'groups' => array(
       'label' => _('Appartient aux groupes...'),
@@ -61,8 +65,49 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       )
     )
   ),
+  
+  // LSform
+  'LSform' => array (
+    // Layout
+    'layout' => array (
+      'Civilite' => array(
+        'label' => 'Civilité',
+        'img' => 1, 
+        'args' => array (
+          'uid',
+          'personalTitle',
+          'givenName',
+          'sn',
+          'cn',
+          'mail',
+          'description',
+          'jpegPhoto'
+        )
+      ),
+      'Posix' => array (
+        'label' => 'Posix',
+        'args' => array (
+          'uidNumber',
+          'gidNumber',
+          'loginShell',
+          'homeDirectory'
+        )
+      ),
+      'Samba' => array (
+        'label' => 'Samba',
+        'args' => array (
+          'sambaSID',
+          'sambaLMPassword',
+          'sambaNTPassword'
+        )
+      )
+    ) // fin Layout
+  ), // fin LSform
+  
   // Attributes
   'attrs' => array (
+  
+    /* ----------- start -----------*/
     'uid' => array (
       'label' => _('Identifiant'),
       'ldap_type' => 'ascii',
@@ -101,6 +146,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'homeDirectory'
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'uidNumber' => array (
       'label' => _('Identifiant (numérique)'),
       'ldap_type' => 'numeric',
@@ -128,6 +176,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'modify' => 0,
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'givenName' => array (
       'label' => _('Prenom'),
       'ldap_type' => 'ascii',
@@ -151,6 +202,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'onDisplay' => 'return_data'
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'sn' => array (
       'label' => _('Nom'),
       'ldap_type' => 'ascii',
@@ -167,6 +221,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'create' => 1
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'cn' => array (
       'label' => _('Nom complet'),
       'ldap_type' => 'ascii',
@@ -189,6 +246,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'create' => 1
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'gidNumber' => array (
       'label' => _('Groupe principal'),
       'ldap_type' => 'numeric',
@@ -231,6 +291,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         )
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'loginShell' => array (
       'label' => _('Interpreteur de commande'),
       'help_info' => _("Permet ou non a l'utilisateur de se connecter à un système POSIX."),
@@ -250,6 +313,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'true_value' => '/bin/bash',
       'false_value' => '/bin/false'
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'sambaSID' => array (
       'label' => _('Identifiant Samba'),
       'ldap_type' => 'ascii',
@@ -260,9 +326,12 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'admin' => 'r'
       ),
       'form' => array (
-        //'modify' => 0,
+        'modify' => 0
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'homeDirectory' => array (
       'label' => _('Répertoire personnel'),
       'ldap_type' => 'ascii',
@@ -274,6 +343,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'view' => 1
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'mail' => array (
       'label' => _('Adresse e-mail'),
       'ldap_type' => 'ascii',
@@ -302,6 +374,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'create' => 1
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'personalTitle' => array (
       'label' => _('Titre'),
       'ldap_type' => 'ascii',
@@ -324,6 +399,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'Mlle' => 'Mlle'
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'description' => array (
       'label' => _('Description'),
       'ldap_type' => 'ascii',
@@ -340,6 +418,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'create' => 1
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'userPassword' => array (
       'label' => _('Mot de passe'),
       'ldap_type' => 'password',
@@ -390,6 +471,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'after_modify' => 'valid'
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'lsRecoveryHash' => array (
       'label' => _('Hash de recouvrement du mot de passe'),
       'ldap_type' => 'ascii',
@@ -403,6 +487,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'admin' => 'w'
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'sambaLMPassword' => array (
       'label' => _('Mot de passe Samba (LM)'),
       'ldap_type' => 'ascii',
@@ -413,6 +500,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'modify' => 0
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'sambaNTPassword' => array (
       'label' => _('Mot de passe Samba (NT)'),
       'ldap_type' => 'ascii',
@@ -423,6 +513,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'modify' => 0
       )
     ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'jpegPhoto' => array (
       'label' => _('Photo'),
       'ldap_type' => 'image',
@@ -455,6 +548,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'admin' => 'w'
       )
     )
-  )
+    /* ----------- end -----------*/
+
+  ) // Fin args
 );
 ?>
