@@ -73,6 +73,9 @@ var LSform = new Class({
           if (!$type(el)) {
             el = ul.getElement('textarea');
           }
+          if (!$type(el)) {
+            el = ul.getElement('select');
+          }
           if ($type(el)) {
             if(el.type!='hidden') {
               el.focus();
