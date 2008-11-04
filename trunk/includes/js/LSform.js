@@ -43,7 +43,9 @@ var LSform = new Class({
     
     onTabBtnClick: function(event,li) {
       if ($type(event)) {
-        new Event(event).stop();
+        event = new Event(event);
+        event.stop();
+        event.target.blur();
       }
       
       if (this._currentTab!='default_value') {
@@ -61,7 +63,22 @@ var LSform = new Class({
       li.addClass('LSform_layout_current');
       var div = $$('div.LSform_layout[title='+this._currentTab+']');
       if ($type(div)) {
+        div = div[0];
         div.addClass('LSform_layout_current');
+        
+        // Focus
+        var ul = div.getElement('ul.LSform');
+        if ($type(ul)) {
+          var el = ul.getElement('input');
+          if (!$type(el)) {
+            el = ul.getElement('textarea');
+          }
+          if ($type(el)) {
+            if(el.type!='hidden') {
+              el.focus();
+            }
+          }
+        }
       }
       
     },

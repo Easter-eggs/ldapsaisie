@@ -11,7 +11,7 @@
 
   <!-- Tabs - Start Content -->
   {foreach from=$LSform_layout item=tab key=tab_key}
-    <a name='{$tab_key}'/>
+    <a name='{$tab_key}'></a>
     <h2 class='LSform_layout'>{$tab.label}</h2>
     <div class='LSform LSform_layout' title='{$tab_key}'>
     
