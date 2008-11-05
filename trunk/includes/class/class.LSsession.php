@@ -596,7 +596,7 @@ class LSsession {
               }
               if( $this -> loadLSobject($LSobject_name) ) {
                 if ($subdnobject = new $LSobject_name()) {
-                  $tbl_return = $subdnobject -> getSelectArray($topDn);
+                  $tbl_return = $subdnobject -> getSelectArray(NULL,$topDn);
                   if (is_array($tbl_return)) {
                     $return=array_merge($return,$tbl_return);
                   }

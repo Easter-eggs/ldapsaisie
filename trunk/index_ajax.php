@@ -82,6 +82,19 @@ if (!isset($_ERRORS)) {
             }
           }
         break;
+        case 'LSformElement_select_object_searchAdd':
+          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['pattern'])) && (isset($_REQUEST['idform'])) ) {
+            if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
+              $object = new $_REQUEST['objecttype']();
+              $form = $object -> getForm($_REQUEST['idform']);
+              $field=$form -> getElement($_REQUEST['attribute']);
+              $data['objects'] = $field -> searchAdd($_REQUEST['pattern']);
+            }
+            else {
+              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
+            }
+          }
+        break;
         case 'generatePassword':
           if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['idform'])) ) {
             if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {

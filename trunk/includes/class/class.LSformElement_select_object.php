@@ -115,6 +115,28 @@ class LSformElement_select_object extends LSformElement {
     return true;
   }
 
+  /**
+   * Recherche les objets sélectionnables à partir du pattern fournis
+   * 
+   * @param[in] $pattern Pattern de recherche
+   * 
+   * @retval array(dn -> displayValue) Les objets trouvés
+   */
+  function searchAdd ($pattern) {
+    if (is_array($this -> params['selectable_object'])) {
+      if ($GLOBALS['LSsession'] -> loadLSobject($this -> params['selectable_object']['object_type'])) {
+        $obj = new $this -> params['selectable_object']['object_type']();
+        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['selectable_object']['display_attribute']);
+        if (is_array($ret)) {
+          return $ret;
+        }
+      }
+      else {
+        $GLOBALS['LSerror'] -> addErrorCode(1004,$this -> params['selectable_object']['object_type']);
+      }
+    }
+    return array();
+  }
 }
 
 ?>

@@ -32,3 +32,34 @@ li.LSformElement_select_object_addBtn {
 img.LSformElement_select_object_deleteBtn {
   cursor:                     pointer;
 }
+
+/* LSformElement_select_object_searchAdd */
+input.LSformElement_select_object_searchAdd {
+  border:                     1px solid #ccc;
+  width:                      200px;
+  margin-left:                20px;
+}
+
+ul.LSformElement_select_object_searchAdd {
+  border:                     1px solid #ccc;
+  width:                      200px;
+  margin:                     0;
+  margin-top:                 0.1em;
+  height:                     10em;
+  overflow:                   auto;
+  padding:                    0;
+  list-style-type:            none;
+}
+
+li.LSformElement_select_object_searchAdd {
+  cursor:                     pointer;
+}
+
+li.LSformElement_select_object_searchAdd_over {
+  background-color:           #ccc;
+}
+
+li.LSformElement_select_object_searchAdd_current {
+  font-style:                 italic;
+  color:                      #777;
+}

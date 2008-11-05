@@ -894,11 +894,28 @@ class LSldapObject {
    *
    * @retval array('dn' => 'display')
    */
-  function getSelectArray($topDn=NULL) {
-    $list = $this -> listObjects(NULL,$topDn);
+  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false) {
+    if ($pattern!=NULL) {
+      $filter='(|';
+      if ($approx) {
+        foreach ($this -> attrs as $attr_name => $attr_val) {
+          $filter.='('.$attr_name.'~='.$pattern.')';
+        }
+      }
+      else {
+        foreach ($this -> attrs as $attr_name => $attr_val) {
+          $filter.='('.$attr_name.'=*'.$pattern.'*)';
+        }
+      }
+      $filter.=')';
+    }
+    else {
+      $filter=NULL;
+    }
+    $list = $this -> listObjects($filter,$topDn);
     $return=array();
     foreach($list as $object) {
-      $return[$object -> getDn()] = $object -> getDisplayValue(); 
+      $return[$object -> getDn()] = $object -> getDisplayValue($displayFormat); 
     }
     return $return;
   }
