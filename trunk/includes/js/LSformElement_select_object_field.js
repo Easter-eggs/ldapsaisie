@@ -134,9 +134,20 @@ var LSformElement_select_object_field = new Class({
     },
     
     clearUl: function() {
-      this.ul.getElements('li.LSformElement_select_object').each(function(li){
-        li.destroy();
-      });
+      if (this.params.multiple) {
+        this.ul.getElements('li.LSformElement_select_object').each(function(li){
+          li.destroy();
+        });
+      }
+      else {
+        var a = this.ul.getElement('a.LSformElement_select_object');
+        if ($type(a)) {
+          a.set('html',this.params.noValueLabel);
+          a.removeClass('LSformElement_select_object_deleted');
+          var input = this.ul.getElement('input.LSformElement_select_object');
+          input.value = "";
+        }
+      }
     },
     
     clearUlIfNoValue: function() {
@@ -146,7 +157,7 @@ var LSformElement_select_object_field = new Class({
     },
     
     addLi: function(name,dn) {
-      if (this.params.multiple) {
+      if (this.params.multiple) { // Multiple
         var li = new Element('li');
         li.addClass('LSformElement_select_object');
         
@@ -169,9 +180,9 @@ var LSformElement_select_object_field = new Class({
         
         li.injectInside(this.ul);
       }
-      else {
+      else { // Non Multiple
         var a = this.ul.getElement('a');
-        if ($type(a)) {
+        if ($type(a)) { // Deja initialise
           a.href="view.php?LSobject="+this.params['object_type']+"&dn="+dn;
           a.set('html',name);
           a.removeClass('LSformElement_select_object_deleted');
@@ -182,7 +193,7 @@ var LSformElement_select_object_field = new Class({
             name:   this.name+'[]'
           });
         }
-        else {
+        else { // Non initialise (No Value)
           this.ul.empty();
           var li = new Element('li');
           
@@ -361,7 +372,7 @@ var LSformElement_select_object_field = new Class({
       if (!$type(this.searchAddUl.getElement('li.LSformElement_select_object_searchAdd'))) {
         var li = new Element('li');
         li.addClass('LSformElement_select_object_searchAdd');
-        li.set('html',this.params.noValueLabel);
+        li.set('html',this.params.noResultLabel);
         li.injectInside(this.searchAddUl);
       }
     },
