@@ -45,7 +45,7 @@ class LSformElement_select_object extends LSformElement {
   function getDisplay($refresh=NULL){
     $GLOBALS['LSsession'] -> addCssFile('LSformElement_select_object.css');
     if ($refresh) {
-      $this -> values = $this -> attr_html -> getValuesFromSession();
+      $this -> values = $this -> getValuesFromSession();
     }
     $return = $this -> getLabelInfos();
 
@@ -56,7 +56,8 @@ class LSformElement_select_object extends LSformElement {
           'object_type' => $this -> selectableObject,
           'addBtn' => _('Modifier'),
           'deleteBtns' => _('Supprimer'),
-          'multiple' => (($this -> params['multiple'])?1:0)
+          'multiple' => (($this -> params['multiple'])?1:0),
+          'noValueLabel' => _('Aucun objet')
         )
       );
       
@@ -73,6 +74,13 @@ class LSformElement_select_object extends LSformElement {
     }
     $return['html'] = $this -> fetchTemplate(NULL,array('selectableObject' => $this -> selectableObject));
     return $return;
+  }
+  
+  /*
+   * Retourne les valeurs de l'objet à partir de la variable Session
+   */
+  function getValuesFromSession() {
+    return $this -> attr_html -> getValuesFromSession();
   }
   
   /**

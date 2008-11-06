@@ -64,16 +64,16 @@ if (!isset($_ERRORS)) {
             }
           }
         break;
-        case 'refreshField':
+        case 'LSformElement_select_object_refresh':
           if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
             if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
               $object = new $_REQUEST['objecttype']();
               $form = $object -> getForm($_REQUEST['idform']);
               $field=$form -> getElement($_REQUEST['attribute']);
-              $val = $field -> getDisplay(true);
+              $val = $field -> getValuesFromSession();
               if ( $val ) {
                 $data = array(
-                  'html'    => $val['html']
+                  'objects'    => $val
                 );
               }
             }

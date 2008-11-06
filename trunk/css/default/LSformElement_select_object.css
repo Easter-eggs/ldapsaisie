@@ -24,6 +24,10 @@ li.LSformElement_select_object {
   border-bottom:              1px solid #b5e4f6;
 }
 
+li.LSformElement_select_object_noValue {
+  text-align:                 center;
+}
+
 li.LSformElement_select_object_addBtn {
   background-color:           #b5e4f6;
   text-align:                 center;
@@ -36,16 +40,19 @@ img.LSformElement_select_object_deleteBtn {
 /* LSformElement_select_object_searchAdd */
 input.LSformElement_select_object_searchAdd {
   border:                     1px solid #ccc;
-  width:                      200px;
-  margin-left:                20px;
+  width:                      134px;
+  display:                    block;
+  background-image:           url(../../images/default/find.png);
+  background-repeat:          no-repeat;
+  padding-left:               18px;
 }
 
 ul.LSformElement_select_object_searchAdd {
   border:                     1px solid #ccc;
-  width:                      200px;
+  width:                      152px;
   margin:                     0;
   margin-top:                 0.1em;
-  height:                     10em;
+  max-height:                 10em;
   overflow:                   auto;
   padding:                    0;
   list-style-type:            none;
@@ -53,6 +60,8 @@ ul.LSformElement_select_object_searchAdd {
 
 li.LSformElement_select_object_searchAdd {
   cursor:                     pointer;
+  border-bottom:              1px dotted #ccc;
+  font-size:                  0.8em;
 }
 
 li.LSformElement_select_object_searchAdd_over {
@@ -62,4 +71,10 @@ li.LSformElement_select_object_searchAdd_over {
 li.LSformElement_select_object_searchAdd_current {
   font-style:                 italic;
   color:                      #777;
+}
+
+table.LSformElement_select_object_searchAdd, tr.LSformElement_select_object_searchAdd, td.LSformElement_select_object_searchAdd {
+  margin:                     0;
+  padding:                    0;
+  vertical-align:             top;
 }

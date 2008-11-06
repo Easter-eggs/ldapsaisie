@@ -35,7 +35,7 @@ var LSformElement_select_object_field = new Class({
         this.addBtn = new Element('span');
         this.addBtn.addClass('btn');
         this.addBtn.set('html',this.params.addBtn);
-        this.addBtn.addEvent('click',this.onLSformElement_select_object_addBtnClick.bindWithEvent(this));
+        this.addBtn.addEvent('click',this.onAddBtnClick.bindWithEvent(this));
         this.addBtn.injectInside(this.li);
         
         this.li.inject(this.ul,'top');
@@ -49,7 +49,7 @@ var LSformElement_select_object_field = new Class({
       this.searchAddBtn = new Element('img');
       this.searchAddBtn.setProperty('src',varLSdefault.imagePath('add.png'));
       this.searchAddBtn.addClass('btn');
-      this.searchAddBtn.addEvent('click',this.onSearchAddBtnClick.bind(this));
+      this.searchAddBtn.addEvent('click',this.onSearchAddBtnClick.bindWithEvent(this));
       this.searchAddBtn.injectAfter(this.addBtn);
     },
     
@@ -60,7 +60,7 @@ var LSformElement_select_object_field = new Class({
         src:    varLSdefault.imagePath('delete.png'),
         alt:    this.params.deleteBtns
       });
-      btn.addEvent('click',this.LSformElement_select_object_deleteBtn.bind(this,btn));
+      btn.addEvent('click',this.onDeleteBtn.bind(this,btn));
       btn.injectAfter(a);
     },
     
@@ -68,22 +68,11 @@ var LSformElement_select_object_field = new Class({
       this.addBtn = new Element('img');
       this.addBtn.setProperty('src',varLSdefault.imagePath('modify.png'));
       this.addBtn.addClass('btn');
-      this.addBtn.addEvent('click',this.onLSformElement_select_object_addBtnClick.bindWithEvent(this));
+      this.addBtn.addEvent('click',this.onAddBtnClick.bindWithEvent(this));
       this.addBtn.injectInside(insideEl);
     },
     
-    reinitialize: function() {
-      this.ul = this.dd.getFirst('ul');
-      this.initializeLSformElement_select_object();
-      if($type(this.searchAddInput)) {
-        this.searchAddInput.injectInside(this.dd);
-          if($type(this.searchAddUl)) {
-            this.searchAddUl.injectAfter(this.searchAddInput);
-          }
-      }
-    },
-    
-    onLSformElement_select_object_addBtnClick: function(event) {
+    onAddBtnClick: function(event) {
       new Event(event).stop();
       
       values = new Array();
@@ -102,10 +91,10 @@ var LSformElement_select_object_field = new Class({
       };
       
       data.imgload=varLSdefault.loadingImgDisplay(this.addBtn,'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSformElement_select_object_addBtnClickComplete.bind(this)}).send();
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onAddBtnClickComplete.bind(this)}).send();
     },
     
-    onLSformElement_select_object_addBtnClickComplete: function(responseText, responseXML) {
+    onAddBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         varLSsmoothbox.asNew();
@@ -118,7 +107,7 @@ var LSformElement_select_object_field = new Class({
     onLSsmoothboxValid: function() {
       var data = {
         template:   'LSform',
-        action:     'refreshField',
+        action:     'LSformElement_select_object_refresh',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
         objectdn:   varLSform.objectdn,
@@ -131,23 +120,29 @@ var LSformElement_select_object_field = new Class({
     onLSsmoothboxValidComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
-        this.dd.set('html',data.html);
-        this.reinitialize();
+        this.clearUl();
+        if ($type(data.objects)) {
+          var objs = new Hash(data.objects);
+          objs.each(this.addLi,this);
+        }
+        this.addNoValueLabelIfEmpty();
       }
+    },
+    
+    clearUl: function() {
+      this.ul.getElements('li.LSformElement_select_object').each(function(li){
+        li.destroy();
+      });
     },
     
     clearUlIfNoValue: function() {
       if (!$type(this.ul.getElement('a.LSformElement_select_object'))) {
-        this.ul.getElements('li.LSformElement_select_object').each(function(li){
-          li.destroy();
-        });
+        this.clearUl();
       }
     },
     
     addLi: function(name,dn) {
       if (this.params.multiple) {
-        this.clearUlIfNoValue();
-        
         var li = new Element('li');
         li.addClass('LSformElement_select_object');
         
@@ -183,7 +178,17 @@ var LSformElement_select_object_field = new Class({
       }
     },
     
-    LSformElement_select_object_deleteBtn: function(img) {
+    addNoValueLabelIfEmpty: function() {
+      if (!$type(this.ul.getElement('a.LSformElement_select_object'))) {
+        var li = new Element('li');
+        li.addClass('LSformElement_select_object');
+        li.addClass('LSformElement_select_object_noValue');
+        li.set('html',this.params.noValueLabel);
+        li.injectInside(this.ul);
+      }
+    },
+    
+    onDeleteBtn: function(img) {
       var li = img.getParent();
       var a = li.getFirst('a');
       var input = li.getFirst('input');
@@ -199,34 +204,36 @@ var LSformElement_select_object_field = new Class({
       }
     },
     
-    onSearchAddBtnClick: function() {
+    onSearchAddBtnClick: function(event) {
       if (this._searchAddOpen==0) {
         this._searchAddOpen = 1;
         if (!$type(this.searchAddInput)) {
+          this.table = new Element('table');
+          this.table.addClass('LSformElement_select_object_searchAdd');
+          this.tr = new Element('tr');
+          this.tr.addClass('LSformElement_select_object_searchAdd');
+          this.tr.injectInside(this.table);
+          this.td = new Element('td');
+          this.td.addClass('LSformElement_select_object_searchAdd');
+          this.td.injectInside(this.tr);
+          
+          this.td2 = new Element('td');
+          this.td2.addClass('LSformElement_select_object_searchAdd');
+          this.td2.injectInside(this.tr);
+          
+          
+          this.ul.injectInside(this.td);
+          this.table.injectInside(this.dd);
+          
           this.searchAddInput = new Element('input');
           this.searchAddInput.addClass('LSformElement_select_object_searchAdd');
           this.searchAddInput.addEvent('keydown',this.onKeyUpSearchAddInput.bindWithEvent(this));
-          this.searchAddInput.injectAfter(this.ul);
+          this.searchAddInput.injectInside(this.td2);
         }
         else {
           this.searchAddInput.value = "";
         }
-        
-        if (this.params.multiple) {
-          this.searchAddInput.setStyles({
-            top:      this.li.getCoordinates().top + 'px',
-            left:     this.li.getCoordinates().right + 'px',
-            position: 'absolute'
-          });
-        }
-        else {
-          this.searchAddInput.setStyles({
-            top:      this.searchAddBtn.getCoordinates().top + 'px',
-            left:     this.searchAddBtn.getCoordinates().right + 'px',
-            position: 'absolute'
-          });
-        }
-        
+
         this._lastSearch = "";
         this.searchAddInput.setStyle('display','block');
         this.searchAddInput.focus();
@@ -241,6 +248,10 @@ var LSformElement_select_object_field = new Class({
         if (this.searchAddInput.value!="") {
           this.launchSearchAdd();
         }
+      }
+      
+      if (event.key=='esc') {
+        this.closeSearchAdd();
       }
     },
     
@@ -268,16 +279,13 @@ var LSformElement_select_object_field = new Class({
           this.searchAddUl.addClass('LSformElement_select_object_searchAdd');
           this.searchAddUl.injectAfter(this.searchAddInput);
         }
-        this.searchAddUl.setStyles({
-          top:      this.searchAddInput.getCoordinates().bottom + 'px',
-          left:     this.searchAddInput.getCoordinates().left + 'px',
-          position: 'absolute'
-        });
         this.searchAddUl.empty();
         if (data.objects) {
           var objs = new Hash(data.objects);
           objs.each(this.addSearchAddLi,this);
         }
+        this.addSearchAddNoValueLabelIfEmpty();
+        
         this.searchAddUl.setStyle('display','block');
       }
     },
@@ -305,6 +313,15 @@ var LSformElement_select_object_field = new Class({
       li.injectInside(this.searchAddUl);
     },
     
+    addSearchAddNoValueLabelIfEmpty: function() {
+      if (!$type(this.searchAddUl.getElement('li.LSformElement_select_object_searchAdd'))) {
+        var li = new Element('li');
+        li.addClass('LSformElement_select_object_searchAdd');
+        li.set('html',this.params.noValueLabel);
+        li.injectInside(this.searchAddUl);
+      }
+    },
+    
     onSearchAddLiMouseEnter: function(li) {
       li.addClass('LSformElement_select_object_searchAdd_over');
     },
@@ -314,19 +331,22 @@ var LSformElement_select_object_field = new Class({
     },
     
     onSearchAddLiClick: function(li) {
-      var name = li.innerHTML;
-      var dn = li.id;
-      this.addLi(name,dn);
+      this.clearUlIfNoValue();
+      this.addLi(li.innerHTML,li.id);
     },
     
     closeIfOpenSearchAdd: function(event) {
       event = new Event(event);
       if (this._searchAddOpen == 1 && event.target!=this.searchAddBtn && event.target!=this.searchAddInput && event.target!=this.searchAddUl) {
-        this.searchAddInput.setStyle('display','none');
-        if ($type(this.searchAddUl)) {
-          this.searchAddUl.setStyle('display','none');
-        }
-        this._searchAddOpen = 0;
+        this.closeSearchAdd();
       }
+    },
+    
+    closeSearchAdd: function() {
+      this.searchAddInput.setStyle('display','none');
+      if ($type(this.searchAddUl)) {
+        this.searchAddUl.setStyle('display','none');
+      }
+      this._searchAddOpen = 0;
     }
 });
