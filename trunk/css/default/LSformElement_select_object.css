@@ -41,7 +41,6 @@ img.LSformElement_select_object_deleteBtn {
 input.LSformElement_select_object_searchAdd {
   border:                     1px solid #ccc;
   width:                      134px;
-  display:                    block;
   background-image:           url(../../images/default/find.png);
   background-repeat:          no-repeat;
   padding-left:               18px;

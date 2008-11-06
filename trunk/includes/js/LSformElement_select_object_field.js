@@ -46,11 +46,7 @@ var LSformElement_select_object_field = new Class({
       
       this._searchAddOpen = 0;
       document.addEvent('click',this.closeIfOpenSearchAdd.bind(this));
-      this.searchAddBtn = new Element('img');
-      this.searchAddBtn.setProperty('src',varLSdefault.imagePath('add.png'));
-      this.searchAddBtn.addClass('btn');
-      this.searchAddBtn.addEvent('click',this.onSearchAddBtnClick.bindWithEvent(this));
-      this.searchAddBtn.injectAfter(this.addBtn);
+      this.addSearchAddBtn();
     },
     
     addDeleteBtn: function(a) {
@@ -60,7 +56,7 @@ var LSformElement_select_object_field = new Class({
         src:    varLSdefault.imagePath('delete.png'),
         alt:    this.params.deleteBtns
       });
-      btn.addEvent('click',this.onDeleteBtn.bind(this,btn));
+      btn.addEvent('click',this.onDeleteBtnClick.bind(this,btn));
       btn.injectAfter(a);
     },
     
@@ -70,6 +66,14 @@ var LSformElement_select_object_field = new Class({
       this.addBtn.addClass('btn');
       this.addBtn.addEvent('click',this.onAddBtnClick.bindWithEvent(this));
       this.addBtn.injectInside(insideEl);
+    },
+    
+    addSearchAddBtn: function() {
+      this.searchAddBtn = new Element('img');
+      this.searchAddBtn.setProperty('src',varLSdefault.imagePath('add.png'));
+      this.searchAddBtn.addClass('btn');
+      this.searchAddBtn.addEvent('click',this.onSearchAddBtnClick.bindWithEvent(this));
+      this.searchAddBtn.injectAfter(this.addBtn);
     },
     
     onAddBtnClick: function(event) {
@@ -167,40 +171,80 @@ var LSformElement_select_object_field = new Class({
       }
       else {
         var a = this.ul.getElement('a');
-        a.href="view.php?LSobject="+this.params['object_type']+"&dn="+dn;
-        a.set('html',name);
+        if ($type(a)) {
+          a.href="view.php?LSobject="+this.params['object_type']+"&dn="+dn;
+          a.set('html',name);
+          a.removeClass('LSformElement_select_object_deleted');
         
-        var input = this.ul.getElement('input');
-        input.setProperties({
-          value:  dn,
-          name:   this.name+'[]'
-        });
+          var input = this.ul.getElement('input');
+          input.setProperties({
+            value:  dn,
+            name:   this.name+'[]'
+          });
+        }
+        else {
+          this.ul.empty();
+          var li = new Element('li');
+          
+          var a = new Element('a');
+          a.addClass('LSformElement_select_object');
+          a.href="view.php?LSobject="+this.params['object_type']+"&dn="+dn;
+          a.set('html',name);
+          a.injectInside(li);
+          
+          var input = new Element('input');
+          input.setProperties({
+            type:   'hidden',
+            value:  dn,
+            name:   this.name+'[]'
+          });
+          input.addClass('LSformElement_select_object');
+          input.injectAfter(a);
+          
+          this.addDeleteBtn(a);
+          li.injectInside(this.ul);
+          this.addSingleAddBtn(li);
+          this.addSearchAddBtn();
+        }
       }
     },
     
     addNoValueLabelIfEmpty: function() {
-      if (!$type(this.ul.getElement('a.LSformElement_select_object'))) {
-        var li = new Element('li');
-        li.addClass('LSformElement_select_object');
-        li.addClass('LSformElement_select_object_noValue');
-        li.set('html',this.params.noValueLabel);
-        li.injectInside(this.ul);
+      if (this.params.multiple) {
+        if (!$type(this.ul.getElement('a.LSformElement_select_object'))) {
+          var li = new Element('li');
+          li.addClass('LSformElement_select_object');
+          li.addClass('LSformElement_select_object_noValue');
+          li.set('html',this.params.noValueLabel);
+          li.injectInside(this.ul);
+        }
+      }
+      else {
+        var a = this.ul.getElement('a.LSformElement_select_object');
+        if ($type(a)) {
+          if (a.hasClass("LSformElement_select_object_deleted")) {
+            a.set('html',this.params.noValueLabel);
+            a.removeClass('LSformElement_select_object_deleted');
+            var input = this.ul.getElement('input.LSformElement_select_object');
+            input.value = "";
+          }
+        }
       }
     },
     
-    onDeleteBtn: function(img) {
+    onDeleteBtnClick: function(img) {
       var li = img.getParent();
       var a = li.getFirst('a');
       var input = li.getFirst('input');
-      if (a.hasClass('LSformElement_select_object_deleted')) {
-        input.name=this.name+'[]';
-        a.addClass('LSformElement_select_object');
-        a.removeClass('LSformElement_select_object_deleted');
-      }
-      else {
-        input.name=($random(1,10000));
-        a.addClass('LSformElement_select_object_deleted');
-        a.removeClass('LSformElement_select_object');
+      if (input.value!="") {
+        if (a.hasClass('LSformElement_select_object_deleted')) {
+          input.name=this.name+'[]';
+          a.removeClass('LSformElement_select_object_deleted');
+        }
+        else {
+          input.name=($random(1,10000));
+          a.addClass('LSformElement_select_object_deleted');
+        }
       }
     },
     
@@ -235,7 +279,7 @@ var LSformElement_select_object_field = new Class({
         }
 
         this._lastSearch = "";
-        this.searchAddInput.setStyle('display','block');
+        this.searchAddInput.setStyle('display','inline');
         this.searchAddInput.focus();
       }
     },
@@ -266,7 +310,7 @@ var LSformElement_select_object_field = new Class({
           idform:     varLSform.idform,
           pattern:    this.searchAddInput.value
         };
-        data.imgload=varLSdefault.loadingImgDisplay(this.searchAddBtn);
+        data.imgload=varLSdefault.loadingImgDisplay(this.searchAddInput);
         new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSearchAddComplete.bind(this)}).send();
       }
     },
