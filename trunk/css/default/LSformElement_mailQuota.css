@@ -1,0 +1,14 @@
+input.LSformElement_mailQuota {
+  width:              3em !important;
+  text-align:         right;
+}
+
+select.LSformElement_mailQuota {
+  width:              3em;
+}
+
+span.LSformElement_mailQuota_unknown {
+  color:              #f59a67;
+}
+
+
