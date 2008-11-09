@@ -65,9 +65,6 @@ function getFData($format,$data,$meth=NULL) {
             }
             $val=substr((string)$val,$s,$l);
           }
-          else {
-            $val=$data[$ch[1]];
-          }
           $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
         }
       }
