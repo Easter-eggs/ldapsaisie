@@ -198,7 +198,7 @@ class LSldapObject {
     
     if ($load) {
       foreach($this -> attrs as $attr_name => $attr) {
-        if(!$this -> attrs[$attr_name] -> addToForm($LSform,$idForm,$this,$loadObject -> getValue($attr_name))) {
+        if(!$this -> attrs[$attr_name] -> addToForm($LSform,$idForm,$this,$loadObject -> attrs[$attr_name] -> getFormVal())) {
           $LSform -> can_validate = false;
         }
       }
