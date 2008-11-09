@@ -7,7 +7,8 @@ $GLOBALS['LSsession'] = new LSsession();
 
 if (($_REQUEST['template'] != 'login')&&($_REQUEST['template'] != 'recoverPassword')) {
   if ( !$GLOBALS['LSsession'] -> startLSsession() ) {
-    $_ERRORS = 'LSsession : Impossible d\'initialiser la LSsession.';
+    $GLOBALS['LSerror'] -> addErrorCode(1022);
+    $_ERRORS = true;
   }
 }
 $data=NULL;
@@ -417,20 +418,6 @@ if (!isset($_ERRORS)) {
   }
 }
 
-if ($GLOBALS['LSerror']->errorsDefined()) {
-  $data['LSerror'] = $GLOBALS['LSerror']->getErrors();
-}
-else if (isset($_ERRORS)) {
-  $data['LSerror'] = $_ERRORS;
-}
+$GLOBALS['LSsession'] -> displayAjaxReturn($data);
 
-if (isset($_REQUEST['imgload'])) {
-  $data['imgload'] = $_REQUEST['imgload'];
-}
-
-if (LSdebugDefined()) {
-  $data['LSdebug'] = LSdebug_print(true);
-}
-
-echo json_encode($data);
 ?>
