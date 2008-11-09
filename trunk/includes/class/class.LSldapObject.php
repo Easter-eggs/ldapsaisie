@@ -634,7 +634,36 @@ class LSldapObject {
    *
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */ 
-  function listObjects($filter='',$basedn=NULL,$params=array()) {
+  function listObjects($filter=NULL,$basedn=NULL,$params=array()) {
+    $retInfos=array();
+    
+    $ret = $this -> search($filter,$basedn,$params);
+    
+    // CrÃ©ation d'un tableau d'objet correspondant au valeur retournÃ©
+    for($i=0;$i<count($ret);$i++) {
+      $retInfos[$i] = new $this -> type_name($this -> config);
+      $retInfos[$i] -> loadData($ret[$i]['dn']);
+    }
+    
+    return $retInfos;
+  }
+  
+  /**
+   * Recherche les objets du mÃªme type dans l'annuaire
+   *
+   * Effectue une recherche en fonction des paramÃ¨tres passÃ© et retourne un
+   * tableau array(dn => '', attrs => array()) d'objet correspondant au resultat*
+   * de la recherche.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $filter array (ou string) Filtre de recherche Ldap / Tableau de filtres de recherche
+   * @param[in] $basedn string DN de base pour la recherche
+   * @param[in] $params array ParamÃ¨tres de recherche au format Net_LDAP2::search()
+   *
+   * @retval array Tableau d'objets correspondant au resultat de la recherche
+   */ 
+  function search($filter='',$basedn=NULL,$params=array()) {
     $retInfos=array();
     $attrs=false;
     $check_final_dn=false;
@@ -716,7 +745,7 @@ class LSldapObject {
           if ($filter[$i]['attr']) {
             $sparams['attributes'] = array($filter[$i]['attr']);
           }
-          else {
+          else if (!isset($sparams['attributes'])) {
             $sparams['attributes'] = array($this -> config['rdn']);
           }
         
@@ -742,20 +771,10 @@ class LSldapObject {
                 }
               }
             }
-            else {
-              // vÃ©rification de la compatibilitÃ© de la compatibilitÃ© du DN resultant
-              // et du basedn de recherche 
-              if (!$this -> isCompatibleDNs($ret[0]['dn'],$basedn))
-                continue;
-              // ajout du DN au resultat finale
-              $ret_gen[]=$ret[0]['dn'];
-            }
           }
         }
         // cas du dernier filtre
         if(!empty($ret_gen)) {
-          // on quitte la boucle des filtres de la conf
-          $ret=$ret_gen;
           break;
         }
         // dans le cas d'une suite prÃ©vu mais d'un retour nul de la prÃ©cÃ©dente recherche
@@ -783,7 +802,9 @@ class LSldapObject {
         $sfilter.=$sfilter_end;
         
         // Attributes
-        $sparams['attributes'] = array($this -> config['rdn']);
+        if (!isset($sparams['attributes'])) {
+          $sparams['attributes'] = array($this -> config['rdn']);
+        }
         
         // Lancement de la recherche
         $ret=$GLOBALS['LSldap'] -> search ($sfilter,$sbasedn,$sparams);
@@ -815,28 +836,14 @@ class LSldapObject {
         // Si recherche unique
         else {
           // prÃ©paration du retour finale
-          if (is_array($ret)) {
-            $ret_final=array();
-            foreach($ret as $obj) {
-              $ret_final[]=$obj['dn'];
-            }
-            $ret=$ret_final;
-          }
-          else {
+          if (!is_array($ret)) {
             $ret=array();
           }
           break;
         }
       }
     }
-    
-    // CrÃ©ation d'un tableau d'objet correspondant au valeur retournÃ©
-    for($i=0;$i<count($ret);$i++) {
-      $retInfos[$i] = new $this -> type_name($this -> config);
-      $retInfos[$i] -> loadData($ret[$i]);
-    }
-    
-    return $retInfos;
+    return $ret;
   }
   
   /**
@@ -860,31 +867,14 @@ class LSldapObject {
     if (!$displayFormat) {
       $displayFormat = $this -> getDisplayAttributes();
     }
-    
-    // Filtre sur l'objet souhaitÃ©
-    $sfilter='(&';
-    $sfilter.=$this -> getObjectFilter();
-    $sfilter_end=')';
-    
-    if(($filter)&&(!empty($filter))) {
-      if(substr($filter,0,1)=='(') {
-        $sfilter.=$filter;
-      }
-      else {
-        $sfilter.='('.$filter.')';
-      }
-    }
-    // fermeture du filtre
-    $sfilter.=$sfilter_end;
-      
     // Attributes
-    $sparams['attributes'] = getFieldInFormat($displayFormat);
-    if(empty($sparams['attributes'])) {
-      $sparams['attributes'] = array($this -> config['rdn']);
+    $attrs = getFieldInFormat($displayFormat);
+    if(!empty($attrs)) {
+      $sparams['attributes'] = $attrs;
     }
-        
+    
     // Lancement de la recherche
-    $ret=$GLOBALS['LSldap'] -> search ($sfilter,$sbasedn,$sparams);
+    $ret=$this -> search ($filter,$sbasedn,$sparams);
 
     if (is_array($ret)) {
       foreach($ret as $obj) {
