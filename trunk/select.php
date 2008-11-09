@@ -202,31 +202,31 @@ if($LSsession -> startLSsession()) {
           'action' => 'refresh'
         );
         
-        $list=$object -> listObjects($filter,$topDn,$params);
+        $list=$object -> listObjectsName($filter,$topDn,$params);
         $nbObjects=count($list);
         $searchData['LSobject_list_nbresult']=$nbObjects;
 
         $c=0;
         
-        foreach($list as $thisObject) {
-          if ($GLOBALS['LSsession'] -> canAccess($LSobject,$thisObject->getValue('dn'))) {
+        foreach($list as $objDn => $objName) {
+          if ($GLOBALS['LSsession'] -> canAccess($LSobject,$objDn)) {
 
             $c++;
             unset($actions);
             
             $subDn_name=false;
             if ($doSubDn) {
-              $subDn_name = $thisObject -> getSubDnName();
+              $subDn_name = $object -> getSubDnName($objDn);
             }
             
             $objectList[]=array(
-              'dn' => $thisObject->getValue('dn'),
-              'displayValue' => $thisObject->getDisplayValue(),
+              'dn' => $objDn,
+              'displayValue' => $objName,
               'subDn' => $subDn_name
             );
           }
           else {
-            LSdebug($thisObject->getValue('dn'));
+            LSdebug($dn);
           }
         }
         $searchData['objectList']=$objectList;

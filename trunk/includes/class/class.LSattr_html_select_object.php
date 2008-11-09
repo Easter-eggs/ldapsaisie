@@ -159,10 +159,10 @@ class LSattr_html_select_object extends LSattr_html{
           if ($filter!='') {
             $filter='(|'.$filter.')';
             $obj = new $conf['object_type']();
-            $listobj = $obj -> listObjects($filter);
-            foreach($listobj as $one) {
-              $DNs[]=$one -> getDn();
-              $retInfos[$one -> getDn()] = $one -> getDisplayValue($conf['display_attribute']);
+            $listobj = $obj -> listObjectsName($filter,NULL,array(),$conf['display_attribute']);
+            foreach($listobj as $dn => $name) {
+              $DNs[]=$dn;
+              $retInfos[$dn] = $name;
             }
           }
         }
