@@ -180,8 +180,22 @@ class LSform {
    * 
    * @retval boolean
    */ 
-  function definedError($element) {
-    return isset($this -> _elementsErrors[$element]);
+  function definedError($element=NULL) {
+    if ($element) {
+      return isset($this -> _elementsErrors[$element]);
+    }
+    else {
+      return !empty($this -> _elementsErrors);
+    }
+  }
+  
+  /**
+   * Retourne le tableau des erreurs
+   * 
+   * @retval Array array(element => array(errors))
+   */
+  function getErrors() {
+    return $this -> _elementsErrors;
   }
   
   /**
