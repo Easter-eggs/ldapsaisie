@@ -48,6 +48,12 @@ function getFData($format,$data,$meth=NULL) {
     if(is_array($data)) {
       if ($meth==NULL) {
         while (ereg($expr,$format[$i],$ch)) {
+          if (is_array($data[$ch[1]])) {
+            $val = $data[$ch[1]][0];
+          }
+          else {
+            $val = $data[$ch[1]];
+          }
           if($ch[3]) {
             if ($ch[5]) {
               $s=$ch[3];
@@ -57,7 +63,7 @@ function getFData($format,$data,$meth=NULL) {
               $s=0;
               $l=$ch[3];
             }
-            $val=substr((string)$data[$ch[1]],$s,$l);
+            $val=substr((string)$val,$s,$l);
           }
           else {
             $val=$data[$ch[1]];
