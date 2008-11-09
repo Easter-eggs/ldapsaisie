@@ -43,8 +43,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   
   'before_modify' => 'valid',
   'after_modify' => 'valid',
-  'after_create' => 'createMaildirByFTP',
-  'after_delete' => 'removeMaildirByFTP',
+  //'after_create' => 'createMaildirByFTP',
+  //'after_delete' => 'removeMaildirByFTP',
   'select_display_attrs' => '%{cn}',
   'label' => _('Utilisateurs'),
   
@@ -444,15 +444,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
           'msg' => 'Le mot de passe doit contenir entre 8 et 10 caractères.',
           'params' => array(
             'minLength' => 8,
-            'maxLength' => 10,
-            'prohibitedValues' => array(
-              'azertyui',
-              '12345678'
-            ),
-            'regex' => array(
-              '[a-z]+',
-              '[0-9]+'
-            )
+            'maxLength' => 10
           )
         )
       ),
