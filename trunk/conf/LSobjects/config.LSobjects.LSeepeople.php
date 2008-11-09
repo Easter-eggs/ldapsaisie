@@ -80,6 +80,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
           'sn',
           'cn',
           'mail',
+          'userPassword',
           'description',
           'jpegPhoto'
         )
