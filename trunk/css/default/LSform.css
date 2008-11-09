@@ -38,6 +38,10 @@ li.LSform_layout_current {
   background-color:   #0072B8;
 }
 
+li.LSform_layout_errors {
+  background-color:   #f59a67;
+}
+
 h2.LSform_layout_active {
   display:            none;
 }

@@ -1,5 +1,5 @@
 {include file='top.tpl'}
-    {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
+    {if $pagetitle != ''}<h1 id='LSform_title'>{$pagetitle}</h1>{/if}
     {if $LSview_actions != ''}
     <ul class='LSview-actions'>
       {foreach from=$LSview_actions item=item}

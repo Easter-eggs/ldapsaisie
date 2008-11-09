@@ -59,33 +59,59 @@ if($LSsession -> startLSsession()) {
               else {
                 $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été modifié."));
               }
-              if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
-                $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+              if (isset($_REQUEST['ajax'])) {
+                $GLOBALS['LSsession'] -> displayAjaxReturn (
+                  array(
+                    'LSformRedirect' => 'view.php?LSobject='.$LSobject.'&dn='.$object -> getDn()
+                  )
+                );
+              }
+              else {
+                if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
+                  $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+                }
+                else {
+                  $GLOBALS['LSsession'] -> displayTemplate();
+                }
               }
             }
+            else {
+              $GLOBALS['LSsession'] -> displayAjaxReturn (
+                array(
+                  'LSformErrors' => $form -> getErrors()
+                )
+              );
+            }
           }
-          
-          $LSview_actions[] = array(
-            'label' => _('Voir'),
-            'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
-            'action' => 'view'
-          );
-        
-          if ($GLOBALS['LSsession'] -> canRemove($LSobject,$object -> getDn())) {
-            $LSview_actions[] = array(
-              'label' => _('Supprimer'),
-              'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
-              'action' => 'delete'
+          else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
+            $GLOBALS['LSsession'] -> displayAjaxReturn (
+              array(
+                'LSformErrors' => $form -> getErrors()
+              )
             );
           }
+          else {
+            $LSview_actions[] = array(
+              'label' => _('Voir'),
+              'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
+              'action' => 'view'
+            );
           
-
-          
-          $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
-          $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
-          $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
-          $GLOBALS['LSsession'] -> setTemplate('modify.tpl');
-          $form -> display();
+            if ($GLOBALS['LSsession'] -> canRemove($LSobject,$object -> getDn())) {
+              $LSview_actions[] = array(
+                'label' => _('Supprimer'),
+                'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
+                'action' => 'delete'
+              );
+            }
+            
+            $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
+            $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
+            $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
+            $GLOBALS['LSsession'] -> setTemplate('modify.tpl');
+            $form -> display();
+            $GLOBALS['LSsession'] -> displayTemplate();
+          }
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode(1011);
@@ -106,8 +132,8 @@ if($LSsession -> startLSsession()) {
 }
 else {
   $GLOBALS['LSsession'] -> setTemplate('login.tpl');
+  $GLOBALS['LSsession'] -> displayTemplate();
 }
 
-// Affichage des retours d'erreurs
-$GLOBALS['LSsession'] -> displayTemplate();
+
 ?>

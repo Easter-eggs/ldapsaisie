@@ -23,6 +23,20 @@ var LSform = new Class({
           this._elements[ul.id] = new LSformElement(this,ul.id,ul);
         }, this);
       }
+      
+      LSforms = $$('form.LSform');
+      if ($type(LSforms[0])) {
+        this.LSform = LSforms[0];
+        this.LSformAjaxInput = new Element('input');
+        this.LSformAjaxInput.setProperties ({
+          type:   'hidden',
+          name:   'ajax',
+          value:  '1'
+        });
+        this.LSformAjaxInput.injectInside(this.LSform);
+        
+        this.LSform.addEvent('submit',this.ajaxSubmit.bindWithEvent(this));
+      }
     },
     
     initializeLSformLayout: function(el) {
@@ -125,6 +139,74 @@ var LSform = new Class({
         },this);
       }
       return retVal;
+    },
+    
+    ajaxSubmit: function(event) {
+      event = new Event(event);
+      event.stop();
+      
+      this.resetErrors();
+      
+      this.LSform.set('send',{
+        data:         this.LSform,
+        onSuccess:    this.onAjaxSubmitComplete.bind(this),
+        url:          this.LSform.get('action'),
+        imgload:      varLSdefault.loadingImgDisplay($('LSform_title'),'inside')
+      });
+      this.LSform.send();
+    },
+    
+    onAjaxSubmitComplete: function(responseText, responseXML) {
+      var data = JSON.decode(responseText);
+      if ( varLSdefault.checkAjaxReturn(data) ) {
+        if ($type(data.LSformRedirect)) {
+          if (!$type(data.LSdebug)) {
+            (function(addr){document.location = addr;}).delay(1000,this,data.LSformRedirect);
+          }
+        }
+        else if ($type(data.LSformErrors) == 'object') {
+          data.LSformErrors = new Hash(data.LSformErrors);
+          data.LSformErrors.each(this.addError,this);
+        }
+      }
+    },
+    
+    resetErrors: function() {
+      $$('dd.LSform-errors').each(function(dd) {
+        dd.destroy();
+      });
+      $$('dt.LSform-errors').each(function(dt) {
+        dt.removeClass('LSform-errors');
+      });
+      $$('li.LSform_layout_errors').each(function(li) {
+        li.removeClass('LSform_layout_errors');
+      });
+      
+    },
+    
+    addError: function(errors,name) {
+      var ul = $(name);
+      if ($type(ul)) {
+        errors = new Array(errors);
+        errors.each(function(txt){
+          var dd = new Element('dd');
+          dd.addClass('LSform');
+          dd.addClass('LSform-errors');
+          dd.set('html',txt);
+          dd.injectAfter(this.getParent());
+        },ul);
+        
+        var dt = ul.getParent().getPrevious('dt');
+        dt.addClass('LSform-errors');
+        
+        var layout = ul.getParent('div.LSform_layout_active');
+        if ($type(layout)) {
+          var li = document.getElement('li.LSform_layout[title='+layout.title+']');
+          if($type(li)) {
+            li.addClass('LSform_layout_errors');
+          }
+        }
+      }
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {

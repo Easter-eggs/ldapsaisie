@@ -52,10 +52,36 @@ if($LSsession -> startLSsession()) {
             if (!$GLOBALS['LSerror']->errorsDefined()) {
               $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été ajouté."));
             }
-            if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
-              $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+            if (isset($_REQUEST['ajax'])) {
+              $GLOBALS['LSsession'] -> displayAjaxReturn (
+                array(
+                  'LSformRedirect' => 'view.php?LSobject='.$LSobject.'&dn='.$object -> getDn()
+                )
+              );
+              exit();
+            }
+            else {
+              if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
+                $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+              }
             }
           }
+          else {
+            $GLOBALS['LSsession'] -> displayAjaxReturn (
+              array(
+                'LSformErrors' => $form -> getErrors()
+              )
+            );
+            exit();
+          }
+        }
+        else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
+          $GLOBALS['LSsession'] -> displayAjaxReturn (
+            array(
+              'LSformErrors' => $form -> getErrors()
+            )
+          );
+          exit();
         }
         // Définition du Titre de la page
         $GLOBALS['Smarty'] -> assign('pagetitle',_('Nouveau').' : '.$object -> getLabel());
@@ -78,7 +104,6 @@ if($LSsession -> startLSsession()) {
 else {
   $GLOBALS['LSsession'] -> setTemplate('login.tpl');
 }
-
-// Affichage des retours d'erreurs
 $GLOBALS['LSsession'] -> displayTemplate();
+
 ?>
