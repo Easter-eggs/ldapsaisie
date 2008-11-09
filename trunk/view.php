@@ -318,22 +318,21 @@ if($LSsession -> startLSsession()) {
               'action' => 'refresh'
             );
             
-            $list=$object -> listObjects($filter,$topDn,$params);
-            
+            $list=$object -> listObjectsName($filter,$topDn,$params);
 
             $nbObjects=0;
-            foreach($list as $thisObject) {
-              if ($GLOBALS['LSsession'] -> canAccess($LSobject,$thisObject->getValue('dn'))) {
+            foreach($list as $objDn => $objName) {
+              if ($GLOBALS['LSsession'] -> canAccess($LSobject,$objDn)) {
                 $subDn_name=false;
                 if ($doSubDn) {
-                  $subDn_name = $thisObject -> getSubDnName();
+                  $subDn_name = $object -> getSubDnName($objDn);
                 }
                 $nbObjects++;
 
                 
                 $objectList[]=array(
-                  'dn' => $thisObject->getValue('dn'),
-                  'displayValue' => $thisObject->getDisplayValue(),
+                  'dn' => $objDn,
+                  'displayValue' => $objName,
                   'subDn' => $subDn_name
                 );
               }

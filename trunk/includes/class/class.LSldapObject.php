@@ -712,6 +712,14 @@ class LSldapObject {
           $sfilter_for.=$sfilter_end;
         
         
+          // Attributes
+          if ($filter[$i]['attr']) {
+            $sparams['attributes'] = array($filter[$i]['attr']);
+          }
+          else {
+            $sparams['attributes'] = array($this -> config['rdn']);
+          }
+        
           // Execution de la recherche
           $ret=$GLOBALS['LSldap'] -> search ($sfilter_for,$sbasedn,$sparams);
           
@@ -774,6 +782,9 @@ class LSldapObject {
         // fermeture du filtre
         $sfilter.=$sfilter_end;
         
+        // Attributes
+        $sparams['attributes'] = array($this -> config['rdn']);
+        
         // Lancement de la recherche
         $ret=$GLOBALS['LSldap'] -> search ($sfilter,$sbasedn,$sparams);
         
@@ -806,8 +817,9 @@ class LSldapObject {
           // prÃ©paration du retour finale
           if (is_array($ret)) {
             $ret_final=array();
-            foreach($ret as $obj)
+            foreach($ret as $obj) {
               $ret_final[]=$obj['dn'];
+            }
             $ret=$ret_final;
           }
           else {
@@ -822,6 +834,62 @@ class LSldapObject {
     for($i=0;$i<count($ret);$i++) {
       $retInfos[$i] = new $this -> type_name($this -> config);
       $retInfos[$i] -> loadData($ret[$i]);
+    }
+    
+    return $retInfos;
+  }
+  
+  /**
+   * Retourne une liste d'objet du mÃªme type et retourne leur noms
+   *
+   * Effectue une recherche en fonction des paramÃ¨tres passÃ© et retourne un
+   * tableau (dn => nom) correspondant au resultat de la recherche.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $filter string Filtre de recherche Ldap
+   * @param[in] $basedn string DN de base pour la recherche
+   * @param[in] $params array ParamÃ¨tres de recherche au format Net_LDAP2::search()
+   * @param[in] $displayFormat string Format d'affichage du nom des objets
+   *
+   * @retval array Tableau dn => name correspondant au resultat de la recherche
+   */ 
+  function listObjectsName($filter=NULL,$sbasedn=NULL,$sparams=array(),$displayFormat=false) {
+    $retInfos=array();
+    
+    if (!$displayFormat) {
+      $displayFormat = $this -> getDisplayAttributes();
+    }
+    
+    // Filtre sur l'objet souhaitÃ©
+    $sfilter='(&';
+    $sfilter.=$this -> getObjectFilter();
+    $sfilter_end=')';
+    
+    if(($filter)&&(!empty($filter))) {
+      if(substr($filter,0,1)=='(') {
+        $sfilter.=$filter;
+      }
+      else {
+        $sfilter.='('.$filter.')';
+      }
+    }
+    // fermeture du filtre
+    $sfilter.=$sfilter_end;
+      
+    // Attributes
+    $sparams['attributes'] = getFieldInFormat($displayFormat);
+    if(empty($sparams['attributes'])) {
+      $sparams['attributes'] = array($this -> config['rdn']);
+    }
+        
+    // Lancement de la recherche
+    $ret=$GLOBALS['LSldap'] -> search ($sfilter,$sbasedn,$sparams);
+
+    if (is_array($ret)) {
+      foreach($ret as $obj) {
+        $retInfos[$obj['dn']] = getFData($displayFormat,$obj['attrs']);
+      }
     }
     
     return $retInfos;
@@ -912,12 +980,7 @@ class LSldapObject {
     else {
       $filter=NULL;
     }
-    $list = $this -> listObjects($filter,$topDn);
-    $return=array();
-    foreach($list as $object) {
-      $return[$object -> getDn()] = $object -> getDisplayValue($displayFormat); 
-    }
-    return $return;
+    return $this -> listObjectsName($filter,$topDn,array(),$displayFormat);
   }
 
   /**
@@ -1025,13 +1088,17 @@ class LSldapObject {
   /**
    * Retourne la valeur (DN) du subDn de l'objet  
    * 
+   * @parram[in] $dn string Un DN
+   * 
    * @return string La valeur du subDn de l'object
    */
-  function getSubDnValue() {
-    if ($this -> _subDn_value) {
-      return $this -> _subDn_value;
+  function getSubDnValue($dn=NULL) {
+    if (!$dn) {
+      $dn = $this -> getValue('dn');
     }
-    $dn = $this -> getValue('dn');
+    if ($this -> _subDn_value[$dn]) {
+      return $this -> _subDn_value[$dn];
+    }
     $subDn_value='';
     $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
     foreach ($subDnLdapServer as $subDn => $subDn_name) {
@@ -1040,18 +1107,20 @@ class LSldapObject {
         break;
       }
     }
-    $this -> _subDn_value = $subDn_value;
+    $this -> _subDn_value[$dn] = $subDn_value;
     return $subDn_value;
   }
 
   /**
    * Retourne la nom du subDn de l'objet  
    * 
+   * @parram[in] $dn string Un DN
+   * 
    * @return string Le nom du subDn de l'object
    */
-  function getSubDnName() {
+  function getSubDnName($dn=NULL) {
     $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
-    return $subDnLdapServer[$this -> getSubDnValue()];
+    return $subDnLdapServer[$this -> getSubDnValue($dn)];
   }
   
   /**
