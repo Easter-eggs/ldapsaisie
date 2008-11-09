@@ -268,6 +268,9 @@ $GLOBALS['LSerror_code'] = array (
   ),
   1021 => array (
     'msg' => _("LSrelation : Des paramètres sont manquants dans l'invocation des méthodes de manipulations de relations standarts (Méthode : %{meth}).")
+  ),
+  1022 => array(
+    'msg' => _("LSsession : problème durant l'initialisation.")
   )
 );
 ?>
