@@ -94,16 +94,26 @@ class LSattr_html_select_list extends LSattr_html{
           else {
             $param=array();
           }
-          $list = $obj -> listObjects($val['filter'],$this -> config['possible_values']['basedn'],$param);
+          
+          $param['attributes'] = getFieldInFormat($val['display_attribute']);
+          
+          if ($val['value_attribute']!='dn') {
+            $param['attributes'][] = $val['value_attribute'];
+          }
+          
+          $list = $obj -> search($val['filter'],$this -> config['possible_values']['basedn'],$param);
           if(($val['value_attribute']=='dn')||($val['value_attribute']=='%{dn}')) {
             for($i=0;$i<count($list);$i++) {
-              $retInfos[$list[$i] -> dn]=$list[$i] -> getDisplayValue($val['display_attribute']);
+              $retInfos[$list[$i]['dn']]=getFData($val['display_attribute'],$list[$i]['attrs']);
             }
           }
           else {
             for($i=0;$i<count($list);$i++) {
-              $key = $list[$i] -> attrs[$val['value_attribute']] -> getValue();
-              $retInfos[$key[0]]=$list[$i] -> getDisplayValue($val['display_attribute']);
+              $key = $list[$i]['attrs'][$val['value_attribute']];
+              if(is_array($key)) {
+                $key = $key[0];
+              }
+              $retInfos[$key]=getFData($val['display_attribute'],$list[$i]['attrs']);
             }
           }
         }
