@@ -946,6 +946,40 @@ class LSsession {
       $this -> setTemplate('empty.tpl');
     $GLOBALS['Smarty'] -> display($this -> template);
   }
+  
+ /**
+  * Affiche un retour Ajax
+  *
+  * @retval void
+  */
+  function displayAjaxReturn($data=array()) {
+    $data['LSjsConfig'] = $this -> _JSconfigParams;
+    
+    // Infos
+    if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
+      $txt_infos="<ul>\n";
+      foreach($_SESSION['LSsession_infos'] as $info) {
+        $txt_infos.="<li>$info</li>\n";
+      }
+      $txt_infos.="</ul>\n";
+      $data['LSinfos'] = $txt_infos;
+      $_SESSION['LSsession_infos']=array();
+    }
+    
+    if ($GLOBALS['LSerror']->errorsDefined()) {
+      $data['LSerror'] = $GLOBALS['LSerror']->getErrors();
+    }
+
+    if (isset($_REQUEST['imgload'])) {
+      $data['imgload'] = $_REQUEST['imgload'];
+    }
+
+    if (LSdebugDefined()) {
+      $data['LSdebug'] = LSdebug_print(true);
+    }
+
+    echo json_encode($data);  
+  }
  
  /**
   * Retournne un template Smarty compilé
