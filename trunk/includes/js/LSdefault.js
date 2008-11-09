@@ -57,20 +57,24 @@ var LSdefault = new Class({
     },
 
     checkAjaxReturn: function(data) {
-      if (typeof(data) == 'object') {
-        if (typeof(data.imgload) != "undefined") {
+      if ($type(data) == 'object') {
+        if ($type(data.imgload)) {
           this.loadingImgHide(data.imgload);
         }
         else {
           this.loadingImgHide();
         }
         
-        if (typeof(data.LSdebug) != "undefined") {
+        if ($type(data.LSdebug)) {
           LSdebug(data.LSdebug);
           this.displayDebug(data.LSdebug);
         }
         
-        if (typeof(data.LSerror) != "undefined") {
+        if ($type(data.LSinfos)) {
+          this.displayInfos(data.LSinfos);
+        }
+        
+        if ($type(data.LSerror)) {
           this.displayError(data.LSerror);
           return;
         }
