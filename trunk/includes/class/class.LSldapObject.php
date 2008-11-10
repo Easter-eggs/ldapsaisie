@@ -364,13 +364,14 @@ class LSldapObject {
    * @retval boolean true si les donnÃ©es sont valides, false sinon
    */ 
   function validateAttrsData($idForm) {
+    $retval = true;
     $LSform=$this -> forms[$idForm][0];
     foreach($this -> attrs as $attr) {
       $attr_values = $attr -> getValue();
       if (!$attr -> isValidate()) {
         if($attr -> isUpdate()) {
           if (!$this -> validateAttrData($LSform, $attr)) {
-            return;
+            $retval = false;
           }
         }
         else if( (empty($attr_values)) && ($attr -> isRequired()) ) { 
@@ -378,23 +379,22 @@ class LSldapObject {
             if ($attr -> generateValue()) {
               if (!$this -> validateAttrData($LSform, $attr)) {
                 $GLOBALS['LSerror'] -> addErrorCode(48,$attr -> getLabel());
-                return;
+                $retval = false;
               }
             }
             else {
               $GLOBALS['LSerror'] -> addErrorCode(47,$attr -> getLabel());
-              return;
+              $retval = false;
             }
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(46,$attr -> getLabel());
-            return;
+            $retval = false;
           }
-
         }
       }
     }
-    return true;
+    return $retval;
   }
 
    /**
@@ -408,6 +408,8 @@ class LSldapObject {
    * @retval boolean true si les donnÃ©es sont valides, false sinon
    */
   function validateAttrData(&$LSform,&$attr) {
+    $retval = true;
+    
     $vconfig=$attr -> getValidateConfig();
 
     $data=$attr -> getUpdateData();
@@ -455,13 +457,13 @@ class LSldapObject {
             if($test['result']==0) {
               if($ret!=0) {
                 $LSform -> setElementError($attr,$msg_error);
-                return;
+                $retval = false;
               }
             }
             else {
               if($ret<0) {
                 $LSform -> setElementError($attr,$msg_error);
-                return;
+                $retval = false;
               }
             }
           }
@@ -470,17 +472,17 @@ class LSldapObject {
             if (function_exists($test['function'])) {
               if(!$test['function']($this)) {
                 $LSform -> setElementError($attr,$msg_error);
-              return;
+                $retval = false;
               }
             }
             else {
               $GLOBALS['LSerror'] -> addErrorCode(24,array('attr' => $attr->name,'obj' => $this->getType(),'func' => $test['function']));
-              return;
+              $retval = false;
             }
           }
           else {
             $GLOBALS['LSerror'] -> addErrorCode(25,array('attr' => $attr->name,'obj' => $this->getType()));
-            return;
+            $retval = false;
           }
         }
       }
@@ -496,19 +498,19 @@ class LSldapObject {
         if($this -> attrs[$dependAttr] -> canBeGenerated()) {
           if (!$this -> attrs[$dependAttr] -> generateValue()) {
             $GLOBALS['LSerror'] -> addErrorCode(47,$this -> attrs[$dependAttr] -> getLabel());
-            return;
+            $retval = false;
           }
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode(46,$this -> attrs[$dependAttr] -> getLabel());
-          return;
+          $retval = false;
         }
       }
     }
 
     $attr -> validate();
     unset($this -> other_values['val']);
-    return true;
+    return $retval;
   }
 
   /**
