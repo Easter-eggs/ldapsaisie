@@ -21,23 +21,21 @@ var LSformElement_url = new Class({
     addBtnAfter: function(el) {
       var btn_go = new Element('img');
       btn_go.setProperties({
-        src:    varLSdefault.imagePath('url_go.png'),
-        alt:    'Suivre le lien',
-        title:  'Suivre le lien'
+        src:    varLSdefault.imagePath('url_go.png')
       });
       btn_go.addClass('btn');
       btn_go.injectAfter(el);
       btn_go.addEvent('click',this.onGoBtnClick.bind(this,btn_go));
+      varLSdefault.addHelpInfo(btn_go,'LSformElement_url','go');
       
       var btn_fav = new Element('img');
       btn_fav.setProperties({
-        src:    varLSdefault.imagePath('url_add.png'),
-        alt:    'Ajouter aux favoris',
-        title:  'Ajouter aux favoris'
+        src:    varLSdefault.imagePath('url_add.png')
       });
       btn_fav.addClass('btn');
       btn_fav.injectAfter(btn_go);
       btn_fav.addEvent('click',this.onAddFavoriteBtnClick.bind(this,btn_fav));
+      varLSdefault.addHelpInfo(btn_fav,'LSformElement_url','fav');
     },
     
     reinitialize: function(el) {

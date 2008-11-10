@@ -43,6 +43,17 @@ class LSformElement_url extends LSformElement_text {
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
+  function getDisplay() {
+    $GLOBALS['LSsession'] -> addHelpInfos (
+      'LSformElement_url',
+      array(
+        'go' => _("Afficher ce site."),
+        'fav' => _("Ajouter ce site dans mes favoris.")
+      )
+    );
+    return parent :: getDisplay($return);
+  }
+  
 }
 
 ?>
