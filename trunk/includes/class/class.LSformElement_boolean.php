@@ -45,6 +45,13 @@ class LSformElement_boolean extends LSformElement {
   function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
+      // Help Infos
+      $GLOBALS['LSsession'] -> addHelpInfos(
+        'LSformElement_boolean',
+        array(
+          'clear' => _('Effacer le choix.')
+        )
+      );
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_boolean.js');
     }
     $return['html'] = $this -> fetchTemplate(

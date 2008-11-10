@@ -8,13 +8,13 @@ var LSformElement_boolean = new Class({
         var btn = new Element('img');
         btn.setProperties({
           src:    varLSdefault.imagePath('clear.png'),
-          alt:    'Reset',
-          title:  'Reset'
+          alt:    'Clear'
         });
         btn.addClass('btn');
         btn.setStyle('vertical-align','top');
         btn.addEvent('click',this.onClearBtnClick.bind(this,btn));
         btn.injectInside(el);
+        varLSdefault.addHelpInfo(btn,'LSformElement_boolean','clear');
       }, this);
     },
     
