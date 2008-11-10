@@ -50,6 +50,12 @@ class LSformElement_text extends LSformElement {
       if (isset($this -> params['html_options'])) {
         $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$this -> params['html_options']);
       }
+      $GLOBALS['LSsession'] -> addHelpInfos(
+        'LSformElement_text',
+        array(
+          'generate' => _('Générer la valeur')
+        )
+      );
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_text_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_text.js');
     }
