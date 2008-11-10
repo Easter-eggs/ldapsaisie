@@ -44,6 +44,12 @@ class LSformElement_textarea extends LSformElement {
   function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
+      $GLOBALS['LSsession'] -> addHelpInfos(
+        'LSformElement_textarea',
+        array(
+          'clear' => _('Effacer')
+        )
+      );
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_textarea.js');
     }
     $return['html'] = $this -> fetchTemplate();
