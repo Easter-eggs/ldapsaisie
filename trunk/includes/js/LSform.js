@@ -217,7 +217,7 @@ var LSform = new Class({
         
         var layout = ul.getParent('div.LSform_layout_active');
         if ($type(layout)) {
-          var li = getLayoutBtn(layout);
+          var li = this.getLayoutBtn(layout);
           if($type(li)) {
             li.addClass('LSform_layout_errors');
           }
