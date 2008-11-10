@@ -15,6 +15,7 @@ var LSformElement_select = new Class({
         btn.setStyle('vertical-align','top');
         btn.addEvent('click',this.onClearBtnClick.bind(this,el));
         btn.injectAfter(el);
+        varLSdefault.addHelpInfo(btn,'LSformElement_select','clear');
       }, this);
     },
     
