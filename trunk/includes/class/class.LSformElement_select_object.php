@@ -24,8 +24,8 @@
 /**
  * Element select d'un formulaire pour LdapSaisie
  *
- * Cette classe définis les éléments select des formulaires.
- * Elle étant la classe basic LSformElement.
+ * Cette classe dÃ©finis les Ã©lÃ©ments select des formulaires.
+ * Elle Ã©tant la classe basic LSformElement.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -36,9 +36,9 @@ class LSformElement_select_object extends LSformElement {
   var $template = 'LSformElement_select_object.tpl';
 
  /**
-  * Retourn les infos d'affichage de l'élément
+  * Retourn les infos d'affichage de l'Ã©lÃ©ment
   * 
-  * Cette méthode retourne les informations d'affichage de l'élement
+  * Cette mÃ©thode retourne les informations d'affichage de l'Ã©lement
   *
   * @retval array
   */
@@ -66,7 +66,7 @@ class LSformElement_select_object extends LSformElement {
         'LSformElement_select_object',
         array(
           'searchAdd' => _("Ajout rapide"),
-          'add' => _("Afficher le module de recherche avanc&eacute;e et de s&eacute;lection."),
+          'add' => _("Afficher le module de recherche avancée et de sélection."),
           'delete' => _("Supprimer")
         )
       );
@@ -87,14 +87,14 @@ class LSformElement_select_object extends LSformElement {
   }
   
   /*
-   * Retourne les valeurs de l'objet � partir de la variable Session
+   * Retourne les valeurs de l'objet à partir de la variable Session
    */
   function getValuesFromSession() {
     return $this -> attr_html -> getValuesFromSession();
   }
   
   /**
-   * Défini le type d'objet sélectionnable
+   * DÃ©fini le type d'objet sÃ©lectionnable
    * 
    * @param[in] $object string Le type d'object
    * 
@@ -105,9 +105,9 @@ class LSformElement_select_object extends LSformElement {
   }
   
   /**
-   * Exporte les valeurs de l'�l�ment
+   * Exporte les valeurs de l'élément
    * 
-   * @retval Array Les valeurs de l'�lement
+   * @retval Array Les valeurs de l'élement
    */
   function exportValues(){
     $values = $this -> attr_html -> getValuesFromFormValues($this -> values);
@@ -115,15 +115,15 @@ class LSformElement_select_object extends LSformElement {
   }
 
   /**
-   * D�finis la valeur de l'�l�ment � partir des donn�es 
-   * envoy�es en POST du formulaire
+   * Définis la valeur de l'élément à partir des données 
+   * envoyées en POST du formulaire
    *
-   * Cette m�thode d�finis la valeur de l'�l�ment � partir des donn�es 
-   * envoy�es en POST du formulaire.
+   * Cette méthode définis la valeur de l'élément à partir des données 
+   * envoyées en POST du formulaire.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] [<b>required</b>] string or array La futur valeur de l'�l�ment
+   * @param[in] [<b>required</b>] string or array La futur valeur de l'élément
    *
    * @retval boolean Retourne True
    */
@@ -134,11 +134,11 @@ class LSformElement_select_object extends LSformElement {
   }
 
   /**
-   * Recherche les objets s�lectionnables � partir du pattern fournis
+   * Recherche les objets sélectionnables à partir du pattern fournis
    * 
    * @param[in] $pattern Pattern de recherche
    * 
-   * @retval array(dn -> displayValue) Les objets trouv�s
+   * @retval array(dn -> displayValue) Les objets trouvés
    */
   function searchAdd ($pattern) {
     if (is_array($this -> params['selectable_object'])) {
