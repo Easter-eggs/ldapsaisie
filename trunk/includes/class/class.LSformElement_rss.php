@@ -42,6 +42,16 @@ class LSformElement_rss extends LSformElement_text {
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
   
+  function getDisplay() {
+    $GLOBALS['LSsession'] -> addHelpInfos (
+      'LSformElement_rss',
+      array(
+        'display' => _("Afficher la file RSS.")
+      )
+    );
+    return parent :: getDisplay($return);
+  }
+  
 }
 
 ?>

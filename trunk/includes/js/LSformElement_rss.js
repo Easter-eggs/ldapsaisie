@@ -22,12 +22,12 @@ var LSformElement_rss = new Class({
       var btn = new Element('img');
       btn.setProperties({
         src:    varLSdefault.imagePath('rss.png'),
-        alt:    'File RSS',
-        title:  'File RSS'
+        alt:    'File RSS'
       });
       btn.addClass('btn');
       btn.injectAfter(el);
       btn.addEvent('click',this.onBtnClick.bind(this,btn));
+      varLSdefault.addHelpInfo(btn,'LSformElement_rss','display');
     },
     
     reinitialize: function(el) {
