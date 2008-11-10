@@ -120,6 +120,9 @@ if($LSsession -> startLSsession()) {
                   $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
                   $GLOBALS['LSsession'] -> addJSscript('LSrelation.js');
                   $GLOBALS['LSsession'] -> addCssFile('LSrelation.css');
+                  $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
+                  $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
+                  $GLOBALS['LSsession'] -> addJSscript('LSview.js');
                   
                   if($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
                     if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
@@ -433,6 +436,8 @@ if($LSsession -> startLSsession()) {
             $GLOBALS['Smarty']->assign('LSobject_list_nbpage',$searchData['LSobject_list_nbpage']);
           }
           
+          $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
+          $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
           $GLOBALS['LSsession'] -> addJSscript('LSview.js');
           
           $GLOBALS['Smarty']->assign('LSview_search',array(
