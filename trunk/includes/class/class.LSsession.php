@@ -1567,7 +1567,7 @@ class LSsession {
   function addHelpInfos($group,$infos) {
     if (is_array($infos)) {
       if (is_array($this -> _JSconfigParams['helpInfos'][$group])) {
-        $this -> _JSconfigParams['helpInfos'][$group] = array_merge_recursive($this -> _JSconfigParams['helpInfos'][$group],$infos);
+        $this -> _JSconfigParams['helpInfos'][$group] = array_merge($this -> _JSconfigParams['helpInfos'][$group],$infos);
       }
       else {
         $this -> _JSconfigParams['helpInfos'][$group] = $infos;
