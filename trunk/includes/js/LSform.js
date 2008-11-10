@@ -223,7 +223,16 @@ var LSform = new Class({
           }
         }
       }
+    },
+    
+    addTip: function(el) {
+      this.LStips.attach(el);
+    },
+    
+    removeTip: function(el) {
+      this.LStips.detach(el);
     }
+    
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
   varLSform = new LSform();

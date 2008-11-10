@@ -1554,6 +1554,26 @@ class LSsession {
   function getEmailSender() {
     return $this -> ldapServer['emailSender'];  
   }
+  
+  /**
+   * Ajout d'une information d'aide
+   * 
+   * @param[in] $group string Le nom du groupe d'infos dans lequels ajouter
+   *                          celle-ci
+   * @param[in] $infos array  Tableau array(name => value) des infos
+   * 
+   * @retval void
+   */
+  function addHelpInfos($group,$infos) {
+    if (is_array($infos)) {
+      if (is_array($this -> _JSconfigParams['helpInfos'][$group])) {
+        $this -> _JSconfigParams['helpInfos'][$group] = array_merge_recursive($this -> _JSconfigParams['helpInfos'][$group],$infos);
+      }
+      else {
+        $this -> _JSconfigParams['helpInfos'][$group] = $infos;
+      }
+    }
+  }
 }
 
 ?>

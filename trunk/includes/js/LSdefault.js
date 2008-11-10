@@ -178,6 +178,31 @@ var LSdefault = new Class({
         return this.LSjsConfig[name];
       }
       return new Hash();
+    },
+    
+    addHelpInfo: function(el,group,name) {
+      if ($type(this.LSjsConfig['helpInfos'])) {
+        if ($type(el)=='element') {
+          if ($type(this.LSjsConfig['helpInfos'][group])) {
+            if ($type(this.LSjsConfig['helpInfos'][group][name])) {
+              varLSform.addTip(el);
+              el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
+            }
+          }
+        }
+      }
+    },
+    
+    setHelpInfo: function(el,group,name) {
+      if ($type(this.LSjsConfig['helpInfos'])) {
+        if ($type(el)=='element') {
+          if ($type(this.LSjsConfig['helpInfos'][group])) {
+            if ($type(this.LSjsConfig['helpInfos'][group][name])) {
+              el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
+            }
+          }
+        }
+      }
     }
 
 });
