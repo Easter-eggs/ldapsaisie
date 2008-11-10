@@ -51,6 +51,13 @@ class LSformElement_ssh_key extends LSformElement {
     }
     else {
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_ssh_key.js');
+      $GLOBALS['LSsession'] -> addHelpInfos (
+        'LSformElement_ssh_key',
+        array(
+          'display' => _("Afficher la clef complète.")
+        )
+      );
+      
       $values_txt = array();
       foreach ($this -> values as $value) {
         if (ereg('^ssh-([a-z]+) (.*)== (.*)$',$value,$regs)) {

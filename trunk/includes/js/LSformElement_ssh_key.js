@@ -2,6 +2,7 @@ var LSformElement_ssh_key = new Class({
     initialize: function(){
       $$('span.LSformElement_ssh_key_short_display').each(function(span) {
         span.addEvent('click',this.onShortDisplayClick.bind(this,span));
+        varLSdefault.addHelpInfo(span,'LSformElement_ssh_key','display');
       }, this);
     },
     
