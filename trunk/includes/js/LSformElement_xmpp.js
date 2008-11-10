@@ -22,12 +22,12 @@ var LSformElement_xmpp = new Class({
       var btn = new Element('img');
       btn.setProperties({
         src:    varLSdefault.imagePath('xmpp.png'),
-        alt:    'Chat',
-        title:  'Chat'
+        alt:    'Chat'
       });
       btn.addClass('btn');
       btn.injectAfter(el);
       btn.addEvent('click',this.onBtnClick.bind(this,btn));
+      varLSdefault.addHelpInfo(btn,'LSformElement_xmpp','chat');
     },
     
     reinitialize: function(el) {
