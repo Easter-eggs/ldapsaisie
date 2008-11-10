@@ -17,6 +17,7 @@ var LSformElement_password_field = new Class({
           this.editMailBtn.addEvent('click',this.onEditMailBtnClick.bind(this));
           this.LSmail_open = 0;
           this.editMailBtn.injectAfter(this.input);
+          varLSdefault.addHelpInfo(this.editMailBtn,'LSformElement_password','editmail');
         }
         if (this.params.mail['ask']) {
           this.mailBtn = new Element('img');
@@ -29,11 +30,13 @@ var LSformElement_password_field = new Class({
           });
           if (this.params.mail['send']) {
             this.mailInput.value = 1;
-            this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+            this.mailBtn.src = varLSdefault.imagePath('mail.png');
+            varLSdefault.addHelpInfo(this.mailBtn,'LSformElement_password','mail');
           }  
           else {
             this.mailInput.value = 0;
-            this.mailBtn.src = varLSdefault.imagePath('mail.png');
+            this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+            varLSdefault.addHelpInfo(this.mailBtn,'LSformElement_password','nomail');
           }
           this.mailBtn.injectAfter(this.input);
           this.mailInput.injectAfter(this.mailBtn);
@@ -46,6 +49,7 @@ var LSformElement_password_field = new Class({
       this.viewBtn.addClass('btn');
       this.viewBtn.addEvent('click',this.changeInputType.bind(this));
       this.viewBtn.injectAfter(this.input);
+      varLSdefault.addHelpInfo(this.viewBtn,'LSformElement_password','view');
       
       // Verify
       if (this.params['verify']) {
@@ -56,6 +60,7 @@ var LSformElement_password_field = new Class({
         this.verifyBtn.addClass('btn');
         this.verifyBtn.addEvent('click',this.onVerifyBtnClick.bind(this));
         this.verifyBtn.injectAfter(this.input);
+        varLSdefault.addHelpInfo(this.verifyBtn,'LSformElement_password','verify');
       }
       
       if (this.params['generate']) {
@@ -64,6 +69,7 @@ var LSformElement_password_field = new Class({
         this.generateBtn.addClass('btn');
         this.generateBtn.addEvent('click',this.onGenerateBtnClick.bind(this));
         this.generateBtn.injectAfter(this.input);
+        varLSdefault.addHelpInfo(this.generateBtn,'LSformElement_password','generate');
       }
       
       this.initialize_input();
@@ -77,13 +83,15 @@ var LSformElement_password_field = new Class({
     },
     
     onMailBtnClick: function() {
-      if (this.mailInput.value==1) {
-        this.mailInput.value = 0;
+      if (this.mailInput.value==0) {
+        this.mailInput.value = 1;
         this.mailBtn.src = varLSdefault.imagePath('mail.png');
+        varLSdefault.setHelpInfo(this.mailBtn,'LSformElement_password','mail');
       }
       else {
-        this.mailInput.value = 1;
+        this.mailInput.value = 0;
         this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+        varLSdefault.setHelpInfo(this.mailBtn,'LSformElement_password','nomail');
       }
     },
     
@@ -154,10 +162,12 @@ var LSformElement_password_field = new Class({
       if (this.input.type=='password') {
         var newType = 'text';
         this.viewBtn.src=varLSdefault.imagePath('hide.png');
+        varLSdefault.setHelpInfo(this.viewBtn,'LSformElement_password','hide');
       }
       else {
         var newType = 'password';
         this.viewBtn.src=varLSdefault.imagePath('view.png');
+        varLSdefault.setHelpInfo(this.viewBtn,'LSformElement_password','view');
       }
       var newInput = new Element('input');
       newInput.setProperty('name',this.input.getProperty('name'));

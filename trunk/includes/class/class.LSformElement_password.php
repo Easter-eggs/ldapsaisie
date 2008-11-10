@@ -108,6 +108,21 @@ class LSformElement_password extends LSformElement {
     $return = $this -> getLabelInfos();
     $pwd = "";
     if (!$this -> isFreeze()) {
+      
+      // Help Infos
+      $GLOBALS['LSsession'] -> addHelpInfos(
+        'LSformElement_password',
+        array(
+          'generate' => _('Générer un mot de passe.'),
+          'verify' => _('Verifier si le mot de passe saisi correspond à celui stocké.'),
+          'view' => _('Voir le mot de passe.'),
+          'hide' => _('Cacher le mot de passe.'),
+          'mail' => _("Le mot de passe sera envoyé par mail en cas de modification. Cliquer pour désactiver l'envoi."),
+          'nomail' => _("Le mot de passe ne sera pas envoyé par mail en cas de modification. Cliquer pour activer l'envoi."),
+          'editmail' => _("Editer le mail qui sera envoyé à l'utilisateur")
+        )
+      );
+      
       if (($this -> params['html_options']['generationTool'])&&($this -> params['html_options']['autoGenerate'])&&(empty($this -> values))) {
         $pwd=$this->generatePassword();
       }
