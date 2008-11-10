@@ -47,6 +47,13 @@ class LSformElement_image extends LSformElement {
     $GLOBALS['LSsession'] -> addCssFile('LSformElement_image.css');
     $return = true;
     if (!$this -> isFreeze()) {
+      $GLOBALS['LSsession'] -> addHelpInfos(
+        'LSformElement_date',
+        array(
+          'zoom' => _('Cliquer pour agrandir.'),
+          'delete' => _('Cliquer pour supprimer cette image.')
+        )
+      );
       $id=$this -> name.'_'.rand();
       $return = $this -> getLabelInfos();
       $return['html'] = $this -> fetchTemplate(NULL,array('id' => 'LSformElement_image_input_'.$id));

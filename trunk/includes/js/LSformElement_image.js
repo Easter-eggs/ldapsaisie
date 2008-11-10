@@ -12,12 +12,13 @@ var LSformElement_image = new Class({
         var getId = /LSformElement_image_action_zoom_(.*)/
         var id = getId.exec(el.id)[1];
         var img = $('LSformElement_image_' + id);
-        var src = img.src;
         el.addEvent('click',this.zoomImg.bindWithEvent(this,img));
+        varLSdefault.addHelpInfo(el,'LSformElement_date','zoom');
       }, this);
       
       $$('img.LSformElement_image_action_delete').each(function(el) {
         el.addEvent('click',this.onImageDeleteBtnClick.bind(this,el));
+        varLSdefault.addHelpInfo(el,'LSformElement_date','delete');
       }, this);
     },
     
