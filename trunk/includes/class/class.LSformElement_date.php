@@ -134,6 +134,14 @@ class LSformElement_date extends LSformElement {
     $return = $this -> getLabelInfos();
     // value
     if (!$this -> isFreeze()) {
+      // Help Infos
+      $GLOBALS['LSsession'] -> addHelpInfos(
+        'LSformElement_date',
+        array(
+          'calendar' => _('Sélectionner dans un calendrier.')
+        )
+      );
+      
       $params = array(
         'format' => $this -> php2js_format($this -> getFormat()),
         'firstDayOfWeek' => $this -> getFirstDayOfWeek()
