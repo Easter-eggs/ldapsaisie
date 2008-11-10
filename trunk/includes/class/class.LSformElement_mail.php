@@ -50,6 +50,16 @@ class LSformElement_mail extends LSformElement_text {
   );
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
+  
+  function getDisplay() {
+    $GLOBALS['LSsession'] -> addHelpInfos (
+      'LSformElement_mail',
+      array(
+        'mail' => _("Envoyer un mail depuis l'interface.")
+      )
+    );
+    return parent :: getDisplay($return);
+  }
 }
 
 ?>

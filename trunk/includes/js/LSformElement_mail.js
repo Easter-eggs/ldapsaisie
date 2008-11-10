@@ -29,6 +29,7 @@ var LSformElement_mail = new Class({
       btn.addClass('btn');
       btn.injectAfter(el);
       btn.addEvent('click',this.onBtnClick.bind(this,btn));
+      varLSdefault.addHelpInfo(btn,'LSformElement_mail','mail');
     },
     
     reinitialize: function(el) {
