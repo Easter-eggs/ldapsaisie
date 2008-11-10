@@ -37,6 +37,7 @@ var LSformElement_select_object_field = new Class({
         this.addBtn.set('html',this.params.addBtn);
         this.addBtn.addEvent('click',this.onAddBtnClick.bindWithEvent(this));
         this.addBtn.injectInside(this.li);
+        varLSdefault.addHelpInfo(this.addBtn,'LSformElement_select_object','add');
         
         this.li.inject(this.ul,'top');
       }
@@ -58,6 +59,7 @@ var LSformElement_select_object_field = new Class({
       });
       btn.addEvent('click',this.onDeleteBtnClick.bind(this,btn));
       btn.injectAfter(a);
+      varLSdefault.addHelpInfo(btn,'LSformElement_select_object','delete');
     },
     
     addSingleAddBtn: function(insideEl) {
@@ -66,6 +68,7 @@ var LSformElement_select_object_field = new Class({
       this.addBtn.addClass('btn');
       this.addBtn.addEvent('click',this.onAddBtnClick.bindWithEvent(this));
       this.addBtn.injectInside(insideEl);
+      varLSdefault.addHelpInfo(this.addBtn,'LSformElement_select_object','add');
     },
     
     addSearchAddBtn: function() {
@@ -74,6 +77,7 @@ var LSformElement_select_object_field = new Class({
       this.searchAddBtn.addClass('btn');
       this.searchAddBtn.addEvent('click',this.onSearchAddBtnClick.bindWithEvent(this));
       this.searchAddBtn.injectAfter(this.addBtn);
+      varLSdefault.addHelpInfo(this.searchAddBtn,'LSformElement_select_object','searchAdd');
     },
     
     onAddBtnClick: function(event) {

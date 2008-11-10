@@ -61,6 +61,15 @@ class LSformElement_select_object extends LSformElement {
           'noResultLabel' => _('Aucun r&eacute;sultat')
         )
       );
+
+      $GLOBALS['LSsession'] -> addHelpInfos (
+        'LSformElement_select_object',
+        array(
+          'searchAdd' => _("Ajout rapide"),
+          'add' => _("Afficher le module de recherche avanc&eacute;e et de s&eacute;lection."),
+          'delete' => _("Supprimer")
+        )
+      );
       
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object_field.js');
       $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object.js');
