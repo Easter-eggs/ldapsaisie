@@ -54,6 +54,24 @@ var LSform = new Class({
         document.getElement('li.LSform_layout').getFirst('a').fireEvent('click');
       }
     },
+
+    getLayoutBtn: function(div) {
+      var getName = new RegExp('LSform_layout_div_(.*)');
+      var name = getName.exec(div.id);
+      if (!name) {
+        return;
+      }
+      return $('LSform_layout_btn_'+name[1]);
+    },
+    
+    getLayout: function(btn) {
+      var getName = new RegExp('LSform_layout_btn_(.*)');
+      var name = getName.exec(btn.id);
+      if (!name) {
+        return;
+      }
+      return $('LSform_layout_div_'+name[1]);
+    },
     
     onTabBtnClick: function(event,li) {
       if ($type(event)) {
@@ -62,37 +80,35 @@ var LSform = new Class({
         event.target.blur();
       }
       
-      if (this._currentTab!='default_value') {
-        var oldLi = $$('li.LSform_layout[title='+this._currentTab+']');
-        if ($type(oldLi)) {
-          oldLi.removeClass('LSform_layout_current');
+      if (this._currentTab!=li) {
+        if (this._currentTab!='default_value') {
+          this._currentTab.removeClass('LSform_layout_current');
+          var oldDiv = this.getLayout(this._currentTab);
+          if ($type(oldDiv)) {
+            oldDiv.removeClass('LSform_layout_current');
+          }
         }
-        var oldDiv = $$('div.LSform_layout[title='+this._currentTab+']');
-        if ($type(oldDiv)) {
-          oldDiv.removeClass('LSform_layout_current');
-        }
-      }
-      
-      this._currentTab = li.title;
-      li.addClass('LSform_layout_current');
-      var div = $$('div.LSform_layout[title='+this._currentTab+']');
-      if ($type(div)) {
-        div = div[0];
-        div.addClass('LSform_layout_current');
         
-        // Focus
-        var ul = div.getElement('ul.LSform');
-        if ($type(ul)) {
-          var el = ul.getElement('input');
-          if (!$type(el)) {
-            el = ul.getElement('textarea');
-          }
-          if (!$type(el)) {
-            el = ul.getElement('select');
-          }
-          if ($type(el)) {
-            if(el.type!='hidden') {
-              el.focus();
+        this._currentTab = li;
+        li.addClass('LSform_layout_current');
+        var div = this.getLayout(li);
+        if ($type(div)) {
+          div.addClass('LSform_layout_current');
+          
+          // Focus
+          var ul = div.getElement('ul.LSform');
+          if ($type(ul)) {
+            var el = ul.getElement('input');
+            if (!$type(el)) {
+              el = ul.getElement('textarea');
+            }
+            if (!$type(el)) {
+              el = ul.getElement('select');
+            }
+            if ($type(el)) {
+              if(el.type!='hidden') {
+                el.focus();
+              }
             }
           }
         }
@@ -201,7 +217,7 @@ var LSform = new Class({
         
         var layout = ul.getParent('div.LSform_layout_active');
         if ($type(layout)) {
-          var li = document.getElement('li.LSform_layout[title='+layout.title+']');
+          var li = getLayoutBtn(layout);
           if($type(li)) {
             li.addClass('LSform_layout_errors');
           }
