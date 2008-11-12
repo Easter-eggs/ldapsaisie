@@ -43,14 +43,28 @@ $GLOBALS['LSconfig'] = array(
             'filter'   => '(objectClass=*)',
             'scope'    => 'sub'
       ),
-      'LSadmins' => array (
-        'o=ls' => array (
-          'uid=eeggs,ou=people,o=ls' => NULL
+      'LSrights' => array (
+        'admin' => array (
+          'o=ls' => array (
+            'uid=eeggs,ou=people,o=ls' => NULL
+          ),
+          'ou=people,o=ls' => array (
+            'cn=adminldap,ou=groups,o=ls' => array (
+              'attr' => 'uniqueMember',
+              'LSobject' => 'LSeegroup'
+            )
+          )
         ),
-        'ou=people,o=ls' => array (
-          'cn=adminldap,ou=groups,o=ls' => array (
-            'attr' => 'uniqueMember',
-            'LSobject' => 'LSeegroup'
+        'godfather' => array (
+          'LSobjects' => array (
+            'LSeepeople' => array (
+              'attr' => 'lsGodfatherDn',
+              'attr_value' => '%{dn}',
+              'basedn' => 'ou=people,o=ls'
+            ),
+            'LSeegroup' => array (
+              'filter' => 'lsGodfatherDn=%{dn}'
+            )
           )
         )
       ),
@@ -95,12 +109,14 @@ $GLOBALS['LSconfig'] = array(
         'filter'   => '(objectClass=*)',
         'scope'    => 'sub'
       ),
-      'LSadmins' => array (
-        'o=ls' => array (
-          'uid=eeggs,ou=people,o=ls' => NULL,
-          'cn=adminldap,ou=groups,o=ls' => array (
-            'attr' => 'uniqueMember',
-            'LSobject' => 'LSeegroup'
+      'LSrights' => array( 
+        'admin' => array (
+          'o=ls' => array (
+            'uid=eeggs,ou=people,o=ls' => NULL,
+            'cn=adminldap,ou=groups,o=ls' => array (
+              'attr' => 'uniqueMember',
+              'LSobject' => 'LSeegroup'
+            )
           )
         )
       ),

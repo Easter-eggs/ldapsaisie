@@ -258,25 +258,31 @@ class LSattribute {
       return $this -> _myRights;
     }
     $return='n';
-    switch ($this -> ldapObject -> whoami()) {
-      case 'admin':
-        if($this -> config['rights']['admin']=='w') {
-          $return='w';
-        }
-        else {
-          $return='r';
-        }
+    $whoami = $this -> ldapObject -> whoami();
+    foreach($whoami as $who) {
+      switch ($who) {
+        case 'admin':
+          if($this -> config['rights']['admin']=='w') {
+            $return='w';
+            break;
+          }
+          else {
+            $return='r';
+          }
+          break;
+        default:
+          if ($this -> config['rights'][$who] == 'w') {
+            $return='w';
+            break;
+          }
+          else if($this -> config['rights'][$who] == 'r') {
+            $return='r';
+          }
+          break;
+      }
+      if ($return=='w') {
         break;
-      case 'self':
-        if (($this -> config['rights']['self'] == 'w') || ($this -> config['rights']['self'] == 'r')) {
-          $return=$this -> config['rights']['self'];
-        }
-        break;
-      default:    //user
-        if (($this -> config['rights']['user'] == 'w') || ($this -> config['rights']['user'] == 'r')) {
-            $return=$this -> config['rights']['user'];
-        }
-        break;
+      }
     }
     $this -> _myRights = $return;
     return $return;

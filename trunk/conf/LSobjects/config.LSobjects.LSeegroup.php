@@ -40,6 +40,8 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
   'select_display_attrs' => '%{cn}',
   'label' => _('Groupes'),
   'attrs' => array (
+  
+    /* ----------- start -----------*/
     'cn' => array (
       'label' => _('Nom'),
       'ldap_type' => 'ascii',
@@ -59,13 +61,17 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'view' => 1,
       'rights' => array(
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'r'
       ),
       'form' => array (
         'modify' => 1,
         'create' => 1
       )
     ),
+    /* ----------- end -----------*/
+    
+    /* ----------- start -----------*/
     'gidNumber' => array (
       'label' => _('Identifiant'),
       'ldap_type' => 'numeric',
@@ -87,6 +93,9 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
         'modify' => 1
       )
     ),
+    /* ----------- end -----------*/
+    
+    /* ----------- start -----------*/
     'uniqueMember' => array (
       'label' => _('Membres'),
       'ldap_type' => 'ascii',
@@ -101,7 +110,8 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       ),
       'view' => 1,
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       ),
       'form' => array (
         'modify' => 1,
@@ -115,7 +125,56 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
                                               
           'value_attribute' => 'dn',                          // Spécifie le attributs dont la valeur sera retournée par
       )
-    )
+    ),
+    /* ----------- end -----------*/
+    
+    /* ----------- start -----------*/
+    'description' => array (
+      'label' => _('Description'),
+      'ldap_type' => 'ascii',
+      'html_type' => 'textarea',
+      'multiple' => 1,
+      'rights' => array(
+        'user' => 'r',
+        'admin' => 'w',
+        'godfather' => 'r'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1,
+        'create' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+    
+    /* ----------- start -----------*/
+    'lsGodfatherDn' => array (
+      'label' => _('Parrain(s)'),
+      'ldap_type' => 'ascii',
+      'html_type' => 'select_object',
+      'selectable_object' => array(
+          'object_type' => 'LSeepeople',
+          'value_attribute' => '%{dn}'
+      ),
+      'validation' => array (
+        array (
+          'basedn' => '%{val}',
+          'result' => 1,
+          'msg' => _("Un ou plusieurs de ces utilisateurs n'existent pas.")
+        )
+      ),
+      'multiple' => 1,
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1,
+        'create' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+    
   )
 );
 ?>

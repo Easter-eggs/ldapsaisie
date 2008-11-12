@@ -26,10 +26,14 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
     'lscompany'
   ),
   'rdn' => 'ou',
+  'orderby' => 'displayValue',  // Valeurs possibles : 'displayValue' ou 'subDn'
   'container_dn' => 'ou=companies',
   'select_display_attrs' => '%{ou}',
   'label' => _('Sociétés'),
+  
   'attrs' => array (
+  
+    /* ----------- start -----------*/
     'ou' => array (
       'label' => _('Nom'),
       'ldap_type' => 'ascii',
@@ -48,6 +52,9 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
         'create' => 1
       )
     ),
+    /* ----------- end -----------*/
+    
+    /* ----------- start -----------*/
     'description' => array (
       'label' => _('Description'),
       'ldap_type' => 'ascii',
@@ -55,6 +62,35 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
       'required' => 0,
       'rights' => array(
         'user' => 'r',
+        'admin' => 'w',
+        'godfather' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1,
+        'create' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+    
+    /* ----------- start -----------*/
+    'lsGodfatherDn' => array (
+      'label' => _('Parrain(s)'),
+      'ldap_type' => 'ascii',
+      'html_type' => 'select_object',
+      'selectable_object' => array(
+          'object_type' => 'LSeepeople',
+          'value_attribute' => '%{dn}'
+      ),
+      'validation' => array (
+        array (
+          'basedn' => '%{val}',
+          'result' => 1,
+          'msg' => _("Un ou plusieurs de ces utilisateurs n'existent pas.")
+        )
+      ),
+      'multiple' => 1,
+      'rights' => array(
         'admin' => 'w'
       ),
       'view' => 1,
@@ -63,6 +99,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
         'create' => 1
       )
     )
+    /* ----------- end -----------*/
   )
 );
 ?>

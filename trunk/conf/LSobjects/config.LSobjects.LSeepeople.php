@@ -82,7 +82,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
           'mail',
           'userPassword',
           'description',
-          'jpegPhoto'
+          'jpegPhoto',
+          'lsGodfatherDn'
         )
       ),
       'Posix' => array (
@@ -135,8 +136,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'rights' => array(
         'self' => 'r',
-        'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'r'
       ),
       'view' => 1,
       'form' => array (
@@ -169,7 +170,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         )
       ),
       'rights' => array(
-        'self' => 'r',
         'admin' => 'w'
       ),
       'view' => 1,
@@ -192,9 +192,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         ),
       ),
       'rights' => array(
-        'self' => 'w',
+        'self' => 'r',
         'users' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       ),
       'view' => 1,
       'form' => array (
@@ -212,9 +213,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_type' => 'text',
       'required' => 1,
       'rights' => array(
-        'self' => 'w',
+        'self' => 'r',
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       ),
       'view' => 1,
       'form' => array (
@@ -237,9 +239,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'validation' => 'valid',
       'rights' => array(
-        'self' => 'w',
+        'self' => 'r',
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       ),
       'view' => 1,
       'form' => array (
@@ -265,8 +268,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         )
       ),
       'rights' => array(
-        'self' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'r'
       ),
       'view' => 1,
       'form' => array (
@@ -303,7 +306,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'default_value' => 'no',
       'rights' => array(
-        'self' => 'r',
         'admin' => 'w'
       ),
       'view' => 1,
@@ -340,7 +342,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'generate_function' => 'generate_homeDirectory',
       'rights' => array(
-        'self' => 'r'
+        'admin' => 'r'
       ),
       'view' => 1
     ),
@@ -367,7 +369,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'rights' => array(
         'self' => 'r',
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       ),
       'view' => 1,
       'form' => array (
@@ -385,9 +388,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'default_value' => 'M.',
       'rights' => array(
-        'self' => 'w',
+        'self' => 'r',
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       ),
       'view' => 1,
       'form' => array (
@@ -409,9 +413,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_type' => 'textarea',
       'multiple' => 1,
       'rights' => array(
-        'self' => 'w',
+        'self' => 'r',
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       ),
       'view' => 1,
       'form' => array (
@@ -538,9 +543,38 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'rights' => array(
         'self' => 'w',
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'godfather' => 'w'
       )
-    )
+    ),
+    /* ----------- end -----------*/
+    
+    /* ----------- start -----------*/
+    'lsGodfatherDn' => array (
+      'label' => _('Parrain(s)'),
+      'ldap_type' => 'ascii',
+      'html_type' => 'select_object',
+      'selectable_object' => array(
+          'object_type' => 'LSeepeople',
+          'value_attribute' => '%{dn}'
+      ),
+      'validation' => array (
+        array (
+          'basedn' => '%{val}',
+          'result' => 1,
+          'msg' => _("Un ou plusieurs de ces utilisateurs n'existent pas.")
+        )
+      ),
+      'multiple' => 1,
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1,
+        'create' => 1
+      )
+    ),
     /* ----------- end -----------*/
 
   ) // Fin args

@@ -42,9 +42,7 @@ class LSsession {
   var $_JSconfigParams = array();
   var $CssFiles = array();
   var $template = NULL;
-  var $LSrights = array (
-    'topDn_admin' => array ()
-  );
+  var $LSrights = array();
   var $LSaccess = array();
   var $tmp_file = array();
   var $_subDnLdapServer = array();
@@ -1002,46 +1000,82 @@ class LSsession {
    * @retval boolean True si le chargement Ã  rÃ©ussi, false sinon.
    **/
   function loadLSrights() {
-    if (is_array($this -> ldapServer['LSadmins'])) {
-      foreach ($this -> ldapServer['LSadmins'] as $topDn => $adminsInfos) {
-        if (is_array($adminsInfos)) {
-          foreach($adminsInfos as $dn => $conf) {
-            if ((isset($conf['attr'])) && (isset($conf['LSobject']))) {
-              if( $this -> loadLSobject($conf['LSobject']) ) {
-                if ($object = new $conf['LSobject']()) {
-                  if ($object -> loadData($dn)) {
-                    $listDns=$object -> getValue($conf['attr']);
-                    if (is_array($listDns)) {
-                      if (in_array($this -> dn,$listDns)) {
-                        $this -> LSrights['topDn_admin'][] = $topDn;
+    if (is_array($this -> ldapServer['LSrights'])) {
+      foreach ($this -> ldapServer['LSrights'] as $profile => $profileInfos) {
+        if (is_array($profileInfos)) {
+          foreach ($profileInfos as $topDn => $rightsInfos) {
+            if ($topDn == 'LSobjects') {
+              if (is_array($rightsInfos)) {
+                foreach ($rightsInfos as $LSobject => $listInfos) {
+                  if ($this -> loadLSobject($LSobject)) {
+                    if ($object = new $LSobject()) {
+                      if ($listInfos['filter']) {
+                        $filter = $this -> LSuserObject -> getFData($listInfos['filter']);
                       }
+                      else {
+                        $filter = $listInfos['attr'].'='.$this -> LSuserObject -> getFData($listInfos['attr_value']);
+                      }
+                      $list = $object -> search($filter,$listInfos['basedn'],$listInfos['params']);
+                      foreach($list as $obj) {
+                        $this -> LSrights[$profile][] = $obj['dn'];
+                      }
+                    }
+                    else {
+                      LSdebug('Impossible de crÃ©er l\'objet de type : '.$LSobject);
                     }
                   }
                   else {
-                    LSdebug('Impossible de chargÃ© le dn : '.$dn);
+                    $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject);
                   }
-                }
-                else {
-                  LSdebug('Impossible de crÃ©er l\'objet de type : '.$conf['LSobject']);
                 }
               }
               else {
-                $GLOBALS['LSerror'] -> addErrorCode(1004,$conf['LSobject']);
+                LSdebug('LSobjects => [] doit etre un tableau');
               }
             }
             else {
-              if ($this -> dn == $dn) {
-                $this -> LSrights['topDn_admin'][] = $topDn;
+              if (is_array($rightsInfos)) {
+                foreach($rightsInfos as $dn => $conf) {
+                  if ((isset($conf['attr'])) && (isset($conf['LSobject']))) {
+                    if( $this -> loadLSobject($conf['LSobject']) ) {
+                      if ($object = new $conf['LSobject']()) {
+                        if ($object -> loadData($dn)) {
+                          $listDns=$object -> getValue($conf['attr']);
+                          if (is_array($listDns)) {
+                            if (in_array($this -> dn,$listDns)) {
+                              $this -> LSrights[$profile][] = $topDn;
+                            }
+                          }
+                        }
+                        else {
+                          LSdebug('Impossible de chargÃ© le dn : '.$dn);
+                        }
+                      }
+                      else {
+                        LSdebug('Impossible de crÃ©er l\'objet de type : '.$conf['LSobject']);
+                      }
+                    }
+                    else {
+                      $GLOBALS['LSerror'] -> addErrorCode(1004,$conf['LSobject']);
+                    }
+                  }
+                  else {
+                    if ($this -> dn == $dn) {
+                      $this -> LSrights[$profile][] = $topDn;
+                    }
+                  }
+                }
               }
-            }
-          }
-        }
-        else {
-          if ( $this -> dn == $adminsInfos ) {
-            $this -> LSrights['topDn_admin'][] = $topDn;
-          }
-        }
-      }
+              else {
+                if ( $this -> dn == $rightsInfos ) {
+                  $this -> LSrights[$profile][] = $topDn;
+                }
+              }
+            } // fin else ($topDn == 'LSobjects')
+          } // fin foreach($profileInfos)
+        } // fin is_array($profileInfos)
+      } // fin foreach LSrights
+      LSdebug($this -> LSrights);
       return true;
     }
     else {
@@ -1143,19 +1177,22 @@ class LSsession {
   }
   
   /**
-   * Dit si l'utilisateur est admin de le DN spÃ©cifiÃ©
+   * Dit si l'utilisateur est du profil pour le DN spécifié
    *
-   * @param[in] string DN de l'objet
+   * @param[in] string $profile de l'objet
+   * @param[in] string $dn DN de l'objet
    * 
-   * @retval boolean True si l'utilisateur est admin sur l'objet, false sinon.
+   * @retval boolean True si l'utilisateur est du profil sur l'objet, false sinon.
    */
-  function isAdmin($dn) {
-    foreach($this -> LSrights['topDn_admin'] as $topDn_admin) {
-      if($dn == $topDn_admin) {
-        return true;
-      }
-      else if ( isCompatibleDNs($dn,$topDn_admin) ) {
-        return true;
+  function isProfile($dn,$profile) {
+    if (is_array($this -> LSrights[$profile])) {
+      foreach($this -> LSrights[$profile] as $topDn) {
+        if($dn == $topDn) {
+          return true;
+        }
+        else if ( isCompatibleDNs($dn,$topDn) ) {
+          return true;
+        }
       }
     }
     return;
@@ -1169,15 +1206,19 @@ class LSsession {
    * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
    */
   function whoami($dn) {
-    if ($this -> isAdmin($dn)) {
-      return 'admin';
+    $retval = array('user');
+    
+    foreach($this -> LSrights as $profile => $infos) {
+      if($this -> isProfile($dn,$profile)) {
+       $retval[]=$profile;
+      }
     }
     
     if ($this -> dn == $dn) {
-      return 'self';
+      $retval[]='self';
     }
     
-    return 'user';
+    return $retval;
   }
   
   /**
@@ -1223,15 +1264,28 @@ class LSsession {
       if (!isset($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr])) {
         return;
       }
+
+      $r = 'n';
+      foreach($whoami as $who) {
+        $nr = $GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$who];
+        if($nr == 'w') {
+          $r = 'w';
+        }
+        else if($nr == 'r') {
+          if ($r=='n') {
+            $r='r';
+          }
+        }
+      }
       
       if (($right=='r')||($right=='w')) {
-        if ($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$whoami]==$right) {
+        if ($r==$right) {
           return true;
         }
         return;
       }
       else {
-        if ( ($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$whoami]=='r') || ($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$whoami]=='w') ) {
+        if ( ($r=='r') || ($r=='w') ) {
           return true;
         }
         return;
@@ -1241,16 +1295,20 @@ class LSsession {
     // Pour un attribut quelconque
     if (is_array($GLOBALS['LSobjects'][$LSobject]['attrs'])) {
       if (($right=='r')||($right=='w')) {
-        foreach ($GLOBALS['LSobjects'][$LSobject]['attrs'] as $attr_name => $attr_config) {
-          if ($attr_config['rights'][$whoami]==$right) {
-            return true;
+        foreach($whoami as $who) {
+          foreach ($GLOBALS['LSobjects'][$LSobject]['attrs'] as $attr_name => $attr_config) {
+            if ($attr_config['rights'][$who]==$right) {
+              return true;
+            }
           }
         }
       }
       else {
-        foreach ($GLOBALS['LSobjects'][$LSobject]['attrs'] as $attr_name => $attr_config) {
-          if ( ($attr_config['rights'][$whoami]=='r') || ($attr_config['rights'][$whoami]=='w') ) {
-            return true;
+        foreach($whoami as $who) {
+          foreach ($GLOBALS['LSobjects'][$LSobject]['attrs'] as $attr_name => $attr_config) {
+            if ( ($attr_config['rights'][$who]=='r') || ($attr_config['rights'][$who]=='w') ) {
+              return true;
+            }
           }
         }
       }
@@ -1310,13 +1368,28 @@ class LSsession {
     $whoami = $this -> whoami($dn);
 
     if (($right=='w') || ($right=='r')) {
-      if ($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$whoami] == $right) {
+      $r = 'n';
+      foreach($whoami as $who) {
+        $nr = $GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$who];
+        if($nr == 'w') {
+          $r = 'w';
+        }
+        else if($nr == 'r') {
+          if ($r=='n') {
+            $r='r';
+          }
+        }
+      }
+      
+      if ($r == $right) {
         return true;
       }
     }
     else {
-      if (($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$whoami] == 'w') || ($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$whoami] == 'r')) {
-        return true;
+      foreach($whoami as $who) {
+        if (($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$who] == 'w') || ($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$who] == 'r')) {
+          return true;
+        }
       }
     }
     return;
