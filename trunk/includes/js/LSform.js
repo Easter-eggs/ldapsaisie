@@ -77,7 +77,9 @@ var LSform = new Class({
       if ($type(event)) {
         event = new Event(event);
         event.stop();
-        event.target.blur();
+        if ($type(event.target.blur)) {
+          event.target.blur();
+        }
       }
       
       if (this._currentTab!=li) {

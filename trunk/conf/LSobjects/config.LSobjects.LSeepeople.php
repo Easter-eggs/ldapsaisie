@@ -261,6 +261,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'validation' => array (
         array (
+          'msg' => _("Ce groupe n'existe pas."),
           'object_type' => 'LSeegroup',           // 'object_type' : Permet definir le type d'objet recherchés
           //'basedn' => 'o=company',                    // et d'utiliser les objectClass définis dans le fichier de configuration
           'filter' => '(gidNumber=%{val})',       // pour la recherche

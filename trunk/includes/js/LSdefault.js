@@ -187,6 +187,7 @@ var LSdefault = new Class({
             if ($type(this.LSjsConfig['helpInfos'][group][name])) {
               varLSform.addTip(el);
               el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
+              el.store('tip:text',"");
             }
           }
         }
@@ -199,6 +200,7 @@ var LSdefault = new Class({
           if ($type(this.LSjsConfig['helpInfos'][group])) {
             if ($type(this.LSjsConfig['helpInfos'][group][name])) {
               el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
+              el.store('tip:text',"");
             }
           }
         }

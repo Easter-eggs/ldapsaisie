@@ -95,7 +95,6 @@ ul.LSform {
 }
 
 ul.LSform li {
-  overflow:                   auto;
   margin-bottom:              2px;
 }
 
@@ -104,7 +103,7 @@ ul.LSform li {
  */
 .LSform input[type=text], .LSform input[type=file], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea {
   border:                     1px solid #ccc;
-  width:                      300px;
+  width:                      200px;
   background-color:           #b5e4f6;
 }
 
