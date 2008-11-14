@@ -3,7 +3,6 @@ var LSformElement_password_field = new Class({
       this.name = name;
       this.input = input;
       this.params = varLSdefault.getParams(this.name);
-      LSdebug(this.params);
       this.initialiseLSformElement_password_field();
     },
     
