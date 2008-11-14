@@ -46,6 +46,8 @@ var LSdefault = new Class({
       if (this.LSinfos.innerHTML != '') {
         this.displayInfosBox();
       }
+      
+      this.LStips = new Tips('.LStips');
     },
 
     onLSsession_topDnChange: function() {
@@ -185,7 +187,7 @@ var LSdefault = new Class({
         if ($type(el)=='element') {
           if ($type(this.LSjsConfig['helpInfos'][group])) {
             if ($type(this.LSjsConfig['helpInfos'][group][name])) {
-              varLSform.addTip(el);
+              this.addTip(el);
               el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
               el.store('tip:text',"");
             }
@@ -205,6 +207,14 @@ var LSdefault = new Class({
           }
         }
       }
+    },
+    
+    addTip: function(el) {
+      this.LStips.attach(el);
+    },
+    
+    removeTip: function(el) {
+      this.LStips.detach(el);
     }
 
 });
