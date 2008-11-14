@@ -1,9 +1,11 @@
 var LSdebug_active = 0;
 
-function LSdebug() {
+function LSdebug(arguments) {
     if (LSdebug_active != 1) return;
-    if (typeof console == 'undefined') return;
-    console.log.apply(this, arguments);
+    if (typeof console != 'undefined')
+      console.log(arguments);
+    if (typeof opera != 'undefined')
+      opera.postError(arguments);
 }
 
 /**
