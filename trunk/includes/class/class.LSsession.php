@@ -822,9 +822,7 @@ class LSsession {
       'file' => $file,
       'path' => $path
     );
-    if (in_array($script, $this -> JSscripts))
-      return;
-    $this -> JSscripts[]=$script;
+    $this -> JSscripts[$path.$file]=$script;
   }
 
  /**
@@ -853,7 +851,7 @@ class LSsession {
       'file' => $file,
       'path' => $path
     );
-    $this -> CssFiles[]=$cssFile;
+    $this -> CssFiles[$path.$file]=$cssFile;
   }
 
  /**
