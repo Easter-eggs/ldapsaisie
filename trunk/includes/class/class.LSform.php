@@ -81,6 +81,15 @@ class LSform {
       $GLOBALS['LSsession'] -> addJSscript('LSformElement.js');
       $GLOBALS['LSsession'] -> addJSscript('LSform.js');
     }
+    
+    $GLOBALS['LSsession'] -> addHelpInfos(
+      'LSform',
+      array(
+        'addFieldBtn' => _('Ajouter un champ pour saisir une autre valeur.'),
+        'removeFieldBtn' => _('Supprimer ce champ.')
+      )
+    );
+    
     $GLOBALS['LSsession'] -> addCssFile('LSform.css');
     $GLOBALS['Smarty'] -> assign('LSform_action',$_SERVER['PHP_SELF']);
     $LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n

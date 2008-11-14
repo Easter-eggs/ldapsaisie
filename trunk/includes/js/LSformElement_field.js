@@ -10,12 +10,14 @@ var LSformElement_field = new Class({
         this.addFieldBtn.addClass('btn');
         this.addFieldBtn.addEvent('click',this.LSformElement.onAddFieldBtnClick.bind(this.LSformElement,this));
         this.addFieldBtn.injectInside(this.li);
+        varLSdefault.addHelpInfo(this.addFieldBtn,'LSform','addFieldBtn');
         
         this.removeFieldBtn = new Element('img');
         this.removeFieldBtn.src = varLSdefault.imagePath('remove.png');
         this.removeFieldBtn.addClass('btn');
         this.removeFieldBtn.addEvent('click',this.LSformElement.onRemoveFieldBtnClick.bind(this.LSformElement,this));
         this.removeFieldBtn.injectInside(this.li);
+        varLSdefault.addHelpInfo(this.removeFieldBtn,'LSform','removeFieldBtn');
       }
     },
     
