@@ -59,8 +59,9 @@ var LSmail = new Class({
         
         if ($type(startElement)) {
           this.startElement = startElement;
-          data.imgload=varLSdefault.loadingImgDisplay(startElement,'inside');
+          data.imgload=varLSdefault.loadingImgDisplay(startElement);
         }
+
         new Request({url: 'index_ajax.php', data: data, onSuccess: this.onOpenGetHtmlComplete.bind(this)}).send();
       }
     },
@@ -98,8 +99,7 @@ var LSmail = new Class({
           action:     'send',
           infos:      this.sendInfos
         };
-        LSdebug(data);
-        data.imgload=varLSdefault.loadingImgDisplay(this.startElement,'inside');
+        data.imgload=varLSdefault.loadingImgDisplay(this.startElement);
         new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSendComplete.bind(this)}).send();
       }
     },
