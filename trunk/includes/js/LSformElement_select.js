@@ -24,9 +24,7 @@ var LSformElement_select = new Class({
     },
     
     resetSelect: function(select) {
-      for(var i=0;i<select.length;i++) {
-        select[i].selected=false;
-      }     
+      select.selectedIndex=-1;
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
