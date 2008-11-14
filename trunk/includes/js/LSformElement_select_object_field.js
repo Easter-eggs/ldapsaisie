@@ -162,6 +162,16 @@ var LSformElement_select_object_field = new Class({
     
     addLi: function(name,dn) {
       if (this.params.multiple) { // Multiple
+        var current = 0;
+        this.ul.getElements("input[type=hidden]").each(function(input){
+          if ((input.value==dn)&&(input.name != this.name+'[]')) {
+            current=input;
+          }
+        },this);
+        if (current) {
+          this.toggleDeleteLi(current.getParent());
+          return true;
+        }
         var li = new Element('li');
         li.addClass('LSformElement_select_object');
         
@@ -249,6 +259,10 @@ var LSformElement_select_object_field = new Class({
     
     onDeleteBtnClick: function(img) {
       var li = img.getParent();
+      this.toggleDeleteLi(li);
+    },
+    
+    toggleDeleteLi: function(li) {
       var a = li.getFirst('a');
       var input = li.getFirst('input');
       if (input.value!="") {
@@ -267,22 +281,11 @@ var LSformElement_select_object_field = new Class({
       if (this._searchAddOpen==0) {
         this._searchAddOpen = 1;
         if (!$type(this.searchAddInput)) {
-          this.table = new Element('table');
-          this.table.addClass('LSformElement_select_object_searchAdd');
-          this.tr = new Element('tr');
-          this.tr.addClass('LSformElement_select_object_searchAdd');
-          this.tr.injectInside(this.table);
-          this.td = new Element('td');
-          this.td.addClass('LSformElement_select_object_searchAdd');
-          this.td.injectInside(this.tr);
+          this.tr = this.ul.getParent().getParent();
           
           this.td2 = new Element('td');
           this.td2.addClass('LSformElement_select_object_searchAdd');
           this.td2.injectInside(this.tr);
-          
-          
-          this.ul.injectInside(this.td);
-          this.table.injectInside(this.dd);
           
           this.searchAddInput = new Element('input');
           this.searchAddInput.addClass('LSformElement_select_object_searchAdd');
@@ -352,7 +355,7 @@ var LSformElement_select_object_field = new Class({
     addSearchAddLi: function(name,dn) {
       var current = 0;
       this.ul.getElements("input[type=hidden]").each(function(input){
-        if (input.value==dn) {
+        if ((input.value==dn)&&(input.name == this.name+'[]')) {
           current=1;
         }
       },this);

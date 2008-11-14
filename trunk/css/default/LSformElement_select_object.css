@@ -40,15 +40,15 @@ img.LSformElement_select_object_deleteBtn {
 /* LSformElement_select_object_searchAdd */
 input.LSformElement_select_object_searchAdd {
   border:                     1px solid #ccc;
-  width:                      134px;
-  background-image:           url(../../images/default/find.png);
-  background-repeat:          no-repeat;
+  width:                      140px !important;
+  background:                 #fff url(../../images/default/find.png) !important;
+  background-repeat:          no-repeat !important;
   padding-left:               18px;
 }
 
 ul.LSformElement_select_object_searchAdd {
   border:                     1px solid #ccc;
-  width:                      152px;
+  width:                      138px;
   margin:                     0;
   margin-top:                 0.1em;
   max-height:                 10em;
