@@ -7,7 +7,7 @@
 {assign var='bis' value=false}
 {foreach from=$LSobject_list item=object}
     <tr class='LSobject-list{if $bis} LSobject-list-bis{assign var='bis' value=false}{else}{assign var='bis' value=true}{/if}'>
-        <td class='LSobject-list LSobject-select-check'><input type='{if $LSselect_multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object.dn}' {if $object.select}checked{/if} class='LSobject-select' /></td>
+        <td class='LSobject-list LSobject-select-check'><input type='{if $LSselect_multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object.dn}' {if $object.select}checked="true"{/if} class='LSobject-select' /></td>
         <td class='LSobject-list LSobject-select-names'>{$object.displayValue}</td>
         {if $LSobject_list_subDn}<td class='LSobject-list LSobject-select-level'>{$object.subDn}</td>{/if}
     </tr>

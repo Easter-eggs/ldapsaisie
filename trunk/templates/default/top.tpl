@@ -47,5 +47,5 @@
     
 
     <p id='status'>
-    Connecté en tant que <span id='user_name'>{$LSsession_username}</span></b> <a href='index.php?LSsession_logout'><img src='{$LS_IMAGES_DIR}/logout.png' alt='Logout' title='Logout' /></a>
+    Connecté en tant que <span id='user_name'>{$LSsession_username}</span> <a href='index.php?LSsession_logout'><img src='{$LS_IMAGES_DIR}/logout.png' alt='Logout' title='Logout' /></a>
     </p>
