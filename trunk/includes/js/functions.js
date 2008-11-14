@@ -2,10 +2,15 @@ var LSdebug_active = 0;
 
 function LSdebug(arguments) {
     if (LSdebug_active != 1) return;
-    if (typeof console != 'undefined')
+    if (typeof console != 'undefined') {
       console.log(arguments);
-    if (typeof opera != 'undefined')
+      return true;
+    }
+    if (typeof opera != 'undefined') {
       opera.postError(arguments);
+      return true;
+    }
+    alert(arguments);
 }
 
 /**
@@ -73,11 +78,12 @@ function getFData(format,data,meth) {
             val=data[meth](ch[2]);
           }
           catch(e) {
+            LSdebug('getFData() : '+meth+'() -> rater');
             return;
           }
           
-          if($type(ch[4])) {
-            if ($type(ch[6])) {
+          if($type(ch[4])&&ch[4]!="") {
+            if ($type(ch[6])&&ch[6]!="") {
               var s=ch[4];
               var l=ch[6];
             }
