@@ -47,6 +47,23 @@ var LSdefault = new Class({
         this.displayInfosBox();
       }
       
+      var getMoo = /moo$/;
+      if (getMoo.exec(window.location)) {
+        var mooTxt = "         (__)\n         (oo)\n   /------\\\/\n  / |    ||\n *  /\---/\\\n    ~~   ~~";
+        var ulMoo = this.LSinfos.getElement('ul'); 
+        var preMoo = new Element('pre');
+        preMoo.set('html',mooTxt);
+        if ($type(ulMoo)) {
+          var liMoo = new Element('li');
+          liMoo.injectInside(ulMoo);
+          preMoo.injectInside(liMoo);
+        }
+        else {
+          preMoo.injectInside(this.LSinfos);
+        }
+        this.displayInfosBox();
+      }
+      
       this.LStips = new Tips('.LStips');
     },
 
