@@ -2,6 +2,7 @@
   {foreach from=$values item=value}
     <li>{include file=$fieldTemplate}</li>
   {foreachelse}
+    {assign var=value value=""} 
     <li>{include file=$fieldTemplate}</li>
   {/foreach}
 </ul>
