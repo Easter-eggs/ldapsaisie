@@ -37,6 +37,9 @@ class LSattr_ldap_date extends LSattr_ldap {
     if(!is_array($data)) {
       $data=array($data);
     }
+    if ($this -> config['ldap_options']['timestamp']==1) {
+      return $data;
+    }
     $retval=array();
     foreach($data as $val) {
       $date = strptime($val,$this -> getFormat());
@@ -55,6 +58,9 @@ class LSattr_ldap_date extends LSattr_ldap {
    * @retval mixed La valeur traitée de l'attribut
    */
   function getUpdateData($data) {
+    if ($this -> config['ldap_options']['timestamp']==1) {
+      return $data;
+    }
     $retval=array();
     if(is_array($data)) {
       foreach($data as $val) {
