@@ -617,8 +617,14 @@ class LSldapObject {
    */ 
   function getObjectFilter() {
     if(!isset($this -> config['objectclass'])) return;
-    foreach ($this -> config['objectclass'] as $class)
+    $filter="(&";
+    foreach ($this -> config['objectclass'] as $class) {
       $filter.='(objectClass='.$class.')';
+    }
+    $filter.=')';
+    if ($this -> config['filter']) {
+      $filter="(&(".$this -> config['filter'].")$filter)";
+    }
     return $filter;
   }
   
