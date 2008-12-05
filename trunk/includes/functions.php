@@ -332,19 +332,59 @@ function LSdebugDefined() {
   }
   
   function generatePassword($chars=NULL,$lenght=NULL) {
+    if (!$lenght) {
+        $lenght=8;
+    }
+    if (is_array($chars)) {
+      $retval='';
+      foreach($chars as $chs) {
+        if (!is_array($chs)) {
+          $chs=array('chars' => $chs);
+        }
+        if (!is_int($chs['nb'])) {
+          $chs['nb']=1;
+        }
+        $retval.=aleaChar($chs['chars'],$chs['nb']);
+      }
+      $add = ($lenght-strlen($retval));
+      if ($add > 0) {
+        $retval .= aleaChar($chars,$add);
+      }
+      return str_shuffle($retval);
+    } else {
+      return aleaChar($chars,$lenght);
+    }
+  }
+  
+  function aleaChar($chars=NULL,$lenght=1) {
+    if (is_array($chars)) {
+      $nchars="";
+      foreach($chars as $chs) {
+        if (is_string($chs)) {
+          $nchars.=$chs;
+        }
+        else if (is_string($chs['chars'])) {
+          $nchars.=$chs['chars'];
+        }
+      }
+      if(strlen($chars)>0) {
+        $chars=$nchars;
+      }
+      else {
+        $chars=NULL;
+      }
+    }
     if (!$chars) {
-      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';    
     }
     $nbChars=strlen($chars);
-    
-    if (!$lenght) {
-      $lenght=8;
+    $retval="";
+    if(is_int($lenght)) {
+      for ($i=0;$i<$lenght;$i++) {
+        $retval.=$chars[rand(0,$nbChars-1)];
+      }
     }
-    $retVal='';
-    for($i=0;$i<$lenght;$i++){
-      $retVal.=$chars[rand(0,$nbChars-1)];
-    }
-    return $retVal;
+    return $retval;
   }
   
   function compareDn($a,$b) {

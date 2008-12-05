@@ -435,8 +435,15 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_options' => array(
         'generationTool' => true,
         'autoGenerate' => false,
-        'chars' => 'abcdefgh',
-        'lenght' => 5,
+        'lenght' => 8,
+        'chars' => array (
+          array(
+            'nb' => 3,
+            'chars' => 'abcdefijklmnopqrstuvwxyz'
+          ),
+          '0123456789',
+          '*$.:/_-[]{}=~'
+        ),
         'mail' => array(
           'send' => 1,
           'ask' => 1,
