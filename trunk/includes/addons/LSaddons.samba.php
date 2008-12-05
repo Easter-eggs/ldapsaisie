@@ -121,7 +121,7 @@
   }
 
  /**
-  * Generation de sambaSID
+  * Generation de sambaSID d'un utilisateur
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
   * 
@@ -132,7 +132,7 @@
   *
   * @retval string SambaSID ou false si il y a un problème durant la génération
   */
-  function generate_sambaSID($ldapObject) {
+  function generate_sambaUserSID($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ]) != 'LSattribute' ) {
       $GLOBALS['LSerror'] -> addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_UIDNUMBER_ATTR, 'attr' => 'sambaSID'));
       return;
@@ -142,6 +142,32 @@
     $uidnumber_attr_val = $uidnumber_attr_val[0];
     $uidNumber = $uidnumber_attr_val * 2 + LS_SAMBA_SID_BASE_USER;
     $sambaSID = LS_SAMBA_DOMAIN_SID . '-' . $uidNumber;
+
+    return ($sambaSID);
+  }
+  
+ /**
+  * Generation de sambaSID d'un groupe
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  *   Number   = LS_SAMBA_GIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_GROUP
+  *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
+  *
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval string SambaSID ou false si il y a un problème durant la génération
+  */
+  function generate_sambaGroupSID($ldapObject) {
+    if ( get_class($ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ]) != 'LSattribute' ) {
+      $GLOBALS['LSerror'] -> addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaSID'));
+      return;
+    }
+
+    $gidnumber_attr_val = $ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ] -> getValue();
+    $gidnumber_attr_val = $gidnumber_attr_val[0];
+    $gidNumber = $gidnumber_attr_val * 2 + LS_SAMBA_SID_BASE_GROUP;
+    $sambaSID = LS_SAMBA_DOMAIN_SID . '-' . $gidNumber;
 
     return ($sambaSID);
   }
