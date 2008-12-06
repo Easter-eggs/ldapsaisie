@@ -140,6 +140,7 @@ var LSformElement_password_field = new Class({
         action:     'generatePassword',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
+        objectdn:   varLSform.objectdn,
         idform:     varLSform.idform
       };
       data.imgload=varLSdefault.loadingImgDisplay(this.generateBtn);

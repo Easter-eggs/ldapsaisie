@@ -97,16 +97,24 @@ if (!isset($_ERRORS)) {
           }
         break;
         case 'generatePassword':
-          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['idform'])) ) {
+          if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
             if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
               $object = new $_REQUEST['objecttype']();
-              $form = $object -> getForm($_REQUEST['idform']);
-              $field=$form -> getElement($_REQUEST['attribute']);
-              $val = $field -> generatePassword();
-              if ( $val ) {
-                $data = array(
-                  'generatePassword' => $val
-                );
+              if ($object) {
+                if ($object -> loadData($_REQUEST['objectdn'])) {
+                  $form = $object -> getForm($_REQUEST['idform']);
+                  if ($form) {
+                    $field=$form -> getElement($_REQUEST['attribute']);
+                    if ($field) {
+                      $val = $field -> generatePassword();
+                      if ( $val ) {
+                        $data = array(
+                          'generatePassword' => $val
+                        );
+                      }
+                    }
+                  }
+                }
               }
             }
             else {
