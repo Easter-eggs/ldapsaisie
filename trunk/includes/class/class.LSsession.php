@@ -1041,7 +1041,7 @@ class LSsession {
                       if ($object = new $conf['LSobject']()) {
                         if ($object -> loadData($dn)) {
                           $listDns=$object -> getValue($conf['attr']);
-                          $valKey = (isset($conf['attr_value']))?$conf['attr_value']:'dn';
+                          $valKey = (isset($conf['attr_value']))?$conf['attr_value']:'%{dn}';
                           $val = $this -> LSuserObject -> getFData($valKey);
                           if (is_array($listDns)) {
                             if (in_array($val,$listDns)) {
