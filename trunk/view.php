@@ -304,18 +304,35 @@ if($LSsession -> startLSsession()) {
             // On affiche à partir du cache
             $searchData=$_SESSION['LSsession']['LSsearch'][$hash];
             LSdebug('Recherche : From cache');
+            if(!isset($searchData['LSview_actions']['create'])) {
+              LSdebug('Recherche : Check Create()');
+              if ($GLOBALS['LSsession'] -> canCreate($LSobject)) {
+                $searchData['LSview_actions']['create'] = array (
+                  'label' => _('Nouveau'),
+                  'url' => 'create.php?LSobject='.$LSobject,
+                  'action' => 'create'
+                );
+              }
+              else {
+                $searchData['LSview_actions']['create'] = false;
+              }
+              $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
+            }
           }
-          else {
+          else { // Load
             LSdebug('Recherche : Load');
             if ($GLOBALS['LSsession'] -> canCreate($LSobject)) {
-              $LSview_actions[] = array (
+              $LSview_actions['create'] = array (
                 'label' => _('Nouveau'),
                 'url' => 'create.php?LSobject='.$LSobject,
                 'action' => 'create'
               );
               $canCopy=true;
             }
-            $LSview_actions[] = array (
+            else {
+              $LSview_actions['create'] = false;
+            }
+            $LSview_actions['refresh'] = array (
               'label' => _('Rafraîchir'),
               'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
               'action' => 'refresh'
@@ -348,7 +365,7 @@ if($LSsession -> startLSsession()) {
             if ($orderby) {
               $sort=true;
             }
-          }
+          } // Fin Load
           
           if ((!isset($searchData['objectList'][0]['actions']))&&(!empty($searchData['objectList']))) {
             LSdebug('Load actions');
@@ -413,10 +430,11 @@ if($LSsession -> startLSsession()) {
             if (!uasort($searchData['objectList'],'sortBy')) {
               LSdebug('Erreur durant le trie.');
             }
-          }
+          } // Fin Order by
           $GLOBALS['Smarty']->assign('LSobject_list_orderby',$orderby);
           $GLOBALS['Smarty']->assign('LSobject_list_ordersense',$ordersense);
           
+          // Mise en cache
           if ($GLOBALS['LSsession'] -> cacheSearch()) {
             $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
           }
@@ -434,7 +452,7 @@ if($LSsession -> startLSsession()) {
             }
             $searchData['LSobject_list_nbpage']=ceil($searchData['LSobject_list_nbresult'] / NB_LSOBJECT_LIST);
             $GLOBALS['Smarty']->assign('LSobject_list_nbpage',$searchData['LSobject_list_nbpage']);
-          }
+          } // Fin Pagination
           
           $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
           $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
