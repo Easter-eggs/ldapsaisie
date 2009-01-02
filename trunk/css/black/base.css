@@ -32,12 +32,6 @@ a img {
   border:             none;
 }
 
-hr {
-  visibility:         hidden;
-  clear:              both;
-  height:             0px;
-}
-
 .btn {
   cursor:             pointer;
   margin:             2px;
@@ -50,25 +44,31 @@ hr {
   width:              1000px;
   margin:             auto;
   border:             1px solid #33302b;
-  background:         #fff url(../../images/black/fd_menu.png) repeat-y scroll left top;
-  min-height:         500px;
+  height:             600px;
+  border-collapse:    collapse;
 }
 
 #left {
-  float:              left;
+  vertical-align:     top;
+  background-color:   #53504b;
   width:              160px;
 }
 
 #right {
-  margin:             0;
-  float:              left;
-  width:              840px;
+  vertical-align:     top;
+  background-color:   #fff;
 }
 
 #logo {
   margin:             auto;
   width:              142px;
   margin-left:        9px;
+  margin-top:         9px;
+  background-color:   #fff;
+  border:             1px solid #53504b;
+  -moz-border-radius: 15px;
+  padding-top:        30px;
+  padding-bottom:     30px;
 }
 
 #status {
@@ -79,6 +79,8 @@ hr {
   text-align:         right;
   background-color:   #53504b;
   padding:            0.3em;
+  height:             1em;
+  vertical-align:     top;
 }
 
 #user_name {

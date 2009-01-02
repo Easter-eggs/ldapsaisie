@@ -15,6 +15,7 @@ div.LSformElement_image {
 img.LSformElement_image {
   width:              150px;
   border:             1px solid #fff;
+  background-color:   #fff;
   margin:             5px;
 }
 
