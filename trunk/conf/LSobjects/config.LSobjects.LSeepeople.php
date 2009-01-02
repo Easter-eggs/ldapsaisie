@@ -431,6 +431,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     'userPassword' => array (
       'label' => _('Mot de passe'),
       'ldap_type' => 'password',
+      'ldap_options' => array (
+        'encode' => 'md5'
+      ),
       'html_type' => 'password',
       'html_options' => array(
         'generationTool' => true,

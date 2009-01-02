@@ -323,12 +323,9 @@ if($LSsession -> startLSsession()) {
       }
       $GLOBALS['LSsession'] -> ajaxDisplay = true;
     }
-    else {
-      $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject);
-    }
   }
   else {
-    $GLOBALS['LSerror'] -> addErrorCode(1012);
+    $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
   }
 }
 else {

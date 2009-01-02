@@ -73,7 +73,7 @@ class LSattribute {
       $this -> ldap = new $ldap_type($name,$config,$this);
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode(41,array('attr' => $name,'html'=>$config['html_type'],'ldap'=>$config['ldap_type']));
+      $GLOBALS['LSerror'] -> addErrorCode('LSattribute_01',array('attr' => $name,'html'=>$config['html_type'],'ldap'=>$config['ldap_type']));
       return;
     }
     return true;
@@ -91,6 +91,10 @@ class LSattribute {
    */ 
 
   function getLabel() {
+    if (!$this -> html) {
+      $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+      return;
+    }
     return $this -> html -> getLabel();
   }
   
@@ -153,6 +157,10 @@ class LSattribute {
    * @retval string La valeur d'affichage de l'attribut
    */
   function getDisplayValue() {
+    if (!$this -> ldap) {
+      $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
+      return;
+    }
     $data = $this -> ldap -> getDisplayValue($this -> data);
     if ($this -> config['onDisplay']) {
       if (is_array($this -> config['onDisplay'])) {
@@ -162,7 +170,7 @@ class LSattribute {
             $result=$func($result);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(42,array('attr' => $this->name,'func' => $func));
+            $GLOBALS['LSerror'] -> addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $func));
             return;
           }
         }
@@ -173,7 +181,7 @@ class LSattribute {
           return $this -> config['onDisplay']($data);
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode(42,array('attr' => $this->name,'func' => $this -> config['onDisplay']));
+          $GLOBALS['LSerror'] -> addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $this -> config['onDisplay']));
           return;
         }
       }
@@ -182,7 +190,7 @@ class LSattribute {
   }
   
   /**
-   * Ajoute l'attribut au formualaire
+   * Ajoute l'attribut au formulaire
    *
    * Cette méthode ajoute l'attribut au formulaire $form si l'identifiant de celui-ci
    * ($idForm) est connu dans la configuration de l'objet.
@@ -198,6 +206,10 @@ class LSattribute {
    */
   function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
     if(isset($this -> config['form'][$idForm])) {
+      if (!$this -> html) {
+        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+        return;
+      }
       if($this -> myRights() == 'n') {
         return true;
       }
@@ -213,7 +225,7 @@ class LSattribute {
       
       $element = $this -> html -> addToForm($form,$idForm,$data);
       if(!$element) {
-        $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+        $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
       }
 
       if($this -> config['required']==1) {
@@ -228,7 +240,7 @@ class LSattribute {
           if(is_array($this -> config['check_data'])) {
             foreach ($this -> config['check_data'] as $rule => $rule_infos) {
               if((!$form -> isRuleRegistered($rule))&&($rule!='')) {
-                $GLOBALS['LSerror'] -> addErrorCode(43,array('attr' => $this->name,'rule' => $rule));
+                $GLOBALS['LSerror'] -> addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
                 return;
               }
               if(!isset($rule_infos['msg']))
@@ -239,7 +251,7 @@ class LSattribute {
             }
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(44,$this->name);
+            $GLOBALS['LSerror'] -> addErrorCode('LSattribute_04',$this->name);
           }
         }
       } 
@@ -300,7 +312,11 @@ class LSattribute {
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
   function addToView(&$form) {
-    if((isset($this -> config['view'])) && ($this -> myRights() != 'n')) {
+    if((isset($this -> config['view'])) && ($this -> myRights() != 'n') ) {
+      if (!$this -> html) {
+        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+        return;
+      }
       if($this -> data !='') {
         $data=$this -> getFormVal();
       }
@@ -309,7 +325,7 @@ class LSattribute {
       }
       $element = $this -> html -> addToForm($form,'view',$data);
       if(!$element instanceof LSformElement) {
-        $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+        $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
         return;
       }
       $element -> freeze();
@@ -330,6 +346,10 @@ class LSattribute {
    */
   function refreshForm(&$form,$idForm) {
     if(isset($this -> config['form'][$idForm])&&($this -> myRights()!='n')) {
+      if (!$this -> html) {
+        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+        return;
+      }
       $form_element = $form -> getElement($this -> name);
       if ($form_element) {
         $values = $this -> html -> refreshForm($this -> getFormVal());
@@ -484,7 +504,7 @@ class LSattribute {
             $result=$func($result);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(45,array('attr' => $this->name,'func' => $func));
+            $GLOBALS['LSerror'] -> addErrorCode('LSattribute_05',array('attr' => $this->name,'func' => $func));
             return;
           }
         }
@@ -494,13 +514,19 @@ class LSattribute {
           $result = $this -> config['onSave']($data);
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode(45,array('attr' => $this->name,'func' => $this -> config['onSave']));
+          $GLOBALS['LSerror'] -> addErrorCode('LSattribute_05',array('attr' => $this->name,'func' => $this -> config['onSave']));
           return;
         }
       }
     }
     else {
-      $result = $this -> ldap -> getUpdateData($data);
+      if (!$this -> ldap) {
+        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
+        return;
+      }
+      else {
+        $result = $this -> ldap -> getUpdateData($data);
+      }
     }
     $this -> _finalUpdateData = $result;
     return $result;
@@ -656,5 +682,36 @@ class LSattribute {
   }
   
 }
+
+/**
+ * Error Codes
+ **/
+$GLOBALS['LSerror_code']['LSattribute_01'] = array (
+  'msg' => _("LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} & HTML = %{html}).")
+);
+$GLOBALS['LSerror_code']['LSattribute_02'] = array (
+  'msg' => _("LSattribute : The function %{func} to display the attribute %{attr} is unknow.")
+);
+$GLOBALS['LSerror_code']['LSattribute_03'] = array (
+  'msg' => _("LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow.")
+);
+$GLOBALS['LSerror_code']['LSattribute_04'] = array (
+  'msg' => _("LSattribute : Configuration data to verify the attribute %{attr} are incorrect.")
+);
+$GLOBALS['LSerror_code']['LSattribute_05'] = array (
+  'msg' => _("LSattribute : The function %{func} to save the attribute %{attr} is unknow.")
+);
+$GLOBALS['LSerror_code']['LSattribute_06'] = array (
+  'msg' => _("LSattribute : The value of the attribute %{attr} can't be generated.")
+);
+$GLOBALS['LSerror_code']['LSattribute_07'] = array (
+  'msg' => _("LSattribute : Generation of the attribute %{attr} failed.")
+);
+$GLOBALS['LSerror_code']['LSattribute_08'] = array (
+  'msg' => _("LSattribute : Generation of the attribute %{attr} did not return a correct value.")
+);
+$GLOBALS['LSerror_code']['LSattribute_09'] = array (
+  'msg' => _("LSattribute : The attr_%{type} of the attribute %{name} is not yet defined.")
+);
 
 ?>

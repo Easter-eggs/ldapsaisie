@@ -37,15 +37,11 @@ class LSattr_html_select_list extends LSattr_html{
    * @retval LSformElement L'element du formulaire ajouté
    */
   function addToForm (&$form,$idForm,$data=NULL) {
-    /*if (count($data)>1) {
-      $GLOBALS['LSerror'] -> addErrorCode(103,'select_list');
-      return;
-    }*/
     $possible_values=$this -> getPossibleValues();
     $this -> config['text_possible_values'] = $possible_values;
     $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config, $this);
     if(!$element) {
-      $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+      $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
       return;
     }
     if ($data) {
@@ -80,11 +76,10 @@ class LSattr_html_select_list extends LSattr_html{
       foreach($this -> config['possible_values'] as $val_name => $val) {
         if($val_name=='OTHER_OBJECT') {
           if ((!isset($val['object_type'])) || (!isset($val['value_attribute']))) {
-            $GLOBALS['LSerror'] -> addErrorCode(102,$this -> name);
+            $GLOBALS['LSerror'] -> addErrorCode('LSattr_html_select_list_01',$this -> name);
             break;
           }
           if (!$GLOBALS['LSsession'] -> loadLSobject($val['object_type'])) {
-            $GLOBALS['LSerror'] -> addErrorCode(1004,$val['object_type']);
             return;
           }
           $obj = new $val['object_type']();
@@ -129,4 +124,10 @@ class LSattr_html_select_list extends LSattr_html{
   
 }
 
+/*
+ * Error Codes
+ */
+$GLOBALS['LSerror_code']['LSattr_html_select_list_01'] = array (
+  'msg' => _("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
+);
 ?>

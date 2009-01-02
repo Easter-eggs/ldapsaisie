@@ -89,7 +89,7 @@ function getFData($format,$data,$meth=NULL) {
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(901,array('meth' => $meth,'obj' => $ch[1]));
+            $GLOBALS['LSerror'] -> addErrorCode('fct_getFData_01',array('meth' => $meth,'obj' => $ch[1]));
             break;
           }
         }
@@ -136,7 +136,7 @@ function getFData($format,$data,$meth=NULL) {
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(901,array('meth' => $meth,'obj' => get_class($data)));
+            $GLOBALS['LSerror'] -> addErrorCode('fct_getFData_01',array('meth' => $meth,'obj' => get_class($data)));
             break;
           }
         }
@@ -148,6 +148,12 @@ function getFData($format,$data,$meth=NULL) {
   }
   return $format;
 }
+/*
+ * Error Codes
+ */
+$GLOBALS['LSerror_code']['fct_getFData_01'] = array (
+  'msg' => _("Function 'getFData' : The method %{meth} of the object %{obj} doesn't exist.")
+);
 
 function getFieldInFormat($format) {
   $fields=array();
@@ -183,6 +189,7 @@ function return_data($data) {
   return $data;
 }
 
+$GLOBALS['LSdebug']['fields']=array();
 function LSdebug($data,$dump=false) {
   if ($dump) {
     ob_start();

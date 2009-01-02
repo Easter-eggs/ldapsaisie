@@ -4,6 +4,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
+    <link rel="icon" type="image/png" href="images/default/favicon.png" />
     <link rel="stylesheet" type="text/css" href="{$LS_CSS_DIR}/login.css" media="screen" title="Normal" />
     {$LSsession_css}
     {$LSsession_js}

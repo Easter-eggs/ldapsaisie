@@ -1,5 +1,5 @@
-  </div>
-  <hr class='spacer' />
-</div>
+    </td>
+  </tr>
+</table>
 </body>
 </html>

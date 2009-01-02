@@ -219,7 +219,7 @@ class LSform {
       return;
     if ($this -> isSubmit()) {
       if (!$this -> getPostData()) {
-        $GLOBALS['LSerror'] -> addErrorCode(201);
+        $GLOBALS['LSerror'] -> addErrorCode('LSform_01');
         return;
       }
       $this -> setValuesFromPostData();
@@ -343,7 +343,7 @@ class LSform {
   function getPostData() {
     foreach($this -> elements as $element_name => $element) {
       if( !($element -> getPostData($this -> _postData)) ) {
-        $GLOBALS['LSerror'] -> addErrorCode(202,$element_name);
+        $GLOBALS['LSerror'] -> addErrorCode('LSform_02',$element_name);
         return;
       }
     }
@@ -366,7 +366,7 @@ class LSform {
     $elementType='LSformElement_'.$type;
     $GLOBALS['LSsession'] -> loadLSclass($elementType);
     if (!class_exists($elementType)) {
-      $GLOBALS['LSerror'] -> addErrorCode(205,array('type' => $type));  
+      $GLOBALS['LSerror'] -> addErrorCode('LSform_05',array('type' => $type));  
       return;
     }
     $element=$this -> elements[$name] = new $elementType($this,$name,$label,$params,$attr_html);
@@ -375,7 +375,7 @@ class LSform {
     }
     else {
       unset ($this -> elements[$name]);
-      $GLOBALS['LSerror'] -> addErrorCode(206,array('element' => $name));
+      $GLOBALS['LSerror'] -> addErrorCode('LSform_06',array('element' => $name));
       return;
     }
   }
@@ -401,12 +401,12 @@ class LSform {
         return true;
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(43,array('attr' => $element,'rule'=>$rule));      
+        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));      
         return;
       }
     }
     else {  
-      $GLOBALS['LSerror'] -> addErrorCode(204,array('element' => $element));
+      $GLOBALS['LSerror'] -> addErrorCode('LSform_04',array('element' => $element));
       return;
     }
   }
@@ -518,5 +518,32 @@ class LSform {
   }
 
 }
+
+/**
+ * Error Codes
+ */
+$GLOBALS['LSerror_code']['LSform_01'] = array(
+  'msg' => _("LSform : Error during the recovery of the values of the form.")
+);
+$GLOBALS['LSerror_code']['LSform_02'] = array(
+  'msg' => _("LSform : Error durring the recovery of the value of the field '%{element}'.")
+);
+// No longer used
+/*$GLOBALS['LSerror_code'][203] = array(
+  'msg' => _("LSform : Data of the field %{element} are not validate.")
+);*/
+$GLOBALS['LSerror_code']['LSform_04'] = array(
+  'msg' => _("LSform : The field %{element} doesn't exist.")
+);
+$GLOBALS['LSerror_code']['LSform_05'] = array(
+  'msg' => _("LSfom : Field type unknow (%{type}).")
+);
+$GLOBALS['LSerror_code']['LSform_06'] = array(
+  'msg' => _("LSform : Error during the creation of the element '%{element}'.")
+);
+// No longer used
+/*$GLOBALS['LSerror_code'][207] = array(
+  'msg' => _("LSform : No value has been entered into the field '%{element}'.")
+);*/
 
 ?>

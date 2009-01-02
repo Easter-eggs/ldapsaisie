@@ -41,7 +41,7 @@ if($LSsession -> startLSsession()) {
                 $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
               }
               else {
-                $GLOBALS['LSerror'] -> addErrorCode(35,$objectname);
+                $GLOBALS['LSerror'] -> addErrorCode('LSldapObject_15',$objectname);
               }
             }
             else {
@@ -54,19 +54,19 @@ if($LSsession -> startLSsession()) {
             $GLOBALS['LSsession'] -> setTemplate('question.tpl');
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(1012);
+            $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
           }
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode(1011);
+          $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
         }
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode(21);
+      $GLOBALS['LSerror'] -> addErrorCode('LSldapObject_01');
     }
   }
   else {
-    $GLOBALS['LSerror'] -> addErrorCode(1012);
+    $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
   }
 
 }

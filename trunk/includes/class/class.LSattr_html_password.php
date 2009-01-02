@@ -39,12 +39,12 @@ class LSattr_html_password extends LSattr_html {
   function addToForm (&$form,$idForm,$data=NULL) {
     $element=$form -> addElement('password', $this -> name, $this -> config['label'], $this -> config, $this);
     if(!$element) {
-      $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+      $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
       return;
     }
 
     if (count($data)>1) {
-      $GLOBALS['LSerror'] -> addErrorCode(103,'password');
+      $GLOBALS['LSerror'] -> addErrorCode('LSattr_html_03','password');
     }
     
     if ($data) {

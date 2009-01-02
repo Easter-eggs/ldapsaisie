@@ -63,7 +63,7 @@ class LSldap {
   function connect() {
     $this -> cnx = Net_LDAP2::connect($this -> config);
     if (Net_LDAP2::isError($this -> cnx)) {
-      $GLOBALS['LSerror'] -> addErrorCode(1,$this -> cnx -> getMessage());
+      $GLOBALS['LSerror'] -> addErrorCode('LSldap_01',$this -> cnx -> getMessage());
       $this -> cnx = NULL;
       return;
     }
@@ -105,7 +105,7 @@ class LSldap {
   function search ($filter,$basedn=NULL,$params = array()) {
     $ret = $this -> cnx -> search($basedn,$filter,$params);
     if (Net_LDAP2::isError($ret)) {
-      $GLOBALS['LSerror'] -> addErrorCode(2,$ret -> getMessage());
+      $GLOBALS['LSerror'] -> addErrorCode('LSldap_02',$ret -> getMessage());
       return;
     }
     $retInfos=array();
@@ -136,7 +136,7 @@ class LSldap {
       $filter=NULL;
     $ret = $this -> cnx -> search($basedn,$filter,$params);
     if (Net_LDAP2::isError($ret)) {
-      $GLOBALS['LSerror'] -> addErrorCode(2,$ret -> getMessage());
+      $GLOBALS['LSerror'] -> addErrorCode('LSldap_02',$ret -> getMessage());
       return;
     }
     return $ret -> count();
@@ -212,7 +212,7 @@ class LSldap {
       }
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode(3);
+      $GLOBALS['LSerror'] -> addErrorCode('LSldap_03');
       return;
     }
   }
@@ -299,7 +299,7 @@ class LSldap {
       }
       
       if (Net_LDAP2::isError($ret)) {
-        $GLOBALS['LSerror'] -> addErrorCode(5,$dn);
+        $GLOBALS['LSerror'] -> addErrorCode('LSldap_05',$dn);
         $GLOBALS['LSerror'] -> addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
       }
       else {
@@ -316,7 +316,7 @@ class LSldap {
           }
           $ret = $entry -> update();
           if (Net_LDAP2::isError($ret)) {
-            $GLOBALS['LSerror'] -> addErrorCode(6);
+            $GLOBALS['LSerror'] -> addErrorCode('LSldap_06');
             $GLOBALS['LSerror'] -> addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
           }
         }
@@ -324,7 +324,7 @@ class LSldap {
       }
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode(4);
+      $GLOBALS['LSerror'] -> addErrorCode('LSldap_04');
       return;
     }
   }
@@ -386,7 +386,7 @@ class LSldap {
   function move($old,$new) {
     $ret = $this -> cnx -> move($old,$new);
     if (Net_LDAP2::isError($ret)) {
-      $GLOBALS['LSerror'] -> addErrorCode(7);
+      $GLOBALS['LSerror'] -> addErrorCode('LSldap_07');
       $GLOBALS['LSerror'] -> addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
       return;
     }
@@ -394,4 +394,28 @@ class LSldap {
   }
 }
 
+/*
+ * Error Codes
+ */
+$GLOBALS['LSerror_code']['LSldap_01'] = array (
+  'msg' => _("LSldap : Error during the LDAP server connection (%{msg}).")
+);
+$GLOBALS['LSerror_code']['LSldap_02'] = array (
+  'msg' => _("LSldap : Error during the LDAP search (%{msg}).")
+);
+$GLOBALS['LSerror_code']['LSldap_03'] = array (
+  'msg' => _("LSldap : Object type unkown.")
+);
+$GLOBALS['LSerror_code']['LSldap_04'] = array (
+  'msg' => _("LSldap : Error during fecthing the LDAP entry.")
+);
+$GLOBALS['LSerror_code']['LSldap_05'] = array (
+  'msg' => _("LSldap : Error during changing the LDAP entry (DN : %{dn}).")
+);
+$GLOBALS['LSerror_code']['LSldap_06'] = array (
+  'msg' => _("LSldap : Error during deleting the empty attributes.")
+);
+$GLOBALS['LSerror_code']['LSldap_07'] = array (
+  'msg' => _("LSldap : Error during changing the DN of the object.")
+);
 ?>

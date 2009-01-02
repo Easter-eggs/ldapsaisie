@@ -149,9 +149,6 @@ class LSformElement_select_object extends LSformElement {
           return $ret;
         }
       }
-      else {
-        $GLOBALS['LSerror'] -> addErrorCode(1004,$this -> params['selectable_object']['object_type']);
-      }
     }
     return array();
   }

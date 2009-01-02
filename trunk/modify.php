@@ -114,19 +114,16 @@ if($LSsession -> startLSsession()) {
           }
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode(1011);
+          $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
         }
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(1011);
+        $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
       }
-    }
-    else {
-      $GLOBALS['LSerror'] -> addErrorCode(1004,$LSobject);
     }
   }
   else {
-    $GLOBALS['LSerror'] -> addErrorCode(1012);
+    $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
   }
 
 }

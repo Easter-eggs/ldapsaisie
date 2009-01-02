@@ -80,12 +80,12 @@ class LSattr_html {
    */
   function addToForm (&$form,$idForm,$data=NULL) {
     if (!$this -> LSformElement_type) {
-      $GLOBALS['LSerror'] -> addErrorCode(101,$this -> name);
+      $GLOBALS['LSerror'] -> addErrorCode('LSattr_html_01',$this -> name);
       return;
     }
     $element=$form -> addElement($this -> LSformElement_type, $this -> name, $this -> config['label'],$this -> config, $this);
     if(!$element) {
-      $GLOBALS['LSerror'] -> addErrorCode(206,$this -> name);
+      $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
       return;
     }
     if ($data) {
@@ -105,5 +105,16 @@ class LSattr_html {
     return $data;
   }
 }
+
+/*
+ * Error Codes
+ */
+$GLOBALS['LSerror_code']['LSattr_html_01'] = array (
+  'msg' => _("LSattr_html : The method addToForm() of the HTML type of the attribute %{attr} is not defined.")
+);
+// 02 : not yet used
+$GLOBALS['LSerror_code']['LSattr_html_03'] = array (
+  'msg' => _("LSattr_html_%{type} : The multiple data are not supported for this field type.")
+);
 
 ?>

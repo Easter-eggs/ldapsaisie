@@ -25,7 +25,7 @@ $GLOBALS['LSconfig'] = array(
   'NetLDAP2' => '/usr/share/php/Net/LDAP2.php',
   'Smarty' => '/var/www/tmp/Smarty-2.6.18/libs/Smarty.class.php',
   'lang' => 'fr_FR.UTF8',
-  'cacheLSrights' => true,
+  'cacheLSprofiles' => true,
   'cacheSubDn' => true,
   'cacheSearch' => true,
   'ldap_servers' => array (
@@ -43,7 +43,7 @@ $GLOBALS['LSconfig'] = array(
             'filter'   => '(objectClass=*)',
             'scope'    => 'sub'
       ),
-      'LSrights' => array (
+      'LSprofiles' => array (
         'admin' => array (
           'o=ls' => array (
             'uid=eeggs,ou=people,o=ls' => NULL
@@ -68,9 +68,9 @@ $GLOBALS['LSconfig'] = array(
           )
         )
       ),
-      'cacheLSrights' => true,
+      'cacheLSprofiles' => true,
       'cacheSearch' => true,
-      'authobject' => 'LSeepeople',
+      'authObjectType' => 'LSeepeople',
       'authobject_pwdattr' => 'userPassword',
       'LSaccess' => array(
         'LSeepeople',
@@ -89,11 +89,7 @@ $GLOBALS['LSconfig'] = array(
           'msg' => "Votre nouveau mot de passe : %{mdp}"
         )
       ),
-      'emailSender' => 'noreply@ls.com',
-      'LSobjects' => array (
-        'LSeepeople',
-        'LSeegroup'
-      )
+      'emailSender' => 'noreply@ls.com'
     ),
     array (
       'name' => 'LSexample - multi-sociétés',
@@ -109,7 +105,7 @@ $GLOBALS['LSconfig'] = array(
         'filter'   => '(objectClass=*)',
         'scope'    => 'sub'
       ),
-      'LSrights' => array( 
+      'LSprofiles' => array( 
         'admin' => array (
           'o=ls' => array (
             'uid=eeggs,ou=people,o=ls' => NULL,
@@ -120,8 +116,8 @@ $GLOBALS['LSconfig'] = array(
           )
         )
       ),
-      'authobject' => 'LSeepeople',
-      'levelLabel' => _('Société'),
+      'authObjectType' => 'LSeepeople',
+      'subDnLabel' => _('Société'),
       'subDn' => array(
         '== Toutes ==' => array(
           'dn' => 'o=ls',
@@ -140,9 +136,9 @@ $GLOBALS['LSconfig'] = array(
           )
         )
       ),
-      'cacheLSrights' => true,
+      'cacheLSprofiles' => true,
       'cacheSearch' => true,
-      'authobject_pwdattr' => 'userPassword',
+      'authObjectTypeAttrPwd' => 'userPassword',
       'recoverPassword' => array(
         'mailAttr' => 'mail',
         'passwordAttr' => 'userPassword',
@@ -157,12 +153,7 @@ $GLOBALS['LSconfig'] = array(
           'msg' => "Votre nouveau mot de passe : %{mdp}"
         )
       ),
-      'emailSender' => 'noreply@lsexample.net',
-      'LSobjects' => array (
-        'LSeepeople',
-        'LSeegroup',
-        'LSeecompany'
-      )
+      'emailSender' => 'noreply@lsexample.net'
     )
   )
 );

@@ -43,7 +43,7 @@ class LSformRule_regex extends LSformRule {
         $regex=$option['params']['regex'];
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode(801);
+        $GLOBALS['LSerror'] -> addErrorCode('LSformRule_regex_01');
         return;
       }
     }
@@ -57,5 +57,12 @@ class LSformRule_regex extends LSformRule {
   }
 
 }
+
+/*
+ * Error Codes
+ */
+$GLOBALS['LSerror_code']['LSformRule_regex_01'] = array(
+  'msg' => _("LSformRule_regex : Regex has not been configured to validate data.")
+);
 
 ?>

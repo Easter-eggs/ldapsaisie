@@ -7,7 +7,7 @@ $GLOBALS['LSsession'] = new LSsession();
 
 if (($_REQUEST['template'] != 'login')&&($_REQUEST['template'] != 'recoverPassword')) {
   if ( !$GLOBALS['LSsession'] -> startLSsession() ) {
-    $GLOBALS['LSerror'] -> addErrorCode(1022);
+    $GLOBALS['LSerror'] -> addErrorCode('LSsession_22');
     $_ERRORS = true;
   }
 }
@@ -22,10 +22,16 @@ if (!isset($_ERRORS)) {
             $data = array();
             if ( $GLOBALS['LSsession'] -> LSldapConnect() ) {
               session_start();
-              $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions($_SESSION['LSsession_topDn']);
+              if (isset($_SESSION['LSsession_topDn'])) {
+                $sel = $_SESSION['LSsession_topDn'];
+              }
+              else {
+                $sel = NULL;
+              }
+              $list = $GLOBALS['LSsession'] -> getSubDnLdapServerOptions($sel);
               if (is_string($list)) {
                 $data['list_topDn'] = "<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
-                $data['levelLabel'] = $GLOBALS['LSsession'] -> getLevelLabel();
+                $data['subDnLabel'] = $GLOBALS['LSsession'] -> getSubDnLabel();
               }
             }
             $data['recoverPassword'] = isset($GLOBALS['LSsession'] -> ldapServer['recoverPassword']);
@@ -60,9 +66,6 @@ if (!isset($_ERRORS)) {
                 );
               }
             }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
-            }
           }
         break;
         case 'LSformElement_select_object_refresh':
@@ -78,9 +81,6 @@ if (!isset($_ERRORS)) {
                 );
               }
             }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
-            }
           }
         break;
         case 'LSformElement_select_object_searchAdd':
@@ -91,9 +91,6 @@ if (!isset($_ERRORS)) {
               $field=$form -> getElement($_REQUEST['attribute']);
               $data['objects'] = $field -> searchAdd($_REQUEST['pattern']);
             }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
-            }
           }
         break;
         case 'generatePassword':
@@ -101,24 +98,19 @@ if (!isset($_ERRORS)) {
             if ($GLOBALS['LSsession'] -> loadLSobject($_REQUEST['objecttype'])) {
               $object = new $_REQUEST['objecttype']();
               if ($object) {
-                if ($object -> loadData($_REQUEST['objectdn'])) {
-                  $form = $object -> getForm($_REQUEST['idform']);
-                  if ($form) {
-                    $field=$form -> getElement($_REQUEST['attribute']);
-                    if ($field) {
-                      $val = $field -> generatePassword();
-                      if ( $val ) {
-                        $data = array(
-                          'generatePassword' => $val
-                        );
-                      }
+                $form = $object -> getForm($_REQUEST['idform']);
+                if ($form) {
+                  $field=$form -> getElement($_REQUEST['attribute']);
+                  if ($field) {
+                    $val = $field -> generatePassword();
+                    if ( $val ) {
+                      $data = array(
+                        'generatePassword' => $val
+                      );
                     }
                   }
                 }
               }
-            }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
             }
           }
         break;
@@ -133,9 +125,6 @@ if (!isset($_ERRORS)) {
               $data = array(
                 'verifyPassword' => $val
               );
-            }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['objecttype']);
             }
           }
         break;
@@ -168,27 +157,24 @@ if (!isset($_ERRORS)) {
                         );
                       }
                       else {
-                        $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
+                        $GLOBALS['LSerror'] -> addErrorCode('LSrelations_01',$relationName);
                       }
                     }
                     else {
-                      $GLOBALS['LSerror'] -> addErrorCode(1011);
+                      $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
                     }
-                  }
-                  else {
-                    $GLOBALS['LSerror'] -> addErrorCode(1004,$relationConf['LSobject']);
                   }
                 }
                 else {
-                  $GLOBALS['LSerror'] -> addErrorCode(1012);
+                  $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
                 }
               }
               else {
-                $GLOBALS['LSerror'] -> addErrorCode(1012);
+                $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
               }
             }
             else {
-              $GLOBALS['LSerror'] -> addErrorCode(1012);
+              $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
             }
           }
         break;
@@ -224,36 +210,33 @@ if (!isset($_ERRORS)) {
                               $data['id'] = $_REQUEST['id'];
                             }
                             else {
-                              $GLOBALS['LSerror'] -> addErrorCode(1013,$relationName);
+                              $GLOBALS['LSerror'] -> addErrorCode('LSrelations_01',$relationName);
                             }
                           }
                           else {
-                            $GLOBALS['LSerror'] -> addErrorCode(1015,$relationName);
+                            $GLOBALS['LSerror'] -> addErrorCode('LSrelations_03',$relationName);
                           }
                         }
                         else {
-                          $GLOBALS['LSerror'] -> addErrorCode(1014,$relationName);
+                          $GLOBALS['LSerror'] -> addErrorCode('LSrelations_02',$relationName);
                         }
                       }
                     }
                     else {
-                      $GLOBALS['LSerror'] -> addErrorCode(1011);
+                      $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
                     }
-                  }
-                  else {
-                    $GLOBALS['LSerror'] -> addErrorCode(1004,$relationConf['LSobject']);
                   }
                 }
                 else {
-                  $GLOBALS['LSerror'] -> addErrorCode(1012);
+                  $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
                 }
               }
               else {
-                $GLOBALS['LSerror'] -> addErrorCode(1012);
+                $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
               }
             }
             else {
-              $GLOBALS['LSerror'] -> addErrorCode(1012);
+              $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
             }
           }
         break;
@@ -275,7 +258,7 @@ if (!isset($_ERRORS)) {
                           foreach($list as $o) {
                             if($o -> getDn() == $_REQUEST['dn']) {
                               if (!$o -> $relationConf['remove_function']($object)) {
-                                $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
+                                $GLOBALS['LSerror'] -> addErrorCode('LSrelations_03',$conf['relationName']);
                               }
                               else {
                                 $ok = true;
@@ -284,7 +267,7 @@ if (!isset($_ERRORS)) {
                           }
                           if (!$ok) {
                             LSdebug($_REQUEST['value']." introuvé parmi la liste");
-                            $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
+                            $GLOBALS['LSerror'] -> addErrorCode('LSrelations_03',$conf['relationName']);
                           }
                           else {
                             $data=array(
@@ -293,32 +276,28 @@ if (!isset($_ERRORS)) {
                           }
                         }
                         else {
-                          $GLOBALS['LSerror'] -> addErrorCode(1015,$conf['relationName']);
-                          $GLOBALS['LSerror'] -> addErrorCode(1);
+                          $GLOBALS['LSerror'] -> addErrorCode('LSrelations_03',$conf['relationName']);
                         }
                       }
                       else {
-                        $GLOBALS['LSerror'] -> addErrorCode(1013,$conf['relationName']);
+                        $GLOBALS['LSerror'] -> addErrorCode('LSrelations_01',$conf['relationName']);
                       }
                     }
                     else {
-                      $GLOBALS['LSerror'] -> addErrorCode(1011);
+                      $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
                     }
-                  }
-                  else {
-                    $GLOBALS['LSerror'] -> addErrorCode(1004,$relationConf['LSobject']);
                   }
                 }
                 else {
-                  $GLOBALS['LSerror'] -> addErrorCode(1012);
+                  $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
                 }
               }
               else {
-                $GLOBALS['LSerror'] -> addErrorCode(1012);
+                $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
               }
             }
             else {
-              $GLOBALS['LSerror'] -> addErrorCode(1012);
+              $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
             }
           }
         break;
@@ -368,7 +347,7 @@ if (!isset($_ERRORS)) {
             );
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(1012);
+            $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
           }
         break;
       }
@@ -382,9 +361,6 @@ if (!isset($_ERRORS)) {
               $obj -> loadData($_REQUEST['object']['dn']);
               $msg = $obj -> getFData($_REQUEST['msg']);
               $subject = $obj -> getFData($_REQUEST['subject']);
-            }
-            else {
-              $GLOBALS['LSerror'] -> addErrorCode(1004,$_REQUEST['object']['type']);
             }
           }
           else {
@@ -419,7 +395,7 @@ if (!isset($_ERRORS)) {
             }
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode(1012);
+            $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
           }
       }
     break;

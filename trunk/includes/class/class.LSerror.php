@@ -59,35 +59,41 @@ class LSerror {
   }
   
   /**
-   * Affiche les erreurs et arrête l'execution du code
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @retval void
-   */ 
-  function stop(){
-    $this -> display();
-    exit(1);
-  }
-  
-  /**
    * Affiche les erreurs
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
+   * @param[in] $return boolean True pour que le texte d'erreurs soit retourné
+   * 
    * @retval void
    */
-  function display() {
+  function display($return=False) {
     $errors = $this -> getErrors();
     if ($errors) {
+      if ($return) {
+        return $errors;
+      }
       $GLOBALS['Smarty'] -> assign('LSerrors',$errors);
     }
-    /*if(!empty($this -> errors)) {
-      print "<h3>"._('Erreurs')."</h3>\n";
-      foreach ($this -> errors as $error) {
-        echo "(Code ".$error[0].") ".getFData($GLOBALS['LSerror_code'][$error[0]]['msg'],$error[1])."<br />\n";
-      }
-    }*/
+  }
+
+  /**
+   * Print errors and stop LdapSaisie
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $code Error code (Goto : addErrorCode())
+   * @param[in] $msg Error msg (Goto : addErrorCode())
+   * 
+   * @retval void
+   */
+  function stop($code=-1,$msg='') {
+    if(!empty($this -> errors)) {
+      print "<h1>"._('Errors')."</h1>\n";
+      print $this -> display(true);
+    }
+    print "<h1>"._('Stop')."</h1>\n";
+    exit ($this -> getError(array($code,$msg)));
   }
 
  /**
@@ -100,11 +106,22 @@ class LSerror {
   function getErrors() {
     if(!empty($this -> errors)) {
       foreach ($this -> errors as $error) {
-        $txt.="(Code ".$error[0].") ".getFData($GLOBALS['LSerror_code'][$error[0]]['msg'],$error[1])."<br />\n";
+        $txt.=$this -> getError($error);
       }
       return $txt;
     }
     return;
+  }
+  
+ /**
+  * Retourne le texte d'une erreur
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retvat string Le texte des erreurs
+  */
+  function getError($error) {
+    return "(Code ".$error[0].") ".getFData($GLOBALS['LSerror_code'][$error[0]]['msg'],$error[1])."<br />\n";
   }
   
  /**
@@ -118,5 +135,15 @@ class LSerror {
     return !empty($this -> errors);
   }
 }
+
+/*
+ * Error Codes
+ */
+$GLOBALS['LSerror_code']['-1'] = array (
+  'msg' => _("Unknow error!")
+);
+$GLOBALS['LSerror_code'][0] = array (
+  'msg' => "%{msg}"
+);
 
 ?>
