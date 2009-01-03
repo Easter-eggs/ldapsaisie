@@ -599,15 +599,21 @@ class LSsession {
       if ($subDn_name == 'LSobject') {
         if (is_array($subDn_config)) {
           foreach($subDn_config as $LSobject_name => $LSoject_config) {
-            if ($LSoject_config['topDn']) {
-              $topDn = $LSoject_config['topDn'];
+            if ($LSoject_config['basedn']) {
+              $basedn = $LSoject_config['basedn'];
             }
             else {
-              $topDn = NULL;
+              $basedn = NULL;
+            }
+            if ($LSoject_config['displayValue']) {
+              $displayValue = $LSoject_config['displayValue'];
+            }
+            else {
+              $displayValue = NULL;
             }
             if( $this -> loadLSobject($LSobject_name) ) {
               if ($subdnobject = new $LSobject_name()) {
-                $tbl_return = $subdnobject -> getSelectArray(NULL,$topDn);
+                $tbl_return = $subdnobject -> getSelectArray(NULL,$basedn,$displayValue);
                 if (is_array($tbl_return)) {
                   $return=array_merge($return,$tbl_return);
                 }

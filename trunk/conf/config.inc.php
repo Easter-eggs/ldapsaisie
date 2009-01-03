@@ -141,7 +141,6 @@ $GLOBALS['LSconfig'] = array(
       'authObjectTypeAttrPwd' => 'userPassword',
       'recoverPassword' => array(
         'mailAttr' => 'mail',
-        'passwordAttr' => 'userPassword',
         'recoveryHashAttr' => 'lsRecoveryHash',
         'recoveryEmailSender' => 'noreply-recover@lsexample.net',
         'recoveryHashMail' => array(
