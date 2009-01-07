@@ -26,7 +26,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
     'lscompany'
   ),
   'rdn' => 'ou',
-  'orderby' => 'displayValue',  // Valeurs possibles : 'displayValue' ou 'subDn'
+  'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
   'container_dn' => 'ou=companies',
   'display_name_format' => '%{ou}',
   'label' => _('Sociétés'),

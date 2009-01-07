@@ -56,12 +56,12 @@ class LSattr_html_select_object extends LSattr_html{
   /**
    * Effectue les tâches nécéssaires au moment du rafraichissement du formulaire
    * 
-   * Récupère un array du type array('DNs' => 'displayValue') à partir d'une
+   * Récupère un array du type array('DNs' => 'displayName') à partir d'une
    * liste de DNs.
    * 
    * @param[in] $data mixed La valeur de l'attribut (liste de DNs)
    * 
-   * @retval mixed La valeur formatée de l'attribut (array('DNs' => 'displayValue'))
+   * @retval mixed La valeur formatée de l'attribut (array('DNs' => 'displayName'))
    **/
   function refreshForm($data,$fromDNs=false) {
     return $this -> getFormValues($data,$fromDNs);

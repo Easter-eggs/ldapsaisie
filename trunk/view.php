@@ -244,7 +244,7 @@ if($LSsession -> startLSsession()) {
           
           $sort=false;
           if ((isset($_REQUEST['orderby']))) {
-            $possible_values= array('displayValue','subDn');
+            $possible_values= array('displayName','subDn');
             if (in_array($_REQUEST['orderby'],$possible_values)) {
               $sort=true;
               if ($orderby==$_REQUEST['orderby']) {
@@ -352,7 +352,7 @@ if($LSsession -> startLSsession()) {
                 
                 $objectList[]=array(
                   'dn' => $objDn,
-                  'displayValue' => $objName,
+                  'displayName' => $objName,
                   'subDn' => $subDn_name
                 );
               }

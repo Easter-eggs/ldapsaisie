@@ -8,7 +8,7 @@
   width:              570px;
 }
 
-.sortBy_displayValue, .sortBy_subDn {
+.sortBy_displayName, .sortBy_subDn {
   cursor:             pointer;
 }
 

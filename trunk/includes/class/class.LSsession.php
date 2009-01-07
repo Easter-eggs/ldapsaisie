@@ -266,7 +266,7 @@ class LSsession {
           $this -> loadLSaccess();
         }
         
-        $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
+        $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayName());
         
         if ($_POST['LSsession_topDn']) {
           if ($this -> validSubDnLdapServer($_POST['LSsession_topDn'])) {
@@ -472,7 +472,7 @@ class LSsession {
                     $this -> rdn = $_POST['LSsession_user'];
                     $this -> loadLSprofiles();
                     $this -> loadLSaccess();
-                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayValue());
+                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayName());
                     $_SESSION['LSsession']=get_object_vars($this);
                     return true;
                   }
@@ -605,15 +605,15 @@ class LSsession {
             else {
               $basedn = NULL;
             }
-            if ($LSoject_config['displayValue']) {
-              $displayValue = $LSoject_config['displayValue'];
+            if ($LSoject_config['displayName']) {
+              $displayName = $LSoject_config['displayName'];
             }
             else {
-              $displayValue = NULL;
+              $displayName = NULL;
             }
             if( $this -> loadLSobject($LSobject_name) ) {
               if ($subdnobject = new $LSobject_name()) {
-                $tbl_return = $subdnobject -> getSelectArray(NULL,$basedn,$displayValue);
+                $tbl_return = $subdnobject -> getSelectArray(NULL,$basedn,$displayName);
                 if (is_array($tbl_return)) {
                   $return=array_merge($return,$tbl_return);
                 }

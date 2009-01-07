@@ -35,8 +35,8 @@ var LSselect = new Class({
         el.addEvent('click',this.onChangePageClick.bindWithEvent(this,el));
       }, this);
       
-      $$('.sortBy_displayValue').each(function(el) {
-        el.addEvent('click',this.sortBy.bind(this,'displayValue'));
+      $$('.sortBy_displayName').each(function(el) {
+        el.addEvent('click',this.sortBy.bind(this,'displayName'));
       }, this);
       
       $$('.sortBy_subDn').each(function(el) {

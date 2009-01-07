@@ -27,7 +27,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     'posixAccount',
     'sambaSamAccount',
   ),
-  'orderby' => 'displayValue',  // Valeurs possibles : 'displayValue' ou 'subDn'
+  'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
   'rdn' => 'uid',
   'container_dn' => 'ou=people',
   

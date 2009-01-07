@@ -26,14 +26,14 @@
 
       <table class='LSobject-list'>
         <tr class='LSobject-list'>
-          <th class='LSobject-list'><a href='view.php?LSobject={$LSobject_list_objecttype}&amp;orderby=displayValue'>{if $LSobject_list_orderby == 'displayValue'}<strong>{$LSobject_list_objectname}</strong><img src='{$LS_IMAGES_DIR}/{$LSobject_list_ordersense}.png' class='LSobject-list-ordersense' alt='{$LSobject_list_ordersense}'/>{else}{$LSobject_list_objectname}{/if}</a></th>
+          <th class='LSobject-list'><a href='view.php?LSobject={$LSobject_list_objecttype}&amp;orderby=displayName'>{if $LSobject_list_orderby == 'displayName'}<strong>{$LSobject_list_objectname}</strong><img src='{$LS_IMAGES_DIR}/{$LSobject_list_ordersense}.png' class='LSobject-list-ordersense' alt='{$LSobject_list_ordersense}'/>{else}{$LSobject_list_objectname}{/if}</a></th>
           {if $LSobject_list_subDn}<th class='LSobject-list LSobject-list-subdn'><a href='view.php?LSobject={$LSobject_list_objecttype}&amp;orderby=subDn'>{if $LSobject_list_orderby == 'subDn'}<strong>{$label_level}</strong><img src='{$LS_IMAGES_DIR}/{$LSobject_list_ordersense}.png' class='LSobject-list-ordersense' alt='{$LSobject_list_ordersense}'/>{else}{$label_level}{/if}</a></th>{/if}
           <th class='LSobject-list'>{$_Actions}</th>
         </tr>
         {assign var='bis' value=false}
         {foreach from=$LSobject_list item=object}
         <tr class='LSobject-list{if $bis} LSobject-list-bis{assign var='bis' value=false}{else}{assign var='bis' value=true}{/if}'>
-            <td class='LSobject-list LSobject-list-names'><a href='view.php?LSobject={$LSobject_list_objecttype}&amp;dn={$object.dn}'  class='LSobject-list'>{$object.displayValue}</a> </td>
+            <td class='LSobject-list LSobject-list-names'><a href='view.php?LSobject={$LSobject_list_objecttype}&amp;dn={$object.dn}'  class='LSobject-list'>{$object.displayName}</a> </td>
             {if $LSobject_list_subDn}<td class='LSobject-list'>{$object.subDn}</td>{/if}
             <td class='LSobject-list LSobject-list-actions'>
             {if $object.actions!=''}

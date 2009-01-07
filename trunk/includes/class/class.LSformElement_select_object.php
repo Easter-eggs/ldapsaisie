@@ -138,7 +138,7 @@ class LSformElement_select_object extends LSformElement {
    * 
    * @param[in] $pattern Pattern de recherche
    * 
-   * @retval array(dn -> displayValue) Les objets trouvés
+   * @retval array(dn -> displayName) Les objets trouvés
    */
   function searchAdd ($pattern) {
     if (is_array($this -> params['selectable_object'])) {
