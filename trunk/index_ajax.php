@@ -138,8 +138,8 @@ if (!isset($_ERRORS)) {
               $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
               if ($GLOBALS['LSsession']->loadLSobject($conf['objectType'])) {
                 $object = new $conf['objectType']();
-                if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
-                  $relationConf = $object->config['relations'][$conf['relationName']];
+                if (($object -> loadData($conf['objectDn'])) && (isset($object->config['LSrelation'][$conf['relationName']]))) {
+                  $relationConf = $object->config['LSrelation'][$conf['relationName']];
                   if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
                     if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                       if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
@@ -184,8 +184,8 @@ if (!isset($_ERRORS)) {
               $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
               if ($GLOBALS['LSsession']->loadLSobject($conf['objectType'])) {
                 $object = new $conf['objectType']();
-                if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
-                  $relationConf = $object->config['relations'][$conf['relationName']];
+                if (($object -> loadData($conf['objectDn'])) && (isset($object->config['LSrelation'][$conf['relationName']]))) {
+                  $relationConf = $object->config['LSrelation'][$conf['relationName']];
                   if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
                     if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                       if (is_array($_SESSION['LSselect'][$relationConf['LSobject']])) {
@@ -246,8 +246,8 @@ if (!isset($_ERRORS)) {
               $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
               if ($GLOBALS['LSsession']->loadLSobject($conf['objectType'])) {
                 $object = new $conf['objectType']();
-                if (($object -> loadData($conf['objectDn'])) && (isset($object->config['relations'][$conf['relationName']]))) {
-                  $relationConf = $object->config['relations'][$conf['relationName']];
+                if (($object -> loadData($conf['objectDn'])) && (isset($object->config['LSrelation'][$conf['relationName']]))) {
+                  $relationConf = $object->config['LSrelation'][$conf['relationName']];
                   if ($GLOBALS['LSsession'] -> loadLSobject($relationConf['LSobject'])) {
                     if ($GLOBALS['LSsession'] -> relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                       if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {

@@ -78,11 +78,11 @@ if($LSsession -> startLSsession()) {
             $view = $object -> getView();
             $view -> displayView();
             
-            // Relations
-            if (is_array($object -> config['relations'])) {
+            // LSrelations
+            if (is_array($object -> config['LSrelation'])) {
               $LSrelations=array();
               $LSrelations_JSparams=array();
-              foreach($object -> config['relations'] as $relationName => $relationConf) {
+              foreach($object -> config['LSrelation'] as $relationName => $relationConf) {
                 if ($GLOBALS['LSsession'] -> relationCanAccess($object -> getValue('dn'),$LSobject,$relationName)) {
                   $return=array(
                     'label' => $relationConf['label'],

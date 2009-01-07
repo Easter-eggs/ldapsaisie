@@ -49,7 +49,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   'label' => _('Utilisateurs'),
   
   // LSrelation
-  'relations' => array(
+  'LSrelation' => array(
     'groups' => array(
       'label' => _('Appartient aux groupes...'),
       'emptyText' => _("N'appartient à aucun groupe."),

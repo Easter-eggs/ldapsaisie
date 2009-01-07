@@ -41,7 +41,7 @@ class LSldapObject {
   var $submitError=true;
   var $_whoami=NULL;
   var $_subDn_value=NULL;
-  var $_relationsCache=array();
+  var $_LSrelationsCache=array();
   
   /**
    * Constructeur
@@ -1123,17 +1123,17 @@ class LSldapObject {
   
   /**
    * Methode créant la liste des objets en relations avec l'objet courant et qui
-   * la met en cache ($this -> _relationsCache)
+   * la met en cache ($this -> _LSrelationsCache)
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function updateRelationsCache() {
-    $this -> _relationsCache=array();
-    if (is_array($this->config['relations'])) {
+  function updateLSrelationsCache() {
+    $this -> _LSrelationsCache=array();
+    if (is_array($this->config['LSrelation'])) {
       $type = $this -> getType();
       $me = new $type();
       $me -> loadData($this -> getDn());
-      foreach($this->config['relations'] as $relation_name => $relation_conf) {
+      foreach($this->config['LSrelation'] as $relation_name => $relation_conf) {
         if ( isset($relation_conf['list_function']) ) {
           if ($GLOBALS['LSsession'] -> loadLSobject($relation_conf['LSobject'])) {
             $obj = new $relation_conf['LSobject']();
@@ -1143,7 +1143,7 @@ class LSldapObject {
                 // Key Value
                 $key = $obj -> $relation_conf['getkeyvalue_function']($me);
                 
-                $this -> _relationsCache[$relation_name] = array(
+                $this -> _LSrelationsCache[$relation_name] = array(
                   'list' => $list,
                   'keyvalue' => $key
                 );
@@ -1177,7 +1177,7 @@ class LSldapObject {
    * @retval True en cas de cas ce succès, False sinon.
    */
   function beforeRename() {
-    return $this -> updateRelationsCache();
+    return $this -> updateLSrelationsCache();
   }
   
   /**
@@ -1198,10 +1198,10 @@ class LSldapObject {
       $GLOBALS['LSsession'] -> changeAuthUser($this);
     }
     
-    foreach($this -> _relationsCache as $relation_name => $objInfos) {
-      if ((isset($this->config['relations'][$relation_name]['rename_function']))&&(is_array($objInfos['list']))) {
+    foreach($this -> _LSrelationsCache as $relation_name => $objInfos) {
+      if ((isset($this->config['LSrelation'][$relation_name]['rename_function']))&&(is_array($objInfos['list']))) {
         foreach($objInfos['list'] as $obj) {
-          $meth = $this->config['relations'][$relation_name]['rename_function'];
+          $meth = $this->config['LSrelation'][$relation_name]['rename_function'];
           if (method_exists($obj,$meth)) {
             if (!($obj -> $meth($this,$objInfos['keyvalue']))) {
               $error=1;
@@ -1226,7 +1226,7 @@ class LSldapObject {
    * @retval True en cas de cas ce succès, False sinon.
    */
   function beforeDelete() {
-    return $this -> updateRelationsCache();
+    return $this -> updateLSrelationsCache();
   }
   
   /**
@@ -1240,10 +1240,10 @@ class LSldapObject {
    */
   function afterDelete() {
     $error = 0;
-    foreach($this -> _relationsCache as $relation_name => $objInfos) {
-      if ((isset($this->config['relations'][$relation_name]['remove_function']))&&(is_array($objInfos['list']))) {
+    foreach($this -> _LSrelationsCache as $relation_name => $objInfos) {
+      if ((isset($this->config['LSrelation'][$relation_name]['remove_function']))&&(is_array($objInfos['list']))) {
         foreach($objInfos['list'] as $obj) {
-          $meth = $this->config['relations'][$relation_name]['remove_function'];
+          $meth = $this->config['LSrelation'][$relation_name]['remove_function'];
           if (method_exists($obj,$meth)) {
             if (!($obj -> $meth($this))) {
               $error=1;

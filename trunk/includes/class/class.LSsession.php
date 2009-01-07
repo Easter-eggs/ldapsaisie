@@ -1363,14 +1363,14 @@ class LSsession {
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
   function relationCanAccess($dn,$LSobject,$relationName,$right=NULL) {
-    if (!isset($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]))
+    if (!isset($GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]))
       return;
     $whoami = $this -> whoami($dn);
 
     if (($right=='w') || ($right=='r')) {
       $r = 'n';
       foreach($whoami as $who) {
-        $nr = $GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$who];
+        $nr = $GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]['rights'][$who];
         if($nr == 'w') {
           $r = 'w';
         }
@@ -1387,7 +1387,7 @@ class LSsession {
     }
     else {
       foreach($whoami as $who) {
-        if (($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$who] == 'w') || ($GLOBALS['LSobjects'][$LSobject]['relations'][$relationName]['rights'][$who] == 'r')) {
+        if (($GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]['rights'][$who] == 'w') || ($GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]['rights'][$who] == 'r')) {
           return true;
         }
       }
