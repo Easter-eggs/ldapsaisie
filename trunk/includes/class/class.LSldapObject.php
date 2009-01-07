@@ -124,8 +124,8 @@ class LSldapObject {
    *
    * @retval string Format d'affichage de l'objet.
    */ 
-  function getDisplayAttributes() {
-    return $this -> config['select_display_attrs'];
+  function getDisplayNameFormat() {
+    return $this -> config['display_name_format'];
   }
   
   /**
@@ -142,9 +142,9 @@ class LSldapObject {
    *
    * @retval string Valeur descriptive d'affichage de l'objet
    */ 
-  function getDisplayValue($spe='',$full=false) {
+  function getDisplayName($spe='',$full=false) {
     if ($spe=='') {
-      $spe = $this -> getDisplayAttributes();
+      $spe = $this -> getDisplayNameFormat();
     }
     $val = $this -> getFData($spe,&$this -> attrs,'getDisplayValue');
     if ($GLOBALS['LSsession'] -> haveSubDn() && $full) {
@@ -873,7 +873,7 @@ class LSldapObject {
     $retInfos=array();
     
     if (!$displayFormat) {
-      $displayFormat = $this -> getDisplayAttributes();
+      $displayFormat = $this -> getDisplayNameFormat();
     }
     // Attributes
     $attrs = getFieldInFormat($displayFormat);

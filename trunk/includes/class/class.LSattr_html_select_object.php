@@ -143,7 +143,7 @@ class LSattr_html_select_object extends LSattr_html{
           $obj = new $conf['object_type']();
           foreach($DNs as $dn) {
             if($obj -> loadData($dn)) {
-              $retInfos[$dn] = $obj -> getDisplayValue($conf['display_attribute']);
+              $retInfos[$dn] = $obj -> getDisplayName($conf['display_attribute']);
             }
           }
         }

@@ -45,7 +45,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   'after_modify' => 'valid',
   //'after_create' => 'createMaildirByFTP',
   //'after_delete' => 'removeMaildirByFTP',
-  'select_display_attrs' => '%{cn}',
+  'display_name_format' => '%{cn}',
   'label' => _('Utilisateurs'),
   
   // LSrelation

@@ -196,7 +196,7 @@ if (!isset($_ERRORS)) {
                               $list = $objRel -> $relationConf['list_function']($object);
                               if (is_array($list)&&(!empty($list))) {
                                 foreach($list as $o) {
-                                  $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".$o -> getDn()."' class='LSrelation' id='".$o -> getDn()."'>".$o -> getDisplayValue(NULL,true)."</a></li>\n";
+                                  $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".$o -> getDn()."' class='LSrelation' id='".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
                                 }
                               }
                               else {

@@ -68,7 +68,7 @@ if($LSsession -> startLSsession()) {
             if ($GLOBALS['LSsession']-> LSuserObject -> getValue('dn') != $dn) {
               $object = new $LSobject();
               $object -> loadData($dn);
-              $GLOBALS['Smarty'] -> assign('pagetitle',$object -> getDisplayValue());
+              $GLOBALS['Smarty'] -> assign('pagetitle',$object -> getDisplayName());
             }
             else {
               $object = &$GLOBALS['LSsession']-> LSuserObject;
@@ -131,7 +131,7 @@ if($LSsession -> startLSsession()) {
                       if (is_array($list)) {
                         foreach($list as $o) {
                           $o_infos = array(
-                            'text' => $o -> getDisplayValue(NULL,true),
+                            'text' => $o -> getDisplayName(NULL,true),
                             'dn' => $o -> getDn()
                           );
                           $return['objectList'][] = $o_infos;

@@ -37,7 +37,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'ou' => 'groups'
     )
   ),
-  'select_display_attrs' => '%{cn}',
+  'display_name_format' => '%{cn}',
   'label' => _('Groupes'),
   'attrs' => array (
   
