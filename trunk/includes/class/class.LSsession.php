@@ -147,7 +147,7 @@ class LSsession {
     if (!$this -> loadLSclass($object,'LSobjects')) {
       $error = 1;
     }
-    if (!require_once( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
+    if (!include_once( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
       $error = 1;
     }
     if ($error) {
@@ -167,7 +167,7 @@ class LSsession {
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSaddon($addon) {
-    if(require_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php') {
+    if(include_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php') {
       @include_once(LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php");
       if (!call_user_func('LSaddon_'. $addon .'_support')) {
         $GLOBALS['LSerror'] -> addErrorCode('LSsession_02',$addon);
