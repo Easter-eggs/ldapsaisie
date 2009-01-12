@@ -20,68 +20,25 @@
 
 ******************************************************************************/
 
+// Messages d'erreur
 
- /**
-  * Données de configuration pour le support POSIX
-  */
+// Support
+$GLOBALS['LSerror_code']['POSIX_SUPPORT_01']= array (
+  'msg' => _("POSIX Support : La constante %{const} n'est pas définie."),
+  'level' => 'c'
+);
 
-      // Nom de l'attribut LDAP uid
-      define('LS_POSIX_UID_ATTR','uid');
+$GLOBALS['LSerror_code']['POSIX_SUPPORT_02']= array (
+  'msg' => _("POSIX Support : Impossible de charger LSaddons::FTP."),
+  'level' => 'c'
+);
 
-      // Nom de l'attribut LDAP uidNumber
-      define('LS_POSIX_UIDNUMBER_ATTR','uidNumber');
-
-      // Valeur minimum d'un uidNumber
-      define('LS_POSIX_UIDNUMBER_MIN_VAL','100000');
-
-      // Nom de l'attribut LDAP gidNumber
-      define('LS_POSIX_GIDNUMBER_ATTR','gidNumber');
-
-      // Valeur minimum d'un gidNumber
-      define('LS_POSIX_GIDNUMBER_MIN_VAL','100000');
-
-      // Dossier contenant les homes des utilisateurs (defaut: /home/)
-      define('LS_POSIX_HOMEDIRECTORY','/home/');
+// Autres erreurs
+$GLOBALS['LSerror_code']['POSIX_01']= array (
+  'msg' => _("POSIX : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
+  'level' => 'c'
+);
       
-      // Create homeDirectory by FTP - Host
-      define('LS_POSIX_HOMEDIRECTORY_FTP_HOST','127.0.0.1');
-      
-      // Create homeDirectory by FTP - Port
-      define('LS_POSIX_HOMEDIRECTORY_FTP_PORT',21);
-      
-      // Create homeDirectory by FTP - User
-      define('LS_POSIX_HOMEDIRECTORY_FTP_USER','admin');
-      
-      // Create homeDirectory by FTP - Password
-      define('LS_POSIX_HOMEDIRECTORY_FTP_PWD','password');
-      
-      // Create homeDirectory by FTP - Path
-      define('LS_POSIX_HOMEDIRECTORY_FTP_PATH','%{homeDirectory}');
-
-
-      // -- Message d'erreur --
-      // Support
-      $GLOBALS['LSerror_code']['POSIX_SUPPORT_01']= array (
-        'msg' => _("POSIX Support : La constante %{const} n'est pas définie."),
-        'level' => 'c'
-      );
-      
-      $GLOBALS['LSerror_code']['POSIX_SUPPORT_02']= array (
-        'msg' => _("POSIX Support : Impossible de charger LSaddons::FTP."),
-        'level' => 'c'
-      );
-
-      // Autres erreurs
-      $GLOBALS['LSerror_code']['POSIX_01']= array (
-        'msg' => _("POSIX : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
-        'level' => 'c'
-      );
-      
- /**
-  * Fin des données de configuration
-  */
-
-
  /**
   * Verification du support POSIX par ldapSaisie
   * 
@@ -116,7 +73,7 @@
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
-      if ( constant($const) == '' ) {
+      if ( (!defined($const)) || (constant($const) == "")) {
         $GLOBALS['LSerror'] -> addErrorCode('POSIX_SUPPORT_O1',$const);
         $retval=false;
       }

@@ -20,44 +20,42 @@
 
 ******************************************************************************/
 
+// Messages d'erreur
 
- /**
-  * Données de configuration pour le support FTP
-  */
+// Support
+$GLOBALS['LSerror_code']['FTP_SUPPORT_01']= array (
+  'msg' => _("FTP Support : Pear::Net_FTP est introuvable."),
+  'level' => 'c'
+);
 
-      // Pear :: NET_FTP
-      define('NET_FTP','/usr/share/php/Net/FTP.php');
-
-      // Message d'erreur
-
-      $GLOBALS['LSerror_code']['FTP_SUPPORT_01']= array (
-        'msg' => _("FTP Support : Pear::Net_FTP est introuvable."),
-        'level' => 'c'
-      );
-      
-      $GLOBALS['LSerror_code']['FTP_00']= array (
-        'msg' => _("Net_FTP Error : %{msg}"),
-        'level' => 'c'
-      );
-      
-      $GLOBALS['LSerror_code']['FTP_01']= array (
-        'msg' => _("FTP Support : Impossible de se connecter au serveur FTP (Etape : %{etape})."),
-        'level' => 'c'
-      );
-      $GLOBALS['LSerror_code']['FTP_02']= array (
-        'msg' => _("FTP Support : Impossible de créer le dossier %{dir} sur le serveur distant."),
-        'level' => 'c'
-      );
-      $GLOBALS['LSerror_code']['FTP_03']= array (
-        'msg' => _("FTP Support : Impossible de supprimer le dossier %{dir} sur le serveur distant."),
-        'level' => 'c'
-      );
+$GLOBALS['LSerror_code']['FTP_SUPPORT_02']= array (
+  'msg' => _("FTP Support : La constante %{const} n'est pas défini."),
+  'level' => 'c'
+);
 
 
- /**
-  * Fin des données de configuration
-  */
+// Autres erreurs
+$GLOBALS['LSerror_code']['FTP_00']= array (
+  'msg' => _("Net_FTP Error : %{msg}"),
+  'level' => 'c'
+);
 
+$GLOBALS['LSerror_code']['FTP_01']= array (
+  'msg' => _("FTP Support : Impossible de se connecter au serveur FTP (Etape : %{etape})."),
+  'level' => 'c'
+);
+$GLOBALS['LSerror_code']['FTP_02']= array (
+  'msg' => _("FTP Support : Impossible de créer le dossier %{dir} sur le serveur distant."),
+  'level' => 'c'
+);
+$GLOBALS['LSerror_code']['FTP_03']= array (
+  'msg' => _("FTP Support : Impossible de supprimer le dossier %{dir} sur le serveur distant."),
+  'level' => 'c'
+);
+$GLOBALS['LSerror_code']['FTP_04']= array (
+  'msg' => _("FTP Support : Impossible de modifier les droits du dossier %{dir} sur le serveur distant."),
+  'level' => 'c'
+);
 
  /**
   * Verification du support FTP par ldapSaisie
@@ -71,7 +69,10 @@
 
     // Dependance de librairie
     if (!class_exists('Net_FTP')) {
-      if(!@include(NET_FTP)) {
+      if (!defined('NET_FTP')) {
+        $GLOBALS['LSerror'] -> addErrorCode('FTP_SUPPORT_02','NET_FTP');
+        $retval=false;
+      } else if(!@include(NET_FTP)) {
         $GLOBALS['LSerror'] -> addErrorCode('FTP_SUPPORT_01');
         $retval=false;
       }
@@ -128,7 +129,7 @@
   *
   * @retval string True ou false si il y a un problème durant la création du/des dossier(s)
   */
-  function createDirsByFTP($host,$port,$user,$pwd,$dirs) {
+  function createDirsByFTP($host,$port,$user,$pwd,$dirs,$chmod=NULL) {
     $cnx = connectToFTP($host,$port,$user,$pwd);
     if (! $cnx){
       return;
@@ -142,6 +143,13 @@
         $GLOBALS['LSerror'] -> addErrorCode('FTP_02',$dir);
         $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
         return;
+      }
+      if ($chmod) {
+        $do = $cnx -> chmod($dir,$chmod);
+        if ($do instanceof PEAR_Error) {
+          $GLOBALS['LSerror'] -> addErrorCode('FTP_04',$dir);
+          $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+        }
       }
     }
     return true;

@@ -20,33 +20,20 @@
 
 ******************************************************************************/
 
+// Messages d'erreur
 
- /**
-  * Données de configuration pour le support SUPANN
-  */
-      // Nom de l'attribut LDAP nom
-      define('LS_SUPANN_LASTNAME_ATTR','sn');
-      
-      // Nom de l'attribut LDAP prenom
-      define('LS_SUPANN_FIRSTNAME_ATTR','givenName');
-      
-      
-      // Message d'erreur
-      $GLOBALS['LSerror_code']['SUPANN_SUPPORT_01']= array (
-        'msg' => _("SUPANN Support : La constante %{const} n'est pas définie."),
-        'level' => 'c'
-      );
-      
-      $GLOBALS['LSerror_code']['SUPANN_01']= array (
-        'msg' => _("SUPANN Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
-        'level' => 'c'
-      );
-      
- /**
-  * Fin des données de configuration
-  */
+// Support
+$GLOBALS['LSerror_code']['SUPANN_SUPPORT_01']= array (
+  'msg' => _("SUPANN Support : La constante %{const} n'est pas définie."),
+  'level' => 'c'
+);
 
-
+// Autres erreurs
+$GLOBALS['LSerror_code']['SUPANN_01']= array (
+  'msg' => _("SUPANN Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
+  'level' => 'c'
+);
+      
  /**
   * Verification du support SUPANN par ldapSaisie
   * 
@@ -63,7 +50,7 @@
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
-      if ( constant($const) == '' ) {
+      if ( (!defined($const)) || (constant($const) == "")) {
         $GLOBALS['LSerror'] -> addErrorCode('SUPANN_SUPPORT_01',$const);
         $retval=false;
       }

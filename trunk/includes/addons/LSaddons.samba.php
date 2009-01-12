@@ -20,60 +20,28 @@
 
 ******************************************************************************/
 
+// Messages d'erreur
 
- /**
-  * Données de configuration pour le support SAMBA
-  */
+// Support
+$GLOBALS['LSerror_code']['SAMBA_SUPPORT_01']= array (
+  'msg' => _("SAMBA Support : la classe smHash ne peut pas être chargée."),
+  'level' => 'c'
+);
+$GLOBALS['LSerror_code']['SAMBA_SUPPORT_02']= array (
+  'msg' => _("SAMBA Support : La constante %{const} n'est pas définie."),
+  'level' => 'c'
+);
 
-      // SID du domaine Samba géré
-      define('LS_SAMBA_DOMAIN_SID','S-1-5-21-2421470416-3566881284-3047381809');
+$GLOBALS['LSerror_code']['SAMBA_SUPPORT_03']= array (
+  'msg' => _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID."),
+  'level' => 'c'
+);
 
-      // Nombre de base pour le calcul des sambaSID Utilisateur
-      define('LS_SAMBA_SID_BASE_USER',1000);
-
-      // Nombre de base pour le calcul des sambaSID Groupe
-      define('LS_SAMBA_SID_BASE_GROUP',1001); 
-
-     /**
-      * NB : C'est deux nombres doivent être pour l'un paire et pour l'autre impaire
-      * pour conserver l'unicité des SID
-      */
- 
-      // Nom de l'attribut LDAP uidNumber
-      define('LS_SAMBA_UIDNUMBER_ATTR','uidNumber');
-
-      // Nom de l'attribut LDAP gidNumber
-      define('LS_SAMBA_GIDNUMBER_ATTR','gidNumber');
-
-      // Nom de l'attribut LDAP userPassword
-      define('LS_SAMBA_USERPASSWORD_ATTR','userPassword');
-
-      // Message d'erreur
-
-      $GLOBALS['LSerror_code']['SAMBA_SUPPORT_01']= array (
-        'msg' => _("SAMBA Support : la classe smHash ne peut pas être chargée."),
-        'level' => 'c'
-      );
-      $GLOBALS['LSerror_code']['SAMBA_SUPPORT_02']= array (
-        'msg' => _("SAMBA Support : La constante %{const} n'est pas définie."),
-        'level' => 'c'
-      );
-
-      $GLOBALS['LSerror_code']['SAMBA_SUPPORT_03']= array (
-        'msg' => _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID."),
-        'level' => 'c'
-      );
-
-
-      $GLOBALS['LSerror_code']['SAMBA_01']= array (
-        'msg' => _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
-        'level' => 'c'
-      );
-      
- /**
-  * Fin des données de configuration
-  */
-
+// Autres erreurs
+$GLOBALS['LSerror_code']['SAMBA_01']= array (
+  'msg' => _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
+  'level' => 'c'
+);
 
  /**
   * Verification du support Samba par ldapSaisie
@@ -105,7 +73,7 @@
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
-      if ( constant($const) == '' ) {
+      if ( (!defined($const)) || (constant($const) == "")) {
         $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_02',$const);
         $retval=false;
       }

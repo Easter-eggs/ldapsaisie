@@ -20,88 +20,25 @@
 
 ******************************************************************************/
 
+// Messages d'erreur
 
- /**
-  * Données de configuration pour le support FTP
-  */
+// Support
+$GLOBALS['LSerror_code']['MAIL_SUPPORT_01']= array (
+  'msg' => _("MAIL Support : Pear::MAIL est introuvable."),
+  'level' => 'c'
+);
 
-      // Pear :: Mail
-      define('PEAR_MAIL','/usr/share/php/Mail.php');
-      
-      /*
-       * Méthode d'envoie :
-       *  - mail : envoie avec la méthode PHP mail()
-       *  - sendmail : envoie la commande sendmail du système
-       *  - smtp : envoie en utilisant un serveur SMTP
-       */
-      define('MAIL_SEND_METHOD','smtp');
-      
-      /*
-       * Paramètres d'envoie :
-       *   Ces paramètres dépende de la méthode utilisé. Repporté vous à la documentation
-       * de PEAR :: Mail pour plus d'information.
-       * Lien : http://pear.php.net/manual/en/package.mail.mail.factory.php
-       * Infos : 
-       *  List of parameter for the backends
-       *  mail
-       *    o If safe mode is disabled, $params will be passed as the fifth 
-       *      argument to the PHP mail() function. If $params is an array, 
-       *      its elements will be joined as a space-delimited string. 
-       *  sendmail
-       *    o $params["sendmail_path"] - The location of the sendmail program 
-       *      on the filesystem. Default is /usr/bin/sendmail.
-       *    o $params["sendmail_args"] - Additional parameters to pass to the 
-       *      sendmail. Default is -i. 
-       *  smtp
-       *    o $params["host"] - The server to connect. Default is localhost.
-       *    o $params["port"] - The port to connect. Default is 25.
-       *    o $params["auth"] - Whether or not to use SMTP authentication. 
-       *      Default is FALSE.
-       *    o $params["username"] - The username to use for SMTP authentication.
-       *    o $params["password"] - The password to use for SMTP authentication.
-       *    o $params["localhost"] - The value to give when sending EHLO or HELO.
-       *      Default is localhost
-       *    o $params["timeout"] - The SMTP connection timeout. 
-       *      Default is NULL (no timeout).
-       *    o $params["verp"] - Whether to use VERP or not. Default is FALSE.
-       *    o $params["debug"] - Whether to enable SMTP debug mode or not. 
-       *      Default is FALSE.
-       *    o $params["persist"] - Indicates whether or not the SMTP connection 
-       *      should persist over multiple calls to the send() method.
-       */
-      $MAIL_SEND_PARAMS = NULL;
-      
-      /*
-       * Headers :
-       */
-      $MAIL_HEARDERS = array(
-        "Content-Type"  =>  "text/plain",
-        "charset"       =>  "UTF-8",
-        "format"        =>  "flowed"
-      );
+// Autres erreurs
+$GLOBALS['LSerror_code']['MAIL_00']= array (
+  'msg' => _("MAIL Error : %{msg}"),
+  'level' => 'c'
+);
 
-      // Message d'erreur
-
-      $GLOBALS['LSerror_code']['FTP_SUPPORT_01']= array (
-        'msg' => _("MAIL Support : Pear::MAIL est introuvable."),
-        'level' => 'c'
-      );
+$GLOBALS['LSerror_code']['MAIL_01']= array (
+  'msg' => _("MAIL : Problème durant l'envoie de votre mail"),
+  'level' => 'c'
+);
       
-      $GLOBALS['LSerror_code']['MAIL_00']= array (
-        'msg' => _("MAIL Error : %{msg}"),
-        'level' => 'c'
-      );
-      
-      $GLOBALS['LSerror_code']['MAIL_01']= array (
-        'msg' => _("MAIL : Problème durant l'envoie de votre mail"),
-        'level' => 'c'
-      );
-      
- /**
-  * Fin des données de configuration
-  */
-
-
  /**
   * Verification du support MAIL par ldapSaisie
   * 

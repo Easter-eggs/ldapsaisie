@@ -20,50 +20,28 @@
 
 ******************************************************************************/
 
+// Messages d'erreur
 
- /**
-  * Données de configuration pour le support Maildir
-  */
+// Support
+$GLOBALS['LSerror_code']['MAILDIR_SUPPORT_01']= array (
+  'msg' => _("MAILDIR Support : Impossible de charger LSaddons::FTP."),
+  'level' => 'c'
+);
+$GLOBALS['LSerror_code']['MAILDIR_SUPPORT_02']= array (
+  'msg' => _("MAILDIR Support : La constante %{const} n'est pas définie."),
+  'level' => 'c'
+);
 
-      // Serveur FTP - Host
-      define('LS_MAILDIR_FTP_HOST','127.0.0.1');
-
-      // Serveur FTP - Port
-      define('LS_MAILDIR_FTP_PORT',21);
-
-      // Serveur FTP - User
-      define('LS_MAILDIR_FTP_USER','vmail');
-
-      // Serveur FTP - Passorwd
-      define('LS_MAILDIR_FTP_PWD','password'); 
+// Autres erreurs
+$GLOBALS['LSerror_code']['MAILDIR_01']= array (
+  'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant."),
+  'level' => 'c'
+);
+$GLOBALS['LSerror_code']['MAILDIR_02']= array (
+  'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant."),
+  'level' => 'c'
+);
       
-      // Serveur FTP - Maildir Path
-      define('LS_MAILDIR_FTP_MAILDIR_PATH','%{uid}');
-
-      // Message d'erreur
-
-      $GLOBALS['LSerror_code']['MAILDIR_SUPPORT_01']= array (
-        'msg' => _("MAILDIR Support : Impossible de charger LSaddons::FTP."),
-        'level' => 'c'
-      );
-      $GLOBALS['LSerror_code']['MAILDIR_SUPPORT_02']= array (
-        'msg' => _("MAILDIR Support : La constante %{const} n'est pas définie."),
-        'level' => 'c'
-      );
-      $GLOBALS['LSerror_code']['MAILDIR_01']= array (
-        'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant."),
-        'level' => 'c'
-      );
-      $GLOBALS['LSerror_code']['MAILDIR_02']= array (
-        'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant."),
-        'level' => 'c'
-      );
-      
- /**
-  * Fin des données de configuration
-  */
-
-
  /**
   * Verification du support Maildir par ldapSaisie
   * 
@@ -89,7 +67,7 @@ $retval=true;
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
-      if ( constant($const) == '' ) {
+      if ( (!defined($const)) || (constant($const) == "")) {
         $GLOBALS['LSerror'] -> addErrorCode('MAILDIR_SUPPORT_02',$const);
         $retval=false;
       }
@@ -113,7 +91,7 @@ $retval=true;
       $dir.'/new',
       $dir.'/tmp'
     );
-    if (!createDirsByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$dirs)) {
+    if (!createDirsByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$dirs,LS_MAILDIR_FTP_MAILDIR_CHMOD)) {
       $GLOBALS['LSerror'] -> addErrorCode('MAILDIR_01');
       return;
     }

@@ -168,6 +168,7 @@ class LSsession {
   */
   function loadLSaddon($addon) {
     if(require_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php') {
+      @include_once(LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php");
       if (!call_user_func('LSaddon_'. $addon .'_support')) {
         $GLOBALS['LSerror'] -> addErrorCode('LSsession_02',$addon);
         return;
