@@ -42,7 +42,7 @@ class LSerror {
    *
    * @retval void
    */ 
-  function addErrorCode($code=-1,$msg='') {
+  static function addErrorCode($code=-1,$msg='') {
     $_SESSION['LSerror'][] = array($code,$msg);
   }
   
@@ -55,8 +55,8 @@ class LSerror {
    * 
    * @retval void
    */
-  function display($return=False) {
-    $errors = $this -> getErrors();
+  static function display($return=False) {
+    $errors = self::getErrors();
     if ($errors) {
       if ($return) {
         return $errors;
@@ -75,13 +75,13 @@ class LSerror {
    * 
    * @retval void
    */
-  function stop($code=-1,$msg='') {
+  static function stop($code=-1,$msg='') {
     if(!empty($_SESSION['LSerror'])) {
       print "<h1>"._('Errors')."</h1>\n";
-      print $this -> display(true);
+      print self::display(true);
     }
     print "<h1>"._('Stop')."</h1>\n";
-    exit ($this -> getError(array($code,$msg)));
+    exit (self::getError(array($code,$msg)));
   }
 
  /**
@@ -91,12 +91,12 @@ class LSerror {
   *
   * @retvat string Le texte des erreurs
   */
-  function getErrors() {
+  static function getErrors() {
     if(!empty($_SESSION['LSerror'])) {
       foreach ($_SESSION['LSerror'] as $error) {
-        $txt.=$this -> getError($error);
+        $txt.=self::getError($error);
       }
-      $this -> resetError();
+      self::resetError();
       return $txt;
     }
     return;
@@ -109,7 +109,7 @@ class LSerror {
   *
   * @retvat string Le texte des erreurs
   */
-  function getError($error) {
+  static function getError($error) {
     return "(Code ".$error[0].") ".getFData($GLOBALS['LSerror_code'][$error[0]]['msg'],$error[1])."<br />\n";
   }
   
@@ -120,7 +120,7 @@ class LSerror {
   *
   * @retvat boolean
   */
-  function errorsDefined() {
+  static function errorsDefined() {
     return !empty($_SESSION['LSerror']);
   }
   
@@ -131,8 +131,7 @@ class LSerror {
   *
   * @retvat void
   */
-  function resetError() {
-    LSlog('reset');
+  static function resetError() {
     unset ($_SESSION['LSerror']);
   }
 }
