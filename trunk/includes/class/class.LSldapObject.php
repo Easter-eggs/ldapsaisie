@@ -318,7 +318,9 @@ class LSldapObject {
       }
       // $this -> attrs[*] => before_modify
       foreach($new_data as $attr_name => $attr_val) {
-        $this -> attrs[$attr_name] -> fireEvent('before_modify');
+        if (!$this -> attrs[$attr_name] -> fireEvent('before_modify')) {
+          return;
+        }
       }
       
       if ($this -> submitChange($idForm)) {
@@ -334,12 +336,10 @@ class LSldapObject {
         if(function_exists($this -> config['after_modify'])) {
           if(!$this -> config['after_modify']($this)) {
             $GLOBALS['LSerror'] -> addErrorCode('LSldapObject_10',$this -> config['after_modify']);
-            return;
           }
         }
         else {
           $GLOBALS['LSerror'] -> addErrorCode('LSldapObject_09',$this -> config['after_modify']);
-          return;
         }
       }
       

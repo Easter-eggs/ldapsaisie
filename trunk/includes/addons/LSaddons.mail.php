@@ -51,7 +51,7 @@ $GLOBALS['LSerror_code']['MAIL_01']= array (
 
     // Dependance de librairie
     if (!class_exists('Mail')) {
-      if(!@include(PEAR_MAIL)) {
+      if(!LSsession::includeFile(PEAR_MAIL)) {
         $GLOBALS['LSerror'] -> addErrorCode('MAIL_SUPPORT_01');
         $retval=false;
       }

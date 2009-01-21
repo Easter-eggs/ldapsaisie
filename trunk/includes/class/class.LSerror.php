@@ -29,18 +29,6 @@
  */
 class LSerror {
 
-  var $errors;
-  /**
-   * Constructeur
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @retval void
-   */ 
-  function LSerror() {
-    $errors = array();
-  }
-  
   /**
    * Ajoute une erreur
    *
@@ -55,7 +43,7 @@ class LSerror {
    * @retval void
    */ 
   function addErrorCode($code=-1,$msg='') {
-    $this -> errors[]=array($code,$msg);
+    $_SESSION['LSerror'][] = array($code,$msg);
   }
   
   /**
@@ -88,7 +76,7 @@ class LSerror {
    * @retval void
    */
   function stop($code=-1,$msg='') {
-    if(!empty($this -> errors)) {
+    if(!empty($_SESSION['LSerror'])) {
       print "<h1>"._('Errors')."</h1>\n";
       print $this -> display(true);
     }
@@ -104,10 +92,11 @@ class LSerror {
   * @retvat string Le texte des erreurs
   */
   function getErrors() {
-    if(!empty($this -> errors)) {
-      foreach ($this -> errors as $error) {
+    if(!empty($_SESSION['LSerror'])) {
+      foreach ($_SESSION['LSerror'] as $error) {
         $txt.=$this -> getError($error);
       }
+      $this -> resetError();
       return $txt;
     }
     return;
@@ -132,7 +121,19 @@ class LSerror {
   * @retvat boolean
   */
   function errorsDefined() {
-    return !empty($this -> errors);
+    return !empty($_SESSION['LSerror']);
+  }
+  
+ /**
+  * Efface les erreurs sotckés
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retvat void
+  */
+  function resetError() {
+    LSlog('reset');
+    unset ($_SESSION['LSerror']);
   }
 }
 

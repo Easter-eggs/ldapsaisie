@@ -21,6 +21,7 @@
 ******************************************************************************/
 
 define('LS_DEFAULT_CONF_DIR','conf');
+require_once 'includes/functions.php';
 
 /**
  * Gestion des sessions
@@ -66,6 +67,26 @@ class LSsession {
   }
 
  /**
+  * Include un fichier PHP
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval true si tout c'est bien passé, false sinon
+  */
+  function includeFile($file) {
+    if (!file_exists($file)) {
+      return;
+    }
+    if ($GLOBALS['LSdebug']['active']) {
+      return include_once($file);
+    }
+    else {
+      return @include_once($file);
+    }
+    return;
+  }
+
+ /**
   * Chargement de la configuration
   *
   * Chargement des fichiers de configuration et crÃ©ation de l'objet Smarty.
@@ -76,7 +97,7 @@ class LSsession {
   */
   function loadConfig() {
     if (loadDir($this -> confDir, '^config\..*\.php$')) {
-      if ( include_once $GLOBALS['LSconfig']['Smarty'] ) {
+      if ( self::includeFile($GLOBALS['LSconfig']['Smarty']) ) {
         $GLOBALS['Smarty'] = new Smarty();
         $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
         $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
@@ -131,7 +152,7 @@ class LSsession {
       return true;
     if($type!='')
       $type=$type.'.';
-    return @include_once LS_CLASS_DIR .'class.'.$type.$class.'.php';
+    return self::includeFile(LS_CLASS_DIR .'class.'.$type.$class.'.php');
   }
 
  /**
@@ -147,7 +168,7 @@ class LSsession {
     if (!$this -> loadLSclass($object,'LSobjects')) {
       $error = 1;
     }
-    if (!include_once( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
+    if (!self::includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
       $error = 1;
     }
     if ($error) {
@@ -167,8 +188,8 @@ class LSsession {
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   function loadLSaddon($addon) {
-    if(include_once LS_ADDONS_DIR .'LSaddons.'.$addon.'.php') {
-      @include_once(LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php");
+    if(self::includeFile(LS_ADDONS_DIR .'LSaddons.'.$addon.'.php')) {
+      self::includeFile(LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php");
       if (!call_user_func('LSaddon_'. $addon .'_support')) {
         $GLOBALS['LSerror'] -> addErrorCode('LSsession_02',$addon);
         return;
@@ -562,7 +583,7 @@ class LSsession {
   */
   function LSldapConnect() {
     if ($this -> ldapServer) {
-      @include_once($GLOBALS['LSconfig']['NetLDAP2']);
+      self::includeFile($GLOBALS['LSconfig']['NetLDAP2']);
       if (!$this -> loadLSclass('LSldap')) {
         return;
       }
@@ -965,6 +986,11 @@ class LSsession {
   * @retval void
   */
   function displayAjaxReturn($data=array()) {
+    if (isset($data['LSredirect']) && (!LSdebugDefined()) ) {
+      echo json_encode($data);
+      return;
+    }
+    
     $data['LSjsConfig'] = $this -> _JSconfigParams;
     
     // Infos

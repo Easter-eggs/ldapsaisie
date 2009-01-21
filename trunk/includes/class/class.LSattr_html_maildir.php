@@ -20,19 +20,15 @@
 
 ******************************************************************************/
 
-require_once 'includes/class/class.LSsession.php';
+/**
+ * Type d'attribut HTML maildir
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ */
+class LSattr_html_maildir extends LSattr_html {
 
-$GLOBALS['LSsession'] = new LSsession();
-
-if($LSsession -> startLSsession()) {
-
-  // Définition du Titre de la page
-  $GLOBALS['Smarty'] -> assign('pagetitle',_('Accueil'));
-
-  // Template
-  $GLOBALS['LSsession'] -> setTemplate('accueil.tpl');
+  var $LSformElement_type = 'maildir';
+  
 }
 
-// Affichage des retours d'erreurs
-$GLOBALS['LSsession'] -> displayTemplate();
 ?>

@@ -171,6 +171,10 @@ define('LS_CSS_DIR', 'css/'.LS_THEME);
 //Debug
 $GLOBALS['LSdebug']['active'] = true;
 
+// Logs
+$GLOBALS['LSlog']['filename'] = 'tmp/LS.log';
+$GLOBALS['LSlog']['enable'] = true;
+
 define('NB_LSOBJECT_LIST',20);
 define('NB_LSOBJECT_LIST_SELECT',11);
 

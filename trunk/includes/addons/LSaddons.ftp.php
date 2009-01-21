@@ -56,6 +56,10 @@ $GLOBALS['LSerror_code']['FTP_04']= array (
   'msg' => _("FTP Support : Impossible de modifier les droits du dossier %{dir} sur le serveur distant."),
   'level' => 'c'
 );
+$GLOBALS['LSerror_code']['FTP_05']= array (
+  'msg' => _("FTP Support : Impossible de renomer le dossier %{old} en %{new} sur le serveur distant."),
+  'level' => 'c'
+);
 
  /**
   * Verification du support FTP par ldapSaisie
@@ -72,7 +76,7 @@ $GLOBALS['LSerror_code']['FTP_04']= array (
       if (!defined('NET_FTP')) {
         $GLOBALS['LSerror'] -> addErrorCode('FTP_SUPPORT_02','NET_FTP');
         $retval=false;
-      } else if(!@include(NET_FTP)) {
+      } else if(!LSsession::includeFile(NET_FTP)) {
         $GLOBALS['LSerror'] -> addErrorCode('FTP_SUPPORT_01');
         $retval=false;
       }
@@ -158,6 +162,14 @@ $GLOBALS['LSerror_code']['FTP_04']= array (
  /**
   * Suppression d'un ou plusieurs dossiers via FTP
   * 
+  * Note : Attention : suppression récursive. Cela veut dire que les sous-dossiers
+  * lister par un LS FTP seront supprimé d'abord. Attention : Si votre serveur
+  * FTP est configuré pour caché certains fichiers ou dossiers (dont le nom
+  * commence par un '.' par exempl), ces fichiers ne seront pas supprimés et la
+  * suppression du dossier parent échoura.
+  * 
+  * Pour VsFTPd : Ajouter force_dot_files=1 dans la configuration.
+  * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
   * 
   * @param[in] $host string Le nom ou l'IP du serveur FTP
@@ -186,6 +198,34 @@ $GLOBALS['LSerror_code']['FTP_04']= array (
         $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
         return;
       }
+    }
+    return true;
+  }
+  
+ /**
+  * Renomage d'un dossier via FTP
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $host string Le nom ou l'IP du serveur FTP
+  * @param[in] $port string Le port de connexion au serveur ftp
+  * @param[in] $user string Le nom d'utilidateur de connexion
+  * @param[in] $pwd  string Le mot de passe de connexion
+  * @param[in] $old  string Le dossier à renomer
+  * @param[in] $new  string Le nouveau nom du dossier à renomer
+  *
+  * @retval string True ou false si il y a un problème durant le renomage du/des dossier(s)
+  */
+  function renameDirByFTP($host,$port,$user,$pwd,$old,$new) {
+    $cnx = connectToFTP($host,$port,$user,$pwd);
+    if (! $cnx){
+      return;
+    }
+    $do = $cnx -> rename($old,$new);
+    if ($do instanceof PEAR_Error) {
+      $GLOBALS['LSerror'] -> addErrorCode('FTP_05',array('old' => $old,'new' => $new));
+      $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+      return;
     }
     return true;
   }

@@ -185,6 +185,11 @@ function valid($obj) {
   return true;
 }
 
+function validPas($obj=null) {
+  LSdebug('Validation : nok');
+  return false;
+}
+
 function return_data($data) {
   return $data;
 }
@@ -400,5 +405,14 @@ function LSdebugDefined() {
     else 
       return 1;
   }
-
+  
+  function LSlog($msg) {
+    if ($GLOBALS['LSlog']['enable']) {
+      global $LSlogFile;
+      if (!$LSlogFile) {
+        $LSlogFile=fopen($GLOBALS['LSlog']['filename'],'a');
+      }
+      fwrite($LSlogFile,$_SERVER['REQUEST_URI']." : ".$msg."\n");
+    }
+  }
 ?>

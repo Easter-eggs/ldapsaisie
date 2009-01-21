@@ -1,15 +1,16 @@
 var LSdefault = new Class({
     initialize: function(){
       this.LSdebug = $('LSdebug');
-      this.LSdebug.addEvent('dblclick',this.LSdebugHidde.bind(this));
+      this.LSdebug.addEvent('dblclick',this.hideLSdebug.bind(this));
       this.LSdebugInfos = $('LSdebug_infos');
       this.LSdebug.setOpacity(0);
 
       this.LSdebugHidden = $('LSdebug_hidden');
-      this.LSdebugHidden.addEvent('click',this.LSdebugHidde.bind(this));
+      this.LSdebugHidden.addEvent('click',this.hideLSdebug.bind(this));
       
       this.LSerror = $('LSerror');
       this.LSerror.setOpacity(0);
+      this.LSerror.addEvent('dblclick',this.hideLSerror.bind(this));
       
       this.LSinfos = $('LSinfos');
 
@@ -71,12 +72,21 @@ var LSdefault = new Class({
       $('LSsession_topDn_form').submit();
     },
 
-    LSdebugHidde: function(){
+    hideLSdebug: function(){
       this.fx.LSdebug.start(0.8,0);
+    },
+    
+    hideLSerror: function(){
+      this.fx.LSerror.start(0.9,0);
     },
 
     checkAjaxReturn: function(data) {
       if ($type(data) == 'object') {
+        if (($type(data.LSredirect)) && (!$type(data.LSdebug)) ) {
+          document.location = data.LSredirect;
+          return true;
+        }
+        
         if ($type(data.imgload)) {
           this.loadingImgHide(data.imgload);
         }
@@ -124,7 +134,6 @@ var LSdefault = new Class({
     displayErrorBox: function() {
       this.LSerror.setStyle('top',getScrollTop()+10);
       this.fx.LSerror.start(0,0.8);
-      (function(){this.fx.LSerror.start(0.8,0);}).delay(10000, this);
     },
     
     displayInfosBox: function() {

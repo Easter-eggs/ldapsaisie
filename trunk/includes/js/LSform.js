@@ -176,12 +176,7 @@ var LSform = new Class({
     onAjaxSubmitComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
-        if ($type(data.LSformRedirect)) {
-          if (!$type(data.LSdebug)) {
-            (function(addr){document.location = addr;}).delay(1000,this,data.LSformRedirect);
-          }
-        }
-        else if ($type(data.LSformErrors) == 'object') {
+        if ($type(data.LSformErrors) == 'object') {
           data.LSformErrors = new Hash(data.LSformErrors);
           data.LSformErrors.each(this.addError,this);
         }

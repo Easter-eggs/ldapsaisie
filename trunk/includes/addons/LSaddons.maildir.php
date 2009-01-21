@@ -24,22 +24,21 @@
 
 // Support
 $GLOBALS['LSerror_code']['MAILDIR_SUPPORT_01']= array (
-  'msg' => _("MAILDIR Support : Impossible de charger LSaddons::FTP."),
-  'level' => 'c'
+  'msg' => _("MAILDIR Support : Impossible de charger LSaddons::FTP.")
 );
 $GLOBALS['LSerror_code']['MAILDIR_SUPPORT_02']= array (
-  'msg' => _("MAILDIR Support : La constante %{const} n'est pas définie."),
-  'level' => 'c'
+  'msg' => _("MAILDIR Support : La constante %{const} n'est pas définie.")
 );
 
 // Autres erreurs
 $GLOBALS['LSerror_code']['MAILDIR_01']= array (
-  'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant."),
-  'level' => 'c'
+  'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant.")
 );
 $GLOBALS['LSerror_code']['MAILDIR_02']= array (
-  'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant."),
-  'level' => 'c'
+  'msg' => _("MAILDIR Support : Erreur durant la suppression de la maildir sur le serveur distant.")
+);
+$GLOBALS['LSerror_code']['MAILDIR_03']= array (
+  'msg' => _("MAILDIR Support : Erreur durant le renomage de la maildir sur le serveur distant.")
 );
       
  /**
@@ -81,11 +80,15 @@ $retval=true;
   * @author Benjamin Renard <brenard@easter-eggs.com>
   * 
   * @param[in] $ldapObject L'objet ldap
+  * @param[in] $dir Le chemin de la maildir. Si défini, la valeur ne sera pas
+  *                 récupérée dans le ldapObject
   *
   * @retval string True ou false si il y a un problème durant la création de la Maildir
   */
-  function createMaildirByFTP($ldapObject) {
-    $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
+  function createMaildirByFTP($ldapObject,$dir=null) {
+    if (!$dir) {
+      $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
+    }
     $dirs = array(
       $dir.'/cur',
       $dir.'/new',
@@ -104,13 +107,35 @@ $retval=true;
   * @author Benjamin Renard <brenard@easter-eggs.com>
   * 
   * @param[in] $ldapObject L'objet ldap
+  * @param[in] $dir Le chemin de la maildir. Si défini, la valeur ne sera pas
+  *                 récupérée dans le ldapObject
   *
   * @retval string True ou false si il y a un problème durant la suppression de la Maildir
   */
-  function removeMaildirByFTP($ldapObject) {
-    $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
+  function removeMaildirByFTP($ldapObject,$dir=null) {
+    if (!$dir) {
+      $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
+    }
     if (!removeDirsByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$dir)) {
       $GLOBALS['LSerror'] -> addErrorCode('MAILDIR_02');
+      return;
+    }
+    return true;
+  }
+   
+  /**
+  * Rename Maildir via FTP
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $old L'ancien chemin de la maildir
+  * @param[in] $new Le nouveau chemin de la maildir
+  *
+  * @retval string True ou false si il y a un problème durant le renomage de la Maildir
+  */
+  function renameMaildirByFTP($old,$new) {
+    if (!renameDirByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$old,$new)) {
+      $GLOBALS['LSerror'] -> addErrorCode('MAILDIR_03');
       return;
     }
     return true;

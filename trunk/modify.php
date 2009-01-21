@@ -20,7 +20,6 @@
 
 ******************************************************************************/
 
-require_once 'includes/functions.php';
 require_once 'includes/class/class.LSsession.php';
 
 $GLOBALS['LSsession'] = new LSsession();
@@ -62,12 +61,13 @@ if($LSsession -> startLSsession()) {
               if (isset($_REQUEST['ajax'])) {
                 $GLOBALS['LSsession'] -> displayAjaxReturn (
                   array(
-                    'LSformRedirect' => 'view.php?LSobject='.$LSobject.'&dn='.$object -> getDn()
+                    'LSredirect' => 'view.php?LSobject='.$LSobject.'&dn='.$object -> getDn()
                   )
                 );
+                exit();
               }
               else {
-                if ((!LSdebugDefined()) && !$GLOBALS['LSerror']->errorsDefined()) {
+                if (!LSdebugDefined()) {
                   $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
                 }
                 else {

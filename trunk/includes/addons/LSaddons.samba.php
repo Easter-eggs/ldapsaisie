@@ -56,7 +56,7 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
 
     // Dependance de librairie
     if ( !class_exists('smbHash') ) {
-      if ( ! @include_once(LS_LIB_DIR . 'class.smbHash.php') ) {
+      if ( !LSsession::includeFile(LS_LIB_DIR . 'class.smbHash.php') ) {
         $GLOBALS['LSerror'] -> addErrorCode('SAMBA_SUPPORT_01');
         $retval=false;
       }
