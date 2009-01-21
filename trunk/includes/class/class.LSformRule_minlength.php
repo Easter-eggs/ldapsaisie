@@ -39,7 +39,7 @@ class LSformRule_minlength extends LSformRule {
    */ 
   function validate ($value,$options,$formElement) {
     if(!isset($options['params']['limit'])) {
-      $GLOBALS['LSerror'] -> addErrorCode('LSformRule_01',array('type' => 'minlength', 'param' => 'limit');
+      LSerror::addErrorCode('LSformRule_01',array('type' => 'minlength', 'param' => 'limit');
       return;
     }
     return (strlen($value)>=$options['params']['limit']);

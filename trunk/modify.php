@@ -52,7 +52,7 @@ if($LSsession -> startLSsession()) {
           if ($form->validate()) {
             // MàJ des données de l'objet LDAP
             if ($object -> updateData('modify')) {
-              if ($GLOBALS['LSerror']->errorsDefined()) {
+              if (LSerror::errorsDefined()) {
                 $GLOBALS['LSsession'] -> addInfo(_("L'objet a été modifié partiellement."));
               }
               else {
@@ -114,16 +114,16 @@ if($LSsession -> startLSsession()) {
           }
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
+          LSerror::addErrorCode('LSsession_11');
         }
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
+        LSerror::addErrorCode('LSsession_11');
       }
     }
   }
   else {
-    $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
+    LSerror::addErrorCode('LSsession_12');
   }
 
 }

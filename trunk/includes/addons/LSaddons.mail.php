@@ -52,7 +52,7 @@ $GLOBALS['LSerror_code']['MAIL_01']= array (
     // Dependance de librairie
     if (!class_exists('Mail')) {
       if(!LSsession::includeFile(PEAR_MAIL)) {
-        $GLOBALS['LSerror'] -> addErrorCode('MAIL_SUPPORT_01');
+        LSerror::addErrorCode('MAIL_SUPPORT_01');
         $retval=false;
       }
     }
@@ -84,8 +84,8 @@ $GLOBALS['LSerror_code']['MAIL_01']= array (
     $ret = $mail_obj -> send($to,$headers,$msg);
     
     if ($ret instanceof PEAR_Error) {
-      $GLOBALS['LSerror'] -> addErrorCode('MAIL_01');
-      $GLOBALS['LSerror'] -> addErrorCode('MAIL_00',$ret -> getMessage());
+      LSerror::addErrorCode('MAIL_01');
+      LSerror::addErrorCode('MAIL_00',$ret -> getMessage());
       return;
     }
     return true;

@@ -324,7 +324,7 @@ if($LSsession -> startLSsession()) {
     }
   }
   else {
-    $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
+    LSerror::addErrorCode('LSsession_12');
   }
 }
 else {

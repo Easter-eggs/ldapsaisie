@@ -48,7 +48,7 @@ if($LSsession -> startLSsession()) {
         if ($form->validate()) {
           // MàJ des données de l'objet LDAP
           if ($object -> updateData('create')) {
-            if (!$GLOBALS['LSerror']->errorsDefined()) {
+            if (!LSerror::errorsDefined()) {
               $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été ajouté."));
             }
             if (isset($_REQUEST['ajax'])) {
@@ -88,15 +88,15 @@ if($LSsession -> startLSsession()) {
         $form -> display();
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
+        LSerror::addErrorCode('LSsession_11');
       }
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode('LSldapObject_01');
+      LSerror::addErrorCode('LSldapObject_01');
     }
   }
   else {
-    $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
+    LSerror::addErrorCode('LSsession_12');
   }
 
 }

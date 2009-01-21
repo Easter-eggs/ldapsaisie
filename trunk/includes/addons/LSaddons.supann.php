@@ -51,7 +51,7 @@ $GLOBALS['LSerror_code']['SUPANN_01']= array (
 
     foreach($MUST_DEFINE_CONST as $const) {
       if ( (!defined($const)) || (constant($const) == "")) {
-        $GLOBALS['LSerror'] -> addErrorCode('SUPANN_SUPPORT_01',$const);
+        LSerror::addErrorCode('SUPANN_SUPPORT_01',$const);
         $retval=false;
       }
     }
@@ -70,11 +70,11 @@ $GLOBALS['LSerror_code']['SUPANN_01']= array (
   */
   function generate_displayName($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ]) != 'LSattribute' ) {
-      $GLOBALS['LSerror'] -> addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_LASTNAME_ATTR, 'attr' => 'cn'));
+      LSerror::addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_LASTNAME_ATTR, 'attr' => 'cn'));
       return;
     }
     if ( get_class($ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ]) != 'LSattribute' ) {
-      $GLOBALS['LSerror'] -> addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_FIRSTNAME_ATTR, 'attr' => 'cn'));
+      LSerror::addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_FIRSTNAME_ATTR, 'attr' => 'cn'));
       return;
     }
 
@@ -95,11 +95,11 @@ $GLOBALS['LSerror_code']['SUPANN_01']= array (
   */
   function generate_cn($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ]) != 'LSattribute' ) {
-      $GLOBALS['LSerror'] -> addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_LASTNAME_ATTR, 'attr' => 'cn'));
+      LSerror::addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_LASTNAME_ATTR, 'attr' => 'cn'));
       return;
     }
     if ( get_class($ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ]) != 'LSattribute' ) {
-      $GLOBALS['LSerror'] -> addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_FIRSTNAME_ATTR, 'attr' => 'cn'));
+      LSerror::addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_FIRSTNAME_ATTR, 'attr' => 'cn'));
       return;
     }
 

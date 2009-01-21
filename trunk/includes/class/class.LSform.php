@@ -219,7 +219,7 @@ class LSform {
       return;
     if ($this -> isSubmit()) {
       if (!$this -> getPostData()) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSform_01');
+        LSerror::addErrorCode('LSform_01');
         return;
       }
       $this -> setValuesFromPostData();
@@ -343,7 +343,7 @@ class LSform {
   function getPostData() {
     foreach($this -> elements as $element_name => $element) {
       if( !($element -> getPostData($this -> _postData)) ) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSform_02',$element_name);
+        LSerror::addErrorCode('LSform_02',$element_name);
         return;
       }
     }
@@ -366,7 +366,7 @@ class LSform {
     $elementType='LSformElement_'.$type;
     $GLOBALS['LSsession'] -> loadLSclass($elementType);
     if (!class_exists($elementType)) {
-      $GLOBALS['LSerror'] -> addErrorCode('LSform_05',array('type' => $type));  
+      LSerror::addErrorCode('LSform_05',array('type' => $type));  
       return;
     }
     $element=$this -> elements[$name] = new $elementType($this,$name,$label,$params,$attr_html);
@@ -375,7 +375,7 @@ class LSform {
     }
     else {
       unset ($this -> elements[$name]);
-      $GLOBALS['LSerror'] -> addErrorCode('LSform_06',array('element' => $name));
+      LSerror::addErrorCode('LSform_06',array('element' => $name));
       return;
     }
   }
@@ -401,12 +401,12 @@ class LSform {
         return true;
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));      
+        LSerror::addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));      
         return;
       }
     }
     else {  
-      $GLOBALS['LSerror'] -> addErrorCode('LSform_04',array('element' => $element));
+      LSerror::addErrorCode('LSform_04',array('element' => $element));
       return;
     }
   }

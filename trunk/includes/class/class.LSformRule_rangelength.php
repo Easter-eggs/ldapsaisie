@@ -40,7 +40,7 @@ class LSformRule_rangelength extends LSformRule {
    */ 
   function validate ($value,$options=array(),$formElement) {
     if(!isset($options['params']['limits'])) {
-      $GLOBALS['LSerror'] -> addErrorCode('LSformRule_01',array('type' => 'rangelength', 'param' => 'limit');
+      LSerror::addErrorCode('LSformRule_01',array('type' => 'rangelength', 'param' => 'limit');
       return;
     }
     $len=strlen($value);

@@ -73,7 +73,7 @@ class LSattribute {
       $this -> ldap = new $ldap_type($name,$config,$this);
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode('LSattribute_01',array('attr' => $name,'html'=>$config['html_type'],'ldap'=>$config['ldap_type']));
+      LSerror::addErrorCode('LSattribute_01',array('attr' => $name,'html'=>$config['html_type'],'ldap'=>$config['ldap_type']));
       return;
     }
     return true;
@@ -92,7 +92,7 @@ class LSattribute {
 
   function getLabel() {
     if (!$this -> html) {
-      $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+      LSerror::addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
       return;
     }
     return $this -> html -> getLabel();
@@ -158,7 +158,7 @@ class LSattribute {
    */
   function getDisplayValue() {
     if (!$this -> ldap) {
-      $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
+      LSerror::addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
       return;
     }
     $data = $this -> ldap -> getDisplayValue($this -> data);
@@ -170,7 +170,7 @@ class LSattribute {
             $result=$func($result);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $func));
+            LSerror::addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $func));
             return;
           }
         }
@@ -181,7 +181,7 @@ class LSattribute {
           return $this -> config['onDisplay']($data);
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $this -> config['onDisplay']));
+          LSerror::addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $this -> config['onDisplay']));
           return;
         }
       }
@@ -207,7 +207,7 @@ class LSattribute {
   function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
     if(isset($this -> config['form'][$idForm])) {
       if (!$this -> html) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+        LSerror::addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
       }
       if($this -> myRights() == 'n') {
@@ -225,7 +225,7 @@ class LSattribute {
       
       $element = $this -> html -> addToForm($form,$idForm,$data);
       if(!$element) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
+        LSerror::addErrorCode('LSform_06',$this -> name);
       }
 
       if($this -> config['required']==1) {
@@ -240,7 +240,7 @@ class LSattribute {
           if(is_array($this -> config['check_data'])) {
             foreach ($this -> config['check_data'] as $rule => $rule_infos) {
               if((!$form -> isRuleRegistered($rule))&&($rule!='')) {
-                $GLOBALS['LSerror'] -> addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
+                LSerror::addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
                 return;
               }
               if(!isset($rule_infos['msg']))
@@ -251,7 +251,7 @@ class LSattribute {
             }
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode('LSattribute_04',$this->name);
+            LSerror::addErrorCode('LSattribute_04',$this->name);
           }
         }
       } 
@@ -314,7 +314,7 @@ class LSattribute {
   function addToView(&$form) {
     if((isset($this -> config['view'])) && ($this -> myRights() != 'n') ) {
       if (!$this -> html) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+        LSerror::addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
       }
       if($this -> data !='') {
@@ -325,7 +325,7 @@ class LSattribute {
       }
       $element = $this -> html -> addToForm($form,'view',$data);
       if(!$element instanceof LSformElement) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
+        LSerror::addErrorCode('LSform_06',$this -> name);
         return;
       }
       $element -> freeze();
@@ -347,7 +347,7 @@ class LSattribute {
   function refreshForm(&$form,$idForm) {
     if(isset($this -> config['form'][$idForm])&&($this -> myRights()!='n')) {
       if (!$this -> html) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+        LSerror::addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
       }
       $form_element = $form -> getElement($this -> name);
@@ -504,7 +504,7 @@ class LSattribute {
             $result=$func($result);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode('LSattribute_05',array('attr' => $this->name,'func' => $func));
+            LSerror::addErrorCode('LSattribute_05',array('attr' => $this->name,'func' => $func));
             return;
           }
         }
@@ -514,14 +514,14 @@ class LSattribute {
           $result = $this -> config['onSave']($data);
         }
         else {
-          $GLOBALS['LSerror'] -> addErrorCode('LSattribute_05',array('attr' => $this->name,'func' => $this -> config['onSave']));
+          LSerror::addErrorCode('LSattribute_05',array('attr' => $this->name,'func' => $this -> config['onSave']));
           return;
         }
       }
     }
     else {
       if (!$this -> ldap) {
-        $GLOBALS['LSerror'] -> addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
+        LSerror::addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
         return;
       }
       else {

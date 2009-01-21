@@ -89,7 +89,7 @@ function getFData($format,$data,$meth=NULL) {
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode('fct_getFData_01',array('meth' => $meth,'obj' => $ch[1]));
+            LSerror::addErrorCode('fct_getFData_01',array('meth' => $meth,'obj' => $ch[1]));
             break;
           }
         }
@@ -136,7 +136,7 @@ function getFData($format,$data,$meth=NULL) {
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode('fct_getFData_01',array('meth' => $meth,'obj' => get_class($data)));
+            LSerror::addErrorCode('fct_getFData_01',array('meth' => $meth,'obj' => get_class($data)));
             break;
           }
         }

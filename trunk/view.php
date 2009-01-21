@@ -141,12 +141,12 @@ if($LSsession -> startLSsession()) {
                       }
                     }
                     else {
-                      $GLOBALS['LSerror'] -> addErrorCode('LSrelations_01',$relationName);
+                      LSerror::addErrorCode('LSrelations_01',$relationName);
                     }
                     $LSrelations[]=$return;
                   }
                   else {
-                      $GLOBALS['LSerror'] -> addErrorCode('LSrelations_04',array('relation' => $relationName,'LSobject' => $relationConf['LSobject']));
+                      LSerror::addErrorCode('LSrelations_04',array('relation' => $relationName,'LSobject' => $relationConf['LSobject']));
                   }
                 }
               }
@@ -163,7 +163,7 @@ if($LSsession -> startLSsession()) {
             $GLOBALS['LSsession'] -> setTemplate('view.tpl');
           }
           else {
-            $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
+            LSerror::addErrorCode('LSsession_11');
           }
         }
         // Affichage d'une liste d'un type d'objet
@@ -477,11 +477,11 @@ if($LSsession -> startLSsession()) {
       }
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode('LSsession_11');
+      LSerror::addErrorCode('LSsession_11');
     }
   }
   else {
-    $GLOBALS['LSerror'] -> addErrorCode('LSsession_12');
+    LSerror::addErrorCode('LSsession_12');
   }
 }
 else {

@@ -74,10 +74,10 @@ $GLOBALS['LSerror_code']['FTP_05']= array (
     // Dependance de librairie
     if (!class_exists('Net_FTP')) {
       if (!defined('NET_FTP')) {
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_SUPPORT_02','NET_FTP');
+        LSerror::addErrorCode('FTP_SUPPORT_02','NET_FTP');
         $retval=false;
       } else if(!LSsession::includeFile(NET_FTP)) {
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_SUPPORT_01');
+        LSerror::addErrorCode('FTP_SUPPORT_01');
         $retval=false;
       }
     }
@@ -108,14 +108,14 @@ $GLOBALS['LSerror_code']['FTP_05']= array (
         return $cnx;
       }
       else {
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_01',"2");
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+        LSerror::addErrorCode('FTP_01',"2");
+        LSerror::addErrorCode('FTP_00',$do -> getMessage());
         return;         
       }
     }
     else {
-      $GLOBALS['LSerror'] -> addErrorCode('FTP_01',"1");
-      $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+      LSerror::addErrorCode('FTP_01',"1");
+      LSerror::addErrorCode('FTP_00',$do -> getMessage());
       return;
     }
   }
@@ -144,15 +144,15 @@ $GLOBALS['LSerror_code']['FTP_05']= array (
     foreach($dirs as $dir) {
       $do = $cnx -> mkdir($dir,true);
       if ($do instanceof PEAR_Error) {
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_02',$dir);
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+        LSerror::addErrorCode('FTP_02',$dir);
+        LSerror::addErrorCode('FTP_00',$do -> getMessage());
         return;
       }
       if ($chmod) {
         $do = $cnx -> chmod($dir,$chmod);
         if ($do instanceof PEAR_Error) {
-          $GLOBALS['LSerror'] -> addErrorCode('FTP_04',$dir);
-          $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+          LSerror::addErrorCode('FTP_04',$dir);
+          LSerror::addErrorCode('FTP_00',$do -> getMessage());
         }
       }
     }
@@ -194,8 +194,8 @@ $GLOBALS['LSerror_code']['FTP_05']= array (
       }
       $do = $cnx -> rm($dir,true);
       if ($do instanceof PEAR_Error) {
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_03',$dir);
-        $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+        LSerror::addErrorCode('FTP_03',$dir);
+        LSerror::addErrorCode('FTP_00',$do -> getMessage());
         return;
       }
     }
@@ -223,8 +223,8 @@ $GLOBALS['LSerror_code']['FTP_05']= array (
     }
     $do = $cnx -> rename($old,$new);
     if ($do instanceof PEAR_Error) {
-      $GLOBALS['LSerror'] -> addErrorCode('FTP_05',array('old' => $old,'new' => $new));
-      $GLOBALS['LSerror'] -> addErrorCode('FTP_00',$do -> getMessage());
+      LSerror::addErrorCode('FTP_05',array('old' => $old,'new' => $new));
+      LSerror::addErrorCode('FTP_00',$do -> getMessage());
       return;
     }
     return true;

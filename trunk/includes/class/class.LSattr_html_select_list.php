@@ -41,7 +41,7 @@ class LSattr_html_select_list extends LSattr_html{
     $this -> config['text_possible_values'] = $possible_values;
     $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config, $this);
     if(!$element) {
-      $GLOBALS['LSerror'] -> addErrorCode('LSform_06',$this -> name);
+      LSerror::addErrorCode('LSform_06',$this -> name);
       return;
     }
     if ($data) {
@@ -76,7 +76,7 @@ class LSattr_html_select_list extends LSattr_html{
       foreach($this -> config['possible_values'] as $val_name => $val) {
         if($val_name=='OTHER_OBJECT') {
           if ((!isset($val['object_type'])) || (!isset($val['value_attribute']))) {
-            $GLOBALS['LSerror'] -> addErrorCode('LSattr_html_select_list_01',$this -> name);
+            LSerror::addErrorCode('LSattr_html_select_list_01',$this -> name);
             break;
           }
           if (!$GLOBALS['LSsession'] -> loadLSobject($val['object_type'])) {

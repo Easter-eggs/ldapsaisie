@@ -53,7 +53,7 @@ $GLOBALS['LSerror_code']['POSIX_01']= array (
     // Dependance de librairie
     if (!function_exists('createDirsByFTP')) {
       if(!$GLOBALS['LSsession'] -> loadLSaddon('ftp')) {
-        $GLOBALS['LSerror'] -> addErrorCode('POSIX_SUPPORT_02');
+        LSerror::addErrorCode('POSIX_SUPPORT_02');
         $retval=false;
       }
     }
@@ -74,7 +74,7 @@ $GLOBALS['LSerror_code']['POSIX_01']= array (
 
     foreach($MUST_DEFINE_CONST as $const) {
       if ( (!defined($const)) || (constant($const) == "")) {
-        $GLOBALS['LSerror'] -> addErrorCode('POSIX_SUPPORT_O1',$const);
+        LSerror::addErrorCode('POSIX_SUPPORT_O1',$const);
         $retval=false;
       }
     }
@@ -147,7 +147,7 @@ $GLOBALS['LSerror_code']['POSIX_01']= array (
   */
   function generate_homeDirectory($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_POSIX_UID_ATTR ]) != 'LSattribute' ) {
-      $GLOBALS['LSerror'] -> addErrorCode('POSIX_01',array('dependency' => 'uid', 'attr' => 'homeDirectory'));
+      LSerror::addErrorCode('POSIX_01',array('dependency' => 'uid', 'attr' => 'homeDirectory'));
       return;
     }
     
@@ -169,7 +169,7 @@ $GLOBALS['LSerror_code']['POSIX_01']= array (
   function createHomeDirectoryByFTP($ldapObject) {
     $dir = getFData(LS_POSIX_HOMEDIRECTORY_FTP_PATH,$ldapObject,'getValue');
     if (!createDirsByFTP(LS_POSIX_HOMEDIRECTORY_FTP_HOST,LS_POSIX_HOMEDIRECTORY_FTP_PORT,LS_POSIX_HOMEDIRECTORY_FTP_USER,LS_POSIX_HOMEDIRECTORY_FTP_PWD,$dir)) {
-      $GLOBALS['LSerror'] -> addErrorCode('POSIX_02');
+      LSerror::addErrorCode('POSIX_02');
       return;
     }
     return true;
