@@ -139,17 +139,29 @@ class LSformElement_maildir extends LSformElement_text {
           if ($this -> params['html_options']['archiveNameFormat']) {
             $newname=getFData($this -> params['html_options']['archiveNameFormat'],$this -> _toDo['old']);
             if ($newname) {
-              return renameMaildirByFTP($this -> _toDo['old'],$newname);
+              if (renameMaildirByFTP($this -> _toDo['old'],$newname)) {
+                $GLOBALS['LSsession'] -> addInfo("La boîte mail a été archivée.");
+                return true;
+              }
+              return;
             }
             LSdebug($this -> name." - LSformElement_maildir->toDo() : Nom d'archivage incorrect.");
             return;
           }
           break;
         case 'modify':
-          return renameMaildirByFTP($this -> _toDo['old'],$this -> _toDo['new']);
+          if (renameMaildirByFTP($this -> _toDo['old'],$this -> _toDo['new'])) {
+            $GLOBALS['LSsession'] -> addInfo("La boîte mail a été déplacée.");
+            return true;
+          }
+          return;
           break;
         case 'create':
-          return createMaildirByFTP(null,$this -> _toDo['new']);
+          if (createMaildirByFTP(null,$this -> _toDo['new'])) {
+            $GLOBALS['LSsession'] -> addInfo("La boîte mail a été créée.");
+            return true;
+          }
+          return;
           break;
         default:
           LSdebug($this -> name.' - LSformElement_maildir->toDo() : Action inconnu.');
