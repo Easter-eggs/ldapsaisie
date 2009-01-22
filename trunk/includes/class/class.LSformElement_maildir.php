@@ -148,6 +148,13 @@ class LSformElement_maildir extends LSformElement_text {
             LSdebug($this -> name." - LSformElement_maildir->toDo() : Nom d'archivage incorrect.");
             return;
           }
+          else {
+            if (removeMaildirByFTP(null,$this -> _toDo['old'])) {
+              $GLOBALS['LSsession'] -> addInfo("La boîte mail a été supprimée.");
+              return true;
+            }
+            return;
+          }
           break;
         case 'modify':
           if (renameMaildirByFTP($this -> _toDo['old'],$this -> _toDo['new'])) {
