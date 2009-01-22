@@ -65,7 +65,8 @@ $retval=true;
     $MUST_DEFINE_CONST= array(
       'LS_MAILDIR_FTP_HOST',
       'LS_MAILDIR_FTP_USER',
-      'LS_MAILDIR_FTP_MAILDIR_PATH'
+      'LS_MAILDIR_FTP_MAILDIR_PATH',
+      'LS_MAILDIR_FTP_MAILDIR_PATH_REGEX'
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
