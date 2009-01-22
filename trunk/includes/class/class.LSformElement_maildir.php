@@ -28,6 +28,25 @@ $GLOBALS['LSsession'] -> loadLSaddon('maildir');
  *
  * Cette classe définis les éléments maildir des formulaires.
  * Elle étant la classe LSformElement_text.
+ * 
+ * Options HTML : 
+ * // *************************************
+ * 'html_options' => array (
+ *    // Required
+ *    'LSform' => array (  // To define if the user can active triggers for the LSform
+ *      'create' => 1,  // Example : LSform 'create' => Triggers active by default
+ *      'modify' => 0   // Example : LSform 'create' => Triggers disable by default
+ *    ),
+ *    // Optional
+ *    'remoteRootPathRegex' => "^\/home\/vmail\/([^\/]*)\/+$", // Regex to determine the path of
+ *                                                             // maildir from the attribute value
+ *    'archiveNameFormat' => "archives/%{old}" // To archive rather than destroyed :
+ *                                             // At the elimination, the maildir is moved
+ *                                             // rather than deleted. The new name / path
+ *                                             // of the maildir is determined from the old
+ *                                             // name and LSformat.
+ * ),
+ * // *************************************
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -69,7 +88,7 @@ class LSformElement_maildir extends LSformElement_text {
     $retval = parent :: getPostData($return);
     
     // Si une valeur est recupérée
-    if ($retval&&$_POST['LSformElement_maildir_description_do']) {
+    if ($retval&&$_POST['LSformElement_maildir_'.$this -> name.'_do']) {
       $cur = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue();
       $cur=$cur[0];
       $new = $return[$this -> name][0];
