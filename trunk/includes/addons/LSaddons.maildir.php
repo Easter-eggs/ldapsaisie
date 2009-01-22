@@ -32,13 +32,16 @@ $GLOBALS['LSerror_code']['MAILDIR_SUPPORT_02']= array (
 
 // Autres erreurs
 $GLOBALS['LSerror_code']['MAILDIR_01']= array (
-  'msg' => _("MAILDIR Support : Erreur durant la création de la maildir sur le serveur distant.")
+  'msg' => _("MAILDIR : Erreur durant la création de la maildir sur le serveur distant.")
 );
 $GLOBALS['LSerror_code']['MAILDIR_02']= array (
-  'msg' => _("MAILDIR Support : Erreur durant la suppression de la maildir sur le serveur distant.")
+  'msg' => _("MAILDIR : Erreur durant la suppression de la maildir sur le serveur distant.")
 );
 $GLOBALS['LSerror_code']['MAILDIR_03']= array (
-  'msg' => _("MAILDIR Support : Erreur durant le renomage de la maildir sur le serveur distant.")
+  'msg' => _("MAILDIR : Erreur durant le renomage de la maildir sur le serveur distant.")
+);
+$GLOBALS['LSerror_code']['MAILDIR_04']= array (
+  'msg' => _("MAILDIR : Erreur durant la récupération du chemin distant de la maildir.")
 );
       
  /**
@@ -87,7 +90,10 @@ $retval=true;
   */
   function createMaildirByFTP($ldapObject,$dir=null) {
     if (!$dir) {
-      $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
+      $dir = getMaildirPath($ldapObject);
+      if (!$dir) {
+        return;
+      }
     }
     $dirs = array(
       $dir.'/cur',
@@ -114,13 +120,45 @@ $retval=true;
   */
   function removeMaildirByFTP($ldapObject,$dir=null) {
     if (!$dir) {
-      $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
+      $dir = getMaildirPath($ldapObject);
+      if (!$dir) {
+        return;
+      }
     }
     if (!removeDirsByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$dir)) {
       LSerror::addErrorCode('MAILDIR_02');
       return;
     }
     return true;
+  }
+  
+ /**
+  * Retourne le chemin distant de la maildir
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval string Le chemin distant de la maildir ou false si il y a un problème
+  */
+  function getMaildirPath($ldapObject) {
+    $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
+    
+    if (LS_MAILDIR_FTP_MAILDIR_PATH_REGEX != "") {
+      if (ereg(LS_MAILDIR_FTP_MAILDIR_PATH_REGEX,$dir,$regs)) {
+        $dir = $regs[1];
+      }
+      else {
+        $dir = "";
+      }
+    }
+    
+    if ($dir=="") {
+      LSerror::addErrorCode('MAILDIR_04');
+      return;
+    }
+    
+    return $dir;
   }
    
   /**

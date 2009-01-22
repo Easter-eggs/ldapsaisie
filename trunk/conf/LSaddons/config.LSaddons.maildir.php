@@ -39,7 +39,10 @@ define('LS_MAILDIR_FTP_USER','vmail');
 define('LS_MAILDIR_FTP_PWD','password'); 
 
 // Serveur FTP - Maildir Path
-define('LS_MAILDIR_FTP_MAILDIR_PATH','%{uid}');
+define('LS_MAILDIR_FTP_MAILDIR_PATH','%{mailbox}');
+
+// Serveur FTP - Maildir Path Regex
+define('LS_MAILDIR_FTP_MAILDIR_PATH_REGEX','^\/home\/vmail\/([^\/]+)\/$');
 
 // Serveur FTP - Maildir CHMOD
 define('LS_MAILDIR_FTP_MAILDIR_CHMOD','700');
