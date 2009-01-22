@@ -1226,7 +1226,15 @@ class LSldapObject {
    * @retval True en cas de cas ce succès, False sinon.
    */
   function beforeDelete() {
-    return $this -> updateLSrelationsCache();
+    $return = $this -> updateLSrelationsCache();
+    
+    foreach(array_keys($this -> attrs) as $attr_name) {
+      if (!$this -> attrs[$attr_name] -> fireEvent('before_delete')) {
+        $return = false;
+      }
+    }
+    
+    return $return;
   }
   
   /**
@@ -1274,6 +1282,12 @@ class LSldapObject {
           LSerror::addErrorCode('LSldapObject_24',$action);
           $error=true;
         }
+      }
+    }
+    
+    foreach(array_keys($this -> attrs) as $attr_name) {
+      if (!$this -> attrs[$attr_name] -> fireEvent('after_delete')) {
+        $error = true;
       }
     }
     

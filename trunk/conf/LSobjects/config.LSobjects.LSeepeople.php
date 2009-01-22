@@ -325,7 +325,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
-      'generate_function' => 'generate_sambaSID',
+      'generate_function' => 'generate_sambaUserSID',
       'rights' => array(
         'admin' => 'r'
       ),
