@@ -1,19 +1,32 @@
 var LSdefault = new Class({
     initialize: function(){
+      // LSdebug
       this.LSdebug = $('LSdebug');
       this.LSdebug.addEvent('dblclick',this.hideLSdebug.bind(this));
       this.LSdebugInfos = $('LSdebug_infos');
       this.LSdebug.setOpacity(0);
+      this.LSdebug_open = 0;
 
       this.LSdebugHidden = $('LSdebug_hidden');
       this.LSdebugHidden.addEvent('click',this.hideLSdebug.bind(this));
       
+      // LSerror
       this.LSerror = $('LSerror');
       this.LSerror.setOpacity(0);
+      this.LSerror_open = 0;
       this.LSerror.addEvent('dblclick',this.hideLSerror.bind(this));
       
+      // LSinfos
       this.LSinfos = $('LSinfos');
 
+      // FX
+      this.fx = {
+        LSdebug:  new Fx.Tween(this.LSdebug,{property: 'opacity',duration:600}),
+        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500}),
+        LSinfos:  new Fx.Tween(this.LSinfos,{property: 'opacity',duration:500})
+      };
+      
+      // LSjsConfig
       this.LSjsConfigEl = $('LSjsConfig');
       if ($type(this.LSjsConfigEl)) {
         this.LSjsConfig = JSON.decode(this.LSjsConfigEl.innerHTML);
@@ -24,18 +37,14 @@ var LSdefault = new Class({
 
       this.loading_img=[];
       this.loading_img_id=-1;
-      
+
+      // LSsession_topDn      
       this.LSsession_topDn = $('LSsession_topDn');
       if (this.LSsession_topDn) {
         this.LSsession_topDn.addEvent('change',this.onLSsession_topDnChange.bind(this));
       }
       
-      this.fx = {
-        LSdebug:  new Fx.Tween(this.LSdebug,{property: 'opacity',duration:600}),
-        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500}),
-        LSinfos:  new Fx.Tween(this.LSinfos,{property: 'opacity',duration:500})
-      };
-      
+      // Display Infos
       if (this.LSdebugInfos.innerHTML != '') {
         this.displayDebugBox();
       }
@@ -48,36 +57,43 @@ var LSdefault = new Class({
         this.displayInfosBox();
       }
       
+      // :)
       var getMoo = /moo$/;
       if (getMoo.exec(window.location)) {
-        var mooTxt = "         (__)\n         (oo)\n   /------\\\/\n  / |    ||\n *  /\---/\\\n    ~~   ~~";
-        var ulMoo = this.LSinfos.getElement('ul'); 
-        var preMoo = new Element('pre');
-        preMoo.set('html',mooTxt);
-        if ($type(ulMoo)) {
-          var liMoo = new Element('li');
-          liMoo.injectInside(ulMoo);
-          preMoo.injectInside(liMoo);
-        }
-        else {
-          preMoo.injectInside(this.LSinfos);
-        }
-        this.displayInfosBox();
+        this.moo();
       }
+      document.addEvent('keyup',this.onWantMoo.bindWithEvent(this));
       
       this.LStips = new Tips('.LStips');
     },
 
-    onLSsession_topDnChange: function() {
-      $('LSsession_topDn_form').submit();
+    onWantMoo: function(event) {
+      event=new Event(event);
+      if ((event.control) && (event.shift) && (event.key=='m')) {
+        this.moo.run(null,this);
+      }
     },
 
-    hideLSdebug: function(){
-      this.fx.LSdebug.start(0.8,0);
+    moo: function() {
+      var mooTxt = "         (__)     .ooooooooooooooooooo.\n         (oo) °°°°0 I love LdapSaisie 0\n   /------\\\/      °ooooooooooooooooooo°\n  / |    ||\n *  /\---/\\\n    ~~   ~~";
+      var ulMoo = this.LSinfos.getElement('ul'); 
+      var preMoo = new Element('pre');
+      preMoo.set('html',mooTxt);
+      if ($type(ulMoo)) {
+        ulMoo.empty();
+        var liMoo = new Element('li');
+        liMoo.injectInside(ulMoo);
+        preMoo.injectInside(liMoo);
+      }
+      else {
+        this.LSinfos.empty();
+        preMoo.injectInside(this.LSinfos);
+      }
+      this.displayInfosBox();
     },
-    
-    hideLSerror: function(){
-      this.fx.LSerror.start(0.9,0);
+
+    onLSsession_topDnChange: function() {
+      $('LSsession_topDn_form').submit();
     },
 
     checkAjaxReturn: function(data) {
@@ -116,6 +132,9 @@ var LSdefault = new Class({
       }
     },
 
+    /*
+     * Set and Display Methods
+     */
     displayError: function(html) {
       this.LSerror.set('html',html);
       this.displayErrorBox();
@@ -131,20 +150,48 @@ var LSdefault = new Class({
       this.displayInfosBox();
     },
     
+    /*
+     * Display Methods
+     */
     displayErrorBox: function() {
       this.LSerror.setStyle('top',getScrollTop()+10);
+      if (this.LSerror_open) {
+        return true;
+      }
       this.fx.LSerror.start(0,0.8);
-    },
-    
-    displayInfosBox: function() {
-      this.LSinfos.setStyle('top',getScrollTop()+10);
-      this.fx.LSinfos.start(0,0.9);
-      (function(){this.fx.LSinfos.start(0.9,0);}).delay(5000, this);
+      this.LSerror_open = 1;
     },
     
     displayDebugBox: function() {
       this.LSdebug.setStyle('top',getScrollTop()+10);
+      if (this.LSdebug_open) {
+        return true;
+      }
       this.fx.LSdebug.start(0,0.8);
+      this.LSdebug_open = 1;
+    },
+    
+    /*
+     * Hide Methods
+     */
+    hideLSdebug: function(){
+      if (this.LSdebug_open) {
+        this.fx.LSdebug.start(0.8,0);
+        this.LSdebug_open = 0;
+      }
+    },
+    
+    hideLSerror: function(){
+      if (this.LSerror_open) {
+        this.fx.LSerror.start(0.9,0);
+        this.LSerror_open = 0;
+      }
+    },
+
+    displayInfosBox: function() {
+      this.LSinfos.setStyle('top',getScrollTop()+10);
+      this.fx.LSinfos.start(0,0.9);
+      (function(){this.fx.LSinfos.start(0.9,0);}).delay(5000, this);
     },
 
     loadingImgDisplay: function(el,position,size) {
