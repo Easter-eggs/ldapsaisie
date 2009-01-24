@@ -32,39 +32,53 @@ require_once 'includes/functions.php';
  */
 class LSsession {
 
-  var $confDir = NULL;
-  var $ldapServer = NULL;
-  var $ldapServerId = NULL;
-  var $topDn = NULL;
-  var $LSuserObject = NULL;
-  var $dn = NULL;
-  var $rdn = NULL;
-  var $JSscripts = array();
-  var $_JSconfigParams = array();
-  var $CssFiles = array();
-  var $template = NULL;
-  var $LSprofiles = array();
-  var $LSaccess = array();
-  var $tmp_file = array();
-  var $_subDnLdapServer = array();
-  var $ajaxDisplay = false;
-
-  /**
-   * Constructeur
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @retval void
+  // La configuration du serveur Ldap utilisé
+  public static $ldapServer = NULL;
+  
+  // L'id du serveur Ldap utilisé
+  private static $ldapServerId = NULL;
+  
+  // Le topDn courant
+  private static $topDn = NULL;
+  
+  // Le DN de l'utilisateur connecté
+  private static $dn = NULL;
+  
+  // Le RDN de l'utilisateur connecté (son identifiant)
+  private static $rdn = NULL;
+  
+  // Les LSprofiles de l'utilisateur
+  private static $LSprofiles = array();
+  
+  // Les droits d'accès de l'utilisateur
+  private static $LSaccess = array();
+  
+  // Les fichiers temporaires
+  private static $tmp_file = array();
+  
+  /*
+   * Constante de classe non stockée en session
    */
-  function LSsession ($configDir=LS_DEFAULT_CONF_DIR) {
-    $this -> confDir = $configDir;
-    if ($this -> loadConfig()) {
-      $this -> startLSerror();
-    }
-    else {
-      return;
-    }
-  }
+  // Le template à afficher
+  private static $template = NULL;
+  
+  // Les subDn des serveurs Ldap
+  private static $_subDnLdapServer = array();
+  
+  // Affichage Ajax
+  private static $ajaxDisplay = false;
+
+  // Les fichiers JS à charger dans la page
+  private static $JSscripts = array();
+  
+  // Les paramètres JS à communiquer dans la page
+  private static $_JSconfigParams = array();
+  
+  // Les fichiers CSS à charger dans la page
+  private static $CssFiles = array();
+
+  // L'objet de l'utilisateur connecté
+  private static $LSuserObject = NULL;
 
  /**
   * Include un fichier PHP
@@ -73,7 +87,7 @@ class LSsession {
   *
   * @retval true si tout c'est bien passé, false sinon
   */
-  function includeFile($file) {
+  public static function includeFile($file) {
     if (!file_exists($file)) {
       return;
     }
@@ -95,9 +109,9 @@ class LSsession {
   *
   * @retval true si tout c'est bien passÃ©, false sinon
   */
-  function loadConfig() {
-    if (loadDir($this -> confDir, '^config\..*\.php$')) {
-      if ( self::includeFile($GLOBALS['LSconfig']['Smarty']) ) {
+  private static function loadConfig() {
+    if (loadDir(LS_DEFAULT_CONF_DIR, '^config\..*\.php$')) {
+      if ( self :: includeFile($GLOBALS['LSconfig']['Smarty']) ) {
         $GLOBALS['Smarty'] = new Smarty();
         $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
         $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
@@ -105,7 +119,7 @@ class LSsession {
         $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
         $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
         
-        $this -> addJSconfigParam('LS_IMAGES_DIR',LS_IMAGES_DIR);
+        self :: addJSconfigParam('LS_IMAGES_DIR',LS_IMAGES_DIR);
         return true;
       }
       else {
@@ -119,6 +133,10 @@ class LSsession {
     }
     
   }
+  
+  public static function getTopDn() {
+    return self :: $topDn;
+  }
 
  /**
   * Initialisation de la gestion des erreurs
@@ -129,8 +147,8 @@ class LSsession {
   *
   * @retval boolean true si l'initialisation a rÃ©ussi, false sinon.
   */
-  function startLSerror() {
-    if(!$this -> loadLSclass('LSerror')) {
+  private static function startLSerror() {
+    if(!self :: loadLSclass('LSerror')) {
       return;
     }
     return true;
@@ -146,12 +164,12 @@ class LSsession {
   * 
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
-  function loadLSclass($class,$type='') {
+  public static function loadLSclass($class,$type='') {
     if (class_exists($class))
       return true;
     if($type!='')
       $type=$type.'.';
-    return self::includeFile(LS_CLASS_DIR .'class.'.$type.$class.'.php');
+    return self :: includeFile(LS_CLASS_DIR .'class.'.$type.$class.'.php');
   }
 
  /**
@@ -161,17 +179,17 @@ class LSsession {
   *
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
-  function loadLSobject($object) {
+  public static function loadLSobject($object) {
     $error = 0;
-    $this -> loadLSclass('LSldapObject');
-    if (!$this -> loadLSclass($object,'LSobjects')) {
+    self :: loadLSclass('LSldapObject');
+    if (!self :: loadLSclass($object,'LSobjects')) {
       $error = 1;
     }
-    if (!self::includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
+    if (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
       $error = 1;
     }
     if ($error) {
-      LSerror::addErrorCode('LSsession_04',$object);
+      LSerror :: addErrorCode('LSsession_04',$object);
       return;
     }
     return true;
@@ -186,11 +204,11 @@ class LSsession {
   * 
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
-  function loadLSaddon($addon) {
-    if(self::includeFile(LS_ADDONS_DIR .'LSaddons.'.$addon.'.php')) {
-      self::includeFile(LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php");
+  public static function loadLSaddon($addon) {
+    if(self :: includeFile(LS_ADDONS_DIR .'LSaddons.'.$addon.'.php')) {
+      self :: includeFile(LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php");
       if (!call_user_func('LSaddon_'. $addon .'_support')) {
-        LSerror::addErrorCode('LSsession_02',$addon);
+        LSerror :: addErrorCode('LSsession_02',$addon);
         return;
       }
       return true;
@@ -206,15 +224,29 @@ class LSsession {
   *
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
-  function loadLSaddons() {
+  public static function loadLSaddons() {
     if(!is_array($GLOBALS['LSaddons']['loads'])) {
-      LSerror::addErrorCode('LSsession_01',"LSaddons['loads']");
+      LSerror :: addErrorCode('LSsession_01',"LSaddons['loads']");
       return;
     }
 
     foreach ($GLOBALS['LSaddons']['loads'] as $addon) {
-      $this -> loadLSaddon($addon);
+      self :: loadLSaddon($addon);
     }
+    return true;
+  }
+
+/**
+  * Initialisation LdapSaisie
+  *
+  * @retval boolean True si l'initialisation à réussi, false sinon.
+  */
+  public static function initialize() {
+    if (!self :: loadConfig()) {
+      return;
+    }   
+    self :: startLSerror();
+    self :: loadLSaddons();
     return true;
   }
 
@@ -229,301 +261,357 @@ class LSsession {
   *
   * @retval boolean True si l'initialisation Ã  rÃ©ussi (utilisateur authentifiÃ©), false sinon.
   */
-  function startLSsession() {
-      $this -> loadLSaddons();
-      session_start();
+  public static function startLSsession() {
+    if (!self :: initialize()) {
+      return;
+    }   
 
-      // DÃ©connexion
-      if (isset($_GET['LSsession_logout'])||isset($_GET['LSsession_recoverPassword'])) {
-        session_destroy();
-        
-        if (is_array($_SESSION['LSsession']['tmp_file'])) {
-          $this -> tmp_file = $_SESSION['LSsession']['tmp_file'];
-        }
-        $this -> deleteTmpFile();
-        unset($_SESSION['LSsession']);
-      }
+    session_start();
+
+    // DÃ©connexion
+    if (isset($_GET['LSsession_logout'])||isset($_GET['LSsession_recoverPassword'])) {
+      session_destroy();
       
-      // Récupération de mot de passe
-      if (isset($_GET['recoveryHash'])) {
-        $_POST['LSsession_user'] = 'a determiner plus tard';
+      if (is_array($_SESSION['LSsession']['tmp_file'])) {
+        self :: $tmp_file = $_SESSION['LSsession']['tmp_file'];
       }
+      self :: deleteTmpFile();
+      unset($_SESSION['LSsession']);
+    }
+    
+    // Récupération de mot de passe
+    if (isset($_GET['recoveryHash'])) {
+      $_POST['LSsession_user'] = 'a determiner plus tard';
+    }
+    
+    if(isset($_SESSION['LSsession'])) {
+      // Session existante
+      self :: $topDn        = $_SESSION['LSsession']['topDn'];
+      self :: $dn           = $_SESSION['LSsession']['dn'];
+      self :: $rdn          = $_SESSION['LSsession']['rdn'];
+      self :: $ldapServerId = $_SESSION['LSsession']['ldapServerId'];
+      self :: $tmp_file     = $_SESSION['LSsession']['tmp_file'];
       
-      if(isset($_SESSION['LSsession'])) {
-        // Session existante
-        $this -> confDir      = $_SESSION['LSsession']['confDir'];
-        $this -> topDn        = $_SESSION['LSsession']['topDn'];
-        $this -> dn           = $_SESSION['LSsession']['dn'];
-        $this -> rdn          = $_SESSION['LSsession']['rdn'];
-        $this -> ldapServerId = $_SESSION['LSsession']['ldapServerId'];
-        $this -> tmp_file     = $_SESSION['LSsession']['tmp_file'];
-        
-        if ( $this -> cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
-          $this -> ldapServer = $_SESSION['LSsession']['ldapServer'];
-          $this -> LSprofiles   = $_SESSION['LSsession']['LSprofiles'];
-          $this -> LSaccess   = $_SESSION['LSsession']['LSaccess'];
-          if (!$this -> LSldapConnect())
-            return;
-        }
-        else {
-          $this -> setLdapServer($this -> ldapServerId);
-          if (!$this -> LSldapConnect())
-            return;
-          $this -> loadLSprofiles();
-        }
-        
-        if ( $this -> cacheSudDn() && (!isset($_REQUEST['LSsession_refresh'])) ) {
-          $this -> _subDnLdapServer = $_SESSION['LSsession_subDnLdapServer'];
-        }
-        
-        if (!$this -> loadLSobject($this -> ldapServer['authObjectType'])) {
+      if ( self :: cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
+        self :: setLdapServer(self :: $ldapServerId);
+        self :: $LSprofiles   = $_SESSION['LSsession']['LSprofiles'];
+        self :: $LSaccess   = $_SESSION['LSsession']['LSaccess'];
+        if (!self :: LSldapConnect())
           return;
-        }
-        
-        $this -> LSuserObject = new $this -> ldapServer['authObjectType']();
-        $this -> LSuserObject -> loadData($this -> dn);
-        
-        if ( !$this -> cacheLSprofiles() || isset($_REQUEST['LSsession_refresh']) ) {
-          $this -> loadLSaccess();
-        }
-        
-        $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayName());
-        
-        if ($_POST['LSsession_topDn']) {
-          if ($this -> validSubDnLdapServer($_POST['LSsession_topDn'])) {
-            $this -> topDn = $_POST['LSsession_topDn'];
-            $_SESSION['LSsession']['topDn'] = $_POST['LSsession_topDn'];
-          } // end if
-        } // end if
-        
-        return true;
-        
       }
       else {
-        // Session inexistante
-        $recoveryPasswordInfos=array();
+        self :: setLdapServer(self :: $ldapServerId);
+        if (!self :: LSldapConnect())
+          return;
+        self :: loadLSprofiles();
+      }
+      
+      if ( self :: cacheSudDn() && (!isset($_REQUEST['LSsession_refresh'])) ) {
+        self :: $_subDnLdapServer = $_SESSION['LSsession_subDnLdapServer'];
+      }
+      
+      if (!self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
+        return;
+      }
+      
+      self :: getLSuserObject();
+      
+      if ( !self :: cacheLSprofiles() || isset($_REQUEST['LSsession_refresh']) ) {
+        self :: loadLSaccess();
+      }
+      
+      $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
+      
+      if ($_POST['LSsession_topDn']) {
+        if (self :: validSubDnLdapServer($_POST['LSsession_topDn'])) {
+          self :: $topDn = $_POST['LSsession_topDn'];
+          $_SESSION['LSsession']['topDn'] = $_POST['LSsession_topDn'];
+        } // end if
+      } // end if
+      
+      return true;
+      
+    }
+    else {
+      // Session inexistante
+      $recoveryPasswordInfos=array();
 
-        if (isset($_POST['LSsession_user'])) {
-          if (isset($_POST['LSsession_ldapserver'])) {
-            $this -> setLdapServer($_POST['LSsession_ldapserver']);
+      if (isset($_POST['LSsession_user'])) {
+        if (isset($_POST['LSsession_ldapserver'])) {
+          self :: setLdapServer($_POST['LSsession_ldapserver']);
+        }
+        else {
+          self :: setLdapServer(0);
+        }
+        
+        // Connexion au serveur LDAP
+        if (self :: LSldapConnect()) {
+
+          // topDn
+          if ( $_POST['LSsession_topDn'] != '' ){
+            self :: $topDn = $_POST['LSsession_topDn'];
           }
           else {
-            $this -> setLdapServer(0);
+            self :: $topDn = self :: $ldapServer['ldap_config']['basedn'];
           }
-          
-          // Connexion au serveur LDAP
-              if ($this -> LSldapConnect()) {
+          $_SESSION['LSsession_topDn']=self :: $topDn;
 
-            // topDn
-            if ( $_POST['LSsession_topDn'] != '' ){
-              $this -> topDn = $_POST['LSsession_topDn'];
+          if ( self :: loadLSobject(self :: $ldapServer['authObjectType']) ) {
+            $authobject = new self :: $ldapServer['authObjectType']();
+            $find=true;
+            if (isset($_GET['recoveryHash'])) {
+              $filter=self :: $ldapServer['recoverPassword']['recoveryHashAttr']."=".$_GET['recoveryHash'];
+              $result = $authobject -> listObjects($filter,self :: $topDn);
+              $nbresult=count($result);
+              if ($nbresult==1) {
+                $rdn = $result[0] -> getValue('rdn');
+                $rdn = $rdn[0];
+                $_POST['LSsession_user'] = $rdn;
+                $find=false;
+              }
+            }
+            if ($find) {
+              $result = $authobject -> searchObject($_POST['LSsession_user'],self :: $topDn);
+              $nbresult=count($result);
+            }
+            if ($nbresult==0) {
+              // identifiant incorrect
+              LSdebug('identifiant incorrect');
+              LSerror :: addErrorCode('LSsession_06');
+            }
+            else if ($nbresult>1) {
+              // duplication d'authentitÃ©
+              LSerror :: addErrorCode('LSsession_07');
             }
             else {
-              $this -> topDn = $this -> ldapServer['ldap_config']['basedn'];
-            }
-            $_SESSION['LSsession_topDn']=$this -> topDn;
+              if (isset($_GET['LSsession_recoverPassword'])) {
+                LSdebug('Recover : Id trouvé');
+                if (self :: $ldapServer['recoverPassword']) {
+                  if (self :: loadLSaddon('mail')) {
+                    LSdebug('Récupération active');
+                    $user=$result[0];
+                    $emailAddress = $user -> getValue(self :: $ldapServer['recoverPassword']['mailAttr']);
+                    $emailAddress = $emailAddress[0];
+                    
+                    // Header des mails
+                    $sendParams=array();
+                    if (self :: $ldapServer['recoverPassword']['recoveryEmailSender']) {
+                      $sendParams['From']=self :: $ldapServer['recoverPassword']['recoveryEmailSender'];
+                    }
+                    
+                    if (checkEmail($emailAddress)) {
+                      LSdebug('Email : '.$emailAddress);
+                      self :: $dn = $user -> getDn();
+                      // 1ère étape : envoie du recoveryHash
+                      if (!isset($_GET['recoveryHash'])) {
+                        // Generer un hash
+                        $rdn=$user -> getValue('rdn');
+                        $rdn = $rdn[0];
+                        $recovery_hash = md5($rdn . strval(time()) . strval(rand()));
+                        
+                        $lostPasswdForm = $user -> getForm('lostPassword');
+                        $lostPasswdForm -> setPostData(
+                          array(
+                            self :: $ldapServer['recoverPassword']['recoveryHashAttr'] => $recovery_hash
+                          )
+                          ,true
+                        );
+                        
+                        if($lostPasswdForm -> validate()) {
+                          if ($user -> updateData('lostPassword')) {
+                            // recoveryHash de l'utilisateur mis à jour
+                            if ($_SERVER['HTTPS']=='on') {
+                              $recovery_url='https://';
+                            }
+                            else {
+                              $recovery_url='http://';
+                            }
+                            $recovery_url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'&recoveryHash='.$recovery_hash;
 
-            if ( $this -> loadLSobject($this -> ldapServer['authObjectType']) ) {
-              $authobject = new $this -> ldapServer['authObjectType']();
-              $find=true;
-              if (isset($_GET['recoveryHash'])) {
-                $filter=$this -> ldapServer['recoverPassword']['recoveryHashAttr']."=".$_GET['recoveryHash'];
-                $result = $authobject -> listObjects($filter,$this -> topDn);
-                $nbresult=count($result);
-                if ($nbresult==1) {
-                  $rdn = $result[0] -> getValue('rdn');
-                  $rdn = $rdn[0];
-                  $_POST['LSsession_user'] = $rdn;
-                  $find=false;
-                }
-              }
-              if ($find) {
-                $result = $authobject -> searchObject($_POST['LSsession_user'],$this -> topDn);
-                $nbresult=count($result);
-              }
-              if ($nbresult==0) {
-                // identifiant incorrect
-                LSdebug('identifiant incorrect');
-                LSerror::addErrorCode('LSsession_06');
-              }
-              else if ($nbresult>1) {
-                // duplication d'authentitÃ©
-                LSerror::addErrorCode('LSsession_07');
-              }
-              else {
-                if (isset($_GET['LSsession_recoverPassword'])) {
-                  LSdebug('Recover : Id trouvé');
-                  if ($this -> ldapServer['recoverPassword']) {
-                    if ($this -> loadLSaddon('mail')) {
-                      LSdebug('Récupération active');
-                      $user=$result[0];
-                      $emailAddress = $user -> getValue($this -> ldapServer['recoverPassword']['mailAttr']);
-                      $emailAddress = $emailAddress[0];
-                      
-                      // Header des mails
-                      $sendParams=array();
-                      if ($this -> ldapServer['recoverPassword']['recoveryEmailSender']) {
-                        $sendParams['From']=$this -> ldapServer['recoverPassword']['recoveryEmailSender'];
+                            if (
+                              sendMail(
+                                $emailAddress,
+                                self :: $ldapServer['recoverPassword']['recoveryHashMail']['subject'],
+                                getFData(self :: $ldapServer['recoverPassword']['recoveryHashMail']['msg'],$recovery_url),
+                                $sendParams
+                              )
+                            ){
+                              // Mail a bien été envoyé
+                              $recoveryPasswordInfos['recoveryHashMail']=$emailAddress;
+                            }
+                            else {
+                              // Problème durant l'envoie du mail
+                              LSdebug("Problème durant l'envoie du mail");
+                              LSerror :: addErrorCode('LSsession_20',7);
+                            }
+                          }
+                          else {
+                            // Erreur durant la mise à jour de l'objet
+                            LSdebug("Erreur durant la mise à jour de l'objet");
+                            LSerror :: addErrorCode('LSsession_20',6);
+                          }
+                        }
+                        else {
+                          // Erreur durant la validation du formulaire de modification de perte de password
+                          LSdebug("Erreur durant la validation du formulaire de modification de perte de password");
+                          LSerror :: addErrorCode('LSsession_20',5);
+                        }
                       }
-                      
-                      if (checkEmail($emailAddress)) {
-                        LSdebug('Email : '.$emailAddress);
-                        $this -> dn = $user -> getDn();
-                        // 1ère étape : envoie du recoveryHash
-                        if (!isset($_GET['recoveryHash'])) {
-                          // Generer un hash
-                          $rdn=$user -> getValue('rdn');
-                          $rdn = $rdn[0];
-                          $recovery_hash = md5($rdn . strval(time()) . strval(rand()));
-                          
+                      // 2nd étape : génération du mot de passe + envoie par mail
+                      else {
+                        $attr=$user -> attrs[self :: $ldapServer['authObjectTypeAttrPwd']];
+                        if ($attr instanceof LSattribute) {
+                          $mdp = generatePassword($attr -> config['html_options']['chars'],$attr -> config['html_options']['lenght']);
+                          LSdebug('Nvx mpd : '.$mdp);
                           $lostPasswdForm = $user -> getForm('lostPassword');
                           $lostPasswdForm -> setPostData(
                             array(
-                              $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => $recovery_hash
+                              self :: $ldapServer['recoverPassword']['recoveryHashAttr'] => array(''),
+                              self :: $ldapServer['authObjectTypeAttrPwd'] => array($mdp)
                             )
                             ,true
                           );
-                          
                           if($lostPasswdForm -> validate()) {
                             if ($user -> updateData('lostPassword')) {
-                              // recoveryHash de l'utilisateur mis à jour
-                              if ($_SERVER['HTTPS']=='on') {
-                                $recovery_url='https://';
-                              }
-                              else {
-                                $recovery_url='http://';
-                              }
-                              $recovery_url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'&recoveryHash='.$recovery_hash;
-
                               if (
                                 sendMail(
                                   $emailAddress,
-                                  $this -> ldapServer['recoverPassword']['recoveryHashMail']['subject'],
-                                  getFData($this -> ldapServer['recoverPassword']['recoveryHashMail']['msg'],$recovery_url),
+                                  self :: $ldapServer['recoverPassword']['newPasswordMail']['subject'],
+                                  getFData(self :: $ldapServer['recoverPassword']['newPasswordMail']['msg'],$mdp),
                                   $sendParams
                                 )
                               ){
                                 // Mail a bien été envoyé
-                                $recoveryPasswordInfos['recoveryHashMail']=$emailAddress;
+                                $recoveryPasswordInfos['newPasswordMail']=$emailAddress;
                               }
                               else {
                                 // Problème durant l'envoie du mail
                                 LSdebug("Problème durant l'envoie du mail");
-                                LSerror::addErrorCode('LSsession_20',7);
+                                LSerror :: addErrorCode('LSsession_20',4);
                               }
                             }
                             else {
                               // Erreur durant la mise à jour de l'objet
                               LSdebug("Erreur durant la mise à jour de l'objet");
-                              LSerror::addErrorCode('LSsession_20',6);
+                              LSerror :: addErrorCode('LSsession_20',3);
                             }
                           }
                           else {
                             // Erreur durant la validation du formulaire de modification de perte de password
                             LSdebug("Erreur durant la validation du formulaire de modification de perte de password");
-                            LSerror::addErrorCode('LSsession_20',5);
+                            LSerror :: addErrorCode('LSsession_20',2);
                           }
                         }
-                        // 2nd étape : génération du mot de passe + envoie par mail
                         else {
-                          $attr=$user -> attrs[$this -> ldapServer['authObjectTypeAttrPwd']];
-                          if ($attr instanceof LSattribute) {
-                            $mdp = generatePassword($attr -> config['html_options']['chars'],$attr -> config['html_options']['lenght']);
-                            LSdebug('Nvx mpd : '.$mdp);
-                            $lostPasswdForm = $user -> getForm('lostPassword');
-                            $lostPasswdForm -> setPostData(
-                              array(
-                                $this -> ldapServer['recoverPassword']['recoveryHashAttr'] => array(''),
-                                $this -> ldapServer['authObjectTypeAttrPwd'] => array($mdp)
-                              )
-                              ,true
-                            );
-                            if($lostPasswdForm -> validate()) {
-                              if ($user -> updateData('lostPassword')) {
-                                if (
-                                  sendMail(
-                                    $emailAddress,
-                                    $this -> ldapServer['recoverPassword']['newPasswordMail']['subject'],
-                                    getFData($this -> ldapServer['recoverPassword']['newPasswordMail']['msg'],$mdp),
-                                    $sendParams
-                                  )
-                                ){
-                                  // Mail a bien été envoyé
-                                  $recoveryPasswordInfos['newPasswordMail']=$emailAddress;
-                                }
-                                else {
-                                  // Problème durant l'envoie du mail
-                                  LSdebug("Problème durant l'envoie du mail");
-                                  LSerror::addErrorCode('LSsession_20',4);
-                                }
-                              }
-                              else {
-                                // Erreur durant la mise à jour de l'objet
-                                LSdebug("Erreur durant la mise à jour de l'objet");
-                                LSerror::addErrorCode('LSsession_20',3);
-                              }
-                            }
-                            else {
-                              // Erreur durant la validation du formulaire de modification de perte de password
-                              LSdebug("Erreur durant la validation du formulaire de modification de perte de password");
-                              LSerror::addErrorCode('LSsession_20',2);
-                            }
-                          }
-                          else {
-                            // l'attribut password n'existe pas
-                            LSdebug("L'attribut password n'existe pas");
-                            LSerror::addErrorCode('LSsession_20',1);
-                          }
+                          // l'attribut password n'existe pas
+                          LSdebug("L'attribut password n'existe pas");
+                          LSerror :: addErrorCode('LSsession_20',1);
                         }
-                      }
-                      else {
-                        LSerror::addErrorCode('LSsession_19');
                       }
                     }
-                  }
-                  else {
-                    LSerror::addErrorCode('LSsession_18');
+                    else {
+                      LSerror :: addErrorCode('LSsession_19');
+                    }
                   }
                 }
                 else {
-                  if ( $this -> checkUserPwd($result[0],$_POST['LSsession_pwd']) ) {
-                    // Authentification rÃ©ussi
-                    $this -> LSuserObject = $result[0];
-                    $this -> dn = $result[0]->getValue('dn');
-                    $this -> rdn = $_POST['LSsession_user'];
-                    $this -> loadLSprofiles();
-                    $this -> loadLSaccess();
-                    $GLOBALS['Smarty'] -> assign('LSsession_username',$this -> LSuserObject -> getDisplayName());
-                    $_SESSION['LSsession']=get_object_vars($this);
-                    return true;
-                  }
-                  else {
-                    LSerror::addErrorCode('LSsession_06');
-                    LSdebug('mdp incorrect');
-                  }
+                  LSerror :: addErrorCode('LSsession_18');
+                }
+              }
+              else {
+                if ( self :: checkUserPwd($result[0],$_POST['LSsession_pwd']) ) {
+                  // Authentification rÃ©ussi
+                  self :: $LSuserObject = $result[0];
+                  self :: $dn = $result[0]->getValue('dn');
+                  self :: $rdn = $_POST['LSsession_user'];
+                  self :: loadLSprofiles();
+                  self :: loadLSaccess();
+                  $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
+                  $_SESSION['LSsession']=self :: getContextInfos();
+                  return true;
+                }
+                else {
+                  LSerror :: addErrorCode('LSsession_06');
+                  LSdebug('mdp incorrect');
                 }
               }
             }
-            else {
-              LSerror::addErrorCode('LSsession_10');
-            }
           }
           else {
-            LSerror::addErrorCode('LSsession_09');
+            LSerror :: addErrorCode('LSsession_10');
           }
         }
-        if ($this -> ldapServerId) {
-          $GLOBALS['Smarty'] -> assign('ldapServerId',$this -> ldapServerId);
-        }
-        $GLOBALS['Smarty'] -> assign('topDn',$this -> topDn);
-        if (isset($_GET['LSsession_recoverPassword'])) {
-          $this -> displayRecoverPasswordForm($recoveryPasswordInfos);
-        }
         else {
-          $this -> displayLoginForm();
+          LSerror :: addErrorCode('LSsession_09');
         }
+      }
+      if (self :: $ldapServerId) {
+        $GLOBALS['Smarty'] -> assign('ldapServerId',self :: $ldapServerId);
+      }
+      $GLOBALS['Smarty'] -> assign('topDn',self :: $topDn);
+      if (isset($_GET['LSsession_recoverPassword'])) {
+        self :: displayRecoverPasswordForm($recoveryPasswordInfos);
+      }
+      else {
+        self :: displayLoginForm();
+      }
+      return;
+    }
+  }
+  
+ /**
+  * Retourne les informations du contexte
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  * 
+  * @retval array Tableau associatif des informations du contexte
+  */
+  private static function getContextInfos() {
+    return array(
+      'tmp_file' => self :: $tmp_file,
+      'topDn' => self :: $topDn,
+      'dn' => self :: $dn,
+      'rdn' => self :: $rdn,
+      'ldapServerId' => self :: $ldapServerId,
+      'ldapServer' => self :: $ldapServer,
+      'LSprofiles' => self :: $LSprofiles,
+      'LSaccess' => self :: $LSaccess
+    );
+  }
+  
+  /**
+  * Retourne l'objet de l'utilisateur connecté
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  * 
+  * @retval mixed L'objet de l'utilisateur connecté ou false si il n'a pas put
+  *               être créé
+  */
+  public static function getLSuserObject($dn=null) {
+    if ($dn) {
+      self :: $dn = $dn;
+    }
+    if (!self :: $LSuserObject) {
+      if (self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
+        self :: $LSuserObject = new self :: $ldapServer['authObjectType']();
+        self :: $LSuserObject -> loadData(self :: $dn);
+      }
+      else {
         return;
       }
+    }
+    return self :: $LSuserObject;
+  }
+  
+ /**
+  * Retourne le DN de l'utilisateur connecté
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  * 
+  * @retval string Le DN de l'utilisateur connecté
+  */
+  public static function getLSuserObjectDn() {
+    return self :: $dn;
   }
 
  /**
@@ -531,23 +619,23 @@ class LSsession {
   * 
   * @param[in] $object Mixed  L'objet Ldap du nouvel utilisateur
   *                           le type doit correspondre à
-  *                           $this -> ldapServer['authObjectType']
+  *                           self :: $ldapServer['authObjectType']
   * 
   * @retval boolean True en cas de succès, false sinon
   */
- function changeAuthUser($object) {
-  if ($object instanceof $this -> ldapServer['authObjectType']) {
-    $this -> dn = $object -> getDn();
+ public static function changeAuthUser($object) {
+  if ($object instanceof self :: $ldapServer['authObjectType']) {
+    self :: $dn = $object -> getDn();
     $rdn = $object -> getValue('rdn');
     if(is_array($rdn)) {
       $rdn = $rdn[0];
     }
-    $this -> rdn = $rdn;
-    $this -> LSuserObject = $object;
+    self :: $rdn = $rdn;
+    self :: $LSuserObject = $object;
     
-    if($this -> loadLSprofiles()) {
-      $this -> loadLSaccess();
-      $_SESSION['LSsession']=get_object_vars($this);
+    if(self :: loadLSprofiles()) {
+      self :: loadLSaccess();
+      $_SESSION['LSsession']=self :: getContextInfos();
       return true;
     }
   }
@@ -564,10 +652,10 @@ class LSsession {
   *
   * @retval boolean True sinon false.
   */
-  function setLdapServer($id) {
+  public static function setLdapServer($id) {
     if ( isset($GLOBALS['LSconfig']['ldap_servers'][$id]) ) {
-      $this -> ldapServerId = $id;
-      $this -> ldapServer=$GLOBALS['LSconfig']['ldap_servers'][$id];
+      self :: $ldapServerId = $id;
+      self :: $ldapServer=$GLOBALS['LSconfig']['ldap_servers'][$id];
       return true;
     }
     else {
@@ -580,13 +668,13 @@ class LSsession {
   *
   * @retval boolean True sinon false.
   */
-  function LSldapConnect() {
-    if ($this -> ldapServer) {
-      self::includeFile($GLOBALS['LSconfig']['NetLDAP2']);
-      if (!$this -> loadLSclass('LSldap')) {
+  public static function LSldapConnect() {
+    if (self :: $ldapServer) {
+      self :: includeFile($GLOBALS['LSconfig']['NetLDAP2']);
+      if (!self :: loadLSclass('LSldap')) {
         return;
       }
-      $GLOBALS['LSldap'] = @new LSldap($this -> ldapServer['ldap_config']);
+      $GLOBALS['LSldap'] = @new LSldap(self :: $ldapServer['ldap_config']);
       if ($GLOBALS['LSldap'] -> isConnected()) {
         return true;
       }
@@ -595,7 +683,7 @@ class LSsession {
       }
     }
     else {
-      LSerror::addErrorCode('LSsession_03');
+      LSerror :: addErrorCode('LSsession_03');
       return;
     }
   }
@@ -605,18 +693,18 @@ class LSsession {
   *
   * @retval mixed Tableau des subDn, false si une erreur est survenue.
   */
-  function getSubDnLdapServer() {
-    if ($this -> cacheSudDn() && isset($this -> _subDnLdapServer[$this -> ldapServerId])) {
-      return $this -> _subDnLdapServer[$this -> ldapServerId];
+  public static function getSubDnLdapServer() {
+    if (self :: cacheSudDn() && isset(self :: $_subDnLdapServer[self :: $ldapServerId])) {
+      return self :: $_subDnLdapServer[self :: $ldapServerId];
     }
-    if (!isset($this ->ldapServer['subDn'])) {
+    if (!isset(self :: $ldapServer['subDn'])) {
       return;
     }
-    if ( !is_array($this ->ldapServer['subDn']) ) {
+    if ( !is_array(self :: $ldapServer['subDn']) ) {
       return;
     }
     $return=array();
-    foreach($this ->ldapServer['subDn'] as $subDn_name => $subDn_config) {
+    foreach(self :: $ldapServer['subDn'] as $subDn_name => $subDn_config) {
       if ($subDn_name == 'LSobject') {
         if (is_array($subDn_config)) {
           foreach($subDn_config as $LSobject_name => $LSoject_config) {
@@ -632,35 +720,35 @@ class LSsession {
             else {
               $displayName = NULL;
             }
-            if( $this -> loadLSobject($LSobject_name) ) {
+            if( self :: loadLSobject($LSobject_name) ) {
               if ($subdnobject = new $LSobject_name()) {
                 $tbl_return = $subdnobject -> getSelectArray(NULL,$basedn,$displayName);
                 if (is_array($tbl_return)) {
                   $return=array_merge($return,$tbl_return);
                 }
                 else {
-                  LSerror::addErrorCode('LSsession_17',3);
+                  LSerror :: addErrorCode('LSsession_17',3);
                 }
               }
               else {
-                LSerror::addErrorCode('LSsession_17',2);
+                LSerror :: addErrorCode('LSsession_17',2);
               }
             }
           }
         }
         else {
-          LSerror::addErrorCode('LSsession_17',1);
+          LSerror :: addErrorCode('LSsession_17',1);
         }
       }
       else {
-        if ((isCompatibleDNs($subDn_config['dn'],$this -> ldapServer['ldap_config']['basedn']))&&($subDn_config['dn']!="")) {
+        if ((isCompatibleDNs($subDn_config['dn'],self :: $ldapServer['ldap_config']['basedn']))&&($subDn_config['dn']!="")) {
           $return[$subDn_config['dn']] = $subDn_name;
         }
       }
     }
-    if ($this -> cacheSudDn()) {
-      $this -> _subDnLdapServer[$this -> ldapServerId]=$return;
-      $_SESSION['LSsession_subDnLdapServer'] = $this -> _subDnLdapServer;
+    if (self :: cacheSudDn()) {
+      self :: $_subDnLdapServer[self :: $ldapServerId]=$return;
+      $_SESSION['LSsession_subDnLdapServer'] = self :: $_subDnLdapServer;
     }
     return $return;
   }
@@ -671,8 +759,8 @@ class LSsession {
    * 
    * @return array() Tableau des subDn trié
    */  
-  function getSortSubDnLdapServer() {
-    $subDnLdapServer = $this  -> getSubDnLdapServer();
+  public static function getSortSubDnLdapServer() {
+    $subDnLdapServer = self :: getSubDnLdapServer();
     if (!$subDnLdapServer) {
       return array();
     }
@@ -684,12 +772,12 @@ class LSsession {
   * Retourne les options d'une liste dÃ©roulante pour le choix du topDn
   * de connexion au serveur Ldap
   *
-  * Liste les subdn ($this ->ldapServer['subDn'])
+  * Liste les subdn (self :: $ldapServer['subDn'])
   *
   * @retval string Les options (<option>) pour la sÃ©lection du topDn.
   */
-  function getSubDnLdapServerOptions($selected=NULL) {
-    $list = $this -> getSubDnLdapServer();
+  public static function getSubDnLdapServerOptions($selected=NULL) {
+    $list = self :: getSubDnLdapServer();
     if ($list) {
       asort($list);
       $display='';
@@ -707,8 +795,15 @@ class LSsession {
     return;
   }
 
-  function validSubDnLdapServer($subDn) {
-    $listTopDn = $this -> getSubDnLdapServer();
+ /**
+  * Vérifie qu'un subDn est déclaré
+  *
+  * @param[in] string Un subDn
+  * 
+  * @retval boolean True si le subDn existe, False sinon
+  */
+  public static function validSubDnLdapServer($subDn) {
+    $listTopDn = self :: getSubDnLdapServer();
     if(is_array($listTopDn)) {
       foreach($listTopDn as $dn => $txt) {
         if ($subDn==$dn) {
@@ -729,7 +824,7 @@ class LSsession {
   *
   * @retval boolean True si l'authentification Ã  rÃ©ussi, false sinon.
   */
-  function checkUserPwd($object,$pwd) {
+  public static function checkUserPwd($object,$pwd) {
     return $GLOBALS['LSldap'] -> checkBind($object -> getValue('dn'),$pwd);
   }
 
@@ -740,7 +835,7 @@ class LSsession {
   *
   * @retval void
   */
-  function displayLoginForm() {
+  public static function displayLoginForm() {
     $GLOBALS['Smarty'] -> assign('pagetitle',_('Connexion'));
     if (isset($_GET['LSsession_logout'])) {
       $GLOBALS['Smarty'] -> assign('loginform_action','index.php');
@@ -767,8 +862,8 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('loginform_label_submit',_('Connexion'));
     $GLOBALS['Smarty'] -> assign('loginform_label_recoverPassword',_('Mot de passe oublié ?'));
     
-    $this -> setTemplate('login.tpl');
-    $this -> addJSscript('LSsession_login.js');
+    self :: setTemplate('login.tpl');
+    self :: addJSscript('LSsession_login.js');
   }
 
  /**
@@ -782,7 +877,7 @@ class LSsession {
   *
   * @retval void
   */
-  function displayRecoverPasswordForm($recoveryPasswordInfos) {
+  public static function displayRecoverPasswordForm($recoveryPasswordInfos) {
     $GLOBALS['Smarty'] -> assign('pagetitle',_('Récupération de votre mot de passe'));
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
     
@@ -823,8 +918,8 @@ class LSsession {
     
     $GLOBALS['Smarty'] -> assign('recoverpassword_msg',$recoverpassword_msg);
     
-    $this -> setTemplate('recoverpassword.tpl');
-    $this -> addJSscript('LSsession_recoverPassword.js');
+    self :: setTemplate('recoverpassword.tpl');
+    self :: addJSscript('LSsession_recoverPassword.js');
   }
 
  /**
@@ -837,8 +932,8 @@ class LSsession {
   *
   * @retval void
   */
-  function setTemplate($template) {
-    $this -> template = $template;
+  public static function setTemplate($template) {
+    self :: $template = $template;
   }
 
  /**
@@ -850,12 +945,12 @@ class LSsession {
   *
   * @retval void
   */
-  function addJSscript($file,$path=NULL) {
+  public static function addJSscript($file,$path=NULL) {
     $script=array(
       'file' => $file,
       'path' => $path
     );
-    $this -> JSscripts[$path.$file]=$script;
+    self :: $JSscripts[$path.$file]=$script;
   }
 
  /**
@@ -866,8 +961,8 @@ class LSsession {
   *
   * @retval void
   */
-  function addJSconfigParam($name,$val) {
-    $this -> _JSconfigParams[$name]=$val;
+  public static function addJSconfigParam($name,$val) {
+    self :: $_JSconfigParams[$name]=$val;
   }
 
  /**
@@ -879,12 +974,12 @@ class LSsession {
   *
   * @retval void
   */
-  function addCssFile($file,$path=NULL) {
+  public static function addCssFile($file,$path=NULL) {
     $cssFile=array(
       'file' => $file,
       'path' => $path
     );
-    $this -> CssFiles[$path.$file]=$cssFile;
+    self :: $CssFiles[$path.$file]=$cssFile;
   }
 
  /**
@@ -894,14 +989,14 @@ class LSsession {
   *
   * @retval void
   */
-  function displayTemplate() {
+  public static function displayTemplate() {
     // JS
     $JSscript_txt='';
     foreach ($GLOBALS['defaultJSscipts'] as $script) {
       $JSscript_txt.="<script src='".LS_JS_DIR.$script."' type='text/javascript'></script>\n";
     }
 
-    foreach ($this -> JSscripts as $script) {
+    foreach (self :: $JSscripts as $script) {
       if (!$script['path']) {
         $script['path']=LS_JS_DIR;
       }
@@ -911,7 +1006,7 @@ class LSsession {
       $JSscript_txt.="<script src='".$script['path'].$script['file']."' type='text/javascript'></script>\n";
     }
 
-    $GLOBALS['Smarty'] -> assign('LSjsConfig',json_encode($this -> _JSconfigParams));
+    $GLOBALS['Smarty'] -> assign('LSjsConfig',json_encode(self :: $_JSconfigParams));
     
     if ($GLOBALS['LSdebug']['active']) {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";
@@ -923,9 +1018,9 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('LSsession_js',$JSscript_txt);
 
     // Css
-    $this -> addCssFile("LSdefault.css");
+    self :: addCssFile("LSdefault.css");
     $Css_txt='';
-    foreach ($this -> CssFiles as $file) {
+    foreach (self :: $CssFiles as $file) {
       if (!$file['path']) {
         $file['path']=LS_CSS_DIR.'/';
       }
@@ -933,15 +1028,15 @@ class LSsession {
     }
     $GLOBALS['Smarty'] -> assign('LSsession_css',$Css_txt);
   
-    if (isset($this -> LSaccess[$this -> topDn])) {
-      $GLOBALS['Smarty'] -> assign('LSaccess',$this -> LSaccess[$this -> topDn]);
+    if (isset(self :: $LSaccess[self :: $topDn])) {
+      $GLOBALS['Smarty'] -> assign('LSaccess',self :: $LSaccess[self :: $topDn]);
     }
     
     // Niveau
-    $listTopDn = $this -> getSubDnLdapServer();
+    $listTopDn = self :: getSubDnLdapServer();
     if (is_array($listTopDn)) {
       asort($listTopDn);
-      $GLOBALS['Smarty'] -> assign('label_level',$this -> getSubDnLabel());
+      $GLOBALS['Smarty'] -> assign('label_level',self :: getSubDnLabel());
       $GLOBALS['Smarty'] -> assign('_refresh',_('Rafraîchir'));
       $LSsession_topDn_index = array();
       $LSsession_topDn_name = array();
@@ -951,8 +1046,8 @@ class LSsession {
       }
       $GLOBALS['Smarty'] -> assign('LSsession_subDn_indexes',$LSsession_topDn_index);
       $GLOBALS['Smarty'] -> assign('LSsession_subDn_names',$LSsession_topDn_name);
-      $GLOBALS['Smarty'] -> assign('LSsession_subDn',$this -> topDn);
-      $GLOBALS['Smarty'] -> assign('LSsession_subDnName',$this -> getSubDnName());
+      $GLOBALS['Smarty'] -> assign('LSsession_subDn',self :: $topDn);
+      $GLOBALS['Smarty'] -> assign('LSsession_subDnName',self :: getSubDnName());
     }
 
     // Infos
@@ -966,17 +1061,28 @@ class LSsession {
       $_SESSION['LSsession_infos']=array();
     }
     
-    if ($this -> ajaxDisplay) {
-      $GLOBALS['Smarty'] -> assign('LSerror_txt',LSerror::getErrors());
+    if (self :: $ajaxDisplay) {
+      $GLOBALS['Smarty'] -> assign('LSerror_txt',LSerror :: getErrors());
       $GLOBALS['Smarty'] -> assign('LSdebug_txt',LSdebug_print(true));
     }
     else {
-      LSerror::display();
+      LSerror :: display();
       LSdebug_print();
     }
-    if (!$this -> template)
-      $this -> setTemplate('empty.tpl');
-    $GLOBALS['Smarty'] -> display($this -> template);
+    if (!self :: $template)
+      self :: setTemplate('empty.tpl');
+    $GLOBALS['Smarty'] -> display(self :: $template);
+  }
+  
+ /**
+  * Défini que l'affichage se fera ou non via un retour Ajax
+  * 
+  * @param[in] $val boolean True pour que l'affichage se fasse par un retour
+  *                         Ajax, false sinon
+  * @retval void
+  */
+  public static function setAjaxDisplay($val=true) {
+    self :: $ajaxDisplay = (boolean)$val;
   }
   
  /**
@@ -984,13 +1090,13 @@ class LSsession {
   *
   * @retval void
   */
-  function displayAjaxReturn($data=array()) {
+  public static function displayAjaxReturn($data=array()) {
     if (isset($data['LSredirect']) && (!LSdebugDefined()) ) {
       echo json_encode($data);
       return;
     }
     
-    $data['LSjsConfig'] = $this -> _JSconfigParams;
+    $data['LSjsConfig'] = self :: $_JSconfigParams;
     
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
@@ -1003,8 +1109,8 @@ class LSsession {
       $_SESSION['LSsession_infos']=array();
     }
     
-    if (LSerror::errorsDefined()) {
-      $data['LSerror'] = LSerror::getErrors();
+    if (LSerror :: errorsDefined()) {
+      $data['LSerror'] = LSerror :: getErrors();
     }
 
     if (isset($_REQUEST['imgload'])) {
@@ -1026,7 +1132,7 @@ class LSsession {
   * 
   * @retval string Le HTML compilé du template
   */
-  function fetchTemplate($template,$variables=array()) {
+  public static function fetchTemplate($template,$variables=array()) {
     foreach($variables as $name => $val) {
       $GLOBALS['Smarty'] -> assign($name,$val);
     }
@@ -1038,9 +1144,9 @@ class LSsession {
    * 
    * @retval boolean True si le chargement Ã  rÃ©ussi, false sinon.
    **/
-  function loadLSprofiles() {
-    if (is_array($this -> ldapServer['LSprofiles'])) {
-      foreach ($this -> ldapServer['LSprofiles'] as $profile => $profileInfos) {
+  private static function loadLSprofiles() {
+    if (is_array(self :: $ldapServer['LSprofiles'])) {
+      foreach (self :: $ldapServer['LSprofiles'] as $profile => $profileInfos) {
         if (is_array($profileInfos)) {
           foreach ($profileInfos as $topDn => $rightsInfos) {
             /*
@@ -1050,17 +1156,17 @@ class LSsession {
             if ($topDn == 'LSobjects') {
               if (is_array($rightsInfos)) {
                 foreach ($rightsInfos as $LSobject => $listInfos) {
-                  if ($this -> loadLSobject($LSobject)) {
+                  if (self :: loadLSobject($LSobject)) {
                     if ($object = new $LSobject()) {
                       if ($listInfos['filter']) {
-                        $filter = $this -> LSuserObject -> getFData($listInfos['filter']);
+                        $filter = self :: getLSuserObject() -> getFData($listInfos['filter']);
                       }
                       else {
-                        $filter = $listInfos['attr'].'='.$this -> LSuserObject -> getFData($listInfos['attr_value']);
+                        $filter = $listInfos['attr'].'='.self :: getLSuserObject() -> getFData($listInfos['attr_value']);
                       }
                       $list = $object -> search($filter,$listInfos['basedn'],$listInfos['params']);
                       foreach($list as $obj) {
-                        $this -> LSprofiles[$profile][] = $obj['dn'];
+                        self :: $LSprofiles[$profile][] = $obj['dn'];
                       }
                     }
                     else {
@@ -1077,15 +1183,15 @@ class LSsession {
               if (is_array($rightsInfos)) {
                 foreach($rightsInfos as $dn => $conf) {
                   if ((isset($conf['attr'])) && (isset($conf['LSobject']))) {
-                    if( $this -> loadLSobject($conf['LSobject']) ) {
+                    if( self :: loadLSobject($conf['LSobject']) ) {
                       if ($object = new $conf['LSobject']()) {
                         if ($object -> loadData($dn)) {
                           $listDns=$object -> getValue($conf['attr']);
                           $valKey = (isset($conf['attr_value']))?$conf['attr_value']:'%{dn}';
-                          $val = $this -> LSuserObject -> getFData($valKey);
+                          $val = self :: getLSuserObject() -> getFData($valKey);
                           if (is_array($listDns)) {
                             if (in_array($val,$listDns)) {
-                              $this -> LSprofiles[$profile][] = $topDn;
+                              self :: $LSprofiles[$profile][] = $topDn;
                             }
                           }
                         }
@@ -1099,22 +1205,22 @@ class LSsession {
                     }
                   }
                   else {
-                    if ($this -> dn == $dn) {
-                      $this -> LSprofiles[$profile][] = $topDn;
+                    if (self :: $dn == $dn) {
+                      self :: $LSprofiles[$profile][] = $topDn;
                     }
                   }
                 }
               }
               else {
-                if ( $this -> dn == $rightsInfos ) {
-                  $this -> LSprofiles[$profile][] = $topDn;
+                if ( self :: $dn == $rightsInfos ) {
+                  self :: $LSprofiles[$profile][] = $topDn;
                 }
               }
             } // fin else ($topDn == 'LSobjects')
           } // fin foreach($profileInfos)
         } // fin is_array($profileInfos)
       } // fin foreach LSprofiles
-      LSdebug($this -> LSprofiles);
+      LSdebug(self :: $LSprofiles);
       return true;
     }
     else {
@@ -1127,16 +1233,16 @@ class LSsession {
    *
    * @retval void
    */
-  function loadLSaccess() {
+  private static function loadLSaccess() {
     $LSaccess=array();
-    if (is_array($this -> ldapServer['subDn'])) {
-      foreach($this -> ldapServer['subDn'] as $name => $config) {
+    if (is_array(self :: $ldapServer['subDn'])) {
+      foreach(self :: $ldapServer['subDn'] as $name => $config) {
         if ($name=='LSobject') {
           if (is_array($config)) {
 
             // Définition des subDns 
             foreach($config as $objectType => $objectConf) {
-              if ($this -> loadLSobject($objectType)) {
+              if (self :: loadLSobject($objectType)) {
                 if ($subdnobject = new $objectType()) {
                   $tbl = $subdnobject -> getSelectArray();
                   if (is_array($tbl)) {
@@ -1144,8 +1250,8 @@ class LSsession {
                     $access=array();
                     if (is_array($objectConf['LSobjects'])) {
                       foreach($objectConf['LSobjects'] as $type) {
-                        if ($this -> loadLSobject($type)) {
-                          if ($this -> canAccess($type)) {
+                        if (self :: loadLSobject($type)) {
+                          if (self :: canAccess($type)) {
                             $access[$type] = $GLOBALS['LSobjects'][$type]['label'];
                           }
                         }
@@ -1161,12 +1267,12 @@ class LSsession {
           }
         }
         else {
-          if ((isCompatibleDNs($this -> ldapServer['ldap_config']['basedn'],$config['dn']))&&($config['dn']!='')) {
+          if ((isCompatibleDNs(self :: $ldapServer['ldap_config']['basedn'],$config['dn']))&&($config['dn']!='')) {
             $access=array();
             if (is_array($config['LSobjects'])) {
               foreach($config['LSobjects'] as $objectType) {
-                if ($this -> loadLSobject($objectType)) {
-                  if ($this -> canAccess($objectType)) {
+                if (self :: loadLSobject($objectType)) {
+                  if (self :: canAccess($objectType)) {
                     $access[$objectType] = $GLOBALS['LSobjects'][$objectType]['label'];
                   }
                 }
@@ -1178,16 +1284,16 @@ class LSsession {
       }
     }
     else {
-      if(is_array($this -> ldapServer['LSaccess'])) {
+      if(is_array(self :: $ldapServer['LSaccess'])) {
         $access=array();
-        foreach($this -> ldapServer['LSaccess'] as $objectType) {
-          if ($this -> loadLSobject($objectType)) {
-            if ($this -> canAccess($objectType)) {
+        foreach(self :: $ldapServer['LSaccess'] as $objectType) {
+          if (self :: loadLSobject($objectType)) {
+            if (self :: canAccess($objectType)) {
                 $access[$objectType] = $GLOBALS['LSobjects'][$objectType]['label'];
             }
           }
         }
-        $LSaccess[$this -> topDn] = $access;
+        $LSaccess[self :: $topDn] = $access;
       }
     }
     foreach($LSaccess as $dn => $access) {
@@ -1199,7 +1305,7 @@ class LSsession {
       );
     }
     
-    $this -> LSaccess = $LSaccess;
+    self :: $LSaccess = $LSaccess;
     $_SESSION['LSsession']['LSaccess'] = $LSaccess;
   }
   
@@ -1211,9 +1317,9 @@ class LSsession {
    * 
    * @retval boolean True si l'utilisateur est du profil sur l'objet, false sinon.
    */
-  function isProfile($dn,$profile) {
-    if (is_array($this -> LSprofiles[$profile])) {
-      foreach($this -> LSprofiles[$profile] as $topDn) {
+  public static function isLSprofile($dn,$profile) {
+    if (is_array(self :: $LSprofiles[$profile])) {
+      foreach(self :: $LSprofiles[$profile] as $topDn) {
         if($dn == $topDn) {
           return true;
         }
@@ -1232,16 +1338,16 @@ class LSsession {
    * 
    * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
    */
-  function whoami($dn) {
+  public static function whoami($dn) {
     $retval = array('user');
     
-    foreach($this -> LSprofiles as $profile => $infos) {
-      if($this -> isProfile($dn,$profile)) {
+    foreach(self :: $LSprofiles as $profile => $infos) {
+      if(self :: isLSprofile($dn,$profile)) {
        $retval[]=$profile;
       }
     }
     
-    if ($this -> dn == $dn) {
+    if (self :: $dn == $dn) {
       $retval[]='self';
     }
     
@@ -1258,28 +1364,28 @@ class LSsession {
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
-  function canAccess($LSobject,$dn=NULL,$right=NULL,$attr=NULL) {
-    if (!$this -> loadLSobject($LSobject)) {
+  public static function canAccess($LSobject,$dn=NULL,$right=NULL,$attr=NULL) {
+    if (!self :: loadLSobject($LSobject)) {
       return;
     }
     if ($dn) {
-      $whoami = $this -> whoami($dn);
-      if ($dn==$this -> LSuserObject -> getValue('dn')) {
-        if (!$this -> in_menu('SELF')) {
+      $whoami = self :: whoami($dn);
+      if ($dn==self :: getLSuserObject() -> getValue('dn')) {
+        if (!self :: in_menu('SELF')) {
           return;
         }
       }
       else {
         $obj = new $LSobject();
         $obj -> dn = $dn;
-        if (!$this -> in_menu($LSobject,$obj -> getSubDnValue())) {
+        if (!self :: in_menu($LSobject,$obj -> getSubDnValue())) {
           return;
         }
       }
     }
     else {
-      $objectdn=$GLOBALS['LSobjects'][$LSobject]['container_dn'].','.$this -> topDn;
-      $whoami = $this -> whoami($objectdn);
+      $objectdn=$GLOBALS['LSobjects'][$LSobject]['container_dn'].','.self :: $topDn;
+      $whoami = self :: whoami($objectdn);
     }
     
     // Pour un attribut particulier
@@ -1351,8 +1457,8 @@ class LSsession {
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
-  function canEdit($LSobject,$dn=NULL,$attr=NULL) {
-    return $this -> canAccess($LSobject,$dn,'w',$attr);
+  public static function canEdit($LSobject,$dn=NULL,$attr=NULL) {
+    return self :: canAccess($LSobject,$dn,'w',$attr);
   }
 
   /**
@@ -1363,8 +1469,8 @@ class LSsession {
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */  
-  function canRemove($LSobject,$dn) {
-    return $this -> canAccess($LSobject,$dn,'w','rdn');
+  public static function canRemove($LSobject,$dn) {
+    return self :: canAccess($LSobject,$dn,'w','rdn');
   }
   
   /**
@@ -1374,8 +1480,8 @@ class LSsession {
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */    
-  function canCreate($LSobject) {
-    return $this -> canAccess($LSobject,NULL,'w','rdn');
+  public static function canCreate($LSobject) {
+    return self :: canAccess($LSobject,NULL,'w','rdn');
   }
   
   /**
@@ -1388,10 +1494,10 @@ class LSsession {
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
-  function relationCanAccess($dn,$LSobject,$relationName,$right=NULL) {
+  public static function relationCanAccess($dn,$LSobject,$relationName,$right=NULL) {
     if (!isset($GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]))
       return;
-    $whoami = $this -> whoami($dn);
+    $whoami = self :: whoami($dn);
 
     if (($right=='w') || ($right=='r')) {
       $r = 'n';
@@ -1430,8 +1536,8 @@ class LSsession {
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */  
-  function relationCanEdit($dn,$LSobject,$relationName) {
-    return $this -> relationCanAccess($dn,$LSobject,$relationName,'w');
+  public static function relationCanEdit($dn,$LSobject,$relationName) {
+    return self :: relationCanAccess($dn,$LSobject,$relationName,'w');
   }
 
   /**
@@ -1441,9 +1547,9 @@ class LSsession {
    * 
    * @retval void
    **/
-  function addTmpFile($value,$filePath) {
+  public static function addTmpFile($value,$filePath) {
     $hash = mhash(MHASH_MD5,$value);
-    $this -> tmp_file[$filePath] = $hash;
+    self :: $tmp_file[$filePath] = $hash;
     $_SESSION['LSsession']['tmp_file'][$filePath] = $hash;
   }
   
@@ -1456,9 +1562,9 @@ class LSsession {
    * 
    * @retval mixed 
    **/
-  function tmpFileExist($value) {
+  public static function tmpFileExist($value) {
     $hash = mhash(MHASH_MD5,$value);
-    foreach($this -> tmp_file as $filePath => $contentHash) {
+    foreach(self :: $tmp_file as $filePath => $contentHash) {
       if ($hash == $contentHash) {
         return $filePath;
       }
@@ -1478,14 +1584,14 @@ class LSsession {
    * 
    * @retval mixed 
    **/
-  function getTmpFile($value) {
-    $exist = $this -> tmpFileExist($value);
+  public static function getTmpFile($value) {
+    $exist = self :: tmpFileExist($value);
     if (!$exist) {
       $img_path = LS_TMP_DIR .rand().'.tmp';
       $fp = fopen($img_path, "w");
       fwrite($fp, $value);
       fclose($fp);
-      $this -> addTmpFile($value,$img_path);
+      self :: addTmpFile($value,$img_path);
       return $img_path;
     }
     else {
@@ -1500,17 +1606,17 @@ class LSsession {
    * 
    * @retval void
    **/
-  function deleteTmpFile($filePath=NULL) {
+  public static function deleteTmpFile($filePath=NULL) {
     if ($filePath) {
         @unlink($filePath);
-        unset($this -> tmp_file[$filePath]);
+        unset(self :: $tmp_file[$filePath]);
         unset($_SESSION['LSsession']['tmp_file'][$filePath]);
     }
     else {
-      foreach($this -> tmp_file as $file => $content) {
+      foreach(self :: $tmp_file as $file => $content) {
         @unlink($file);
       }
-      $this -> tmp_file = array();
+      self :: $tmp_file = array();
       $_SESSION['LSsession']['tmp_file'] = array();
     }
   }
@@ -1522,8 +1628,8 @@ class LSsession {
    * 
    * @retval boolean True si le cache des droits est activé, false sinon.
    */
-  function cacheLSprofiles() {
-    return ( ($GLOBALS['LSconfig']['cacheLSprofiles']) || ($this -> ldapServer['cacheLSprofiles']) );
+  public static function cacheLSprofiles() {
+    return ( ($GLOBALS['LSconfig']['cacheLSprofiles']) || (self :: $ldapServer['cacheLSprofiles']) );
   }
 
   /**
@@ -1533,8 +1639,8 @@ class LSsession {
    * 
    * @retval boolean True si le cache des subDn est activé, false sinon.
    */
-  function cacheSudDn() {
-    return (($GLOBALS['LSconfig']['cacheSubDn']) || ($this -> ldapServer['cacheSubDn']));
+  public static function cacheSudDn() {
+    return (($GLOBALS['LSconfig']['cacheSubDn']) || (self :: $ldapServer['cacheSubDn']));
   }
   
   /**
@@ -1544,8 +1650,8 @@ class LSsession {
    * 
    * @retval boolean True si le cache des recherches est activé, false sinon.
    */
-  function cacheSearch() {
-    return (($GLOBALS['LSconfig']['cacheSearch']) || ($this -> ldapServer['cacheSearch']));
+  public static function cacheSearch() {
+    return (($GLOBALS['LSconfig']['cacheSearch']) || (self :: $ldapServer['cacheSearch']));
   }
   
   /**
@@ -1555,8 +1661,8 @@ class LSsession {
    * 
    * @retval string Le label des niveaux pour le serveur ldap dourant
    */
-  function getSubDnLabel() {
-    return ($this -> ldapServer['subDnLabel']!='')?$this -> ldapServer['subDnLabel']:_('Niveau');
+  public static function getSubDnLabel() {
+    return (self :: $ldapServer['subDnLabel']!='')?self :: $ldapServer['subDnLabel']:_('Niveau');
   }
   
   /**
@@ -1566,13 +1672,13 @@ class LSsession {
    * 
    * @retval string Le nom du subDn ou '' sinon
    */
-  function getSubDnName($subDn=false) {
+  public static function getSubDnName($subDn=false) {
     if (!$subDn) {
-      $subDn = $this -> topDn;
+      $subDn = self :: $topDn;
     }
-    if ($this -> getSubDnLdapServer()) {
-      if (isset($this -> _subDnLdapServer[$this -> ldapServerId][$subDn])) {
-        return $this -> _subDnLdapServer[$this -> ldapServerId][$subDn];
+    if (self :: getSubDnLdapServer()) {
+      if (isset(self :: $_subDnLdapServer[self :: $ldapServerId][$subDn])) {
+        return self :: $_subDnLdapServer[self :: $ldapServerId][$subDn];
       }
     }
     return '';
@@ -1585,10 +1691,10 @@ class LSsession {
    * 
    * @retval boolean true si le type d'objet est un subDnObject, false sinon
    */
-  function isSubDnLSobject($type) {
+  public static function isSubDnLSobject($type) {
     $result = false;
-    if (is_array($this -> ldapServer['subDn']['LSobject'])) {
-      foreach($this -> ldapServer['subDn']['LSobject'] as $key => $value) {
+    if (is_array(self :: $ldapServer['subDn']['LSobject'])) {
+      foreach(self :: $ldapServer['subDn']['LSobject'] as $key => $value) {
         if ($key==$type) {
           $result=true;
         }
@@ -1602,11 +1708,11 @@ class LSsession {
    * 
    * @retval boolean true si le type d'objet est dans le menu, false sinon
    */
-  function in_menu($LSobject,$topDn=NULL) {
+  public static function in_menu($LSobject,$topDn=NULL) {
     if (!$topDn) {
-      $topDn=$this -> topDn;
+      $topDn=self :: $topDn;
     }
-    return isset($this -> LSaccess[$topDn][$LSobject]);
+    return isset(self :: $LSaccess[$topDn][$LSobject]);
   }
   
   /**
@@ -1614,8 +1720,8 @@ class LSsession {
    * 
    * @retval boolean true si le serveur LDAP courant a des subDn, false sinon
    */
-  function haveSubDn() {
-    return (is_array($this -> ldapServer['subDn']));
+  public static function haveSubDn() {
+    return (is_array(self :: $ldapServer['subDn']));
   }
 
   /**
@@ -1625,7 +1731,7 @@ class LSsession {
    * 
    * @retval void
    */
-  function addInfo($msg) {
+  public static function addInfo($msg) {
     $_SESSION['LSsession_infos'][]=$msg;
   }
   
@@ -1637,7 +1743,7 @@ class LSsession {
    * 
    * @retval void
    */  
-  function redirect($url,$exit=true) {
+  public static function redirect($url,$exit=true) {
     $GLOBALS['Smarty'] -> assign('url',$url);
     $GLOBALS['Smarty'] -> display('redirect.tpl');
     if ($exit) {
@@ -1650,8 +1756,8 @@ class LSsession {
    * 
    * @retval string Adresse mail d'emission
    */
-  function getEmailSender() {
-    return $this -> ldapServer['emailSender'];  
+  public static function getEmailSender() {
+    return self :: $ldapServer['emailSender'];  
   }
   
   /**
@@ -1663,13 +1769,13 @@ class LSsession {
    * 
    * @retval void
    */
-  function addHelpInfos($group,$infos) {
+  public static function addHelpInfos($group,$infos) {
     if (is_array($infos)) {
-      if (is_array($this -> _JSconfigParams['helpInfos'][$group])) {
-        $this -> _JSconfigParams['helpInfos'][$group] = array_merge($this -> _JSconfigParams['helpInfos'][$group],$infos);
+      if (is_array(self :: $_JSconfigParams['helpInfos'][$group])) {
+        self :: $_JSconfigParams['helpInfos'][$group] = array_merge(self :: $_JSconfigParams['helpInfos'][$group],$infos);
       }
       else {
-        $this -> _JSconfigParams['helpInfos'][$group] = $infos;
+        self :: $_JSconfigParams['helpInfos'][$group] = $infos;
       }
     }
   }

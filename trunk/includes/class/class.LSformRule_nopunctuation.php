@@ -38,7 +38,7 @@ class LSformRule_nopunctuation extends LSformRule {
    */
   function validate ($value,$options=array(),$formElement) {
     $regex = '/^[^().\/\*\^\?#!@$%+=,\"\'><~\[\]{}]+$/';
-    $GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
+    LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);
   }
   

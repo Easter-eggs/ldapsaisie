@@ -40,7 +40,7 @@ class LSattr_html_select_object extends LSattr_html{
     $this -> config['attrObject'] = $this;
     $element=$form -> addElement('select_object', $this -> name, $this -> config['label'],$this -> config,$this);
     if(!$element) {
-      LSerror::addErrorCode('LSform_06',$this -> name);
+      LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
     }
     if ($data) {
@@ -81,11 +81,11 @@ class LSattr_html_select_object extends LSattr_html{
     if (isset($this -> config['selectable_object'])) {
       $conf=$this -> config['selectable_object'];
       if (!isset($conf['object_type'])) {
-        LSerror::addErrorCode('LSattr_html_select_object_01',$this -> name);
+        LSerror :: addErrorCode('LSattr_html_select_object_01',$this -> name);
         return;
       }
       
-      if (!$GLOBALS['LSsession'] -> loadLSobject($conf['object_type'])) {
+      if (!LSsession :: loadLSobject($conf['object_type'])) {
         return;
       }
       
@@ -129,11 +129,11 @@ class LSattr_html_select_object extends LSattr_html{
     if (isset($this -> config['selectable_object'])) {
       $conf=$this -> config['selectable_object'];
       if (!isset($conf['object_type'])) {
-        LSerror::addErrorCode('LSattr_html_select_object_01',$this -> name);
+        LSerror :: addErrorCode('LSattr_html_select_object_01',$this -> name);
         return;
       }
       
-      if (!$GLOBALS['LSsession'] -> loadLSobject($conf['object_type'])) {
+      if (!LSsession :: loadLSobject($conf['object_type'])) {
         return;
       }
       

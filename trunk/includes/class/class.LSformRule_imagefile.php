@@ -39,7 +39,7 @@ class LSformRule_imagefile extends LSformRule {
    * @return boolean true si la valeur est valide, false sinon
    */
   function validate ($value,$options,$formElement) {
-    $file = $GLOBALS['LSsession'] -> getTmpFile($value);
+    $file = LSsession :: getTmpFile($value);
     
     $mimetype = mime_content_type($file);
     

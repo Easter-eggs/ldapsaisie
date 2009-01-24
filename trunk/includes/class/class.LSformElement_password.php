@@ -70,7 +70,7 @@ class LSformElement_password extends LSformElement {
         $this -> sendMail = true;
         LSdebug ('send by config');
       }
-      if ($this -> sendMail && $GLOBALS['LSsession'] -> loadLSaddon('mail')) {
+      if ($this -> sendMail && LSsession :: loadLSaddon('mail')) {
         $msg = getFData($this -> params['html_options']['mail']['msg'],$return[$this -> name][0]);
         $subject = $this -> params['html_options']['mail']['subject'];
         if (isset($_POST['LSformElement_password_'.$this -> name.'_msg'])) {
@@ -104,13 +104,13 @@ class LSformElement_password extends LSformElement {
   * @retval array
   */
   function getDisplay(){
-    $GLOBALS['LSsession'] -> addCssFile('LSformElement_password.css');
+    LSsession :: addCssFile('LSformElement_password.css');
     $return = $this -> getLabelInfos();
     $pwd = "";
     if (!$this -> isFreeze()) {
       
       // Help Infos
-      $GLOBALS['LSsession'] -> addHelpInfos(
+      LSsession :: addHelpInfos(
         'LSformElement_password',
         array(
           'generate' => _('Générer un mot de passe.'),
@@ -134,10 +134,10 @@ class LSformElement_password extends LSformElement {
       if (isset($this -> params['html_options']['mail'])) {
         $params['mail'] = $this -> params['html_options']['mail'];
       }
-      $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$params);
+      LSsession :: addJSconfigParam($this -> name,$params);
       
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_password_field.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_password.js');
+      LSsession :: addJSscript('LSformElement_password_field.js');
+      LSsession :: addJSscript('LSformElement_password.js');
     }
     $return['html'] = $this -> fetchTemplate(NULL,array('pwd' => $pwd));
     return $return;
@@ -151,7 +151,7 @@ class LSformElement_password extends LSformElement {
     if ($this -> attr_html -> attribute -> ldapObject -> isNew()) {
       return false;
     }
-    return $GLOBALS['LSsession'] -> checkUserPwd($this -> attr_html -> attribute -> ldapObject,$pwd);
+    return LSsession :: checkUserPwd($this -> attr_html -> attribute -> ldapObject,$pwd);
   }
   
   function send($params) {
@@ -176,7 +176,7 @@ class LSformElement_password extends LSformElement {
           $this -> sendMail['subject'],
           $this -> sendMail['msg']
         )) {
-          $GLOBALS['LSsession'] -> addInfo(_('Mail de changement de mot de passe envoyé.'));
+          LSsession :: addInfo(_('Mail de changement de mot de passe envoyé.'));
         }
       }
       else {

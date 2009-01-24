@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-$GLOBALS['LSsession'] -> loadLSclass('LSformElement_text');
+LSsession :: loadLSclass('LSformElement_text');
 
 /**
  * Element mail d'un formulaire pour LdapSaisie
@@ -52,7 +52,7 @@ class LSformElement_mail extends LSformElement_text {
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
   
   function getDisplay() {
-    $GLOBALS['LSsession'] -> addHelpInfos (
+    LSsession :: addHelpInfos (
       'LSformElement_mail',
       array(
         'mail' => _("Envoyer un mail depuis l'interface.")

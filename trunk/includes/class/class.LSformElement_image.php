@@ -44,10 +44,10 @@ class LSformElement_image extends LSformElement {
   * @retval array
   */
   function getDisplay(){
-    $GLOBALS['LSsession'] -> addCssFile('LSformElement_image.css');
+    LSsession :: addCssFile('LSformElement_image.css');
     $return = true;
     if (!$this -> isFreeze()) {
-      $GLOBALS['LSsession'] -> addHelpInfos(
+      LSsession :: addHelpInfos(
         'LSformElement_date',
         array(
           'zoom' => _('Cliquer pour agrandir.'),
@@ -61,7 +61,7 @@ class LSformElement_image extends LSformElement {
     }
 
     if (!empty($this -> values[0])) {
-      $img_path = $GLOBALS['LSsession'] -> getTmpFile($this -> values[0]);
+      $img_path = LSsession :: getTmpFile($this -> values[0]);
       $GLOBALS['Smarty'] -> assign('LSformElement_image',array(
         'img' => $img_path,
         'id'  => $id,
@@ -73,7 +73,7 @@ class LSformElement_image extends LSformElement {
       if ($this -> form -> definedError($this -> name)) {
         $GLOBALS['Smarty'] -> assign('LSformElement_image_errors',true);
       }
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_image.js');
+      LSsession :: addJSscript('LSformElement_image.js');
     }
     return $return;
   }
@@ -99,7 +99,7 @@ class LSformElement_image extends LSformElement {
       fclose($fp);
       $tmp_file = LS_TMP_DIR.$this -> name.'_'.rand().'.tmp';
       if (move_uploaded_file($_FILES[$this -> name]['tmp_name'],$tmp_file)) {
-        $GLOBALS['LSsession'] -> addTmpFile($buf,$tmp_file);
+        LSsession :: addTmpFile($buf,$tmp_file);
       }
       $return[$this -> name][0] = $buf;
     }

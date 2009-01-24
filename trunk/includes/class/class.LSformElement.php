@@ -267,7 +267,7 @@ class LSformElement {
     if (!$template) {
       $template = $this -> template;
     }
-    return $GLOBALS['LSsession'] -> fetchTemplate(
+    return LSsession :: fetchTemplate(
       $template,
       array_merge_recursive(
         $variables,

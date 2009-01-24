@@ -38,7 +38,7 @@ class LSformRule_numeric extends LSformRule{
    */
   function validate ($value,$options=array(),$formElement) {
     $regex = '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/';
-    $GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
+    LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);
   }
   

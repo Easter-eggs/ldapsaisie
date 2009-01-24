@@ -22,9 +22,7 @@
 
 require_once 'includes/class/class.LSsession.php';
 
-$GLOBALS['LSsession'] = new LSsession();
-
-if($LSsession -> startLSsession()) {
+if(LSsession :: startLSsession()) {
 
   if (isset($_POST['LSform_objecttype'])) {
     $LSobject = $_POST['LSform_objecttype'];
@@ -35,8 +33,8 @@ if($LSsession -> startLSsession()) {
   
   if (isset($LSobject)) {
     // Création d'un LSobject
-    if ($GLOBALS['LSsession'] -> loadLSobject($LSobject)) {
-      if ( $GLOBALS['LSsession'] -> canCreate($LSobject) ) {
+    if (LSsession ::loadLSobject($LSobject)) {
+      if ( LSsession :: canCreate($LSobject) ) {
         $object = new $LSobject();
         
         if ($_GET['load']!='') {
@@ -49,10 +47,10 @@ if($LSsession -> startLSsession()) {
           // MàJ des données de l'objet LDAP
           if ($object -> updateData('create')) {
             if (!LSerror::errorsDefined()) {
-              $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été ajouté."));
+              LSsession :: addInfo(_("L'objet a bien été ajouté."));
             }
             if (isset($_REQUEST['ajax'])) {
-              $GLOBALS['LSsession'] -> displayAjaxReturn (
+              LSsession :: displayAjaxReturn (
                 array(
                   'LSredirect' => 'view.php?LSobject='.$LSobject.'&dn='.$object -> getDn()
                 )
@@ -61,12 +59,12 @@ if($LSsession -> startLSsession()) {
             }
             else {
               if (!LSdebugDefined()) {
-                $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+                LSsession :: redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
               }
             }
           }
           else {
-            $GLOBALS['LSsession'] -> displayAjaxReturn (
+            LSsession :: displayAjaxReturn (
               array(
                 'LSformErrors' => $form -> getErrors()
               )
@@ -75,7 +73,7 @@ if($LSsession -> startLSsession()) {
           }
         }
         else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
-          $GLOBALS['LSsession'] -> displayAjaxReturn (
+          LSsession :: displayAjaxReturn (
             array(
               'LSformErrors' => $form -> getErrors()
             )
@@ -84,25 +82,25 @@ if($LSsession -> startLSsession()) {
         }
         // Définition du Titre de la page
         $GLOBALS['Smarty'] -> assign('pagetitle',_('Nouveau').' : '.$object -> getLabel());
-        $GLOBALS['LSsession'] -> setTemplate('create.tpl');
+        LSsession :: setTemplate('create.tpl');
         $form -> display();
       }
       else {
-        LSerror::addErrorCode('LSsession_11');
+        LSerror :: addErrorCode('LSsession_11');
       }
     }
     else {
-      LSerror::addErrorCode('LSldapObject_01');
+      LSerror :: addErrorCode('LSldapObject_01');
     }
   }
   else {
-    LSerror::addErrorCode('LSsession_12');
+    LSerror :: addErrorCode('LSsession_12');
   }
 
 }
 else {
-  $GLOBALS['LSsession'] -> setTemplate('login.tpl');
+  LSsession :: setTemplate('login.tpl');
 }
-$GLOBALS['LSsession'] -> displayTemplate();
+LSsession :: displayTemplate();
 
 ?>

@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-$GLOBALS['LSsession'] -> loadLSclass('LSattribute');
+LSsession :: loadLSclass('LSattribute');
 
 /**
  * Base d'un objet ldap
@@ -64,7 +64,7 @@ class LSldapObject {
         $this -> config = $GLOBALS['LSobjects'][$type_name];
       }
       else {
-        LSerror::addErrorCode('LSldapObject_01');
+        LSerror :: addErrorCode('LSldapObject_01');
         return;
       }
     }
@@ -147,7 +147,7 @@ class LSldapObject {
       $spe = $this -> getDisplayNameFormat();
     }
     $val = $this -> getFData($spe,&$this -> attrs,'getDisplayValue');
-    if ($GLOBALS['LSsession'] -> haveSubDn() && $full) {
+    if (LSsession :: haveSubDn() && $full) {
       $val.=' ('.$this -> getSubDnName().')';
     }
     return $val;
@@ -184,7 +184,7 @@ class LSldapObject {
    * @retval LSform Le formulaire crÃ©e
    */ 
   function getForm($idForm,$load=NULL) {
-    $GLOBALS['LSsession'] -> loadLSclass('LSform');
+    LSsession :: loadLSclass('LSform');
     $LSform = new LSform($this,$idForm);
     $this -> forms[$idForm] = array($LSform,$load);
     
@@ -227,7 +227,7 @@ class LSldapObject {
    * @retval LSform Le formulaire crÃ©e
    */ 
   function getView() {
-    $GLOBALS['LSsession'] -> loadLSclass('LSform');
+    LSsession :: loadLSclass('LSform');
     $this -> view = new LSform($this,'view');
     foreach($this -> attrs as $attr_name => $attr) {
       $this -> attrs[$attr_name] -> addToView($this -> view);
@@ -276,7 +276,7 @@ class LSldapObject {
       if(isset($this -> forms[$idForm]))
         $LSform = $this -> forms[$idForm][0];
       else {
-        LSerror::addErrorCode('LSldapObject_02',$this -> getType());
+        LSerror :: addErrorCode('LSldapObject_02',$this -> getType());
         return;
       }
     }
@@ -289,7 +289,7 @@ class LSldapObject {
         $LSform = $LSform[0];
       }
       else {
-        LSerror::addErrorCode('LSldapObject_03',$this -> getType());
+        LSerror :: addErrorCode('LSldapObject_03',$this -> getType());
         return;
       }
     }
@@ -307,12 +307,12 @@ class LSldapObject {
       if(isset($this -> config['before_modify'])) {
         if(function_exists($this -> config['before_modify'])) {
           if(!$this -> config['before_modify']($this)) {
-            LSerror::addErrorCode('LSldapObject_08',$this -> config['before_modify']);
+            LSerror :: addErrorCode('LSldapObject_08',$this -> config['before_modify']);
             return;
           }
         }
         else {
-          LSerror::addErrorCode('LSldapObject_07',$this -> config['before_modify']);
+          LSerror :: addErrorCode('LSldapObject_07',$this -> config['before_modify']);
           return;
         }
       }
@@ -335,11 +335,11 @@ class LSldapObject {
       if((isset($this -> config['after_modify']))&&(!$this -> submitError)) {
         if(function_exists($this -> config['after_modify'])) {
           if(!$this -> config['after_modify']($this)) {
-            LSerror::addErrorCode('LSldapObject_10',$this -> config['after_modify']);
+            LSerror :: addErrorCode('LSldapObject_10',$this -> config['after_modify']);
           }
         }
         else {
-          LSerror::addErrorCode('LSldapObject_09',$this -> config['after_modify']);
+          LSerror :: addErrorCode('LSldapObject_09',$this -> config['after_modify']);
         }
       }
       
@@ -378,17 +378,17 @@ class LSldapObject {
           if ( $attr -> canBeGenerated()) {
             if ($attr -> generateValue()) {
               if (!$this -> validateAttrData($LSform, $attr)) {
-                LSerror::addErrorCode('LSattribute_08',$attr -> getLabel());
+                LSerror :: addErrorCode('LSattribute_08',$attr -> getLabel());
                 $retval = false;
               }
             }
             else {
-              LSerror::addErrorCode('LSattribute_07',$attr -> getLabel());
+              LSerror :: addErrorCode('LSattribute_07',$attr -> getLabel());
               $retval = false;
             }
           }
           else {
-            LSerror::addErrorCode('LSattribute_06',$attr -> getLabel());
+            LSerror :: addErrorCode('LSattribute_06',$attr -> getLabel());
             $retval = false;
           }
         }
@@ -422,7 +422,7 @@ class LSldapObject {
       foreach($vconfig as $test) {
         // DÃ©finition du basedn par dÃ©faut
         if (!isset($test['basedn'])) {
-          $test['basedn']=$GLOBALS['LSsession']->topDn;
+          $test['basedn']=LSsession :: getTopDn();
         }
 
         // DÃ©finition du message d'erreur
@@ -476,12 +476,12 @@ class LSldapObject {
               }
             }
             else {
-              LSerror::addErrorCode('LSldapObject_04',array('attr' => $attr->name,'obj' => $this->getType(),'func' => $test['function']));
+              LSerror :: addErrorCode('LSldapObject_04',array('attr' => $attr->name,'obj' => $this->getType(),'func' => $test['function']));
               $retval = false;
             }
           }
           else {
-            LSerror::addErrorCode('LSldapObject_05',array('attr' => $attr->name,'obj' => $this->getType()));
+            LSerror :: addErrorCode('LSldapObject_05',array('attr' => $attr->name,'obj' => $this->getType()));
             $retval = false;
           }
         }
@@ -492,17 +492,17 @@ class LSldapObject {
     if (!empty($dependsAttrs)) {
       foreach($dependsAttrs as $dependAttr) {
         if(!isset($this -> attrs[$dependAttr])){
-          LSerror::addErrorCode('LSldapObject_14',array('attr_depend' => $dependAttr, 'attr' => $attr -> getLabel()));
+          LSerror :: addErrorCode('LSldapObject_14',array('attr_depend' => $dependAttr, 'attr' => $attr -> getLabel()));
           continue;
         }
         if($this -> attrs[$dependAttr] -> canBeGenerated()) {
           if (!$this -> attrs[$dependAttr] -> generateValue()) {
-            LSerror::addErrorCode('LSattribute_07',$this -> attrs[$dependAttr] -> getLabel());
+            LSerror :: addErrorCode('LSattribute_07',$this -> attrs[$dependAttr] -> getLabel());
             $retval = false;
           }
         }
         else {
-          LSerror::addErrorCode('LSattribute_06',$this -> attrs[$dependAttr] -> getLabel());
+          LSerror :: addErrorCode('LSattribute_06',$this -> attrs[$dependAttr] -> getLabel());
           $retval = false;
         }
       }
@@ -531,7 +531,7 @@ class LSldapObject {
           $new = true;
           LSdebug('Rename');
           if (!$this -> beforeRename()) {
-            LSerror::addErrorCode('LSldapObject_16');
+            LSerror :: addErrorCode('LSldapObject_16');
             return;
           }
           $oldDn = $this -> getDn();
@@ -543,7 +543,7 @@ class LSldapObject {
             }
             $this -> dn = $newDn;
             if (!$this -> afterRename($oldDn,$newDn)) {
-              LSerror::addErrorCode('LSldapObject_17');
+              LSerror :: addErrorCode('LSldapObject_17');
               return;
             }
           }
@@ -566,14 +566,14 @@ class LSldapObject {
         }
         if ($new) {
           if (!$this -> afterCreate()) {
-            LSerror::addErrorCode('LSldapObject_21');
+            LSerror :: addErrorCode('LSldapObject_21');
             return;
           }
         }
         return true;
       }
       else {
-        LSerror::addErrorCode('LSldapObject_13');
+        LSerror :: addErrorCode('LSldapObject_13');
         return;
       }
     }
@@ -997,18 +997,19 @@ class LSldapObject {
     }
     else {
       $rdn_attr=$this -> config['rdn'];
-      if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) && (isset($this -> config['container_dn'])) && (isset($GLOBALS['LSsession']->topDn)) ) {
+      $topDn = LSsession :: getTopDn();
+      if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) && (isset($this -> config['container_dn'])) && ($topDn) ) {
         $rdn_val=$this -> attrs[$rdn_attr] -> getUpdateData();
         if (!empty($rdn_val)) {
-          return $rdn_attr.'='.$rdn_val[0].','.$this -> config['container_dn'].','.$GLOBALS['LSsession']->topDn;
+          return $rdn_attr.'='.$rdn_val[0].','.$this -> config['container_dn'].','.$topDn;
         }
         else {
-          LSerror::addErrorCode('LSldapObject_12',$this -> config['rdn']);
+          LSerror :: addErrorCode('LSldapObject_12',$this -> config['rdn']);
           return;
         }
       }
       else {
-        LSerror::addErrorCode('LSldapObject_11',$this -> getType());
+        LSerror :: addErrorCode('LSldapObject_11',$this -> getType());
         return;
       }
     }
@@ -1034,7 +1035,7 @@ class LSldapObject {
    */
   function whoami() {
     if (!$this -> _whoami)
-      $this -> _whoami = $GLOBALS['LSsession'] -> whoami($this -> dn);
+      $this -> _whoami = LSsession :: whoami($this -> dn);
     return $this -> _whoami;
   }
   
@@ -1063,11 +1064,11 @@ class LSldapObject {
         if ($this -> afterDelete()) {
           return true;
         }
-        LSerror::addErrorCode('LSldapObject_19');
+        LSerror :: addErrorCode('LSldapObject_19');
       }
     }
     else {
-      LSerror::addErrorCode('LSldapObject_18');
+      LSerror :: addErrorCode('LSldapObject_18');
     }
     return;
   }
@@ -1098,7 +1099,7 @@ class LSldapObject {
       return $this -> _subDn_value[$dn];
     }
     $subDn_value='';
-    $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
+    $subDnLdapServer = LSsession :: getSortSubDnLdapServer();
     foreach ($subDnLdapServer as $subDn => $subDn_name) {
       if (isCompatibleDNs($subDn,$dn)&&($subDn!=$dn)) {
         $subDn_value=$subDn;
@@ -1117,7 +1118,7 @@ class LSldapObject {
    * @return string Le nom du subDn de l'object
    */
   function getSubDnName($dn=NULL) {
-    $subDnLdapServer = $GLOBALS['LSsession'] -> getSortSubDnLdapServer();
+    $subDnLdapServer = LSsession :: getSortSubDnLdapServer();
     return $subDnLdapServer[$this -> getSubDnValue($dn)];
   }
   
@@ -1135,7 +1136,7 @@ class LSldapObject {
       $me -> loadData($this -> getDn());
       foreach($this->config['LSrelation'] as $relation_name => $relation_conf) {
         if ( isset($relation_conf['list_function']) ) {
-          if ($GLOBALS['LSsession'] -> loadLSobject($relation_conf['LSobject'])) {
+          if (LSsession :: loadLSobject($relation_conf['LSobject'])) {
             $obj = new $relation_conf['LSobject']();
             if ((method_exists($obj,$relation_conf['list_function']))&&(method_exists($obj,$relation_conf['getkeyvalue_function']))) {
               $list = $obj -> $relation_conf['list_function']($me);
@@ -1194,8 +1195,8 @@ class LSldapObject {
    */
   function afterRename($oldDn,$newDn) {
     $error = 0;
-    if($GLOBALS['LSsession'] -> dn == $oldDn) {
-      $GLOBALS['LSsession'] -> changeAuthUser($this);
+    if(LSsession :: getLSuserObjectDn() == $oldDn) {
+      LSsession :: changeAuthUser($this);
     }
     
     foreach($this -> _LSrelationsCache as $relation_name => $objInfos) {
@@ -1274,12 +1275,12 @@ class LSldapObject {
       foreach($config as $action) {
         if(function_exists($action)) {
           if(!$action($this)) {
-            LSerror::addErrorCode('LSldapObject_25',$action);
+            LSerror :: addErrorCode('LSldapObject_25',$action);
             $error=true;
           }
         }
         else {
-          LSerror::addErrorCode('LSldapObject_24',$action);
+          LSerror :: addErrorCode('LSldapObject_24',$action);
           $error=true;
         }
       }
@@ -1306,10 +1307,10 @@ class LSldapObject {
   function afterCreate() {
     LSdebug('after');
     $error = 0;
-    if ($GLOBALS['LSsession'] -> isSubDnLSobject($this -> getType())) {
-      if (is_array($GLOBALS['LSsession'] -> ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'])) {
-        foreach($GLOBALS['LSsession'] -> ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'] as $type) {
-          if ($GLOBALS['LSsession'] -> loadLSobject($type)) {
+    if (LSsession :: isSubDnLSobject($this -> getType())) {
+      if (is_array(LSsession :: $ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'])) {
+        foreach(LSsession :: $ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'] as $type) {
+          if (LSsession :: loadLSobject($type)) {
             if (isset($GLOBALS['LSobjects'][$type]['container_auto_create'])&&isset($GLOBALS['LSobjects'][$type]['container_dn'])) {
               $dn = $GLOBALS['LSobjects'][$type]['container_dn'].','.$this -> getDn();
               if(!$GLOBALS['LSldap'] -> getNewEntry($dn,$GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],$GLOBALS['LSobjects'][$type]['container_auto_create']['attrs'],true)) {
@@ -1341,12 +1342,12 @@ class LSldapObject {
       foreach($config as $action) {
         if(function_exists($action)) {
           if(!$action($this)) {
-            LSerror::addErrorCode('LSldapObject_23',$action);
+            LSerror :: addErrorCode('LSldapObject_23',$action);
             $error=true;
           }
         }
         else {
-          LSerror::addErrorCode('LSldapObject_22',$action);
+          LSerror :: addErrorCode('LSldapObject_22',$action);
           $error=true;
         }
       }
@@ -1369,7 +1370,7 @@ class LSldapObject {
    **/
   function getObjectKeyValueInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror::addErrorCode('LSrelations_05','getObjectKeyValueInRelation');
+      LSerror :: addErrorCode('LSrelations_05','getObjectKeyValueInRelation');
       return;
     }
     if ($attrValue=='dn') {
@@ -1402,7 +1403,7 @@ class LSldapObject {
    **/
   function listObjectsInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror::addErrorCode('LSrelations_05','listObjectsInRelation');
+      LSerror :: addErrorCode('LSrelations_05','listObjectsInRelation');
       return;
     }
     if ($attrValue=='dn') {
@@ -1415,7 +1416,7 @@ class LSldapObject {
     if ($val) {
       $filter = $this -> getObjectFilter();
       $filter = '(&'.$filter.'('.$attr.'='.$val.'))';
-      return $this -> listObjects($filter,$GLOBALS['LSsession'] -> ldapServer['ldap_config']['basedn'],array('scope' => 'sub'));
+      return $this -> listObjects($filter,LSsession :: $ldapServer['ldap_config']['basedn'],array('scope' => 'sub'));
     }
     return;
   }
@@ -1434,7 +1435,7 @@ class LSldapObject {
    **/  
   function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror::addErrorCode('LSrelations_05','addOneObjectInRelation');
+      LSerror :: addErrorCode('LSrelations_05','addOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
@@ -1484,7 +1485,7 @@ class LSldapObject {
    **/  
   function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror::addErrorCode('LSrelations_05','deleteOneObjectInRelation');
+      LSerror :: addErrorCode('LSrelations_05','deleteOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
@@ -1529,7 +1530,7 @@ class LSldapObject {
   */
   function renameOneObjectInRelation($object,$oldValue,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror::addErrorCode('LSrelations_05','renameOneObjectInRelation');
+      LSerror :: addErrorCode('LSrelations_05','renameOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
@@ -1579,7 +1580,7 @@ class LSldapObject {
    **/  
   function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror::addErrorCode('LSrelations_05','updateObjectsInRelation');
+      LSerror :: addErrorCode('LSrelations_05','updateObjectsInRelation');
       return;
     }
     $currentObjects = $this -> listObjectsInRelation($object,$attr,$objectType,$attrValue);

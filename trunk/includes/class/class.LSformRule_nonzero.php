@@ -38,7 +38,7 @@ class LSformRule_nonzero extends LSformRule {
    */ 
   function validate ($value,$options,$formElement) {
     $regex = '/^-?[1-9][0-9]*/';
-    $GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
+    LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);
   }
   

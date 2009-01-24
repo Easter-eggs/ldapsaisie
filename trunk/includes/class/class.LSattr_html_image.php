@@ -39,12 +39,12 @@ class LSattr_html_image extends LSattr_html {
   function addToForm (&$form,$idForm,$data=NULL) {
     $element=$form -> addElement('image', $this -> name, $this -> config['label'],$this -> config, $this);
     if(!$element) {
-      LSerror::addErrorCode('LSform_06',$this -> name);
+      LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
     }
     
     if (count($data)>1) {
-      LSerror::addErrorCode('LSattr_html_03','password');
+      LSerror :: addErrorCode('LSattr_html_03','password');
     }
     
     if ($data) {

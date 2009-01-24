@@ -38,7 +38,7 @@ class LSformRule_telephonenumber extends LSformRule {
    */
   function validate($value,$option=array(),$formElement) {
     $regex = '/^(01|02|03|04|05|06|08|09)[0-9]{8}$/';
-    $GLOBALS['LSsession'] -> loadLSclass('LSformRule_regex');
+    LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);
   }
 

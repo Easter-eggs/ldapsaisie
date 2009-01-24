@@ -22,9 +22,7 @@
 
 require_once 'includes/class/class.LSsession.php';
 
-$GLOBALS['LSsession'] = new LSsession();
-
-if($LSsession -> startLSsession()) {
+if(LSsession :: startLSsession()) {
 
   if (isset($_POST['LSform_objecttype'])) {
     $LSobject = $_POST['LSform_objecttype'];
@@ -42,8 +40,8 @@ if($LSsession -> startLSsession()) {
 
   if ((isset($dn)) && (isset($LSobject)) ) {
     // Création d'un LSobject
-    if ($GLOBALS['LSsession'] -> loadLSobject($LSobject)) {
-      if ( $GLOBALS['LSsession'] -> canEdit($LSobject,$dn) ) {
+    if (LSsession :: loadLSobject($LSobject)) {
+      if ( LSsession :: canEdit($LSobject,$dn) ) {
         $object = new $LSobject();
         if ($object -> loadData($dn)) {
           // Définition du Titre de la page
@@ -53,13 +51,13 @@ if($LSsession -> startLSsession()) {
             // MàJ des données de l'objet LDAP
             if ($object -> updateData('modify')) {
               if (LSerror::errorsDefined()) {
-                $GLOBALS['LSsession'] -> addInfo(_("L'objet a été modifié partiellement."));
+                LSsession :: addInfo(_("L'objet a été modifié partiellement."));
               }
               else {
-                $GLOBALS['LSsession'] -> addInfo(_("L'objet a bien été modifié."));
+                LSsession :: addInfo(_("L'objet a bien été modifié."));
               }
               if (isset($_REQUEST['ajax'])) {
-                $GLOBALS['LSsession'] -> displayAjaxReturn (
+                LSsession :: displayAjaxReturn (
                   array(
                     'LSredirect' => 'view.php?LSobject='.$LSobject.'&dn='.$object -> getDn()
                   )
@@ -68,15 +66,15 @@ if($LSsession -> startLSsession()) {
               }
               else {
                 if (!LSdebugDefined()) {
-                  $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+                  LSsession :: redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
                 }
                 else {
-                  $GLOBALS['LSsession'] -> displayTemplate();
+                  LSsession :: displayTemplate();
                 }
               }
             }
             else {
-              $GLOBALS['LSsession'] -> displayAjaxReturn (
+              LSsession :: displayAjaxReturn (
                 array(
                   'LSformErrors' => $form -> getErrors()
                 )
@@ -84,7 +82,7 @@ if($LSsession -> startLSsession()) {
             }
           }
           else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
-            $GLOBALS['LSsession'] -> displayAjaxReturn (
+            LSsession :: displayAjaxReturn (
               array(
                 'LSformErrors' => $form -> getErrors()
               )
@@ -97,7 +95,7 @@ if($LSsession -> startLSsession()) {
               'action' => 'view'
             );
           
-            if ($GLOBALS['LSsession'] -> canRemove($LSobject,$object -> getDn())) {
+            if (LSsession :: canRemove($LSobject,$object -> getDn())) {
               $LSview_actions[] = array(
                 'label' => _('Supprimer'),
                 'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
@@ -105,31 +103,31 @@ if($LSsession -> startLSsession()) {
               );
             }
             
-            $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
-            $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
+            LSsession :: addJSscript('LSsmoothbox.js');
+            LSsession :: addCssFile('LSsmoothbox.css');
             $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
-            $GLOBALS['LSsession'] -> setTemplate('modify.tpl');
+            LSsession :: setTemplate('modify.tpl');
             $form -> display();
-            $GLOBALS['LSsession'] -> displayTemplate();
+            LSsession :: displayTemplate();
           }
         }
         else {
-          LSerror::addErrorCode('LSsession_11');
+          LSerror :: addErrorCode('LSsession_11');
         }
       }
       else {
-        LSerror::addErrorCode('LSsession_11');
+        LSerror :: addErrorCode('LSsession_11');
       }
     }
   }
   else {
-    LSerror::addErrorCode('LSsession_12');
+    LSerror :: addErrorCode('LSsession_12');
   }
 
 }
 else {
-  $GLOBALS['LSsession'] -> setTemplate('login.tpl');
-  $GLOBALS['LSsession'] -> displayTemplate();
+  LSsession :: setTemplate('login.tpl');
+  LSsession :: displayTemplate();
 }
 
 

@@ -41,7 +41,7 @@ class LSformRule_imagesize extends LSformRule {
    * @return boolean true si la valeur est valide, false sinon
    */
   function validate ($value,$options,$formElement) {
-    $file = $GLOBALS['LSsession'] -> getTmpFile($value);
+    $file = LSsession :: getTmpFile($value);
     list($width, $height, $type, $attr) = getimagesize($file);
     
     if (is_int($options['params']['maxWidth'])) {

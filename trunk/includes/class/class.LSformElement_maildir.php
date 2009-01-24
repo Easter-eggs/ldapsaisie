@@ -20,8 +20,8 @@
 
 ******************************************************************************/
 
-$GLOBALS['LSsession'] -> loadLSclass('LSformElement_text');
-$GLOBALS['LSsession'] -> loadLSaddon('maildir');
+LSsession :: loadLSclass('LSformElement_text');
+LSsession :: loadLSaddon('maildir');
 
 /**
  * Element maildir d'un formulaire pour LdapSaisie
@@ -63,7 +63,7 @@ class LSformElement_maildir extends LSformElement_text {
   var $fieldTemplate = 'LSformElement_maildir_field.tpl';
   
   function getDisplay() {
-    $GLOBALS['LSsession'] -> addHelpInfos (
+    LSsession :: addHelpInfos (
       'LSformElement_maildir',
       array(
         'do' => _("La création ou modification de la maildir en même temps que l'utilisateur est activée. Cliquer sur ce bouton pour la désactiver."),
@@ -140,7 +140,7 @@ class LSformElement_maildir extends LSformElement_text {
             $newname=getFData($this -> params['html_options']['archiveNameFormat'],$this -> _toDo['old']);
             if ($newname) {
               if (renameMaildirByFTP($this -> _toDo['old'],$newname)) {
-                $GLOBALS['LSsession'] -> addInfo("La boîte mail a été archivée.");
+                LSsession :: addInfo("La boîte mail a été archivée.");
                 return true;
               }
               return;
@@ -150,7 +150,7 @@ class LSformElement_maildir extends LSformElement_text {
           }
           else {
             if (removeMaildirByFTP(null,$this -> _toDo['old'])) {
-              $GLOBALS['LSsession'] -> addInfo("La boîte mail a été supprimée.");
+              LSsession :: addInfo("La boîte mail a été supprimée.");
               return true;
             }
             return;
@@ -158,14 +158,14 @@ class LSformElement_maildir extends LSformElement_text {
           break;
         case 'modify':
           if (renameMaildirByFTP($this -> _toDo['old'],$this -> _toDo['new'])) {
-            $GLOBALS['LSsession'] -> addInfo("La boîte mail a été déplacée.");
+            LSsession :: addInfo("La boîte mail a été déplacée.");
             return true;
           }
           return;
           break;
         case 'create':
           if (createMaildirByFTP(null,$this -> _toDo['new'])) {
-            $GLOBALS['LSsession'] -> addInfo("La boîte mail a été créée.");
+            LSsession :: addInfo("La boîte mail a été créée.");
             return true;
           }
           return;

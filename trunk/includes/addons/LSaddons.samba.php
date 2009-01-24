@@ -57,7 +57,7 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
     // Dependance de librairie
     if ( !class_exists('smbHash') ) {
       if ( !LSsession::includeFile(LS_LIB_DIR . 'class.smbHash.php') ) {
-        LSerror::addErrorCode('SAMBA_SUPPORT_01');
+        LSerror :: addErrorCode('SAMBA_SUPPORT_01');
         $retval=false;
       }
     }
@@ -74,14 +74,14 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
 
     foreach($MUST_DEFINE_CONST as $const) {
       if ( (!defined($const)) || (constant($const) == "")) {
-        LSerror::addErrorCode('SAMBA_SUPPORT_02',$const);
+        LSerror :: addErrorCode('SAMBA_SUPPORT_02',$const);
         $retval=false;
       }
     }
 
     // Pour l'intégrité des SID
     if ( (LS_SAMBA_SID_BASE_USER % 2) == (LS_SAMBA_SID_BASE_GROUP % 2) ) {
-        LSerror::addErrorCode('SAMBA_SUPPORT_03');
+        LSerror :: addErrorCode('SAMBA_SUPPORT_03');
         $retval=false;
     }
     
@@ -102,7 +102,7 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
   */
   function generate_sambaUserSID($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ]) != 'LSattribute' ) {
-      LSerror::addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_UIDNUMBER_ATTR, 'attr' => 'sambaSID'));
+      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_UIDNUMBER_ATTR, 'attr' => 'sambaSID'));
       return;
     }
 
@@ -128,7 +128,7 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
   */
   function generate_sambaGroupSID($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ]) != 'LSattribute' ) {
-      LSerror::addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaSID'));
+      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaSID'));
       return;
     }
 
@@ -154,7 +154,7 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
   */
   function generate_sambaPrimaryGroupSID($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ]) != 'LSattribute' ) {
-      LSerror::addErrorCode('SAMBA_02',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaPrimaryGroupSID'));
+      LSerror :: addErrorCode('SAMBA_02',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaPrimaryGroupSID'));
       return;
     }
     
@@ -176,7 +176,7 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
   */
   function generate_sambaNTPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
-      LSerror::addErrorCode('SAMBA_03',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaNTPassword'));
+      LSerror :: addErrorCode('SAMBA_03',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaNTPassword'));
       return;
     }
 
@@ -201,7 +201,7 @@ $GLOBALS['LSerror_code']['SAMBA_01']= array (
   */
   function generate_sambaLMPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
-      LSerror::addErrorCode('SAMBA_04',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaLMPassword'));
+      LSerror :: addErrorCode('SAMBA_04',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaLMPassword'));
       return;
     }
 

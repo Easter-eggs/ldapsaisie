@@ -48,22 +48,22 @@ class LSformElement_text extends LSformElement {
     // value
     if (!$this -> isFreeze()) {
       if (isset($this -> params['html_options'])) {
-        $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$this -> params['html_options']);
+        LSsession :: addJSconfigParam($this -> name,$this -> params['html_options']);
       }
-      $GLOBALS['LSsession'] -> addHelpInfos(
+      LSsession :: addHelpInfos(
         'LSformElement_text',
         array(
           'generate' => _('Générer la valeur')
         )
       );
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_text_field.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_text.js');
+      LSsession :: addJSscript('LSformElement_text_field.js');
+      LSsession :: addJSscript('LSformElement_text.js');
     }
     foreach ($this -> JSscripts as $js) {
-      $GLOBALS['LSsession'] -> addJSscript($js);
+      LSsession :: addJSscript($js);
     }
     foreach ($this -> CSSfiles as $css) {
-      $GLOBALS['LSsession'] -> addCssFile($css);
+      LSsession :: addCssFile($css);
     }
     $return['html'] = $this -> fetchTemplate();
     return $return;

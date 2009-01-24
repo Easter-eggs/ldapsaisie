@@ -56,8 +56,8 @@ $retval=true;
 
     // Dependance de librairie
     if (!function_exists('createDirsByFTP')) {
-      if(!$GLOBALS['LSsession'] -> loadLSaddon('ftp')) {
-        LSerror::addErrorCode('MAILDIR_SUPPORT_01');
+      if(!LSsession :: loadLSaddon('ftp')) {
+        LSerror :: addErrorCode('MAILDIR_SUPPORT_01');
         $retval=false;
       }
     }
@@ -71,7 +71,7 @@ $retval=true;
 
     foreach($MUST_DEFINE_CONST as $const) {
       if ( (!defined($const)) || (constant($const) == "")) {
-        LSerror::addErrorCode('MAILDIR_SUPPORT_02',$const);
+        LSerror :: addErrorCode('MAILDIR_SUPPORT_02',$const);
         $retval=false;
       }
     }
@@ -102,7 +102,7 @@ $retval=true;
       $dir.'/tmp'
     );
     if (!createDirsByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$dirs,LS_MAILDIR_FTP_MAILDIR_CHMOD)) {
-      LSerror::addErrorCode('MAILDIR_01');
+      LSerror :: addErrorCode('MAILDIR_01');
       return;
     }
     return true;
@@ -127,7 +127,7 @@ $retval=true;
       }
     }
     if (!removeDirsByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$dir)) {
-      LSerror::addErrorCode('MAILDIR_02');
+      LSerror :: addErrorCode('MAILDIR_02');
       return;
     }
     return true;
@@ -155,7 +155,7 @@ $retval=true;
     }
     
     if ($dir=="") {
-      LSerror::addErrorCode('MAILDIR_04');
+      LSerror :: addErrorCode('MAILDIR_04');
       return;
     }
     
@@ -174,7 +174,7 @@ $retval=true;
   */
   function renameMaildirByFTP($old,$new) {
     if (!renameDirByFTP(LS_MAILDIR_FTP_HOST,LS_MAILDIR_FTP_PORT,LS_MAILDIR_FTP_USER,LS_MAILDIR_FTP_PWD,$old,$new)) {
-      LSerror::addErrorCode('MAILDIR_03');
+      LSerror :: addErrorCode('MAILDIR_03');
       return;
     }
     return true;

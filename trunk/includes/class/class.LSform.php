@@ -61,7 +61,7 @@ class LSform {
     $this -> idForm = $idForm;
     $this -> submit = $submit;
     $this -> ldapObject = $ldapObject;
-    $GLOBALS['LSsession'] -> loadLSclass('LSformElement');
+    LSsession :: loadLSclass('LSformElement');
   }
   
   /**
@@ -73,16 +73,16 @@ class LSform {
    */ 
   function display(){
     if ($this -> idForm == 'view') {
-      $GLOBALS['LSsession'] -> addJSscript('LSview.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSform.js');
+      LSsession :: addJSscript('LSview.js');
+      LSsession :: addJSscript('LSform.js');
     }
     else {
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_field.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSform.js');
+      LSsession :: addJSscript('LSformElement_field.js');
+      LSsession :: addJSscript('LSformElement.js');
+      LSsession :: addJSscript('LSform.js');
     }
     
-    $GLOBALS['LSsession'] -> addHelpInfos(
+    LSsession :: addHelpInfos(
       'LSform',
       array(
         'addFieldBtn' => _('Ajouter un champ pour saisir une autre valeur.'),
@@ -90,7 +90,7 @@ class LSform {
       )
     );
     
-    $GLOBALS['LSsession'] -> addCssFile('LSform.css');
+    LSsession :: addCssFile('LSform.css');
     $GLOBALS['Smarty'] -> assign('LSform_action',$_SERVER['PHP_SELF']);
     $LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n
     \t<input type='hidden' name='idForm' id='LSform_idform' value='".$this -> idForm."'/>\n
@@ -138,8 +138,8 @@ class LSform {
    * @retval void
    */ 
   function displayView(){
-    $GLOBALS['LSsession'] -> addCssFile('LSform.css');
-    $GLOBALS['LSsession'] -> addJSscript('LSform.js');
+    LSsession :: addCssFile('LSform.css');
+    LSsession :: addJSscript('LSform.js');
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getDn()
@@ -219,7 +219,7 @@ class LSform {
       return;
     if ($this -> isSubmit()) {
       if (!$this -> getPostData()) {
-        LSerror::addErrorCode('LSform_01');
+        LSerror :: addErrorCode('LSform_01');
         return;
       }
       $this -> setValuesFromPostData();
@@ -260,10 +260,10 @@ class LSform {
         }
         if (!is_array($this -> _rules[$element]))
           continue;
-        $GLOBALS['LSsession'] -> loadLSclass('LSformRule');
+        LSsession :: loadLSclass('LSformRule');
         foreach($this -> _rules[$element] as $rule) {
           $ruleType="LSformRule_".$rule['name'];
-          $GLOBALS['LSsession'] -> loadLSclass($ruleType);
+          LSsession :: loadLSclass($ruleType);
           if (! call_user_func(array( $ruleType,'validate') , $value, $rule['options'], $this -> getElement($element))) {
             $retval=false;
             $this -> setElementError($this -> elements[$element],$rule['options']['msg']);
@@ -343,7 +343,7 @@ class LSform {
   function getPostData() {
     foreach($this -> elements as $element_name => $element) {
       if( !($element -> getPostData($this -> _postData)) ) {
-        LSerror::addErrorCode('LSform_02',$element_name);
+        LSerror :: addErrorCode('LSform_02',$element_name);
         return;
       }
     }
@@ -364,9 +364,9 @@ class LSform {
    */
   function addElement($type,$name,$label,$params=array(),&$attr_html) {
     $elementType='LSformElement_'.$type;
-    $GLOBALS['LSsession'] -> loadLSclass($elementType);
+    LSsession :: loadLSclass($elementType);
     if (!class_exists($elementType)) {
-      LSerror::addErrorCode('LSform_05',array('type' => $type));  
+      LSerror :: addErrorCode('LSform_05',array('type' => $type));  
       return;
     }
     $element=$this -> elements[$name] = new $elementType($this,$name,$label,$params,$attr_html);
@@ -375,7 +375,7 @@ class LSform {
     }
     else {
       unset ($this -> elements[$name]);
-      LSerror::addErrorCode('LSform_06',array('element' => $name));
+      LSerror :: addErrorCode('LSform_06',array('element' => $name));
       return;
     }
   }
@@ -401,12 +401,12 @@ class LSform {
         return true;
       }
       else {
-        LSerror::addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));      
+        LSerror :: addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));      
         return;
       }
     }
     else {  
-      LSerror::addErrorCode('LSform_04',array('element' => $element));
+      LSerror :: addErrorCode('LSform_04',array('element' => $element));
       return;
     }
   }
@@ -440,8 +440,8 @@ class LSform {
    * @param[in] $element string Le nom de l'élément conserné
    */
   function isRuleRegistered($rule) {
-    $GLOBALS['LSsession'] -> loadLSclass('LSformRule');
-    $GLOBALS['LSsession'] -> loadLSclass('LSformRule_'.$rule);
+    LSsession :: loadLSclass('LSformRule');
+    LSsession :: loadLSclass('LSformRule_'.$rule);
     return class_exists('LSformRule_'.$rule);
   }
 

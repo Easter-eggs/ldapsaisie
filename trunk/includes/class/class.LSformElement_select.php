@@ -46,13 +46,13 @@ class LSformElement_select extends LSformElement {
     $return = $this -> getLabelInfos();
     $params = array();
     if (!$this -> isFreeze()) {
-      $GLOBALS['LSsession'] -> addHelpInfos (
+      LSsession :: addHelpInfos (
         'LSformElement_select',
         array(
           'clear' => _("Effacer la sélection.")
         )
       );
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_select.js');
+      LSsession :: addJSscript('LSformElement_select.js');
     }
     $params['possible_values'] = $this -> params['text_possible_values'];
     $return['html'] = $this -> fetchTemplate(NULL,$params);

@@ -43,14 +43,14 @@ class LSformElement_select_object extends LSformElement {
   * @retval array
   */
   function getDisplay($refresh=NULL){
-    $GLOBALS['LSsession'] -> addCssFile('LSformElement_select_object.css');
+    LSsession :: addCssFile('LSformElement_select_object.css');
     if ($refresh) {
       $this -> values = $this -> getValuesFromSession();
     }
     $return = $this -> getLabelInfos();
 
     if (!$this -> isFreeze()) {
-      $GLOBALS['LSsession'] -> addJSconfigParam(
+      LSsession :: addJSconfigParam(
         $this -> name,
         array(
           'object_type' => $this -> selectableObject,
@@ -62,7 +62,7 @@ class LSformElement_select_object extends LSformElement {
         )
       );
 
-      $GLOBALS['LSsession'] -> addHelpInfos (
+      LSsession :: addHelpInfos (
         'LSformElement_select_object',
         array(
           'searchAdd' => _("Ajout rapide"),
@@ -71,15 +71,15 @@ class LSformElement_select_object extends LSformElement {
         )
       );
       
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object_field.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_select_object.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSform.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSselect.js');
-      $GLOBALS['LSsession'] -> addCssFile('LSselect.css');
-      $GLOBALS['LSsession'] -> addJSscript('LSsmoothbox.js');
-      $GLOBALS['LSsession'] -> addCssFile('LSsmoothbox.css');
-      $GLOBALS['LSsession'] -> addJSscript('LSconfirmBox.js');
-      $GLOBALS['LSsession'] -> addCssFile('LSconfirmBox.css');
+      LSsession :: addJSscript('LSformElement_select_object_field.js');
+      LSsession :: addJSscript('LSformElement_select_object.js');
+      LSsession :: addJSscript('LSform.js');
+      LSsession :: addJSscript('LSselect.js');
+      LSsession :: addCssFile('LSselect.css');
+      LSsession :: addJSscript('LSsmoothbox.js');
+      LSsession :: addCssFile('LSsmoothbox.css');
+      LSsession :: addJSscript('LSconfirmBox.js');
+      LSsession :: addCssFile('LSconfirmBox.css');
       
     }
     $return['html'] = $this -> fetchTemplate(NULL,array('selectableObject' => $this -> selectableObject));
@@ -142,7 +142,7 @@ class LSformElement_select_object extends LSformElement {
    */
   function searchAdd ($pattern) {
     if (is_array($this -> params['selectable_object'])) {
-      if ($GLOBALS['LSsession'] -> loadLSobject($this -> params['selectable_object']['object_type'])) {
+      if (LSsession :: loadLSobject($this -> params['selectable_object']['object_type'])) {
         $obj = new $this -> params['selectable_object']['object_type']();
         $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['selectable_object']['display_attribute']);
         if (is_array($ret)) {

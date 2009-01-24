@@ -22,17 +22,15 @@
 
 require_once 'includes/class/class.LSsession.php';
 
-$GLOBALS['LSsession'] = new LSsession();
-
-if($LSsession -> startLSsession()) {
+if(LSsession :: startLSsession()) {
 
   // Définition du Titre de la page
   $GLOBALS['Smarty'] -> assign('pagetitle',_('Accueil'));
 
   // Template
-  $GLOBALS['LSsession'] -> setTemplate('accueil.tpl');
+  LSsession :: setTemplate('accueil.tpl');
 }
 
 // Affichage des retours d'erreurs
-$GLOBALS['LSsession'] -> displayTemplate();
+LSsession :: displayTemplate();
 ?>

@@ -80,12 +80,12 @@ class LSattr_html {
    */
   function addToForm (&$form,$idForm,$data=NULL) {
     if (!$this -> LSformElement_type) {
-      LSerror::addErrorCode('LSattr_html_01',$this -> name);
+      LSerror :: addErrorCode('LSattr_html_01',$this -> name);
       return;
     }
     $element=$form -> addElement($this -> LSformElement_type, $this -> name, $this -> config['label'],$this -> config, $this);
     if(!$element) {
-      LSerror::addErrorCode('LSform_06',$this -> name);
+      LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
     }
     if ($data) {

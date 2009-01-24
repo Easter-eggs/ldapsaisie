@@ -43,15 +43,15 @@ class LSformElement_ssh_key extends LSformElement {
   * @retval array
   */
   function getDisplay(){
-    $GLOBALS['LSsession'] -> addCssFile('LSformElement_ssh_key.css');
+    LSsession :: addCssFile('LSformElement_ssh_key.css');
     $return = $this -> getLabelInfos();
     $params = array();
     if (!$this -> isFreeze()) {
       $params['values_txt'] = $this -> values;
     }
     else {
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_ssh_key.js');
-      $GLOBALS['LSsession'] -> addHelpInfos (
+      LSsession :: addJSscript('LSformElement_ssh_key.js');
+      LSsession :: addHelpInfos (
         'LSformElement_ssh_key',
         array(
           'display' => _("Afficher la clef complète.")

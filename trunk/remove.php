@@ -22,25 +22,23 @@
 
 require_once 'includes/class/class.LSsession.php';
 
-$GLOBALS['LSsession'] = new LSsession();
-
-if($LSsession -> startLSsession()) {
+if(LSsession :: startLSsession()) {
 
   if ((isset($_GET['LSobject'])) && (isset($_GET['dn']))) {
     
-    if ($GLOBALS['LSsession'] -> loadLSobject($_GET['LSobject'])) {
-        if ( $GLOBALS['LSsession'] -> canRemove($_GET['LSobject'],$_GET['dn']) ) {
+    if (LSsession ::loadLSobject($_GET['LSobject'])) {
+        if ( LSsession :: canRemove($_GET['LSobject'],$_GET['dn']) ) {
           $object = new $_GET['LSobject']();
           if ($object -> loadData($_GET['dn'])) {
             if (isset($_GET['valid'])) {
               $objectname=$object -> getDisplayName();
               $GLOBALS['Smarty'] -> assign('pagetitle',_('Suppression').' : '.$objectname);
               if ($object -> remove()) {
-                $GLOBALS['LSsession'] -> addInfo($objectname.' '._('a bien été supprimé').'.');
-                $GLOBALS['LSsession'] -> redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
+                LSsession :: addInfo($objectname.' '._('a bien été supprimé').'.');
+                LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
               }
               else {
-                LSerror::addErrorCode('LSldapObject_15',$objectname);
+                LSerror :: addErrorCode('LSldapObject_15',$objectname);
               }
             }
             else {
@@ -50,29 +48,29 @@ if($LSsession -> startLSsession()) {
               $GLOBALS['Smarty'] -> assign('validation_url','remove.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$_GET['dn'].'&amp;valid');
               $GLOBALS['Smarty'] -> assign('validation_txt',_('Valider'));
             }
-            $GLOBALS['LSsession'] -> setTemplate('question.tpl');
+            LSsession :: setTemplate('question.tpl');
           }
           else {
-            LSerror::addErrorCode('LSsession_12');
+            LSerror :: addErrorCode('LSsession_12');
           }
         }
         else {
-          LSerror::addErrorCode('LSsession_11');
+          LSerror :: addErrorCode('LSsession_11');
         }
     }
     else {
-      LSerror::addErrorCode('LSldapObject_01');
+      LSerror :: addErrorCode('LSldapObject_01');
     }
   }
   else {
-    LSerror::addErrorCode('LSsession_12');
+    LSerror :: addErrorCode('LSsession_12');
   }
 
 }
 else {
-  $GLOBALS['LSsession'] -> setTemplate('login.tpl');
+  LSsession :: setTemplate('login.tpl');
 }
 
 // Affichage des retours d'erreurs
-$GLOBALS['LSsession'] -> displayTemplate();
+LSsession :: displayTemplate();
 ?>

@@ -22,13 +22,11 @@
 
 require_once 'includes/class/class.LSsession.php';
 
-$GLOBALS['LSsession'] = new LSsession();
-
-if($LSsession -> startLSsession()) {
+if(LSsession :: startLSsession()) {
   if (isset($_REQUEST['LSobject'])) {
     $LSobject = $_REQUEST['LSobject'];
     
-    if ( $GLOBALS['LSsession'] -> loadLSobject($LSobject) ) {
+    if ( LSsession ::loadLSobject($LSobject) ) {
       $objectList=array();
       $object = new $LSobject();
       
@@ -37,18 +35,18 @@ if($LSsession -> startLSsession()) {
       
       if (isset($_SESSION['LSsession']['LSsearch'][$LSobject])) {
         $filter = $_SESSION['LSsession']['LSsearch'][$LSobject]['filter'];
-        if (isCompatibleDNs($_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'],$GLOBALS['LSsession'] -> topDn)) {
+        if (isCompatibleDNs($_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'],LSsession :: getTopDn())) {
           $topDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['topDn'];
           if (isset($_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'])) {
             $selectedTopDn = $_SESSION['LSsession']['LSsearch'][$LSobject]['selectedTopDn'];
           }
           else {
-            $selectedTopDn = $GLOBALS['LSsession'] -> topDn;
+            $selectedTopDn = LSsession :: getTopDn();
           }
         }
         else {
-          $selectedTopDn  = $GLOBALS['LSsession'] -> topDn;
-          $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
+          $selectedTopDn  = LSsession :: getTopDn();
+          $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
         }
         $params = $_SESSION['LSsession']['LSsearch'][$LSobject]['params'];
         $pattern = $_SESSION['LSsession']['LSsearch'][$LSobject]['pattern'];
@@ -60,17 +58,17 @@ if($LSsession -> startLSsession()) {
       }
       else {
         $filter = NULL;
-        $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
+        $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
         $params = array('scope' => 'one');
         $pattern = false;
         $recur = false;
         $approx = false;
-        $selectedTopDn = $GLOBALS['LSsession'] -> topDn;
+        $selectedTopDn = LSsession :: getTopDn();
         $orderby = false;
         $_REQUEST['orderby']=$GLOBALS['LSobjects'][$LSobject]['orderby'];
         $ordersense = 'ASC';
-        $subDnLdapServer = $GLOBALS['LSsession'] -> getSubDnLdapServer();
-        $doSubDn = (($subDnLdapServer)&&(!$GLOBALS['LSsession']->isSubDnLSobject($LSobject)));
+        $subDnLdapServer = LSsession :: getSubDnLdapServer();
+        $doSubDn = (($subDnLdapServer)&&(!LSsession :: isSubDnLSobject($LSobject)));
       }
       
       if (isset($_REQUEST['LSview_search_submit'])) {
@@ -101,25 +99,25 @@ if($LSsession -> startLSsession()) {
         if (isset($_REQUEST['LSview_recur'])) {
           $recur = true;
           $params['scope'] = 'sub';
-          if ($GLOBALS['LSsession'] -> validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
+          if (LSsession :: validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
             $topDn = $_REQUEST['LSselect_topDn'];
             $selectedTopDn = $topDn;
           }
           else {
-            $topDn = $GLOBALS['LSsession'] -> topDn;
+            $topDn = LSsession :: getTopDn();
             $selectedTopDn = $topDn;
           }
         }
         else {
           $recur = false;
           $params['scope'] = 'one';
-          if ($GLOBALS['LSsession'] -> validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
+          if (LSsession :: validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
             $topDn = $object -> config['container_dn'].','.$_REQUEST['LSselect_topDn'];
             $selectedTopDn = $_REQUEST['LSselect_topDn'];
           }
           else {
-            $topDn = $object -> config['container_dn'].','.$GLOBALS['LSsession'] -> topDn;
-            $selectedTopDn = $GLOBALS['LSsession'] -> topDn;
+            $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
+            $selectedTopDn = LSsession :: getTopDn();
           }
         }
       }
@@ -188,7 +186,7 @@ if($LSsession -> startLSsession()) {
         )
       );
       
-      if (($GLOBALS['LSsession'] -> cacheSearch()) && isset($_SESSION['LSsession']['LSsearch'][$hash]) && (!isset($_REQUEST['refresh']))) {
+      if ((LSsession :: cacheSearch()) && isset($_SESSION['LSsession']['LSsearch'][$hash]) && (!isset($_REQUEST['refresh']))) {
         // On affiche à partir du cache
         $searchData=$_SESSION['LSsession']['LSsearch'][$hash];
         LSdebug('From cache');
@@ -208,7 +206,7 @@ if($LSsession -> startLSsession()) {
         $c=0;
         
         foreach($list as $objDn => $objName) {
-          if ($GLOBALS['LSsession'] -> canAccess($LSobject,$objDn)) {
+          if (LSsession :: canAccess($LSobject,$objDn)) {
 
             $c++;
             unset($actions);
@@ -230,7 +228,7 @@ if($LSsession -> startLSsession()) {
         }
         $searchData['objectList']=$objectList;
         $searchData['LSview_actions'] = $LSview_actions;
-        if ($GLOBALS['LSsession'] -> cacheSearch()) {
+        if (LSsession :: cacheSearch()) {
           $_SESSION['LSsession']['LSsearch'][$hash]=$searchData;
         }
         if ($orderby) {
@@ -298,7 +296,7 @@ if($LSsession -> startLSsession()) {
         $searchData['objectList'][$i]['select']=$select;
       }        
       
-      $GLOBALS['LSsession'] -> addJSscript('LSview.js');
+      LSsession :: addJSscript('LSview.js');
       
       $GLOBALS['Smarty']->assign('LSview_search',array(
         'action' => $_SERVER['PHP_SELF'],
@@ -315,22 +313,22 @@ if($LSsession -> startLSsession()) {
       $GLOBALS['Smarty'] -> assign('LSview_actions',$searchData['LSview_actions']);
       $GLOBALS['Smarty'] -> assign('LSselect_multiple',$multiple);
       if (isset($_REQUEST['ajax'])) {
-        $GLOBALS['LSsession'] -> setTemplate('select_table.tpl');
+        LSsession :: setTemplate('select_table.tpl');
       }
       else {
-        $GLOBALS['LSsession'] -> setTemplate('select.tpl');
+        LSsession :: setTemplate('select.tpl');
       }
-      $GLOBALS['LSsession'] -> ajaxDisplay = true;
+      LSsession :: setAjaxDisplay();
     }
   }
   else {
-    LSerror::addErrorCode('LSsession_12');
+    LSerror :: addErrorCode('LSsession_12');
   }
 }
 else {
-  $GLOBALS['LSsession'] -> setTemplate('login.tpl');
+  LSsession :: setTemplate('login.tpl');
 }
 
 // Affichage des retours d'erreurs
-$GLOBALS['LSsession'] -> displayTemplate();
+LSsession :: displayTemplate();
 ?>

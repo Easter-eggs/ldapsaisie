@@ -135,7 +135,7 @@ class LSformElement_date extends LSformElement {
     // value
     if (!$this -> isFreeze()) {
       // Help Infos
-      $GLOBALS['LSsession'] -> addHelpInfos(
+      LSsession :: addHelpInfos(
         'LSformElement_date',
         array(
           'calendar' => _('Sélectionner dans un calendrier.')
@@ -146,15 +146,15 @@ class LSformElement_date extends LSformElement {
         'format' => $this -> php2js_format($this -> getFormat()),
         'firstDayOfWeek' => $this -> getFirstDayOfWeek()
       );
-      $GLOBALS['LSsession'] -> addJSconfigParam($this -> name,$params);
+      LSsession :: addJSconfigParam($this -> name,$params);
       
-      $GLOBALS['LSsession'] -> addCssFile('theme.css',LS_LIB_DIR.'jscalendar/skins/aqua/');
-      $GLOBALS['LSsession'] -> addJSscript('calendar.js',LS_LIB_DIR.'jscalendar/');
-      $GLOBALS['LSsession'] -> addJSscript('calendar-en.js',LS_LIB_DIR.'jscalendar/lang/');
+      LSsession :: addCssFile('theme.css',LS_LIB_DIR.'jscalendar/skins/aqua/');
+      LSsession :: addJSscript('calendar.js',LS_LIB_DIR.'jscalendar/');
+      LSsession :: addJSscript('calendar-en.js',LS_LIB_DIR.'jscalendar/lang/');
       $codeLang = strtolower($GLOBALS['LSconfig']['lang'][0].$GLOBALS['LSconfig']['lang'][1]);
-      $GLOBALS['LSsession'] -> addJSscript('calendar-'.$codeLang.'.js',LS_LIB_DIR.'jscalendar/lang/');
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_date_field.js');
-      $GLOBALS['LSsession'] -> addJSscript('LSformElement_date.js');
+      LSsession :: addJSscript('calendar-'.$codeLang.'.js',LS_LIB_DIR.'jscalendar/lang/');
+      LSsession :: addJSscript('LSformElement_date_field.js');
+      LSsession :: addJSscript('LSformElement_date.js');
     }
     $return['html'] = $this -> fetchTemplate();
     return $return;

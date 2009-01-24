@@ -82,7 +82,7 @@ class LSformElement_mailQuota extends LSformElement {
       }
     }
     
-    $GLOBALS['LSsession'] -> addCssFile('LSformElement_mailQuota.css');
+    LSsession :: addCssFile('LSformElement_mailQuota.css');
     
     $return['html'] = $this -> fetchTemplate(
       NULL,
