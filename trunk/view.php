@@ -210,18 +210,7 @@ if(LSsession :: startLSsession()) {
             $approx = (isset($_REQUEST['LSview_approx']));
             
             if ($pattern && $pattern!='') {
-              $filter='(|';
-              if ($approx) {
-                foreach ($object -> attrs as $attr_name => $attr_val) {
-                  $filter.='('.$attr_name.'~='.$pattern.')';
-                }
-              }
-              else {
-                foreach ($object -> attrs as $attr_name => $attr_val) {
-                  $filter.='('.$attr_name.'=*'.$pattern.'*)';
-                }
-              }
-              $filter.=')';
+              $filter=$object -> getPatternFilter($pattern,$approx);
             }
             else {
               $filter = NULL;

@@ -629,6 +629,43 @@ class LSldapObject {
   }
   
   /**
+   * Retourne le filtre correpondants au pattern passé
+   * 
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @param[in] $pattern string Le mot clé recherché
+   * @param[in] $approx booléen Booléen activant ou non la recherche approximative
+   *
+   * @retval string le filtre ldap correspondant
+   */ 
+  function getPatternFilter($pattern=null,$approx=null) {
+    if ($pattern!=NULL) {
+      if (is_array($GLOBALS['LSobjects'][$this -> getType()]['LSsearch']['attrs'])) {
+        $attrs=$GLOBALS['LSobjects'][$this -> getType()]['LSsearch']['attrs'];
+      }
+      else {
+        $attrs=array($GLOBALS['LSobjects'][$this -> getType()]['rdn']);
+      }
+      $pfilter='(|';
+      if ($approx) {
+        foreach ($attrs as $attr_name) {
+          $pfilter.='('.$attr_name.'~='.$pattern.')';
+        }
+      }
+      else {
+        foreach ($attrs as $attr_name) {
+          $pfilter.='('.$attr_name.'=*'.$pattern.'*)';
+        }
+      }
+      $pfilter.=')';
+      return $pfilter;
+    }
+    else {
+      return NULL;
+    }
+  }
+  
+  /**
    * Retourne une liste d'objet du mÃªme type.
    *
    * Effectue une recherche en fonction des paramÃ¨tres passÃ© et retourne un
@@ -961,23 +998,7 @@ class LSldapObject {
    * @retval array('dn' => 'display')
    */
   function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false) {
-    if ($pattern!=NULL) {
-      $filter='(|';
-      if ($approx) {
-        foreach ($this -> attrs as $attr_name => $attr_val) {
-          $filter.='('.$attr_name.'~='.$pattern.')';
-        }
-      }
-      else {
-        foreach ($this -> attrs as $attr_name => $attr_val) {
-          $filter.='('.$attr_name.'=*'.$pattern.'*)';
-        }
-      }
-      $filter.=')';
-    }
-    else {
-      $filter=NULL;
-    }
+    $filter=$this -> getPatternFilter($pattern,$approx);
     return $this -> listObjectsName($filter,$topDn,array(),$displayFormat);
   }
 

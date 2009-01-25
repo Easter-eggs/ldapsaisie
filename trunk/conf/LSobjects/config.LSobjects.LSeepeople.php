@@ -106,6 +106,16 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     ) // fin Layout
   ), // fin LSform
   
+  'LSsearch' => array (
+    'attrs' => array (
+      'givenName',
+      'sn',
+      'cn',
+      'uid',
+      'mail'
+    )
+  ),
+  
   // Attributes
   'attrs' => array (
   
