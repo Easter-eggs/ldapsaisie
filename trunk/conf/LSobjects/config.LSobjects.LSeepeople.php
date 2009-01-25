@@ -133,8 +133,9 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       ),
       'required' => 1,
       'check_data' => array (
-        'alphanumeric' => array(
-          'msg' => _("L'identifiant ne doit comporter que des lettres et des chiffres.")
+        'regex' => array(
+          'msg' => _("L'identifiant ne doit comporter que des lettres, des chiffres ou des '.' ou des '-'."),
+          'params' => array('regex' => '/^[a-zA-Z0-9-_\.]*$/')
         ),
       ),
       'validation' => array (
