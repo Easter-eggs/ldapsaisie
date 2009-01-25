@@ -61,8 +61,8 @@ class LSformRule_regex extends LSformRule {
 /*
  * Error Codes
  */
-$GLOBALS['LSerror_code']['LSformRule_regex_01'] = array(
-  'msg' => _("LSformRule_regex : Regex has not been configured to validate data.")
+LSerror :: defineError('LSformRule_regex_01',
+_("LSformRule_regex : Regex has not been configured to validate data.")
 );
 
 ?>

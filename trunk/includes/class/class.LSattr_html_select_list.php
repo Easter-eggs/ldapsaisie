@@ -127,7 +127,7 @@ class LSattr_html_select_list extends LSattr_html{
 /*
  * Error Codes
  */
-$GLOBALS['LSerror_code']['LSattr_html_select_list_01'] = array (
-  'msg' => _("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
+LSerror :: defineError('LSattr_html_select_list_01',
+_("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
 );
 ?>

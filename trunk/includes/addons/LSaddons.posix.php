@@ -23,20 +23,17 @@
 // Messages d'erreur
 
 // Support
-$GLOBALS['LSerror_code']['POSIX_SUPPORT_01']= array (
-  'msg' => _("POSIX Support : La constante %{const} n'est pas définie."),
-  'level' => 'c'
+LSerror :: defineError('POSIX_SUPPORT_01',
+  _("POSIX Support : La constante %{const} n'est pas définie.")
 );
 
-$GLOBALS['LSerror_code']['POSIX_SUPPORT_02']= array (
-  'msg' => _("POSIX Support : Impossible de charger LSaddons::FTP."),
-  'level' => 'c'
+LSerror :: defineError('POSIX_SUPPORT_02',
+  _("POSIX Support : Impossible de charger LSaddons::FTP.")
 );
 
 // Autres erreurs
-$GLOBALS['LSerror_code']['POSIX_01']= array (
-  'msg' => _("POSIX : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
-  'level' => 'c'
+LSerror :: defineError('POSIX_01',
+  _("POSIX : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}.")
 );
       
  /**
@@ -93,7 +90,7 @@ $GLOBALS['LSerror_code']['POSIX_01']= array (
   */
   function generate_uidNumber($ldapObject) {
 
-    $objects = $GLOBALS['LSldap'] -> search (LS_POSIX_UIDNUMBER_ATTR.'=*');
+    $objects = LSldap :: search (LS_POSIX_UIDNUMBER_ATTR.'=*');
     $uidNumber = LS_POSIX_UIDNUMBER_MIN_VAL;
 
     if (!is_array($objects))
@@ -120,7 +117,7 @@ $GLOBALS['LSerror_code']['POSIX_01']= array (
   */
   function generate_gidNumber($ldapObject) {
 
-    $objects = $GLOBALS['LSldap'] -> search (LS_POSIX_GIDNUMBER_ATTR.'=*');
+    $objects = LSldap :: search (LS_POSIX_GIDNUMBER_ATTR.'=*');
     $gidNumber = LS_POSIX_GIDNUMBER_MIN_VAL;
 
     if (!is_array($objects))

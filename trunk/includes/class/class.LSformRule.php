@@ -53,7 +53,7 @@ class LSformRule {
 /**
  * Error Codes
  **/
-$GLOBALS['LSerror_code']['LSformRule_01'] = array (
-  'msg' => _("LSformRule_%{type} : Parameter %{param} is not found.")
+LSerror :: defineError('LSformRule_01',
+_("LSformRule_%{type} : Parameter %{param} is not found.")
 );
 ?>

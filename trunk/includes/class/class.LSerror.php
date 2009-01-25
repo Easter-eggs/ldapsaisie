@@ -29,6 +29,26 @@
  */
 class LSerror {
 
+  private static $_errorCodes = array(
+    '0' => array('msg' => "%{msg}")
+  );
+
+  /**
+   * Défini une erreur
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $code numeric Le code de l'erreur
+   * @param[in] $msg LSformat Le format paramètrable du message de l'erreur
+   *
+   * @retval void
+   */ 
+  public static function defineError($code=-1,$msg='') {
+    self :: $_errorCodes[$code] = array(
+      'msg' => $msg
+    );
+  }
+  
   /**
    * Ajoute une erreur
    *
@@ -42,7 +62,7 @@ class LSerror {
    *
    * @retval void
    */ 
-  static function addErrorCode($code=-1,$msg='') {
+  public static function addErrorCode($code=-1,$msg='') {
     $_SESSION['LSerror'][] = array($code,$msg);
   }
   
@@ -55,7 +75,7 @@ class LSerror {
    * 
    * @retval void
    */
-  static function display($return=False) {
+  public static function display($return=False) {
     $errors = self::getErrors();
     if ($errors) {
       if ($return) {
@@ -75,7 +95,7 @@ class LSerror {
    * 
    * @retval void
    */
-  static function stop($code=-1,$msg='') {
+  public static function stop($code=-1,$msg='') {
     if(!empty($_SESSION['LSerror'])) {
       print "<h1>"._('Errors')."</h1>\n";
       print self::display(true);
@@ -91,7 +111,7 @@ class LSerror {
   *
   * @retvat string Le texte des erreurs
   */
-  static function getErrors() {
+  public static function getErrors() {
     if(!empty($_SESSION['LSerror'])) {
       foreach ($_SESSION['LSerror'] as $error) {
         $txt.=self::getError($error);
@@ -109,8 +129,8 @@ class LSerror {
   *
   * @retvat string Le texte des erreurs
   */
-  static function getError($error) {
-    return "(Code ".$error[0].") ".getFData($GLOBALS['LSerror_code'][$error[0]]['msg'],$error[1])."<br />\n";
+  private static function getError($error) {
+    return "(Code ".$error[0].") ".getFData(self :: $_errorCodes[$error[0]]['msg'],$error[1])."<br />\n";
   }
   
  /**
@@ -120,7 +140,7 @@ class LSerror {
   *
   * @retvat boolean
   */
-  static function errorsDefined() {
+  public static function errorsDefined() {
     return !empty($_SESSION['LSerror']);
   }
   
@@ -131,7 +151,7 @@ class LSerror {
   *
   * @retvat void
   */
-  static function resetError() {
+  private static function resetError() {
     unset ($_SESSION['LSerror']);
   }
 }
@@ -139,11 +159,6 @@ class LSerror {
 /*
  * Error Codes
  */
-$GLOBALS['LSerror_code']['-1'] = array (
-  'msg' => _("Unknow error!")
-);
-$GLOBALS['LSerror_code'][0] = array (
-  'msg' => "%{msg}"
-);
+LSerror :: defineError(-1,_("Unknow error!"));
 
 ?>

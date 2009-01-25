@@ -109,12 +109,12 @@ class LSattr_html {
 /*
  * Error Codes
  */
-$GLOBALS['LSerror_code']['LSattr_html_01'] = array (
-  'msg' => _("LSattr_html : The method addToForm() of the HTML type of the attribute %{attr} is not defined.")
+LSerror :: defineError('LSattr_html_01',
+_("LSattr_html : The method addToForm() of the HTML type of the attribute %{attr} is not defined.")
 );
 // 02 : not yet used
-$GLOBALS['LSerror_code']['LSattr_html_03'] = array (
-  'msg' => _("LSattr_html_%{type} : The multiple data are not supported for this field type.")
+LSerror :: defineError('LSattr_html_03',
+_("LSattr_html_%{type} : The multiple data are not supported for this field type.")
 );
 
 ?>

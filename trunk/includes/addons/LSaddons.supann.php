@@ -23,15 +23,13 @@
 // Messages d'erreur
 
 // Support
-$GLOBALS['LSerror_code']['SUPANN_SUPPORT_01']= array (
-  'msg' => _("SUPANN Support : La constante %{const} n'est pas définie."),
-  'level' => 'c'
+LSerror :: defineError('SUPANN_SUPPORT_01',
+  _("SUPANN Support : La constante %{const} n'est pas définie.")
 );
 
 // Autres erreurs
-$GLOBALS['LSerror_code']['SUPANN_01']= array (
-  'msg' => _("SUPANN Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
-  'level' => 'c'
+LSerror :: defineError('SUPANN_01',
+  _("SUPANN Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}.")
 );
       
  /**

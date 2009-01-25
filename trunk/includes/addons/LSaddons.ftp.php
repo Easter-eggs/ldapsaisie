@@ -23,42 +23,34 @@
 // Messages d'erreur
 
 // Support
-$GLOBALS['LSerror_code']['FTP_SUPPORT_01']= array (
-  'msg' => _("FTP Support : Pear::Net_FTP est introuvable."),
-  'level' => 'c'
+LSerror :: defineError('FTP_SUPPORT_01',
+  _("FTP Support : Pear::Net_FTP est introuvable.")
 );
 
-$GLOBALS['LSerror_code']['FTP_SUPPORT_02']= array (
-  'msg' => _("FTP Support : La constante %{const} n'est pas défini."),
-  'level' => 'c'
+LSerror :: defineError('FTP_SUPPORT_02',
+  _("FTP Support : La constante %{const} n'est pas défini.")
 );
 
 
 // Autres erreurs
-$GLOBALS['LSerror_code']['FTP_00']= array (
-  'msg' => _("Net_FTP Error : %{msg}"),
-  'level' => 'c'
+LSerror :: defineError('FTP_00',
+  _("Net_FTP Error : %{msg}")
 );
 
-$GLOBALS['LSerror_code']['FTP_01']= array (
-  'msg' => _("FTP Support : Impossible de se connecter au serveur FTP (Etape : %{etape})."),
-  'level' => 'c'
+LSerror :: defineError('FTP_01',
+  _("FTP Support : Impossible de se connecter au serveur FTP (Etape : %{etape}).")
 );
-$GLOBALS['LSerror_code']['FTP_02']= array (
-  'msg' => _("FTP Support : Impossible de créer le dossier %{dir} sur le serveur distant."),
-  'level' => 'c'
+LSerror :: defineError('FTP_02',
+  _("FTP Support : Impossible de créer le dossier %{dir} sur le serveur distant.")
 );
-$GLOBALS['LSerror_code']['FTP_03']= array (
-  'msg' => _("FTP Support : Impossible de supprimer le dossier %{dir} sur le serveur distant."),
-  'level' => 'c'
+LSerror :: defineError('FTP_03',
+  _("FTP Support : Impossible de supprimer le dossier %{dir} sur le serveur distant.")
 );
-$GLOBALS['LSerror_code']['FTP_04']= array (
-  'msg' => _("FTP Support : Impossible de modifier les droits du dossier %{dir} sur le serveur distant."),
-  'level' => 'c'
+LSerror :: defineError('FTP_04',
+  _("FTP Support : Impossible de modifier les droits du dossier %{dir} sur le serveur distant.")
 );
-$GLOBALS['LSerror_code']['FTP_05']= array (
-  'msg' => _("FTP Support : Impossible de renomer le dossier %{old} en %{new} sur le serveur distant."),
-  'level' => 'c'
+LSerror :: defineError('FTP_05',
+  _("FTP Support : Impossible de renomer le dossier %{old} en %{new} sur le serveur distant.")
 );
 
  /**

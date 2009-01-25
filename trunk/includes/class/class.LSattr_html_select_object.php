@@ -195,8 +195,8 @@ class LSattr_html_select_object extends LSattr_html{
 /*
  * Error Codes
  */
-$GLOBALS['LSerror_code']['LSattr_html_select_object_01'] = array (
-  'msg' => _("LSattr_html_select_object : LSobject type is undefined (attribute : %{attr}).")
+LSerror :: defineError('LSattr_html_select_object_01',
+_("LSattr_html_select_object : LSobject type is undefined (attribute : %{attr}).")
 );
 
 ?>

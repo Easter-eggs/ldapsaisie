@@ -65,7 +65,7 @@ class LSattr_ldap_password extends LSattr_ldap {
         break;
       case 'ext_des':
         if ( ! defined( 'CRYPT_EXT_DES' ) || CRYPT_EXT_DES == 0 ) {
-          LSerror :: addErrorCode(1023,'ext_des');
+          LSerror :: addErrorCode('LSattr_ldap_password_01','ext_des');
         }
         else {
           return '{CRYPT}' . crypt( $this -> clearPassword, '_' . $this -> getSalt(8) );
@@ -73,7 +73,7 @@ class LSattr_ldap_password extends LSattr_ldap {
         break;
       case 'blowfish':
         if( ! defined( 'CRYPT_BLOWFISH' ) || CRYPT_BLOWFISH == 0 ) {
-          LSerror :: addErrorCode(1023,'blowfish');
+          LSerror :: addErrorCode('LSattr_ldap_password_01','blowfish');
         }
         else {
           return '{CRYPT}' . crypt( $this -> clearPassword, '$2a$12$' . $this -> getSalt(13) );
@@ -86,7 +86,7 @@ class LSattr_ldap_password extends LSattr_ldap {
         elseif( function_exists( 'mhash' ) ) {
           return '{SHA}' . base64_encode( mhash( MHASH_SHA1, $this -> clearPassword ) );
         } else {
-          LSerror :: addErrorCode(1023,'sha');
+          LSerror :: addErrorCode('LSattr_ldap_password_01','sha');
         }
         break;
       case 'ssha':
@@ -96,7 +96,7 @@ class LSattr_ldap_password extends LSattr_ldap {
           return "{SSHA}".base64_encode( mhash( MHASH_SHA1, $this -> clearPassword.$salt ).$salt );
         }
         else {
-          LSerror :: addErrorCode(1023,'ssha');
+          LSerror :: addErrorCode('LSattr_ldap_password_01','ssha');
         }
         break;
       case 'smd5':
@@ -106,7 +106,7 @@ class LSattr_ldap_password extends LSattr_ldap {
           return "{SMD5}".base64_encode( mhash( MHASH_MD5, $password_clear.$salt ).$salt );
         }
         else {
-          LSerror :: addErrorCode(1023,'smd5');
+          LSerror :: addErrorCode('LSattr_ldap_password_01','smd5');
         }
         break;
       case 'md5':
@@ -114,7 +114,7 @@ class LSattr_ldap_password extends LSattr_ldap {
         break;
       case 'md5crypt':
         if( ! defined( 'CRYPT_MD5' ) || CRYPT_MD5 == 0 ) {
-          LSerror :: addErrorCode(1023,'md5crypt');
+          LSerror :: addErrorCode('LSattr_ldap_password_01','md5crypt');
         }
         else {
           return '{CRYPT}'.crypt($this -> clearPassword,'$1$'.$this -> getSalt().'$');
@@ -154,7 +154,7 @@ class LSattr_ldap_password extends LSattr_ldap {
 /**
  * Error Codes
  **/
-$GLOBALS['LSerror_code'][1023] = array(
-  'msg' => _("LSattr_ldap_password : Encoding type %{type} is not supported. This password will be stocked in clear text.")
+LSerror :: defineError('LSattr_ldap_password_01',
+_("LSattr_ldap_password : Encoding type %{type} is not supported. This password will be stocked in clear text.")
 );
 ?>

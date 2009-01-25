@@ -686,32 +686,32 @@ class LSattribute {
 /**
  * Error Codes
  **/
-$GLOBALS['LSerror_code']['LSattribute_01'] = array (
-  'msg' => _("LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} & HTML = %{html}).")
+LSerror :: defineError('LSattribute_01',
+  _("LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} & HTML = %{html}).")
 );
-$GLOBALS['LSerror_code']['LSattribute_02'] = array (
-  'msg' => _("LSattribute : The function %{func} to display the attribute %{attr} is unknow.")
+LSerror :: defineError('LSattribute_02',
+  _("LSattribute : The function %{func} to display the attribute %{attr} is unknow.")
 );
-$GLOBALS['LSerror_code']['LSattribute_03'] = array (
-  'msg' => _("LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow.")
+LSerror :: defineError('LSattribute_03',
+  _("LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow.")
 );
-$GLOBALS['LSerror_code']['LSattribute_04'] = array (
-  'msg' => _("LSattribute : Configuration data to verify the attribute %{attr} are incorrect.")
+LSerror :: defineError('LSattribute_04',
+  _("LSattribute : Configuration data to verify the attribute %{attr} are incorrect.")
 );
-$GLOBALS['LSerror_code']['LSattribute_05'] = array (
-  'msg' => _("LSattribute : The function %{func} to save the attribute %{attr} is unknow.")
+LSerror :: defineError('LSattribute_05',
+  _("LSattribute : The function %{func} to save the attribute %{attr} is unknow.")
 );
-$GLOBALS['LSerror_code']['LSattribute_06'] = array (
-  'msg' => _("LSattribute : The value of the attribute %{attr} can't be generated.")
+LSerror :: defineError('LSattribute_06',
+  _("LSattribute : The value of the attribute %{attr} can't be generated.")
 );
-$GLOBALS['LSerror_code']['LSattribute_07'] = array (
-  'msg' => _("LSattribute : Generation of the attribute %{attr} failed.")
+LSerror :: defineError('LSattribute_07',
+  _("LSattribute : Generation of the attribute %{attr} failed.")
 );
-$GLOBALS['LSerror_code']['LSattribute_08'] = array (
-  'msg' => _("LSattribute : Generation of the attribute %{attr} did not return a correct value.")
+LSerror :: defineError('LSattribute_08',
+  _("LSattribute : Generation of the attribute %{attr} did not return a correct value.")
 );
-$GLOBALS['LSerror_code']['LSattribute_09'] = array (
-  'msg' => _("LSattribute : The attr_%{type} of the attribute %{name} is not yet defined.")
+LSerror :: defineError('LSattribute_09',
+  _("LSattribute : The attr_%{type} of the attribute %{name} is not yet defined.")
 );
 
 ?>

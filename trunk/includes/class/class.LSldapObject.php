@@ -90,7 +90,7 @@ class LSldapObject {
    */ 
   function loadData($dn) {
     $this -> dn = $dn;
-    $data = $GLOBALS['LSldap'] -> getAttrs($dn);
+    $data = LSldap :: getAttrs($dn);
     if(!empty($data)) {
       foreach($this -> attrs as $attr_name => $attr) {
         if(!$this -> attrs[$attr_name] -> loadData($data[$attr_name]))
@@ -109,7 +109,7 @@ class LSldapObject {
    * @retval boolean true si la rechargement a rÃ©ussi, false sinon.
    */ 
   function reloadData() {
-    $data = $GLOBALS['LSldap'] -> getAttrs($this -> dn);
+    $data = LSldap :: getAttrs($this -> dn);
     foreach($this -> attrs as $attr_name => $attr) {
       if(!$this -> attrs[$attr_name] -> reloadData($data[$attr_name]))
         return;
@@ -453,7 +453,7 @@ class LSldapObject {
               $sfilter=$sfilter_user;
             }
             $sbasedn=(isset($test['basedn']))?getFData($test['basedn'],$this,'getValue'):NULL;
-            $ret=$GLOBALS['LSldap'] -> getNumberResult ($sfilter,$sbasedn,$sparams);
+            $ret=LSldap :: getNumberResult ($sfilter,$sbasedn,$sparams);
             if($test['result']==0) {
               if($ret!=0) {
                 $LSform -> setElementError($attr,$msg_error);
@@ -538,7 +538,7 @@ class LSldapObject {
           $this -> dn = false;
           $newDn = $this -> getDn();
           if ($newDn) {
-            if (!$GLOBALS['LSldap'] -> move($oldDn,$newDn)) {
+            if (!LSldap :: move($oldDn,$newDn)) {
               return;
             }
             $this -> dn = $newDn;
@@ -561,7 +561,7 @@ class LSldapObject {
       if($dn) {
         $this -> dn=$dn;
         LSdebug($submitData);
-        if (!$GLOBALS['LSldap'] -> update($this -> getType(),$dn, $submitData)) {
+        if (!LSldap :: update($this -> getType(),$dn, $submitData)) {
           return;
         }
         if ($new) {
@@ -758,7 +758,7 @@ class LSldapObject {
           }
         
           // Execution de la recherche
-          $ret=$GLOBALS['LSldap'] -> search ($sfilter_for,$sbasedn,$sparams);
+          $ret=LSldap :: search ($sfilter_for,$sbasedn,$sparams);
           
           // Si il y un retour
           if(isset($ret[0])) {
@@ -815,7 +815,7 @@ class LSldapObject {
         }
         
         // Lancement de la recherche
-        $ret=$GLOBALS['LSldap'] -> search ($sfilter,$sbasedn,$sparams);
+        $ret=LSldap :: search ($sfilter,$sbasedn,$sparams);
         
         //Si filtre multiple => on recupÃ¨re une liste d'attributs
         if(isset($filter[$i]['attr'])) {
@@ -1060,7 +1060,7 @@ class LSldapObject {
    */
   function remove() {
     if ($this -> beforeDelete()) {
-      if ($GLOBALS['LSldap'] -> remove($this -> getDn())) {
+      if (LSldap :: remove($this -> getDn())) {
         if ($this -> afterDelete()) {
           return true;
         }
@@ -1313,7 +1313,7 @@ class LSldapObject {
           if (LSsession :: loadLSobject($type)) {
             if (isset($GLOBALS['LSobjects'][$type]['container_auto_create'])&&isset($GLOBALS['LSobjects'][$type]['container_dn'])) {
               $dn = $GLOBALS['LSobjects'][$type]['container_dn'].','.$this -> getDn();
-              if(!$GLOBALS['LSldap'] -> getNewEntry($dn,$GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],$GLOBALS['LSobjects'][$type]['container_auto_create']['attrs'],true)) {
+              if(!LSldap :: getNewEntry($dn,$GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],$GLOBALS['LSobjects'][$type]['container_auto_create']['attrs'],true)) {
                 LSdebug("Impossible de créer l'entrée fille : ".print_r(
                   array(
                     'dn' => $dn,
@@ -1463,7 +1463,7 @@ class LSldapObject {
           }
         }
         if (isset($updateData)) {
-          return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array($attr => $updateData));
+          return LSldap :: update($this -> getType(),$this -> getDn(), array($attr => $updateData));
         }
         return true;
       }
@@ -1508,7 +1508,7 @@ class LSldapObject {
               $updateData[]=$value;
             }
           }
-          return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array($attr => $updateData));
+          return LSldap :: update($this -> getType(),$this -> getDn(), array($attr => $updateData));
         }
       }
     }
@@ -1556,7 +1556,7 @@ class LSldapObject {
               $updateData[] = $val;
             }
           }
-          return $GLOBALS['LSldap'] -> update($this -> getType(),$this -> getDn(), array($attr => $updateData));
+          return LSldap :: update($this -> getType(),$this -> getDn(), array($attr => $updateData));
         }
       }
     }
@@ -1670,93 +1670,93 @@ class LSldapObject {
 /**
  * Error Codes
  **/
-$GLOBALS['LSerror_code']['LSldapObject_01'] = array (
-  'msg' => _("LSldapObject : Object type unknow.")
+LSerror :: defineError('LSldapObject_01',
+_("LSldapObject : Object type unknow.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_02'] = array (
-  'msg' => _("LSldapObject : Update form is not defined for the object %{obj}.")
+LSerror :: defineError('LSldapObject_02',
+_("LSldapObject : Update form is not defined for the object %{obj}.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_03'] = array (
-  'msg' => _("LSldapObject : No form exist for the object %{obj}.")
+LSerror :: defineError('LSldapObject_03',
+_("LSldapObject : No form exist for the object %{obj}.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_04'] = array (
-  'msg' => _("LSldapObject : The function %{func} to validate the attribute %{attr} the object %{obj} is unknow.")
+LSerror :: defineError('LSldapObject_04',
+_("LSldapObject : The function %{func} to validate the attribute %{attr} the object %{obj} is unknow.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_05'] = array (
-  'msg' => _("LSldapObject : Configuration data are missing to validate the attribute %{attr} of the object %{obj}.")
+LSerror :: defineError('LSldapObject_05',
+_("LSldapObject : Configuration data are missing to validate the attribute %{attr} of the object %{obj}.")
 );
 /* No longer used
-$GLOBALS['LSerror_code'][26] = array (
-  'msg' => _("LSldapObject : Configuration error : The object %{obj} doesn't had attribute %{attr}.")
+LSerror :: defineError(26,
+_("LSldapObject : Configuration error : The object %{obj} doesn't had attribute %{attr}.")
 );
 */
-$GLOBALS['LSerror_code']['LSldapObject_07'] = array (
-  'msg' => _("LSldapObject : The function %{func} to be executed before changing the object doesn't exist.")
+LSerror :: defineError('LSldapObject_07',
+_("LSldapObject : The function %{func} to be executed before changing the object doesn't exist.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_08'] = array (
-  'msg' => _("LSldapObject : The execution of the function %{func} to be executed before changing the object failed.")
+LSerror :: defineError('LSldapObject_08',
+_("LSldapObject : The execution of the function %{func} to be executed before changing the object failed.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_09'] = array (
-  'msg' => _("LSldapObject : The function %{func} to be executed after changing the object doesn't exist.")
+LSerror :: defineError('LSldapObject_09',
+_("LSldapObject : The function %{func} to be executed after changing the object doesn't exist.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_10'] = array (
-  'msg' => _("LSldapObject : The execution of the function %{func} to be executed after changing the object failed.")
+LSerror :: defineError('LSldapObject_10',
+_("LSldapObject : The execution of the function %{func} to be executed after changing the object failed.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_11'] = array (
-  'msg' => _("LSldapObject : Some configuration data of the object type %{obj} are missing to generate the DN of the new object.")
+LSerror :: defineError('LSldapObject_11',
+_("LSldapObject : Some configuration data of the object type %{obj} are missing to generate the DN of the new object.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_12'] = array (
-  'msg' => _("LSldapObject : The attibute %{attr} of the object is not yet defined. Impossible to generate DN.")
+LSerror :: defineError('LSldapObject_12',
+_("LSldapObject : The attibute %{attr} of the object is not yet defined. Impossible to generate DN.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_13'] = array (
-  'msg' => _("LSldapObject : Without DN, the object could not be changed.")
+LSerror :: defineError('LSldapObject_13',
+_("LSldapObject : Without DN, the object could not be changed.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_14'] = array (
-  'msg' => _("LSldapObject : The attribute %{attr_depend} depending on the attribute %{attr} doesn't exist.")
+LSerror :: defineError('LSldapObject_14',
+_("LSldapObject : The attribute %{attr_depend} depending on the attribute %{attr} doesn't exist.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_15'] = array (
-  'msg' => _("LSldapObject : Error during deleting the object %{objectname}.")
+LSerror :: defineError('LSldapObject_15',
+_("LSldapObject : Error during deleting the object %{objectname}.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_16'] = array (
-  'msg' => _("LSldapObject : Error during actions to be executed before renaming the objet.")
+LSerror :: defineError('LSldapObject_16',
+_("LSldapObject : Error during actions to be executed before renaming the objet.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_17'] = array (
-  'msg' => _("LSldapObject : Error during actions to be executed after renaming the objet.")
+LSerror :: defineError('LSldapObject_17',
+_("LSldapObject : Error during actions to be executed after renaming the objet.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_18'] = array (
-  'msg' => _("LSldapObject : Error during actions to be executed before deleting the objet.")
+LSerror :: defineError('LSldapObject_18',
+_("LSldapObject : Error during actions to be executed before deleting the objet.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_19'] = array (
-  'msg' => _("LSldapObject : Error during actions to be executed after deleting the objet.")
+LSerror :: defineError('LSldapObject_19',
+_("LSldapObject : Error during actions to be executed after deleting the objet.")
 );
 // 20 : not used
-$GLOBALS['LSerror_code']['LSldapObject_21'] = array (
-  'msg' => _("LSldapObject : Error during the actions to be executed after creating the object. It was created anyway.")
+LSerror :: defineError('LSldapObject_21',
+_("LSldapObject : Error during the actions to be executed after creating the object. It was created anyway.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_22'] = array (
-  'msg' => _("LSldapObject : The function %{func} to be generated before creating the object doesn't exist.")
+LSerror :: defineError('LSldapObject_22',
+_("LSldapObject : The function %{func} to be generated before creating the object doesn't exist.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_23'] = array (
-  'msg' => _("LSldapObject : Error during the execution of the function %{func} to be generated after deleting the object.")
+LSerror :: defineError('LSldapObject_23',
+_("LSldapObject : Error during the execution of the function %{func} to be generated after deleting the object.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_24'] = array (
-  'msg' => _("LSldapObject : The function %{func} to be generated after deleting the object doesn't exist.")
+LSerror :: defineError('LSldapObject_24',
+_("LSldapObject : The function %{func} to be generated after deleting the object doesn't exist.")
 );
-$GLOBALS['LSerror_code']['LSldapObject_25'] = array (
-  'msg' => _("LSldapObject : Error during the execution of the function %{func} to be generated after creating the object.")
+LSerror :: defineError('LSldapObject_25',
+_("LSldapObject : Error during the execution of the function %{func} to be generated after creating the object.")
 );
 /* Not yet used
-$GLOBALS['LSerror_code'][306] = array (
-  'msg' => _("LSldapObject : The function %{func} to be executed after changing the attribute %{attr} is unknow.")
+LSerror :: defineError(306,
+_("LSldapObject : The function %{func} to be executed after changing the attribute %{attr} is unknow.")
 );
-$GLOBALS['LSerror_code'][307] = array (
-  'msg' => _("LSldapObject : The execution of the function %{func} to be executed after changing the attribute %{attr} failed.")
+LSerror :: defineError(307,
+_("LSldapObject : The execution of the function %{func} to be executed after changing the attribute %{attr} failed.")
 );
-$GLOBALS['LSerror_code'][308] = array (
-  'msg' => _("LSldapObject : The function %{func} to be executed before changing the attribute %{attr} is unknow.")
+LSerror :: defineError(308,
+_("LSldapObject : The function %{func} to be executed before changing the attribute %{attr} is unknow.")
 );
-$GLOBALS['LSerror_code'][309] = array (
-  'msg' => _("LSldapObject : The execution of the function %{func} to be executed before changing the attribute %{attr} failed.")
+LSerror :: defineError(309,
+_("LSldapObject : The execution of the function %{func} to be executed before changing the attribute %{attr} failed.")
 );
 */
 ?>

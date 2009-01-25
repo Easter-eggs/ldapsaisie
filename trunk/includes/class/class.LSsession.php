@@ -123,7 +123,7 @@ class LSsession {
         return true;
       }
       else {
-        die($GLOBALS['LSerror_code']['LSsession_08']['msg']);
+        die("ERROR : Can't load configuration file.");
         return;
       }
       return true;
@@ -151,6 +151,7 @@ class LSsession {
     if(!self :: loadLSclass('LSerror')) {
       return;
     }
+    self :: defineLSerrors();
     return true;
   }
 
@@ -674,8 +675,8 @@ class LSsession {
       if (!self :: loadLSclass('LSldap')) {
         return;
       }
-      $GLOBALS['LSldap'] = @new LSldap(self :: $ldapServer['ldap_config']);
-      if ($GLOBALS['LSldap'] -> isConnected()) {
+      LSldap :: connect(self :: $ldapServer['ldap_config']);
+      if (LSldap :: isConnected()) {
         return true;
       }
       else {
@@ -825,7 +826,7 @@ class LSsession {
   * @retval boolean True si l'authentification Ã  rÃ©ussi, false sinon.
   */
   public static function checkUserPwd($object,$pwd) {
-    return $GLOBALS['LSldap'] -> checkBind($object -> getValue('dn'),$pwd);
+    return LSldap :: checkBind($object -> getValue('dn'),$pwd);
   }
 
  /**
@@ -1779,81 +1780,89 @@ class LSsession {
       }
     }
   }
+  
+ /**
+  * Défini les codes erreur relative à la classe LSsession
+  * 
+  * @retval void
+  */  
+  private static function defineLSerrors() {
+    /*
+     * Error Codes
+     */
+    LSerror :: defineError('LSsession_01',
+    _("LSsession : The constant %{const} is not defined.")
+    );
+    LSerror :: defineError('LSsession_02',
+    _("LSsession : The %{addon} support is uncertain. Verify system compatibility and the add-on configuration.")
+    );
+    LSerror :: defineError('LSsession_03',
+    _("LSsession : LDAP server's configuration data are invalid. Impossible d'établir une connexion.")
+    );
+    LSerror :: defineError('LSsession_04',
+    _("LSsession : Failed to load LSobject type %{type} : unknon type.")
+    );
+    // no longer used
+    /*LSerror :: defineError(1005,
+    _("LSsession : Object type use for authentication is unknow (%{type}).")
+    );*/
+    LSerror :: defineError('LSsession_06',
+    _("LSsession : Login or password incorrect.")
+    );
+    LSerror :: defineError('LSsession_07',
+    _("LSsession : Impossible to identify you : Duplication of identities.")
+    );
+    LSerror :: defineError('LSsession_08',
+    _("LSsession : Can't load Smarty template engine.")
+    );
+    LSerror :: defineError('LSsession_09',
+    _("LSsession : Can't connect to LDAP server.")
+    );
+    LSerror :: defineError('LSsession_10',
+    _("LSsession : Impossible to load authentification objects's class.")
+    );
+    LSerror :: defineError('LSsession_11',
+    _("LSsession : Your are not authorized to do this action.")
+    );
+    LSerror :: defineError('LSsession_12',
+    _("LSsession : Some informations are missing to display this page.")
+    );
+    // 13 -> 16 : not yet used
+    LSerror :: defineError('LSsession_17',
+    _("LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})")
+    );
+    LSerror :: defineError('LSsession_18',
+    _("LSsession : The password recovery is disabled for this LDAP server.")
+    );
+    LSerror :: defineError('LSsession_19',
+    _("LSsession : Some informations are missing to recover your password. Contact administrators.")
+    );
+    LSerror :: defineError('LSsession_20',
+    _("LSsession : Error during password recovery. Contact administrators.(Step : %{step})")
+    );
+    // 21 : not yet used
+    LSerror :: defineError('LSsession_22',
+    _("LSsession : problem during initialisation.")
+    );
+
+
+    // LSrelations
+    LSerror :: defineError('LSrelations_01',
+    _("LSrelations : The listing function for the relation %{relation} is unknow.")
+    );
+    LSerror :: defineError('LSrelations_02',
+    _("LSrelations : The update function of the relation %{relation} is unknow.")
+    );
+    LSerror :: defineError('LSrelations_03',
+    _("LSrelations : Error during relation update of the relation %{relation}.")
+    );
+    LSerror :: defineError('LSrelations_04',
+    _("LSrelations : Object type %{LSobject} unknow (Relation : %{relation}).")
+    );
+    LSerror :: defineError('LSrelations_05',
+    _("LSrelation : Some parameters are missing in the invocation of the methods of handling relations standard (Methode : %{meth}).")
+    );
+  }
 }
 
-/*
- * Error Codes
- */
-$GLOBALS['LSerror_code']['LSsession_01'] = array (
-  'msg' => _("LSsession : The constant %{const} is not defined.")
-);
-$GLOBALS['LSerror_code']['LSsession_02'] = array (
-  'msg' => _("LSsession : The %{addon} support is uncertain. Verify system compatibility and the add-on configuration.")
-);
-$GLOBALS['LSerror_code']['LSsession_03'] = array (
-  'msg' => _("LSsession : LDAP server's configuration data are invalid. Impossible d'établir une connexion.")
-);
-$GLOBALS['LSerror_code']['LSsession_04'] = array (
-  'msg' => _("LSsession : Failed to load LSobject type %{type} : unknon type.")
-);
-// no longer used
-/*$GLOBALS['LSerror_code'][1005] = array (
-  'msg' => _("LSsession : Object type use for authentication is unknow (%{type}).")
-);*/
-$GLOBALS['LSerror_code']['LSsession_06'] = array (
-  'msg' => _("LSsession : Login or password incorrect.")
-);
-$GLOBALS['LSerror_code']['LSsession_07'] = array (
-  'msg' => _("LSsession : Impossible to identify you : Duplication of identities.")
-);
-$GLOBALS['LSerror_code']['LSsession_08'] = array (
-  'msg' => _("LSsession : Can't load Smarty template engine.")
-);
-$GLOBALS['LSerror_code']['LSsession_09'] = array (
-  'msg' => _("LSsession : Can't connect to LDAP server.")
-);
-$GLOBALS['LSerror_code']['LSsession_10'] = array (
-  'msg' => _("LSsession : Impossible to load authentification objects's class.")
-);
-$GLOBALS['LSerror_code']['LSsession_11'] = array (
-  'msg' => _("LSsession : Your are not authorized to do this action.")
-);
-$GLOBALS['LSerror_code']['LSsession_12'] = array (
-  'msg' => _("LSsession : Some informations are missing to display this page.")
-);
-// 13 -> 16 : not yet used
-$GLOBALS['LSerror_code']['LSsession_17'] = array (
-  'msg' => _("LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})")
-);
-$GLOBALS['LSerror_code']['LSsession_18'] = array (
-  'msg' => _("LSsession : The password recovery is disabled for this LDAP server.")
-);
-$GLOBALS['LSerror_code']['LSsession_19'] = array (
-  'msg' => _("LSsession : Some informations are missing to recover your password. Contact administrators.")
-);
-$GLOBALS['LSerror_code']['LSsession_20'] = array (
-  'msg' => _("LSsession : Error during password recovery. Contact administrators.(Step : %{step})")
-);
-// 21 : not yet used
-$GLOBALS['LSerror_code']['LSsession_22'] = array(
-  'msg' => _("LSsession : problem during initialisation.")
-);
-
-
-// LSrelations
-$GLOBALS['LSerror_code']['LSrelations_01'] = array (
-  'msg' => _("LSrelations : The listing function for the relation %{relation} is unknow.")
-);
-$GLOBALS['LSerror_code']['LSrelations_02'] = array (
-  'msg' => _("LSrelations : The update function of the relation %{relation} is unknow.")
-);
-$GLOBALS['LSerror_code']['LSrelations_03'] = array (
-  'msg' => _("LSrelations : Error during relation update of the relation %{relation}.")
-);
-$GLOBALS['LSerror_code']['LSrelations_04'] = array (
-  'msg' => _("LSrelations : Object type %{LSobject} unknow (Relation : %{relation}).")
-);
-$GLOBALS['LSerror_code']['LSrelations_05'] = array (
-  'msg' => _("LSrelation : Some parameters are missing in the invocation of the methods of handling relations standard (Methode : %{meth}).")
-);
 ?>

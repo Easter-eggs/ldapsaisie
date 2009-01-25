@@ -29,26 +29,22 @@
  */
 class LSldap {
 
-  var $config;
-  var $cnx = NULL;
-
+  private static $config;
+  private static $cnx = NULL;
+  
   /**
-   * Constructeur
+   * D�fini la configuration
    *
    * Cette methode définis la configuration de l'accès à l'annuaire
-   * et établie la connexion.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $config array Tableau de configuration au formar Net_LDAP2
    *
    * @retval void
-   *
-   * @see Net_LDAP2::connect()
    */
-  function LSldap ($config) {
-    $this -> config = $config;
-    $this -> connect();
+  function setConfig ($config) {
+    self :: $config = $config;
   }
   
   /**
@@ -57,14 +53,19 @@ class LSldap {
    * Cette methode établie la connexion à l'annuaire Ldap
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
+   * 
+   * @param[in] $config array Tableau de configuration au formar Net_LDAP2
    *
    * @retval boolean true si la connection est établie, false sinon
    */
-  function connect() {
-    $this -> cnx = Net_LDAP2::connect($this -> config);
-    if (Net_LDAP2::isError($this -> cnx)) {
-      LSerror :: addErrorCode('LSldap_01',$this -> cnx -> getMessage());
-      $this -> cnx = NULL;
+  public static function connect($config = null) {
+    if ($config) {
+      self :: setConfig($config);
+    }
+    self :: $cnx = Net_LDAP2::connect(self :: $config);
+    if (Net_LDAP2::isError(self :: $cnx)) {
+      LSerror :: addErrorCode('LSldap_01',self :: $cnx -> getMessage());
+      self :: $cnx = NULL;
       return;
     }
     return true;
@@ -79,8 +80,8 @@ class LSldap {
    *
    * @retval void
    */
-  function close() {
-    $this -> cnx -> done();
+  public static function close() {
+    self :: $cnx -> done();
   }
   
   /**
@@ -102,8 +103,8 @@ class LSldap {
    *               - ['attrs'] : tableau associatif contenant les attributs (clé)
    *                             et leur valeur (valeur).
    */
-  function search ($filter,$basedn=NULL,$params = array()) {
-    $ret = $this -> cnx -> search($basedn,$filter,$params);
+  public static function search ($filter,$basedn=NULL,$params = array()) {
+    $ret = self :: $cnx -> search($basedn,$filter,$params);
     if (Net_LDAP2::isError($ret)) {
       LSerror :: addErrorCode('LSldap_02',$ret -> getMessage());
       return;
@@ -131,10 +132,10 @@ class LSldap {
    *
    * @retval numeric Le nombre d'entré trouvées
    */
-  function getNumberResult ($filter,$basedn=NULL,$params = array() ) {
+  public static function getNumberResult ($filter,$basedn=NULL,$params = array() ) {
     if (empty($filter))
       $filter=NULL;
-    $ret = $this -> cnx -> search($basedn,$filter,$params);
+    $ret = self :: $cnx -> search($basedn,$filter,$params);
     if (Net_LDAP2::isError($ret)) {
       LSerror :: addErrorCode('LSldap_02',$ret -> getMessage());
       return;
@@ -154,7 +155,7 @@ class LSldap {
    *
    * @retval array Tableau associatif des valeurs des attributs avec en clef, le nom de l'attribut.
    */
-  function getAttrs($dn) {
+  public static function getAttrs($dn) {
     $infos = ldap_explode_dn($dn,0);
     if((!$infos)||($infos['count']==0))
       return;
@@ -163,7 +164,7 @@ class LSldap {
       $sep=($basedn=='')?'':',';
       $basedn.=$sep.$infos[$i];
     }
-    $return=$this -> search($infos[0],$basedn);
+    $return=self :: search($infos[0],$basedn);
     return $return[0]['attrs'];
   }
   
@@ -182,12 +183,12 @@ class LSldap {
    *                            'new' => true
    *                          )
    */
-  function getEntry($object_type,$dn) {
+  public static function getEntry($object_type,$dn) {
     if(isset($GLOBALS['LSobjects'][$object_type])){
       $obj_conf=$GLOBALS['LSobjects'][$object_type];
-      $entry = $this -> cnx -> getEntry($dn);
+      $entry = self :: $cnx -> getEntry($dn);
       if (Net_LDAP2::isError($entry)) {
-        //$newentry = new Net_LDAP2_Entry(&$this -> cnx);
+        //$newentry = new Net_LDAP2_Entry(&self :: $cnx);
         //$newentry -> dn($dn);
         //$newentry -> add(array('objectclass' => $obj_conf['objectclass']));
         //foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
@@ -200,7 +201,7 @@ class LSldap {
           }
         }
         
-        $newentry = $this -> getNewEntry($dn,$obj_conf['objectclass'],$attributes);
+        $newentry = self :: getNewEntry($dn,$obj_conf['objectclass'],$attributes);
         
         if (!$newentry) {
           return;
@@ -226,13 +227,13 @@ class LSldap {
   * 
   * @retval mixed Le nouvelle objet en cas de succ�s, false sinon
   */
-  function getNewEntry($dn,$objectClass,$attrs,$add=false) {
+  public static function getNewEntry($dn,$objectClass,$attrs,$add=false) {
     $newentry = Net_LDAP2_Entry::createFresh($dn,array_merge(array('objectclass' =>$objectClass),(array)$attrs));
     if(Net_LDAP2::isError($newentry)) {
       return false;
     }
     if($add) {
-      if(!$this -> cnx -> add($newentry)) {
+      if(!self :: $cnx -> add($newentry)) {
         return;
       }
     }
@@ -252,10 +253,10 @@ class LSldap {
    *
    * @retval boolean true si l'objet a bien été mis à jour, false sinon
    */
-  function update($object_type,$dn,$change) {
+  public static function update($object_type,$dn,$change) {
     LSdebug($change);
     $dropAttr=array();
-    $entry=$this -> getEntry($object_type,$dn);
+    $entry=self :: getEntry($object_type,$dn);
     if (is_array($entry)) {
       $new = $entry['new'];
       $entry = $entry['entry'];
@@ -291,7 +292,7 @@ class LSldap {
 
       if ($new) {
         LSdebug('LSldap :: add()');
-        $ret = $this -> cnx -> add($entry);
+        $ret = self :: $cnx -> add($entry);
       }
       else {
         LSdebug('LSldap :: update()');
@@ -339,8 +340,8 @@ class LSldap {
    *
    * @retval boolean true si la connection à réussi, false sinon
    */
-  function checkBind($dn,$pwd) {
-    $config = $this -> config;
+  public static function checkBind($dn,$pwd) {
+    $config = self :: $config;
     $config['binddn'] = $dn;
     $config['bindpw'] = $pwd;
     $cnx = Net_LDAP2::connect($config);
@@ -355,8 +356,8 @@ class LSldap {
    *
    * @retval boolean True si le serveur est connecté, false sinon.
    */
-  function isConnected() {
-    return ($this -> cnx == NULL)?false:true;
+  public static function isConnected() {
+    return (self :: $cnx == NULL)?false:true;
   }
   
   /**
@@ -366,8 +367,8 @@ class LSldap {
    * 
    * @retval boolean True si l'objet à été supprimé, false sinon
    */
-  function remove($dn) {
-    $ret = $this -> cnx -> delete($dn,array('recursive' => true));
+  public static function remove($dn) {
+    $ret = self :: $cnx -> delete($dn,array('recursive' => true));
     if (Net_LDAP2::isError($ret)) {
       LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
       return;
@@ -383,8 +384,8 @@ class LSldap {
    * 
    * @retval boolean True si l'objet a �t� d�plac�, false sinon
    */
-  function move($old,$new) {
-    $ret = $this -> cnx -> move($old,$new);
+  public static function move($old,$new) {
+    $ret = self :: $cnx -> move($old,$new);
     if (Net_LDAP2::isError($ret)) {
       LSerror :: addErrorCode('LSldap_07');
       LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
@@ -397,25 +398,25 @@ class LSldap {
 /*
  * Error Codes
  */
-$GLOBALS['LSerror_code']['LSldap_01'] = array (
-  'msg' => _("LSldap : Error during the LDAP server connection (%{msg}).")
+LSerror :: defineError('LSldap_01',
+  _("LSldap : Error during the LDAP server connection (%{msg}).")
 );
-$GLOBALS['LSerror_code']['LSldap_02'] = array (
-  'msg' => _("LSldap : Error during the LDAP search (%{msg}).")
+LSerror :: defineError('LSldap_02',
+  _("LSldap : Error during the LDAP search (%{msg}).")
 );
-$GLOBALS['LSerror_code']['LSldap_03'] = array (
-  'msg' => _("LSldap : Object type unkown.")
+LSerror :: defineError('LSldap_03',
+  _("LSldap : Object type unkown.")
 );
-$GLOBALS['LSerror_code']['LSldap_04'] = array (
-  'msg' => _("LSldap : Error during fecthing the LDAP entry.")
+LSerror :: defineError('LSldap_04',
+  _("LSldap : Error during fecthing the LDAP entry.")
 );
-$GLOBALS['LSerror_code']['LSldap_05'] = array (
-  'msg' => _("LSldap : Error during changing the LDAP entry (DN : %{dn}).")
+LSerror :: defineError('LSldap_05',
+  _("LSldap : Error during changing the LDAP entry (DN : %{dn}).")
 );
-$GLOBALS['LSerror_code']['LSldap_06'] = array (
-  'msg' => _("LSldap : Error during deleting the empty attributes.")
+LSerror :: defineError('LSldap_06',
+  _("LSldap : Error during deleting the empty attributes.")
 );
-$GLOBALS['LSerror_code']['LSldap_07'] = array (
-  'msg' => _("LSldap : Error during changing the DN of the object.")
+LSerror :: defineError('LSldap_07',
+  _("LSldap : Error during changing the DN of the object.")
 );
 ?>

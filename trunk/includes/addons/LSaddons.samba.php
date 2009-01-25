@@ -23,24 +23,20 @@
 // Messages d'erreur
 
 // Support
-$GLOBALS['LSerror_code']['SAMBA_SUPPORT_01']= array (
-  'msg' => _("SAMBA Support : la classe smHash ne peut pas être chargée."),
-  'level' => 'c'
+LSerror :: defineError('SAMBA_SUPPORT_01',
+  _("SAMBA Support : la classe smHash ne peut pas être chargée.")
 );
-$GLOBALS['LSerror_code']['SAMBA_SUPPORT_02']= array (
-  'msg' => _("SAMBA Support : La constante %{const} n'est pas définie."),
-  'level' => 'c'
+LSerror :: defineError('SAMBA_SUPPORT_02',
+  _("SAMBA Support : La constante %{const} n'est pas définie.")
 );
 
-$GLOBALS['LSerror_code']['SAMBA_SUPPORT_03']= array (
-  'msg' => _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID."),
-  'level' => 'c'
+LSerror :: defineError('SAMBA_SUPPORT_03',
+  _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID.")
 );
 
 // Autres erreurs
-$GLOBALS['LSerror_code']['SAMBA_01']= array (
-  'msg' => _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}."),
-  'level' => 'c'
+LSerror :: defineError('SAMBA_01',
+  _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}.")
 );
 
  /**

@@ -522,28 +522,28 @@ class LSform {
 /**
  * Error Codes
  */
-$GLOBALS['LSerror_code']['LSform_01'] = array(
-  'msg' => _("LSform : Error during the recovery of the values of the form.")
+LSerror :: defineError('LSform_01',
+_("LSform : Error during the recovery of the values of the form.")
 );
-$GLOBALS['LSerror_code']['LSform_02'] = array(
-  'msg' => _("LSform : Error durring the recovery of the value of the field '%{element}'.")
+LSerror :: defineError('LSform_02',
+_("LSform : Error durring the recovery of the value of the field '%{element}'.")
 );
 // No longer used
-/*$GLOBALS['LSerror_code'][203] = array(
-  'msg' => _("LSform : Data of the field %{element} are not validate.")
+/*LSerror :: defineError(203,
+_("LSform : Data of the field %{element} are not validate.")
 );*/
-$GLOBALS['LSerror_code']['LSform_04'] = array(
-  'msg' => _("LSform : The field %{element} doesn't exist.")
+LSerror :: defineError('LSform_04',
+_("LSform : The field %{element} doesn't exist.")
 );
-$GLOBALS['LSerror_code']['LSform_05'] = array(
-  'msg' => _("LSfom : Field type unknow (%{type}).")
+LSerror :: defineError('LSform_05',
+_("LSfom : Field type unknow (%{type}).")
 );
-$GLOBALS['LSerror_code']['LSform_06'] = array(
-  'msg' => _("LSform : Error during the creation of the element '%{element}'.")
+LSerror :: defineError('LSform_06',
+_("LSform : Error during the creation of the element '%{element}'.")
 );
 // No longer used
-/*$GLOBALS['LSerror_code'][207] = array(
-  'msg' => _("LSform : No value has been entered into the field '%{element}'.")
+/*LSerror :: defineError(207,
+_("LSform : No value has been entered into the field '%{element}'.")
 );*/
 
 ?>

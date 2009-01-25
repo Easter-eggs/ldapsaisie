@@ -23,25 +23,25 @@
 // Messages d'erreur
 
 // Support
-$GLOBALS['LSerror_code']['MAILDIR_SUPPORT_01']= array (
-  'msg' => _("MAILDIR Support : Impossible de charger LSaddons::FTP.")
+LSerror :: defineError('MAILDIR_SUPPORT_01',
+  _("MAILDIR Support : Impossible de charger LSaddons::FTP.")
 );
-$GLOBALS['LSerror_code']['MAILDIR_SUPPORT_02']= array (
-  'msg' => _("MAILDIR Support : La constante %{const} n'est pas définie.")
+LSerror :: defineError('MAILDIR_SUPPORT_02',
+  _("MAILDIR Support : La constante %{const} n'est pas définie.")
 );
 
 // Autres erreurs
-$GLOBALS['LSerror_code']['MAILDIR_01']= array (
-  'msg' => _("MAILDIR : Erreur durant la création de la maildir sur le serveur distant.")
+LSerror :: defineError('MAILDIR_01',
+  _("MAILDIR : Erreur durant la création de la maildir sur le serveur distant.")
 );
-$GLOBALS['LSerror_code']['MAILDIR_02']= array (
-  'msg' => _("MAILDIR : Erreur durant la suppression de la maildir sur le serveur distant.")
+LSerror :: defineError('MAILDIR_02',
+  _("MAILDIR : Erreur durant la suppression de la maildir sur le serveur distant.")
 );
-$GLOBALS['LSerror_code']['MAILDIR_03']= array (
-  'msg' => _("MAILDIR : Erreur durant le renomage de la maildir sur le serveur distant.")
+LSerror :: defineError('MAILDIR_03',
+  _("MAILDIR : Erreur durant le renomage de la maildir sur le serveur distant.")
 );
-$GLOBALS['LSerror_code']['MAILDIR_04']= array (
-  'msg' => _("MAILDIR : Erreur durant la récupération du chemin distant de la maildir.")
+LSerror :: defineError('MAILDIR_04',
+  _("MAILDIR : Erreur durant la récupération du chemin distant de la maildir.")
 );
       
  /**

@@ -23,20 +23,17 @@
 // Messages d'erreur
 
 // Support
-$GLOBALS['LSerror_code']['MAIL_SUPPORT_01']= array (
-  'msg' => _("MAIL Support : Pear::MAIL est introuvable."),
-  'level' => 'c'
+LSerror :: defineError('MAIL_SUPPORT_01',
+  _("MAIL Support : Pear::MAIL est introuvable.")
 );
 
 // Autres erreurs
-$GLOBALS['LSerror_code']['MAIL_00']= array (
-  'msg' => _("MAIL Error : %{msg}"),
-  'level' => 'c'
+LSerror :: defineError('MAIL_00',
+  _("MAIL Error : %{msg}")
 );
 
-$GLOBALS['LSerror_code']['MAIL_01']= array (
-  'msg' => _("MAIL : Problème durant l'envoie de votre mail"),
-  'level' => 'c'
+LSerror :: defineError('MAIL_01',
+  _("MAIL : Problème durant l'envoie de votre mail")
 );
       
  /**
