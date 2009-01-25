@@ -123,12 +123,13 @@ class LSsession {
         return true;
       }
       else {
-        die("ERROR : Can't load configuration file.");
+        die("ERROR : Can't load Smarty.");
         return;
       }
       return true;
     }
     else {
+      die("ERROR : Can't load configuration files.");
       return;
     }
     

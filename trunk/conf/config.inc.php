@@ -23,7 +23,7 @@
 // Configuration LDAP Saisie :
 $GLOBALS['LSconfig'] = array(
   'NetLDAP2' => '/usr/share/php/Net/LDAP2.php',
-  'Smarty' => '/var/www/tmp/Smarty-2.6.18/libs/Smarty.class.php',
+  'Smarty' => '/usr/share/php/smarty/libs/Smarty.class.php',
   'lang' => 'fr_FR.UTF8',
   'cacheLSprofiles' => true,
   'cacheSubDn' => true,
