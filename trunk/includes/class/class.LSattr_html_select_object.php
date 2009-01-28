@@ -49,7 +49,7 @@ class LSattr_html_select_object extends LSattr_html{
         $element -> setValue($values);
       }
     }
-    $element -> setSelectableObject($this -> config['selectable_object']['object_type']);
+    $element -> setSelectableObject($this -> config['html_options']['selectable_object']['object_type']);
     return $element;
   }
 
@@ -78,8 +78,8 @@ class LSattr_html_select_object extends LSattr_html{
    */ 
   function getValuesFromFormValues($values=NULL) {
     $retValues = array();
-    if (isset($this -> config['selectable_object'])) {
-      $conf=$this -> config['selectable_object'];
+    if (isset($this -> config['html_options']['selectable_object'])) {
+      $conf=$this -> config['html_options']['selectable_object'];
       if (!isset($conf['object_type'])) {
         LSerror :: addErrorCode('LSattr_html_select_object_01',$this -> name);
         return;
@@ -126,8 +126,8 @@ class LSattr_html_select_object extends LSattr_html{
   function getFormValues($values=NULL,$fromDNs=false) {
     $retInfos = array();
     $DNs=array();
-    if (isset($this -> config['selectable_object'])) {
-      $conf=$this -> config['selectable_object'];
+    if (isset($this -> config['html_options']['selectable_object'])) {
+      $conf=$this -> config['html_options']['selectable_object'];
       if (!isset($conf['object_type'])) {
         LSerror :: addErrorCode('LSattr_html_select_object_01',$this -> name);
         return;
@@ -184,8 +184,8 @@ class LSattr_html_select_object extends LSattr_html{
    *               le DN et en valeur ce qui sera affiché.
    */
   function getValuesFromSession() {
-    if(is_array($_SESSION['LSselect'][$this -> config['selectable_object']['object_type']])) {
-      return $this -> getFormValues($_SESSION['LSselect'][$this -> config['selectable_object']['object_type']],true);
+    if(is_array($_SESSION['LSselect'][$this -> config['html_options']['selectable_object']['object_type']])) {
+      return $this -> getFormValues($_SESSION['LSselect'][$this -> config['html_options']['selectable_object']['object_type']],true);
     }
     return false;
   }

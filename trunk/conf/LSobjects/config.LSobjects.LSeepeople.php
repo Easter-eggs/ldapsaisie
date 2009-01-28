@@ -268,6 +268,26 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'label' => _('Groupe principal'),
       'ldap_type' => 'numeric',
       'html_type' => 'select_list',
+      'html_options' => array (
+        'possible_values' => array(
+          'OTHER_OBJECT' => array(
+            'object_type' => 'LSeegroup',                      // Nom de l'objet à lister
+            'display_attribute' => '%{cn} (%{gidNumber})',     // Spécifie le attributs à lister pour le choix,
+                                                               // si non définie => utilisation du 'select_display_attrs'
+                                                               // de la définition de l'objet
+                                                
+            'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par
+            /*'filter' =>                         // le formulaire spécifie les filtres de recherche pour
+              array (                           // l'établissement de la liste d'objets :
+                array(                          // Premier filtre
+                  'filter' => 'cn=*a*',
+                  //'basedn' => 'o=company',
+                  'scope' => 'sub',
+                )
+              )*/
+          )
+        )
+      ),
       'multiple' => false,
       'required' => 1,
       'validation' => array (
@@ -287,24 +307,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
-      ),
-      'possible_values' => array(
-        'OTHER_OBJECT' => array(
-          'object_type' => 'LSeegroup',                      // Nom de l'objet à lister
-          'display_attribute' => '%{cn} (%{gidNumber})',     // Spécifie le attributs à lister pour le choix,
-                                                             // si non définie => utilisation du 'select_display_attrs'
-                                                             // de la définition de l'objet
-                                              
-          'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par
-          /*'filter' =>                         // le formulaire spécifie les filtres de recherche pour
-            array (                           // l'établissement de la liste d'objets :
-              array(                          // Premier filtre
-                'filter' => 'cn=*a*',
-                //'basedn' => 'o=company',
-                'scope' => 'sub',
-              )
-            )*/
-        )
       )
     ),
     /* ----------- end -----------*/
@@ -314,6 +316,10 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'label' => _('Interpreteur de commande'),
       'help_info' => _("Permet ou non a l'utilisateur de se connecter à un système POSIX."),
       'ldap_type' => 'boolean',
+      'ldap_options' => array (
+        'true_value' => '/bin/bash',
+        'false_value' => '/bin/false'
+      ),
       'html_type' => 'boolean',
       'required' => 1,
       'default_value' => 'no',
@@ -324,9 +330,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
-      ),
-      'true_value' => '/bin/bash',
-      'false_value' => '/bin/false'
+      )
     ),
     /* ----------- end -----------*/
 
@@ -397,6 +401,13 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'label' => _('Titre'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_list',
+      'html_options' => array (
+        'possible_values' => array(
+          'M.' => 'M.',
+          'Mme' => 'Mme',
+          'Mlle' => 'Mlle'
+        )
+      ),
       'required' => 1,
       'default_value' => 'M.',
       'rights' => array(
@@ -409,11 +420,6 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
-      ),
-      'possible_values' => array(
-        'M.' => 'M.',
-        'Mme' => 'Mme',
-        'Mlle' => 'Mlle'
       )
     ),
     /* ----------- end -----------*/
@@ -576,9 +582,11 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'label' => _('Parrain(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
-      'selectable_object' => array(
-          'object_type' => 'LSeepeople',
-          'value_attribute' => '%{dn}'
+      'html_options' => array (
+        'selectable_object' => array(
+            'object_type' => 'LSeepeople',
+            'value_attribute' => '%{dn}'
+        ),
       ),
       'validation' => array (
         array (

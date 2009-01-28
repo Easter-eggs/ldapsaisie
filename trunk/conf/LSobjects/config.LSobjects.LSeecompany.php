@@ -78,9 +78,11 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
       'label' => _('Parrain(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
-      'selectable_object' => array(
+      'html_options' => array(
+        'selectable_object' => array(
           'object_type' => 'LSeepeople',
           'value_attribute' => '%{dn}'
+        )
       ),
       'validation' => array (
         array (

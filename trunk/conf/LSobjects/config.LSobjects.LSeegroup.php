@@ -100,6 +100,16 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'label' => _('Membres'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
+      'html_options' => array(
+        'selectable_object' => array(
+          'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
+          'display_attribute' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
+                                                              // si non définie => utilisation du 'select_display_attrs'
+                                                              // de la définition de l'objet
+                                              
+          'value_attribute' => 'dn',                          // Spécifie le attributs dont la valeur sera retournée par
+        )
+      ),
       'required' => 0,
       'multiple' => 1,
       'validation' => array (
@@ -116,14 +126,6 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
-      ),
-      'selectable_object' => array(
-          'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
-          'display_attribute' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
-                                                              // si non définie => utilisation du 'select_display_attrs'
-                                                              // de la définition de l'objet
-                                              
-          'value_attribute' => 'dn',                          // Spécifie le attributs dont la valeur sera retournée par
       )
     ),
     /* ----------- end -----------*/
@@ -152,9 +154,11 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'label' => _('Parrain(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
-      'selectable_object' => array(
-          'object_type' => 'LSeepeople',
-          'value_attribute' => '%{dn}'
+      'html_options' => array (
+        'selectable_object' => array(
+            'object_type' => 'LSeepeople',
+            'value_attribute' => '%{dn}'
+        ),
       ),
       'validation' => array (
         array (

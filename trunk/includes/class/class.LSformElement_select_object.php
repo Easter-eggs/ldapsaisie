@@ -141,10 +141,10 @@ class LSformElement_select_object extends LSformElement {
    * @retval array(dn -> displayName) Les objets trouvés
    */
   function searchAdd ($pattern) {
-    if (is_array($this -> params['selectable_object'])) {
-      if (LSsession :: loadLSobject($this -> params['selectable_object']['object_type'])) {
-        $obj = new $this -> params['selectable_object']['object_type']();
-        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['selectable_object']['display_attribute']);
+    if (is_array($this -> params['html_options']['selectable_object'])) {
+      if (LSsession :: loadLSobject($this -> params['html_options']['selectable_object']['object_type'])) {
+        $obj = new $this -> params['html_options']['selectable_object']['object_type']();
+        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_attribute']);
         if (is_array($ret)) {
           return $ret;
         }

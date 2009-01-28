@@ -72,8 +72,8 @@ class LSattr_html_select_list extends LSattr_html{
    */ 
   function getPossibleValues() {
     $retInfos = array();
-    if (isset($this -> config['possible_values'])) {
-      foreach($this -> config['possible_values'] as $val_name => $val) {
+    if (isset($this -> config['html_options']['possible_values'])) {
+      foreach($this -> config['html_options']['possible_values'] as $val_name => $val) {
         if($val_name=='OTHER_OBJECT') {
           if ((!isset($val['object_type'])) || (!isset($val['value_attribute']))) {
             LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
@@ -84,7 +84,7 @@ class LSattr_html_select_list extends LSattr_html{
           }
           $obj = new $val['object_type']();
           if($val['scope']) {
-            $param=array('scope' => $this -> config['possible_values']['scope']);
+            $param=array('scope' => $this -> config['html_options']['possible_values']['scope']);
           }
           else {
             $param=array();
@@ -96,7 +96,7 @@ class LSattr_html_select_list extends LSattr_html{
             $param['attributes'][] = $val['value_attribute'];
           }
           
-          $list = $obj -> search($val['filter'],$this -> config['possible_values']['basedn'],$param);
+          $list = $obj -> search($val['filter'],$this -> config['html_options']['possible_values']['basedn'],$param);
           if(($val['value_attribute']=='dn')||($val['value_attribute']=='%{dn}')) {
             for($i=0;$i<count($list);$i++) {
               $retInfos[$list[$i]['dn']]=getFData($val['display_attribute'],$list[$i]['attrs']);

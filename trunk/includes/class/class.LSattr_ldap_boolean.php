@@ -50,10 +50,10 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    */
   function getUpdateData($data) {
     if ($data[0]=='yes') {
-      return array($this -> config['true_value']);
+      return array($this -> config['ldap_options']['true_value']);
     }
     if ($data[0]=='no') {
-      return array($this -> config['false_value']);
+      return array($this -> config['ldap_options']['false_value']);
     }
     return array();
   }
@@ -69,7 +69,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
     if (!is_array($data)) {
       $data=array($data);
     }
-    if ($data[0] == $this -> config['true_value']) {
+    if ($data[0] == $this -> config['ldap_options']['true_value']) {
       return true;
     }
     return;
@@ -86,7 +86,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
     if (!is_array($data)) {
       $data=array($data);
     }
-    if ($data[0] == $this -> config['false_value']) {
+    if ($data[0] == $this -> config['ldap_options']['false_value']) {
       return true;
     }
     return;
