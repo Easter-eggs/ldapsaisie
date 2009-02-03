@@ -32,7 +32,7 @@ if(LSsession :: startLSsession()) {
   }
   
   if (isset($LSobject)) {
-    // Création d'un LSobject
+    // LSObject creation
     if (LSsession ::loadLSobject($LSobject)) {
       if ( LSsession :: canCreate($LSobject) ) {
         $object = new $LSobject();
@@ -44,7 +44,7 @@ if(LSsession :: startLSsession()) {
           $form = $object -> getForm('create');
         }
         if ($form->validate()) {
-          // MàJ des données de l'objet LDAP
+          // Data update for LDAP object
           if ($object -> updateData('create')) {
             if (!LSerror::errorsDefined()) {
               LSsession :: addInfo(_("L'objet a bien été ajouté."));
@@ -80,7 +80,7 @@ if(LSsession :: startLSsession()) {
           );
           exit();
         }
-        // Définition du Titre de la page
+        // Define page title
         $GLOBALS['Smarty'] -> assign('pagetitle',_('Nouveau').' : '.$object -> getLabel());
         LSsession :: setTemplate('create.tpl');
         $form -> display();
