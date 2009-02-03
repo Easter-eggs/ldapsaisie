@@ -138,7 +138,8 @@ class LSformElement_date extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_date',
         array(
-          'calendar' => _('Sélectionner dans un calendrier.')
+          'calendar' => _('Sélectionner dans un calendrier.'),
+          'now' => _('Maintenant.')
         )
       );
       

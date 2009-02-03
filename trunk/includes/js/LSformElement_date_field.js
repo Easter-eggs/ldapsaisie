@@ -34,6 +34,13 @@ var LSformElement_date_field = new Class({
       this.calendar.setDateFormat(this.params.format);
       this.calendar.showsTime = true;
       this.calendar.create();
+      
+      this.nowBtn = new Element('img');
+      this.nowBtn.src = varLSdefault.imagePath('now.png');
+      this.nowBtn.addClass('btn');
+      this.nowBtn.addEvent('click',this.onNowBtnClick.bind(this));
+      this.nowBtn.injectAfter(this.calendarBtn);
+      varLSdefault.addHelpInfo(this.nowBtn,'LSformElement_date','now');
     },
     
     onCalendarBtnClick: function() {
@@ -46,5 +53,9 @@ var LSformElement_date_field = new Class({
     
     onCloseCalendar: function() {
       this.calendar.hide();
-    }
+    },
+    
+    onNowBtnClick: function() {
+      this.input.value = new Date().print(this.params.format);
+    },
 });
