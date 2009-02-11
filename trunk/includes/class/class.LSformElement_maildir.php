@@ -35,7 +35,7 @@ LSsession :: loadLSaddon('maildir');
  *    // Required
  *    'LSform' => array (  // To define if the user can active triggers for the LSform
  *      'create' => 1,  // Example : LSform 'create' => Triggers active by default
- *      'modify' => 0   // Example : LSform 'create' => Triggers disable by default
+ *      'modify' => 0   // Example : LSform 'modify' => Triggers disable by default
  *    ),
  *    // Optional
  *    'remoteRootPathRegex' => "^\/home\/vmail\/([^\/]*)\/+$", // Regex to determine the path of
