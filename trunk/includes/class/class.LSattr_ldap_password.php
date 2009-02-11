@@ -120,7 +120,11 @@ class LSattr_ldap_password extends LSattr_ldap {
           return '{CRYPT}'.crypt($this -> clearPassword,'$1$'.$this -> getSalt().'$');
         }
         break;
+      case 'clear':
+        return $this -> clearPassword;
+        break;
     }
+    LSerror :: addErrorCode('LSattr_ldap_password_01',$this -> config['ldap_options']['encode']);
     return $this -> clearPassword;
   }
  
