@@ -24,9 +24,20 @@
 /**
  * Element select d'un formulaire pour LdapSaisie
  *
- * Cette classe dÃ©finis les Ã©lÃ©ments select des formulaires.
- * Elle Ã©tant la classe basic LSformElement.
+ * Cette classe définis les éléments select des formulaires.
+ * Elle étant la classe basic LSformElement.
  *
+ * Options HTML : 
+ * // *************************************
+ * 'html_options' => array (
+ *   selectable_object => array (
+ *     'object_type' => '[Type d'LSobject selectionnable]',
+ *     'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
+ *     'value_attribute' => '[LSformat de la valeur clé référant à un LSobject donnée]'
+ *   )
+ * ),
+ * // *************************************
+ * 
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 
@@ -144,7 +155,7 @@ class LSformElement_select_object extends LSformElement {
     if (is_array($this -> params['html_options']['selectable_object'])) {
       if (LSsession :: loadLSobject($this -> params['html_options']['selectable_object']['object_type'])) {
         $obj = new $this -> params['html_options']['selectable_object']['object_type']();
-        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_attribute']);
+        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_name_format']);
         if (is_array($ret)) {
           return $ret;
         }

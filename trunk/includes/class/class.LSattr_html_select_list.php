@@ -23,6 +23,21 @@
 /**
  * Type d'attribut HTML select_list
  *
+ * 'html_options' => array (
+ *    'possible_values' => array (
+ *      '[LSformat de la valeur clé]' => '[LSformat du nom d'affichage]',
+ *      ...
+ *      'OTHER_OBJECT' => array (
+ *        'object_type' => '[Type d'LSobject]',
+ *        'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
+ *        'value_attribute' => '[Nom de l'attribut clé]',
+ *        'filter' => '[Filtre de recherche des LSobject]',
+ *        'scope' => '[Scope de la recherche]',
+ *        'basedn' => '[Basedn de la recherche]'
+ *      )
+ *    )
+ * ),
+ * 
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSattr_html_select_list extends LSattr_html{
@@ -72,7 +87,7 @@ class LSattr_html_select_list extends LSattr_html{
    */ 
   function getPossibleValues() {
     $retInfos = array();
-    if (isset($this -> config['html_options']['possible_values'])) {
+    if (is_array($this -> config['html_options']['possible_values'])) {
       foreach($this -> config['html_options']['possible_values'] as $val_name => $val) {
         if($val_name=='OTHER_OBJECT') {
           if ((!isset($val['object_type'])) || (!isset($val['value_attribute']))) {
@@ -84,22 +99,22 @@ class LSattr_html_select_list extends LSattr_html{
           }
           $obj = new $val['object_type']();
           if($val['scope']) {
-            $param=array('scope' => $this -> config['html_options']['possible_values']['scope']);
+            $param=array('scope' => $val['scope']);
           }
           else {
             $param=array();
           }
           
-          $param['attributes'] = getFieldInFormat($val['display_attribute']);
+          $param['attributes'] = getFieldInFormat($val['display_name_format']);
           
           if ($val['value_attribute']!='dn') {
             $param['attributes'][] = $val['value_attribute'];
           }
           
-          $list = $obj -> search($val['filter'],$this -> config['html_options']['possible_values']['basedn'],$param);
+          $list = $obj -> search($val['filter'],$val['basedn'],$param);
           if(($val['value_attribute']=='dn')||($val['value_attribute']=='%{dn}')) {
             for($i=0;$i<count($list);$i++) {
-              $retInfos[$list[$i]['dn']]=getFData($val['display_attribute'],$list[$i]['attrs']);
+              $retInfos[$list[$i]['dn']]=getFData($val['display_name_format'],$list[$i]['attrs']);
             }
           }
           else {
@@ -108,7 +123,7 @@ class LSattr_html_select_list extends LSattr_html{
               if(is_array($key)) {
                 $key = $key[0];
               }
-              $retInfos[$key]=getFData($val['display_attribute'],$list[$i]['attrs']);
+              $retInfos[$key]=getFData($val['display_name_format'],$list[$i]['attrs']);
             }
           }
         }

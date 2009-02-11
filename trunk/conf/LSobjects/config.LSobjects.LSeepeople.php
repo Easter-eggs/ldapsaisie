@@ -272,8 +272,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'possible_values' => array(
           'OTHER_OBJECT' => array(
             'object_type' => 'LSeegroup',                      // Nom de l'objet à lister
-            'display_attribute' => '%{cn} (%{gidNumber})',     // Spécifie le attributs à lister pour le choix,
-                                                               // si non définie => utilisation du 'select_display_attrs'
+            'display_name_format' => '%{cn} (%{gidNumber})',   // Spécifie le attributs à lister pour le choix,
+                                                               // si non définie => utilisation du 'display_name_format'
                                                                // de la définition de l'objet
                                                 
             'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par

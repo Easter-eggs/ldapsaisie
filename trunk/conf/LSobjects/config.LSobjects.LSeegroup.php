@@ -103,8 +103,8 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'html_options' => array(
         'selectable_object' => array(
           'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
-          'display_attribute' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
-                                                              // si non définie => utilisation du 'select_display_attrs'
+          'display_name_format' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
+                                                              // si non définie => utilisation du 'display_name_format'
                                                               // de la définition de l'objet
                                               
           'value_attribute' => 'dn',                          // Spécifie le attributs dont la valeur sera retournée par
@@ -157,7 +157,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'html_options' => array (
         'selectable_object' => array(
             'object_type' => 'LSeepeople',
-            'value_attribute' => '%{dn}'
+            'value_attribute' => 'dn'
         ),
       ),
       'validation' => array (

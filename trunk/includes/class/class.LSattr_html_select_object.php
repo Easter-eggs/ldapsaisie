@@ -143,7 +143,7 @@ class LSattr_html_select_object extends LSattr_html{
           $obj = new $conf['object_type']();
           foreach($DNs as $dn) {
             if($obj -> loadData($dn)) {
-              $retInfos[$dn] = $obj -> getDisplayName($conf['display_attribute']);
+              $retInfos[$dn] = $obj -> getDisplayName($conf['display_name_format']);
             }
           }
         }
@@ -157,7 +157,7 @@ class LSattr_html_select_object extends LSattr_html{
           if ($filter!='') {
             $filter='(|'.$filter.')';
             $obj = new $conf['object_type']();
-            $listobj = $obj -> listObjectsName($filter,NULL,array(),$conf['display_attribute']);
+            $listobj = $obj -> listObjectsName($filter,NULL,array(),$conf['display_name_format']);
             foreach($listobj as $dn => $name) {
               $DNs[]=$dn;
               $retInfos[$dn] = $name;
