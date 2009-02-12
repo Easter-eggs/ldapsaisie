@@ -14,6 +14,7 @@ var LSform = new Class({
     },
     
     initializeLSform: function(el) {
+      this.params={};
       if (this.idform) {
         if (typeof(el) == 'undefined') {
           el = document;
@@ -21,19 +22,17 @@ var LSform = new Class({
         el.getElements('ul.LSform').each(function(ul) {
           this._elements[ul.id] = new LSformElement(this,ul.id,ul);
         }, this);
+        this.params=varLSdefault.LSjsConfig['LSform_'+this.idform];
+        if (!$type(this.params)) {
+          this.params={};
+        }
+        this._ajaxSubmit=this.params.ajaxSubmit;
+        LSdebug(this.params);
       }
       
       LSforms = $$('form.LSform');
       if ($type(LSforms[0])) {
         this.LSform = LSforms[0];
-        this.LSformAjaxInput = new Element('input');
-        this.LSformAjaxInput.setProperties ({
-          type:   'hidden',
-          name:   'ajax',
-          value:  '1'
-        });
-        this.LSformAjaxInput.injectInside(this.LSform);
-        
         this.LSform.addEvent('submit',this.ajaxSubmit.bindWithEvent(this));
       }
     },
@@ -45,6 +44,18 @@ var LSform = new Class({
       
       var LIs = $$('li.LSform_layout');
       LIs.each(function(li) {
+        var Layout = this.getLayout(li);
+        if ($type(Layout)) {
+          if ($type(Layout.getElement('dt.LSform-errors'))) {
+            LSdebug('add');
+            li.addClass('LSform_layout_errors');
+          }
+          else {
+            if (!$type(Layout.getElement('dt'))) {
+              li.setStyle('display','none');
+            }
+          }
+        }
         li.getFirst('a').addEvent('click',this.onTabBtnClick.bindWithEvent(this,li));
       },this);
       
@@ -159,18 +170,43 @@ var LSform = new Class({
     },
     
     ajaxSubmit: function(event) {
-      event = new Event(event);
-      event.stop();
-      
-      this.resetErrors();
-      
-      this.LSform.set('send',{
-        data:         this.LSform,
-        onSuccess:    this.onAjaxSubmitComplete.bind(this),
-        url:          this.LSform.get('action'),
-        imgload:      varLSdefault.loadingImgDisplay($('LSform_title'),'inside')
-      });
-      this.LSform.send();
+      this.checkUploadFileDefined();
+
+      if (this._ajaxSubmit) {
+        event = new Event(event);
+        event.stop();
+        
+        this.LSformAjaxInput = new Element('input');
+        this.LSformAjaxInput.setProperties ({
+          type:   'hidden',
+          name:   'ajax',
+          value:  '1'
+        });
+        this.LSformAjaxInput.injectInside(this.LSform);
+        
+        this.resetErrors();
+        
+        this.LSform.set('send',{
+          data:         this.LSform,
+          onSuccess:    this.onAjaxSubmitComplete.bind(this),
+          url:          this.LSform.get('action'),
+          imgload:      varLSdefault.loadingImgDisplay($('LSform_title'),'inside')
+        });
+        this.LSform.send();
+      }
+      else {
+        if($type(this.LSformAjaxInput)) {
+          this.LSformAjaxInput.dispose();
+        }
+      }
+    },
+    
+    checkUploadFileDefined: function() {
+      this.LSform.getElements('input[type=file]').each(function(ipt) {
+        if (ipt.files.length!=0) {
+          this._ajaxSubmit=0;
+        }
+      }, this);
     },
     
     onAjaxSubmitComplete: function(responseText, responseXML) {

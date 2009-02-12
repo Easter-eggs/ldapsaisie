@@ -64,12 +64,17 @@ if(LSsession :: startLSsession()) {
             }
           }
           else {
-            LSsession :: displayAjaxReturn (
-              array(
-                'LSformErrors' => $form -> getErrors()
-              )
-            );
-            exit();
+            if (isset($_REQUEST['ajax'])) {
+              LSsession :: displayAjaxReturn (
+                array(
+                  'LSformErrors' => $form -> getErrors()
+                )
+              );
+              exit();
+            }
+            else {
+              LSsession :: displayTemplate();
+            }
           }
         }
         else if (isset($_REQUEST['ajax']) && $form -> definedError()) {

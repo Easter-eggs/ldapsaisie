@@ -74,11 +74,16 @@ if(LSsession :: startLSsession()) {
               }
             }
             else {
-              LSsession :: displayAjaxReturn (
-                array(
-                  'LSformErrors' => $form -> getErrors()
-                )
-              );
+              if (isset($_REQUEST['ajax'])) {
+                LSsession :: displayAjaxReturn (
+                  array(
+                    'LSformErrors' => $form -> getErrors()
+                  )
+                );
+              }
+              else {
+                LSsession :: displayTemplate();
+              }
             }
           }
           else if (isset($_REQUEST['ajax']) && $form -> definedError()) {

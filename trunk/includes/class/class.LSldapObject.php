@@ -210,6 +210,9 @@ class LSldapObject {
         }
       }      
     }
+    LSsession :: addJSconfigParam('LSform_'.$idForm,array(
+      'ajaxSubmit' => ((isset($this -> config['LSform']['ajaxSubmit']))?$this -> config['LSform']['ajaxSubmit']:1)
+    ));
     return $LSform;
   }
   

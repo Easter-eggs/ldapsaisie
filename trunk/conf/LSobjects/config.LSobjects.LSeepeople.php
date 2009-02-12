@@ -68,6 +68,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   
   // LSform
   'LSform' => array (
+    'ajaxSubmit' => 1,
     // Layout
     'layout' => array (
       'Civilite' => array(
