@@ -306,6 +306,7 @@ var LSsmoothbox = new Class({
       this.open();
       this.load();
       this.img = new Asset.image(src, {onload: this.resizeToImage.bind(this)});
+      this.img.addEvent('dblclick',this.closeConfirm.bind(this));
     },
     
     resizeToImage: function() {
