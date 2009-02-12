@@ -20,6 +20,8 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSformRule_mimetype');
+
 /**
  * Règle de validation : fichier de type image
  *
@@ -43,24 +45,15 @@ class LSformRule_imagefile extends LSformRule {
     
     $mimetype = mime_content_type($file);
     
-    if (isset($options['params']['mimeType'])) {
-      if ($mimetype != $options['params']['mimeType']) {
-        return;
-      }
-    }
-    else {
-      if (isset($options['params']['mimeTypeRegEx'])) {
-        $regex = $options['params']['mimeTypeRegEx'];
-      }
-      else {
-        $regex = '/image\/.*/';
-      }
-      if (!preg_match($regex, $mimetype)) {
-        return false;
-      }
+    if ( (!isset($options['params']['mimeType'])) && (!isset($options['params']['mimeTypeRegEx'])) ) {
+      $options = array(
+        'params' => array(
+          'mimeTypeRegEx' => '/image\/.*/'
+        )
+      );
     }
     
-    return true;
+    return LSformRule_mimetype :: validate($value,$options,$formElement);
   }
   
 }
