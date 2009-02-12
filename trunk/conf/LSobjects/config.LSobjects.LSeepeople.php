@@ -556,7 +556,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
             'maxWidth' => 2000
           )
         ),
-        'imagefilesize' => array(
+        'filesize' => array(
           'msg' => _("File size is not valid."),
           'params' => array(
             'maxSize' => 3000000   // taille du fichier en octets

@@ -21,11 +21,11 @@
 ******************************************************************************/
 
 /**
- * Règle de validation : taille d'un fichier image
+ * Règle de validation : taille d'un fichier
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSformRule_imagefilesize extends LSformRule {
+class LSformRule_filesize extends LSformRule {
 
   /**
    * Vérification de la valeur.
