@@ -312,7 +312,7 @@ class LSattribute {
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
   function addToView(&$form) {
-    if((isset($this -> config['view'])) && ($this -> myRights() != 'n') ) {
+    if((isset($this -> config['view'])) && ($this -> config['view']) && ($this -> myRights() != 'n') ) {
       if (!$this -> html) {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
