@@ -433,7 +433,7 @@ class LSldapObject {
           $msg_error=getFData($test['msg'],$this,'getValue');
         }
         else {
-          $msg_error=getFData(_("L'attribut %{attr} n'est pas valide."),$attr -> getLabel());
+          $msg_error=getFData(_("The attribute %{attr} is not valid."),$attr -> getLabel());
         }
         foreach($data as $val) {
           // validation par check LDAP
@@ -1695,13 +1695,13 @@ class LSldapObject {
  * Error Codes
  **/
 LSerror :: defineError('LSldapObject_01',
-_("LSldapObject : Object type unknow.")
+_("LSldapObject : Object type unknown.")
 );
 LSerror :: defineError('LSldapObject_02',
 _("LSldapObject : Update form is not defined for the object %{obj}.")
 );
 LSerror :: defineError('LSldapObject_03',
-_("LSldapObject : No form exist for the object %{obj}.")
+_("LSldapObject : No form exists for the object %{obj}.")
 );
 LSerror :: defineError('LSldapObject_04',
 _("LSldapObject : The function %{func} to validate the attribute %{attr} the object %{obj} is unknow.")

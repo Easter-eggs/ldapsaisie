@@ -45,16 +45,16 @@ if(LSsession :: startLSsession()) {
         $object = new $LSobject();
         if ($object -> loadData($dn)) {
           // Définition du Titre de la page
-          $GLOBALS['Smarty'] -> assign('pagetitle',_('Modifier').' : '.$object -> getDisplayName());
+          $GLOBALS['Smarty'] -> assign('pagetitle',_('Modify').' : '.$object -> getDisplayName());
           $form = $object -> getForm('modify');
           if ($form->validate()) {
             // MàJ des données de l'objet LDAP
             if ($object -> updateData('modify')) {
               if (LSerror::errorsDefined()) {
-                LSsession :: addInfo(_("L'objet a été modifié partiellement."));
+                LSsession :: addInfo(_("The object has been partially modified."));
               }
               else {
-                LSsession :: addInfo(_("L'objet a bien été modifié."));
+                LSsession :: addInfo(_("The object has been modified successfully."));
               }
               if (isset($_REQUEST['ajax'])) {
                 LSsession :: displayAjaxReturn (
@@ -95,14 +95,14 @@ if(LSsession :: startLSsession()) {
           }
           else {
             $LSview_actions[] = array(
-              'label' => _('Voir'),
+              'label' => _('Check'),
               'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
               'action' => 'view'
             );
           
             if (LSsession :: canRemove($LSobject,$object -> getDn())) {
               $LSview_actions[] = array(
-                'label' => _('Supprimer'),
+                'label' => _('Delete'),
                 'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
                 'action' => 'delete'
               );

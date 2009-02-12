@@ -205,7 +205,7 @@ if (!isset($_ERRORS)) {
                                   $data['html'] = "<li>".$relationConf['emptyText']."</li>\n";
                                 }
                                 else {
-                                  $data['html'] = "<li>"._('Aucun objet en relation.')."</li>\n";
+                                  $data['html'] = "<li>"._('No object.')."</li>\n";
                                 }
                               }
                               $data['id'] = $_REQUEST['id'];
@@ -377,8 +377,8 @@ if (!isset($_ERRORS)) {
           else if(empty($_REQUEST['mails'])) {
             $GLOBALS['Smarty'] -> assign('LSmail_mails',array($_REQUEST['mails']));
           }
-          $GLOBALS['Smarty'] -> assign('LSmail_mail_label',_('E-mail'));
-          $GLOBALS['Smarty'] -> assign('LSmail_subject_label',_('Sujet'));
+          $GLOBALS['Smarty'] -> assign('LSmail_mail_label',_('Email'));
+          $GLOBALS['Smarty'] -> assign('LSmail_subject_label',_('Title'));
           $GLOBALS['Smarty'] -> assign('LSmail_msg_label',_('Message'));
           
           $data = array(
@@ -390,7 +390,7 @@ if (!isset($_ERRORS)) {
             if (LSsession ::loadLSaddon('mail')) {
               if(sendMail($_REQUEST['infos']['mail'],$_REQUEST['infos']['subject'],$_REQUEST['infos']['msg'])) {
                 $data = array(
-                  'msgok' => _("Votre message a bien été envoyé.")
+                  'msgok' => _("Your message has been sent successfully.")
                 );
               }
             }

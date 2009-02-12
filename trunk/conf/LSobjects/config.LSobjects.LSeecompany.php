@@ -26,7 +26,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
     'lscompany'
   ),
   'rdn' => 'ou',
-  'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
+  'orderby' => 'displayName',  // possible cases : 'displayName' ou 'subDn'
   'container_dn' => 'ou=companies',
   'display_name_format' => '%{ou}',
   'label' => _('Sociétés'),
@@ -35,7 +35,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
   
     /* ----------- start -----------*/
     'ou' => array (
-      'label' => _('Nom'),
+      'label' => _('Name'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -75,7 +75,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Parrain(s)'),
+      'label' => _('Father'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array(
@@ -88,7 +88,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => _("Un ou plusieurs de ces utilisateurs n'existent pas.")
+          'msg' => _("One or several of these users don't exist.")
         )
       ),
       'multiple' => 1,

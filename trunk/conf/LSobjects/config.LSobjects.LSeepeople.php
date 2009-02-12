@@ -46,13 +46,13 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   //'after_create' => 'createMaildirByFTP',
   //'after_delete' => 'removeMaildirByFTP',
   'display_name_format' => '%{cn}',
-  'label' => _('Utilisateurs'),
+  'label' => _('Users'),
   
   // LSrelation
   'LSrelation' => array(
     'groups' => array(
-      'label' => _('Appartient aux groupes...'),
-      'emptyText' => _("N'appartient à aucun groupe."),
+      'label' => _('Belongs to groups ...'),
+      'emptyText' => _("Doesn't belong to any group."),
       'LSobject' => 'LSeegroup',
       'list_function' => 'listUserGroups',
       'getkeyvalue_function' => 'getMemberKeyValue',
@@ -72,7 +72,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     // Layout
     'layout' => array (
       'Civilite' => array(
-        'label' => 'Civilité',
+        'label' => 'Civility',
         'img' => 1, 
         'args' => array (
           'uid',
@@ -122,7 +122,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
   
     /* ----------- start -----------*/
     'uid' => array (
-      'label' => _('Identifiant'),
+      'label' => _('Identifier'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'html_options' => array(
@@ -135,7 +135,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'check_data' => array (
         'regex' => array(
-          'msg' => _("L'identifiant ne doit comporter que des lettres, des chiffres ou des '.' ou des '-'."),
+          'msg' => _("Identifier must contain alphanumeric values, dots (.) and dashes (-) only."),
           'params' => array('regex' => '/^[a-zA-Z0-9-_\.]*$/')
         ),
       ),
@@ -143,7 +143,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         array (
           'filter' => 'uid=%{val}',
           'result' => 0,
-          'msg' => _('Cet identifiant est déjà utilisé.')
+          'msg' => _('This identifier is already used.')
         )
       ),
       'rights' => array(
@@ -164,21 +164,21 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'uidNumber' => array (
-      'label' => _('Identifiant (numérique)'),
+      'label' => _('Identifier (number)'),
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
       'generate_function' => 'generate_uidNumber',
       'check_data' => array (
         'numeric' => array(
-          'msg' => _("L'identifiant unique doit être un entier.")
+          'msg' => _("The unique identifier must be an integer.")
         ),
       ),
       'validation' => array (
         array (
           'filter' => 'uidNumber=%{val}',
           'result' => 0,
-          'msg' => _('Cet uid est déjà utilisé.')
+          'msg' => _('This uid is already used.')
         )
       ),
       'rights' => array(
@@ -193,14 +193,14 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'givenName' => array (
-      'label' => _('Prenom'),
+      'label' => _('First Name'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
       'default_value' => 'toto',
       'check_data' => array (
         'alphanumeric' => array(
-          'msg' => _('Le prenom ne doit comporter que des lettres et des chiffres.')
+          'msg' => _('The first name must contain alphanumeric values only.')
         ),
       ),
       'rights' => array(
@@ -220,7 +220,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'sn' => array (
-      'label' => _('Nom'),
+      'label' => _('Last Name'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -240,7 +240,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'cn' => array (
-      'label' => _('Nom complet'),
+      'label' => _('Full Name'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'html_options' => array(
@@ -266,7 +266,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'gidNumber' => array (
-      'label' => _('Groupe principal'),
+      'label' => _('Main group'),
       'ldap_type' => 'numeric',
       'html_type' => 'select_list',
       'html_options' => array (
@@ -293,7 +293,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'validation' => array (
         array (
-          'msg' => _("Ce groupe n'existe pas."),
+          'msg' => _("This group doesn't exist."),
           'object_type' => 'LSeegroup',           // 'object_type' : Permet definir le type d'objet recherchés
           //'basedn' => 'o=company',                    // et d'utiliser les objectClass définis dans le fichier de configuration
           'filter' => '(gidNumber=%{val})',       // pour la recherche
@@ -314,8 +314,8 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'loginShell' => array (
-      'label' => _('Interpreteur de commande'),
-      'help_info' => _("Permet ou non a l'utilisateur de se connecter à un système POSIX."),
+      'label' => _('Command shell'),
+      'help_info' => _("Allow user to connect a POSIX system."),
       'ldap_type' => 'boolean',
       'ldap_options' => array (
         'true_value' => '/bin/bash',
@@ -337,7 +337,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'sambaSID' => array (
-      'label' => _('Identifiant Samba'),
+      'label' => _('Samba Identifier'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -353,7 +353,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'homeDirectory' => array (
-      'label' => _('Répertoire personnel'),
+      'label' => _('Self Directory'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -367,7 +367,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'mail' => array (
-      'label' => _('Adresse e-mail'),
+      'label' => _('E-mail address'),
       'ldap_type' => 'ascii',
       'html_type' => 'mail',
       'html_options' => array(
@@ -379,7 +379,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'required' => 1,
       'check_data' => array (
         'email' => array(
-          'msg' => _("L'adresse e-mail entrée n'est pas valide."),
+          'msg' => _("Given email address is invalid."),
           'params' => array('checkDomain' => false)
         ),
       ),
@@ -399,7 +399,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'personalTitle' => array (
-      'label' => _('Titre'),
+      'label' => _('Civility'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_list',
       'html_options' => array (
@@ -447,7 +447,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'userPassword' => array (
-      'label' => _('Mot de passe'),
+      'label' => _('Password'),
       'ldap_type' => 'password',
       'ldap_options' => array (
         'encode' => 'md5'
@@ -468,14 +468,14 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         'mail' => array(
           'send' => 1,
           'ask' => 1,
-          'subject' => "LSexample : votre nouveau mot de passe",
-          'msg' => "Votre mot de passe vient d'etre modifie.\nNouveau mot de passe : %{mdp}",
+          'subject' => "LSexample : Your new credentials",
+          'msg' => "Your password has been changed.\nNew password : %{mdp}",
           'mail_attr' => 'mail'
         )
       ),
       'check_data' => array(
         'password' => array(
-          'msg' => 'Le mot de passe doit contenir entre 8 et 10 caractères.',
+          'msg' => 'Your password must contain from 8 to 10 characters.',
           'params' => array(
             'minLength' => 8,
             'maxLength' => 10
@@ -502,7 +502,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'lsRecoveryHash' => array (
-      'label' => _('Hash de recouvrement du mot de passe'),
+      'label' => _('Password recovery hash'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 0,
@@ -518,7 +518,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'sambaLMPassword' => array (
-      'label' => _('Mot de passe Samba (LM)'),
+      'label' => _('Samba Password (LM)'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -531,7 +531,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'sambaNTPassword' => array (
-      'label' => _('Mot de passe Samba (NT)'),
+      'label' => _('Samba Password (NT)'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -544,26 +544,26 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'jpegPhoto' => array (
-      'label' => _('Photo'),
+      'label' => _('Picture'),
       'ldap_type' => 'image',
       'html_type' => 'image',
       'required' => 0,
       'view' => 0,
       'check_data' => array (
         'imagesize' => array(
-          'msg' => _("La taille de l'image n'est pas valide."),
+          'msg' => _("Picture size is not valid."),
           'params' => array(
             'maxWidth' => 2000
           )
         ),
         'imagefilesize' => array(
-          'msg' => _("La taille du fichier image n'est pas valide."),
+          'msg' => _("File size is not valid."),
           'params' => array(
             'maxSize' => 3000000   // taille du fichier en octets
           )
         ),
         'imagefile' => array(
-          'msg' => _("Le type du fichier n'est pas valide.")
+          'msg' => _("File type is not valid.")
         )
       ),
       'form' => array (
@@ -580,7 +580,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Parrain(s)'),
+      'label' => _('Father(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array (
@@ -593,7 +593,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => _("Un ou plusieurs de ces utilisateurs n'existent pas.")
+          'msg' => _("One or several users don't exist.")
         )
       ),
       'multiple' => 1,

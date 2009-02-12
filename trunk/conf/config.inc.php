@@ -81,12 +81,12 @@ $GLOBALS['LSconfig'] = array(
         'recoveryHashAttr' => 'lsRecoveryHash',
         'recoveryEmailSender' => 'noreply-recover@ls.com',
         'recoveryHashMail' => array(
-          'subject' => 'LSexample : Récupération de votre mot de passe.',
-          'msg' => "Pour poursuivre le processus de récupération de votre mot de passe,\nmerci de cliquer de vous rendre à l'adresse suivante :\n%{url}"
+          'subject' => 'LSexample : Recovering your password.',
+          'msg' => "To proceed password recovery procedure, please follow that link:\n%{url}"
         ),
         'newPasswordMail' => array(
-          'subject' => 'LSexample : Votre nouveau mot de passe.',
-          'msg' => "Votre nouveau mot de passe : %{mdp}"
+          'subject' => 'LSexample : Your new credentials',
+          'msg' => "Your new password : %{mdp}"
         )
       ),
       'emailSender' => 'noreply@ls.com'
@@ -117,7 +117,7 @@ $GLOBALS['LSconfig'] = array(
         )
       ),
       'authObjectType' => 'LSeepeople',
-      'subDnLabel' => _('Société'),
+      'subDnLabel' => _('Company'),
       'subDn' => array(
         '== Toutes ==' => array(
           'dn' => 'o=ls',
@@ -144,12 +144,12 @@ $GLOBALS['LSconfig'] = array(
         'recoveryHashAttr' => 'lsRecoveryHash',
         'recoveryEmailSender' => 'noreply-recover@lsexample.net',
         'recoveryHashMail' => array(
-          'subject' => 'LSexample : Récupération de votre mot de passe.',
-          'msg' => "Pour poursuivre le processus de récupération de votre mot de passe,\nmerci de cliquer de vous rendre à l'adresse suivante :\n%{url}"
+          'subject' => 'LSexample : Recovering your password.',
+          'msg' => "To proceed password recovery procedure, please follow that link:\n%{url}"
         ),
         'newPasswordMail' => array(
-          'subject' => 'LSexample : Votre nouveau mot de passe.',
-          'msg' => "Votre nouveau mot de passe : %{mdp}"
+          'subject' => 'LSexample : Your new credentials.',
+          'msg' => "Your new password : %{mdp}"
         )
       ),
       'emailSender' => 'noreply@lsexample.net'

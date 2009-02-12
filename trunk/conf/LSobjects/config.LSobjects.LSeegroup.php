@@ -38,18 +38,18 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     )
   ),
   'display_name_format' => '%{cn}',
-  'label' => _('Groupes'),
+  'label' => _('Groups'),
   'attrs' => array (
   
     /* ----------- start -----------*/
     'cn' => array (
-      'label' => _('Nom'),
+      'label' => _('Name'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
       'check_data' => array (
         'alphanumeric' => array(
-          'msg' => _('Le nom ne doit comporter que des lettres et des chiffres.')
+          'msg' => _('Name must contain alphanumeric values only.')
         ),
       ),
       'validation' => array (
@@ -73,7 +73,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'gidNumber' => array (
-      'label' => _('Identifiant'),
+      'label' => _('Id'),
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
@@ -97,7 +97,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'uniqueMember' => array (
-      'label' => _('Membres'),
+      'label' => _('Members'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array(
@@ -151,7 +151,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Parrain(s)'),
+      'label' => _('Father(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array (
@@ -164,7 +164,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => _("Un ou plusieurs de ces utilisateurs n'existent pas.")
+          'msg' => _("One or several of these users don't exist.")
         )
       ),
       'multiple' => 1,

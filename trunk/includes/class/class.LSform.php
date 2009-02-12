@@ -85,8 +85,8 @@ class LSform {
     LSsession :: addHelpInfos(
       'LSform',
       array(
-        'addFieldBtn' => _('Ajouter un champ pour saisir une autre valeur.'),
-        'removeFieldBtn' => _('Supprimer ce champ.')
+        'addFieldBtn' => _('Add a field to add another values.'),
+        'removeFieldBtn' => _('Delete this field.')
       )
     );
     
@@ -154,7 +154,7 @@ class LSform {
     
     if (is_array($GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout'])) {
       $GLOBALS['Smarty'] -> assign('LSform_layout',$GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout']);
-      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('Aucun champ.'));
+      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
     }
   }  
   
@@ -175,7 +175,7 @@ class LSform {
       $msg_error=getFData($msg,$attr->getLabel());
     }
     else {
-      $msg_error=getFData(_("Les données pour l'attribut %{label} ne sont pas valides."),$attr->getLabel());
+      $msg_error=getFData(_("%{label} attribute data is not valid."),$attr->getLabel());
     }
     $this -> _elementsErrors[$attr->name][]=$msg_error;
   }
@@ -227,7 +227,7 @@ class LSform {
       if (!$this -> checkData()) {
         return;
       }
-      LSdebug("les données sont checkées");
+      LSdebug("Data are checked up");
       $this -> _isValidate = true;
       return true;
     }
@@ -249,7 +249,7 @@ class LSform {
       }
       if ($this -> elements[$element] -> isRequired()) {
         if (!$this -> checkRequired($values)) {
-          $this -> setElementError($this -> elements[$element],_("Champ obligatoire"));
+          $this -> setElementError($this -> elements[$element],_("Mandatory field"));
           $retval=false;
         }
       }

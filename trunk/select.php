@@ -183,7 +183,7 @@ if(LSsession :: startLSsession()) {
       else {
         LSdebug('Load');
         $LSview_actions[] = array (
-          'label' => _('Rafraîchir'),
+          'label' => _('Refresh'),
           'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
           'action' => 'refresh'
         );
@@ -289,14 +289,14 @@ if(LSsession :: startLSsession()) {
       
       $GLOBALS['Smarty']->assign('LSview_search',array(
         'action' => $_SERVER['PHP_SELF'],
-        'submit' => _('Rechercher'),
+        'submit' => _('Search'),
         'LSobject' => $LSobject
       ));
       
-      $GLOBALS['Smarty']->assign('LSview_search_recur_label',_('Recherche récursive'));
-      $GLOBALS['Smarty']->assign('LSview_search_approx_label',_('Recherche approximative'));
+      $GLOBALS['Smarty']->assign('LSview_search_recur_label',_('Recursive search'));
+      $GLOBALS['Smarty']->assign('LSview_search_approx_label',_('Approximative search'));
 
-      $GLOBALS['Smarty']->assign('LSobject_list_without_result_label',_("Cette recherche n'a retourné aucun résultat."));
+      $GLOBALS['Smarty']->assign('LSobject_list_without_result_label',_("This search didn't get any result."));
       $GLOBALS['Smarty']->assign('LSobject_list',$searchData['objectList']);
       $GLOBALS['Smarty']->assign('LSobject_list_objecttype',$LSobject);
       $GLOBALS['Smarty'] -> assign('LSview_actions',$searchData['LSview_actions']);

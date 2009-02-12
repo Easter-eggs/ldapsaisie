@@ -40,7 +40,7 @@ if(LSsession :: startLSsession()) {
           if (LSsession :: canAccess($LSobject,$dn)) {
             if ( LSsession :: canEdit($LSobject,$dn) ) {
               $LSview_actions[] = array(
-                'label' => _('Modifier'),
+                'label' => _('Modify'),
                 'url' =>'modify.php?LSobject='.$LSobject.'&amp;dn='.$dn,
                 'action' => 'modify'
               );
@@ -48,7 +48,7 @@ if(LSsession :: startLSsession()) {
             
             if (LSsession :: canCreate($LSobject)) {
               $LSview_actions[] = array(
-                'label' => _('Copier'),
+                'label' => _('Copy'),
                 'url' =>'create.php?LSobject='.$LSobject.'&amp;load='.$dn,
                 'action' => 'copy'
               );
@@ -56,7 +56,7 @@ if(LSsession :: startLSsession()) {
             
             if (LSsession :: canRemove($LSobject,$dn)) {
               $LSview_actions[] = array(
-                'label' => _('Supprimer'),
+                'label' => _('Delete'),
                 'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$dn,
                 'action' => 'delete'
               );
@@ -69,7 +69,7 @@ if(LSsession :: startLSsession()) {
             }
             else {
               $object = LSsession :: getLSuserObject();
-              $GLOBALS['Smarty'] -> assign('pagetitle',_('Mon compte'));
+              $GLOBALS['Smarty'] -> assign('pagetitle',_('My account'));
             }
             
             $view = $object -> getView();
@@ -90,7 +90,7 @@ if(LSsession :: startLSsession()) {
                     $return['emptyText'] = $relationConf['emptyText'];
                   }
                   else {
-                    $return['emptyText'] = _('Aucun objet en relation.');
+                    $return['emptyText'] = _('No object.');
                   }
                   
                   $id=rand();
@@ -105,7 +105,7 @@ if(LSsession :: startLSsession()) {
                   );
                   if (LSsession :: relationCanEdit($object -> getValue('dn'),$LSobject,$relationName)) {
                     $return['actions'][] = array(
-                      'label' => _('Modifier'),
+                      'label' => _('Modify'),
                       'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1',
                       'action' => 'modify'
                     );
@@ -289,12 +289,12 @@ if(LSsession :: startLSsession()) {
           if ((LSsession :: cacheSearch()) && isset($_SESSION['LSsession']['LSsearch'][$hash]) && (!isset($_REQUEST['refresh']))) {
             // On affiche à partir du cache
             $searchData=$_SESSION['LSsession']['LSsearch'][$hash];
-            LSdebug('Recherche : From cache');
+            LSdebug('Find : From cache');
             if(!isset($searchData['LSview_actions']['create'])) {
               LSdebug('Recherche : Check Create()');
               if (LSsession :: canCreate($LSobject)) {
                 $searchData['LSview_actions']['create'] = array (
-                  'label' => _('Nouveau'),
+                  'label' => _('New'),
                   'url' => 'create.php?LSobject='.$LSobject,
                   'action' => 'create'
                 );
@@ -306,10 +306,10 @@ if(LSsession :: startLSsession()) {
             }
           }
           else { // Load
-            LSdebug('Recherche : Load');
+            LSdebug('Find : Load');
             if (LSsession :: canCreate($LSobject)) {
               $LSview_actions['create'] = array (
-                'label' => _('Nouveau'),
+                'label' => _('New'),
                 'url' => 'create.php?LSobject='.$LSobject,
                 'action' => 'create'
               );
@@ -319,7 +319,7 @@ if(LSsession :: startLSsession()) {
               $LSview_actions['create'] = false;
             }
             $LSview_actions['refresh'] = array (
-              'label' => _('Rafraîchir'),
+              'label' => _('Refresh'),
               'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
               'action' => 'refresh'
             );
@@ -359,14 +359,14 @@ if(LSsession :: startLSsession()) {
               $actions=array();
               
               $actions[] = array(
-                'label' => _('Voir'),
+                'label' => _('Check'),
                 'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$searchData['objectList'][$i]['dn'],
                 'action' => 'view'
               );
               
               if (LSsession :: canEdit($LSobject,$searchData['objectList'][$i]['dn'])) {
                 $actions[]=array(
-                  'label' => _('Modifier'),
+                  'label' => _('Modify'),
                   'url' => 'modify.php?LSobject='.$LSobject.'&amp;dn='.$searchData['objectList'][$i]['dn'],
                   'action' => 'modify'
                 );
@@ -374,7 +374,7 @@ if(LSsession :: startLSsession()) {
               
               if ($canCopy) {
                 $actions[] = array(
-                  'label' => _('Copier'),
+                  'label' => _('Copy'),
                   'url' =>'create.php?LSobject='.$LSobject.'&amp;load='.$searchData['objectList'][$i]['dn'],
                   'action' => 'copy'
                 );
@@ -382,7 +382,7 @@ if(LSsession :: startLSsession()) {
               
               if (LSsession :: canRemove($LSobject,$searchData['objectList'][$i]['dn'])) {
                 $actions[] = array (
-                  'label' => _('Supprimer'),
+                  'label' => _('Delete'),
                   'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$searchData['objectList'][$i]['dn'],
                   'action' => 'delete'
                 );
@@ -414,7 +414,7 @@ if(LSsession :: startLSsession()) {
               return -1*$sense;
             }
             if (!uasort($searchData['objectList'],'sortBy')) {
-              LSdebug('Erreur durant le trie.');
+              LSdebug('Error while sorting.');
             }
           } // Fin Order by
           $GLOBALS['Smarty']->assign('LSobject_list_orderby',$orderby);
@@ -450,12 +450,12 @@ if(LSsession :: startLSsession()) {
             'LSobject' => $LSobject
           ));
           
-          $GLOBALS['Smarty']->assign('LSview_search_recur_label',_('Recherche récursive'));
-          $GLOBALS['Smarty']->assign('LSview_search_approx_label',_('Recherche approximative'));
+          $GLOBALS['Smarty']->assign('LSview_search_recur_label',_('Recursive search'));
+          $GLOBALS['Smarty']->assign('LSview_search_approx_label',_('Aproximative search'));
 
-          $GLOBALS['Smarty']->assign('LSobject_list_without_result_label',_("Cette recherche n'a retourné aucun résultat."));
+          $GLOBALS['Smarty']->assign('LSobject_list_without_result_label',_("This search doesn't give any result."));
           $GLOBALS['Smarty']->assign('_Actions',_('Actions'));
-          $GLOBALS['Smarty']->assign('_Modifier',_('Modifier'));
+          $GLOBALS['Smarty']->assign('_Modifier',_('Modify'));
           $GLOBALS['Smarty']->assign('LSobject_list',$searchData['objectList']);
           $GLOBALS['Smarty']->assign('LSobject_list_objecttype',$LSobject);
           $GLOBALS['Smarty'] -> assign('LSview_actions',$searchData['LSview_actions']);

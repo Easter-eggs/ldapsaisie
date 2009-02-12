@@ -47,7 +47,7 @@ if(LSsession :: startLSsession()) {
           // Data update for LDAP object
           if ($object -> updateData('create')) {
             if (!LSerror::errorsDefined()) {
-              LSsession :: addInfo(_("L'objet a bien été ajouté."));
+              LSsession :: addInfo(_("Object has been added."));
             }
             if (isset($_REQUEST['ajax'])) {
               LSsession :: displayAjaxReturn (
@@ -86,7 +86,7 @@ if(LSsession :: startLSsession()) {
           exit();
         }
         // Define page title
-        $GLOBALS['Smarty'] -> assign('pagetitle',_('Nouveau').' : '.$object -> getLabel());
+        $GLOBALS['Smarty'] -> assign('pagetitle',_('New').' : '.$object -> getLabel());
         LSsession :: setTemplate('create.tpl');
         $form -> display();
       }

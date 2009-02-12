@@ -32,9 +32,9 @@ if(LSsession :: startLSsession()) {
           if ($object -> loadData($_GET['dn'])) {
             if (isset($_GET['valid'])) {
               $objectname=$object -> getDisplayName();
-              $GLOBALS['Smarty'] -> assign('pagetitle',_('Suppression').' : '.$objectname);
+              $GLOBALS['Smarty'] -> assign('pagetitle',_('Deleting').' : '.$objectname);
               if ($object -> remove()) {
-                LSsession :: addInfo($objectname.' '._('a bien été supprimé').'.');
+                LSsession :: addInfo($objectname.' '._('has been deleted successfully').'.');
                 LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
               }
               else {
@@ -43,10 +43,10 @@ if(LSsession :: startLSsession()) {
             }
             else {
               // Définition du Titre de la page
-              $GLOBALS['Smarty'] -> assign('pagetitle',_('Suppresion').' : '.$object -> getDisplayName());
-              $GLOBALS['Smarty'] -> assign('question',_('Voulez-vous vraiment supprimer').' <strong>'.$object -> getDisplayName().'</strong> ?');
+              $GLOBALS['Smarty'] -> assign('pagetitle',_('Deleting').' : '.$object -> getDisplayName());
+              $GLOBALS['Smarty'] -> assign('question',_('To you really want to delete').' <strong>'.$object -> getDisplayName().'</strong> ?');
               $GLOBALS['Smarty'] -> assign('validation_url','remove.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$_GET['dn'].'&amp;valid');
-              $GLOBALS['Smarty'] -> assign('validation_txt',_('Valider'));
+              $GLOBALS['Smarty'] -> assign('validation_txt',_('Validate'));
             }
             LSsession :: setTemplate('question.tpl');
           }

@@ -838,7 +838,7 @@ class LSsession {
   * @retval void
   */
   public static function displayLoginForm() {
-    $GLOBALS['Smarty'] -> assign('pagetitle',_('Connexion'));
+    $GLOBALS['Smarty'] -> assign('pagetitle',_('Connection'));
     if (isset($_GET['LSsession_logout'])) {
       $GLOBALS['Smarty'] -> assign('loginform_action','index.php');
     }
@@ -848,7 +848,7 @@ class LSsession {
     if (count($GLOBALS['LSconfig']['ldap_servers'])==1) {
       $GLOBALS['Smarty'] -> assign('loginform_ldapserver_style','style="display: none"');
     }
-    $GLOBALS['Smarty'] -> assign('loginform_label_ldapserver',_('Serveur LDAP'));
+    $GLOBALS['Smarty'] -> assign('loginform_label_ldapserver',_('LDAP server'));
     $ldapservers_name=array();
     $ldapservers_index=array();
     foreach($GLOBALS['LSconfig']['ldap_servers'] as $id => $infos) {
@@ -859,10 +859,10 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('loginform_ldapservers_index',$ldapservers_index);
 
     $GLOBALS['Smarty'] -> assign('loginform_label_level',_('Niveau'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_user',_('Identifiant'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_pwd',_('Mot de passe'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_submit',_('Connexion'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_recoverPassword',_('Mot de passe oublié ?'));
+    $GLOBALS['Smarty'] -> assign('loginform_label_user',_('Identifier'));
+    $GLOBALS['Smarty'] -> assign('loginform_label_pwd',_('Password'));
+    $GLOBALS['Smarty'] -> assign('loginform_label_submit',_('Connect'));
+    $GLOBALS['Smarty'] -> assign('loginform_label_recoverPassword',_('Forgot your password ?'));
     
     self :: setTemplate('login.tpl');
     self :: addJSscript('LSsession_login.js');
@@ -880,14 +880,14 @@ class LSsession {
   * @retval void
   */
   public static function displayRecoverPasswordForm($recoveryPasswordInfos) {
-    $GLOBALS['Smarty'] -> assign('pagetitle',_('Récupération de votre mot de passe'));
+    $GLOBALS['Smarty'] -> assign('pagetitle',_('Recovery of your credentials'));
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
     
     if (count($GLOBALS['LSconfig']['ldap_servers'])==1) {
       $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapserver_style','style="display: none"');
     }
     
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_ldapserver',_('Serveur LDAP'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_ldapserver',_('LDAP server'));
     $ldapservers_name=array();
     $ldapservers_index=array();
     foreach($GLOBALS['LSconfig']['ldap_servers'] as $id => $infos) {
@@ -897,23 +897,23 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapservers_name',$ldapservers_name);
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapservers_index',$ldapservers_index);
 
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_user',_('Identifiant'));
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_submit',_('Valider'));
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_back',_('Retour'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_user',_('Identifier'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_submit',_('Valid'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_back',_('Back'));
     
-    $recoverpassword_msg = _('Veuillez saisir votre identifiant pour poursuivre le processus de récupération de votre mot de passe');
+    $recoverpassword_msg = _('Please fill the identifier field to proceed recovery procedure');
     
     if (isset($recoveryPasswordInfos['recoveryHashMail'])) {
       $recoverpassword_msg = getFData(
-        _("Un mail vient de vous être envoyé à l'adresse %{mail}. " .
-        "Merci de suivre les indications contenus dans ce mail."),
+        _("An email has been sent to  %{mail}. " .
+        "Please follow the instructions on it."),
         $recoveryPasswordInfos['recoveryHashMail']
       );
     }
     
     if (isset($recoveryPasswordInfos['newPasswordMail'])) {
       $recoverpassword_msg = getFData(
-        _("Votre nouveau mot de passe vient de vous être envoyé à l'adresse %{mail}. "),
+        _("Your new password has been sent to %{mail}. "),
         $recoveryPasswordInfos['newPasswordMail']
       );
     }
@@ -1039,7 +1039,7 @@ class LSsession {
     if (is_array($listTopDn)) {
       asort($listTopDn);
       $GLOBALS['Smarty'] -> assign('label_level',self :: getSubDnLabel());
-      $GLOBALS['Smarty'] -> assign('_refresh',_('Rafraîchir'));
+      $GLOBALS['Smarty'] -> assign('_refresh',_('Refresh'));
       $LSsession_topDn_index = array();
       $LSsession_topDn_name = array();
       foreach($listTopDn as $index => $name) {
@@ -1301,7 +1301,7 @@ class LSsession {
     foreach($LSaccess as $dn => $access) {
       $LSaccess[$dn] = array_merge(
         array(
-          'SELF' => _('Mon compte')
+          'SELF' => _('My account')
         ),
         $access
       );
@@ -1664,7 +1664,7 @@ class LSsession {
    * @retval string Le label des niveaux pour le serveur ldap dourant
    */
   public static function getSubDnLabel() {
-    return (self :: $ldapServer['subDnLabel']!='')?self :: $ldapServer['subDnLabel']:_('Niveau');
+    return (self :: $ldapServer['subDnLabel']!='')?self :: $ldapServer['subDnLabel']:_('Level');
   }
   
   /**

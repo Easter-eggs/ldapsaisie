@@ -25,7 +25,7 @@ require_once 'includes/class/class.LSsession.php';
 if(LSsession :: startLSsession()) {
 
   // Définition du Titre de la page
-  $GLOBALS['Smarty'] -> assign('pagetitle',_('Accueil'));
+  $GLOBALS['Smarty'] -> assign('pagetitle',_('Home'));
 
   // Template
   LSsession :: setTemplate('accueil.tpl');
