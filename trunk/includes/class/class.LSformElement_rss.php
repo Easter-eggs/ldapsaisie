@@ -46,7 +46,7 @@ class LSformElement_rss extends LSformElement_text {
     LSsession :: addHelpInfos (
       'LSformElement_rss',
       array(
-        'display' => _("Afficher la file RSS.")
+        'display' => _("Display RSS stack.")
       )
     );
     return parent :: getDisplay($return);

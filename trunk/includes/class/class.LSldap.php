@@ -405,18 +405,18 @@ LSerror :: defineError('LSldap_02',
   _("LSldap : Error during the LDAP search (%{msg}).")
 );
 LSerror :: defineError('LSldap_03',
-  _("LSldap : Object type unkown.")
+  _("LSldap : Object type unknown.")
 );
 LSerror :: defineError('LSldap_04',
-  _("LSldap : Error during fecthing the LDAP entry.")
+  _("LSldap : Error while fetching the LDAP entry.")
 );
 LSerror :: defineError('LSldap_05',
-  _("LSldap : Error during changing the LDAP entry (DN : %{dn}).")
+  _("LSldap : Error while changing the LDAP entry (DN : %{dn}).")
 );
 LSerror :: defineError('LSldap_06',
-  _("LSldap : Error during deleting the empty attributes.")
+  _("LSldap : Error while deleting empty attributes.")
 );
 LSerror :: defineError('LSldap_07',
-  _("LSldap : Error during changing the DN of the object.")
+  _("LSldap : Error while changing the DN of the object.")
 );
 ?>

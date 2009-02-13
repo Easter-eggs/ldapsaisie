@@ -65,20 +65,20 @@ class LSformElement_select_object extends LSformElement {
         $this -> name,
         array(
           'object_type' => $this -> selectableObject,
-          'addBtn' => _('Modifier'),
-          'deleteBtns' => _('Supprimer'),
+          'addBtn' => _('Modify'),
+          'deleteBtns' => _('Delete'),
           'multiple' => (($this -> params['multiple'])?1:0),
-          'noValueLabel' => _('Aucune valeur definie'),
-          'noResultLabel' => _('Aucun r&eacute;sultat')
+          'noValueLabel' => _('No value set'),
+          'noResultLabel' => _('No result')
         )
       );
 
       LSsession :: addHelpInfos (
         'LSformElement_select_object',
         array(
-          'searchAdd' => _("Ajout rapide"),
-          'add' => _("Afficher le module de recherche avancée et de sélection."),
-          'delete' => _("Supprimer")
+          'searchAdd' => _("Fast Add"),
+          'add' => _("Display advanced search and selection panel."),
+          'delete' => _("Delete")
         )
       );
       

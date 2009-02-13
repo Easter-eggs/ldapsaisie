@@ -53,7 +53,7 @@ class LSformElement_text extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_text',
         array(
-          'generate' => _('Générer la valeur')
+          'generate' => _('Generate the value')
         )
       );
       LSsession :: addJSscript('LSformElement_text_field.js');

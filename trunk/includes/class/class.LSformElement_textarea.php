@@ -47,7 +47,7 @@ class LSformElement_textarea extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_textarea',
         array(
-          'clear' => _('Effacer')
+          'clear' => _('Clear')
         )
       );
       LSsession :: addJSscript('LSformElement_textarea.js');

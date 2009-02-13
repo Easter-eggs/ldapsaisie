@@ -24,7 +24,7 @@
 
 // Support
 LSerror :: defineError('MAIL_SUPPORT_01',
-  _("MAIL Support : Pear::MAIL est introuvable.")
+  _("MAIL Support : Pear::MAIL is missing.")
 );
 
 // Autres erreurs
@@ -33,7 +33,7 @@ LSerror :: defineError('MAIL_00',
 );
 
 LSerror :: defineError('MAIL_01',
-  _("MAIL : Problème durant l'envoie de votre mail")
+  _("MAIL : Error while sending your email")
 );
       
  /**

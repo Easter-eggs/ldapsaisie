@@ -49,7 +49,7 @@ class LSformElement_boolean extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_boolean',
         array(
-          'clear' => _('Effacer le choix.')
+          'clear' => _('Reset the choice.')
         )
       );
       LSsession :: addJSscript('LSformElement_boolean.js');
@@ -57,8 +57,8 @@ class LSformElement_boolean extends LSformElement {
     $return['html'] = $this -> fetchTemplate(
       NULL,
       array(
-        'yesTxt' => _('Oui'),
-        'noTxt' => _('Non')
+        'yesTxt' => _('Yes'),
+        'noTxt' => _('No')
       )
     );
     return $return;

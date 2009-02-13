@@ -113,13 +113,13 @@ class LSformElement_password extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_password',
         array(
-          'generate' => _('Générer un mot de passe.'),
-          'verify' => _('Verifier si le mot de passe saisi correspond à celui stocké.'),
-          'view' => _('Voir le mot de passe.'),
-          'hide' => _('Cacher le mot de passe.'),
-          'mail' => _("Le mot de passe sera envoyé par mail en cas de modification. Cliquer pour désactiver l'envoi."),
-          'nomail' => _("Le mot de passe ne sera pas envoyé par mail en cas de modification. Cliquer pour activer l'envoi."),
-          'editmail' => _("Editer le mail qui sera envoyé à l'utilisateur")
+          'generate' => _('Generate a password.'),
+          'verify' => _('Check equality with stored password.'),
+          'view' => _('Display password.'),
+          'hide' => _('Hide password.'),
+          'mail' => _("The password will be sent by mail if changed. Click to disable automatic notification."),
+          'nomail' => _("The password will not be sent if changed. Click to enable automatic notification."),
+          'editmail' => _("Modify the mail sent to notice the user")
         )
       );
       
@@ -176,7 +176,7 @@ class LSformElement_password extends LSformElement {
           $this -> sendMail['subject'],
           $this -> sendMail['msg']
         )) {
-          LSsession :: addInfo(_('Mail de changement de mot de passe envoyé.'));
+          LSsession :: addInfo(_('Notice mail sent.'));
         }
       }
       else {

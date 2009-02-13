@@ -24,16 +24,16 @@
 
 // Support
 LSerror :: defineError('POSIX_SUPPORT_01',
-  _("POSIX Support : La constante %{const} n'est pas définie.")
+  _("POSIX Support : The constant %{const} is not defined.")
 );
 
 LSerror :: defineError('POSIX_SUPPORT_02',
-  _("POSIX Support : Impossible de charger LSaddons::FTP.")
+  _("POSIX Support : Unable to load LSaddons::FTP.")
 );
 
 // Autres erreurs
 LSerror :: defineError('POSIX_01',
-  _("POSIX : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}.")
+  _("POSIX : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
       
  /**

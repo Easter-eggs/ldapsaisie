@@ -159,6 +159,6 @@ class LSerror {
 /*
  * Error Codes
  */
-LSerror :: defineError(-1,_("Unknow error!"));
+LSerror :: defineError(-1,_("Unknown error!"));
 
 ?>

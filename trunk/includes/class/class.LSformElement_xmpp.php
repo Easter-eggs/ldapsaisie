@@ -47,7 +47,7 @@ class LSformElement_xmpp extends LSformElement_text {
     LSsession :: addHelpInfos (
       'LSformElement_xmpp',
       array(
-        'chat' => _("Dialoguer avec cette personne.")
+        'chat' => _("Chat with this person.")
       )
     );
     return parent :: getDisplay($return);

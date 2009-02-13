@@ -114,7 +114,7 @@ _("LSattr_html : The method addToForm() of the HTML type of the attribute %{attr
 );
 // 02 : not yet used
 LSerror :: defineError('LSattr_html_03',
-_("LSattr_html_%{type} : The multiple data are not supported for this field type.")
+_("LSattr_html_%{type} : Multiple data are not supported for this field type.")
 );
 
 ?>

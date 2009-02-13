@@ -49,7 +49,7 @@ class LSformElement_select extends LSformElement {
       LSsession :: addHelpInfos (
         'LSformElement_select',
         array(
-          'clear' => _("Effacer la sélection.")
+          'clear' => _("Reset selection.")
         )
       );
       LSsession :: addJSscript('LSformElement_select.js');

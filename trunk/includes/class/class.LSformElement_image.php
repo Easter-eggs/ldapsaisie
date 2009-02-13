@@ -50,8 +50,8 @@ class LSformElement_image extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_date',
         array(
-          'zoom' => _('Cliquer pour agrandir.'),
-          'delete' => _('Cliquer pour supprimer cette image.')
+          'zoom' => _('Click to enlarge.'),
+          'delete' => _('Click to delete the picture.')
         )
       );
       $id=$this -> name.'_'.rand();

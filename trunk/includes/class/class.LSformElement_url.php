@@ -47,8 +47,8 @@ class LSformElement_url extends LSformElement_text {
     LSsession :: addHelpInfos (
       'LSformElement_url',
       array(
-        'go' => _("Afficher ce site."),
-        'fav' => _("Ajouter ce site dans mes favoris.")
+        'go' => _("Display this website."),
+        'fav' => _("Add this website to my bookmarks.")
       )
     );
     return parent :: getDisplay($return);

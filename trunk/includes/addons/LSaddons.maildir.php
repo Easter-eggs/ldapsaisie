@@ -24,24 +24,24 @@
 
 // Support
 LSerror :: defineError('MAILDIR_SUPPORT_01',
-  _("MAILDIR Support : Impossible de charger LSaddons::FTP.")
+  _("MAILDIR Support : Unable to load LSaddons::FTP.")
 );
 LSerror :: defineError('MAILDIR_SUPPORT_02',
-  _("MAILDIR Support : La constante %{const} n'est pas définie.")
+  _("MAILDIR Support : The constant %{const} is not defined.")
 );
 
 // Autres erreurs
 LSerror :: defineError('MAILDIR_01',
-  _("MAILDIR : Erreur durant la création de la maildir sur le serveur distant.")
+  _("MAILDIR : Error while creating maildir on the remote server.")
 );
 LSerror :: defineError('MAILDIR_02',
-  _("MAILDIR : Erreur durant la suppression de la maildir sur le serveur distant.")
+  _("MAILDIR : Error while deleting the maildir on the remote server.")
 );
 LSerror :: defineError('MAILDIR_03',
-  _("MAILDIR : Erreur durant le renomage de la maildir sur le serveur distant.")
+  _("MAILDIR : Error while renaming the maildir on the remote server.")
 );
 LSerror :: defineError('MAILDIR_04',
-  _("MAILDIR : Erreur durant la récupération du chemin distant de la maildir.")
+  _("MAILDIR : Error while recovering remote path of the maildir.")
 );
       
  /**

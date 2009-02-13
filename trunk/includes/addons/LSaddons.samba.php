@@ -24,19 +24,19 @@
 
 // Support
 LSerror :: defineError('SAMBA_SUPPORT_01',
-  _("SAMBA Support : la classe smHash ne peut pas être chargée.")
+  _("SAMBA Support : Unable to load smHash class.")
 );
 LSerror :: defineError('SAMBA_SUPPORT_02',
-  _("SAMBA Support : La constante %{const} n'est pas définie.")
+  _("SAMBA Support : The constant %{const} is not defined.")
 );
 
 LSerror :: defineError('SAMBA_SUPPORT_03',
-  _("SAMBA Support : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID.")
+  _("SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID.")
 );
 
 // Autres erreurs
 LSerror :: defineError('SAMBA_01',
-  _("SAMBA Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}.")
+  _("SAMBA Support : The attribute%{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
 
  /**

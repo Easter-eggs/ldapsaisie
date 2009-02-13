@@ -55,7 +55,7 @@ class LSformElement_mail extends LSformElement_text {
     LSsession :: addHelpInfos (
       'LSformElement_mail',
       array(
-        'mail' => _("Envoyer un mail depuis l'interface.")
+        'mail' => _("Send a mail from here.")
       )
     );
     return parent :: getDisplay($return);

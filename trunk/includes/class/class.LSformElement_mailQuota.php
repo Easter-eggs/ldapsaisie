@@ -77,7 +77,7 @@ class LSformElement_mailQuota extends LSformElement {
       }
       else {
         $quotas[$value] = array(
-          'unknown' => _('Valeur incorrect')
+          'unknown' => _('Incorrect value')
         );
       }
     }

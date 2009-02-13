@@ -24,12 +24,12 @@
 
 // Support
 LSerror :: defineError('SUPANN_SUPPORT_01',
-  _("SUPANN Support : La constante %{const} n'est pas définie.")
+  _("SUPANN Support : The constant %{const} is not defined.")
 );
 
 // Autres erreurs
 LSerror :: defineError('SUPANN_01',
-  _("SUPANN Support : L'attribut %{dependency} est introuvable. Impossible de générer l'attribut %{attr}.")
+  _("SUPANN Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
       
  /**

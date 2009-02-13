@@ -54,7 +54,7 @@ class LSformElement_ssh_key extends LSformElement {
       LSsession :: addHelpInfos (
         'LSformElement_ssh_key',
         array(
-          'display' => _("Afficher la clef complète.")
+          'display' => _("Display the full key.")
         )
       );
       
@@ -76,7 +76,7 @@ class LSformElement_ssh_key extends LSformElement {
         }
       }
       $params['values_txt'] = $values_txt;
-      $params['unknowTypeTxt'] = _('Type non reconnu');
+      $params['unknowTypeTxt'] = _('Unknown type');
     }
     $return['html'] = $this -> fetchTemplate(NULL,$params);
     return $return;

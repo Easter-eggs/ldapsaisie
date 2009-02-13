@@ -168,7 +168,7 @@ function loadDir($dir,$regexpr='^.*\.php$') {
     }
   }
   else {
-    die(_('Dossier introuvable ('.$dir.').'));
+    die(_('Unknown folder ('.$dir.').'));
   }
   return true;
 }
