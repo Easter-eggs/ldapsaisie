@@ -140,17 +140,17 @@ class LSformElement_maildir extends LSformElement_text {
             $newname=getFData($this -> params['html_options']['archiveNameFormat'],$this -> _toDo['old']);
             if ($newname) {
               if (renameMaildirByFTP($this -> _toDo['old'],$newname)) {
-                LSsession :: addInfo(_("La boîte mail a été archivée."));
+                LSsession :: addInfo(_("The mailbox has been stored in the database."));
                 return true;
               }
               return;
             }
-            LSdebug($this -> name." - LSformElement_maildir->toDo() : Nom d'archivage incorrect.");
+            LSdebug($this -> name." - LSformElement_maildir->toDo() : Incorrect archive name.");
             return;
           }
           else {
             if (removeMaildirByFTP(null,$this -> _toDo['old'])) {
-              LSsession :: addInfo(_("La boîte mail a été supprimée."));
+              LSsession :: addInfo(_("The mailbox has been deleted."));
               return true;
             }
             return;
@@ -158,23 +158,23 @@ class LSformElement_maildir extends LSformElement_text {
           break;
         case 'modify':
           if (renameMaildirByFTP($this -> _toDo['old'],$this -> _toDo['new'])) {
-            LSsession :: addInfo(_("La boîte mail a été déplacée."));
+            LSsession :: addInfo(_("The mailbox has been moved."));
             return true;
           }
           return;
           break;
         case 'create':
           if (createMaildirByFTP(null,$this -> _toDo['new'])) {
-            LSsession :: addInfo(_("La boîte mail a été créée."));
+            LSsession :: addInfo(_("The mailbox has been created."));
             return true;
           }
           return;
           break;
         default:
-          LSdebug($this -> name.' - LSformElement_maildir->toDo() : Action inconnu.');
+          LSdebug($this -> name.' - LSformElement_maildir->toDo() : Unknown action.');
       }
     }
-    LSdebug($this -> name.' - LSformElement_maildir->toDo() : Rien à faire.');
+    LSdebug($this -> name.' - LSformElement_maildir->toDo() : Nothing to do.');
     return true;
   }
 }
