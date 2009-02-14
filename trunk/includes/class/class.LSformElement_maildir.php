@@ -140,7 +140,7 @@ class LSformElement_maildir extends LSformElement_text {
             $newname=getFData($this -> params['html_options']['archiveNameFormat'],$this -> _toDo['old']);
             if ($newname) {
               if (renameMaildirByFTP($this -> _toDo['old'],$newname)) {
-                LSsession :: addInfo("La boîte mail a été archivée.");
+                LSsession :: addInfo(_("La boîte mail a été archivée."));
                 return true;
               }
               return;
@@ -150,7 +150,7 @@ class LSformElement_maildir extends LSformElement_text {
           }
           else {
             if (removeMaildirByFTP(null,$this -> _toDo['old'])) {
-              LSsession :: addInfo("La boîte mail a été supprimée.");
+              LSsession :: addInfo(_("La boîte mail a été supprimée."));
               return true;
             }
             return;
@@ -158,14 +158,14 @@ class LSformElement_maildir extends LSformElement_text {
           break;
         case 'modify':
           if (renameMaildirByFTP($this -> _toDo['old'],$this -> _toDo['new'])) {
-            LSsession :: addInfo("La boîte mail a été déplacée.");
+            LSsession :: addInfo(_("La boîte mail a été déplacée."));
             return true;
           }
           return;
           break;
         case 'create':
           if (createMaildirByFTP(null,$this -> _toDo['new'])) {
-            LSsession :: addInfo("La boîte mail a été créée.");
+            LSsession :: addInfo(_("La boîte mail a été créée."));
             return true;
           }
           return;
