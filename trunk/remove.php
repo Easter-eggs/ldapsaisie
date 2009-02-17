@@ -46,7 +46,7 @@ if(LSsession :: startLSsession()) {
               $GLOBALS['Smarty'] -> assign('pagetitle',_('Deleting').' : '.$object -> getDisplayName());
               $GLOBALS['Smarty'] -> assign('question',_('Do you really want to delete').' <strong>'.$object -> getDisplayName().'</strong> ?');
               $GLOBALS['Smarty'] -> assign('validation_url','remove.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$_GET['dn'].'&amp;valid');
-              $GLOBALS['Smarty'] -> assign('validation_txt',_('Validate'));
+              $GLOBALS['Smarty'] -> assign('validation_label',_('Validate'));
             }
             LSsession :: setTemplate('question.tpl');
           }

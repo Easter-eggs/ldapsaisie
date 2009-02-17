@@ -9,5 +9,5 @@
     {/if}
     
     <p class='question'>{$question}</p>
-    {if $validation_txt!=''}<a href='{$validation_url}' class='question'>Valider</a>{/if}
+    <a href='{$validation_url}' class='question'>{$validation_label}</a>
 {include file='bottom.tpl'}
