@@ -9,7 +9,6 @@ var LSformElement_date_field = new Class({
       this.calendarBtn.injectAfter(this.input);
       varLSdefault.addHelpInfo(this.calendarBtn,'LSformElement_date','calendar');
       
-      // Récupération des paramètres à partir de l'attribut 'rem' du bouton
       this.params = varLSdefault.LSjsConfig[this.name];
       if (!$type(this.params)) {
         this.params={};
