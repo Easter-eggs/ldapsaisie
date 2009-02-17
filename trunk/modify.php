@@ -95,7 +95,7 @@ if(LSsession :: startLSsession()) {
           }
           else {
             $LSview_actions[] = array(
-              'label' => _('Check'),
+              'label' => _('View'),
               'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
               'action' => 'view'
             );
