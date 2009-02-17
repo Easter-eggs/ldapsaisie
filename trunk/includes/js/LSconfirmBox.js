@@ -31,7 +31,7 @@ var LSconfirmBox = new Class({
         this.text.set('html',this._options.text);
       }
       else {
-        this.text.set('html','Comfirmez-vous votre choix ?');
+        this.text.set('html','You comfirm your choice ?');
       }
       this.text.injectInside(this.box);
       
@@ -41,13 +41,23 @@ var LSconfirmBox = new Class({
       
       this.confirmBtn = new Element('span');
       this.confirmBtn.addClass('btn-LSconfirmBox');
-      this.confirmBtn.set('html','Valider');
+      if (this._options.validate_label) {
+        this.confirmBtn.set('html',this._options.validate_label);
+      }
+      else {
+        this.confirmBtn.set('html','Validate');
+      }
       this.confirmBtn.injectInside(this.btnsBox);
       this.confirmBtn.addEvent('click',this.confirm.bind(this));
       
       this.cancelBtn = new Element('span');
       this.cancelBtn.addClass('btn-LSconfirmBox');
-      this.cancelBtn.set('html','Annuler');
+      if (this._options.cancel_label) {
+        this.cancelBtn.set('html',this._options.cancel_label);
+      }
+      else {
+        this.cancelBtn.set('html','Cancel');
+      }
       this.cancelBtn.injectInside(this.btnsBox);
       this.cancelBtn.addEvent('click',this.cancel.bind(this));
       
