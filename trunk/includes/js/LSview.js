@@ -43,7 +43,7 @@ var LSview = new Class({
         this._confirmBoxOpen = 1;
         var name = a.getParent().getPrevious('td').getElement('a').innerHTML;
         this.confirmBox = new LSconfirmBox({
-          text:         'Etês-vous sur de vouloir supprimer "'+name+'" ?', 
+          text:         varLSdefault.LSjsConfig['LSview_delete_label'] + ' "'+name+'" ?', 
           startElement: a,
           onConfirm:    this.removeFromA.bind(this,a),
           onClose:      this.onConfirmBoxClose.bind(this)
@@ -57,7 +57,7 @@ var LSview = new Class({
         this._confirmBoxOpen = 1;
         var name = $('LSview_title').innerHTML;
         this.confirmBox = new LSconfirmBox({
-          text:         'Etês-vous sur de vouloir supprimer "'+name+'" ?', 
+          text:         varLSdefault.LSjsConfig['LSview_delete_label'] + ' "'+name+'" ?',
           startElement: a,
           onConfirm:    this.removeFromA.bind(this,a),
           onClose:      this.onConfirmBoxClose.bind(this)

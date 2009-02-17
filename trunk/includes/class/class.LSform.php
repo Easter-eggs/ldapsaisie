@@ -140,6 +140,7 @@ class LSform {
   function displayView(){
     LSsession :: addCssFile('LSform.css');
     LSsession :: addJSscript('LSform.js');
+    LSsession :: addJSconfigParam('LSview_delete_label',_("Do you really want to delete"));
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getDn()
