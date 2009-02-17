@@ -28,14 +28,16 @@ var LSformElement_url = new Class({
       btn_go.addEvent('click',this.onGoBtnClick.bind(this,btn_go));
       varLSdefault.addHelpInfo(btn_go,'LSformElement_url','go');
       
-      var btn_fav = new Element('img');
-      btn_fav.setProperties({
-        src:    varLSdefault.imagePath('url_add.png')
-      });
-      btn_fav.addClass('btn');
-      btn_fav.injectAfter(btn_go);
-      btn_fav.addEvent('click',this.onAddFavoriteBtnClick.bind(this,btn_fav));
-      varLSdefault.addHelpInfo(btn_fav,'LSformElement_url','fav');
+      if (this.isAddFavoriteSupportedBrowser()) {
+        var btn_fav = new Element('img');
+        btn_fav.setProperties({
+          src:    varLSdefault.imagePath('url_add.png')
+        });
+        btn_fav.addClass('btn');
+        btn_fav.injectAfter(btn_go);
+        btn_fav.addEvent('click',this.onAddFavoriteBtnClick.bind(this,btn_fav));
+        varLSdefault.addHelpInfo(btn_fav,'LSformElement_url','fav');
+      }
     },
     
     reinitialize: function(el) {
@@ -66,10 +68,14 @@ var LSformElement_url = new Class({
         else if(window.external) {
           window.external.AddFavorite(href,name);
         }
-        else {
-          alert('Fonctionnalité pas encore supportée pour votre navigateur.');
-        }
       }
+    },
+    
+    isAddFavoriteSupportedBrowser: function() {
+      if (window.sidebar || window.external) {
+        return 1;
+      }
+      return;
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
