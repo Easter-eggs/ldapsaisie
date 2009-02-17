@@ -35,9 +35,12 @@ var LSrelation = new Class({
       if (this._confirmDelete) {
         var a = img.getPrevious('a');
         this.confirmBox = new LSconfirmBox({
-          text:         'Etês-vous sur de vouloir supprimer "'+a.innerHTML+'" ?', 
-          startElement: img,
-          onConfirm:    this.deleteFromImg.bind(this,img)
+          text:           'Do you really want to delete "'+a.innerHTML+'" ?', 
+          title:          'Caution', 
+          validate_label: 'Delete', 
+          cancel_label:   'Cancel', 
+          startElement:   img,
+          onConfirm:      this.deleteFromImg.bind(this,img)
         });
       }
       else {
@@ -82,7 +85,7 @@ var LSrelation = new Class({
           }
         }
         catch(e) {
-          LSdebug('Erreur durant la suppression du li du DN : '+data.dn);
+          LSdebug('Error during the li of DN delete : '+data.dn);
         }
       }
     },
