@@ -140,7 +140,11 @@ class LSform {
   function displayView(){
     LSsession :: addCssFile('LSform.css');
     LSsession :: addJSscript('LSform.js');
-    LSsession :: addJSconfigParam('LSview_delete_label',_("Do you really want to delete"));
+    LSsession :: addJSconfigParam('LSview_delete_confirm_text',_("Do you really want to delete"));
+    LSsession :: addJSconfigParam('LSview_delete_confirm_title',_("Caution"));
+    LSsession :: addJSconfigParam('LSview_delete_confirm_yes_btn_label',_("Delete"));
+    LSsession :: addJSconfigParam('LSview_delete_confirm_no_btn_label',_("Cancel"));
+    
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getDn()
