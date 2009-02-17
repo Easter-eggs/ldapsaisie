@@ -36,7 +36,7 @@ var LSrelation = new Class({
         var a = img.getPrevious('a');
         this.confirmBox = new LSconfirmBox({
           text:           'Do you really want to delete "'+a.innerHTML+'" ?', 
-          title:          'Caution', 
+          title:          'Warning', 
           validate_label: 'Delete', 
           cancel_label:   'Cancel', 
           startElement:   img,
@@ -85,7 +85,7 @@ var LSrelation = new Class({
           }
         }
         catch(e) {
-          LSdebug('Error during the li of DN delete : '+data.dn);
+          LSdebug('Error while deleting the li of DN : '+data.dn);
         }
       }
     },

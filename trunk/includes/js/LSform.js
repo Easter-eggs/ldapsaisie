@@ -138,7 +138,7 @@ var LSform = new Class({
           this._modules[fieldType].reinitialize(li);
         }
         catch(e) {
-          LSdebug('Pas de reinitialise pour ' + fieldType);
+          LSdebug('No reinitialize for ' + fieldType);
         }
       }
     },

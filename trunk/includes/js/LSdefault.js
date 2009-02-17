@@ -126,7 +126,7 @@ var LSdefault = new Class({
         return true;
       }
       else {
-        LSdebug('retour non-interprétable');
+        LSdebug('Non computable return value');
         this.loadingImgHide();
         return;
       }

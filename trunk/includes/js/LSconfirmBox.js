@@ -16,7 +16,7 @@ var LSconfirmBox = new Class({
         this.title.set('html',this._options.title);
       }
       else {
-        this.title.set('html','Comfirmation');
+        this.title.set('html','Confirmation');
       };
       this.title.injectInside(this.box)
       
@@ -31,7 +31,7 @@ var LSconfirmBox = new Class({
         this.text.set('html',this._options.text);
       }
       else {
-        this.text.set('html','You comfirm your choice ?');
+        this.text.set('html','You confirm your choice ?');
       }
       this.text.injectInside(this.box);
       

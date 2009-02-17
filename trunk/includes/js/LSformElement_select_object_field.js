@@ -10,7 +10,7 @@ var LSformElement_select_object_field = new Class({
     },
     
     initializeLSformElement_select_object: function() {
-      // Class du UL
+      // Class of UL
       if (this.params.multiple) {
         this.ul.addClass('LSformElement_select_object_edit');
       }

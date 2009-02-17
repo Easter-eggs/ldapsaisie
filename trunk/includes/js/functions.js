@@ -14,20 +14,18 @@ function LSdebug(arguments) {
 }
 
 /**
- * Construction d'une chaine formatée
+ * Construction of formatted string
  *
- * Cette fonction retourne la valeur d'une chaine formatée selon le format
- * et les données passés en paramètre.
+ * This function returns a formatted string according to given data & format parameters
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  *
- * @param[in] $format string Format de la chaine
- * @param[in] $data mixed Les données pour composés la chaine
- *                    Ce paramètre peut être un tableau de string ou un objet.
- * @param[in] $meth string Le nom de la methode de l'objet(s) à appeler pour
- *                         obtenir la valeur de remplacement dans la chaine formatée.
+ * @param[in] $format string String Format
+ * @param[in] $data mixed Data used to compose the string.
+ *                    It can be strings array or object.
+ * @param[in] $meth string Object method name to call to get the new value for the formatted string.
  * 
- * Exemple d'appel :
+ * Invocation example :
  * getFData('%{test1} je  %{test2}',{
  *    getValue: function(val) {
  *      var data = {
@@ -38,7 +36,7 @@ function LSdebug(arguments) {
  *    }
  * },'getValue');
  * 
- * @retval string La chaine formatée
+ * @retval string The formatted string
  */
 function getFData(format,data,meth) {
   var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)\}');
@@ -106,11 +104,11 @@ function getFData(format,data,meth) {
 }
 
 /**
-* Supprime les accents d'une chaine
+* Delete accentuated characters in a string
 * 
-* @param[in] $string La chaine originale
+* @param[in] $string Original string
 * 
-* @retval string La chaine sans les accents
+* @retval string de-accentuated string
 */
 function replaceAccents(str) {
   var new_str = String(str);
@@ -128,12 +126,12 @@ function replaceAccents(str) {
 }
 
 /**
-* Remplace les espaces ou les tabulations d'une chaine
+* Replace spaces or tabs of a string by an argument
 * 
-* @param[in] $string La chaine originale
-* @param[in] $string Le caractère à mettre à la place
+* @param[in] $string The original string
+* @param[in] $string The character to set instead of spaces or tabs
 * 
-* @retval string La chaine sans espace
+* @retval string The modified outspaced string
 */
 function replaceSpaces(str,to) {
   if (!$type(to)) {
