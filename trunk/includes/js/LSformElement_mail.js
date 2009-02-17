@@ -22,9 +22,7 @@ var LSformElement_mail = new Class({
     addBtnAfter: function(el) {
       var btn = new Element('img');
       btn.setProperties({
-        src:    varLSdefault.imagePath('mail.png'),
-        alt:    'Envoyer un mail',
-        title:  'Envoyer un mail'
+        src:    varLSdefault.imagePath('mail.png')
       });
       btn.addClass('btn');
       btn.injectAfter(el);
