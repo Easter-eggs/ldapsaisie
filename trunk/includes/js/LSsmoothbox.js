@@ -210,10 +210,13 @@ var LSsmoothbox = new Class({
         if (!this._closeConfirmOpened) {
           this._closeConfirmOpened = 1;
           this.confirmBox = new LSconfirmBox({
-            text:         'Etês-vous sur de vouloir fermer cette fênetre et perdre toute les modifications apportées ?',
-            startElement: this.closeBtn,
-            onConfirm:    this.cancel.bind(this),
-            onClose:      (function(){this._closeConfirmOpened=0;}).bind(this)
+            text:           'Are you sure you want to close this window and lose all changes ?',
+            title:          'Caution',
+            validate_label: 'Validate',
+            cancel_label:   'Cancel',
+            startElement:   this.closeBtn,
+            onConfirm:      this.cancel.bind(this),
+            onClose:        (function(){this._closeConfirmOpened=0;}).bind(this)
           });
         }
       }
