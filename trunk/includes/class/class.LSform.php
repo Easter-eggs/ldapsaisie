@@ -57,9 +57,14 @@ class LSform {
    *
    * @retval void
    */ 
-  function LSform (&$ldapObject,$idForm,$submit="Envoyer"){
+  function LSform (&$ldapObject,$idForm,$submit=NULL){
     $this -> idForm = $idForm;
-    $this -> submit = $submit;
+    if (!$submit) {
+      $this -> submit = _("Validate");
+    }
+    else {
+      $this -> submit = $submit;
+    }
     $this -> ldapObject = $ldapObject;
     LSsession :: loadLSclass('LSformElement');
   }
