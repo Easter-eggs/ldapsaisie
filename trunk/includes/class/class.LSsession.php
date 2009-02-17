@@ -1073,6 +1073,9 @@ class LSsession {
     }
     if (!self :: $template)
       self :: setTemplate('empty.tpl');
+      
+    $GLOBALS['Smarty'] -> assign('connected_as',_("Connected as"));
+    
     $GLOBALS['Smarty'] -> display(self :: $template);
   }
   
