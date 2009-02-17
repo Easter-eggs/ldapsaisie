@@ -359,7 +359,7 @@ if(LSsession :: startLSsession()) {
               $actions=array();
               
               $actions[] = array(
-                'label' => _('Check'),
+                'label' => _('View'),
                 'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$searchData['objectList'][$i]['dn'],
                 'action' => 'view'
               );
