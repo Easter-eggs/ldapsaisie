@@ -1,5 +1,12 @@
 var LSsmoothbox = new Class({
     initialize: function(options) {
+      this.labels = varLSdefault.LSjsConfig['LSsmoothbox_labels'];
+      if (!$type(this.labels)) {
+        this.labels = {
+          close_confirm_text: 'Are you sure to want to close this window and lose all changes ?',
+          validate:           'Validate'
+        };
+      }
       
       this.build();
       
@@ -58,7 +65,7 @@ var LSsmoothbox = new Class({
       this._displayValidBtn = false;
       this.validBtn = new Element('span');
       this.validBtn.setProperty('id','validBtn-LSsmoothbox');
-      this.validBtn.set('html','Valider');
+      this.validBtn.set('html',this.labels.validate);
       this.validBtn.injectInside(this.win);
       this.validBtn.addEvent('click',this.valid.bindWithEvent(this,true));
     },
@@ -173,8 +180,6 @@ var LSsmoothbox = new Class({
       var startStyles = this.getStartStyles();
       var endStyles = this.getEndStyles();  
       
-      
-      this.closeStyles = startStyles;
       this.win.setStyles(startStyles);
 
       this.fx.winOpen.setOptions({onComplete: this.displayContent.bind(this)});
@@ -210,10 +215,7 @@ var LSsmoothbox = new Class({
         if (!this._closeConfirmOpened) {
           this._closeConfirmOpened = 1;
           this.confirmBox = new LSconfirmBox({
-            text:           'Are you sure to want to close this window and lose all changes ?',
-            title:          'Warning',
-            validate_label: 'Validate',
-            cancel_label:   'Cancel',
+            text:           this.labels.close_confirm_text,
             startElement:   this.closeBtn,
             onConfirm:      this.cancel.bind(this),
             onClose:        (function(){this._closeConfirmOpened=0;}).bind(this)
@@ -240,14 +242,21 @@ var LSsmoothbox = new Class({
         delete this.confirmBox;
       }
       
+      var closeStyles = {
+        width:    0,
+        height:   0,
+        top:      this.closeBtn.getTop(),
+        left:     this.closeBtn.getLeft()
+      };
+      
       this.fx.over.cancel();
       this.fx.over.start(0);
       this.hideContent();
       this.fx.winClose.start({
-        width:    this.closeStyles.width,
-        height:   this.closeStyles.height,
-        top:      this.closeStyles.top,
-        left:     this.closeStyles.left,
+        width:    closeStyles.width,
+        height:   closeStyles.height,
+        top:      closeStyles.top,
+        left:     closeStyles.left,
         opacity:  [1, 0]
       });
       this._open=0;
@@ -384,7 +393,7 @@ var LSsmoothbox = new Class({
             fnct(this);
           }
           catch(e) {
-            LSdebug('LSsmoothbox :: '+event+'() -> rater');
+            LSdebug('LSsmoothbox :: '+event+'() -> failed');
           }
         },this);
       }
