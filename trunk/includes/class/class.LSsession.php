@@ -1008,6 +1008,10 @@ class LSsession {
       $JSscript_txt.="<script src='".$script['path'].$script['file']."' type='text/javascript'></script>\n";
     }
 
+    if (!isset(self :: $ldapServer['keepLSsessionActive']) || (self :: $ldapServer['keepLSsessionActive'])) {
+      self :: addJSconfigParam('keepLSsessionActive',ini_get('session.gc_maxlifetime'));
+    }
+
     $GLOBALS['Smarty'] -> assign('LSjsConfig',json_encode(self :: $_JSconfigParams));
     
     if ($GLOBALS['LSdebug']['active']) {
@@ -1866,6 +1870,35 @@ class LSsession {
     LSerror :: defineError('LSrelations_05',
     _("LSrelation : Some parameters are missing in the invocation of the methods of handling relations standard (Methode : %{meth}).")
     );
+  }
+
+  public static function ajax_onLdapServerChangedLogin(&$data) {  
+    if ( isset($_REQUEST['server']) ) {
+      self :: setLdapServer($_REQUEST['server']);
+      $data = array();
+      if ( self :: LSldapConnect() ) {
+        session_start();
+        if (isset($_SESSION['LSsession_topDn'])) {
+          $sel = $_SESSION['LSsession_topDn'];
+        }
+        else {
+          $sel = NULL;
+        }
+        $list = self :: getSubDnLdapServerOptions($sel);
+        if (is_string($list)) {
+          $data['list_topDn'] = "<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
+          $data['subDnLabel'] = self :: getSubDnLabel();
+        }
+      }
+      $data['recoverPassword'] = isset(self :: $ldapServer['recoverPassword']);
+    }
+  }
+  
+  public static function ajax_onLdapServerChangedRecoverPassword(&$data) {  
+    if ( isset($_REQUEST['server']) ) {
+      self :: setLdapServer($_REQUEST['server']);
+      $data=array('recoverPassword' => isset(self :: $ldapServer['recoverPassword']));
+    }
   }
 }
 

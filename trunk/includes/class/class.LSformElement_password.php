@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSformElement');
 
 /**
  * Element password d'un formulaire pour LdapSaisie
@@ -185,6 +186,43 @@ class LSformElement_password extends LSformElement {
       }
     }
     return true;
+  }
+  
+  public static function ajax_verifyPassword(&$data) {
+    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
+      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
+        $object = new $_REQUEST['objecttype']();
+        $form = $object -> getForm($_REQUEST['idform']);
+        $object -> loadData($_REQUEST['objectdn']);
+        $field=$form -> getElement($_REQUEST['attribute']);
+        $val = $field -> verifyPassword($_REQUEST['fieldValue']);
+        $data = array(
+          'verifyPassword' => $val
+        );
+      }
+    }
+  }
+  
+  public static function ajax_generatePassword(&$data) {
+    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
+      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
+        $object = new $_REQUEST['objecttype']();
+        if ($object) {
+          $form = $object -> getForm($_REQUEST['idform']);
+          if ($form) {
+            $field=$form -> getElement($_REQUEST['attribute']);
+            if ($field) {
+              $val = $field -> generatePassword();
+              if ( $val ) {
+                $data = array(
+                  'generatePassword' => $val
+                );
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
   

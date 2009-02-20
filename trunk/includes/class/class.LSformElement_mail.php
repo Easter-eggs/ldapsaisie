@@ -34,14 +34,7 @@ LSsession :: loadLSclass('LSformElement_text');
 class LSformElement_mail extends LSformElement_text {
 
   var $JSscripts = array(
-    'LSmail.js',
-    'LSsmoothbox.js',
-    'LSconfirmBox.js',
     'LSformElement_mail.js'
-  );
-  var $CSSfiles = array(
-    'LSsmoothbox.css',
-    'LSconfirmBox.css'
   );
   
   var $fetchVariables = array(
@@ -58,6 +51,9 @@ class LSformElement_mail extends LSformElement_text {
         'mail' => _("Send a mail from here.")
       )
     );
+    if (LSsession :: loadLSclass('LSmail')) {
+      LSmail :: loadDependenciesDisplay();
+    }
     return parent :: getDisplay($return);
   }
 }

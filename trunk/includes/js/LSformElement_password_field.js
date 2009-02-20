@@ -136,7 +136,7 @@ var LSformElement_password_field = new Class({
     
     onGenerateBtnClick: function() {
       var data = {
-        template:   'LSform',
+        template:   'LSformElement_password',
         action:     'generatePassword',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
@@ -183,7 +183,7 @@ var LSformElement_password_field = new Class({
     
     onVerifyBtnClick: function() {
       var data = {
-        template:   'LSform',
+        template:   'LSformElement_password',
         action:     'verifyPassword',
         attribute:  this.name,
         objecttype: varLSform.objecttype,

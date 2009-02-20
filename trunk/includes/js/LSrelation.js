@@ -1,5 +1,14 @@
 var LSrelation = new Class({
     initialize: function(){
+      this.labels = varLSdefault.LSjsConfig['LSrelation_labels'];
+      if (!$type(this.labels)) {
+        this.labels = {
+          close_confirm_text:     'Do you really want to delete', 
+          close_confirm_title:    'Warning', 
+          close_confirm_validate: 'Delete' 
+        };
+      }
+          
       this.edit = 0;
       this.deleteBtn = [];
       this.deleteBtnId = 0;
@@ -35,10 +44,9 @@ var LSrelation = new Class({
       if (this._confirmDelete) {
         var a = img.getPrevious('a');
         this.confirmBox = new LSconfirmBox({
-          text:           'Do you really want to delete "'+a.innerHTML+'" ?', 
-          title:          'Warning', 
-          validate_label: 'Delete', 
-          cancel_label:   'Cancel', 
+          text:           this.labels.close_confirm_text + ' "'+a.innerHTML+'" ?', 
+          title:          this.labels.close_confirm_title, 
+          validate_label: this.labels.close_confirm_validate, 
           startElement:   img,
           onConfirm:      this.deleteFromImg.bind(this,img)
         });

@@ -78,13 +78,13 @@ class LSform {
    */ 
   function display(){
     if ($this -> idForm == 'view') {
-      LSsession :: addJSscript('LSview.js');
-      LSsession :: addJSscript('LSform.js');
+      self :: loadDependenciesDisplayView();
     }
     else {
       LSsession :: addJSscript('LSformElement_field.js');
       LSsession :: addJSscript('LSformElement.js');
       LSsession :: addJSscript('LSform.js');
+      LSsession :: addCssFile('LSform.css');
     }
     
     LSsession :: addHelpInfos(
@@ -95,7 +95,6 @@ class LSform {
       )
     );
     
-    LSsession :: addCssFile('LSform.css');
     $GLOBALS['Smarty'] -> assign('LSform_action',$_SERVER['PHP_SELF']);
     $LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n
     \t<input type='hidden' name='idForm' id='LSform_idform' value='".$this -> idForm."'/>\n
@@ -135,6 +134,25 @@ class LSform {
     }
   }
   
+ /*
+  * Méthode chargeant les dépendances d'affichage d'une LSview
+  * 
+  * @retval void
+  */
+  public static function loadDependenciesDisplayView() {
+    LSsession :: addCssFile('LSform.css');
+    LSsession :: addJSscript('LSform.js');
+    LSsession :: addJSconfigParam('LSview_labels', array(
+      'delete_confirm_text'     => _("Do you really want to delete"),
+      'delete_confirm_title'    => _("Caution"),
+      'delete_confirm_validate'  => _("Delete")
+    ));
+    if (LSsession :: loadLSclass('LSconfirmBox')) {
+      LSconfirmBox :: loadDependenciesDisplay();
+    }
+    LSsession :: addJSscript('LSview.js');
+  }
+  
   /**
    * Affiche la vue
    *
@@ -143,12 +161,7 @@ class LSform {
    * @retval void
    */ 
   function displayView(){
-    LSsession :: addCssFile('LSform.css');
-    LSsession :: addJSscript('LSform.js');
-    LSsession :: addJSconfigParam('LSview_delete_confirm_text',_("Do you really want to delete"));
-    LSsession :: addJSconfigParam('LSview_delete_confirm_title',_("Caution"));
-    LSsession :: addJSconfigParam('LSview_delete_confirm_yes_btn_label',_("Delete"));
-    LSsession :: addJSconfigParam('LSview_delete_confirm_no_btn_label',_("Cancel"));
+    self :: loadDependenciesDisplayView();
     
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
@@ -527,6 +540,24 @@ class LSform {
     $this -> maxFileSize = $size;
   }
 
+
+  public static function ajax_onAddFieldBtnClick(&$data) {
+    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['fieldId'])) ) {
+      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
+        $object = new $_REQUEST['objecttype']();
+        $object -> loadData($_REQUEST['objectdn']);
+        $form = $object -> getForm($_REQUEST['idform']);
+        $emptyField=$form -> getEmptyField($_REQUEST['attribute']);
+        if ( $emptyField ) {
+          $data = array(
+            'html' => $form -> getEmptyField($_REQUEST['attribute']),
+            'fieldId' => $_REQUEST['fieldId'],
+            'fieldtype' => get_class($form -> getElement($_REQUEST['attribute']))
+          );
+        }
+      }
+    }
+  }
 }
 
 /**

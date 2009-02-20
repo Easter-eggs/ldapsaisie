@@ -285,8 +285,6 @@ if(LSsession :: startLSsession()) {
         $searchData['objectList'][$i]['select']=$select;
       }        
       
-      LSsession :: addJSscript('LSview.js');
-      
       $GLOBALS['Smarty']->assign('LSview_search',array(
         'action' => $_SERVER['PHP_SELF'],
         'submit' => _('Search'),

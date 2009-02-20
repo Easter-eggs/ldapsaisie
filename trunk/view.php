@@ -76,88 +76,11 @@ if(LSsession :: startLSsession()) {
             $view -> displayView();
             
             // LSrelations
-            if (is_array($object -> config['LSrelation'])) {
-              $LSrelations=array();
-              $LSrelations_JSparams=array();
-              foreach($object -> config['LSrelation'] as $relationName => $relationConf) {
-                if (LSsession :: relationCanAccess($object -> getValue('dn'),$LSobject,$relationName)) {
-                  $return=array(
-                    'label' => $relationConf['label'],
-                    'LSobject' => $relationConf['LSobject']
-                  );
-                  
-                  if (isset($relationConf['emptyText'])) {
-                    $return['emptyText'] = $relationConf['emptyText'];
-                  }
-                  else {
-                    $return['emptyText'] = _('No object.');
-                  }
-                  
-                  $id=rand();
-                  $return['id']=$id;
-                  $LSrelations_JSparams[$id]=array(
-                    'emptyText' => $return['emptyText']
-                  );
-                  $_SESSION['LSrelation'][$id] = array(
-                    'relationName' => $relationName,
-                    'objectType' => $object -> getType(),
-                    'objectDn' => $object -> getDn(),
-                  );
-                  if (LSsession :: relationCanEdit($object -> getValue('dn'),$LSobject,$relationName)) {
-                    $return['actions'][] = array(
-                      'label' => _('Modify'),
-                      'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1',
-                      'action' => 'modify'
-                    );
-                  }
-                  
-                  LSsession :: addJSscript('LSselect.js');
-                  LSsession :: addCssFile('LSselect.css');
-                  LSsession :: addJSscript('LSsmoothbox.js');
-                  LSsession :: addCssFile('LSsmoothbox.css');
-                  LSsession :: addJSscript('LSrelation.js');
-                  LSsession :: addCssFile('LSrelation.css');
-                  LSsession :: addJSscript('LSconfirmBox.js');
-                  LSsession :: addCssFile('LSconfirmBox.css');
-                  LSsession :: addJSscript('LSview.js');
-                  
-                  if(LSsession :: loadLSobject($relationConf['LSobject'])) {
-                    if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
-                      $objRel = new $relationConf['LSobject']();
-                      $list = $objRel -> $relationConf['list_function']($object);
-                      if (is_array($list)) {
-                        foreach($list as $o) {
-                          $o_infos = array(
-                            'text' => $o -> getDisplayName(NULL,true),
-                            'dn' => $o -> getDn()
-                          );
-                          $return['objectList'][] = $o_infos;
-                        }
-                      }
-                      else {
-                        $return['objectList']=array();
-                      }
-                    }
-                    else {
-                      LSerror :: addErrorCode('LSrelations_01',$relationName);
-                    }
-                    $LSrelations[]=$return;
-                  }
-                  else {
-                      LSerror :: addErrorCode('LSrelations_04',array('relation' => $relationName,'LSobject' => $relationConf['LSobject']));
-                  }
-                }
-              }
-              
-              LSsession :: addJSscript('LSconfirmBox.js');
-              LSsession :: addCssFile('LSconfirmBox.css');
-              $GLOBALS['Smarty'] -> assign('LSrelations',$LSrelations);
-              LSsession :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
+            if (LSsession :: loadLSclass('LSrelation')) {
+              LSrelation :: displayInLSview($object);
             }
             
             $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
-            LSsession :: addJSscript('LSsmoothbox.js');
-            LSsession :: addCssFile('LSsmoothbox.css');
             LSsession :: setTemplate('view.tpl');
           }
           else {
@@ -440,9 +363,9 @@ if(LSsession :: startLSsession()) {
             $GLOBALS['Smarty']->assign('LSobject_list_nbpage',$searchData['LSobject_list_nbpage']);
           } // Fin Pagination
           
-          LSsession :: addJSscript('LSconfirmBox.js');
-          LSsession :: addCssFile('LSconfirmBox.css');
-          LSsession :: addJSscript('LSview.js');
+          if (LSsession :: loadLSclass('LSform')) {
+            LSform :: loadDependenciesDisplayView();
+          }
           
           $GLOBALS['Smarty']->assign('LSview_search',array(
             'action' => $_SERVER['PHP_SELF'],

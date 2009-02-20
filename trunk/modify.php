@@ -108,8 +108,6 @@ if(LSsession :: startLSsession()) {
               );
             }
             
-            LSsession :: addJSscript('LSsmoothbox.js');
-            LSsession :: addCssFile('LSsmoothbox.css');
             $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
             LSsession :: setTemplate('modify.tpl');
             $form -> display();

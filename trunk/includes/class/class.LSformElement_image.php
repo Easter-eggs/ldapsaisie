@@ -73,6 +73,9 @@ class LSformElement_image extends LSformElement {
       if ($this -> form -> definedError($this -> name)) {
         $GLOBALS['Smarty'] -> assign('LSformElement_image_errors',true);
       }
+      if (LSsession :: loadLSclass('LSsmoothbox')) {
+        LSsmoothbox :: loadDependenciesDisplay();
+      }
       LSsession :: addJSscript('LSformElement_image.js');
     }
     return $return;

@@ -114,8 +114,8 @@ var LSformElement_select_object_field = new Class({
     
     onLSsmoothboxValid: function() {
       var data = {
-        template:   'LSform',
-        action:     'LSformElement_select_object_refresh',
+        template:   'LSformElement_select_object',
+        action:     'refresh',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
         objectdn:   varLSform.objectdn,
@@ -321,8 +321,8 @@ var LSformElement_select_object_field = new Class({
       if (this._lastSearch!=this.searchAddInput.value) {
         this._lastSearch=this.searchAddInput.value;
         var data = {
-          template:   'LSform',
-          action:     'LSformElement_select_object_searchAdd',
+          template:   'LSformElement_select_object',
+          action:     'searchAdd',
           attribute:  this.name,
           objecttype: varLSform.objecttype,
           idform:     varLSform.idform,

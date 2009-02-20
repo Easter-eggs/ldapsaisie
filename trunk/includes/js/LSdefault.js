@@ -65,6 +65,11 @@ var LSdefault = new Class({
       document.addEvent('keyup',this.onWantMoo.bindWithEvent(this));
       
       this.LStips = new Tips('.LStips');
+      
+      if ($type(this.LSjsConfig['keepLSsessionActive'])) {
+        this.LSjsConfig['keepLSsessionActive'] = (Math.round(this.LSjsConfig['keepLSsessionActive']*0.70)*1000);
+        this.keepLSsession.delay(this.LSjsConfig['keepLSsessionActive'],this);
+      }
     },
 
     onWantMoo: function(event) {
@@ -288,6 +293,17 @@ var LSdefault = new Class({
     
     removeTip: function(el) {
       this.LStips.detach(el);
+    },
+    
+    keepLSsession: function() {
+      LSdebug('Keep LSsession');
+      data: {}
+      new Request({url: 'index_ajax.php', data: {}, onSuccess: this.keepLSsessionComplete.bind(this)}).send();
+    },
+    
+    keepLSsessionComplete: function() {
+      LSdebug('Keep LSsession OK');
+      this.keepLSsession.delay(this.LSjsConfig['keepLSsessionActive'],this);
     }
 
 });

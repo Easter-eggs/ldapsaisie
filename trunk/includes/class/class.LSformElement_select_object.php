@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSformElement');
 
 /**
  * Element select d'un formulaire pour LdapSaisie
@@ -84,14 +85,9 @@ class LSformElement_select_object extends LSformElement {
       
       LSsession :: addJSscript('LSformElement_select_object_field.js');
       LSsession :: addJSscript('LSformElement_select_object.js');
-      LSsession :: addJSscript('LSform.js');
-      LSsession :: addJSscript('LSselect.js');
-      LSsession :: addCssFile('LSselect.css');
-      LSsession :: addJSscript('LSsmoothbox.js');
-      LSsession :: addCssFile('LSsmoothbox.css');
-      LSsession :: addJSscript('LSconfirmBox.js');
-      LSsession :: addCssFile('LSconfirmBox.css');
-      
+      if (LSsession :: loadLSclass('LSselect')) {
+        LSselect :: loadDependenciesDisplay();
+      }
     }
     $return['html'] = $this -> fetchTemplate(NULL,array('selectableObject' => $this -> selectableObject));
     return $return;
@@ -162,6 +158,33 @@ class LSformElement_select_object extends LSformElement {
       }
     }
     return array();
+  }
+  
+  public static function ajax_refresh(&$data) {
+    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
+      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
+        $object = new $_REQUEST['objecttype']();
+        $form = $object -> getForm($_REQUEST['idform']);
+        $field=$form -> getElement($_REQUEST['attribute']);
+        $val = $field -> getValuesFromSession();
+        if ( $val ) {
+          $data = array(
+            'objects'    => $val
+          );
+        }
+      }
+    }
+  }
+
+  public static function ajax_searchAdd(&$data) {
+    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['pattern'])) && (isset($_REQUEST['idform'])) ) {
+      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
+        $object = new $_REQUEST['objecttype']();
+        $form = $object -> getForm($_REQUEST['idform']);
+        $field=$form -> getElement($_REQUEST['attribute']);
+        $data['objects'] = $field -> searchAdd($_REQUEST['pattern']);
+      }
+    }
   }
 }
 

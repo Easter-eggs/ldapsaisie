@@ -52,7 +52,7 @@ var LSselect = new Class({
       if (checkbox.checked) {
         var data = {
           template:   'LSselect',
-          action:     'addLSselectobject-item',
+          action:     'addItem',
           objectdn:   checkbox.value,
           objecttype: $('LSselect-object').getProperties('caption').caption,
           multiple:   this.multiple
@@ -61,7 +61,7 @@ var LSselect = new Class({
       else {
         var data = {
           template:   'LSselect',
-          action:     'dropLSselectobject-item',
+          action:     'dropItem',
           objectdn:   checkbox.value,
           objecttype: $('LSselect-object').getProperties('caption').caption,
           multiple:   this.multiple
