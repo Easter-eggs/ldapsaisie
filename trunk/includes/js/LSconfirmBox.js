@@ -1,6 +1,15 @@
 var LSconfirmBox = new Class({
     initialize: function(options) {
       this._options = options;
+      this.labels = varLSdefault.LSjsConfig['LSconfirmBox_labels'];
+      if (!$type(this.labels)) {
+        this.labels = {
+          title: 'Confirmation',
+          text: 'You confirm your choice ?',
+          validate: 'Validate',
+          cancel: 'Cancel'
+        };
+      }
       this.create();
       this.display();
     },
@@ -16,7 +25,7 @@ var LSconfirmBox = new Class({
         this.title.set('html',this._options.title);
       }
       else {
-        this.title.set('html','Confirmation');
+        this.title.set('html',this.labels.title);
       };
       this.title.injectInside(this.box)
       
@@ -31,7 +40,7 @@ var LSconfirmBox = new Class({
         this.text.set('html',this._options.text);
       }
       else {
-        this.text.set('html','You confirm your choice ?');
+        this.text.set('html',this.labels.text);
       }
       this.text.injectInside(this.box);
       
@@ -45,7 +54,7 @@ var LSconfirmBox = new Class({
         this.confirmBtn.set('html',this._options.validate_label);
       }
       else {
-        this.confirmBtn.set('html','Validate');
+        this.confirmBtn.set('html',this.labels.validate);
       }
       this.confirmBtn.injectInside(this.btnsBox);
       this.confirmBtn.addEvent('click',this.confirm.bind(this));
@@ -56,7 +65,7 @@ var LSconfirmBox = new Class({
         this.cancelBtn.set('html',this._options.cancel_label);
       }
       else {
-        this.cancelBtn.set('html','Cancel');
+        this.cancelBtn.set('html',this.labels.cancel);
       }
       this.cancelBtn.injectInside(this.btnsBox);
       this.cancelBtn.addEvent('click',this.cancel.bind(this));
@@ -120,11 +129,11 @@ var LSconfirmBox = new Class({
     },
     
     getStartStyles: function() {
-      if (typeof(this._options.startElement) != 'undefined') {
+      if ($type(this._options.startElement)) {
         var startStyles = {
           top:      this._options.startElement.getCoordinates().top,
           left:     this._options.startElement.getCoordinates().left,
-          width:    this._options.startElement.getStyle('width').toInt(),
+          width:    this._options.startElement.getWidth().toInt(),
           opacity:  0
         };
       }
