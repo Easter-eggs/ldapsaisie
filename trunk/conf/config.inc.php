@@ -28,6 +28,7 @@ $GLOBALS['LSconfig'] = array(
   'cacheLSprofiles' => true,
   'cacheSubDn' => true,
   'cacheSearch' => true,
+  'keepLSsessionActive' => true,
   'ldap_servers' => array (
     array (
       'name' => 'LSexample',

@@ -1008,7 +1008,19 @@ class LSsession {
       $JSscript_txt.="<script src='".$script['path'].$script['file']."' type='text/javascript'></script>\n";
     }
 
-    if (!isset(self :: $ldapServer['keepLSsessionActive']) || (self :: $ldapServer['keepLSsessionActive'])) {
+    if ( 
+          (
+            (!isset(self :: $ldapServer['keepLSsessionActive']))
+            &&
+            ( 
+              (!isset($GLOBALS['LSconfig']['keepLSsessionActive']))
+              ||
+              ($GLOBALS['LSconfig']['keepLSsessionActive'])
+            )
+          )
+          ||
+          (self :: $ldapServer['keepLSsessionActive'])
+        ) {
       self :: addJSconfigParam('keepLSsessionActive',ini_get('session.gc_maxlifetime'));
     }
 
