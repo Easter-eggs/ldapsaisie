@@ -373,7 +373,7 @@ class LSsession {
               }
             }
             if ($find) {
-              $result = $authobject -> searchObject($_POST['LSsession_user'],self :: $topDn);
+              $result = $authobject -> searchObject($_POST['LSsession_user'],self :: $topDn,self :: $ldapServer['authObjectFilter']);
               $nbresult=count($result);
             }
             if ($nbresult==0) {
@@ -525,7 +525,7 @@ class LSsession {
                   // Authentification rÃ©ussi
                   self :: $LSuserObject = $result[0];
                   self :: $dn = $result[0]->getValue('dn');
-                  self :: $rdn = $_POST['LSsession_user'];
+                  self :: $rdn = $result[0]->getValue('rdn');
                   self :: loadLSprofiles();
                   self :: loadLSaccess();
                   $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());

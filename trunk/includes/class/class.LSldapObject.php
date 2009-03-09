@@ -929,17 +929,25 @@ class LSldapObject {
  
  
   /**
-   * Recherche un objet à partir de la valeur exact de son RDN
+   * Recherche un objet à partir de la valeur exact de son RDN ou d'un filtre de
+   * recherche LDAP sous la forme d'un LSformat qui sera construit avec la valeur
+   * de $name.
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
    * 
-   * @param[in] $name string Valeur de son RDN
+   * @param[in] $name string Valeur de son RDN ou de la valeur pour composer le filtre
    * @param[in] $basedn string Le DN de base de la recherche
+   * @param[in] $filter string Le filtre de recherche de l'objet
    * 
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */
-  function searchObject($name,$basedn=NULL) {
-    $filter = $this -> config['rdn'].'='.$name; 
+  function searchObject($name,$basedn=NULL,$filter=NULL) {
+    if (!$filter) {
+      $filter = $this -> config['rdn'].'='.$name;
+    }
+    else {
+      $filter = getFData($filter,$name);
+    }
     return $this -> listObjects($filter,$basedn); 
   }
 
