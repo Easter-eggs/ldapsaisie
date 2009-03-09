@@ -1850,17 +1850,17 @@ LSerror :: defineError('LSldapObject_06',
 _("LSldapObject : The function %{func} to be executed on the object event %{event} doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_07',
-_("LSldapObject : The execution of the function %{func} to be executed on the object event %{event} failed.")
+_("LSldapObject : The %{func} execution on the object event %{event} failed.")
 );
 
 LSerror :: defineError('LSldapObject_08',
-_("LSldapObject : La classe %{class}, dont la méthode %{meth} doit être executée lors de l'évenement %{event} de l'objet, n'existe pas.")
+_("LSldapObject : Class %{class}, which method %{meth} to be executed on the object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_09',
-_("LSldapObject : La méthode %{meth} de la classe %{class} devant être executée lors de l'évenemt %{event} de l'objet, n'existe pas.")
+_("LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, deoesn't exist.")
 );
 LSerror :: defineError('LSldapObject_10',
-_("LSldapObject : Erreur durant l'execution de la méthode %{meth} de la classe %{class} devant être executée lors de l'évenemt %{event} de l'objet.")
+_("LSldapObject : Error while executin %{meth} method within %{class} class, to be executed on object event %{event}.")
 );
 
 LSerror :: defineError('LSldapObject_11',
@@ -1913,17 +1913,17 @@ _("LSldapObject : Error during the execution of the function %{func} to be gener
 );
 
 LSerror :: defineError('LSldapObject_26',
-_("LSldapObject : La function %{func}, devant être executée lors de l'évenement %{event} de l'objet, n'existe pas.")
+_("LSldapObject : %{func} function, to be executed on object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_27',
-_("LSldapObject : Erreur durant l'execution de la function %{func} lors de l'évenement %{event} de l'objet.")
+_("LSldapObject : Error during the execution of %{func} function on object event %{event}.")
 );
 
 LSerror :: defineError('LSldapObject_28',
-_("LSldapObject : La méthode %{meth}, devant être executée lors de l'évenement %{event} de l'objet, n'existe pas.")
+_("LSldapObject : %{meth} method, to be executed on bject event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_29',
-_("LSldapObject : Erreur durant l'execution de la méthode %{meth} lors de l'évenement %{event} de l'objet.")
+_("LSldapObject : Error during execution of %{meth} method on object event %{event}.")
 );
 
 ?>
