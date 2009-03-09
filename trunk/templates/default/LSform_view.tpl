@@ -17,7 +17,7 @@
     
       {if $LSformElement_image!='' && $tab.img==1}
         <div class='LSformElement_image'>
-          <a href='{$LSformElement_image.img}.png' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id}' /></a>
+          <a href='{$LSformElement_image.img}' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id}' /></a>
         </div>
       {/if}
       
@@ -42,7 +42,7 @@
 
   {if $LSformElement_image!=''}
   <div class='LSformElement_image'>
-    <a href='{$LSformElement_image.img}.png' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id}' /></a>
+    <a href='{$LSformElement_image.img}' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id}' /></a>
   </div>
   {/if}
 
