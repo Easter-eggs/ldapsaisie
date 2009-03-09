@@ -1920,7 +1920,7 @@ _("LSldapObject : Error during the execution of %{func} function on object event
 );
 
 LSerror :: defineError('LSldapObject_28',
-_("LSldapObject : %{meth} method, to be executed on bject event %{event}, doesn't exist.")
+_("LSldapObject : %{meth} method, to be executed on object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_29',
 _("LSldapObject : Error during execution of %{meth} method on object event %{event}.")
