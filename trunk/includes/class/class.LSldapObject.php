@@ -558,6 +558,12 @@ class LSldapObject {
       if($dn) {
         $this -> dn=$dn;
         LSdebug($submitData);
+        if ($new) {
+          if (!$this -> fireEvent('before_create')) {
+            LSerror :: addErrorCode('LSldapObject_20');
+            return;
+          }
+        }
         if (!LSldap :: update($this -> getType(),$dn, $submitData)) {
           return;
         }
@@ -1893,8 +1899,9 @@ LSerror :: defineError('LSldapObject_19',
 _("LSldapObject : Error during actions to be executed after deleting the objet.")
 );
 
-// 20 : not used
-
+LSerror :: defineError('LSldapObject_20',
+_("LSldapObject : Error during the actions to be executed before creating the object.")
+);
 LSerror :: defineError('LSldapObject_21',
 _("LSldapObject : Error during the actions to be executed after creating the object. It was created anyway.")
 );
