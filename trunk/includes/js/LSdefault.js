@@ -102,6 +102,7 @@ var LSdefault = new Class({
     },
 
     checkAjaxReturn: function(data) {
+      this.hideLSerror();
       if ($type(data) == 'object') {
         if (($type(data.LSredirect)) && (!$type(data.LSdebug)) ) {
           document.location = data.LSredirect;

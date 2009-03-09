@@ -175,12 +175,12 @@ function loadDir($dir,$regexpr='^.*\.php$') {
 
 
 function valid($obj) {
-  LSdebug('Validation : ok');
+  LSdebug('function valid() : ok');
   return true;
 }
 
 function validPas($obj=null) {
-  LSdebug('Validation : nok');
+  LSdebug('function valid() : nok');
   return false;
 }
 

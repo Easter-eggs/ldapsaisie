@@ -37,11 +37,15 @@ class LSldapObject {
   var $forms;
   var $view;
   var $dn=false;
+  var $oldDn=false;
   var $other_values=array();
   var $submitError=true;
   var $_whoami=NULL;
   var $_subDn_value=NULL;
   var $_LSrelationsCache=array();
+
+  var $_events=array();
+  var $_objectEvents=array();
   
   /**
    * Constructeur
@@ -73,6 +77,7 @@ class LSldapObject {
         return;
       }
     }
+    
     return true;
   }
   
@@ -307,19 +312,12 @@ class LSldapObject {
     }
     if($this -> validateAttrsData($idForm)) {
       LSdebug("les données sont validées");
-      if(isset($this -> config['before_modify'])) {
-        if(function_exists($this -> config['before_modify'])) {
-          if(!$this -> config['before_modify']($this)) {
-            LSerror :: addErrorCode('LSldapObject_08',$this -> config['before_modify']);
-            return;
-          }
-        }
-        else {
-          LSerror :: addErrorCode('LSldapObject_07',$this -> config['before_modify']);
-          return;
-        }
+      
+      if (!$this -> fireEvent('before_modify')) {
+        return;
       }
-      // $this -> attrs[*] => before_modify
+      
+      // $this -> attrs[ {inNewData} ] -> fireEvent('before_modify')
       foreach($new_data as $attr_name => $attr_val) {
         if (!$this -> attrs[$attr_name] -> fireEvent('before_modify')) {
           return;
@@ -335,15 +333,10 @@ class LSldapObject {
       else {
         return;
       }
-      if((isset($this -> config['after_modify']))&&(!$this -> submitError)) {
-        if(function_exists($this -> config['after_modify'])) {
-          if(!$this -> config['after_modify']($this)) {
-            LSerror :: addErrorCode('LSldapObject_10',$this -> config['after_modify']);
-          }
-        }
-        else {
-          LSerror :: addErrorCode('LSldapObject_09',$this -> config['after_modify']);
-        }
+      
+      // Event After Modify
+      if(!$this -> submitError) {
+        $this -> fireEvent('after_modify');
       }
       
       // $this -> attrs[*] => After Modify
@@ -533,7 +526,7 @@ class LSldapObject {
         if(($attr -> name == $this -> config['rdn'])&&(!$new)) {
           $new = true;
           LSdebug('Rename');
-          if (!$this -> beforeRename()) {
+          if (!$this -> fireEvent('before_rename')) {
             LSerror :: addErrorCode('LSldapObject_16');
             return;
           }
@@ -545,7 +538,8 @@ class LSldapObject {
               return;
             }
             $this -> dn = $newDn;
-            if (!$this -> afterRename($oldDn,$newDn)) {
+            $this -> oldDn = $oldDn;
+            if (!$this -> fireEvent('after_rename')) {
               LSerror :: addErrorCode('LSldapObject_17');
               return;
             }
@@ -568,7 +562,7 @@ class LSldapObject {
           return;
         }
         if ($new) {
-          if (!$this -> afterCreate()) {
+          if (!$this -> fireEvent('after_create')) {
             LSerror :: addErrorCode('LSldapObject_21');
             return;
           }
@@ -1083,9 +1077,9 @@ class LSldapObject {
    * @retval boolean True si l'objet Ã  Ã©tÃ© supprimÃ©, false sinon
    */
   function remove() {
-    if ($this -> beforeDelete()) {
+    if ($this -> fireEvent('before_delete')) {
       if (LSldap :: remove($this -> getDn())) {
-        if ($this -> afterDelete()) {
+        if ($this -> fireEvent('after_delete')) {
           return true;
         }
         LSerror :: addErrorCode('LSldapObject_19');
@@ -1202,6 +1196,7 @@ class LSldapObject {
    * @retval True en cas de cas ce succès, False sinon.
    */
   function beforeRename() {
+    // LSrelations
     return $this -> updateLSrelationsCache();
   }
   
@@ -1212,17 +1207,17 @@ class LSldapObject {
    * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
    * pour les objets plus complexe.
    * 
-   * @param[in] $oldDn string L'ancien DN de l'objet
-   * @param[in] $newDn string Le nouveau DN de l'objet
-   * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function afterRename($oldDn,$newDn) {
+  function afterRename() {
     $error = 0;
-    if(LSsession :: getLSuserObjectDn() == $oldDn) {
+    
+    // Change LSsession -> userObject Dn
+    if(LSsession :: getLSuserObjectDn() == $this -> oldDn) {
       LSsession :: changeAuthUser($this);
     }
     
+    // LSrelations
     foreach($this -> _LSrelationsCache as $relation_name => $objInfos) {
       if ((isset($this->config['LSrelation'][$relation_name]['rename_function']))&&(is_array($objInfos['list']))) {
         foreach($objInfos['list'] as $obj) {
@@ -1273,6 +1268,8 @@ class LSldapObject {
    */
   function afterDelete() {
     $error = 0;
+    
+    // LSrelations
     foreach($this -> _LSrelationsCache as $relation_name => $objInfos) {
       if ((isset($this->config['LSrelation'][$relation_name]['remove_function']))&&(is_array($objInfos['list']))) {
         foreach($objInfos['list'] as $obj) {
@@ -1289,27 +1286,7 @@ class LSldapObject {
       }
     }
     
-    if (isset($this -> config['after_delete'])) {
-      if (is_array($this -> config['after_delete'])) {
-        $config = $this -> config['after_delete'];
-      }
-      else {
-        $config = array($this -> config['after_delete']);
-      }
-      foreach($config as $action) {
-        if(function_exists($action)) {
-          if(!$action($this)) {
-            LSerror :: addErrorCode('LSldapObject_25',$action);
-            $error=true;
-          }
-        }
-        else {
-          LSerror :: addErrorCode('LSldapObject_24',$action);
-          $error=true;
-        }
-      }
-    }
-    
+    // Binding LSattributes
     foreach(array_keys($this -> attrs) as $attr_name) {
       if (!$this -> attrs[$attr_name] -> fireEvent('after_delete')) {
         $error = true;
@@ -1331,6 +1308,8 @@ class LSldapObject {
   function afterCreate() {
     LSdebug('after');
     $error = 0;
+    
+    // container_auto_create
     if (LSsession :: isSubDnLSobject($this -> getType())) {
       if (is_array(LSsession :: $ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'])) {
         foreach(LSsession :: $ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'] as $type) {
@@ -1352,27 +1331,6 @@ class LSldapObject {
           else {
             $error=1;
           }
-        }
-      }
-    }
-    
-    if (isset($this -> config['after_create'])) {
-      if (is_array($this -> config['after_create'])) {
-        $config = $this -> config['after_create'];
-      }
-      else {
-        $config = array($this -> config['after_create']);
-      }
-      foreach($config as $action) {
-        if(function_exists($action)) {
-          if(!$action($this)) {
-            LSerror :: addErrorCode('LSldapObject_23',$action);
-            $error=true;
-          }
-        }
-        else {
-          LSerror :: addErrorCode('LSldapObject_22',$action);
-          $error=true;
         }
       }
     }
@@ -1689,6 +1647,176 @@ class LSldapObject {
     }
   }
   
+  /**
+   * Ajouter une action lors d'un événement
+   * 
+   * @param[in] $event string Le nom de l'événement
+   * @param[in] $fct string Le nom de la fonction à exectuer
+   * @param[in] $param mixed Paramètre pour le lancement de la fonction
+   * @param[in] $class Nom de la classe possèdant la méthode $fct à executer
+   * 
+   * @retval void
+   */
+  function addEvent($event,$fct,$param=NULL,$class=NULL) {
+    $this -> _events[$event][] = array(
+      'function'  => $fct,
+      'param'    => $param,
+      'class'     => $class
+    );
+  }
+  
+  /**
+   * Ajouter une action sur un objet lors d'un événement
+   * 
+   * @param[in] $event string Le nom de l'événement
+   * @param[in] $obj object L'objet dont la méthode doit être executé
+   * @param[in] $meth string Le nom de la méthode
+   * @param[in] $param mixed Paramètre d'execution de la méthode
+   * 
+   * @retval void
+   */
+  function addObjectEvent($event,&$obj,$meth,$param=NULL) {
+    $this -> _objectEvents[$event][] = array(
+      'obj'  => $obj,
+      'meth'  => $meth,
+      'param'    => $param
+    );
+  }
+  
+  /**
+   * Lance les actions à executer lors d'un événement
+   * 
+   * @param[in] $event string Le nom de l'événement
+   * 
+   * @retval boolean True si tout c'est bien passé, false sinon
+   */
+  function fireEvent($event) {
+    
+    // Object event
+    $return = $this -> fireObjectEvent($event);
+    
+    // Config
+    if(isset($this -> config[$event])) {
+      if (!is_array($this -> config[$event])) {
+        $funcs = array($this -> config[$event]);
+      }
+      else {
+        $funcs = $this -> config[$event];
+      }
+      foreach($funcs as $func) {
+        if(function_exists($func)) {
+          if(!$func($this)) {
+            $return = false;
+            LSerror :: addErrorCode('LSldapObject_07',array('func' => $func,'event' => $event));
+          }
+        }
+        else {
+          $return = false;
+          LSerror :: addErrorCode('LSldapObject_06',array('func' => $func,'event' => $event));
+        }
+      }
+    }
+    
+    // Binding via addEvent
+    if (is_array($this -> _events[$event])) {
+      foreach ($this -> _events[$event] as $e) {
+        if ($e['class']) {
+          if (class_exists($e['class'])) {
+            $obj = new $e['class']();
+            if (method_exists($obj,$e['fct'])) {
+              try {
+                $obj -> $e['fct']($e['param']);
+              }
+              catch(Exception $er) {
+                LSerror :: addErrorCode('LSldapObject_10',array('class' => $e['class'],'meth' => $e['fct'],'event' => $event));
+                $return = false;
+              }
+            }
+            else {
+              LSerror :: addErrorCode('LSldapObject_09',array('class' => $e['class'],'meth' => $e['fct'],'event' => $event));
+              $return = false;
+            }
+          }
+          else {
+            LSerror :: addErrorCode('LSldapObject_08',array('class' => $e['class'],'meth' => $e['fct'],'event' => $event));
+            $return = false;
+          }
+        }
+        else {
+          if (function_exists($e['fct'])) {
+            try {
+              $e['fct']($e['param']);
+            }
+            catch(Exception $er) {
+              LSerror :: addErrorCode('LSldapObject_27',array('func' => $e['fct'],'event' => $event));
+              $return = false;
+            }
+          }
+          else {
+            LSerror :: addErrorCode('LSldapObject_26',array('func' => $e['fct'],'event' => $event));
+            $return = false;
+          }
+        }
+      }
+    }
+    
+    // Binding via addObjectEvent
+    if (is_array($this -> _objectEvents[$event])) {
+      foreach ($this -> _objectEvents[$event] as $e) {
+        if (method_exists($e['obj'],$e['meth'])) {
+          try {
+            $e['obj'] -> $e['meth']($e['param']);
+          }
+          catch(Exception $er) {
+            LSerror :: addErrorCode('LSldapObject_29',array('meth' => $e['meth'],'event' => $event));
+            $return = false;
+          }
+        }
+        else {
+          LSerror :: addErrorCode('LSldapObject_28',array('meth' => $e['meth'],'event' => $event));
+          $return = false;
+        }
+      }
+    }
+    
+    return $return;
+  }
+  
+  /**
+   * Lance les actions à executer lors d'un événement sur l'objet lui-même
+   * 
+   * @param[in] $event string Le nom de l'événement
+   * 
+   * @retval boolean True si tout c'est bien passé, false sinon
+   */
+  function fireObjectEvent($event) {
+    switch($event) {
+      case 'after_create':
+        return $this -> afterCreate();
+      case 'after_delete':
+        return $this -> afterDelete();
+      case 'after_rename':
+        return $this -> afterRename();
+/*
+      case 'after_modify':
+        return $this -> afterModify();
+*/
+/*
+      case 'before_create':
+        return $this -> beforeCreate();
+*/
+      case 'before_delete':
+        return $this -> beforeDelete();
+      case 'before_rename':
+        return $this -> beforeRename();
+/*
+      case 'before_modify':
+        return $this -> beforeModify();
+*/
+    }
+    return true;
+  }
+  
 }
 
 /**
@@ -1709,23 +1837,24 @@ _("LSldapObject : The function %{func} to validate the attribute %{attr} the obj
 LSerror :: defineError('LSldapObject_05',
 _("LSldapObject : Configuration data are missing to validate the attribute %{attr} of the object %{obj}.")
 );
-/* No longer used
-LSerror :: defineError(26,
-_("LSldapObject : Configuration error : The object %{obj} doesn't had attribute %{attr}.")
+
+LSerror :: defineError('LSldapObject_06',
+_("LSldapObject : The function %{func} to be executed on the object event %{event} doesn't exist.")
 );
-*/
 LSerror :: defineError('LSldapObject_07',
-_("LSldapObject : The function %{func} to be executed before changing the object doesn't exist.")
+_("LSldapObject : The execution of the function %{func} to be executed on the object event %{event} failed.")
 );
+
 LSerror :: defineError('LSldapObject_08',
-_("LSldapObject : The execution of the function %{func} to be executed before changing the object failed.")
+_("LSldapObject : La classe %{class}, dont la méthode %{meth} doit être executée lors de l'évenement %{event} de l'objet, n'existe pas.")
 );
 LSerror :: defineError('LSldapObject_09',
-_("LSldapObject : The function %{func} to be executed after changing the object doesn't exist.")
+_("LSldapObject : La méthode %{meth} de la classe %{class} devant être executée lors de l'évenemt %{event} de l'objet, n'existe pas.")
 );
 LSerror :: defineError('LSldapObject_10',
-_("LSldapObject : The execution of the function %{func} to be executed after changing the object failed.")
+_("LSldapObject : Erreur durant l'execution de la méthode %{meth} de la classe %{class} devant être executée lors de l'évenemt %{event} de l'objet.")
 );
+
 LSerror :: defineError('LSldapObject_11',
 _("LSldapObject : Some configuration data of the object type %{obj} are missing to generate the DN of the new object.")
 );
@@ -1741,22 +1870,27 @@ _("LSldapObject : The attribute %{attr_depend} depending on the attribute %{attr
 LSerror :: defineError('LSldapObject_15',
 _("LSldapObject : Error during deleting the object %{objectname}.")
 );
+
 LSerror :: defineError('LSldapObject_16',
 _("LSldapObject : Error during actions to be executed before renaming the objet.")
 );
 LSerror :: defineError('LSldapObject_17',
 _("LSldapObject : Error during actions to be executed after renaming the objet.")
 );
+
 LSerror :: defineError('LSldapObject_18',
 _("LSldapObject : Error during actions to be executed before deleting the objet.")
 );
 LSerror :: defineError('LSldapObject_19',
 _("LSldapObject : Error during actions to be executed after deleting the objet.")
 );
+
 // 20 : not used
+
 LSerror :: defineError('LSldapObject_21',
 _("LSldapObject : Error during the actions to be executed after creating the object. It was created anyway.")
 );
+
 LSerror :: defineError('LSldapObject_22',
 _("LSldapObject : The function %{func} to be generated before creating the object doesn't exist.")
 );
@@ -1769,18 +1903,19 @@ _("LSldapObject : The function %{func} to be generated after deleting the object
 LSerror :: defineError('LSldapObject_25',
 _("LSldapObject : Error during the execution of the function %{func} to be generated after creating the object.")
 );
-/* Not yet used
-LSerror :: defineError(306,
-_("LSldapObject : The function %{func} to be executed after changing the attribute %{attr} is unknow.")
+
+LSerror :: defineError('LSldapObject_26',
+_("LSldapObject : La function %{func}, devant être executée lors de l'évenement %{event} de l'objet, n'existe pas.")
 );
-LSerror :: defineError(307,
-_("LSldapObject : The execution of the function %{func} to be executed after changing the attribute %{attr} failed.")
+LSerror :: defineError('LSldapObject_27',
+_("LSldapObject : Erreur durant l'execution de la function %{func} lors de l'évenement %{event} de l'objet.")
 );
-LSerror :: defineError(308,
-_("LSldapObject : The function %{func} to be executed before changing the attribute %{attr} is unknow.")
+
+LSerror :: defineError('LSldapObject_28',
+_("LSldapObject : La méthode %{meth}, devant être executée lors de l'évenement %{event} de l'objet, n'existe pas.")
 );
-LSerror :: defineError(309,
-_("LSldapObject : The execution of the function %{func} to be executed before changing the attribute %{attr} failed.")
+LSerror :: defineError('LSldapObject_29',
+_("LSldapObject : Erreur durant l'execution de la méthode %{meth} lors de l'évenement %{event} de l'objet.")
 );
-*/
+
 ?>
