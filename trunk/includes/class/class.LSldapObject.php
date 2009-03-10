@@ -563,6 +563,12 @@ class LSldapObject {
             LSerror :: addErrorCode('LSldapObject_20');
             return;
           }
+          foreach ($submitData as $attr_name => $attr) {
+            if (!$this -> attrs[$attr_name] -> fireEvent('before_create')) {
+              LSerror :: addErrorCode('LSldapObject_20');
+              return;
+            }
+          }
         }
         if (!LSldap :: update($this -> getType(),$dn, $submitData)) {
           return;
@@ -571,6 +577,12 @@ class LSldapObject {
           if (!$this -> fireEvent('after_create')) {
             LSerror :: addErrorCode('LSldapObject_21');
             return;
+          }
+          foreach ($submitData as $attr_name => $attr) {
+            if (!$this -> attrs[$attr_name] -> fireEvent('after_create')) {
+              LSerror :: addErrorCode('LSldapObject_21');
+              return;
+            }
           }
         }
         return true;
