@@ -161,9 +161,11 @@ th.LSobject-list a {
  * tr
  */
 tr.LSobject-list-bis {
-  background-color:   #ecf8fd;
-  background-color:   #bddff1;
   background-color:   #c1d7e3;
+}
+
+tr.LSobject-list:hover {
+  background-color:   #729EB6;
 }
 
 /*
