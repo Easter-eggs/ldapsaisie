@@ -73,7 +73,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'gidNumber' => array (
-      'label' => _('Id'),
+      'label' => _('Identifier'),
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
@@ -151,7 +151,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Father(s)'),
+      'label' => _('Accountable(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array (

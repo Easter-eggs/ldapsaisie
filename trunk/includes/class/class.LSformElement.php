@@ -278,7 +278,7 @@ class LSformElement {
           'value' => '',
           'values' => $this -> values,
           'attr_name' => $this -> name,
-          'noValueTxt' => _('No value set'),
+          'noValueTxt' => _('No set value'),
           'fieldTemplate' => $this -> fieldTemplate
         )
       )

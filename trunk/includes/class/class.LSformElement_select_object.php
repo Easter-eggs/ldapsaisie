@@ -69,7 +69,7 @@ class LSformElement_select_object extends LSformElement {
           'addBtn' => _('Modify'),
           'deleteBtns' => _('Delete'),
           'multiple' => (($this -> params['multiple'])?1:0),
-          'noValueLabel' => _('No value set'),
+          'noValueLabel' => _('No set value'),
           'noResultLabel' => _('No result')
         )
       );

@@ -168,7 +168,7 @@ function loadDir($dir,$regexpr='^.*\.php$') {
     }
   }
   else {
-    die(_('Unknown folder ('.$dir.').'));
+    die(_('Folder not found').' : '.$dir);
   }
   return true;
 }

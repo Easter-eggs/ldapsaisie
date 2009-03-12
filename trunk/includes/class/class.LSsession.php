@@ -116,6 +116,14 @@ class LSsession {
         $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
         $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
         
+        if ($GLOBALS['LSdebug']['active']) {
+          $GLOBALS['Smarty'] -> caching = 0;
+          // cache files are always regenerated
+          $GLOBALS['Smarty'] -> force_compile = TRUE;
+          // recompile template if it is changed
+          $GLOBALS['Smarty'] -> compile_check = TRUE;
+        }
+        
         $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
         $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
         
@@ -858,7 +866,7 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('loginform_ldapservers_name',$ldapservers_name);
     $GLOBALS['Smarty'] -> assign('loginform_ldapservers_index',$ldapservers_index);
 
-    $GLOBALS['Smarty'] -> assign('loginform_label_level',_('Niveau'));
+    $GLOBALS['Smarty'] -> assign('loginform_label_level',_('Level'));
     $GLOBALS['Smarty'] -> assign('loginform_label_user',_('Identifier'));
     $GLOBALS['Smarty'] -> assign('loginform_label_pwd',_('Password'));
     $GLOBALS['Smarty'] -> assign('loginform_label_submit',_('Connect'));
@@ -898,7 +906,7 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapservers_index',$ldapservers_index);
 
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_user',_('Identifier'));
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_submit',_('Valid'));
+    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_submit',_('Validate'));
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_back',_('Back'));
     
     $recoverpassword_msg = _('Please fill the identifier field to proceed recovery procedure');

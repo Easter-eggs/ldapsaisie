@@ -115,7 +115,7 @@ class LSformElement_password extends LSformElement {
         'LSformElement_password',
         array(
           'generate' => _('Generate a password.'),
-          'verify' => _('Check equality with stored password.'),
+          'verify' => _('Compare with stored password.'),
           'view' => _('Display password.'),
           'hide' => _('Hide password.'),
           'mail' => _("The password will be sent by mail if changed. Click to disable automatic notification."),

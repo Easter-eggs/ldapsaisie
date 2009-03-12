@@ -29,7 +29,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
   'orderby' => 'displayName',  // possible cases : 'displayName' ou 'subDn'
   'container_dn' => 'ou=companies',
   'display_name_format' => '%{ou}',
-  'label' => _('Sociétés'),
+  'label' => _('Company'),
   
   'attrs' => array (
   
@@ -75,7 +75,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Father'),
+      'label' => _('Accountable(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array(

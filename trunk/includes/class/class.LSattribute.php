@@ -244,7 +244,7 @@ class LSattribute {
                 return;
               }
               if(!isset($rule_infos['msg']))
-                $rule_infos['msg']=getFData(_('La valeur du champs %{label} est invalide.'),$this -> config['label']);
+                $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> config['label']);
               if(!isset($rule_infos['params']))
                 $rule_infos['params']=NULL;
               $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'params' => $rule_infos['params']));

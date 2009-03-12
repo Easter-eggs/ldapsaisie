@@ -72,7 +72,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     // Layout
     'layout' => array (
       'Civilite' => array(
-        'label' => 'Civility',
+        'label' => _('Civility'),
         'img' => 1, 
         'args' => array (
           'uid',
@@ -164,14 +164,14 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'uidNumber' => array (
-      'label' => _('Identifier (number)'),
+      'label' => _('Numeric identifier'),
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
       'generate_function' => 'generate_uidNumber',
       'check_data' => array (
         'numeric' => array(
-          'msg' => _("The unique identifier must be an integer.")
+          'msg' => _("The numeric identifier must be an integer.")
         ),
       ),
       'validation' => array (
@@ -353,7 +353,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
 
     /* ----------- start -----------*/
     'homeDirectory' => array (
-      'label' => _('Self Directory'),
+      'label' => _('Home Directory'),
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -580,7 +580,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Father(s)'),
+      'label' => _('Accountable(s)'),
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array (

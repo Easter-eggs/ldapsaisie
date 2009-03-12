@@ -110,7 +110,7 @@ class LSform {
     
     if (is_array($GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout'])) {
       $GLOBALS['Smarty'] -> assign('LSform_layout',$GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout']);
-      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('Aucun champ.'));
+      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
     }
     
     $fields = array();
