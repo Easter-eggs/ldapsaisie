@@ -1878,7 +1878,7 @@ LSerror :: defineError('LSldapObject_09',
 _("LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, deoesn't exist.")
 );
 LSerror :: defineError('LSldapObject_10',
-_("LSldapObject : Error while executin %{meth} method within %{class} class, to be executed on object event %{event}.")
+_("LSldapObject : Error during execute %{meth} method within %{class} class, to be executed on object event %{event}.")
 );
 
 LSerror :: defineError('LSldapObject_11',

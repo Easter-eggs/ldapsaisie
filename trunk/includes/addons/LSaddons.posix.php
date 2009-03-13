@@ -28,7 +28,7 @@ LSerror :: defineError('POSIX_SUPPORT_01',
 );
 
 LSerror :: defineError('POSIX_SUPPORT_02',
-  _("POSIX Support : Unable to load LSaddons::FTP.")
+  _("POSIX Support : Unable to load LSaddon::FTP.")
 );
 
 // Autres erreurs

@@ -1825,7 +1825,7 @@ class LSsession {
     _("LSsession : The %{addon} support is uncertain. Verify system compatibility and the add-on configuration.")
     );
     LSerror :: defineError('LSsession_03',
-    _("LSsession : LDAP server's configuration data are invalid. Impossible d'établir une connexion.")
+    _("LSsession : LDAP server's configuration data are invalid. Can't connect.")
     );
     LSerror :: defineError('LSsession_04',
     _("LSsession : Failed to load LSobject type %{type} : unknon type.")
@@ -1847,7 +1847,7 @@ class LSsession {
     _("LSsession : Can't connect to LDAP server.")
     );
     LSerror :: defineError('LSsession_10',
-    _("LSsession : Impossible to load authentification objects's class.")
+    _("LSsession : Could not load type of identifiable objects.")
     );
     LSerror :: defineError('LSsession_11',
     _("LSsession : Your are not authorized to do this action.")
@@ -1876,16 +1876,16 @@ class LSsession {
 
     // LSrelations
     LSerror :: defineError('LSrelations_01',
-    _("LSrelations : The listing function for the relation %{relation} is unknow.")
+    _("LSrelation : The listing function for the relation %{relation} is unknow.")
     );
     LSerror :: defineError('LSrelations_02',
-    _("LSrelations : The update function of the relation %{relation} is unknow.")
+    _("LSrelation : The update function of the relation %{relation} is unknow.")
     );
     LSerror :: defineError('LSrelations_03',
-    _("LSrelations : Error during relation update of the relation %{relation}.")
+    _("LSrelation : Error during relation update of the relation %{relation}.")
     );
     LSerror :: defineError('LSrelations_04',
-    _("LSrelations : Object type %{LSobject} unknow (Relation : %{relation}).")
+    _("LSrelation : Object type %{LSobject} unknow (Relation : %{relation}).")
     );
     LSerror :: defineError('LSrelations_05',
     _("LSrelation : Some parameters are missing in the invocation of the methods of handling relations standard (Methode : %{meth}).")

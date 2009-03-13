@@ -24,7 +24,7 @@
 
 // Support
 LSerror :: defineError('MAILDIR_SUPPORT_01',
-  _("MAILDIR Support : Unable to load LSaddons::FTP.")
+  _("MAILDIR Support : Unable to load LSaddon::FTP.")
 );
 LSerror :: defineError('MAILDIR_SUPPORT_02',
   _("MAILDIR Support : The constant %{const} is not defined.")

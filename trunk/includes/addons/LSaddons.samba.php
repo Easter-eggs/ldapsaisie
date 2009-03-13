@@ -24,7 +24,7 @@
 
 // Support
 LSerror :: defineError('SAMBA_SUPPORT_01',
-  _("SAMBA Support : Unable to load smHash class.")
+  _("SAMBA Support : Unable to load smbHash class.")
 );
 LSerror :: defineError('SAMBA_SUPPORT_02',
   _("SAMBA Support : The constant %{const} is not defined.")
