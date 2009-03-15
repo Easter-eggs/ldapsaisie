@@ -1888,7 +1888,7 @@ class LSsession {
     _("LSrelation : Object type %{LSobject} unknow (Relation : %{relation}).")
     );
     LSerror :: defineError('LSrelations_05',
-    _("LSrelation : Some parameters are missing in the invocation of the methods of handling relations standard (Methode : %{meth}).")
+    _("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
     );
   }
 

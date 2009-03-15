@@ -33,7 +33,7 @@ LSerror :: defineError('MAIL_00',
 );
 
 LSerror :: defineError('MAIL_01',
-  _("MAIL : Error while sending your email")
+  _("MAIL : Error sending your email")
 );
       
  /**

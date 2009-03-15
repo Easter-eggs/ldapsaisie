@@ -31,7 +31,7 @@ LSerror :: defineError('SAMBA_SUPPORT_02',
 );
 
 LSerror :: defineError('SAMBA_SUPPORT_03',
-  _("SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID.")
+  _("SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's unicity.")
 );
 
 // Autres erreurs

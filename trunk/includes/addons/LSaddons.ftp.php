@@ -38,13 +38,13 @@ LSerror :: defineError('FTP_00',
 );
 
 LSerror :: defineError('FTP_01',
-  _("FTP Support : Unable to connect to FTP Server (Step : %{etape}).")
+  _("FTP Support : Unable to connect to FTP Server (Step : %{step}).")
 );
 LSerror :: defineError('FTP_02',
   _("FTP Support : Unable to make directory %{dir} on the remote server.")
 );
 LSerror :: defineError('FTP_03',
-  _("FTP Support :Unable to delete directory %{dir} on the remote server.")
+  _("FTP Support : Unable to delete directory %{dir} on the remote server.")
 );
 LSerror :: defineError('FTP_04',
   _("FTP Support : Unable to modify rights on the directory %{dir} on the remote server.")

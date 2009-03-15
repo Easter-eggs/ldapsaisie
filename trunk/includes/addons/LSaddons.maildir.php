@@ -32,16 +32,16 @@ LSerror :: defineError('MAILDIR_SUPPORT_02',
 
 // Autres erreurs
 LSerror :: defineError('MAILDIR_01',
-  _("MAILDIR : Error while creating maildir on the remote server.")
+  _("MAILDIR : Error creating maildir on the remote server.")
 );
 LSerror :: defineError('MAILDIR_02',
-  _("MAILDIR : Error while deleting the maildir on the remote server.")
+  _("MAILDIR : Error deleting the maildir on the remote server.")
 );
 LSerror :: defineError('MAILDIR_03',
-  _("MAILDIR : Error while renaming the maildir on the remote server.")
+  _("MAILDIR : Error renaming the maildir on the remote server.")
 );
 LSerror :: defineError('MAILDIR_04',
-  _("MAILDIR : Error while recovering remote path of the maildir.")
+  _("MAILDIR : Error retrieving remote path of the maildir.")
 );
       
  /**

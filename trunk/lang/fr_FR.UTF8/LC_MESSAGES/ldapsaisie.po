@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-13 22:25+0100\n"
-"PO-Revision-Date: 2009-03-13 22:29+0100\n"
+"POT-Creation-Date: 2009-03-15 22:04+0100\n"
+"PO-Revision-Date: 2009-03-15 22:04+0100\n"
 "Last-Translator: Benjamin Renard <brenard@easter-eggs.com>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Rechercher"
 #: select.php:294
 #: view.php:376
 msgid "Recursive search"
-msgstr "Recherche récurssive"
+msgstr "Recherche récursive"
 
 #: select.php:295
 #: view.php:377
@@ -132,7 +132,7 @@ msgstr "Support POSIX : Impossible de charger LSaddon::FTP."
 
 #: includes/addons/LSaddons.posix.php:36
 msgid "POSIX : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}."
-msgstr ""
+msgstr "Support POSIX : L'attribut %{dependency} est manquant. Impossible de générer l'attribut %{attr}."
 
 #: includes/addons/LSaddons.maildir.php:27
 msgid "MAILDIR Support : Unable to load LSaddon::FTP."
@@ -143,20 +143,20 @@ msgid "MAILDIR Support : The constant %{const} is not defined."
 msgstr "Support MAILDIR : La constante %{const} n'est pas définie."
 
 #: includes/addons/LSaddons.maildir.php:35
-msgid "MAILDIR : Error while creating maildir on the remote server."
-msgstr ""
+msgid "MAILDIR : Error creating maildir on the remote server."
+msgstr "MAILDIR : Erreur durant la création du dossier des mails sur le serveur distant."
 
 #: includes/addons/LSaddons.maildir.php:38
-msgid "MAILDIR : Error while deleting the maildir on the remote server."
-msgstr ""
+msgid "MAILDIR : Error deleting the maildir on the remote server."
+msgstr "MAILDIR : Erreur durant la suppression du dossier des mails sur le serveur distant."
 
 #: includes/addons/LSaddons.maildir.php:41
-msgid "MAILDIR : Error while renaming the maildir on the remote server."
-msgstr ""
+msgid "MAILDIR : Error renaming the maildir on the remote server."
+msgstr "MAILDIR : Erreur durant le renommage du dossier des mails sur le serveur distant."
 
 #: includes/addons/LSaddons.maildir.php:44
-msgid "MAILDIR : Error while recovering remote path of the maildir."
-msgstr ""
+msgid "MAILDIR : Error retrieving remote path of the maildir."
+msgstr "MAILDIR : Erreur durant la récupération du chemin distant du dossier des mails."
 
 #: includes/addons/LSaddons.samba.php:27
 msgid "SAMBA Support : Unable to load smbHash class."
@@ -167,12 +167,12 @@ msgid "SAMBA Support : The constant %{const} is not defined."
 msgstr "Support SAMBA : La constante %{const} n'est pas définie."
 
 #: includes/addons/LSaddons.samba.php:34
-msgid "SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour l'unicité des sambaSID."
-msgstr ""
+msgid "SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's unicity."
+msgstr "Support SAMBA : Les constantes LS_SAMBA_SID_BASE_USER et LS_SAMBA_SID_BASE_GROUP ne doivent pas avoir la même parité pour préserver l'unicité des SambaSID."
 
 #: includes/addons/LSaddons.samba.php:39
 msgid "SAMBA Support : The attribute%{dependency} is missing. Unable to forge the attribute %{attr}."
-msgstr ""
+msgstr "Support SAMBA : L'attribut %{dependency} est manquant. Impossible de générer l'attribut %{attr}."
 
 #: includes/addons/LSaddons.mail.php:27
 msgid "MAIL Support : Pear::MAIL is missing."
@@ -180,11 +180,11 @@ msgstr "Support MAIL : Pear::MAIL est manquant."
 
 #: includes/addons/LSaddons.mail.php:32
 msgid "MAIL Error : %{msg}"
-msgstr ""
+msgstr "Erreur MAIL : %{msg}"
 
 #: includes/addons/LSaddons.mail.php:36
-msgid "MAIL : Error while sending your email"
-msgstr ""
+msgid "MAIL : Error sending your email"
+msgstr "MAIL : Erreur durant l'envoie de votre mail."
 
 #: includes/addons/LSaddons.supann.php:27
 msgid "SUPANN Support : The constant %{const} is not defined."
@@ -192,7 +192,7 @@ msgstr "Support SUPPAN : La constante %{const} n'est pas définie."
 
 #: includes/addons/LSaddons.supann.php:32
 msgid "SUPANN Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}."
-msgstr ""
+msgstr "Support SUPANN : L'attribut %{dependency} est manquant. Impossible de générer l'attribut %{attr}."
 
 #: includes/addons/LSaddons.ftp.php:27
 msgid "FTP Support : Pear::Net_FTP is missing."
@@ -207,24 +207,24 @@ msgid "Net_FTP Error : %{msg}"
 msgstr "Net_FTP Erreur : %{msg}"
 
 #: includes/addons/LSaddons.ftp.php:41
-msgid "FTP Support : Unable to connect to FTP Server (Step : %{etape})."
-msgstr ""
+msgid "FTP Support : Unable to connect to FTP Server (Step : %{step})."
+msgstr "Support FTP : Impossible de se connecter au serveur FTP (Étape : %{step})"
 
 #: includes/addons/LSaddons.ftp.php:44
 msgid "FTP Support : Unable to make directory %{dir} on the remote server."
-msgstr ""
+msgstr "Support FTP : Impossible de créer le dossier %{dir} sur le serveur distant."
 
 #: includes/addons/LSaddons.ftp.php:47
-msgid "FTP Support :Unable to delete directory %{dir} on the remote server."
-msgstr ""
+msgid "FTP Support : Unable to delete directory %{dir} on the remote server."
+msgstr "Support FTP : Impossible de supprimer le dossier %{dir} sur le serveur distant."
 
 #: includes/addons/LSaddons.ftp.php:50
 msgid "FTP Support : Unable to modify rights on the directory %{dir} on the remote server."
-msgstr ""
+msgstr "Support FTP : Impossible de modifier les droits sur le dossier %{dir} sur le serveur distant."
 
 #: includes/addons/LSaddons.ftp.php:53
 msgid "FTP Support : Unable to rename folder from %{old} to %{new} on the remote server."
-msgstr ""
+msgstr "Support FTP : Impossible de renommer le dossier %{old} en %{new} sur le serveur distant."
 
 #: includes/class/class.LSsession.php:849
 msgid "Connection"
@@ -370,8 +370,8 @@ msgid "LSrelation : Object type %{LSobject} unknow (Relation : %{relation})."
 msgstr "LSsession : La fonction de mise à jour de la relation %{relation} est inconnue."
 
 #: includes/class/class.LSsession.php:1891
-msgid "LSrelation : Some parameters are missing in the invocation of the methods of handling relations standard (Methode : %{meth})."
-msgstr ""
+msgid "LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth})."
+msgstr "LSrelation : Des paramètres sont manquant dans l'appel des méthodes de manipulation des relations standards."
 
 #: includes/class/class.LSattribute.php:247
 msgid "The value of field %{label} is invalid."
@@ -475,8 +475,8 @@ msgid "Click to enable concurrent creation/modification of the maildir by many u
 msgstr ""
 
 #: includes/class/class.LSformElement_maildir.php:143
-msgid "The mailbox has been stored in the database."
-msgstr ""
+msgid "The mailbox has been renamed successfully."
+msgstr "Le dossier mail a bien été modifié."
 
 #: includes/class/class.LSformElement_maildir.php:153
 msgid "The mailbox has been deleted."
@@ -577,7 +577,7 @@ msgstr "Comparer avec le mot de passe stocké."
 
 #: includes/class/class.LSformElement_password.php:119
 msgid "Display password."
-msgstr "Affiché le mot de passe."
+msgstr "Afficher le mot de passe."
 
 #: includes/class/class.LSformElement_password.php:120
 msgid "Hide password."
