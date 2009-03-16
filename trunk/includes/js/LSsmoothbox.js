@@ -22,9 +22,9 @@ var LSsmoothbox = new Class({
       
       // Fx
       this.fx = {
-        over:      new Fx.Tween(this.over, {property: 'opacity', duration: 300}),
-        winOpen:   new Fx.Morph(this.win, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.displayContent.bind(this)}),
-        winClose:  new Fx.Morph(this.win, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.resetWin.bind(this)})
+        over:      new Fx.Tween(this.over, {property: 'opacity', duration: 300, fps: 30}),
+        winOpen:   new Fx.Morph(this.win, {duration: 500, fps: 30, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.displayContent.bind(this)}),
+        winClose:  new Fx.Morph(this.win, {duration: 500, fps: 30, transition: Fx.Transitions.Sine.easeOut, onStart: this.hideContent.bind(this), onComplete: this.resetWin.bind(this)})
       };
       
       this.asNew(options);

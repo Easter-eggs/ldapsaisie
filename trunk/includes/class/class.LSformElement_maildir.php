@@ -66,8 +66,8 @@ class LSformElement_maildir extends LSformElement_text {
     LSsession :: addHelpInfos (
       'LSformElement_maildir',
       array(
-        'do' => _("Concurrent creation or modification of the maildir by many users is enabled. Click to disable."),
-        'nodo' => _("Click to enable concurrent creation/modification of the maildir by many users at the same time.")
+        'do' => _("Maildir creation/modification on user creation/modification is enabled. Click to disable."),
+        'nodo' => _("Click to enable maildir creation/modification on user creation/modification.")
       )
     );
     return parent :: getDisplay($return);

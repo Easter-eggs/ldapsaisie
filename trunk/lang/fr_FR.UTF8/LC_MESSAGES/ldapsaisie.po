@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-15 22:04+0100\n"
-"PO-Revision-Date: 2009-03-15 22:04+0100\n"
+"POT-Creation-Date: 2009-03-16 11:36+0100\n"
+"PO-Revision-Date: 2009-03-16 11:46+0100\n"
 "Last-Translator: Benjamin Renard <brenard@easter-eggs.com>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise.org>\n"
 "MIME-Version: 1.0\n"
@@ -379,11 +379,11 @@ msgstr "La valeur du champ %{label} est incorrecte."
 
 #: includes/class/class.LSattribute.php:690
 msgid "LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} & HTML = %{html})."
-msgstr ""
+msgstr "LSattribute : Attribut %{attr} : Les types LDAP ou HTML sont inconnus (LDAP = %{ldap} & HTML = %{html})."
 
 #: includes/class/class.LSattribute.php:693
 msgid "LSattribute : The function %{func} to display the attribute %{attr} is unknow."
-msgstr ""
+msgstr "LSattribute : La fonction %{func} pour afficher l'attribut %{attr} est inconnue."
 
 #: includes/class/class.LSattribute.php:696
 msgid "LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
@@ -411,7 +411,7 @@ msgstr "LSattribute : La génération de l'attribut %{attr} n'a pas retournée d
 
 #: includes/class/class.LSattribute.php:714
 msgid "LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
-msgstr ""
+msgstr "LSattribute : L'objet attr_%{type} de l'attribut %{name} n'est pas encore défini."
 
 #: includes/class/class.LSconfirmBox.php:35
 msgid "Confirmation"
@@ -467,12 +467,12 @@ msgid "Display RSS stack."
 msgstr "Afficher la file RSS."
 
 #: includes/class/class.LSformElement_maildir.php:69
-msgid "Concurrent creation or modification of the maildir by many users is enabled. Click to disable."
-msgstr ""
+msgid "Maildir creation/modification on user creation/modification is enabled. Click to disable."
+msgstr "La création/modification de la maildir en même temps que la création/modification de l'utilisateur est activée. Cliquer pour désactiver."
 
 #: includes/class/class.LSformElement_maildir.php:70
-msgid "Click to enable concurrent creation/modification of the maildir by many users at the same time."
-msgstr ""
+msgid "Click to enable maildir creation/modification on user creation/modification."
+msgstr "Cliquer pour activer la création/modification de la maildir en même temps que la création/modification du l'utilisateur."
 
 #: includes/class/class.LSformElement_maildir.php:143
 msgid "The mailbox has been renamed successfully."
@@ -661,7 +661,7 @@ msgstr "Maintenant."
 
 #: includes/class/class.LSattr_html_select_list.php:146
 msgid "LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}."
-msgstr ""
+msgstr "LSattr_html_select_list : Des données de configuration sont manquantes pour générer la liste de sélection de l'attribut %{attr}."
 
 #: includes/class/class.LSldapObject.php:429
 msgid "The attribute %{attr} is not valid."
@@ -681,7 +681,7 @@ msgstr "LSldapObject : Aucun formulaire n'existe pour l'objet %{obj}"
 
 #: includes/class/class.LSldapObject.php:1861
 msgid "LSldapObject : The function %{func} to validate the attribute %{attr} the object %{obj} is unknow."
-msgstr ""
+msgstr "LSldapObject : La fonction %{func} pour valider l'attribut %{attr} de l'objet %{obj} est inconnu."
 
 #: includes/class/class.LSldapObject.php:1864
 msgid "LSldapObject : Configuration data are missing to validate the attribute %{attr} of the object %{obj}."
@@ -689,7 +689,7 @@ msgstr "LSldapObject : Des données de configurations sont manquant pour pouvoir
 
 #: includes/class/class.LSldapObject.php:1868
 msgid "LSldapObject : The function %{func} to be executed on the object event %{event} doesn't exist."
-msgstr ""
+msgstr "LSldapObject : La fonction %{func} devant être exécutée lors de l'évènement %{event} de l'objet n'existe pas."
 
 #: includes/class/class.LSldapObject.php:1871
 msgid "LSldapObject : The %{func} execution on the object event %{event} failed."
@@ -697,23 +697,23 @@ msgstr "LSldapObject : L'exécution de la fonction %{func} lors de l'évènement
 
 #: includes/class/class.LSldapObject.php:1875
 msgid "LSldapObject : Class %{class}, which method %{meth} to be executed on the object event %{event}, doesn't exist."
-msgstr ""
+msgstr "La classe %{class}, contenant la méthode %{meth} devant être exécutée lors de l'évènement %{event} de l'objet, n'existe pas."
 
 #: includes/class/class.LSldapObject.php:1878
-msgid "LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, deoesn't exist."
-msgstr ""
+msgid "LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, doesn't exist."
+msgstr "LSldapObject : La méthode %{meth} de la classe %{class} devant être exécutée lors de l'évènement %{event} de l'objet n'existe pas."
 
 #: includes/class/class.LSldapObject.php:1881
 msgid "LSldapObject : Error during execute %{meth} method within %{class} class, to be executed on object event %{event}."
-msgstr ""
+msgstr "LSldapObject : Erreur durant l'exécution de la méthode %{meth} de la classe %{class} devant être exécutée lors de l'évènement %{event} de l'objet."
 
 #: includes/class/class.LSldapObject.php:1885
 msgid "LSldapObject : Some configuration data of the object type %{obj} are missing to generate the DN of the new object."
 msgstr "LSldapObject : Des informations de configuration du type d'objet %{obj} sont manquantes pour la génération du DN du nouvel objet."
 
 #: includes/class/class.LSldapObject.php:1888
-msgid "LSldapObject : The attibute %{attr} of the object is not yet defined. Impossible to generate DN."
-msgstr ""
+msgid "LSldapObject : The attibute %{attr} of the object is not yet defined. Can't generate DN."
+msgstr "LSldapObjet : L'attribut %{attr} de l'objet n'est pas encore défini. Impossible de générer le DN."
 
 #: includes/class/class.LSldapObject.php:1891
 msgid "LSldapObject : Without DN, the object could not be changed."
@@ -749,23 +749,23 @@ msgstr "LSldapObject : Erreur durant les actions devant être exécutée avant d
 
 #: includes/class/class.LSldapObject.php:1918
 msgid "LSldapObject : Error during the actions to be executed after creating the object. It was created anyway."
-msgstr ""
+msgstr "LSldapObject : Erreur durant les actions devant être exécutées après la création de l'objet. Il a tout de même été créé."
 
 #: includes/class/class.LSldapObject.php:1922
-msgid "LSldapObject : The function %{func} to be generated before creating the object doesn't exist."
-msgstr ""
+msgid "LSldapObject : The function %{func} to be executed before creating the object doesn't exist."
+msgstr "LSldapObject : La fonction %{func} devant être exécutée avant la création de l'objet n'existe pas."
 
 #: includes/class/class.LSldapObject.php:1925
-msgid "LSldapObject : Error during the execution of the function %{func} to be generated after deleting the object."
-msgstr ""
+msgid "LSldapObject : Error executing the function %{func} to be execute after deleting the object."
+msgstr "LSldapObject : Erreur durant l'exécution de la fonction %{func} devant être exécutée après la suppression de l'objet."
 
 #: includes/class/class.LSldapObject.php:1928
-msgid "LSldapObject : The function %{func} to be generated after deleting the object doesn't exist."
-msgstr ""
+msgid "LSldapObject : The function %{func} to be executed after deleting the object doesn't exist."
+msgstr "LSldapObject : La fonction %{func} devant être exécutée après la suppression de l'objet n'existe pas."
 
 #: includes/class/class.LSldapObject.php:1931
-msgid "LSldapObject : Error during the execution of the function %{func} to be generated after creating the object."
-msgstr ""
+msgid "LSldapObject : Error executing the function %{func} to be execute after creating the object."
+msgstr "LSldapObject : Erreur durant l'exécution de la fonction %{func} devant être exécutée après la création de l'objet."
 
 #: includes/class/class.LSldapObject.php:1935
 msgid "LSldapObject : %{func} function, to be executed on object event %{event}, doesn't exist."

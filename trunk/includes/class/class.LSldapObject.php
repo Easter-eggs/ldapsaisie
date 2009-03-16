@@ -1875,7 +1875,7 @@ LSerror :: defineError('LSldapObject_08',
 _("LSldapObject : Class %{class}, which method %{meth} to be executed on the object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_09',
-_("LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, deoesn't exist.")
+_("LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_10',
 _("LSldapObject : Error during execute %{meth} method within %{class} class, to be executed on object event %{event}.")
@@ -1885,7 +1885,7 @@ LSerror :: defineError('LSldapObject_11',
 _("LSldapObject : Some configuration data of the object type %{obj} are missing to generate the DN of the new object.")
 );
 LSerror :: defineError('LSldapObject_12',
-_("LSldapObject : The attibute %{attr} of the object is not yet defined. Impossible to generate DN.")
+_("LSldapObject : The attibute %{attr} of the object is not yet defined. Can't generate DN.")
 );
 LSerror :: defineError('LSldapObject_13',
 _("LSldapObject : Without DN, the object could not be changed.")
@@ -1919,16 +1919,16 @@ _("LSldapObject : Error during the actions to be executed after creating the obj
 );
 
 LSerror :: defineError('LSldapObject_22',
-_("LSldapObject : The function %{func} to be generated before creating the object doesn't exist.")
+_("LSldapObject : The function %{func} to be executed before creating the object doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_23',
-_("LSldapObject : Error during the execution of the function %{func} to be generated after deleting the object.")
+_("LSldapObject : Error executing the function %{func} to be execute after deleting the object.")
 );
 LSerror :: defineError('LSldapObject_24',
-_("LSldapObject : The function %{func} to be generated after deleting the object doesn't exist.")
+_("LSldapObject : The function %{func} to be executed after deleting the object doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_25',
-_("LSldapObject : Error during the execution of the function %{func} to be generated after creating the object.")
+_("LSldapObject : Error executing the function %{func} to be execute after creating the object.")
 );
 
 LSerror :: defineError('LSldapObject_26',

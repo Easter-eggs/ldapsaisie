@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-15 22:04+0100\n"
+"POT-Creation-Date: 2009-03-16 11:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -486,14 +486,13 @@ msgstr ""
 
 #: includes/class/class.LSformElement_maildir.php:69
 msgid ""
-"Concurrent creation or modification of the maildir by many users is enabled. "
+"Maildir creation/modification on user creation/modification is enabled. "
 "Click to disable."
 msgstr ""
 
 #: includes/class/class.LSformElement_maildir.php:70
 msgid ""
-"Click to enable concurrent creation/modification of the maildir by many "
-"users at the same time."
+"Click to enable maildir creation/modification on user creation/modification."
 msgstr ""
 
 #: includes/class/class.LSformElement_maildir.php:143
@@ -742,7 +741,7 @@ msgstr ""
 #: includes/class/class.LSldapObject.php:1878
 msgid ""
 "LSldapObject : Method %{meth} within %{class} class to be executed on object "
-"event %{event}, deoesn't exist."
+"event %{event}, doesn't exist."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1881
@@ -759,8 +758,8 @@ msgstr ""
 
 #: includes/class/class.LSldapObject.php:1888
 msgid ""
-"LSldapObject : The attibute %{attr} of the object is not yet defined. "
-"Impossible to generate DN."
+"LSldapObject : The attibute %{attr} of the object is not yet defined. Can't "
+"generate DN."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1891
@@ -811,26 +810,26 @@ msgstr ""
 
 #: includes/class/class.LSldapObject.php:1922
 msgid ""
-"LSldapObject : The function %{func} to be generated before creating the "
+"LSldapObject : The function %{func} to be executed before creating the "
 "object doesn't exist."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1925
 msgid ""
-"LSldapObject : Error during the execution of the function %{func} to be "
-"generated after deleting the object."
+"LSldapObject : Error executing the function %{func} to be execute after "
+"deleting the object."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1928
 msgid ""
-"LSldapObject : The function %{func} to be generated after deleting the "
-"object doesn't exist."
+"LSldapObject : The function %{func} to be executed after deleting the object "
+"doesn't exist."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1931
 msgid ""
-"LSldapObject : Error during the execution of the function %{func} to be "
-"generated after creating the object."
+"LSldapObject : Error executing the function %{func} to be execute after "
+"creating the object."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1935

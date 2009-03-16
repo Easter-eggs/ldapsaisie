@@ -73,8 +73,8 @@ var LSconfirmBox = new Class({
       this._purge=0;
       
       this.fx = {
-        open:   new Fx.Morph(this.box, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onComplete: this.displayContent.bind(this)}),
-        close:  new Fx.Morph(this.box, {duration: 500, transition: Fx.Transitions.Sine.easeOut, onComplete: this.onClose.bind(this)})
+        open:   new Fx.Morph(this.box, {duration: 500, fps: 30, transition: Fx.Transitions.Sine.easeOut, onComplete: this.displayContent.bind(this)}),
+        close:  new Fx.Morph(this.box, {duration: 500, fps: 30, transition: Fx.Transitions.Sine.easeOut, onComplete: this.onClose.bind(this)})
       };
       this._scrolling=0;
     },
@@ -102,7 +102,7 @@ var LSconfirmBox = new Class({
     
     displayContent: function() {
       [this.title, this.closeBtn, this.text, this.btnsBox].each(function(el) {
-        var fx = new Fx.Tween(el,{duration: 200});
+        var fx = new Fx.Tween(el,{duration: 200, fps: 30});
         fx.start('opacity',1);
       },this);
     },

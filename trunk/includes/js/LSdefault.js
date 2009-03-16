@@ -21,9 +21,9 @@ var LSdefault = new Class({
 
       // FX
       this.fx = {
-        LSdebug:  new Fx.Tween(this.LSdebug,{property: 'opacity',duration:600}),
-        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500}),
-        LSinfos:  new Fx.Tween(this.LSinfos,{property: 'opacity',duration:500})
+        LSdebug:  new Fx.Tween(this.LSdebug,{property: 'opacity',duration:600, fps:30}),
+        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500, fps:30}),
+        LSinfos:  new Fx.Tween(this.LSinfos,{property: 'opacity',duration:500, fps:30})
       };
       
       // LSjsConfig
@@ -298,7 +298,6 @@ var LSdefault = new Class({
     
     keepLSsession: function() {
       LSdebug('Keep LSsession');
-      data: {}
       new Request({url: 'index_ajax.php', data: {}, onSuccess: this.keepLSsessionComplete.bind(this)}).send();
     },
     
