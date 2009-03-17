@@ -1,0 +1,47 @@
+<sect4 id="config-LSattr_ldap_date">
+  <title>LSattr_ldap_date</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une date.</para>
+  
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA['ldap_options' => array (
+  'timestamp' => [Booléen], // Si la date est stockée au format timestamp
+  'format' => '[Format de stockage]' // Default : "%Y%m%d%H%M%SZ"
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>timestamp</term>
+  <listitem>
+    <simpara>Booléen définissant si la date est stockée sous la forme d'un
+    timestamp Unix (nombre de secondes depuis le 1er janvier 1970 à 00:00:00
+    UTC)­.</simpara>
+    <remark>Si <parameter>timestamp</parameter> est vrai, &LdapSaisie; ne tient
+    pas compte du paramètre <parameter>format</parameter>.</remark>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>format</term>
+  <listitem>
+    <para>Format de stockage de la date dans l'annuaire. Ce format est composé à
+    partir des motifs clés gérés par la fonction <function>strftime()</function>
+    de &php;. Pour plus d'information, consulter 
+    <ulink url='http://www.php.net/strftime'>la documentation officielle</ulink>.
+    <note><simpara>La valeur par défaut est <emphasis>%Y%m%d%H%M%SZ</emphasis>,
+    correspondant au format de stockage par défaut dans &openldap;. Exemple : 
+    <emphasis>20091206230506Z</emphasis></simpara></note>
+    </para>
+    
+  </listitem>
+</varlistentry>
+
+</variablelist>
+  
+  
+</sect4>

@@ -1,0 +1,7 @@
+<sect4 id="config-LSattr_html_mailQuota">
+  <title>LSattr_html_mailQuota</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  le quota d'une boite mail. Le format de la valeur générée correspondant au format
+  attendu par le serveur de mail &courier;. Exemple : <emphasis>50000000S</emphasis>
+  correspond à un quota de 50Mio.</para>
+</sect4>

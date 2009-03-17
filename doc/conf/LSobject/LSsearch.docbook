@@ -1,0 +1,47 @@
+<sect2 id="config-LSobject-LSsearch">
+  <title>LSsearch</title>
+  <para>Cette section décrit la manière de paramétrer les recherches dans
+  l'annuaire pour un type d'&LSobject; donné.</para>
+
+<para>La configuration des <emphasis>LSsearch</emphasis> se situe dans la 
+configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
+(<emphasis>$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSsearch']</emphasis>).
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSsearch'] = array (
+  'attrs' => array(
+    'attr1',
+    'attr2',
+    ...
+  ),
+  ...
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>attrs</term>
+  <listitem>
+    <para>Tableau listant les attributs pouvant être utilisés dans les filtres
+    de recherche LDAP employés par &LdapSaisie;. Lorsqu'un motif de recherche est
+    passé par l'utilisateur, &LdapSaisie; composera un filtre LDAP à partir de
+    cette liste.</para>
+    <para>Lors d'une recherche non-approximative, le filtre de recherche sera
+    composé de la manière suivante :
+    <programlisting>(|(attr1=*motif*)(attr2=*motif*)...)</programlisting></para>
+    <para>Lors d'une recherche approximative, le filtre de recherche sera
+    composé de la manière suivante :
+    <programlisting>(|(attr1=~motif)(attr2~=motif)...)</programlisting></para>
+    <important><simpara>Ces filtres, une fois composés, sont insérés dans un autre,
+    filtrant en plus sur les <emphasis>ObjectClass</emphasis> du type
+    d'&LSobject; de la manière suivante :</simpara>
+    <programlisting><![CDATA[(& (&(objectclass=oc1)(objectclass=oc2)) (filtre) )]]></programlisting></important>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+</sect2>

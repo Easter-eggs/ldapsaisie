@@ -1,0 +1,96 @@
+<sect4 id="config-LSattr_html_text">
+  <title>LSattr_html_text</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une chaîne de caractères devant être affichée dans un champ
+  <emphasis>input</emphasis> HTML de type <emphasis>text</emphasis>.
+  </para>
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array(
+  'generate_value_format' => '[LSformat pour la génération de la valeur]',
+  'autoGenerateOnCreate' => [booléen],
+  'autoGenerateOnModify' => [booléen],
+  'withoutAccent' => [booleen],
+  'replaceSpaces' => "[chaîne de remplacement]",
+  'upperCase' => [booleen],
+  'lowerCase' => [booleen]
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>generate_value_format</term>
+  <listitem>
+    <simpara>&LSformat; de la valeur utilisée pour la génération automatique de
+    celle-ci à partir des informations saisies dans le formulaire. Les valeurs
+    clefs du format sont les noms des attributs de l'objet. Seuls les attributs
+    affichés au moins en lecture seule dans le formulaire peuvent être utilisés
+    dans le format. Une seule valeur par attribut sera utilisée pour la
+    génération : celle du premier champ (dans l'ordre d'apparition dans le
+    formulaire).</simpara>
+    <important><simpara>Seuls les éléments du formulaire de type HTML 
+    <emphasis>input</emphasis>, <emphasis>select</emphasis> ou 
+    <emphasis>textarea</emphasis> peuvent être utilisés.</simpara></important>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>autoGenerateOnCreate</term>
+  <listitem>
+    <simpara>Activation de la génération automatique lorsque celui-ci est
+    vide au moment du chargement du formulaire.</simpara>
+    <note><simpara>La valeur par défaut est <emphasis>False</emphasis>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>autoGenerateOnModify</term>
+  <listitem>
+    <simpara>Activation de la génération automatique lors de chaque
+    modification de la valeur des champs du formulaire lié.</simpara>
+    <note><simpara>La valeur par défaut est <emphasis>False</emphasis>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>withoutAccent</term>
+  <listitem>
+    <simpara>Activation de la suppression des accents dans la chaîne de
+    caractères générée automatiquement.</simpara>
+    <note><simpara>La valeur par défaut est <emphasis>False</emphasis>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>withoutAccent</term>
+  <listitem>
+    <simpara>Activation du remplacement des accents dans la chaîne de
+    caractères générée automatiquement. La valeur de remplacement est celle du
+    paramètre.</simpara>
+    <note><simpara>La valeur par défaut est <emphasis>False</emphasis>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>upperCase</term>
+  <listitem>
+    <simpara>Activation de la mise en majuscule de la valeur générée
+    automatiquement.</simpara>
+    <note><simpara>La valeur par défaut est <emphasis>False</emphasis>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>lowerCase</term>
+  <listitem>
+    <simpara>Activation de la mise en minuscule de la valeur générée
+    automatiquement.</simpara>
+    <note><simpara>La valeur par défaut est <emphasis>False</emphasis>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+</sect4>

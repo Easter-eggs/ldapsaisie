@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!ENTITY LdapSaisie "<application>LdapSaisie</application>">
+<!ENTITY netldap "<application><ulink url='http://pear.php.net/package/Net_LDAP2'>Net_LDAP2</ulink></application>">
+<!ENTITY smarty "<application><ulink url='http://www.smarty.net/'>Smarty</ulink></application>">
+<!ENTITY php "<application><ulink url='http://www.php.net/'>PHP</ulink></application>">
+<!ENTITY openldap "<application><ulink url='http://www.openldap.org/'>OpenLDAP</ulink></application>">
+<!ENTITY courier "<application><ulink url='http://www.courier-mta.org/'>Courier</ulink></application>">
+
+<!ENTITY subDn "<link linkend='config-subDn'>subDn</link>">
+<!ENTITY LSprofile "<link linkend='config-LSprofile'>LSprofile</link>">
+<!ENTITY LSprofiles "<link linkend='config-LSprofile'>LSprofiles</link>">
+<!ENTITY LSobject "<link linkend='config-LSobject'>LSobject</link>">
+<!ENTITY LSobjects "<link linkend='config-LSobject'>LSobjects</link>">
+<!ENTITY LSattribute "<link linkend='config-LSattribute'>LSattribute</link>">
+<!ENTITY LSattributes "<link linkend='config-LSattribute'>LSattributes</link>">
+<!ENTITY LSrelation "<link linkend='config-LSobject-LSrelation'>LSrelation</link>">
+<!ENTITY LSrelations "<link linkend='config-LSobject-LSrelation'>LSrelations</link>">
+<!ENTITY LSform "<link linkend='config-LSobject-LSform'>LSform</link>">
+<!ENTITY LSforms "<link linkend='config-LSobject-LSform'>LSforms</link>">
+<!ENTITY LSformat "<link linkend='config-LSformat'>LSformat</link>">
+<!ENTITY LSformats "<link linkend='config-LSformat'>LSformats</link>">
+<!ENTITY LSaddon "<link linkend='config-LSaddon'>LSaddon</link>">
+<!ENTITY LSaddons "<link linkend='config-LSaddon'>LSaddons</link>">

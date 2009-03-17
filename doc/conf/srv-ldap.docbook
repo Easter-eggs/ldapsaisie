@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sect3 id="config-srv-ldap">
+  <title>Configuration des serveurs LDAP</title>
+
+<para>Cette section décrit le tableau de configuration des différents serveurs
+LDAP utilisés par l'application. Ce tableau contient lui même un tableau par
+serveur LDAP.</para>
+
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA[$GLOBALS['LSconfig'] = array(
+  ...
+  'ldap_servers' => array(
+    array (
+      'name' => [nom de l'annuaire],
+      'ldap_config'=> array(
+        // Définition des paramètres de connexion à l'annuaire
+      ),
+      'LSprofiles' => array (
+        // Définition des LSprofiles
+      ),
+      'cacheLSprofiles' => [boolean],
+      'cacheSearch' => [boolean],
+      'authObjectType' => [LSobject],
+      'authObjectTypeAttrPwd' => [attribut],
+      'LSaccess' => array (
+        [Type LSobject 1],
+        [Type LSobject 2],
+        ...
+      ),
+      'subDn' => array(
+        // Définition des sous-niveaux de l'annuaire
+      ),
+      'subDnLabel' => [nom des sous-niveaux],
+      'recoverPassword' => array(
+        // Définition des paramètres de configuration de la récupération de mot de passe
+      ),
+      'emailSender' => [email],
+      'keepLSsessionActive' => [booléen]
+    )
+  ...
+);]]>
+...
+</programlisting>
+
+<!-- Début Paramètres Configuration -->  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>name</term>
+  <listitem>
+    <simpara>Le nom d'affichage de ce serveur Ldap
+    (utilisé lorsque plusieurs serveur LDAP sont déclarés).</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>ldap_config</term>
+  <listitem>
+    <simpara>Informations de connexion au serveur LDAP. Ces informations sont 
+    structurées selon les attentes de la librairie &netldap;. 
+    <ulink url='http://pear.php.net/manual/fr/package.networking.net-ldap.connecting.php'>
+    Plus d'informations</ulink>
+    </simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>LSprofiles</term>
+  <listitem>
+    <simpara>Définition des profils d'utilisateurs se connectant à l'annuaire.
+    <link linkend="config-LSprofile">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>cacheLSprofiles</term>
+  <listitem>
+    <simpara>Activation/Désactivation de la mise en cache des &LSprofiles; des 
+    utilisateurs connectés à ce serveur.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>cacheSearch</term>
+  <listitem>
+    <simpara>Activation/Désactivation de la mise en cache du résultat des 
+    recherches sur ce serveur.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>authObjectType</term>
+  <listitem>
+    <simpara>Nom du type d'&LSobject; pouvant être utilisé pour authentifier un 
+    utilisateur se connectant à l'interface.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>authObjectTypeAttrPwd</term>
+  <listitem>
+    <simpara>Nom de l'attribut "mot de passe" du type d'&LSobject; utilisé pour 
+    l'authentification des utilisateurs se connectant à l'interface.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry id="config-LSaccess">
+  <term>LSaccess</term>
+  <listitem>
+    <simpara>Définition des types d'&LSobjects; devant apparaître dans le menu de 
+    l'interface.</simpara>
+    <important><simpara>Ce paramètre n'est utilisé que pour les annuaires n'ayant 
+    pas de sous-niveaux (&subDn;).</simpara></important>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>subDn</term>
+  <listitem>
+    <simpara>Définition des sous-niveaux de connexion à l'annuaire.
+    <link linkend="config-subDn">Voir section concernée</link>.</simpara>
+    <important><simpara>Ce paramètre remplace le paramètre 
+    <link linkend="config-LSaccess">LSaccess</link> dans le cas d'un annuaire 
+    multi-niveaux.</simpara></important>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>subDnLabel</term>
+  <listitem>
+    <simpara>Définition du label utilisé pour qualifier les sous-niveaux de
+    connexion.</simpara>
+    <important><simpara>Ce paramètre est utile uniquement dans le cas d'un annuaire 
+    multi-niveaux.</simpara></important>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>recoverPassword</term>
+  <listitem>
+    <simpara>Définition des paramètres de la récupération de mot de passe.
+    <link linkend="config-recoverPassword">Voir la section concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>emailSender</term>
+  <listitem>
+    <simpara>Adresse mail utilisée par &LdapSaisie; pour envoyer des e-mails en 
+    relation avec cet annuaire. Cette adresse est celle utilisée par défaut. 
+    L'adresse utilisée peut également être configurée dans le contexte de
+    configuration du module devant envoyer des e-mails.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>keepLSsessionActive</term>
+  <listitem>
+    <simpara>Activation/Désactivation du maintient de la LSsession active.</simpara>
+    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou 
+    <emphasis>False</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+
+</variablelist>
+<!-- Fim Paramètres Configuration -->
+
+&conf-LSprofile;
+
+&conf-subDn;
+
+&conf-recoverPassword;
+
+</sect3>

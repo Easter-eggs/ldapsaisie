@@ -1,0 +1,6 @@
+<sect4 id="config-LSattribute-check-data-telephonenumber">
+  <title>telephonenumber</title>
+  <para>Cette régle vérifie que la valeur est un numéro de téléphone français.
+  Celui-ci doit respecter l'expression regulière suivante : 
+  <literal>/^(01|02|03|04|05|06|08|09)[0-9]{8}$/</literal></para>
+</sect4>

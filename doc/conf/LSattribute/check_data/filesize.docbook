@@ -1,0 +1,25 @@
+<sect4 id="config-LSattribute-check-data-filesize">
+  <title>filesize</title>
+  <para>Cette règle vérifie que la valeur est un fichier dont la taille en octets
+  respecte les limites passées en paramètre.</para>
+  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>minSize</term>
+  <listitem>
+    <simpara>Taille minimum.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>maxSize</term>
+  <listitem>
+    <simpara>Taille maximum.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

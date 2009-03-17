@@ -1,0 +1,21 @@
+<sect4 id="config-LSattribute-check-data-date">
+  <title>date</title>
+  <para>Cette règle vérifie que la valeur saisie est bien une date et qu'elle
+  respecte un format précis.</para>
+  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>format</term>
+  <listitem>
+    <simpara>Format de la date à respecter. Ce format doit être compatible avec la
+    fonction <function>strftime()</function> de &php;.
+    <ulink url='http://www.php.net/strftime'>Voir la documentation de la
+    fonction</ulink></simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

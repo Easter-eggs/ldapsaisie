@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sect1 id='config-globale'>
+  <title>Configuration globale</title>
+  <para>
+    La plus grande partie de la configuration globale se trouve dans le fichier 
+    <filename>config.inc.php</filename>.
+  </para>
+  
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>
+<![CDATA[// Variables globales
+$GLOBALS['LSconfig'] = array(
+  // Variables globales
+);
+
+// Autres variables indépendantes
+$var1 = 'val1'
+$var2 = 'val2'
+...
+?>]]>
+</programlisting>
+
+<sect2>
+<title>Variables globales</title>
+
+<!-- Début Variables globales -->
+<variablelist>
+
+<varlistentry>
+  <term>NetLDAP2</term>
+  <listitem>
+    <simpara>Chemin vers la librairie PEAR &netldap;.</simpara>
+    <informalexample>
+      <programlisting><![CDATA[/usr/share/php/Net/LDAP2.php]]></programlisting>
+    </informalexample>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>Smarty</term>
+  <listitem>
+    <simpara>Chemin vers le moteur de template &smarty;.</simpara>
+    <informalexample>
+      <programlisting><![CDATA[/usr/share/php/smarty/libs/Smarty.class.php]]></programlisting>
+    </informalexample>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>lang</term>
+  <listitem>
+    <simpara>Paramètre utilisé pour l'internationalisation.</simpara>
+    <informalexample>
+      <programlisting><![CDATA[fr_FR.UTF8]]></programlisting>
+    </informalexample>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>cacheLSprofiles</term>
+  <listitem>
+    <simpara>Activation/Désactivation de la mise en cache des profils des 
+    utilisateurs connectés (&LSprofiles;).</simpara>
+    <simpara>Valeurs possibles : <literal>True</literal> ou <literal>False</literal></simpara>
+    <simpara>Valeur recommandée : <literal>True</literal></simpara>
+    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
+    sur le comportement de l'application.</simpara></important>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>cacheSubDn</term>
+  <listitem>
+    <simpara>Activation/Désactivation de la mise en cache des niveaux de 
+    connexion (&subDn;) dans l'annuaire.</simpara>
+    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou <emphasis>False</emphasis></simpara>
+    <simpara>Valeur recommandée : <emphasis>True</emphasis></simpara>
+    
+    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
+    sur le comportement de l'application.</simpara></important>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>cacheSearch</term>
+  <listitem>
+    <simpara>Activation/Désactivation de la mise en cache du résultat des 
+    recherches dans l'annuaire.</simpara>
+    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou 
+    <emphasis>False</emphasis></simpara>
+    <simpara>Valeur recommandée : <emphasis>True</emphasis></simpara>
+    
+    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
+    sur le comportement de l'application.</simpara></important>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>keepLSsessionActive</term>
+  <listitem>
+    <simpara>Activation/Désactivation du maintient de la LSsession active.</simpara>
+    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou 
+    <emphasis>False</emphasis></simpara>
+    
+    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
+    sur le comportement de l'application.</simpara></important>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>ldap_servers</term>
+  <listitem>
+    <simpara>Configuration des serveurs LDAP. 
+    <link linkend="config-srv-ldap">Voir section concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+&conf-srv-ldap;
+
+</sect2>
+
+&conf-LSformat;
+&conf-LDAP_search_params;
+
+</sect1>

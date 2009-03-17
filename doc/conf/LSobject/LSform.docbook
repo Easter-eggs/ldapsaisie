@@ -1,0 +1,128 @@
+<sect2 id="config-LSobject-LSform">
+  <title>LSform</title>
+  <para>Cette section décrit la manière de paramétrer les formulaires d'&LdapSaisie;
+  pour un type &LSobject; donné. Pour chaque type d'&LSobject;, il faut configurer
+  plusieurs formulaires correspondant aux vues gérées par &LdapSaisie; (création,
+  modification, ...). Les formulaires se configurent par plusieurs biais :
+
+<itemizedlist>
+
+<listitem>
+<para>Via la configuration des attributs : La configuration des attributs 
+détermine la présence ou non des attributs dans les formulaires. Elle permet
+également de définir si on souhaite bloquer leur présence en lecture seulement.
+</para>
+</listitem>
+
+<listitem>
+<para>Via les droits de l'utilisateur connecté sur les attributs de l'objet
+à éditer : en fonction des droits de l'utilisateur sur un attribut, celui-ci
+apparaîtra en lecture-écriture ou en lecture uniquement voir pas du tout.
+</para>
+</listitem>
+
+<listitem>
+<para>Via la configuration au niveau de chaque type d'&LSobject; : il y est 
+possible de définir le comportement globale du formulaire comme la validation
+via Ajax ou encore la disposition logique des attributs dans le formulaire.</para>
+
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSform'] = array (
+  'ajaxSubmit' => [booléen],
+  'layout' => array (
+    // Configuration de la disposition logique des attributs
+  )
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>ajaxSubmit</term>
+  <listitem>
+    <simpara>Booléen définissant si le formulaire sera envoyé via une requête
+    Ajax plutôt qu'à travers un rafraîchissement de la page. Par défaut :
+    <emphasis>VRAI</emphasis>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>layout</term>
+  <listitem>
+    <simpara>Tableau contenant la configuration de l'affichage du formulaire :
+    il est possible de définir la disposition des attributs dans le formulaire
+    en les regroupant dans des onglets et en les faisant apparaître dans un
+    ordre logique.<link linkend='config-LSobject-LSform-layout'>Voir la section
+    concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</listitem>
+
+</itemizedlist>  
+</para>
+
+<sect3 id="config-LSobject-LSform-layout">
+<title>Configuration de l'affichage</title>
+
+<para>La configuration des <emphasis>layout</emphasis> se situe dans la 
+configuration des &LSobjects;, dans la variable <varname>layout</varname>
+(<emphasis>$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSform']['layout']</emphasis>).
+Cette variable est un tableau associatif dont la clé est l'identifiant de l'onglet
+et dont la valeur associée est la configuration de l'onglet.
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSform']['layout'] = array (
+  'onglet1' => array(
+    'label' => '[label de l'onglet]',
+    'img' => 1, // Valeur possible 1 ou 0
+    'args' => array (
+      'arg1',
+      'arg2',
+      ...
+    )
+  ),
+  ...
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>label</term>
+  <listitem>
+    <simpara>Le label de l'onglet.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>img</term>
+  <listitem>
+    <simpara>Affiche ou non l'image d'un éventuel attribut de type HTML
+    <link linkend="config-LSattr_html_image">LSattr_html_image</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>args</term>
+  <listitem>
+    <simpara>Tableau associatif contenant une liste ordonnée des attributs qui
+    apparaîtront dans l'onglet.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+<important><simpara>Lorsqu'un <emphasis>layout</emphasis> est défini, celui-ci
+est <emphasis>"suivi à la lettre"</emphasis> pour l'affichage du &LSform;. 
+Ainsi, si un attribut est défini dans la configuration de l'objet comme présent
+dans le &LSform; courant, mais que celui-ci n'est pas présent dans le <emphasis>
+layout</emphasis>, il ne sera pas du tout affiché.</simpara></important>
+</sect3>
+
+</sect2>

@@ -1,0 +1,7 @@
+<sect4 id="config-LSattr_ldap_image">
+  <title>LSattr_ldap_image</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une image. Pour le moment, aucun traitement particulier n'est appliqué pour le
+  stockage.</para>
+  
+</sect4>

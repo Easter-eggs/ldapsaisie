@@ -1,0 +1,18 @@
+<sect4 id="config-LSattribute-check-data-maxlength">
+  <title>maxlength</title>
+  <para>Cette règle vérifie que la valeur saisie est une chaine de caractères
+  dont la longueur est inférieur ou égale à la valeur passées en paramètre.</para>
+  
+<variablelist>
+<title>Paramêtres de configuration</title>
+
+<varlistentry>
+  <term>limit</term>
+  <listitem>
+    <simpara>Limite supérieur (ou égale) de la longueur de la chaîne de caratères.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

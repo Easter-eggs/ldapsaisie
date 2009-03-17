@@ -1,0 +1,4 @@
+<sect4 id="config-LSattribute-check-data-nonzero">
+  <title>nonzero</title>
+  <para>Cette régle vérifie que la valeur est une valeur numérique non nulle.</para>
+</sect4>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sect1 id='config-LSobject'>
+  <title>Configuration LSobject</title>
+  <para>
+    Cette partie décrit la manière de configurer les différents types de LSobjets
+    manipulés par &LdapSaisie;.
+  </para>
+  
+  <para>La configuration des &LSobjects; est stockée dans le dossier <emphasis>
+  /conf/LSobjects</emphasis>. Dans ce dossier, on retrouve un fichier par type 
+  d'&LSobject;, nommé de la manière suivante :
+  <programlisting>config.LSobjects.[nom du type d'LSobject].php</programlisting>
+  
+  Ce fichier contient la déclaration de la configuration du type d'&LSobject;
+  qui est stocké dans la variable globale 
+  <varname>$GLOBALS['LSobjects']['[nom du type d'LSobject]']</varname>.
+  </para>
+  
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]'] = array (
+  'objectclass' => array(
+    'objetclass1',
+    'objetclass2',
+    ...
+  ),
+  'rdn' => 'attr1',
+  
+  'container_dn' => 'ou=people',
+  'container_auto_create' => array(
+    // Information des configurations pour la création du conteneur du type d'LSobjet
+    // lors de la création nouveau subDn
+  ),
+  
+  'before_modify' => 'function1',
+  'after_modify' => 'function2',
+  'after_create' => 'function3',
+  'after_delete' => 'function4',
+  
+  'label' => _('objet1'),
+  
+  'display_name_format' => '[format]',
+  'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
+  
+  // LSrelation
+  'LSrelation' => array(
+    // Configuration des LSrelations entre ce type d'objet et les autres
+  ),
+  
+  // LSform
+  'LSform' => array (
+    // Configuration des formulaires de l'objet
+  ), // fin LSform
+  
+  // Attributs
+  'attrs' => array (
+    // Configuration des attributs du type d'LSobjet
+  )
+);]]>
+...
+</programlisting>
+  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>objectclass</term>
+  <listitem>
+    <simpara>La liste des <emphasis>objectclass</emphasis> des objets.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>rdn</term>
+  <listitem>
+    <simpara>Nom de l'attribut correspondant au <emphasis>RDN</emphasis> des
+    objets LDAP.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>container_dn</term>
+  <listitem>
+    <simpara>Elément pour construire le <emphasis>basedn</emphasis> de stockage
+    de ce type d'objet. Par exemple, si le <emphasis>basedn</emphasis> de 
+    l'annuaire est <literal>o=ls</literal> et que les objets
+    <emphasis>utilisateurs</emphasis> sont stockés dans la branche de l'annuaire
+    <literal>ou=people,o=ls</literal>, alors <parameter>container_dn</parameter>
+    devra valoir <literal>ou=people</literal>.</simpara>
+    <remark>Lorsque l'annuaire possède des &subDn;, les objets seront cherchés
+    dans le <emphasis>basedn</emphasis> résultant de la concaténation du paramètre
+    <parameter>container_dn</parameter>, d'une virgule et du 
+    <emphasis>basedn</emphasis> correspondant au &subDn; courant.</remark>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>container_auto_create</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration
+    nécessaires à la création des <parameter>container_dn</parameter> dans les
+    nouveaux objets utilisés comme &subDn;. 
+    <link linkend="config-LSobject-container_auto_create">Voir la section
+    concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>before_modify</term>
+  <listitem>
+    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
+    exécutée avant la modification d'un objet.
+    <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>after_modify</term>
+  <listitem>
+    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
+    exécutée après la modification d'un objet.
+    <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>after_create</term>
+  <listitem>
+    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
+    exécutée après la création d'un objet.
+    <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>after_delete</term>
+  <listitem>
+    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
+    exécutée après la suppression d'un objet.
+    <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>label</term>
+  <listitem>
+    <simpara>Nom générique au pluriel qualifiant le type d'objet. Exemple : 
+    <emphasis>Utilisateurs</emphasis>.</simpara>
+    <important><para>Si vous utilisez la fonctionnalité d'internationalisation, il faut
+    utiliser ici la fonction de <application>gettext</application> pour que le 
+    texte soit traduit si vous n'êtes pas dans la langue de référence. Exemple :
+    <programlisting>_('Utilisateurs')</programlisting></para></important>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>display_name_format</term>
+  <listitem>
+    <simpara><link linkend="config-LSformat">Format paramètrable</link> du nom
+    des objets composés à partir des valeurs d'affichage des attributs de l'objet.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>orderby</term>
+  <listitem>
+    <simpara>Paramétrage du tri par défaut des objets lors de l'affiche du
+    résultat d'une recherche.</simpara>
+    <simpara>Valeurs possibles : <literal>displayName</literal> ou <literal>subDn</literal></simpara>
+    <simpara>(Paramètre facultatif)</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSrelation</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration
+    des &LSrelations;. <link linkend="config-LSobject-LSrelation">Voir la section
+    concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSform</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration
+    des &LSforms; des &LSobjects;. <link linkend="config-LSobject-LSform">Voir
+    la section concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSsearch</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration
+    des recherches de &LSobject; de ce type dans l'annuaire.
+    <link linkend="config-LSobject-LSsearch">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>attrs</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration
+    des attributs des objets. <link linkend="config-LSattribute">Voir
+    la section concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+  &conf-LSattribute;
+  &conf-LSobject-container_auto_create;
+  &conf-LSobject-triggers;
+  &conf-LSobject-LSrelation;
+  &conf-LSobject-LSform;
+  &conf-LSobject-LSsearch;
+
+</sect1>

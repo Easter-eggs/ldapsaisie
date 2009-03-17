@@ -1,0 +1,67 @@
+<sect4 id="config-LSattr_html_select_object">
+  <title>LSattr_html_select_object</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont les valeurs sont
+  des références à d'autres &LSobjects;. Chaque référence à un objet correspond
+  à une valeur prise par l'attribut. Les valeurs clés référant à un &LSobject;
+  sont soit la valeur d'un de leurs attributs, soit leur <emphasis>DN</emphasis>.</para>
+  
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array (
+   selectable_object => array (
+     'object_type' => '[Type d'LSobject selectionnable]',
+     'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
+     'value_attribute' => '[Nom de l'attribut clé des LSobjects]'
+   )
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>selectable_object</term>
+  <listitem>
+    <simpara>Tableau associatif obligatoire contenant en valeur clé le nom des 
+    paramètres de configuration et dont les valeurs attachées sont les valeurs
+    des paramètres.</simpara>
+    
+    
+<variablelist>
+  <varlistentry>
+    <term>object_type</term>
+    <listitem>
+      <simpara>Nom du type d'&LSobject; en référence.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<variablelist>
+  <varlistentry>
+    <term>display_name_format</term>
+    <listitem>
+      <simpara>&LSformat; du nom d'affichage des objets lors de leur sélection.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<variablelist>
+  <varlistentry>
+    <term>value_attribute</term>
+    <listitem>
+      <simpara>Nom de l'attribut des &LSobjects; en référence servant de valeur
+      clé et permettant de les identifier (Exemple : <emphasis>dn</emphasis> ou
+      <emphasis>uid</emphasis>).</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+
+  </listitem>
+</varlistentry>
+
+</variablelist>
+  
+  
+</sect4>

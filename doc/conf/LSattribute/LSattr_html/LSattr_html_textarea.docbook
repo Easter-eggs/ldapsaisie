@@ -1,0 +1,7 @@
+<sect4 id="config-LSattr_html_textarea">
+  <title>LSattr_html_textarea</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est une
+  chaine de caractères trop longue pour être saisie dans un champs HTML 
+  <emphasis>imput</emphasis> de type <emphasis>text</emphasis> et est plus adapté
+  à un champ HTML <emphasis>textarea</emphasis>.</para>
+</sect4>

@@ -1,0 +1,6 @@
+<sect4 id="config-LSattribute-check-data-nopunctuation">
+  <title>nopunctuation</title>
+  <para>Cette régle vérifie que la valeur est une chaîne de caractères ne contenant
+  pas de signe de ponctuation. Les caractères suivants sont actuellement exclus :
+  <literal><![CDATA[( ) . \ / \ * \ ^ \ ? # ! @ $ % + = , " ' > < ~ [ ] { }]]></literal></para>
+</sect4>

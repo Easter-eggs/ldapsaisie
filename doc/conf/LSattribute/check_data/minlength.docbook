@@ -1,0 +1,18 @@
+<sect4 id="config-LSattribute-check-data-minlength">
+  <title>minlength</title>
+  <para>Cette règle vérifie que la valeur saisie est une chaine de caractères
+  dont la longueur est supérieur ou égale à la valeur passée en paramètre.</para>
+  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>limit</term>
+  <listitem>
+    <simpara>Limite inférieure (ou égale) de la longueur de la chaîne de caratères.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

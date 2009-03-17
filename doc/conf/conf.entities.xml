@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!ENTITY conf SYSTEM "conf.docbook">
+<!ENTITY conf-globale SYSTEM "globale.docbook">
+<!ENTITY conf-srv-ldap SYSTEM "srv-ldap.docbook">
+<!ENTITY conf-LSprofile SYSTEM "LSprofile.docbook">
+<!ENTITY conf-subDn SYSTEM "subDn.docbook">
+<!ENTITY conf-recoverPassword SYSTEM "recoverPassword.docbook">
+<!ENTITY conf-LSformat SYSTEM "LSformat.docbook">
+<!ENTITY conf-LDAP_search_params SYSTEM "LDAP_search_params.docbook">
+
+<!ENTITY conf-LSaddon SYSTEM "LSaddon.docbook">
+
+<!ENTITY conf-LSobject SYSTEM "LSobject.docbook">
+<!ENTITY conf-LSobject-container_auto_create SYSTEM "LSobject/container_auto_create.docbook">
+<!ENTITY conf-LSobject-triggers SYSTEM "LSobject/triggers.docbook">
+<!ENTITY conf-LSobject-LSform SYSTEM "LSobject/LSform.docbook">
+<!ENTITY conf-LSobject-LSsearch SYSTEM "LSobject/LSsearch.docbook">
+<!ENTITY conf-LSobject-LSrelation SYSTEM "LSobject/LSrelation.docbook">
+
+<!ENTITY conf-LSattribute SYSTEM "LSattribute.docbook">
+<!ENTITY conf-LSattribute-LSattr_html SYSTEM "LSattribute/LSattr_html.docbook">
+<!ENTITY conf-LSattribute-LSattr_ldap SYSTEM "LSattribute/LSattr_ldap.docbook">
+<!ENTITY conf-LSattribute-check-data SYSTEM "LSattribute/check-data.docbook">
+<!ENTITY conf-LSattribute-validation SYSTEM "LSattribute/validation.docbook">
+<!ENTITY conf-LSattribute-triggers SYSTEM "LSattribute/triggers.docbook">
+

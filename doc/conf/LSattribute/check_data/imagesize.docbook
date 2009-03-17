@@ -1,0 +1,39 @@
+<sect4 id="config-LSattribute-check-data-imagesize">
+  <title>imagesize</title>
+  <para>Cette règle vérifie que la valeur est une image dont la taille en pixels
+  respecte les limites passées en paramètre.</para>
+  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>minWidth</term>
+  <listitem>
+    <simpara>Largeur minimum.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>maxWitdh</term>
+  <listitem>
+    <simpara>Largeur maximum.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>minHeight</term>
+  <listitem>
+    <simpara>Hauteur minimum.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>maxHeight</term>
+  <listitem>
+    <simpara>Hauteur maximum.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

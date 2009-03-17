@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE 
+book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
+[
+  <!ENTITY % LS-entities SYSTEM "LS.entities.xml">
+  %LS-entities;
+  
+  <!ENTITY % conf-entities SYSTEM "conf/conf.entities.xml">
+  %conf-entities;
+  <!ENTITY % conf-LSattribute-LSattr_html-entities SYSTEM "conf/LSattribute/LSattr_html/LSattr_html.entities.xml">
+  %conf-LSattribute-LSattr_html-entities;
+  <!ENTITY % conf-LSattribute-LSattr_ldap-entities SYSTEM "conf/LSattribute/LSattr_ldap/LSattr_ldap.entities.xml">
+  %conf-LSattribute-LSattr_ldap-entities;
+  <!ENTITY % conf-LSattribute-check_data-entities SYSTEM "conf/LSattribute/check_data/LSattribute-check_data.entities.xml">
+  %conf-LSattribute-check_data-entities;
+  <!ENTITY % conf-LSaddon-entities SYSTEM "conf/LSaddon/LSaddon.entities.xml">
+  %conf-LSaddon-entities;
+
+  <!ENTITY intro SYSTEM "intro/intro.docbook">
+  <!ENTITY install SYSTEM "install/install.docbook">
+  <!ENTITY install-arbo SYSTEM "install/arbo.docbook">
+]>
+  
+<book lang="fr">
+ 
+<bookinfo lang="fr">
+  <title>LdapSaisie</title>
+  <authorgroup>
+    <author>
+      <firstname>Benjamin</firstname>
+      <surname>Renard</surname>
+      <affiliation>
+        <address>
+          <email>brenard@easter-eggs.com</email>
+          <email>benjamin.renard@zionetrix.net</email>
+        </address>
+      </affiliation>
+    </author>
+  </authorgroup>
+ <productname>LdapSaisie</productname>
+  <releaseinfo>Version 0.2</releaseinfo>
+</bookinfo>
+ 
+&intro;
+
+&install;
+
+&conf;
+</book>

@@ -1,0 +1,113 @@
+<sect2 id="config-LSobject-LSrelation">
+  <title>LSrelation</title>
+  <para>Cette section décrit la manière de configurer les relations entre les
+  &LSobjects; appelées &LSrelation;.</para>
+  
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSrelation'] = array (
+  'relation1' => array(
+    'label' => _('[label de la relation]'),
+    'emptyText' => _("[texte affiché si aucune relation avec d'autres objets 
+                      n'existe pour l'objet courant]"),
+    'LSobject' => '[le type d'LSobjet en relation]',
+    'list_function' => '[méthode1]',
+    'getkeyvalue_function' => '[methode2]',
+    'update_function' => '[methode3]',
+    'remove_function' => '[methode4]',
+    'rename_function' => '[methode5]',
+    'rights' => array(
+      'LSprofile1' => 'r',
+      'LSprofile2' => 'w',
+      ...
+    )
+  )
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>label</term>
+  <listitem>
+    <simpara>Le label de la relation.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>emptyText</term>
+  <listitem>
+    <simpara>Le texte à afficher pour décrire le fait que l'objet courant n'a
+    aucune relation d'établie avec d'autres &LSobjects;. Exemple (au sujet d'un
+    utilisateur) : <emphasis>N'appartient à aucun groupe.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSobject</term>
+  <listitem>
+    <simpara>Le type d'&LSobject; en relation avec le type courant.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>list_function</term>
+  <listitem>
+    <simpara>La méthode de la classe du type d'&LSobject; en relation, permettant
+    de lister les objets de ce type en relation avec l'objet courant.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>getkeyvalue_function</term>
+  <listitem>
+    <simpara>La méthode de la classe du type d'&LSobject; en relation, permettant
+    d'obtenir la valeur clé à stocker pour établir la relation entre l'objet
+    courant et d'autres objets du type concerné.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>update_function</term>
+  <listitem>
+    <simpara>La méthode de la classe du type d'&LSobject; en relation, permettant
+    de mettre à jour les relations existantes entre l'objet courant et les objets
+    du type concerné. Cette liste d'objets en relation est établie par
+    l'utilisateur à travers l'interface.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>remove_function</term>
+  <listitem>
+    <simpara>La méthode de la classe du type d'&LSobject; en relation permettant
+    de supprimer une relation existante entre l'objet courant et un objet du 
+    type concerné.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>rename_function</term>
+  <listitem>
+    <simpara>La méthode de la classe du type d'&LSobject; en relation permettant
+    d'effectuer les actions nécessaires lorsque l'objet courant est renommé dans
+    le but de maintenir les valeurs clés permettant d'établir les relations entre
+    l'objet courant et les objets en relation avec lui.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>rights</term>
+  <listitem>
+    <simpara>Tableau associatif dont les clés sont les noms des &LSprofiles; ayant
+    des droits sur cette relation et dont les valeurs associées sont les droits
+    correspondants. La valeur des droits d'un &LSprofile; peut être
+    <literal>r</literal> pour le droit de lecture ou <literal>w</literal> pour
+    le droit de lecture-écriture.Par défaut, un &LSprofile; n'a aucun droit.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Début subDn -->
+<sect4 id='config-subDn'>
+  <title>Sous-niveaux de connexion</title>
+  
+  <para>Cette section décrit la manière de définir des sous-niveaux de connexion
+  à l'annuaire (<emphasis>subDn</emphasis>). Le concept de sous-niveau de 
+  connexion sert à déclarer les niveaux logiques de l'annuaire. Par exemple, dans un 
+  annuaire dans lequel sont stockés des objets concernant plusieurs organisations
+  et que celles-ci se distinguent grâce à la présence d'une séparation dans 
+  l'arbre, il sera alors possible de définir des sous-niveaux de connexion pour
+  chacune des organisations.</para>
+  
+<programlisting linenumbering="unnumbered">
+  <citetitle>Exemple d'arborescence d'annuaire utilisant le concept de 
+  sous-niveaux correspondant à des sociétés</citetitle>
+|- o=ls
+| |- ou=companies
+| | |- ou=company1
+| | | |- ou=people
+| | | |- ou=groups
+| | |- ou=company2
+| | | |- ou=people
+| | | |- ou=groups
+| |- ou=people
+| |- ou=groups
+
+</programlisting>
+
+<para>Explications : Il est possible dans cet exemple de définir des
+sous-niveaux de connexion correspondants aux sociétés. Dans chacune de ces 
+sociétés, on retrouve les <emphasis>OU</emphasis> correspondant au type 
+d'<emphasis>LSobjets</emphasis>. Lors de la connexion à l'interface, l'utilisateur
+devra choisir dans quel sous-niveau de l'annuaire il souhaite se connecter. Une
+fois connecté, l'utilisateur manipulera uniquement les objets du sous-niveau de
+l'annuaire dans lequel il se trouve. Il lui sera également possible de changer
+de sous-niveau de connexion à travers l'interface&nbsp;: une liste déroulante est
+disponible pour cela dans le menu.</para>
+
+<para>
+Il existe deux manières de déclarer des sous-niveaux de connexion à l'annuaire&nbsp;:
+<itemizedlist>
+
+<!-- D - Déclaration manuelle -->
+<listitem>
+<simpara>En déclarant manuellement un <emphasis>subDn</emphasis> de l'annuaire
+et en lui donnant un nom.</simpara>
+</listitem>
+<!-- F - Déclaration manuelle -->
+
+<!-- D - via les LSobjects -->
+<listitem>
+<simpara>En listant les <emphasis>LSobjets</emphasis> d'un type précis et en 
+utilisant leurs données pour constituer le nom des sous-niveaux. Cette liste est
+constituée en effectuant une recherche dans l'annuaire. Il est possible de définir
+un <emphasis>basedn</emphasis> particulier pour cette recherche.</simpara>
+</listitem>
+<!-- F - via les LSobjets -->
+
+</itemizedlist>
+
+Pour chacune de ces méthodes on définira également les types 
+d'<emphasis>LSobjets</emphasis> qui sont présents dans cette branche de
+l'annuaire.
+</para>
+
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA['subDn' => array(
+  // Déclaration manuelle
+  '[Nom du sous-niveau]' => array(
+    'dn' => '[basedn du sous-niveau]',
+    'LSobjects' => array( // Liste des types d'LSobjets présents dans le sous-niveau
+      [LSobject1],
+      [LSobject2],
+      ...
+    )
+  ),
+  // Liste de LSobjets
+  'LSobject' => array(
+    '[type d'LSobject]' => array( // le type d'LSobjet à lister
+      'basedn' => '[basedn]', // Le basedn de la recherche
+      'displayValue' => '[format]', // Format du nom des sous-niveaux
+      'LSobjects' => array( // Liste des types d'LSobjets présents dans les sous-niveaux
+        [LSobject1],
+        [LSobject2],
+        ...
+      )
+    )
+  )
+),]]>
+...
+</programlisting> 
+  
+  
+</sect4>
+<!-- Fin subDn -->

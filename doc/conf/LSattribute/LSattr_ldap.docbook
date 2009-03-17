@@ -1,0 +1,12 @@
+<sect3 id="config-LSattr_ldap">
+  <title>Configuration des attributs LDAP</title>
+  <para>Cette section décrit les options propres à chacun des types d'attributs LDAP
+  supportés par &LdapSaisie;.</para>
+  
+  &conf-LSattr_ldap_ascii;
+  &conf-LSattr_ldap_boolean;
+  &conf-LSattr_ldap_date;
+  &conf-LSattr_ldap_image;
+  &conf-LSattr_ldap_numeric;
+  &conf-LSattr_ldap_password;
+</sect3>

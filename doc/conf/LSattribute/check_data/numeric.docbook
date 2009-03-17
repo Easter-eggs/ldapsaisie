@@ -1,0 +1,4 @@
+<sect4 id="config-LSattribute-check-data-numeric">
+  <title>numeric</title>
+  <para>Cette régle vérifie que la valeur est une valeur numérique.</para>
+</sect4>

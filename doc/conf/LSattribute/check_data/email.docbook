@@ -1,0 +1,29 @@
+<sect4 id="config-LSattribute-check-data-email">
+  <title>email</title>
+  <para>Cette règle vérifie que la valeur saisie est bien une adresse e-mail. Il
+  est possible de vérifier si elle appartient bien à un domaine en particulier ou
+  encore de vérifier si le domaine existe et qu'il possède un serveur de mail(MX).</para>
+  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>domain</term>
+  <listitem>
+    <simpara>Nom de domaine obligatoire. Ce paramètre peut être une simple chaine
+    correspondant au domaine ou un tableau listant plusieurs domaines
+    possibles.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>checkDomain</term>
+  <listitem>
+    <simpara>Booléen définissant si le domaine de l'adresse mail doit être
+    validé.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

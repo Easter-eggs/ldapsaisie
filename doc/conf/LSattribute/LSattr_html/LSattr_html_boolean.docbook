@@ -1,0 +1,14 @@
+<sect4 id="config-LSattr_html_boolean">
+  <title>LSattr_html_boolean</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  un booléen. Pour le moment, les attributs à valeurs multiples ne sont pas gérés.
+  La valeur retournée est l'une des chaînes de caractères suivantes :
+  <itemizedlist>
+    <listitem><simpara><literal>yes</literal> pour <emphasis>Vrai</emphasis></simpara></listitem>
+    <listitem><simpara><literal>no</literal> pour <emphasis>Faux</emphasis></simpara></listitem>
+  </itemizedlist>
+  <note><simpara>Pour maîtriser les valeurs stockées dans l'annuaire, il faut
+  coupler ce type d'attribut HTML avec le type d'attribut LDAP 
+  <link linkend='config-LSattr_ldap_boolean'>boolean</link></simpara></note>
+  </para>
+</sect4>

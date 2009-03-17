@@ -1,0 +1,36 @@
+<sect2 id='config-LSformat'>
+<title>Format paramétrable</title>
+<para>Un <emphasis>format paramétrable</emphasis> est une chaîne de caractères
+contenant des mots clés formés comme dans l'exemple suivant&nbsp;:
+<programlisting linenumbering="unnumbered">%{[nom du mot clé][:A][:B]}</programlisting>
+Le nom du mot clé peut contenir des lettres de "a" à "z", de "A" à "Z" et des
+chiffres de 0 à 9. Ces mots clés seront remplacés par les valeurs passées en
+paramètres et liées au contexte d'utilisation. Les paramètres <emphasis>:A</emphasis> et 
+<emphasis>:B</emphasis> permettent d'extraire une partie de la chaîne complète
+avant la substitution.</para>
+
+<para>Le paramètre <varname>A</varname> correspond, lorsque
+<varname>B</varname> n'est pas défini, au nombre maximum de caractères à 
+extraire de la chaîne de substitution. <emphasis>A</emphasis> doit être un entier
+dont le signe influ, comme expliqué ci-dessous&nbsp;:
+<itemizedlist>
+  <listitem>
+  <simpara>Si <varname>A</varname> est positif, les <varname>A</varname>
+  premiers caractères de la chaîne de substitution seront extraits.</simpara>
+  </listitem>
+  
+  <listitem>
+  <simpara>Si <varname>A</varname> est négatif, les <varname>|A|</varname> 
+  derniers caractères de la chaîne de substitution seront extraits.</simpara>
+  </listitem>
+</itemizedlist>
+Lorsque le paramètre <varname>B</varname> est défini, 
+<varname>A</varname> correspond au rang du premier caractère à partir duquel la
+chaîne de substitution sera découpée et <varname>B</varname> le nombre maximum
+de caractères à extraire. Le signe de <varname>B</varname> influera comme expliqué
+dans le premier cas.
+</para>
+<important><simpara>Lorsque qu'une seule valeur clé est disponible pour la 
+substitution, le nom du mot clé n'importe pas. Tous les mots clés trouvés dans
+le format seront remplacés par cette seule valeur.</simpara></important>
+</sect2>

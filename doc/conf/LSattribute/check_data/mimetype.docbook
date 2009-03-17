@@ -1,0 +1,27 @@
+<sect4 id="config-LSattribute-check-data-mimetype">
+  <title>mimetype</title>
+  <para>Cette règle vérifie que la valeur est bien un fichier et que le type mime
+  de celui-ci est correct. Il est possible de vérifier si le type mime fait partie
+  d'une liste ou encore s'il valide une expression régulière.</para>
+  
+<variablelist>
+<title>Paramêtres de configuration</title>
+
+<varlistentry>
+  <term>mimeType</term>
+  <listitem>
+    <simpara>Type mime obligatoire. Ce paramètre peut être une simple chaine
+    correspondant au type mime ou un tableau listant plusieurs possibilités.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>mimeTypeRegEx</term>
+  <listitem>
+    <simpara>Expression régulière que doit respecter le type mime.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

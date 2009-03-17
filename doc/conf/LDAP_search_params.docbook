@@ -1,0 +1,57 @@
+<sect2 id='config-search-params'>
+<title>Paramètres étendus des recherches dans l'annuaire</title>
+<para>Les paramètres des recherches sont ceux supportés par &netldap;. Ces 
+paramètres sont passés sous la forme d'un tableau associatif. Les paramètres
+supportés sont détaillés ci-dessous :
+
+<informaltable>
+ <tgroup cols="3"> <!-- on décrit le nombre de colonnes -->
+   <thead> <!-- on passe au "header" du tableau -->
+     <row>
+       <entry>Nom</entry>
+       <entry>Description</entry>
+       <entry>Valeur par défaut</entry>
+     </row>
+   </thead>
+   <tbody> <!-- et on remplit les lignes -->
+     <row>
+       <entry><parameter>scope</parameter></entry>
+       <entry>
+        <simpara>Définition de l'étendue de la recherche :</simpara>
+        <itemizedlist>
+          <listitem><simpara><literal>base</literal> - Sur une entrée seulement</simpara></listitem>
+          <listitem><simpara><literal>one</literal> - Sur les entrées imédiatement contenu par le <parameter>basedn</parameter> de la recherche</simpara></listitem>
+          <listitem><simpara><literal>sub</literal> - Sur l'arbre entier</simpara></listitem>
+        </itemizedlist>
+       </entry>
+       <entry><literal>sub</literal></entry>
+     </row>
+     <row>
+       <entry><parameter>sizelimit</parameter></entry>
+       <entry>Le nombre maximum d'entrées retournées par la recherche.</entry>
+       <entry><literal>0</literal> (illimité)</entry>
+     </row>
+     <row>
+       <entry><parameter>timelimit</parameter></entry>
+       <entry>Le délai d'attente maximum de la réponse du serveur en secondes.</entry>
+       <entry><literal>0</literal> (illimité)</entry>
+     </row>
+     <row>
+       <entry><parameter>attrsonly</parameter></entry>
+       <entry>Si <emphasis>vrai</emphasis>, seuls les noms des atttributs seront
+       retournés.</entry>
+       <entry><literal>false</literal></entry>
+     </row>
+     <row>
+       <entry><parameter>attributes</parameter></entry>
+       <entry>Tableau contenant les noms des attributs que les entrées retournées
+       peuvent contenir et que l'on souhaite récupérer.</entry>
+       <entry><literal>array()</literal>(tous)</entry>
+     </row>
+   </tbody>
+ </tgroup>
+</informaltable>
+<remark>Pour plus d'information sur le sujet, vous pouvez consulter la 
+documentation officiel du projet &netldap;.</remark>
+</para>
+</sect2>

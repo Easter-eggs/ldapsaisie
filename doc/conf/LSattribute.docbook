@@ -1,0 +1,237 @@
+<sect2 id="config-LSattribute">
+  <title>Configuration des attributs</title>
+  <para>Cette section décrit les options de configuration des attributs des
+  &LSobjects;. Les attributs sont définis dans le tableau associatif
+  <varname>attrs</varname> de la configuration des &LSobjects;. Dans ce tableau,
+  les clé les noms des attributs et les valeurs liés sont la configuration des
+  attributs.</para>
+  
+  <warning><simpara>Contrairement à ce qui existe dans le standard LDAP, les
+  noms des attributs sont sensibles à la casse. Il faut que le nom des attributs
+  dans &LdapSaisie; soient scrupuleusement les mêmes que ceux retourné par
+  &netldap;</simpara></warning>
+  
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['attrs' => array (
+  /* ----------- start -----------*/
+  'attr1' => array (
+    'label' => _('[label de l'attr1'),
+    'help_info' => _('[Message d'aide sur l'attribut attr1'),
+    'ldap_type' => 'ldaptype1',
+    'ldap_options' => array(
+      // Options LDAP liées au type LDAP de l'attribut
+    ),
+    'html_type' => 'htmltype1',
+    'html_options' => array(
+      // Options HTML liées au type HTML de l'attribut
+    ),
+    'multiple' => 0,
+    'required' => 1,
+    'default_value' => 'valeur1',
+    'check_data' => array (
+      // Régle de vérification syntaxique des données saisies
+    ),
+    'validation' => array (
+      // Règle de vérification d'intégrité des données saisies
+    ),
+    'rights' => array(
+      'LSprofile1' => 'droit1',
+      'LSprofile2' => 'droit2',
+      ...
+    ),
+    'view' => 1,
+    'form' => array (
+      'create' => 1,
+      'modify' => 0,
+      ...
+    ),
+    'dependAttrs' => array(
+      // Attributs en dépendance
+    ),
+    'generate_function' => 'fonction1'
+  ),
+  /* ----------- end -----------*/
+  ...
+);]]>
+...
+</programlisting> 
+  
+<!-- Début Paramètres Configuration -->  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>label</term>
+  <listitem>
+    <simpara>Le label de l'attribut.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>help_info</term>
+  <listitem>
+    <simpara>Message d'aide qui sera affiché dans une bulle d'aide à côté du
+    nom de l'attribut dans les formulaires.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>ldap_type</term>
+  <listitem>
+    <simpara>Le type LDAP de l'attribut.
+    <link linkend='config-LSattr_ldap'>Voir la section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>ldap_options</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration du
+    type LDAP de l'attribut.
+    <link linkend='config-LSattr_ldap'>Voir la section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>html_type</term>
+  <listitem>
+    <simpara>Le type HTML de l'attribut.
+    <link linkend='config-LSattr_html'>Voir la section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>html_options</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration du
+    type HTML de l'attribut.
+    <link linkend='config-LSattr_html'>Voir la section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>multiple</term>
+  <listitem>
+    <simpara>Booléen définissant si cet attribut peut stocker plusieurs valeurs.</simpara>
+    <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>0</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>required</term>
+  <listitem>
+    <simpara>Booléen définissant si cet attribut doit obligatoirement être
+    défini.</simpara>
+    <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>0</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>default_value</term>
+  <listitem>
+    <simpara>Valeur par défaut de l'attribut.</simpara>
+    <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>check_data</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les règles de vérification syntaxique
+    des données de l'attribut.<link linkend='config-LSattribute-check-data'>Voir
+    la section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>validation</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les règles de vérification d'intégrité
+    des données de l'attribut.<link linkend='config-LSattribute-validation'>Voir
+    la section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>rights</term>
+  <listitem>
+    <simpara>Tableau associatif dont les clés sont les noms des &LSprofiles; ayant
+    des droits sur cet attribut et les valeurs associées sont les droits
+    correspondants. La valeur des droits d'un &LSprofile; peut être
+    <literal>r</literal> pour le droit de lecture ou <literal>w</literal> pour
+    le droit de lecture-écriture. Par défaut, un &LSprofile; n'a aucun droit.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>view</term>
+  <listitem>
+    <simpara>Booléen définissant si l'attribut est, ou non, affiché lors de la
+    visualisation des objets du type courant.</simpara>
+    <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>0</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>form</term>
+  <listitem>
+    <simpara>Tableau associatif dont les clés sont les noms des &LSforms; et les
+    valeurs associées la définition de l'affichage dans ce &LSform;. Si cette
+    valeur vaut <emphasis>0</emphasis>, alors l'attribut sera lecture-seule et si
+    cette valeur vaut <emphasis>1</emphasis>, cet attribut sera affiché en
+    lecture-écriture.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>dependAttrs</term>
+  <listitem>
+    <simpara>Tableau associatif listant les attributs dépendants de celui-ci. 
+    Les attributs listés ici seront regénérés lors de chaque modification
+    de l'attribut courant. Cette génération sera effectué avec la fonction
+    définie dans le paramètre <varname>generate_function</varname> de
+    l'attribut.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>generate_function</term>
+  <listitem>
+    <simpara>Nom de la fonction permettant de générer la valeur de l'attribut.
+    Cette fonction sera éxecutée, en passant en premier paramètre, l'objet 
+    &LSobject; courant.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>before_modify</term>
+  <listitem>
+    <simpara>Nom de la fonction qui sera exécutée avant toutes modifications de
+    la valeur de l'attribut.<link linkend="config-LSattribute-triggers">Voir la
+    section concernée</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>after_modify</term>
+  <listitem>
+    <simpara>Nom de la fonction qui sera exécutée après toutes modifications de
+    la valeur de l'attribut.<link linkend="config-LSattribute-triggers">Voir la
+    section concernée</link></simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>  
+  &conf-LSattribute-LSattr_ldap;
+  &conf-LSattribute-LSattr_html;
+  
+  &conf-LSattribute-check-data;
+  &conf-LSattribute-validation;
+  &conf-LSattribute-triggers;
+  
+</sect2>

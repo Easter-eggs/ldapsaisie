@@ -1,0 +1,18 @@
+<sect4 id="config-LSattribute-check-data-regex">
+  <title>regex</title>
+  <para>Cette règle vérifie que la valeur saisie respecte bien l'expression
+  régulière passée en paramètre.</para>
+  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>regex</term>
+  <listitem>
+    <simpara>L'expression régulière devant être respectée.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

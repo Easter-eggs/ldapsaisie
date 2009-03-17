@@ -1,0 +1,7 @@
+<sect4 id="config-LSattr_ldap_numeric">
+  <title>LSattr_ldap_numeric</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  un nombre. Pour le moment, aucun traitement particulier est n'appliqué pour le
+  stockage.</para>
+  
+</sect4>

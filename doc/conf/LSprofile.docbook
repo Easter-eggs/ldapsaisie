@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Début LSprofiles -->
+<sect4 id='config-LSprofile'>
+  <title>Profils d'utilisateurs</title>
+  
+  <para>Cette section décrit la manière dont sont définis les profils d'utilisateurs
+  se connectant à l'interface appelés <emphasis>LSprofile</emphasis>. Il est 
+  possible de définir autant de profils d'utilisateurs que l'on souhaite. Pour 
+  chaque profil d'utilisateur, il faudra définir dans quelles parties de 
+  l'annuaire ce profil existe (Exemple : les admistrateurs de groupes existent
+  uniquement dans la branche de l'annuaire stockant les groupes). Enfin pour 
+  chaque partie de l'annuaire, il faudra définir la manière d'identifier si 
+  l'utilisateur qui se connecte appartient à ce profil.</para>
+  
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA['LSprofile' => array (
+  [nom d'un LSprofile] => array (
+    [basedn] => [dn utilisateur],
+    [autre basedn] => array (
+      [dn d'un utilisateur] => NULL,
+      [autre dn] => array ( // via un listage de l'attribut d'un objet
+        'attr' => [nom de l'attribut clé de l'objet],
+        'attr_value' => [format de la valeur de l'attribut clé],
+        'LSobject' => [nom du type LSobject de l'objet]
+      )
+    ),
+    'LSobjects' => array ( // via une liste d'objet sur lequel l'utilisateur a des pouvoirs
+      [nom du LSobject] => array ( 
+        'attr' => [nom de l'attribut clé],
+        'attr_value' => [format de la valeur de l'attribut clé],
+        // ou
+        'filter' => [format du filtre de recherche],
+        
+        'basedn' => [basedn de recherche],
+        'params' => [configuration de la recherche]
+      ),
+      ...
+    )
+  ),
+  ...
+),]]>
+...
+</programlisting> 
+
+<para>
+Le paramètre <varname>LSprofiles</varname> est un tableau associatif contenant,
+en valeur clé, le nom d'un <emphasis>LSprofile</emphasis> et en valeur associée,
+la configuration nécessaire pour déterminer si l'utilisateur connecté appartient
+à ce LSprofile pour tout ou partie de l'annuaire.
+</para>
+
+<para>
+Dans chaque configuration de <emphasis>LSprofile</emphasis>, il est possible 
+d'identifier l'appartenance ou non de l'utilisateur connecté de deux manières&nbsp;:
+</para>
+
+<itemizedlist>
+
+<!-- D - Pour basedn -->
+<listitem>
+<para>Pour une branche de l'annuaire donnée (<emphasis>basedn</emphasis>)&nbsp;: 
+en listant les utilisateurs appartenant à ce <emphasis>LSprofile</emphasis> pour
+tous les objets de la branche. Il sera possible de lister les utilisateurs dont 
+on connait le <emphasis>DN</emphasis> ou de lister les utilisateurs appartenant
+à une liste stockée dans l'annuaire (par exemple la liste des membres d'un
+groupe).</para>
+
+<!-- D - Cas pour basedn -->
+<itemizedlist>
+
+<!-- D - Liste de DNs -->
+<listitem>
+<simpara>Liste des DNs d'utilisateurs&nbsp;:</simpara>
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA['LSprofile' => array (
+  [nom du LSprofile] => array (
+    [basedn] => [dn utilisateur],
+    // ou si plusieurs DNs
+    [autre basedn] => array (
+      [dn d'un utilisateur] => NULL,
+      [dn d'un utilisateur 2] => NULL
+    ),
+    ...
+  ),
+  ...
+),]]>
+...
+</programlisting>
+<simpara>Explication&nbsp;: Pour un <emphasis>LSprofile</emphasis> et un 
+<emphasis>basedn</emphasis> donnés, on définit l'utilisateur appartenant au 
+<emphasis>LSprofile</emphasis> en donnant son <emphasis>DN</emphasis>. Si on 
+souhaite lister plusieurs utilisateurs, on utilise un tableau associatif dans 
+lequel les clés sont les <emphasis>DNs</emphasis> des utilisateurs et les valeurs
+associées sont toutes <emphasis>NULL</emphasis>.</simpara> 
+</listitem>
+<!-- F - Liste de DNs -->
+
+<!-- D - Liste stocké -->
+<listitem>
+<simpara>Liste d'utilisateurs stockée dans l'annuaire&nbsp;:</simpara>
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA['LSprofile' => array (
+  [nom du LSprofile] => array (
+    [basedn] => array (
+      [DN d'un object] => array (
+        'attr' => [nom de l'attribut clé de l'objet],
+        'attr_value' => [format de la valeur de l'attribut clé],
+        'LSobject' => [nom du type LSobject de l'objet]
+      )
+    ),
+  ...
+),]]>
+...
+</programlisting>
+<simpara>Explication&nbsp;: Pour un <emphasis>LSprofile</emphasis> et un 
+<emphasis>basedn</emphasis> donnés, on liste les utilisateurs du 
+<emphasis>LSprofile</emphasis> référencés dans l'attribut <varname>attr</varname>
+de l'object de type <varname>LSobject</varname> et selon le format de valeur 
+décrit dans <varname>attr_value</varname>.</simpara>
+</listitem>
+<!-- F - Liste stocké -->
+
+</itemizedlist>
+<!-- F - Cas pour basedn -->
+
+</listitem>
+<!-- F - Pour basedn -->
+
+<!-- D - Pour LSobject -->
+<listitem>
+<simpara>Pour un type de <emphasis>LSobject</emphasis> donné&nbsp;: en listant
+les objets pour lesquels l'utilisateur aura les droits du LSprofile. Il sera
+possible, à travers une recherche paramétrable dans l'annuaire, de lister les 
+objets pour lesquels l'utilisateur appartiendra au 
+<emphasis>LSprofile</emphasis>.</simpara>
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA['LSprofile' => array (
+  [nom d'un LSprofile] => array (
+    'LSobjects' => array ( // via un liste d'objet pour lequel l'utilisateur
+                           // appartient au LSprofile
+      [nom du LSobject] => array ( 
+        'attr' => [nom de l'attribut clé],
+        'attr_value' => [format de la valeur de l'attribut clé],
+        // or
+        'filter' => [format du filtre de recherche],
+        
+        'basedn' => [basedn de recherche],
+        'params' => [configuration de la recherche]
+      ),
+      ...
+    )
+  ),
+  ...
+),]]>
+...
+</programlisting> 
+<para>Explications&nbsp;: Dans la configuration d'un <emphasis>LSprofile</emphasis>,
+la valeur clé <emphasis>LSprofile</emphasis> signifie qu'on est dans un cas de la 
+délégation de droits sur des types d'LSobject. Dans ce tableau associatif, il 
+est possible de définir un ou plusieurs types de LSobject pour lesquels on délègue
+des droits. Dans ce tableau la valeur clé est le nom du LSobject et la valeur 
+associée est un tableau contenant la configuration permettant de dire quels sont
+les LSobjets de ce type concernés par la délégation.</para>
+<para>Cette configuration contient les paramètres d'une recherche dans l'annuaire
+en considérant que l'utilisateur connecté aura les droits du LSprofile sur les
+objets retournés. Les paramètres de la recherche sont&nbsp;:
+
+<variablelist>
+
+<varlistentry>
+  <term>attr</term>
+  <listitem>
+    <simpara>Nom de l'attribut des LSobjets contenant une valeur clé qui 
+    permettra d'identifier l'utilisateur comme ayant droit.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>attr_value</term>
+  <listitem>
+    <simpara>Le format de la valeur clé prise par l'attribut <varname>attr</varname>.
+    Ce format est composé à partir des données de l'objet de l'utilisateur
+    connecté. Voir le paragraphe <link linkend="config-LSformat">Format 
+    paramètrable</link> pour plus d'informations sur l'écriture du format.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>filter</term>
+  <listitem>
+    <simpara>Ce paramètre remplace les paramètres <varname>attr</varname> et 
+    <varname>attr_value</varname>. Il est possible ici d'écrire directement le 
+    format paramètrable du filtre recherche dans l'annuaire. Ce filtre sera 
+    automatiquement agrémenté des conditions sur l'attribut <emphasis>objectclass</emphasis>.
+    Voir le paragraphe <link linkend="config-LSformat">Format paramètrable</link>
+    pour plus d'informations sur l'écriture du format.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>basedn</term>
+  <listitem>
+    <simpara>C'est le <emphasis>basedn</emphasis> de la recherche. Il est possible
+    ainsi de la limiter sur les LSojects d'une branche précise de l'annuaire. 
+    <emphasis>(Paramètre facultatif)</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>params</term>
+  <listitem>
+    <simpara>C'est un tableau associatif contenant les paramètres étendus de la 
+    recherche. Voir le paragraphe <link linkend="config-search-params">
+    Paramètres étendus des recherches dans l'annuaire</link> pour plus de détails.
+    <emphasis>(Paramètre facultatif)</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</listitem>
+<!-- F - Pour LSobject -->
+
+</itemizedlist>
+
+  
+</sect4>
+<!-- Fin LSprofiles -->

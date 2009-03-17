@@ -1,0 +1,109 @@
+<sect2 id="config-LSobject-triggers">
+  <title>Déclencheurs</title>
+  <para>Cette section décrit la manière de paramétrer des déclencheurs afin que
+  &LdapSaisie; exécute durant ses processus, et à des moments bien précis des
+  traitements d'un &LSobject;, des fonctions que vous pourrez développer vous
+  même. De plus, le résultat de l'exécution de vos fonctions pourra influer
+  sur le déroulement des processus.</para>
+  
+  <para>Actuellement, les évenements suivant sont gérés :
+
+<informaltable>
+ <tgroup cols="3"> <!-- on décrit le nombre de colonnes -->
+   <thead> <!-- on passe au "header" du tableau -->
+     <row>
+       <entry>Nom</entry>
+       <entry>Description</entry>
+       <entry>Bloquant</entry>
+     </row>
+   </thead>
+   <tbody> <!-- et on remplit les lignes -->
+     <row>
+       <entry><literal>before_create</literal></entry>
+       <entry><simpara>Avant la création du LSobject.</simpara></entry>
+       <entry><simpara>Oui</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>after_create</literal></entry>
+       <entry><simpara>Après la création du LSobject.</simpara></entry>
+       <entry><simpara>Non</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>before_modify</literal></entry>
+       <entry><simpara>Avant la modification du LSobject</simpara></entry>
+       <entry><simpara>Oui</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>after_modify</literal></entry>
+       <entry><simpara>Après la modification du LSobject</simpara></entry>
+       <entry><simpara>Non</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>before_rename</literal></entry>
+       <entry><simpara>Avant de renommer le LSobject</simpara></entry>
+       <entry><simpara>Oui</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>after_rename</literal></entry>
+       <entry><simpara>Après avoir renommé le LSobject</simpara></entry>
+       <entry><simpara>Non</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>before_delete</literal></entry>
+       <entry><simpara>Avant la suppression du LSobject</simpara></entry>
+       <entry><simpara>Oui</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>after_delete</literal></entry>
+       <entry><simpara>Après la suppression du LSobject</simpara></entry>
+       <entry><simpara>Non</simpara></entry>
+     </row>
+   </tbody>
+ </tgroup>
+</informaltable>
+<note><simpara>Si un événement est dit <emphasis>bloquant</emphasis>, lors de
+l'exécution des actions liées, si une des fonctions retourne <literal>false
+</literal>, le processus s'arrêtera.</simpara></note>
+  </para>
+  <sect3>
+    <title>Configuration</title>
+    <para>La configuration des déclencheurs se fait dans la définition des types
+    d'&LSobjects;. Par exemple, pour définir les fonctions à exécuter après la 
+    modification des LSobjects de type <emphasis>LSeepeople</emphasis>, c'est à
+    dire lors de leur évènement <literal>after_modify</literal>, il faut définir
+    la variable suivante :
+    <programlisting linenumbering="unnumbered"><![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['after_modify']]]></programlisting>
+    Cette variable peut contenir soit une chaine de caractères correspondant au
+    nom de la fonction à exécuter, soit un tableau de chaînes de caractères
+    correspondant aux noms des fonctions à exécuter.</para>
+  </sect3>
+  <sect3>
+    <title>Ecriture d'une fonction</title>
+    <para>Une fonction exécuté par un déclencheur d'un LSobject se déclare de la
+    manière suivante :
+    <programlisting linenumbering="unnumbered"><![CDATA[
+/*
+ * Ma fonction à exécuter lors de l'evenement [event]
+ *
+ * Paramètre :
+ *     - $object : Le LSobject sur lequel l'évènement survient
+ *
+ * Valeurs retournées :
+ *     - True : Tout s'est bien passé
+ *     - False : Une erreur est survenue ou la fonction souhaite bloquer le
+ *               processus lors d'un évènement bloquant.
+ */
+function maFonction ($object) {
+
+  // Actions
+
+}
+    ]]></programlisting>
+Cette fonction doit prendre pour seul paramètre, le LSobject sur lequel l'évènement
+survient et doit retourner soit <literal>True</literal> si tout s'est bien passé,
+soit <literal>False</literal> en cas de problème. Dans le cas d'un événement
+bloquant, si la fonction retourne <literal>False</literal>, le processus est 
+arrêté.</para>
+  </sect3>
+
+</sect2>

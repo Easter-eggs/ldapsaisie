@@ -1,0 +1,137 @@
+<sect3 id="config-LSattribute-validation">
+  <title>Configuration des règles de vérification d'intégrité</title>
+  <para>Cette section décrit la manière de configurer des règles de vérification
+  d'intégrité sur les données des attributs. Il est possible de valider la valeur
+  de l'attribut par l'intermédiraire de la vérification de résultat d'une
+  recherche paramètrable dans l'annuaire ou encore d'appeler une fonction de 
+  votre choix pour effectuer la vérification voulue.</para>
+
+<sect4 id='config-LSattribute-validation-search'>
+  <title>Validation par l'analyse du résultat d'une recherche dans l'annuaire</title>
+  <para>Une telle règle permet de vérifier si les valeurs des attributs n'entrent
+  pas en conflit avec d'autres objets de l'annuaire. Ce test peut également
+  permetre de vérifier si les valeurs devant faire référence à d'autres objets
+  de l'annuaire sont correctes.</para>
+  
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['validation' => array (
+  ...
+  array(
+    'msg' => _("[LSformat du message d'erreur]"),
+    'filter' => '[LSformat du filtre de la recherche]',
+    'object_type' => '[Type d'LSobject recherché]',
+    'basedn' => '[BaseDn de la recherche]',
+    'scope' => '[Scope de la recherche]',
+    'result' => '[Résultat positif de la recherche]'
+  ),
+  ...
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>msg</term>
+  <listitem>
+    <simpara>&LSformat; du message d'erreur à afficher lorsque la validation
+    échoue. Ce format est construit avec les valeurs du &LSobject;.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>filter</term>
+  <listitem>
+    <simpara>&LSformat; du filtre de la recherche. Ce format peut être construit
+    avec toutes les valeurs du LSobject (attributs, DN, ...) et également avec
+    la valeur à valider en utilisant pour mot clé <emphasis>%{val}
+    </emphasis>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>object_type</term>
+  <listitem>
+    <simpara>Le nom du type d'LSobject recherché. Si un type est spécifié, le
+    filtre de la recherche sera une combinaison de celui du paramètre <parameter>
+    filter</parameter> et du filtre composé à partir des <emphasis>objectClass
+    </emphasis> du type d'&LSobject;. <emphasis>Paramètre facultatif.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>basedn</term>
+  <listitem>
+    <simpara>Le <emphasis>basedn</emphasis> de la recherche. <emphasis>Paramètre
+    facultatif.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>scope</term>
+  <listitem>
+    <simpara>Le <emphasis>scope</emphasis> de la recherche. <emphasis>Paramètre
+    facultatif.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>result</term>
+  <listitem>
+    <simpara>Le résultat de la recherche : si <parameter>result</parameter> vaut
+    zéro, la recherche ne devra retourner aucun objet pour que la validation soit
+    réussie. Sinon, la recherche devra retourner au moins un objet.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
+
+<sect4 id='config-LSattribute-validation-function'>
+  <title>Validation par l'exécution d'une fonction</title>
+  <para>Il est possible d'effectuer la validation de l'attribut par l'exécution
+  d'une fonction de votre choix. Il lui sera passé en paramètre le LSobject
+  complet. Si la fonction ne retourne pas <emphasis>true</emphasis>, la
+  validation échouera.</para>
+  
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['validation' => array (
+  ..
+  array(
+    'msg' => _("[LSformat du message d'erreur]"),
+    'function' => '[Nom de la fonction de validation]'
+  ),
+  ...
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>msg</term>
+  <listitem>
+    <simpara>&LSformat; du message d'erreur à afficher lorsque la validation
+    échoue. Ce format est construit avec les valeurs du &LSobject;.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>function</term>
+  <listitem>
+    <simpara>Le nom de la fonction à exécuter. Si cette fonction n'existe pas,
+    un message d'erreur sera affiché et la validation échouera.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
+
+
+</sect3>

@@ -1,0 +1,12 @@
+<sect4 id="config-LSattribute-check-data-imagefile">
+  <title>imagefile</title>
+  <para>Cette règle vérifie que la valeur est bien un fichier et que le type mime
+  de celui-ci est bien une image. Cette règle utilise la règle mimetype en spécifiant
+  si l'utilisateur ne le fait pas que le type mime doit respecter la regex suivante :
+  <literal>/image\/.*/</literal></para>
+  
+  <important><simpara>Cette règle est une simple interface à la règle mimetype,
+  il est donc possible de passer d'autres paramètres propres à ce type.</simpara>
+  </important>
+
+</sect4>

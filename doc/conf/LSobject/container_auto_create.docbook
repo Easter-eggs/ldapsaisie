@@ -1,0 +1,52 @@
+<sect2 id="config-LSobject-container_auto_create">
+  <title>Création automatique du conteneur des LSobjets dans un subDn</title>
+  <para>Cette section décrit la manière de configurer la création automatique
+  des conteneurs des LSobjets. Si le <emphasis>basedn</emphasis> correspondant
+  à la branche de stockage des &LSobjects; n'existe pas, &LdapSaisie; tentera de
+  le créer à partir de la configuration de la variable
+  <varname>$GLOBALS['LSobjects']['[nom du type d'LSobject]']['container_auto_create']</varname>.
+
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['container_auto_create'] = array (
+  'objectclass' => array(
+      'objectclass1',
+      'objectclass2',
+      ...
+    ),
+    'attrs' => array(
+      'attr1' => 'val1',
+      'attr2' => array(
+        'val2',
+        'val3',
+        ...
+      ),
+      ...
+    )
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>objectclass</term>
+  <listitem>
+    <simpara>La liste des <emphasis>objectclass</emphasis> de l'objet conteneur.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>attrs</term>
+  <listitem>
+    <simpara>Un tableau associatif dont les clés sont les noms des attributs de
+    l'objet conteneur à définir et dont les valeurs associées sont la/les valeur(s)
+    de ces attributs.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+  
+</sect2>

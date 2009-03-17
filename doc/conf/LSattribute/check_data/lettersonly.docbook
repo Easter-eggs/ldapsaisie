@@ -1,0 +1,5 @@
+<sect4 id="config-LSattribute-check-data-lettersonly">
+  <title>lettersonly</title>
+  <para>Cette règle vérifie que la valeur est une chaîne de caractères composée
+  uniquement de lettres non-accuentées, en minuscule ou en majuscule.</para>
+</sect4>

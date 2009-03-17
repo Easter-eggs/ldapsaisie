@@ -1,0 +1,37 @@
+<sect4 id="config-LSattr_ldap_boolean">
+  <title>LSattr_ldap_boolean</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une booléen. On attend ici par booléen, tout attribut ne pouvant prendre que deux
+  valeurs pré-définies correspond pour l'un à <emphasis>Oui</emphasis> et l'autre
+  à <emphasis>Non</emphasis></para>
+  
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle>...
+<![CDATA['ldap_options' => array (
+  'true_value' => '[valeur correspondant à Vrai]',
+  'false_value' => '[valeur correspondant à Faux]'
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>true_value</term>
+  <listitem>
+    <simpara>La valeur de l'attribut correspondant à <emphasis>Vrai</emphasis>­.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>false_value</term>
+  <listitem>
+    <simpara>La valeur de l'attribut correspondant à <emphasis>Faux</emphasis>­.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+  
+  
+</sect4>

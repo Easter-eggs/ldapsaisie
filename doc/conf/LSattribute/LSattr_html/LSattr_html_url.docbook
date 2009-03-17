@@ -1,0 +1,11 @@
+<sect4 id="config-LSattr_html_url">
+  <title>LSattr_html_url</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une URL. Il propose directement dans l'interface, la possibilité d'accèder au
+  site ou encore de l'ajouter dans ses favoris (lorsque le navigateur le
+  supporte).</para>
+  <important><simpara>Ce type d'attribut HTML est dérivé du type 
+  <link linkend='config-LSattr_html_text'>text</link>. Il profite donc de toutes
+  les fonctionnalités d'un champ de ce type (autogénération, ...).</simpara>
+  </important>
+</sect4>

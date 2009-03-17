@@ -1,0 +1,6 @@
+<sect4 id="config-LSattr_html_ssh_key">
+  <title>LSattr_html_ssh_key</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une clef publique SSH. Il permet dans l'interface, d'avoir un affichage adapté
+  à ce type de donnée.</para>
+</sect4>

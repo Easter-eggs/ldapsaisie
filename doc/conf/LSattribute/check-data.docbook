@@ -1,0 +1,66 @@
+<sect3 id="config-LSattribute-check-data">
+  <title>Configuration des règles de vérification syntaxique</title>
+  <para>Cette section décrit la manière de configuer des règles de vérification
+  syntaxique sur les données des attributs. Ces règles seront utilisées pour vérifier
+  que les valeurs saisies par un utilisateur dans un formulaire sont correctes.</para>
+  
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['check_data' => array (
+  '[regle1]' => array(
+    'msg' => _("[Message d'erreur]"),
+    'params' => array(
+      // Paramètres de la règle 
+    )
+  ),
+  ...
+),]]>
+...
+</programlisting>
+
+<para>Le paramètre <parameter>check_data</parameter> est un tableau associatif 
+dont les clés sont les noms des règles de vérification syntaxique actives et les
+valeurs associées sont des tableaux associatifs contenant les paramètres des
+règles.</para>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>msg</term>
+  <listitem>
+    <simpara>Le message d'erreur à afficher lors que la règle n'est pas respectée.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>params</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de la règle. Les
+    paramètres possibles sont propres à chaque type de règle. Les clès sont les
+    noms des paramètres et les valeurs associés, les valeurs des paramètres.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+&conf-LSattribute-check-data-alphanumeric;
+&conf-LSattribute-check-data-date;
+&conf-LSattribute-check-data-email;
+&conf-LSattribute-check-data-filesize;
+&conf-LSattribute-check-data-imagefile;
+&conf-LSattribute-check-data-imagesize;
+&conf-LSattribute-check-data-lettersonly;
+&conf-LSattribute-check-data-maxlength;
+&conf-LSattribute-check-data-minlength;
+&conf-LSattribute-check-data-mimetype;
+&conf-LSattribute-check-data-nonzero;
+&conf-LSattribute-check-data-nopunctuation;
+&conf-LSattribute-check-data-numeric;
+&conf-LSattribute-check-data-password;
+&conf-LSattribute-check-data-rangelength;
+&conf-LSattribute-check-data-regex;
+&conf-LSattribute-check-data-required;
+&conf-LSattribute-check-data-telephonenumber;
+
+</sect3>

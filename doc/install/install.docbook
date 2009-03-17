@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<chapter>
+
+<title>Installation</title>
+
+<sect1>
+  <title>Pré-requis</title>
+  <itemizedlist>
+    <listitem><simpara>&php; 5 avec <parameter>magic_quotes_gpc</parameter> à <literal>off</literal></simpara></listitem>
+    <listitem><simpara>Le support <application>LDAP</application> dans &php; (paquet php5-ldap dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>Le support <application>mhash</application> dans &php; (paquet php5-mash dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>&netldap;</simpara></listitem>
+    <listitem><simpara>&smarty;</simpara></listitem>
+    <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'.</simpara></listitem>
+  </itemizedlist>
+  <warning><simpara>La librairie &netldap; oblige le fait que la racine DSE de
+  l'annuaire soit lisible en anonyme sinon la connexion à l'annuaire échouera
+  systématiquement.</simpara></warning>
+</sect1>
+
+<sect1 id="install-download">
+  <title>Téléchargement</title>
+  <para>Il n'existe pas encore de version stable publiée. Vous pouvez obtenir le
+  code source soit en le rapatriant à partir du serveur Subversion, soit en téléchargeant
+  le dernier snapshot nocturne de l'arbre Subversion.
+  </para>
+  
+  <sect2>
+    <title>A partir de Subversion</title>
+    <para>Le dépôt Subversion peut être récupéré anonymement en utilisant la
+    commande suivante :
+    <screen>
+      <command>svn checkout svn://labs.libre-entreprise.org/svnroot/ldapsaisie</command>
+    </screen> 
+    La racine web de l'application se trouvera alors dans le dossier <emphasis>
+    /ldapsaisie/trunk/</emphasis>.
+    </para>
+  </sect2>
+
+  <sect2>
+    <title>A partir des snapshot</title>
+    <para>Toutes les nuits, un snapshot de l'arbre Subversion est réalisé et est
+    téléchargeable au format <emphasis>tar.gz</emphasis> à l'adresse suivante : 
+    <ulink url='http://labs.libre-entreprise.org/snapshots.php?group_id=118'>
+    http://labs.libre-entreprise.org/snapshots.php?group_id=118</ulink>
+    </para>
+  </sect2>
+  
+</sect1>
+
+&install-arbo;
+
+<sect1>
+  <title>Les étapes de l'installation</title>
+  <para>Cette section décrit rapidement les différentes étapes de l'installation
+  de LdapSaisie.</para>
+  
+<orderedlist>
+  <listitem><simpara>Téléchargement et décompression si nécessaire. 
+  <link linkend="install-download">Plus de détails</link></simpara></listitem>
+  
+  <listitem><simpara>Configuration globale : Cette partie est principalement 
+  contenue dans le fichier <emphasis>conf/config.inc.php</emphasis>.Il s'agit en
+  particulier de configurer la connexion à votre annuaire. Pour plus de détails,
+  reportez-vous à <link linkend="config-globale">la section concernée</link>.
+  </simpara>
+  <note><simpara>Il est possible de passer l'application en mode <emphasis>debug
+  </emphasis> ce qui peut être utile par la suite.</simpara></note>
+  </listitem>
+  
+  <listitem><simpara>Configuration des types de &LSobjects; : Chaque type d'objet
+    manipulé par LdapSaisie doit correspondre avec un type de LSobject.</simpara>
+    
+    <orderedlist>
+    
+    <listitem><para>Création du fichier de classe : Ce fichier contient la 
+    déclaration de la classe PHP correspondant au type de LSobject. Cette classe
+    étend la classe <emphasis>LSldapObject</emphasis> qui contient pour ainsi dire
+    toute les méthodes et proprités nécessaires pour les types de LSobject simples
+    (sans &LSrelation;). Les fichiers des classes sont contenus dans le dossier
+    <emphasis>/includes/class/</emphasis> et portent les noms composés de la 
+    manière suivante : 
+    <programlisting>class.LSobjects.[nom du type d'LSobject].php</programlisting>
+    Le plus simple pour cette étape est de recopier un des fichiers d'exemple et
+    de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier.
+    Pour cela, le fichier de classe du type <emphasis>LSeepeople</emphasis> est 
+    le plus simple car il ne contient que le strict minimum.</para></listitem>
+    
+    <listitem><simpara>Configurer vos LSobject : Cette partie est certainement la
+    plus longue et consiste à déclarer l'ensemble des informations relatives aux
+    types des objets LDAP manipulés. Les fichiers d'exemples fournis vous seront
+    certainement d'une aide précieuse. Pour plus de détails, reportez-vous à 
+    <link linkend="config-LSobject">la section concernée</link>.</simpara>
+    </listitem>
+    
+    <listitem><simpara>Configurer si nécessaire les relations entre les objets
+    appelés &LSrelations;. Cette opération consiste dans un premier temps à écrire
+    les méthodes PHP nécessaires pour gérer ces relations : pour cela regardez le
+    fichier de classe du type <emphasis>LSeegroup</emphasis>. Il faudra ensuite
+    déclarer ces relations dans la configuration des types d'LSobjects : Pour plus
+    de détails, reportez-vous à <link linkend="config-LSobject-LSrelation">la 
+    section concernée</link>.</simpara>
+    </listitem>
+    
+  </orderedlist>
+  
+  </listitem>
+  
+  <listitem><simpara>Personnaliser l'interface : Il est possible de personnaliser
+  à votre goût l'interface en écrivant votre template ou en modifiant simplement
+  les fichiers CSS. Une partie de cette documentation concernera bientôt cette
+  problématique. Patience...</simpara></listitem>
+  
+</orderedlist>
+</sect1>
+ 
+</chapter>

@@ -1,0 +1,82 @@
+<sect4 id="config-LSattr_html_maildir">
+  <title>LSattr_html_maildir</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  le chemin d'une maildir. Typiquement, ce type attribut HTML est utile dans
+  le cas de l'attribut <emphasis>mailbox</emphasis> utilisé par maildrop pour
+  stocker le chemin des boites mails. Ce type d'attribut offre la possibilité de
+  gérér un niveau de l'attribut et à travers les déclencheurs gérés par &LdapSaisie;
+  la création, la modification et ou la suppression de la boite mails. Le &LSaddon;
+  <link linkend='config-LSaddon_maildir'>boolean</link> est utilisé pour manipuler
+  la boite mail à distance.
+  </para>
+  
+  <note><simpara>Actuellement, cet &LSaddon; ne gérant que l'accès via FTP au 
+  serveur distant, l'API d'accès via FTP est attaquée directement.</simpara></note>
+  
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array (
+  'LSform' => array (
+    '[LSform1]' => [booléen],
+    '[LSform2]' => [booléen],
+    ...
+  ),
+  'remoteRootPathRegex' => "[Expression régulière pour matcher le dossier à créer]",
+  'archiveNameFormat' => "[LSformat du chemin/nom du fichier une fois archiver]"
+ ),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>LSform</term>
+  <listitem>
+    <simpara>Tableau associatif obligatoire contenant en valeur clé le nom des 
+    &LSforms; dans lesquels la fonctionnalité de modification de la boite mail 
+    sera présente. Les valeurs attachées sont des booléens définissant si la 
+    modification est active par défaut.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>remoteRootPathRegex</term>
+  <listitem>
+    <simpara>Expression régulière facultative dont le but est de 
+    <emphasis>matcher</emphasis> dans la valeur complète du chemin distant de la
+    <emphasis>maildir</emphasis>, le chemin de la <emphasis>maildir</emphasis>
+    à créer une fois connecté sur le serveur.</simpara>
+    <para>Exemple : Si le chemin complet de la <emphasis>maildir</emphasis> est
+    <emphasis>/home/vmail/user</emphasis>, mais que l'utilisateur FTP lorsqu'il
+    se connecte arrive directement dans <emphasis>/home/vmail</emphasis>, et faut
+    définir le paramètre <parameter>remoteRootPathRegex</parameter> de la manière
+    suivante :
+    <programlisting linenumbering="unnumbered">^\/home\/vmail\/([^\/]*)\/+$</programlisting>
+    </para>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>archiveNameFormat</term>
+  <listitem>
+    <simpara>&LSformat; du nom du dossier de la <emphasis>maildir</emphasis> une
+    fois archivée. Si ce format est défini, le dossier ne sera pas supprimé mais
+    déplacé ou rénommé. Le format sera construit avec pour seul mot clé, le nom
+    de l'ancien dossier. Exemple : Si le dossier de la maildir est
+    <emphasis>/home/vmail/user</emphasis> et le paramètre
+    <parameter>archiveNameFormat</parameter> vaut <emphasis>%{old}.bckp</emphasis>,
+    le dossier sera renommé en <emphasis>/home/vmail/user.bckp</emphasis>.</simpara>
+    <important><simpara>Ce format est interprété après application de la routine
+    liée au paramètre <parameter>remoteRootPathRegex</parameter>. Ainsi, dans 
+    l'exemple précédent, si le paramètre <parameter>remoteRootPathRegex</parameter>
+    tronquait uniquement le nom du dossier final, c'est à dire <emphasis>user</emphasis>,
+    le format une fois interprété donnerai <emphasis>user.bckp</emphasis>.
+    </simpara></important>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+  
+  
+</sect4>

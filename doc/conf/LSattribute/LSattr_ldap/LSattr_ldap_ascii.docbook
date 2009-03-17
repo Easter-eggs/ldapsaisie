@@ -1,0 +1,6 @@
+<sect4 id="config-LSattr_ldap_ascii">
+  <title>LSattr_ldap_ascii</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une chaine de caractère. Ce type est le type par défaut.</para>
+  
+</sect4>

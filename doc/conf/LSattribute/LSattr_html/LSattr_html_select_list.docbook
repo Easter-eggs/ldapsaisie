@@ -1,0 +1,100 @@
+<sect4 id="config-LSattr_html_select_list">
+  <title>LSattr_html_select_list</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont les valeurs font
+  partie d'une liste statique ou dynamique. Il est possible de lister des valeurs
+  statiques et également des références à d'autres &LSobjects;. La référence à
+  un objet correspond à une valeur clé, référente à un objet précis, qui peut être
+  soit la valeur d'un de ses attributs, soit son <emphasis>DN</emphasis>.</para>
+  
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array (
+   'possible_values' => array (
+     '[LSformat de la valeur clé]' => '[LSformat du nom d'affichage]',
+     ...
+     'OTHER_OBJECT' => array (
+       'object_type' => '[Type d'LSobject]',
+       'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
+       'value_attribute' => '[Nom de l'attribut clé]',
+       'filter' => '[Filtre de recherche des LSobject]',
+       'scope' => '[Scope de la recherche]',
+       'basedn' => '[Basedn de la recherche]'
+     )
+   )
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>possible_values</term>
+  <listitem>
+    <para>Tableau associatif obligatoire contenant en valeur clé le &LSformat;
+    des valeurs clés prisent par l'attribut et en valeurs associées, le &LSformat;
+    des noms d'affichage de ces valeurs. Ces &LSformats; sont composés à partir des
+    valeurs de l'objet courant (attributs, dn, ...).</para>
+    
+    <para>Si la valeur clé est égale à <literal>OTHER_OBJECT</literal>, une liste
+    d'&LSobject; sera insérée dans la liste des valeurs possibles. La valeur
+    associée est alors un tableau associatif dont les valeurs clés sont les noms 
+    des paramètres de configuration de la recherche de ces &LSobjects; et les 
+    valeurs associées, les valeurs des paramètres.</para>
+    
+<variablelist>
+  <varlistentry>
+    <term>object_type</term>
+    <listitem>
+      <simpara>Nom du type d'&LSobject; en référence.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<variablelist>
+  <varlistentry>
+    <term>display_name_format</term>
+    <listitem>
+      <simpara>&LSformat; du nom d'affichage des objets lors de leur sélection.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<variablelist>
+  <varlistentry>
+    <term>value_attribute</term>
+    <listitem>
+      <simpara>Nom de l'attribut des &LSobjects; en référence servant de valeur
+      clé et permettant de les identifier (Exemple : <emphasis>dn</emphasis> ou
+      <emphasis>uid</emphasis>).</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<variablelist>
+  <varlistentry>
+    <term>filter</term>
+    <listitem>
+      <simpara>Filtre falcultatif de la recherche des LSobjets. Il sera dans tous
+      les cas agrémenté des valeurs des <emphasis>objectclass</emphasis> du type
+      d'&LSobject;.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<variablelist>
+  <varlistentry>
+    <term>filter</term>
+    <listitem>
+      <simpara>Basedn falcultatif de la recherche des LSobjets.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+  </listitem>
+</varlistentry>
+
+</variablelist>
+  
+  
+</sect4>

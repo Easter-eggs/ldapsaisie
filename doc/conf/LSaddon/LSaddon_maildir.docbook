@@ -1,0 +1,5 @@
+<sect2 id="config-LSaddon_maildir">
+  <title>LSaddon_maildir</title>
+  <para>Cet &LSaddon; est utilisé pour gérer la manipulation distante de maildir.
+  FIXME</para>
+</sect2>

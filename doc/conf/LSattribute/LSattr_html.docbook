@@ -1,0 +1,22 @@
+<sect3 id="config-LSattr_html">
+  <title>Configuration des attributs HTML</title>
+  <para>Cette section décrit les options propres à chacun des types d'attributs HTML
+  supportés par &LdapSaisie;.</para>
+  
+  &conf-LSattr_html_boolean;
+  &conf-LSattr_html_date;
+  &conf-LSattr_html_image;
+  &conf-LSattr_html_mail;
+  &conf-LSattr_html_maildir;
+  &conf-LSattr_html_mailQuota;
+  &conf-LSattr_html_password;
+  &conf-LSattr_html_rss;
+  &conf-LSattr_html_select_list;
+  &conf-LSattr_html_select_object;
+  &conf-LSattr_html_ssh_key;
+  &conf-LSattr_html_text;
+  &conf-LSattr_html_textarea;
+  &conf-LSattr_html_url;
+  &conf-LSattr_html_xmpp;
+  
+</sect3>

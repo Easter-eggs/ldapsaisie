@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!ENTITY conf-LSattr_ldap_ascii SYSTEM "LSattr_ldap_ascii.docbook">
+<!ENTITY conf-LSattr_ldap_boolean SYSTEM "LSattr_ldap_boolean.docbook">
+<!ENTITY conf-LSattr_ldap_date SYSTEM "LSattr_ldap_date.docbook">
+<!ENTITY conf-LSattr_ldap_image SYSTEM "LSattr_ldap_image.docbook">
+<!ENTITY conf-LSattr_ldap_numeric SYSTEM "LSattr_ldap_numeric.docbook">
+<!ENTITY conf-LSattr_ldap_password SYSTEM "LSattr_ldap_password.docbook">

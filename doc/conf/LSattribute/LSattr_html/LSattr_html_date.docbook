@@ -1,0 +1,40 @@
+<sect4 id="config-LSattr_html_date">
+  <title>LSattr_html_date</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une date.</para>
+  
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array (
+  'firstDayOfWeek' => '[Le rang du premier jour de la semaine]',
+  'format' => '[Format d'affichage de la date]',
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>firstDayOfWeek</term>
+  <listitem>
+    <simpara>Un entier correspondant au rang du premier jour de la semaine : 
+    de 0 à 6, 0 correspondant à Dimanche et 6 à Lundi.</simpara>
+    <note><simpara>La valeur par défaut est 0, donc Dimanche.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>format</term>
+  <listitem>
+    <para>Format d'affichage de la date dans le champ de saisie. Ce format
+    est composé à partir des motifs clés suivants : FIXME</para>
+    <note><simpara>La valeur par défaut est <emphasis>%d/%m/%Y, %T</emphasis>.
+    Exemple : <emphasis>23/04/2009, 23:03:04</emphasis></simpara></note>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+  
+  
+</sect4>

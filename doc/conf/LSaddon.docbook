@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sect1 id='config-LSaddon'>
+  <title>Configuration des LSaddons</title>
+  <para>
+    Cette partie décrit la manière de configurer les différents &LSaddons;
+    actuellement supportés par &LdapSaisie;. FIXME
+  </para>
+  
+  &conf-LSaddon_maildir;
+  
+</sect1>

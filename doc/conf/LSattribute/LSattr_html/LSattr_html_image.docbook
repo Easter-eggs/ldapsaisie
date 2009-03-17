@@ -1,0 +1,6 @@
+<sect4 id="config-LSattr_html_image">
+  <title>LSattr_html_image</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une image. Pour le moment, les attributs à valeurs multiples ne sont pas gérés.
+  </para>
+</sect4>

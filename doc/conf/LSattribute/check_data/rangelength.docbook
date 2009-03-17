@@ -1,0 +1,19 @@
+<sect4 id="config-LSattribute-check-data-rangelength">
+  <title>rangelength</title>
+  <para>Cette règle vérifie que la valeur saisie est une chaine de caractères
+  dont la longueur est comprise entre deux valeurs passées en paramètre.</para>
+  
+<variablelist>
+<title>Paramètre de configuration</title>
+
+<varlistentry>
+  <term>limits</term>
+  <listitem>
+    <simpara>Tableau contenant deux valeurs, la première étant la limite inférieure
+    ou égale et la seconde la limite supérieure ou égale.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
