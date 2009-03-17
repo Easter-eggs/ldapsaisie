@@ -5,7 +5,7 @@
   d'une liste ou encore s'il valide une expression régulière.</para>
   
 <variablelist>
-<title>Paramêtres de configuration</title>
+<title>Paramètres de configuration</title>
 
 <varlistentry>
   <term>mimeType</term>
