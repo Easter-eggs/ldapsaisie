@@ -236,13 +236,13 @@ class LSformElement {
    */
   function getLabel() {
     if ($this -> label != "") {
-      return $this -> label;
+      return __($this -> label);
     }
     else if ($this -> params['label']) {
-      return $this -> params['label'];
+      return __($this -> params['label']);
     }
     else {
-      return $this -> name;
+      return __($this -> name);
     }
   }
 

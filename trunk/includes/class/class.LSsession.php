@@ -56,6 +56,10 @@ class LSsession {
   // Les fichiers temporaires
   private static $tmp_file = array();
   
+  // Langue et encodage actuel
+  private static $lang = NULL;
+  private static $encoding = NULL;
+  
   /*
    * Constante de classe non stockée en session
    */
@@ -246,7 +250,111 @@ class LSsession {
     return true;
   }
 
-/**
+ /**
+  * Défini la locale
+  * 
+  * @retval void
+  */
+  public static function setLocale() {
+    if (isset($_REQUEST['lang'])) {
+      $lang = $_REQUEST['lang'];
+    }
+    elseif (isset($_SESSION['LSlang'])) {
+      $lang = $_SESSION['LSlang'];
+    }
+    elseif (isset(self :: $ldapServer['lang'])) {
+      $lang = self :: $ldapServer['lang'];
+    }
+    else {
+      $lang = $GLOBALS['LSconfig']['lang'];
+    }
+    
+    if (isset($_REQUEST['encoding'])) {
+      $encoding = $_REQUEST['encoding'];
+    }
+    elseif (isset($_SESSION['LSencoding'])) {
+      $encoding = $_SESSION['LSencoding'];
+    }
+    elseif (isset(self :: $ldapServer['encoding'])) {
+      $encoding = self :: $ldapServer['encoding'];
+    }
+    else {
+      $encoding = $GLOBALS['LSconfig']['encoding'];
+    }
+    
+    $_SESSION['LSlang']=$lang;
+    self :: $lang=$lang;
+    $_SESSION['LSencoding']=$encoding;
+    self :: $encoding=$encoding;
+    
+
+    if (self :: localeExist($lang,$encoding)) {
+      if ($encoding) {
+        $lang.='.'.$encoding;
+      }
+      setlocale(LC_ALL, $lang);
+      bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR);
+      textdomain(LS_TEXT_DOMAIN);
+      
+      if (is_file(LS_I18N_DIR.'/'.$lang.'/lang.php')) {
+        include(LS_I18N_DIR.'/'.$lang.'/lang.php');
+      }
+    }
+    else {
+      if ($encoding && $lang) {
+        $lang.='.'.$encoding;
+      }
+      LSdebug('La locale "'.$lang.'" n\'existe pas, utilisation de la locale par défaut.');
+    }
+  }
+  
+ /**
+  * Retourne la liste des langues disponibles
+  * 
+  * @retval array Tableau/Liste des langues disponibles
+  **/ 
+  public static function getLangList() {
+    $list=array('en_US');
+    if (self :: $encoding) {
+      $regex = '^([a-zA-Z_]*)\.'.self :: $encoding.'$';
+    }
+    else {
+      $regex = '^([a-zA-Z_]*)$';
+    }
+    if ($handle = opendir(LS_I18N_DIR)) {
+      while (false !== ($file = readdir($handle))) {
+        if(is_dir(LS_I18N_DIR.'/'.$file)) {
+          if (ereg($regex,$file,$regs)) {
+            if (!in_array($regs[1],$list)) {
+              $list[]=$regs[1];
+            }
+          }
+        }
+      }
+    }
+    return $list;
+  }
+  
+ /**
+  * Vérifie si une locale est disponible
+  * 
+  * @param[in] $lang string La langue (Ex : fr_FR)
+  * @param[in] $encoding string L'encodage de caractère (Ex : UTF8)
+  * 
+  * @retval boolean True si la locale est disponible, False sinon
+  **/
+  public static function localeExist($lang,$encoding) {
+    if ( !$lang && !$encoding ) {
+      return;
+    }
+    $locale=$lang.(($encoding)?'.'.$encoding:'');
+    if ($locale=='en_US.UTF8') {
+      return true;
+    }
+    return (is_dir(LS_I18N_DIR.'/'.$locale));
+  }
+
+ /**
   * Initialisation LdapSaisie
   *
   * @retval boolean True si l'initialisation à réussi, false sinon.
@@ -254,7 +362,11 @@ class LSsession {
   public static function initialize() {
     if (!self :: loadConfig()) {
       return;
-    }   
+    }
+    session_start();
+    
+    self :: setLocale();
+    
     self :: startLSerror();
     self :: loadLSaddons();
     return true;
@@ -275,8 +387,6 @@ class LSsession {
     if (!self :: initialize()) {
       return;
     }   
-
-    session_start();
 
     // DÃ©connexion
     if (isset($_GET['LSsession_logout'])||isset($_GET['LSsession_recoverPassword'])) {
@@ -666,6 +776,7 @@ class LSsession {
     if ( isset($GLOBALS['LSconfig']['ldap_servers'][$id]) ) {
       self :: $ldapServerId = $id;
       self :: $ldapServer=$GLOBALS['LSconfig']['ldap_servers'][$id];
+      self :: setLocale();
       return true;
     }
     else {
@@ -1075,6 +1186,11 @@ class LSsession {
       $GLOBALS['Smarty'] -> assign('LSsession_subDn',self :: $topDn);
       $GLOBALS['Smarty'] -> assign('LSsession_subDnName',self :: getSubDnName());
     }
+    
+    $GLOBALS['Smarty'] -> assign('LSlanguages',self :: getLangList());
+    $GLOBALS['Smarty'] -> assign('LSlang',self :: $lang);
+    $GLOBALS['Smarty'] -> assign('LSencoding',self :: $encoding);
+    $GLOBALS['Smarty'] -> assign('lang_label',_('Language'));
 
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
@@ -1328,7 +1444,7 @@ class LSsession {
     foreach($LSaccess as $dn => $access) {
       $LSaccess[$dn] = array_merge(
         array(
-          'SELF' => _('My account')
+          'SELF' => 'My account'
         ),
         $access
       );
@@ -1691,7 +1807,7 @@ class LSsession {
    * @retval string Le label des niveaux pour le serveur ldap dourant
    */
   public static function getSubDnLabel() {
-    return (self :: $ldapServer['subDnLabel']!='')?self :: $ldapServer['subDnLabel']:_('Level');
+    return (self :: $ldapServer['subDnLabel']!='')?_(self :: $ldapServer['subDnLabel']):_('Level');
   }
   
   /**

@@ -60,7 +60,7 @@
   <link linkend="install-download">Plus de détails</link></simpara></listitem>
   
   <listitem><simpara>Configuration globale : Cette partie est principalement 
-  contenue dans le fichier <emphasis>conf/config.inc.php</emphasis>.Il s'agit en
+  contenue dans le fichier <emphasis>conf/config.inc.php</emphasis>. Il s'agit en
   particulier de configurer la connexion à votre annuaire. Pour plus de détails,
   reportez-vous à <link linkend="config-globale">la section concernée</link>.
   </simpara>

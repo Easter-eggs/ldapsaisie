@@ -13,6 +13,19 @@
   display:                  none;
 }
 
+#LSlang_select {
+  display:                  none;
+  background-color:         #000;
+  -moz-border-radius:       8px;
+  position:                 absolute;
+  max-width:                200px;
+  padding:                  5px;
+}
+
+#LSlang_select img {
+  vertical-align:           middle;
+}
+
 #LSdebug {
   width:                    50%;
   position:                 absolute;

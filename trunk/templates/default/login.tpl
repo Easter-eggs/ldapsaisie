@@ -10,14 +10,9 @@
     {$LSsession_js}
   </head>
 <body>
-<div id='LSinfos'>{$LSinfos}</div>
-<div id='LSerror'>
-{$LSerrors}
-</div>
-<div id='LSdebug'>
-  <a href='#' id='LSdebug_hidden'>X</a> 
-  <div id='LSdebug_infos'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
-</div>
+
+{include file='LSdefault.tpl'}
+
 <div class='loginform'>
 <img src='{$LS_IMAGES_DIR}/logo.png' alt='Logo' id='loginform_logo' />
 <div id='loading_zone'></div>
@@ -36,6 +31,7 @@
   <dd><input type='submit' value='{$loginform_label_submit}' /></dd>
 </dl>
 </form>
+<span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
 <a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword'>{$loginform_label_recoverPassword}</a>
 </div>
 </body>

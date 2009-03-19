@@ -38,18 +38,18 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     )
   ),
   'display_name_format' => '%{cn}',
-  'label' => _('Groups'),
+  'label' => 'Groups',
   'attrs' => array (
   
     /* ----------- start -----------*/
     'cn' => array (
-      'label' => _('Name'),
+      'label' => 'Name',
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
       'check_data' => array (
         'alphanumeric' => array(
-          'msg' => _('Name must contain alphanumeric values only.')
+          'msg' => 'Name must contain alphanumeric values only.'
         ),
       ),
       'validation' => array (
@@ -73,7 +73,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'gidNumber' => array (
-      'label' => _('Identifier'),
+      'label' => 'Identifier',
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
@@ -97,7 +97,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'uniqueMember' => array (
-      'label' => _('Members'),
+      'label' => 'Members',
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array(
@@ -132,7 +132,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'description' => array (
-      'label' => _('Description'),
+      'label' => 'Description',
       'ldap_type' => 'ascii',
       'html_type' => 'textarea',
       'multiple' => 1,
@@ -151,7 +151,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Accountable(s)'),
+      'label' => 'Accountable(s)',
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array (
@@ -164,7 +164,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => _("One or several of these users don't exist.")
+          'msg' => "One or several of these users don't exist."
         )
       ),
       'multiple' => 1,

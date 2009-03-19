@@ -1091,7 +1091,7 @@ class LSldapObject {
    * @retval string Le label de l'objet ($this -> config['label'])
    */
   function getLabel() {
-    return $this -> config['label'];
+    return __($this -> config['label']);
   }
   
   

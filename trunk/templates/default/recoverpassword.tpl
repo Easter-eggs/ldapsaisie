@@ -9,14 +9,9 @@
     {$LSsession_js}
   </head>
 <body>
-<div id='LSerror'>
-{$LSerrors}
-</div>
-<div id='LSinfos'>{$LSinfos}</div>
-<div id='LSdebug'>
-  <a href='#' id='LSdebug_hidden'>X</a> 
-  <div id='LSdebug_infos'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
-</div>
+
+{include file='LSdefault.tpl'}
+
 <div class='recoverpasswordform'>
 <img src='{$LS_IMAGES_DIR}/logo.png' alt='Logo' id='recoverpasswordform_logo' />
 <div id='loading_zone'></div>
@@ -33,7 +28,7 @@
 </form>
 
 <p id='recoverpassword_msg'>{$recoverpassword_msg}</p>
-
+<span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
 <a href='index.php' id='recoverpassword_back'>{$recoverpasswordform_label_back}</a>
 </div>
 </body>

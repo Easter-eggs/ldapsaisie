@@ -29,13 +29,13 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
   'orderby' => 'displayName',  // possible cases : 'displayName' ou 'subDn'
   'container_dn' => 'ou=companies',
   'display_name_format' => '%{ou}',
-  'label' => _('Company'),
+  'label' => 'Company',
   
   'attrs' => array (
   
     /* ----------- start -----------*/
     'ou' => array (
-      'label' => _('Name'),
+      'label' => 'Name',
       'ldap_type' => 'ascii',
       'html_type' => 'text',
       'required' => 1,
@@ -56,7 +56,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
     
     /* ----------- start -----------*/
     'description' => array (
-      'label' => _('Description'),
+      'label' => 'Description',
       'ldap_type' => 'ascii',
       'html_type' => 'textarea',
       'required' => 0,
@@ -75,7 +75,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
     
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
-      'label' => _('Accountable(s)'),
+      'label' => 'Accountable(s)',
       'ldap_type' => 'ascii',
       'html_type' => 'select_object',
       'html_options' => array(
@@ -88,7 +88,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => _("One or several of these users don't exist.")
+          'msg' => "One or several of these users don't exist."
         )
       ),
       'multiple' => 1,

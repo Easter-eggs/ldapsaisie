@@ -21,3 +21,4 @@
 <!ENTITY LSformats "<link linkend='config-LSformat'>LSformats</link>">
 <!ENTITY LSaddon "<link linkend='config-LSaddon'>LSaddon</link>">
 <!ENTITY LSaddons "<link linkend='config-LSaddon'>LSaddons</link>">
+<!ENTITY LSselect "<emphasis>LSselect</emphasis>">

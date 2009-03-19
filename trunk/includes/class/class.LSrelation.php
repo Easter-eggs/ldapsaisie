@@ -56,7 +56,7 @@ class LSrelation {
       foreach($object -> config['LSrelation'] as $relationName => $relationConf) {
         if (LSsession :: relationCanAccess($object -> getValue('dn'),$object->getType(),$relationName)) {
           $return=array(
-            'label' => $relationConf['label'],
+            'label' => __($relationConf['label']),
             'LSobject' => $relationConf['LSobject']
           );
           

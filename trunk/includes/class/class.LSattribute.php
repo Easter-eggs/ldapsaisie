@@ -243,8 +243,12 @@ class LSattribute {
                 LSerror :: addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
                 return;
               }
-              if(!isset($rule_infos['msg']))
-                $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> config['label']);
+              if(!isset($rule_infos['msg'])) {
+                $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> getLabel());
+              }
+              else {
+                $rule_infos['msg']=__($rule_infos['msg']);
+              }
               if(!isset($rule_infos['params']))
                 $rule_infos['params']=NULL;
               $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'params' => $rule_infos['params']));

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-16 11:36+0100\n"
-"PO-Revision-Date: 2009-03-16 11:46+0100\n"
+"POT-Creation-Date: 2009-03-19 17:11+0100\n"
+"PO-Revision-Date: 2009-03-19 18:40+0100\n"
 "Last-Translator: Benjamin Renard <brenard@easter-eggs.com>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,8 +20,7 @@ msgstr ""
 "X-Poedit-Basepath: /var/www/ldapsaisie/trunk\n"
 
 #: select.php:186
-#: includes/class/class.LSsession.php:1066
-#: view.php:245
+#: includes/class/class.LSsession.php:1173
 msgid "Refresh"
 msgstr "Rafraîchir"
 
@@ -61,7 +60,7 @@ msgid "Do you really want to delete"
 msgstr "Voulez-vous vraiement supprimer"
 
 #: remove.php:49
-#: includes/class/class.LSsession.php:909
+#: includes/class/class.LSsession.php:1016
 #: includes/class/class.LSconfirmBox.php:37
 #: includes/class/class.LSsmoothbox.php:39
 #: includes/class/class.LSform.php:63
@@ -73,8 +72,6 @@ msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
 #: create.php:89
-#: view.php:220
-#: view.php:235
 msgid "New"
 msgstr "Nouveau"
 
@@ -226,150 +223,146 @@ msgstr "Support FTP : Impossible de modifier les droits sur le dossier %{dir} su
 msgid "FTP Support : Unable to rename folder from %{old} to %{new} on the remote server."
 msgstr "Support FTP : Impossible de renommer le dossier %{old} en %{new} sur le serveur distant."
 
-#: includes/class/class.LSsession.php:849
+#: includes/class/class.LSsession.php:956
 msgid "Connection"
 msgstr "Connexion"
 
-#: includes/class/class.LSsession.php:859
-#: includes/class/class.LSsession.php:898
+#: includes/class/class.LSsession.php:966
+#: includes/class/class.LSsession.php:1005
 msgid "LDAP server"
 msgstr "Serveur LDAP"
 
-#: includes/class/class.LSsession.php:869
-#: includes/class/class.LSsession.php:1694
+#: includes/class/class.LSsession.php:976
+#: includes/class/class.LSsession.php:1805
 msgid "Level"
 msgstr "Niveau"
 
-#: includes/class/class.LSsession.php:870
-#: includes/class/class.LSsession.php:908
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:76
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:125
+#: includes/class/class.LSsession.php:977
+#: includes/class/class.LSsession.php:1015
 msgid "Identifier"
 msgstr "Identifiant"
 
-#: includes/class/class.LSsession.php:871
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:450
+#: includes/class/class.LSsession.php:978
 msgid "Password"
 msgstr "Mot de passe"
 
-#: includes/class/class.LSsession.php:872
+#: includes/class/class.LSsession.php:979
 msgid "Connect"
 msgstr "Se connecter"
 
-#: includes/class/class.LSsession.php:873
+#: includes/class/class.LSsession.php:980
 msgid "Forgot your password ?"
 msgstr "Mot de passe perdu ?"
 
-#: includes/class/class.LSsession.php:891
+#: includes/class/class.LSsession.php:998
 msgid "Recovery of your credentials"
 msgstr "Récupération de votre mot de passe"
 
-#: includes/class/class.LSsession.php:910
+#: includes/class/class.LSsession.php:1017
 msgid "Back"
 msgstr "Retour"
 
-#: includes/class/class.LSsession.php:912
+#: includes/class/class.LSsession.php:1019
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr "Merci d'entrer votre identifiant pour poursuivre la procédure de récupération"
 
-#: includes/class/class.LSsession.php:916
+#: includes/class/class.LSsession.php:1023
 msgid "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr "Un e-mail vient de vous être envoyé à l'adresse %{mail}. Merci de suivre les indications qu'il contient."
 
-#: includes/class/class.LSsession.php:924
+#: includes/class/class.LSsession.php:1031
 msgid "Your new password has been sent to %{mail}. "
 msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
 
-#: includes/class/class.LSsession.php:1101
+#: includes/class/class.LSsession.php:1188
+msgid "Language"
+msgstr "Langue"
+
+#: includes/class/class.LSsession.php:1212
 msgid "Connected as"
 msgstr "Connecté en tant que"
 
-#: includes/class/class.LSsession.php:1331
-#: view.php:72
-msgid "My account"
-msgstr "Mon compte"
-
-#: includes/class/class.LSsession.php:1822
+#: includes/class/class.LSsession.php:1933
 msgid "LSsession : The constant %{const} is not defined."
 msgstr "LSsession : La constante %{const} n'est pas définie."
 
-#: includes/class/class.LSsession.php:1825
+#: includes/class/class.LSsession.php:1936
 msgid "LSsession : The %{addon} support is uncertain. Verify system compatibility and the add-on configuration."
 msgstr "LSsession : Le support %{addon} est incertain. Vérifiez la compatibilité du système et la configuration de l'add-on."
 
-#: includes/class/class.LSsession.php:1828
+#: includes/class/class.LSsession.php:1939
 msgid "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr "LSsession : Les données de configuration du serveur LDAP sont invalide. Impossible de s'y connecter."
 
-#: includes/class/class.LSsession.php:1831
+#: includes/class/class.LSsession.php:1942
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr "LSsession : Impossible de charger le type d'LSobject %{type} : type inconnu."
 
-#: includes/class/class.LSsession.php:1838
+#: includes/class/class.LSsession.php:1949
 msgid "LSsession : Login or password incorrect."
 msgstr "LSsession : Identifiant ou mot de passe incorrects."
 
-#: includes/class/class.LSsession.php:1841
+#: includes/class/class.LSsession.php:1952
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr "LSsession : Impossible de vous identifier : Duplication d'identité."
 
-#: includes/class/class.LSsession.php:1844
+#: includes/class/class.LSsession.php:1955
 msgid "LSsession : Can't load Smarty template engine."
 msgstr "LSsession : Impossible de charger le moteur de gestion de template Smarty."
 
-#: includes/class/class.LSsession.php:1847
+#: includes/class/class.LSsession.php:1958
 msgid "LSsession : Can't connect to LDAP server."
 msgstr "LSsession : Impossible de se connecter au serveur LDAP."
 
-#: includes/class/class.LSsession.php:1850
+#: includes/class/class.LSsession.php:1961
 msgid "LSsession : Could not load type of identifiable objects."
 msgstr "LSsession : Impossible de charger le moteur de gestion de template Smarty."
 
-#: includes/class/class.LSsession.php:1853
+#: includes/class/class.LSsession.php:1964
 msgid "LSsession : Your are not authorized to do this action."
 msgstr "LSsession : Vous n'êtes pas autorisé à faire cette action."
 
-#: includes/class/class.LSsession.php:1856
+#: includes/class/class.LSsession.php:1967
 msgid "LSsession : Some informations are missing to display this page."
 msgstr "LSsession : Des informations sont manquant pour afficher cette page."
 
-#: includes/class/class.LSsession.php:1860
+#: includes/class/class.LSsession.php:1971
 msgid "LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})"
 msgstr "LSsession : Erreur durant la création de la liste des niveaux. Contacter les administrateurs. (Code : %{type})"
 
-#: includes/class/class.LSsession.php:1863
+#: includes/class/class.LSsession.php:1974
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr "LSsession : La récupération de mot de passe est désactivée pour ce serveur LDAP."
 
-#: includes/class/class.LSsession.php:1866
+#: includes/class/class.LSsession.php:1977
 msgid "LSsession : Some informations are missing to recover your password. Contact administrators."
 msgstr "LSsession : Des informations sont manques pour pouvoir récupérer votre mot de passe. Contacter les administrateurs."
 
-#: includes/class/class.LSsession.php:1869
+#: includes/class/class.LSsession.php:1980
 msgid "LSsession : Error during password recovery. Contact administrators.(Step : %{step})"
 msgstr "LSsession : Erreur durant la récupération de votre mot de passe. Contacter les administrateurs. (Etape : %{step})"
 
-#: includes/class/class.LSsession.php:1873
+#: includes/class/class.LSsession.php:1984
 msgid "LSsession : problem during initialisation."
 msgstr "LSsession : Problème durant l'initialisation."
 
-#: includes/class/class.LSsession.php:1879
+#: includes/class/class.LSsession.php:1990
 msgid "LSrelation : The listing function for the relation %{relation} is unknow."
 msgstr "LSsession : La fonction listant la relation %{relation} est inconnue."
 
-#: includes/class/class.LSsession.php:1882
+#: includes/class/class.LSsession.php:1993
 msgid "LSrelation : The update function of the relation %{relation} is unknow."
 msgstr "LSsession : La fonction de mise à jour de la relation %{relation} est inconnue."
 
-#: includes/class/class.LSsession.php:1885
+#: includes/class/class.LSsession.php:1996
 msgid "LSrelation : Error during relation update of the relation %{relation}."
 msgstr "LSsession : Erreur durant la mise à jour de la relation %{relation}"
 
-#: includes/class/class.LSsession.php:1888
+#: includes/class/class.LSsession.php:1999
 msgid "LSrelation : Object type %{LSobject} unknow (Relation : %{relation})."
 msgstr "LSsession : La fonction de mise à jour de la relation %{relation} est inconnue."
 
-#: includes/class/class.LSsession.php:1891
+#: includes/class/class.LSsession.php:2002
 msgid "LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth})."
 msgstr "LSrelation : Des paramètres sont manquant dans l'appel des méthodes de manipulation des relations standards."
 
@@ -427,7 +420,7 @@ msgstr "Annuler"
 
 #: includes/class/class.LSformElement_textarea.php:50
 msgid "Clear"
-msgstr "Nottoyer"
+msgstr "Nettoyer"
 
 #: includes/class/class.LSformElement_url.php:50
 msgid "Display this website."
@@ -837,163 +830,11 @@ msgstr "Réinitiliser la sélection."
 msgid "Copy"
 msgstr "Copier"
 
+#: view.php:72
+msgid "My account"
+msgstr "Mon compte"
+
 #: view.php:380
 msgid "Actions"
 msgstr "Actions"
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:32
-#: conf/config.inc.php:131
-msgid "Company"
-msgstr "Société"
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:38
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:46
-msgid "Name"
-msgstr "Nom"
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:59
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:135
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:430
-msgid "Description"
-msgstr "Description"
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:78
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:154
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:583
-msgid "Accountable(s)"
-msgstr "Responsable(s)"
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:91
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:167
-msgid "One or several of these users don't exist."
-msgstr "Un ou plusieurs utilisateurs n'existent pas."
-
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:41
-msgid "Groups"
-msgstr "Groupes"
-
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:52
-msgid "Name must contain alphanumeric values only."
-msgstr "Le nom doit contenir uniquement des valeurs alpha-numériques."
-
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:100
-msgid "Members"
-msgstr "Members"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:49
-msgid "Users"
-msgstr "Utilisateurs"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:54
-msgid "Belongs to groups ..."
-msgstr "Appartient aux groupes ..."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:55
-msgid "Doesn't belong to any group."
-msgstr "N'appartient à aucun groupe."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:75
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:402
-msgid "Civility"
-msgstr "Civilité"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:138
-msgid "Identifier must contain alphanumeric values, dots (.) and dashes (-) only."
-msgstr "L'identifiant doit contenir uniquement des valeurs alpha-numériques, avec eventuellement des points (.) et des tirets (-)."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:146
-msgid "This identifier is already used."
-msgstr "Cet identifiant est déjà utilisé."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:167
-msgid "Numeric identifier"
-msgstr "Identifiant numérique"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:174
-msgid "The numeric identifier must be an integer."
-msgstr "L'identifiant numérique doit forcement être un entier."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:181
-msgid "This uid is already used."
-msgstr "Cet uid est déjà utilisé."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:196
-msgid "First Name"
-msgstr "Prénom"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:203
-msgid "The first name must contain alphanumeric values only."
-msgstr "Le prénom doit contenir uniquement des caractères alpha-numérique."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:223
-msgid "Last Name"
-msgstr "Nom"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:243
-msgid "Full Name"
-msgstr "Nom complet"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:269
-msgid "Main group"
-msgstr "Groupe principal"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:296
-msgid "This group doesn't exist."
-msgstr "Ce groupe n'existe pas."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:317
-msgid "Command shell"
-msgstr "Interpréteur de commande"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:318
-msgid "Allow user to connect a POSIX system."
-msgstr "Autorisie l'utilisateur à se connecter aux systèmes POSIX."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:340
-msgid "Samba Identifier"
-msgstr "Identifiant Samba"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:356
-msgid "Home Directory"
-msgstr "Dossier personnel"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:370
-msgid "E-mail address"
-msgstr "Adresse e-mail"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:382
-msgid "Given email address is invalid."
-msgstr "L'adresse mail saisie est invalide."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:505
-msgid "Password recovery hash"
-msgstr "Hash de récupération de mot de passe"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:521
-msgid "Samba Password (LM)"
-msgstr "Mot de passe Samba (LM)"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:534
-msgid "Samba Password (NT)"
-msgstr "Mot de passe Samba (NT)"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:547
-msgid "Picture"
-msgstr "Image"
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:554
-msgid "Picture size is not valid."
-msgstr "La taille de l'image est invalide."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:560
-msgid "File size is not valid."
-msgstr "La taille du fichier est invalide."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:566
-msgid "File type is not valid."
-msgstr "Le type de fichier est invalide."
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:596
-msgid "One or several users don't exist."
-msgstr "Un ou plusieurs utilisateurs n'existent pas."
 

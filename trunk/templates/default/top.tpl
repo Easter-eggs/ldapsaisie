@@ -3,7 +3,7 @@
  "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset={$LSencoding}">
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
     <link rel="icon" type="image/png" href="images/default/favicon.png" />
     <link rel="stylesheet" type="text/css" href="{$LS_CSS_DIR}/base.css" title="Normal" />
@@ -12,18 +12,8 @@
     {$LSsession_js}
   </head>
 <body>
-<div id='LSjsConfig'>
-{$LSjsConfig}
-</div>
-<div id='LSinfos'>{$LSinfos}</div>
-<div id='LSerror'>
-{$LSerrors}
-</div>
-<div id='LSdebug'>
-  <span id='LSdebug_hidden'>X</span> 
-  <div id='LSdebug_infos'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
-</div>
 
+{include file='LSdefault.tpl'}
 
 <table id='main'>
   <tr>
@@ -42,11 +32,12 @@
       {/if}
       <ul class='menu'>
       {foreach from=$LSaccess item=label key=LSobject_type}
-        <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{$label}</a></li>
+        <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{php}tr('label'){/php}</a></li>
       {/foreach}
       </ul>
     </td>
     <td id='status'>
+    <span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
     {$connected_as} <span id='user_name'>{$LSsession_username}</span> <a href='index.php?LSsession_logout'><img src='{$LS_IMAGES_DIR}/logout.png' alt='Logout' title='Logout' /></a>
     </td>
   </tr>

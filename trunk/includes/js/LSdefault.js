@@ -70,6 +70,44 @@ var LSdefault = new Class({
         this.LSjsConfig['keepLSsessionActive'] = (Math.round(this.LSjsConfig['keepLSsessionActive']*0.70)*1000);
         this.keepLSsession.delay(this.LSjsConfig['keepLSsessionActive'],this);
       }
+      
+      this.initializeLang();
+    },
+    
+    initializeLang: function() {
+      this.LSlang = $('LSlang');
+      if ($type(this.LSlang)) {
+        this.LSlang_select = $('LSlang_select');
+        if (this.LSlang_select) {
+          this.LSlang_open=0;
+          window.addEvent('click',this.closeLSlang.bind(this));
+          this.LSlang.addEvent('click',this.onLSlangClick.bind(this));
+          this.LSlang_select.getElements('img').each(function(img) {
+            img.addEvent('click',this.onSelectLSlangImgClick.bind(this,img));
+          },this);
+        }
+      }
+    },
+    
+    onLSlangClick: function() {
+      LSdebug(this.LSlang_select);
+      var infos = this.LSlang.getCoordinates();
+      this.LSlang_select.setStyle('top',infos.bottom);
+      this.LSlang_select.setStyle('left',infos.right);
+      this.LSlang_select.setStyle('display','block');
+      this.LSlang_open=1;
+    },
+    
+    closeLSlang: function(event) {
+      event = new Event(event);
+      if (event.target.id!='LSlang') {
+        this.LSlang_select.setStyle('display','none');
+        this.LSlang_open = 0;
+      }
+    },
+    
+    onSelectLSlangImgClick: function(img) {
+      window.location='index.php?lang='+img.alt;
     },
 
     onWantMoo: function(event) {

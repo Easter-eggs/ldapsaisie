@@ -1,6 +1,109 @@
-Pré-requis :
-	- Php 5 : magic_quotes_gpc = off
-	- php5-mhash
-	- Net_LDAP2  (http://pear.php.net/package/Net_LDAP2)
-	- Smarty (http://www.smarty.net/)
-	- tmp/ et template_c/ en ecriture
+ INSTALLATION
+===================
+
+1. Pré-requis
+=============
+
+    * PHP 5 avec magic_quotes_gpc à off
+    * Le support LDAP dans PHP (paquet php5-ldap dans Debian)
+    * Le support mhash dans PHP (paquet php5-mash dans Debian)
+    * Net_LDAP2
+    * Smarty
+    * L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'.
+
+[Avertissement]
+
+La librairie Net_LDAP2 oblige le fait que la racine DSE de l'annuaire soit lisible en anonyme sinon la connexion à l'annuaire échouera systématiquement.
+
+
+2. Téléchargement
+=================
+
+Il n'existe pas encore de version stable publiée. Vous pouvez obtenir le code source soit en le rapatriant à partir du serveur Subversion, soit en téléchargeant le dernier snapshot nocturne de l'arbre Subversion.
+
+2.1. A partir de Subversion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Le dépôt Subversion peut être récupéré anonymement en utilisant la commande suivante :
+
+      svn checkout svn://labs.libre-entreprise.org/svnroot/ldapsaisie
+    
+
+La racine web de l'application se trouvera alors dans le dossier /ldapsaisie/trunk/.
+
+2.2. A partir des snapshot
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Toutes les nuits, un snapshot de l'arbre Subversion est réalisé et est téléchargeable au format tar.gz à l'adresse suivante : http://labs.libre-entreprise.org/snapshots.php?group_id=118
+
+
+3. Arborescence du projet
+=========================
+
+Racine
+
+conf/
+
+    Contient les fichiers de configuration.
+
+    LSobjects/
+        Configuration des LSobjets.
+    LSaddons/
+        Configuration des LSaddons.
+
+includes/
+
+    Contient les fichiers des ressources.
+
+    addons/
+        Les addons au projet.
+    class/
+        Les fichiers de définition des classes PHP.
+    js/
+        Les fichiers Javascript.
+    libs/
+        Les librairies utilisées.
+
+l10n/
+    Les fichiers d'internationalisation.
+lsexample/
+    Les fichiers relatifs à l'annuaire d'exemple.
+templates/
+    Les fichiers template de l'interface. Il y a un sous-dossier par template.
+css/
+    Les fichiers css de l'interface. Il y a un sous-dossier par template CSS.
+images/
+    Les images de l'interface. Il y a un sous-dossier par template d'image.
+tmp/
+    Les fichiers temporaires (y compris le cache des templates).
+
+
+4. Les étapes de l'installation
+===============================
+
+Cette section décrit rapidement les différentes étapes de l'installation de LdapSaisie.
+
+   1. Téléchargement et décompression si nécessaire. (Cf : 2. Téléchargement)
+
+   2. Configuration globale : Cette partie est principalement contenue dans le fichier conf/config.inc.php. Il s'agit en particulier de configurer la connexion à votre annuaire. Pour plus de détails, consulter la documentation du projet. [1]
+
+      [Note]
+      Il est possible de passer l'application en mode debug ce qui peut être utile par la suite.
+
+   3. Configuration des types de LSobjects : Chaque type d'objet manipulé par LdapSaisie doit correspondre avec un type de LSobject.
+
+         1. Création du fichier de classe : Ce fichier contient la déclaration de la classe PHP correspondant au type de LSobject. Cette classe étend la classe LSldapObject qui contient pour ainsi dire toute les méthodes et proprités nécessaires pour les types de LSobject simples (sans LSrelation). Les fichiers des classes sont contenus dans le dossier /includes/class/ et portent les noms composés de la manière suivante :
+
+            class.LSobjects.[nom du type d'LSobject].php
+
+            Le plus simple pour cette étape est de recopier un des fichiers d'exemple et de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier. Pour cela, le fichier de classe du type LSeepeople est le plus simple car il ne contient que le strict minimum.
+
+         2. Configurer vos LSobject : Cette partie est certainement la plus longue et consiste à déclarer l'ensemble des informations relatives aux types des objets LDAP manipulés. Les fichiers d'exemples fournis vous seront certainement d'une aide précieuse. Pour plus de détails, consulter la documentation du projet. [1]
+
+         3. Configurer si nécessaire les relations entre les objets appelés LSrelations. Cette opération consiste dans un premier temps à écrire les méthodes PHP nécessaires pour gérer ces relations : pour cela regardez le fichier de classe du type LSeegroup. Il faudra ensuite déclarer ces relations dans la configuration des types d'LSobjects : Pour plus de détails, consulter la documentation du projet. [1]
+
+   4. Personnaliser l'interface : Il est possible de personnaliser à votre goût l'interface en écrivant votre template ou en modifiant simplement les fichiers CSS. Une partie de cette documentation concernera bientôt cette problématique. Patience...
+
+Liens
+=====
+ 1. Documentation du projet : http://ldapsaisie.easter-eggs.org/doku.php?id=doc

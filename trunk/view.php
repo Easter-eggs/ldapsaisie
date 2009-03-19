@@ -217,7 +217,7 @@ if(LSsession :: startLSsession()) {
               LSdebug('Recherche : Check Create()');
               if (LSsession :: canCreate($LSobject)) {
                 $searchData['LSview_actions']['create'] = array (
-                  'label' => _('New'),
+                  'label' => 'New',
                   'url' => 'create.php?LSobject='.$LSobject,
                   'action' => 'create'
                 );
@@ -232,7 +232,7 @@ if(LSsession :: startLSsession()) {
             LSdebug('Find : Load');
             if (LSsession :: canCreate($LSobject)) {
               $LSview_actions['create'] = array (
-                'label' => _('New'),
+                'label' => 'New',
                 'url' => 'create.php?LSobject='.$LSobject,
                 'action' => 'create'
               );
@@ -242,7 +242,7 @@ if(LSsession :: startLSsession()) {
               $LSview_actions['create'] = false;
             }
             $LSview_actions['refresh'] = array (
-              'label' => _('Refresh'),
+              'label' => 'Refresh',
               'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
               'action' => 'refresh'
             );

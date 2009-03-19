@@ -20,20 +20,12 @@
 
 ******************************************************************************/
 
-
-// Définitions des locales
-define('LS_TEXT_DOMAIN', 'ldapsaisie');
-define('LS_LOCALE', 'fr_FR.UTF8');
-
-setlocale(LC_ALL,  LS_LOCALE);
-bindtextdomain(LS_TEXT_DOMAIN, 'lang');
-textdomain(LS_TEXT_DOMAIN);
-
 // Configuration LDAP Saisie :
 $GLOBALS['LSconfig'] = array(
   'NetLDAP2' => '/usr/share/php/Net/LDAP2.php',
   'Smarty' => '/usr/share/php/smarty/libs/Smarty.class.php',
-  'lang' => 'fr_FR.UTF8',
+  'lang' => 'fr_FR',
+  'encoding' => 'UTF8',
   'cacheLSprofiles' => true,
   'cacheSubDn' => true,
   'cacheSearch' => true,
@@ -128,7 +120,7 @@ $GLOBALS['LSconfig'] = array(
         )
       ),
       'authObjectType' => 'LSeepeople',
-      'subDnLabel' => _('Company'),
+      'subDnLabel' => 'Company',
       'subDn' => array(
         '== Toutes ==' => array(
           'dn' => 'o=ls',
@@ -214,5 +206,9 @@ $GLOBALS['defaultJSscipts']=array(
 ini_set( 'magic_quotes_gpc', 'off' );
 ini_set( 'magic_quotes_sybase', 'off' );
 ini_set( 'magic_quotes_runtime', 'off' );
+
+// Locale
+define('LS_TEXT_DOMAIN', 'ldapsaisie');
+define('LS_I18N_DIR', 'lang');
 
 ?>

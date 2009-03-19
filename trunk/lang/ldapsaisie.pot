@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-16 11:36+0100\n"
+"POT-Creation-Date: 2009-03-19 18:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: select.php:186 includes/class/class.LSsession.php:1066 view.php:245
+#: select.php:186 includes/class/class.LSsession.php:1177
 msgid "Refresh"
 msgstr ""
 
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Do you really want to delete"
 msgstr ""
 
-#: remove.php:49 includes/class/class.LSsession.php:909
+#: remove.php:49 includes/class/class.LSsession.php:1020
 #: includes/class/class.LSconfirmBox.php:37
 #: includes/class/class.LSsmoothbox.php:39 includes/class/class.LSform.php:63
 msgid "Validate"
@@ -59,7 +59,7 @@ msgstr ""
 msgid "Object has been added."
 msgstr ""
 
-#: create.php:89 view.php:220 view.php:235
+#: create.php:89
 msgid "New"
 msgstr ""
 
@@ -218,160 +218,157 @@ msgid ""
 "server."
 msgstr ""
 
-#: includes/class/class.LSsession.php:849
+#: includes/class/class.LSsession.php:960
 msgid "Connection"
 msgstr ""
 
-#: includes/class/class.LSsession.php:859
-#: includes/class/class.LSsession.php:898
+#: includes/class/class.LSsession.php:970
+#: includes/class/class.LSsession.php:1009
 msgid "LDAP server"
 msgstr ""
 
-#: includes/class/class.LSsession.php:869
-#: includes/class/class.LSsession.php:1694
+#: includes/class/class.LSsession.php:980
+#: includes/class/class.LSsession.php:1810
 msgid "Level"
 msgstr ""
 
-#: includes/class/class.LSsession.php:870
-#: includes/class/class.LSsession.php:908
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:76
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:125
+#: includes/class/class.LSsession.php:981
+#: includes/class/class.LSsession.php:1019
 msgid "Identifier"
 msgstr ""
 
-#: includes/class/class.LSsession.php:871
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:450
+#: includes/class/class.LSsession.php:982
 msgid "Password"
 msgstr ""
 
-#: includes/class/class.LSsession.php:872
+#: includes/class/class.LSsession.php:983
 msgid "Connect"
 msgstr ""
 
-#: includes/class/class.LSsession.php:873
+#: includes/class/class.LSsession.php:984
 msgid "Forgot your password ?"
 msgstr ""
 
-#: includes/class/class.LSsession.php:891
+#: includes/class/class.LSsession.php:1002
 msgid "Recovery of your credentials"
 msgstr ""
 
-#: includes/class/class.LSsession.php:910
+#: includes/class/class.LSsession.php:1021
 msgid "Back"
 msgstr ""
 
-#: includes/class/class.LSsession.php:912
+#: includes/class/class.LSsession.php:1023
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr ""
 
-#: includes/class/class.LSsession.php:916
+#: includes/class/class.LSsession.php:1027
 msgid ""
 "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr ""
 
-#: includes/class/class.LSsession.php:924
+#: includes/class/class.LSsession.php:1035
 msgid "Your new password has been sent to %{mail}. "
 msgstr ""
 
-#: includes/class/class.LSsession.php:1101
+#: includes/class/class.LSsession.php:1193
+msgid "Language"
+msgstr ""
+
+#: includes/class/class.LSsession.php:1217
 msgid "Connected as"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1331 view.php:72
-msgid "My account"
-msgstr ""
-
-#: includes/class/class.LSsession.php:1822
+#: includes/class/class.LSsession.php:1938
 msgid "LSsession : The constant %{const} is not defined."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1825
+#: includes/class/class.LSsession.php:1941
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1828
+#: includes/class/class.LSsession.php:1944
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1831
+#: includes/class/class.LSsession.php:1947
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1838
+#: includes/class/class.LSsession.php:1954
 msgid "LSsession : Login or password incorrect."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1841
+#: includes/class/class.LSsession.php:1957
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1844
+#: includes/class/class.LSsession.php:1960
 msgid "LSsession : Can't load Smarty template engine."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1847
+#: includes/class/class.LSsession.php:1963
 msgid "LSsession : Can't connect to LDAP server."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1850
+#: includes/class/class.LSsession.php:1966
 msgid "LSsession : Could not load type of identifiable objects."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1853
+#: includes/class/class.LSsession.php:1969
 msgid "LSsession : Your are not authorized to do this action."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1856
+#: includes/class/class.LSsession.php:1972
 msgid "LSsession : Some informations are missing to display this page."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1860
+#: includes/class/class.LSsession.php:1976
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1863
+#: includes/class/class.LSsession.php:1979
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1866
+#: includes/class/class.LSsession.php:1982
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1869
+#: includes/class/class.LSsession.php:1985
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : %"
 "{step})"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1873
+#: includes/class/class.LSsession.php:1989
 msgid "LSsession : problem during initialisation."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1879
+#: includes/class/class.LSsession.php:1995
 msgid ""
 "LSrelation : The listing function for the relation %{relation} is unknow."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1882
+#: includes/class/class.LSsession.php:1998
 msgid "LSrelation : The update function of the relation %{relation} is unknow."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1885
+#: includes/class/class.LSsession.php:2001
 msgid "LSrelation : Error during relation update of the relation %{relation}."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1888
+#: includes/class/class.LSsession.php:2004
 msgid "LSrelation : Object type %{LSobject} unknow (Relation : %{relation})."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1891
+#: includes/class/class.LSsession.php:2007
 msgid ""
 "LSrelation : Some parameters are missing in the call of methods to handle "
 "standard relations (Method : %{meth})."
@@ -381,49 +378,49 @@ msgstr ""
 msgid "The value of field %{label} is invalid."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:690
+#: includes/class/class.LSattribute.php:694
 msgid ""
 "LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} "
 "& HTML = %{html})."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:693
+#: includes/class/class.LSattribute.php:697
 msgid ""
 "LSattribute : The function %{func} to display the attribute %{attr} is "
 "unknow."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:696
+#: includes/class/class.LSattribute.php:700
 msgid ""
 "LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:699
+#: includes/class/class.LSattribute.php:703
 msgid ""
 "LSattribute : Configuration data to verify the attribute %{attr} are "
 "incorrect."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:702
+#: includes/class/class.LSattribute.php:706
 msgid ""
 "LSattribute : The function %{func} to save the attribute %{attr} is unknow."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:705
+#: includes/class/class.LSattribute.php:709
 msgid "LSattribute : The value of the attribute %{attr} can't be generated."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:708
+#: includes/class/class.LSattribute.php:712
 msgid "LSattribute : Generation of the attribute %{attr} failed."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:711
+#: includes/class/class.LSattribute.php:715
 msgid ""
 "LSattribute : Generation of the attribute %{attr} did not return a correct "
 "value."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:714
+#: includes/class/class.LSattribute.php:718
 msgid ""
 "LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
 msgstr ""
@@ -909,162 +906,10 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
+#: view.php:72
+msgid "My account"
+msgstr ""
+
 #: view.php:380
 msgid "Actions"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:32 conf/config.inc.php:131
-msgid "Company"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:38
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:46
-msgid "Name"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:59
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:135
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:430
-msgid "Description"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:78
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:154
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:583
-msgid "Accountable(s)"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeecompany.php:91
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:167
-msgid "One or several of these users don't exist."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:41
-msgid "Groups"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:52
-msgid "Name must contain alphanumeric values only."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeegroup.php:100
-msgid "Members"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:49
-msgid "Users"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:54
-msgid "Belongs to groups ..."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:55
-msgid "Doesn't belong to any group."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:75
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:402
-msgid "Civility"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:138
-msgid ""
-"Identifier must contain alphanumeric values, dots (.) and dashes (-) only."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:146
-msgid "This identifier is already used."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:167
-msgid "Numeric identifier"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:174
-msgid "The numeric identifier must be an integer."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:181
-msgid "This uid is already used."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:196
-msgid "First Name"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:203
-msgid "The first name must contain alphanumeric values only."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:223
-msgid "Last Name"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:243
-msgid "Full Name"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:269
-msgid "Main group"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:296
-msgid "This group doesn't exist."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:317
-msgid "Command shell"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:318
-msgid "Allow user to connect a POSIX system."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:340
-msgid "Samba Identifier"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:356
-msgid "Home Directory"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:370
-msgid "E-mail address"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:382
-msgid "Given email address is invalid."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:505
-msgid "Password recovery hash"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:521
-msgid "Samba Password (LM)"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:534
-msgid "Samba Password (NT)"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:547
-msgid "Picture"
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:554
-msgid "Picture size is not valid."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:560
-msgid "File size is not valid."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:566
-msgid "File type is not valid."
-msgstr ""
-
-#: conf/LSobjects/config.LSobjects.LSeepeople.php:596
-msgid "One or several users don't exist."
 msgstr ""

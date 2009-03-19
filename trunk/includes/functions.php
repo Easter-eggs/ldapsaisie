@@ -421,4 +421,21 @@ function LSdebugDefined() {
       fwrite($LSlogFile,$_SERVER['REQUEST_URI']." : ".$msg."\n");
     }
   }
+  
+  function __($msg) {
+    if (isset($GLOBALS['LSlang'][$msg])) {
+      return $GLOBALS['LSlang'][$msg];
+    }
+    return _($msg);
+  }
+  
+  function tr($msg,$key=null) {
+    $val = $GLOBALS['Smarty']->get_template_vars($msg);
+    if (is_array($val)) {
+      echo __($val[$key]);
+    }
+    else {
+      echo __($val);
+    }
+  }
 ?>

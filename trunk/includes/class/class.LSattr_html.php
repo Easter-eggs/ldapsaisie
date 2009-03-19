@@ -62,10 +62,10 @@ class LSattr_html {
    */
   function getLabel() {
     if ( $this -> config['label'] != '' ) {
-      return $this -> config['label'];
+      return __($this -> config['label']);
     }
     else {
-      return $this -> name;
+      return __($this -> name);
     }
   }
   
