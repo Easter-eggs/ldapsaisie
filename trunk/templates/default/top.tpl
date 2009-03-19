@@ -38,6 +38,14 @@
     </td>
     <td id='status'>
     <span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
+    <form action='' methode='post' style='display: inline' class='LSlang_hidden'/>
+      <select name='lang'>
+      {foreach from=$LSlanguages item=lang}
+        <option value='{$lang}'>{$lang}</option>
+      {/foreach}
+      </select>
+      <input type='submit' value='->'/>
+    </form>
     {$connected_as} <span id='user_name'>{$LSsession_username}</span> <a href='index.php?LSsession_logout'><img src='{$LS_IMAGES_DIR}/logout.png' alt='Logout' title='Logout' /></a>
     </td>
   </tr>

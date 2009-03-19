@@ -28,6 +28,14 @@
   <dd><input type='text' name='LSsession_user' /></dd>
   <dt>{$loginform_label_pwd}</dt>
   <dd><input type='password' name='LSsession_pwd' /></dd>
+  <dt class='LSlang_hidden'>{$lang_label}</dt>
+  <dd class='LSlang_hidden'>
+  <select name='lang'>
+  {foreach from=$LSlanguages item=lang}
+    <option value='{$lang}'>{$lang}</option>
+  {/foreach}
+  </select>
+  </dd>
   <dd><input type='submit' value='{$loginform_label_submit}' /></dd>
 </dl>
 </form>

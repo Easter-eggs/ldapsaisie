@@ -85,6 +85,9 @@ var LSdefault = new Class({
           this.LSlang_select.getElements('img').each(function(img) {
             img.addEvent('click',this.onSelectLSlangImgClick.bind(this,img));
           },this);
+          document.getElements('.LSlang_hidden').each(function(el) {
+            el.dispose();
+          },this);
         }
       }
     },
