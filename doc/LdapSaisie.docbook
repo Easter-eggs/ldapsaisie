@@ -38,7 +38,7 @@ book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
     </author>
   </authorgroup>
  <productname>LdapSaisie</productname>
-  <releaseinfo>Version 0.2</releaseinfo>
+  <releaseinfo>Version 0.3</releaseinfo>
 </bookinfo>
  
 &intro;
