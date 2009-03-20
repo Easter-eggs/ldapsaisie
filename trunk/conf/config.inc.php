@@ -88,14 +88,14 @@ $GLOBALS['LSconfig'] = array(
           'msg' => "To proceed password recovery procedure, please follow that link:\n%{url}"
         ),
         'newPasswordMail' => array(
-          'subject' => 'LSexample : Your new credentials',
+          'subject' => 'LSexample : Your new credentials.',
           'msg' => "Your new password : %{mdp}"
         )
       ),
       'emailSender' => 'noreply@ls.com'
     ),
     array (
-      'name' => 'LSexample - multi-sociétés',
+      'name' => 'LSexample - multi-company',
       'ldap_config'=> array(
         'host'     => '127.0.0.1',
         'port'     => 389,
@@ -122,7 +122,7 @@ $GLOBALS['LSconfig'] = array(
       'authObjectType' => 'LSeepeople',
       'subDnLabel' => 'Company',
       'subDn' => array(
-        '== Toutes ==' => array(
+        '== All ==' => array(
           'dn' => 'o=ls',
           'LSobjects' => array(
             'LSeepeople',

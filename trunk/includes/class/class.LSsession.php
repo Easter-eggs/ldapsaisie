@@ -863,7 +863,7 @@ class LSsession {
       }
       else {
         if ((isCompatibleDNs($subDn_config['dn'],self :: $ldapServer['ldap_config']['basedn']))&&($subDn_config['dn']!="")) {
-          $return[$subDn_config['dn']] = $subDn_name;
+          $return[$subDn_config['dn']] = __($subDn_name);
         }
       }
     }
@@ -972,7 +972,7 @@ class LSsession {
     $ldapservers_index=array();
     foreach($GLOBALS['LSconfig']['ldap_servers'] as $id => $infos) {
       $ldapservers_index[]=$id;
-      $ldapservers_name[]=$infos['name'];
+      $ldapservers_name[]=__($infos['name']);
     }
     $GLOBALS['Smarty'] -> assign('loginform_ldapservers_name',$ldapservers_name);
     $GLOBALS['Smarty'] -> assign('loginform_ldapservers_index',$ldapservers_index);
@@ -1807,7 +1807,7 @@ class LSsession {
    * @retval string Le label des niveaux pour le serveur ldap dourant
    */
   public static function getSubDnLabel() {
-    return (self :: $ldapServer['subDnLabel']!='')?_(self :: $ldapServer['subDnLabel']):_('Level');
+    return (self :: $ldapServer['subDnLabel']!='')?__(self :: $ldapServer['subDnLabel']):_('Level');
   }
   
   /**
