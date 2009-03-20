@@ -2,6 +2,9 @@
 
 $GLOBALS['LSlang'] = array (
 
+"Companies" =>
+  "Sociétés",
+  
 "Company" =>
   "Société",
 
