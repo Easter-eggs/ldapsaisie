@@ -4,7 +4,7 @@
   <!-- Tabs - Start Title -->
   <ul class='LSform_layout'>
   {foreach from=$LSform_layout item=tab key=tab_key}
-    <li class='LSform_layout' id='LSform_layout_btn_{$tab_key}'><a href="#{$tab_key}">{$tab.label}</a></li>
+    <li class='LSform_layout' id='LSform_layout_btn_{$tab_key}'><a href="#{$tab_key}">{php}tr('tab','label'){/php}</a></li>
   {/foreach}
   </ul>
   <!-- Tabs - End Title -->
@@ -12,7 +12,7 @@
   <!-- Tabs - Start Content -->
   {foreach from=$LSform_layout item=tab key=tab_key}
     <a name='{$tab_key}'></a>
-    <h2 class='LSform_layout'>{$tab.label}</h2>
+    <h2 class='LSform_layout'>{php}tr('tab','label'){/php}</h2>
     <div class='LSform LSform_layout' id='LSform_layout_div_{$tab_key}'>
       {if $LSformElement_image!='' && $tab.img==1}
       <div class='LSformElement_image{if $LSformElement_image_errors} LSformElement_image_errors{/if}'>
