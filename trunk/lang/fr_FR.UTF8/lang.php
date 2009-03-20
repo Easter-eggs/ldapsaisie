@@ -24,7 +24,7 @@ $GLOBALS['LSlang'] = array (
   "Le nom doit contenir uniquement des valeurs alpha-numériques.",
 
 "Members" =>
-  "Members",
+  "Membres",
 
 "Users" =>
   "Utilisateurs",
