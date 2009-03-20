@@ -119,7 +119,7 @@ var LSrelation = new Class({
       if ( varLSdefault.checkAjaxReturn(data) ) {
         varLSsmoothbox.asNew();
         varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
-        varLSsmoothbox.openURL(data.href,{startElement: $(data.id), width: 615});
+        varLSsmoothbox.openURL(data.href,{startElement: $(data.id), width: 635});
       }
     },
     
