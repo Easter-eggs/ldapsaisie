@@ -50,7 +50,7 @@ var LSview = new Class({
       Event(event).stop();
       if (!this._confirmBoxOpen) {
         this._confirmBoxOpen = 1;
-        var name = a.getParent().getPrevious('td').getElement('a').innerHTML;
+        var name = a.getParent().getParent().getFirst('td').getElement('a').innerHTML;
         this.confirmBox = new LSconfirmBox({
           text:         this.labels.delete_confirm_text + ' "'+name+'" ?', 
           startElement: a,
