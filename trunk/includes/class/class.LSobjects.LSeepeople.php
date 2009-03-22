@@ -26,23 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSeepeople extends LSldapObject {
-
-  /**
-   * Constructeur
-   *
-   * Cette methode construit l'objet et définis la configuration.
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @param[in] $config array La configuration de l'objet
-   *
-   * @retval boolean true si l'objet a été construit, false sinon.
-   *
-   * @see LSldapObject::LSldapObject()
-   */ 
-  function LSeepeople ($config='auto') {
-    return $this -> LSldapObject('LSeepeople',$config);
-  }
+  // ~
 }
 
 ?>

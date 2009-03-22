@@ -55,23 +55,18 @@ class LSldapObject {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $type_name [<b>required</b>] string Le nom du type de l'objet
-   * @param[in] $config array La configuration de l'objet
-   *
    * @retval boolean true si l'objet a Ã©tÃ© construit, false sinon.
    */ 
-  function LSldapObject($type_name,$config='auto') {
-    $this -> type_name = $type_name;
-    $this -> config = $config;
-    if($config=='auto') {
-      if(isset($GLOBALS['LSobjects'][$type_name])) {
-        $this -> config = $GLOBALS['LSobjects'][$type_name];
-      }
-      else {
-        LSerror :: addErrorCode('LSldapObject_01');
-        return;
-      }
+  function LSldapObject() {
+    $this -> type_name = get_class($this);
+    if(is_array($GLOBALS['LSobjects'][$this -> type_name])) {
+      $this -> config = $GLOBALS['LSobjects'][$this -> type_name];
     }
+    else {
+      LSerror :: addErrorCode('LSldapObject_01');
+      return;
+    }
+    
     foreach($this -> config['attrs'] as $attr_name => $attr_config) {
       if(!$this -> attrs[$attr_name]=new LSattribute($attr_name,$attr_config,$this)) {
         return;
@@ -935,9 +930,12 @@ class LSldapObject {
     
     // Lancement de la recherche
     $ret=$this -> search ($filter,$sbasedn,$sparams);
-
+    
     if (is_array($ret)) {
       foreach($ret as $obj) {
+        if (in_array('subDnName',$attrs)) {
+          $obj['attrs']['subDnName']=$this -> getSubDnName($obj['dn']);
+        }
         $retInfos[$obj['dn']] = getFData($displayFormat,$obj['attrs']);
       }
     }

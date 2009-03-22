@@ -30,23 +30,6 @@ class LSeegroup extends LSldapObject {
   var $userObjectType = 'LSeepeople';
   var $memberAttr = 'uniqueMember';
 
-  /**
-   * Constructeur
-   *
-   * Cette methode construit l'objet et définis la configuration.
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @param[in] $config array La configuration de l'objet
-   *
-   * @retval boolean true si l'objet a été construit, false sinon.
-   *
-   * @see LSldapObject::LSldapObject()
-   */
-  function LSeegroup ($config='auto') {
-    $this -> LSldapObject('LSeegroup',$config);
-  }
-
   /* ========== Members ========== */
   /**
    * Retourne la valeur clef d'un membre
