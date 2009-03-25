@@ -184,8 +184,8 @@ class LSldap {
    *                          )
    */
   public static function getEntry($object_type,$dn) {
-    if(isset($GLOBALS['LSobjects'][$object_type])){
-      $obj_conf=$GLOBALS['LSobjects'][$object_type];
+    $obj_conf=LSconfig :: get('LSobjects.'.$object_type);
+    if(is_array($obj_conf)){
       $entry = self :: $cnx -> getEntry($dn);
       if (Net_LDAP2::isError($entry)) {
         //$newentry = new Net_LDAP2_Entry(&self :: $cnx);

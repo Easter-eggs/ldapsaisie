@@ -352,6 +352,20 @@ class LSsession {
     }
     return $list;
   }
+
+ /**
+  * Retourne la langue courante de la session
+  * 
+  * @param[in] boolean Si true, le code langue retourné sera court
+  * 
+  * @retval string La langue de la session
+  **/
+  public static function getLang($short=false) {
+    if ($short) {
+      return strtolower(self :: $lang[0].self :: $lang[1]);
+    }
+    return self :: $lang;
+  }
   
  /**
   * Vérifie si une locale est disponible
@@ -787,7 +801,7 @@ class LSsession {
   * DÃ©finition du serveur Ldap de la session
   *
   * DÃ©finition du serveur Ldap de la session Ã  partir de son ID dans 
-  * le tableau $GLOBALS['LSconfig']['ldap_servers'].
+  * le tableau LSconfig :: get('ldap_servers').
   *
   * @param[in] integer Index du serveur Ldap
   *

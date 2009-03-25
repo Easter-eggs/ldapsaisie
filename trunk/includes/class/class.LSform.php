@@ -108,8 +108,9 @@ class LSform {
     );
     $GLOBALS['Smarty'] -> assign('LSform_object',$LSform_object);
     
-    if (is_array($GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout'])) {
-      $GLOBALS['Smarty'] -> assign('LSform_layout',$GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout']);
+    $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
+    if (is_array($layout_config)) {
+      $GLOBALS['Smarty'] -> assign('LSform_layout',$layout_config);
       $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
     }
     
@@ -175,8 +176,9 @@ class LSform {
     }
     $GLOBALS['Smarty'] -> assign('LSform_fields',$fields);
     
-    if (is_array($GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout'])) {
-      $GLOBALS['Smarty'] -> assign('LSform_layout',$GLOBALS['LSobjects'][$LSform_object['type']]['LSform']['layout']);
+    $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
+    if (is_array($layout_config)) {
+      $GLOBALS['Smarty'] -> assign('LSform_layout',$layout_config);
       $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
     }
   }  

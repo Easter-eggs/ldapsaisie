@@ -65,7 +65,7 @@ if(LSsession :: startLSsession()) {
         $approx = false;
         $selectedTopDn = LSsession :: getTopDn();
         $orderby = false;
-        $_REQUEST['orderby']=$GLOBALS['LSobjects'][$LSobject]['orderby'];
+        $_REQUEST['orderby']=LSconfig :: get("LSobjects.$LSobject.orderby");
         $ordersense = 'ASC';
         $subDnLdapServer = LSsession :: getSubDnLdapServer();
         $doSubDn = (($subDnLdapServer)&&(!LSsession :: isSubDnLSobject($LSobject)));

@@ -59,8 +59,9 @@ class LSldapObject {
    */ 
   function LSldapObject() {
     $this -> type_name = get_class($this);
-    if(is_array($GLOBALS['LSobjects'][$this -> type_name])) {
-      $this -> config = $GLOBALS['LSobjects'][$this -> type_name];
+    $config = LSconfig :: get('LSobjects.'.$this -> type_name);
+    if(is_array($config)) {
+      $this -> config = $config;
     }
     else {
       LSerror :: addErrorCode('LSldapObject_01');
@@ -650,11 +651,11 @@ class LSldapObject {
    */ 
   function getPatternFilter($pattern=null,$approx=null) {
     if ($pattern!=NULL) {
-      if (is_array($GLOBALS['LSobjects'][$this -> getType()]['LSsearch']['attrs'])) {
-        $attrs=$GLOBALS['LSobjects'][$this -> getType()]['LSsearch']['attrs'];
+      if (is_array($this -> config['LSsearch']['attrs'])) {
+        $attrs=$this -> config['LSsearch']['attrs'];
       }
       else {
-        $attrs=array($GLOBALS['LSobjects'][$this -> getType()]['rdn']);
+        $attrs=array($this -> config['rdn']);
       }
       $pfilter='(|';
       if ($approx) {
@@ -1338,14 +1339,15 @@ class LSldapObject {
       if (is_array(LSsession :: $ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'])) {
         foreach(LSsession :: $ldapServer['subDn']['LSobject'][$this -> getType()]['LSobjects'] as $type) {
           if (LSsession :: loadLSobject($type)) {
-            if (isset($GLOBALS['LSobjects'][$type]['container_auto_create'])&&isset($GLOBALS['LSobjects'][$type]['container_dn'])) {
-              $dn = $GLOBALS['LSobjects'][$type]['container_dn'].','.$this -> getDn();
-              if(!LSldap :: getNewEntry($dn,$GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],$GLOBALS['LSobjects'][$type]['container_auto_create']['attrs'],true)) {
+            $conf_type=LSconfig :: get("LSobjects.$type");
+            if (isset($conf_type['container_auto_create'])&&isset($conf_type['container_dn'])) {
+              $dn = $conf_type['container_dn'].','.$this -> getDn();
+              if(!LSldap :: getNewEntry($dn,$conf_type['container_auto_create']['objectclass'],$conf_type['container_auto_create']['attrs'],true)) {
                 LSdebug("Impossible de créer l'entrée fille : ".print_r(
                   array(
                     'dn' => $dn,
-                    'objectClass' => $GLOBALS['LSobjects'][$type]['container_auto_create']['objectclass'],
-                    'attrs' => $GLOBALS['LSobjects'][$type]['container_auto_create']['attrs']
+                    'objectClass' => $conf_type['container_auto_create']['objectclass'],
+                    'attrs' => $conf_type['container_auto_create']['attrs']
                   )
                 ,true));
                 $error=1;
