@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-require_once 'includes/class/class.LSsession.php';
+require_once 'core.php';
 
 if(LSsession :: startLSsession()) {
   if (isset($_REQUEST['LSobject'])) {

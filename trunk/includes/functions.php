@@ -188,29 +188,29 @@ function return_data($data) {
   return $data;
 }
 
-$GLOBALS['LSdebug']['fields']=array();
+$GLOBALS['LSdebug_fields']=array();
 function LSdebug($data,$dump=false) {
   if ($dump) {
     ob_start();
     var_dump($data);
-    $GLOBALS['LSdebug']['fields'][]=ob_get_contents(); 
+    $GLOBALS['LSdebug_fields'][]=ob_get_contents(); 
     ob_end_clean();
   }
   else {
     if (is_array($data)||is_object($data)) {
-      $GLOBALS['LSdebug']['fields'][]=$data;
+      $GLOBALS['LSdebug_fields'][]=$data;
     }
     else {
-      $GLOBALS['LSdebug']['fields'][]="[$data]";
+      $GLOBALS['LSdebug_fields'][]="[$data]";
     }
   }
   return true;
 }
 
 function LSdebug_print($return=false) {
-  if (( $GLOBALS['LSdebug']['fields'] ) && ( $GLOBALS['LSdebug']['active'] )) {
+  if (( $GLOBALS['LSdebug_fields'] ) && (LSdebug)) {
     $txt='<ul>';
-    foreach($GLOBALS['LSdebug']['fields'] as $debug) {
+    foreach($GLOBALS['LSdebug_fields'] as $debug) {
       if (is_array($debug)||is_object($debug)) {
         $txt.='<li><pre>'.print_r($debug,true).'</pre></li>';
       }
@@ -228,9 +228,9 @@ function LSdebug_print($return=false) {
 }
 
 function LSdebugDefined() {
-  if (!$GLOBALS['LSdebug']['active'])
+  if (!LSdebug)
     return;
-  return (!empty($GLOBALS['LSdebug']['fields']));
+  return (!empty($GLOBALS['LSdebug_fields']));
 }
 
   /**

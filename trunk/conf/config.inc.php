@@ -172,7 +172,7 @@ define('LS_IMAGES_DIR', 'images/'.LS_THEME);
 define('LS_CSS_DIR', 'css/'.LS_THEME);
 
 //Debug
-$GLOBALS['LSdebug']['active'] = true;
+define('LSdebug',true);
 
 // Logs
 $GLOBALS['LSlog']['filename'] = 'tmp/LS.log';
@@ -183,16 +183,6 @@ define('NB_LSOBJECT_LIST_SELECT',11);
 
 define('MAX_SEND_FILE_SIZE',2000000);
 
-// Définitions des dossiers d'inclusions
-define('LS_CONF_DIR','conf/');
-define('LS_OBJECTS_DIR', LS_CONF_DIR . 'LSobjects/');
-define('LS_INCLUDE_DIR','includes/');
-define('LS_CLASS_DIR', LS_INCLUDE_DIR .'class/');
-define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
-define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
-define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
-define('LS_TMP_DIR', 'tmp/');
-
 
 // Javascript
 $GLOBALS['defaultJSscipts']=array(
@@ -201,14 +191,5 @@ $GLOBALS['defaultJSscipts']=array(
   'functions.js',
   'LSdefault.js'
 );
-
-// PHP values
-ini_set( 'magic_quotes_gpc', 'off' );
-ini_set( 'magic_quotes_sybase', 'off' );
-ini_set( 'magic_quotes_runtime', 'off' );
-
-// Locale
-define('LS_TEXT_DOMAIN', 'ldapsaisie');
-define('LS_I18N_DIR', 'lang');
 
 ?>

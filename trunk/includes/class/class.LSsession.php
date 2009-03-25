@@ -20,9 +20,6 @@
 
 ******************************************************************************/
 
-define('LS_DEFAULT_CONF_DIR','conf');
-require_once 'includes/functions.php';
-
 /**
  * Gestion des sessions
  *
@@ -95,7 +92,7 @@ class LSsession {
     if (!file_exists($file)) {
       return;
     }
-    if ($GLOBALS['LSdebug']['active']) {
+    if (LSdebug) {
       return include_once($file);
     }
     else {
@@ -105,48 +102,60 @@ class LSsession {
   }
 
  /**
-  * Chargement de la configuration
-  *
-  * Chargement des fichiers de configuration et crÃ©ation de l'objet Smarty.
+  * Lancement de LSconfig
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval true si tout c'est bien passÃ©, false sinon
   */
-  private static function loadConfig() {
-    if (loadDir(LS_DEFAULT_CONF_DIR, '^config\..*\.php$')) {
-      if ( self :: includeFile($GLOBALS['LSconfig']['Smarty']) ) {
-        $GLOBALS['Smarty'] = new Smarty();
-        $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
-        $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
-        
-        if ($GLOBALS['LSdebug']['active']) {
-          $GLOBALS['Smarty'] -> caching = 0;
-          // cache files are always regenerated
-          $GLOBALS['Smarty'] -> force_compile = TRUE;
-          // recompile template if it is changed
-          $GLOBALS['Smarty'] -> compile_check = TRUE;
-        }
-        
-        $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
-        $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
-        
-        self :: addJSconfigParam('LS_IMAGES_DIR',LS_IMAGES_DIR);
+  private static function startLSconfig() {
+    if (self :: loadLSclass('LSconfig')) {
+      if (LSconfig :: start()) {
         return true;
       }
-      else {
-        die("ERROR : Can't load Smarty.");
-        return;
+    }
+    die("ERROR : Can't load configuration files.");
+    return;
+  }
+
+ /**
+  * Lancement et initialisation de Smarty
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval true si tout c'est bien passÃ©, false sinon
+  */  
+  private static function startLStemplate() {
+    if ( self :: includeFile(LSconfig :: get('Smarty')) ) {
+      $GLOBALS['Smarty'] = new Smarty();
+      $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
+      $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
+      
+      if (LSdebug) {
+        $GLOBALS['Smarty'] -> caching = 0;
+        // cache files are always regenerated
+        $GLOBALS['Smarty'] -> force_compile = TRUE;
+        // recompile template if it is changed
+        $GLOBALS['Smarty'] -> compile_check = TRUE;
       }
+      
+      $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
+      $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
+      
+      self :: addJSconfigParam('LS_IMAGES_DIR',LS_IMAGES_DIR);
       return true;
     }
-    else {
-      die("ERROR : Can't load configuration files.");
-      return;
-    }
-    
+    die("ERROR : Can't load Smarty.");
+    return;
   }
   
+ /**
+  * Retourne le topDn de la session
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval string le topDn de la session
+  */
   public static function getTopDn() {
     return self :: $topDn;
   }
@@ -194,6 +203,9 @@ class LSsession {
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   public static function loadLSobject($object) {
+    if(class_exists($object)) {
+      return true;
+    }
     $error = 0;
     self :: loadLSclass('LSldapObject');
     if (!self :: loadLSclass($object,'LSobjects')) {
@@ -201,6 +213,11 @@ class LSsession {
     }
     if (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
       $error = 1;
+    }
+    else {
+      if (!LSconfig :: set("LSobjects.$object",$GLOBALS['LSobjects'][$object])) {
+        $error = 1;
+      }
     }
     if ($error) {
       LSerror :: addErrorCode('LSsession_04',$object);
@@ -239,12 +256,13 @@ class LSsession {
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   public static function loadLSaddons() {
-    if(!is_array($GLOBALS['LSaddons']['loads'])) {
+    $conf=LSconfig :: get('LSaddons.loads');
+    if(!is_array($conf)) {
       LSerror :: addErrorCode('LSsession_01',"LSaddons['loads']");
       return;
     }
 
-    foreach ($GLOBALS['LSaddons']['loads'] as $addon) {
+    foreach ($conf as $addon) {
       self :: loadLSaddon($addon);
     }
     return true;
@@ -266,7 +284,7 @@ class LSsession {
       $lang = self :: $ldapServer['lang'];
     }
     else {
-      $lang = $GLOBALS['LSconfig']['lang'];
+      $lang = LSconfig :: get('lang');
     }
     
     if (isset($_REQUEST['encoding'])) {
@@ -279,7 +297,7 @@ class LSsession {
       $encoding = self :: $ldapServer['encoding'];
     }
     else {
-      $encoding = $GLOBALS['LSconfig']['encoding'];
+      $encoding = LSconfig :: get('encoding');
     }
     
     $_SESSION['LSlang']=$lang;
@@ -360,9 +378,12 @@ class LSsession {
   * @retval boolean True si l'initialisation à réussi, false sinon.
   */
   public static function initialize() {
-    if (!self :: loadConfig()) {
+    if (!self :: startLSconfig()) {
       return;
     }
+    
+    self :: startLStemplate();
+    
     session_start();
     
     self :: setLocale();
@@ -773,9 +794,10 @@ class LSsession {
   * @retval boolean True sinon false.
   */
   public static function setLdapServer($id) {
-    if ( isset($GLOBALS['LSconfig']['ldap_servers'][$id]) ) {
+    $conf = LSconfig :: get("ldap_servers.$id");
+    if ( is_array($conf) ) {
       self :: $ldapServerId = $id;
-      self :: $ldapServer=$GLOBALS['LSconfig']['ldap_servers'][$id];
+      self :: $ldapServer = $conf;
       self :: setLocale();
       return true;
     }
@@ -791,7 +813,7 @@ class LSsession {
   */
   public static function LSldapConnect() {
     if (self :: $ldapServer) {
-      self :: includeFile($GLOBALS['LSconfig']['NetLDAP2']);
+      self :: includeFile(LSconfig :: get('NetLDAP2'));
       if (!self :: loadLSclass('LSldap')) {
         return;
       }
@@ -964,13 +986,13 @@ class LSsession {
     else {
       $GLOBALS['Smarty'] -> assign('loginform_action',$_SERVER['REQUEST_URI']);
     }
-    if (count($GLOBALS['LSconfig']['ldap_servers'])==1) {
+    if (count(LSconfig :: get('ldap_servers'))==1) {
       $GLOBALS['Smarty'] -> assign('loginform_ldapserver_style','style="display: none"');
     }
     $GLOBALS['Smarty'] -> assign('loginform_label_ldapserver',_('LDAP server'));
     $ldapservers_name=array();
     $ldapservers_index=array();
-    foreach($GLOBALS['LSconfig']['ldap_servers'] as $id => $infos) {
+    foreach(LSconfig :: get('ldap_servers') as $id => $infos) {
       $ldapservers_index[]=$id;
       $ldapservers_name[]=__($infos['name']);
     }
@@ -1002,14 +1024,14 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('pagetitle',_('Recovery of your credentials'));
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
     
-    if (count($GLOBALS['LSconfig']['ldap_servers'])==1) {
+    if (count(LSconfig :: get('ldap_servers'))==1) {
       $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapserver_style','style="display: none"');
     }
     
     $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_ldapserver',_('LDAP server'));
     $ldapservers_name=array();
     $ldapservers_index=array();
-    foreach($GLOBALS['LSconfig']['ldap_servers'] as $id => $infos) {
+    foreach(LSconfig :: get('ldap_servers') as $id => $infos) {
       $ldapservers_index[]=$id;
       $ldapservers_name[]=$infos['name'];
     }
@@ -1127,15 +1149,12 @@ class LSsession {
       $JSscript_txt.="<script src='".$script['path'].$script['file']."' type='text/javascript'></script>\n";
     }
 
+    $KAconf = LSconfig :: get('keepLSsessionActive');
     if ( 
           (
             (!isset(self :: $ldapServer['keepLSsessionActive']))
             &&
-            ( 
-              (!isset($GLOBALS['LSconfig']['keepLSsessionActive']))
-              ||
-              ($GLOBALS['LSconfig']['keepLSsessionActive'])
-            )
+            (!($KAconf === false))
           )
           ||
           (self :: $ldapServer['keepLSsessionActive'])
@@ -1145,7 +1164,7 @@ class LSsession {
 
     $GLOBALS['Smarty'] -> assign('LSjsConfig',json_encode(self :: $_JSconfigParams));
     
-    if ($GLOBALS['LSdebug']['active']) {
+    if (LSdebug) {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";
     }
     else {
@@ -1397,7 +1416,7 @@ class LSsession {
                       foreach($objectConf['LSobjects'] as $type) {
                         if (self :: loadLSobject($type)) {
                           if (self :: canAccess($type)) {
-                            $access[$type] = $GLOBALS['LSobjects'][$type]['label'];
+                            $access[$type] = LSconfig :: get('LSobjects.'.$type.'.label');
                           }
                         }
                       }
@@ -1418,7 +1437,7 @@ class LSsession {
               foreach($config['LSobjects'] as $objectType) {
                 if (self :: loadLSobject($objectType)) {
                   if (self :: canAccess($objectType)) {
-                    $access[$objectType] = $GLOBALS['LSobjects'][$objectType]['label'];
+                    $access[$objectType] = LSconfig :: get('LSobjects.'.$objectType.'.label');
                   }
                 }
               }
@@ -1434,7 +1453,7 @@ class LSsession {
         foreach(self :: $ldapServer['LSaccess'] as $objectType) {
           if (self :: loadLSobject($objectType)) {
             if (self :: canAccess($objectType)) {
-                $access[$objectType] = $GLOBALS['LSobjects'][$objectType]['label'];
+                $access[$objectType] = LSconfig :: get('LSobjects.'.$objectType.'.label');
             }
           }
         }
@@ -1529,22 +1548,22 @@ class LSsession {
       }
     }
     else {
-      $objectdn=$GLOBALS['LSobjects'][$LSobject]['container_dn'].','.self :: $topDn;
+      $objectdn=LSconfig :: get('LSobjects.'.$LSobject.'.container_dn').','.self :: $topDn;
       $whoami = self :: whoami($objectdn);
     }
     
     // Pour un attribut particulier
     if ($attr) {
       if ($attr=='rdn') {
-        $attr=$GLOBALS['LSobjects'][$LSobject]['rdn'];
+        $attr=LSconfig :: get('LSobjects.'.$LSobject.'.rdn');
       }
-      if (!isset($GLOBALS['LSobjects'][$LSobject]['attrs'][$attr])) {
+      if (!is_array(LSconfig :: get('LSobjects.'.$LSobject.'.attrs.'.$attr))) {
         return;
       }
 
       $r = 'n';
       foreach($whoami as $who) {
-        $nr = $GLOBALS['LSobjects'][$LSobject]['attrs'][$attr]['rights'][$who];
+        $nr = LSconfig :: get('LSobjects.'.$LSobject.'.attrs.'.$attr.'.rights.'.$who);
         if($nr == 'w') {
           $r = 'w';
         }
@@ -1570,10 +1589,11 @@ class LSsession {
     }
     
     // Pour un attribut quelconque
-    if (is_array($GLOBALS['LSobjects'][$LSobject]['attrs'])) {
+    $attrs_conf=LSconfig :: get('LSobjects.'.$LSobject.'.attrs');
+    if (is_array($attrs_conf)) {
       if (($right=='r')||($right=='w')) {
         foreach($whoami as $who) {
-          foreach ($GLOBALS['LSobjects'][$LSobject]['attrs'] as $attr_name => $attr_config) {
+          foreach ($attrs_conf as $attr_name => $attr_config) {
             if ($attr_config['rights'][$who]==$right) {
               return true;
             }
@@ -1582,7 +1602,7 @@ class LSsession {
       }
       else {
         foreach($whoami as $who) {
-          foreach ($GLOBALS['LSobjects'][$LSobject]['attrs'] as $attr_name => $attr_config) {
+          foreach ($attrs_conf as $attr_name => $attr_config) {
             if ( ($attr_config['rights'][$who]=='r') || ($attr_config['rights'][$who]=='w') ) {
               return true;
             }
@@ -1640,14 +1660,15 @@ class LSsession {
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */
   public static function relationCanAccess($dn,$LSobject,$relationName,$right=NULL) {
-    if (!isset($GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]))
+    $relConf=LSconfig :: get('LSobjects.'.$LSobject.'.LSrelation.'.$relationName);
+    if (!is_array($relConf))
       return;
     $whoami = self :: whoami($dn);
 
     if (($right=='w') || ($right=='r')) {
       $r = 'n';
       foreach($whoami as $who) {
-        $nr = $GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]['rights'][$who];
+        $nr = $relConf['rights'][$who];
         if($nr == 'w') {
           $r = 'w';
         }
@@ -1664,7 +1685,7 @@ class LSsession {
     }
     else {
       foreach($whoami as $who) {
-        if (($GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]['rights'][$who] == 'w') || ($GLOBALS['LSobjects'][$LSobject]['LSrelation'][$relationName]['rights'][$who] == 'r')) {
+        if (($relConf['rights'][$who] == 'w') || ($relConf['rights'][$who] == 'r')) {
           return true;
         }
       }
@@ -1774,7 +1795,7 @@ class LSsession {
    * @retval boolean True si le cache des droits est activé, false sinon.
    */
   public static function cacheLSprofiles() {
-    return ( ($GLOBALS['LSconfig']['cacheLSprofiles']) || (self :: $ldapServer['cacheLSprofiles']) );
+    return ( (LSconfig :: get('cacheLSprofiles')) || (self :: $ldapServer['cacheLSprofiles']) );
   }
 
   /**
@@ -1785,7 +1806,7 @@ class LSsession {
    * @retval boolean True si le cache des subDn est activé, false sinon.
    */
   public static function cacheSudDn() {
-    return (($GLOBALS['LSconfig']['cacheSubDn']) || (self :: $ldapServer['cacheSubDn']));
+    return ( (LSconfig :: get('cacheSubDn')) || (self :: $ldapServer['cacheSubDn']));
   }
   
   /**
@@ -1796,7 +1817,7 @@ class LSsession {
    * @retval boolean True si le cache des recherches est activé, false sinon.
    */
   public static function cacheSearch() {
-    return (($GLOBALS['LSconfig']['cacheSearch']) || (self :: $ldapServer['cacheSearch']));
+    return ( (LSconfig :: get('cacheSearch')) || (self :: $ldapServer['cacheSearch']));
   }
   
   /**

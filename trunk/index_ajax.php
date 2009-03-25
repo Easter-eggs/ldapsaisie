@@ -1,6 +1,6 @@
 <?php
 
-require_once 'includes/class/class.LSsession.php';
+require_once 'core.php';
 
 if (!isset($_REQUEST['noLSsession'])) {
   if ( !LSsession :: startLSsession() ) {

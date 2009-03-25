@@ -20,17 +20,27 @@
 
 ******************************************************************************/
 
-require_once 'core.php';
+// PHP values
+ini_set( 'magic_quotes_gpc', 'off' );
+ini_set( 'magic_quotes_sybase', 'off' );
+ini_set( 'magic_quotes_runtime', 'off' );
 
-if(LSsession :: startLSsession()) {
+// Définitions des dossiers d'inclusions
+define('LS_CONF_DIR','conf/');
+define('LS_OBJECTS_DIR', LS_CONF_DIR . 'LSobjects/');
+define('LS_INCLUDE_DIR','includes/');
+define('LS_CLASS_DIR', LS_INCLUDE_DIR .'class/');
+define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
+define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
+define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
+define('LS_TMP_DIR', 'tmp/');
 
-  // Définition du Titre de la page
-  $GLOBALS['Smarty'] -> assign('pagetitle',_('Home'));
+// Locale
+define('LS_TEXT_DOMAIN', 'ldapsaisie');
+define('LS_I18N_DIR', 'lang');
 
-  // Template
-  LSsession :: setTemplate('accueil.tpl');
-}
+require_once LS_INCLUDE_DIR.'functions.php';
 
-// Affichage des retours d'erreurs
-LSsession :: displayTemplate();
+require_once LS_CLASS_DIR.'class.LSsession.php';
+
 ?>
