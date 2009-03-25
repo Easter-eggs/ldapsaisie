@@ -181,7 +181,7 @@ define('CONST2','val2')
 </varlistentry>
 
 <varlistentry>
-  <term>$GLOBALS['LSdebug']['active']</term>
+  <term>LSdebug</term>
   <listitem>
     <simpara>Variable booléenne déterminant si le mode debug est activé.</simpara>
   </listitem>
@@ -227,89 +227,9 @@ define('CONST2','val2')
 </varlistentry>
 
 <varlistentry>
-  <term>LS_CONF_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier de configuration.</simpara>
-    <simpara>Valeur par défaut : <emphasis>conf/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_OBJECTS_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier de configuration.</simpara>
-    <simpara>Valeur par défaut : <emphasis>LS_CONF_DIR/LSobjects/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_INCLUDE_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier d'inclusion.</simpara>
-    <simpara>Valeur par défaut : <emphasis>includes/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_CLASS_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier d'inclusion des classes.</simpara>
-    <simpara>Valeur par défaut : <emphasis>LS_INCLUDE_DIR/class/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_LIB_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier d'inclusion des librairies.</simpara>
-    <simpara>Valeur par défaut : <emphasis>LS_INCLUDE_DIR/libs/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_ADDONS_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier d'inclusion des addons.</simpara>
-    <simpara>Valeur par défaut : <emphasis>LS_INCLUDE_DIR/addons/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_JS_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier d'inclusion du JavaScript.</simpara>
-    <simpara>Valeur par défaut : <emphasis>LS_INCLUDE_DIR/js/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_TMP_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant le chemin du dossier des fichiers temporaires.</simpara>
-    <simpara>Valeur par défaut : <emphasis>tmp/</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
   <term>$GLOBALS['defaultJSscipts']</term>
   <listitem>
     <simpara>Tableau déterminant les fichiers CSS à charger sur toute les pages.</simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_TEXT_DOMAIN</term>
-  <listitem>
-    <simpara>Constante déterminant le domaine gettext utilisé par le projet.</simpara>
-    <simpara>Valeur par défaut : <emphasis>ldapsaisie</emphasis></simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LS_I18N_DIR</term>
-  <listitem>
-    <simpara>Constante déterminant chemin du dossier d'internationalisation.</simpara>
-    <simpara>Valeur par défaut : <emphasis>lang</emphasis></simpara>
   </listitem>
 </varlistentry>
 
