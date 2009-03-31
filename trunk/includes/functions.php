@@ -430,13 +430,13 @@ function LSdebugDefined() {
   }
   
   function tr($msg,$key=null) {
-    $val = $GLOBALS['Smarty']->get_template_vars($msg);
-    if (!$val)
-      $val=$msg;
-    if (is_array($val)) {
-      echo __($val[$key]);
+    if (is_array($msg)) {
+      echo __($msg[$key]);
     }
     else {
+      $val = $GLOBALS['Smarty']->get_template_vars($msg);
+      if (!$val)
+        $val=$msg;
       echo __($val);
     }
   }
