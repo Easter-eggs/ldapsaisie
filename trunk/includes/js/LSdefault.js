@@ -14,7 +14,7 @@ var LSdefault = new Class({
       this.LSerror = $('LSerror');
       this.LSerror.setOpacity(0);
       this.LSerror_open = 0;
-      this.LSerror.addEvent('dblclick',this.hideLSerror.bind(this));
+      this.LSerror.addEvent('dblclick',this.hideLSerror.bind(this,0));
       
       // LSinfos
       this.LSinfos = $('LSinfos');
@@ -143,7 +143,7 @@ var LSdefault = new Class({
     },
 
     checkAjaxReturn: function(data) {
-      this.hideLSerror();
+      this.hideLSerror(0);
       if ($type(data) == 'object') {
         if (($type(data.LSredirect)) && (!$type(data.LSdebug)) ) {
           document.location = data.LSredirect;
@@ -228,10 +228,15 @@ var LSdefault = new Class({
       }
     },
     
-    hideLSerror: function(){
+    hideLSerror: function(withoutEffect){
       if (this.LSerror_open) {
-        this.fx.LSerror.start(0.9,0);
         this.LSerror_open = 0;
+        if (withoutEffect==0) {
+          this.fx.LSerror.start(0.9,0);
+        }
+        else {
+          this.fx.LSerror.set(0);
+        }
       }
     },
 
