@@ -4,9 +4,7 @@
 
 <div id='LSinfos'>{$LSinfos}</div>
 
-<div id='LSerror'>
-{$LSerrors}
-</div>
+<div id='LSerror'>{$LSerrors}</div>
 
 <div id='LSdebug'>
   <span id='LSdebug_hidden'>X</span> 
