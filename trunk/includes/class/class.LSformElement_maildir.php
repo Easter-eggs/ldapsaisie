@@ -21,7 +21,6 @@
 ******************************************************************************/
 
 LSsession :: loadLSclass('LSformElement_text');
-LSsession :: loadLSaddon('maildir');
 
 /**
  * Element maildir d'un formulaire pour LdapSaisie
@@ -106,77 +105,15 @@ class LSformElement_maildir extends LSformElement_text {
         }
         
         if ($action) {
-          if ($this -> params['html_options']['remoteRootPathRegex']) {
-            if (
-              (ereg($this -> params['html_options']['remoteRootPathRegex'],$new,$r_new) ||empty($new))
-              && 
-              (ereg($this -> params['html_options']['remoteRootPathRegex'],$cur,$r_cur)||empty($cur))
-            )
-            {
-              $new = $r_new[1];
-              $cur = $r_cur[1];
-            }
-            else {
-              LSdebug('Pbl remoteRootPathRegex');
-            }
-          }
-          $this -> _toDo = array (
-            'action' => $action,
-            'old' => $cur,
-            'new' => $new
-          );
-          $this -> attr_html -> attribute -> addObjectEvent('after_modify',$this,'toDo');
+          $new = $this -> attr_html -> getRemoteRootPathRegex($new);
+          $cur = $this -> attr_html -> getRemoteRootPathRegex($cur);
+          $this -> attr_html -> doOnModify($action,$cur,$new);
         }
       }
     }
     return $retval;
   }
-  
-  function toDo() {
-    if (is_array($this -> _toDo)) {
-      switch($this -> _toDo['action']) {
-        case 'delete':
-          if ($this -> params['html_options']['archiveNameFormat']) {
-            $newname=getFData($this -> params['html_options']['archiveNameFormat'],$this -> _toDo['old']);
-            if ($newname) {
-              if (renameMaildirByFTP($this -> _toDo['old'],$newname)) {
-                LSsession :: addInfo(_("The mailbox has been archived successfully."));
-                return true;
-              }
-              return;
-            }
-            LSdebug($this -> name." - LSformElement_maildir->toDo() : Incorrect archive name.");
-            return;
-          }
-          else {
-            if (removeMaildirByFTP(null,$this -> _toDo['old'])) {
-              LSsession :: addInfo(_("The mailbox has been deleted."));
-              return true;
-            }
-            return;
-          }
-          break;
-        case 'modify':
-          if (renameMaildirByFTP($this -> _toDo['old'],$this -> _toDo['new'])) {
-            LSsession :: addInfo(_("The mailbox has been moved."));
-            return true;
-          }
-          return;
-          break;
-        case 'create':
-          if (createMaildirByFTP(null,$this -> _toDo['new'])) {
-            LSsession :: addInfo(_("The mailbox has been created."));
-            return true;
-          }
-          return;
-          break;
-        default:
-          LSdebug($this -> name.' - LSformElement_maildir->toDo() : Unknown action.');
-      }
-    }
-    LSdebug($this -> name.' - LSformElement_maildir->toDo() : Nothing to do.');
-    return true;
-  }
+
 }
 
 ?>
