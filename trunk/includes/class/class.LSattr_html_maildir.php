@@ -112,7 +112,6 @@ class LSattr_html_maildir extends LSattr_html {
       $val = $this -> attribute -> getValue();
       $val=$val[0];
     }
-    LSdebug($this -> config['html_options']['remoteRootPathRegex']);
     if ($this -> config['html_options']['remoteRootPathRegex']) {
       if (
         ereg($this -> config['html_options']['remoteRootPathRegex'],$val,$r)
