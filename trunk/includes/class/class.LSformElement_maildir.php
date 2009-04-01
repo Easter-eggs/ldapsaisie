@@ -140,7 +140,7 @@ class LSformElement_maildir extends LSformElement_text {
             $newname=getFData($this -> params['html_options']['archiveNameFormat'],$this -> _toDo['old']);
             if ($newname) {
               if (renameMaildirByFTP($this -> _toDo['old'],$newname)) {
-                LSsession :: addInfo(_("The mailbox has been renamed successfully."));
+                LSsession :: addInfo(_("The mailbox has been archived successfully."));
                 return true;
               }
               return;
