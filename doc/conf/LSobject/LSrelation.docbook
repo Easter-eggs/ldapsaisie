@@ -7,9 +7,9 @@
 <citetitle>Structure</citetitle>
 <![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSrelation'] = array (
   'relation1' => array(
-    'label' => _('[label de la relation]'),
-    'emptyText' => _("[texte affiché si aucune relation avec d'autres objets 
-                      n'existe pour l'objet courant]"),
+    'label' => '[label de la relation]',
+    'emptyText' => "[texte affiché si aucune relation avec d'autres objets 
+                     n'existe pour l'objet courant]",
     'LSobject' => '[le type d'LSobjet en relation]',
     'list_function' => '[méthode1]',
     'getkeyvalue_function' => '[methode2]',

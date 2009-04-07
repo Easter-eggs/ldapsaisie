@@ -16,8 +16,8 @@
 <![CDATA['attrs' => array (
   /* ----------- start -----------*/
   'attr1' => array (
-    'label' => _('[label de l'attr1'),
-    'help_info' => _('[Message d'aide sur l'attribut attr1'),
+    'label' => '[label de l'attr1',
+    'help_info' => '[Message d'aide sur l'attribut attr1',
     'ldap_type' => 'ldaptype1',
     'ldap_options' => array(
       // Options LDAP liées au type LDAP de l'attribut

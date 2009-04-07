@@ -37,7 +37,7 @@
   'after_create' => 'function3',
   'after_delete' => 'function4',
   
-  'label' => _('objet1'),
+  'label' => 'objet1',
   
   'display_name_format' => '[format]',
   'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
@@ -150,10 +150,6 @@
   <listitem>
     <simpara>Nom générique au pluriel qualifiant le type d'objet. Exemple : 
     <emphasis>Utilisateurs</emphasis>.</simpara>
-    <important><para>Si vous utilisez la fonctionnalité d'internationalisation, il faut
-    utiliser ici la fonction de <application>gettext</application> pour que le 
-    texte soit traduit si vous n'êtes pas dans la langue de référence. Exemple :
-    <programlisting>_('Utilisateurs')</programlisting></para></important>
   </listitem>
 </varlistentry>
 
@@ -200,6 +196,15 @@
     <simpara>Tableau associatif contenant les paramètres de configuration
     des recherches de &LSobject; de ce type dans l'annuaire.
     <link linkend="config-LSobject-LSsearch">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>filter</term>
+  <listitem>
+    <simpara>Filtre de recherche LDAP applicable à tout les objets de ce type et
+    qui sera utilisé lors de chaque recherche de ce type d'objet.
     </simpara>
   </listitem>
 </varlistentry>

@@ -8,7 +8,7 @@
 <citetitle>Structure</citetitle>...
 <![CDATA['check_data' => array (
   '[regle1]' => array(
-    'msg' => _("[Message d'erreur]"),
+    'msg' => "[Message d'erreur]",
     'params' => array(
       // Paramètres de la règle 
     )
