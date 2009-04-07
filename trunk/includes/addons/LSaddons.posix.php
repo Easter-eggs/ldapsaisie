@@ -90,7 +90,15 @@ LSerror :: defineError('POSIX_01',
   */
   function generate_uidNumber($ldapObject) {
 
-    $objects = LSldap :: search (LS_POSIX_UIDNUMBER_ATTR.'=*');
+    $objects = LSldap :: search (
+      LS_POSIX_UIDNUMBER_ATTR.'=*',
+      NULL,
+      array(
+        'attributes' => array(
+          LS_POSIX_UIDNUMBER_ATTR
+        )
+      )
+    );
     $uidNumber = LS_POSIX_UIDNUMBER_MIN_VAL;
 
     if (!is_array($objects))
@@ -117,7 +125,15 @@ LSerror :: defineError('POSIX_01',
   */
   function generate_gidNumber($ldapObject) {
 
-    $objects = LSldap :: search (LS_POSIX_GIDNUMBER_ATTR.'=*');
+    $objects = LSldap :: search (
+      LS_POSIX_GIDNUMBER_ATTR.'=*',
+      NULL,
+      array(
+        'attributes' => array(
+          LS_POSIX_GIDNUMBER_ATTR
+        )
+      )
+    );
     $gidNumber = LS_POSIX_GIDNUMBER_MIN_VAL;
 
     if (!is_array($objects))
