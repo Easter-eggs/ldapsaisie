@@ -18,7 +18,7 @@
 <![CDATA['validation' => array (
   ...
   array(
-    'msg' => _("[LSformat du message d'erreur]"),
+    'msg' => "[LSformat du message d'erreur]",
     'filter' => '[LSformat du filtre de la recherche]',
     'object_type' => '[Type d'LSobject recherché]',
     'basedn' => '[BaseDn de la recherche]',
@@ -102,7 +102,7 @@
 <![CDATA['validation' => array (
   ..
   array(
-    'msg' => _("[LSformat du message d'erreur]"),
+    'msg' => "[LSformat du message d'erreur]",
     'function' => '[Nom de la fonction de validation]'
   ),
   ...
