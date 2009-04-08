@@ -74,7 +74,7 @@ $GLOBALS['LSconfig'] = array(
       'cacheSearch' => true,
       'authObjectType' => 'LSeepeople',
       'authObjectFilter' => '(|(uid=%{user})(mail=%{user}))',
-      'authobject_pwdattr' => 'userPassword',
+      'authObjectTypeAttrPwd' => 'userPassword',
       'LSaccess' => array(
         'LSeepeople',
         'LSeegroup'
