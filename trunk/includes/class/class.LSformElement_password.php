@@ -125,7 +125,7 @@ class LSformElement_password extends LSformElement {
       );
       
       if (($this -> params['html_options']['generationTool'])&&($this -> params['html_options']['autoGenerate'])&&(empty($this -> values))) {
-        $pwd=$this->generatePassword();
+        $pwd=$this->generatePassword($this -> params);
       }
       
       $params = array(
@@ -144,8 +144,8 @@ class LSformElement_password extends LSformElement {
     return $return;
   }
   
-  function generatePassword() {
-    return generatePassword($this -> params['html_options']['chars'],$this -> params['html_options']['lenght']);
+  function generatePassword($param=NULL) {
+    return generatePassword($params['html_options']['chars'],$params['html_options']['lenght']);
   }
   
   function verifyPassword($pwd) {
@@ -206,20 +206,12 @@ class LSformElement_password extends LSformElement {
   public static function ajax_generatePassword(&$data) {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
-        $object = new $_REQUEST['objecttype']();
-        if ($object) {
-          $form = $object -> getForm($_REQUEST['idform']);
-          if ($form) {
-            $field=$form -> getElement($_REQUEST['attribute']);
-            if ($field) {
-              $val = $field -> generatePassword();
-              if ( $val ) {
-                $data = array(
-                  'generatePassword' => $val
-                );
-              }
-            }
-          }
+        $params = LSconfig :: get("LSobjects.".$_REQUEST['objecttype'].".attrs.".$_REQUEST['attribute']);
+        $val = self :: generatePassword($params);
+        if ( $val ) {
+          $data = array(
+            'generatePassword' => $val
+          );
         }
       }
     }
