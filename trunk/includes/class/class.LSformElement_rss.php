@@ -37,7 +37,8 @@ class LSformElement_rss extends LSformElement_text {
     'LSformElement_rss.js'
   );
   var $fetchVariables = array(
-    'uriClass' => 'LSformElement_rss'
+    'uriClass' => 'LSformElement_rss',
+    'uriPrefix' => ''
   );
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';

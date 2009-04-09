@@ -38,7 +38,8 @@ class LSformElement_url extends LSformElement_text {
   );
   
   var $fetchVariables = array(
-    'uriClass' => 'LSformElement_url'
+    'uriClass' => 'LSformElement_url',
+    'uriPrefix' => ''
   );
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
