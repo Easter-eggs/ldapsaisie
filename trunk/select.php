@@ -61,7 +61,7 @@ if(LSsession :: startLSsession()) {
         $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
         $params = array('scope' => 'one');
         $pattern = false;
-        $recur = false;
+        $recur = LSconfig :: get("LSobjects.$LSobject.LSsearch.recursive");
         $approx = false;
         $selectedTopDn = LSsession :: getTopDn();
         $orderby = false;

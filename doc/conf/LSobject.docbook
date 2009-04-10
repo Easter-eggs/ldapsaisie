@@ -52,6 +52,11 @@
     // Configuration des formulaires de l'objet
   ), // fin LSform
   
+  // LSsearch
+  'LSsearch' => array (
+    // Configuration des recherches de l'objet
+  ), // fin LSsearch
+  
   // Attributs
   'attrs' => array (
     // Configuration des attributs du type d'LSobjet

@@ -49,6 +49,7 @@
           </tr>  
         {/foreach}
     </table>
+    <span id='LSobject_list_nbresult'>{$LSobject_list_nbresult} {$pagetitle}</span>
     {if $LSobject_list_nbpage}
       <p class='LSobject-list-page'>
       {section name=listpage loop=$LSobject_list_nbpage step=1}

@@ -226,6 +226,14 @@ strong.LSobject-list-page {
   color:              #0072b8;
 }
 
+#LSobject_list_nbresult {
+  float:              right;
+  color:              #333;
+  font-style:         italic;
+  margin-right:       20px;
+  text-transform:     lowercase;
+}
+
 /*
  *******************
  * LSview-actions

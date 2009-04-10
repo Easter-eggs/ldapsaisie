@@ -14,7 +14,7 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     'attr2',
     ...
   ),
-  ...
+  'recursive' => [booléen]
 );]]>
 </programlisting>
 
@@ -38,6 +38,14 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     filtrant en plus sur les <emphasis>ObjectClass</emphasis> du type
     d'&LSobject; de la manière suivante :</simpara>
     <programlisting><![CDATA[(& (&(objectclass=oc1)(objectclass=oc2)) (filtre) )]]></programlisting></important>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>recursive</term>
+  <listitem>
+    <para>Booléen déterminant si la recherche récursive est activée ou non par
+    défaut pour ce type d'LSobject.</para>
   </listitem>
 </varlistentry>
 
