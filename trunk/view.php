@@ -141,14 +141,19 @@ if(LSsession :: startLSsession()) {
             
             if (isset($_REQUEST['LSview_recur'])) {
               $recur = true;
-              $params['scope'] = 'sub';
-              $topDn = LSsession :: getTopDn();
             }
             else {
               $recur = false;
-              $params['scope'] = 'one';
-              $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
             }
+          }
+          
+          if ($recur) {
+            $params['scope'] = 'sub';
+            $topDn = LSsession :: getTopDn();
+          }
+          else {
+            $params['scope'] = 'one';
+            $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
           }
           
           $sort=false;
@@ -180,7 +185,7 @@ if(LSsession :: startLSsession()) {
             'ordersense' => $ordersense,
             'doSubDn' => $doSubDn
           );
-
+          
           $GLOBALS['Smarty']->assign('LSview_search_pattern',$pattern);
 
           if ($recur) {

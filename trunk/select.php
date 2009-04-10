@@ -87,27 +87,32 @@ if(LSsession :: startLSsession()) {
         
         if (isset($_REQUEST['LSview_recur'])) {
           $recur = true;
-          $params['scope'] = 'sub';
-          if (LSsession :: validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
-            $topDn = $_REQUEST['LSselect_topDn'];
-            $selectedTopDn = $topDn;
-          }
-          else {
-            $topDn = LSsession :: getTopDn();
-            $selectedTopDn = $topDn;
-          }
         }
         else {
           $recur = false;
-          $params['scope'] = 'one';
-          if (LSsession :: validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
-            $topDn = $object -> config['container_dn'].','.$_REQUEST['LSselect_topDn'];
-            $selectedTopDn = $_REQUEST['LSselect_topDn'];
-          }
-          else {
-            $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
-            $selectedTopDn = LSsession :: getTopDn();
-          }
+        }
+      }
+      
+      if ($recur) {
+        $params['scope'] = 'sub';
+        if (LSsession :: validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
+          $topDn = $_REQUEST['LSselect_topDn'];
+          $selectedTopDn = $topDn;
+        }
+        else {
+          $topDn = LSsession :: getTopDn();
+          $selectedTopDn = $topDn;
+        }
+      }
+      else {
+        $params['scope'] = 'one';
+        if (LSsession :: validSubDnLdapServer($_REQUEST['LSselect_topDn'])) {
+          $topDn = $object -> config['container_dn'].','.$_REQUEST['LSselect_topDn'];
+          $selectedTopDn = $_REQUEST['LSselect_topDn'];
+        }
+        else {
+          $topDn = $object -> config['container_dn'].','.LSsession :: getTopDn();
+          $selectedTopDn = LSsession :: getTopDn();
         }
       }
       
