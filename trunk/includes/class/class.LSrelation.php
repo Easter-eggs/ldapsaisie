@@ -61,7 +61,7 @@ class LSrelation {
           );
           
           if (isset($relationConf['emptyText'])) {
-            $return['emptyText'] = $relationConf['emptyText'];
+            $return['emptyText'] = __($relationConf['emptyText']);
           }
           else {
             $return['emptyText'] = _('No object.');
@@ -192,7 +192,7 @@ class LSrelation {
                         }
                         else {
                           if (isset($relationConf['emptyText'])) {
-                            $data['html'] = "<li>".$relationConf['emptyText']."</li>\n";
+                            $data['html'] = "<li>".__($relationConf['emptyText'])."</li>\n";
                           }
                           else {
                             $data['html'] = "<li>"._('No object.')."</li>\n";
