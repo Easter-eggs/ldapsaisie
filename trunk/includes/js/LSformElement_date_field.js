@@ -20,7 +20,8 @@ var LSformElement_date_field = new Class({
         this.params.firstDayOfWeek=0;
       }
       
-      this.input.addEvent('click',this.onCalendarBtnClick.bind(this));
+      this.firstInputClick = 1;
+      this.input.addEvent('click',this.onInputClick.bind(this));
       
       this.date = Date.parseDate(this.input.value,this.params.format);
       
@@ -42,8 +43,34 @@ var LSformElement_date_field = new Class({
       varLSdefault.addHelpInfo(this.nowBtn,'LSformElement_date','now');
     },
     
+    onInputClick: function() {
+      if(this.firstInputClick==1) {
+        this.toogle();
+        this.firstInputClick=0;
+      }
+    },
+    
     onCalendarBtnClick: function() {
+      this.toogle();
+    },
+    
+    open: function() {
+      this.opened = 1;
       this.calendar.showAtElement(this.calendarBtn);
+    },
+    
+    close: function() {
+      this.opened = 0;
+      this.calendar.hide();
+    },
+    
+    toogle: function() {
+      if (this.opened) {
+        this.close();
+      }
+      else {
+        this.open();
+      }
     },
     
     onChangeCalendar: function(calendar, date) {
@@ -51,7 +78,7 @@ var LSformElement_date_field = new Class({
     },
     
     onCloseCalendar: function() {
-      this.calendar.hide();
+      this.close();
     },
     
     onNowBtnClick: function() {
