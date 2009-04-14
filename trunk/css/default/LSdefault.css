@@ -1,59 +1,5 @@
-#LSerror {
-  width:                    50%;
-  position:                 absolute;
-  top:                      10px;
-  left:                     10px;
-  background-color:         #f00;
-  visibility:               hidden;
-  color:                    #fff;
-  z-index:                  100;
-}
-
-#LSerror_txt {
-  display:                  none;
-}
-
-#LSlang_select {
-  display:                  none;
-  background-color:         #000;
-  -moz-border-radius:       8px;
-  position:                 absolute;
-  max-width:                200px;
-  padding:                  5px;
-}
-
-#LSlang_select img {
-  vertical-align:           middle;
-}
-
-#LSdebug {
-  width:                    50%;
-  position:                 absolute;
-  top:                      10px;
-  left:                     50%;
-  background-color:         #84ff6a;
-  visibility:               hidden;
-  color:                    #fff;
-  z-index:                  100;
-}
-
-#LSdebug_txt {
-  display:                  none;
-}
-
-#LSjsConfig {
-  display:                  none;
-}
-
-#LSdebug_hidden {
-  float:                    right;
-  color:                    #fff;
-  text-decoration:          none;
-  font-weight:              bold;
-  cursor:                   pointer;
-}
-
-#LSinfos {
+/* LSinfoBox */
+div.LSinfosBox {
   position:                 absolute;
   width:                    50%;
   left:                     25%;
@@ -66,6 +12,47 @@
   font-weight:              bold;
 }
 
+span.LSinfosBox {
+  float:                    right;
+  cursor:                   pointer;
+  font-family:              sans-serif;
+  padding:                  2px;
+}
+
+
+div.LSdebug {
+  top:                      10px;
+  left:                     50%;
+  background-color:         #84ff6a;
+  border:                   1px solid #84ff6a;
+  color:                    #fff;
+}
+
+div.LSerror {
+  top:                      10px;
+  left:                     10px;
+  background-color:         #f00;
+  border:                   1px solid #f00;
+  color:                    #fff;
+}
+
+#LSdebug_txt, #LSerror_txt, #LSinfos_txt, #LSjsConfig  {
+  display:                  none;
+}
+
+/* LSlang */
+#LSlang_select {
+  display:                  none;
+  background-color:         #000;
+  -moz-border-radius:       8px;
+  position:                 absolute;
+  max-width:                200px;
+  padding:                  5px;
+}
+
+#LSlang_select img {
+  vertical-align:           middle;
+}
 
 /* Tips */
 .tip-top {
@@ -86,3 +73,5 @@
   max-width:        500px;
   text-align:       justify;
 }
+
+

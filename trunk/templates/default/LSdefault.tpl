@@ -2,14 +2,11 @@
 {$LSjsConfig}
 </div>
 
-<div id='LSinfos'>{$LSinfos}</div>
+<div id='LSinfos_txt'>{$LSinfos}</div>
 
-<div id='LSerror'>{$LSerrors}</div>
+<div id='LSerror_txt'>{$LSerrors}</div>
 
-<div id='LSdebug'>
-  <span id='LSdebug_hidden'>X</span> 
-  <div id='LSdebug_infos'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
-</div>
+<div id='LSdebug_txt'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
 
 <div id='LSlang_select'>
 {foreach from=$LSlanguages item=lang}

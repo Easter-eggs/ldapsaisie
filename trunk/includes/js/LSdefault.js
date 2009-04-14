@@ -1,31 +1,26 @@
 var LSdefault = new Class({
     initialize: function(){
       // LSdebug
-      this.LSdebug = $('LSdebug');
-      this.LSdebug.addEvent('dblclick',this.hideLSdebug.bind(this));
-      this.LSdebugInfos = $('LSdebug_infos');
-      this.LSdebug.setOpacity(0);
-      this.LSdebug_open = 0;
-
-      this.LSdebugHidden = $('LSdebug_hidden');
-      this.LSdebugHidden.addEvent('click',this.hideLSdebug.bind(this));
+      this.LSdebug = new LSinfosBox({
+        name: 'LSdebug',
+        fxDuration: 600,
+        closeBtn: 1,
+        autoClose: 0
+      });
+      this.LSdebugInfos = $('LSdebug_txt');
       
       // LSerror
-      this.LSerror = $('LSerror');
-      this.LSerror.setOpacity(0);
-      this.LSerror_open = 0;
-      this.LSerror.addEvent('dblclick',this.hideLSerror.bind(this,0));
+      this.LSerror = new LSinfosBox({
+        name: 'LSerror',
+        opacity: 0.9,
+        autoClose: 10000
+      });
+      this.LSerror_div = $('LSerror_txt');
       
       // LSinfos
-      this.LSinfos = $('LSinfos');
+      this.LSinfos = new LSinfosBox({name: 'LSinfos'});
+      this.LSinfos_div = $('LSinfos_txt');
 
-      // FX
-      this.fx = {
-        LSdebug:  new Fx.Tween(this.LSdebug,{property: 'opacity',duration:600, fps:30}),
-        LSerror:  new Fx.Tween(this.LSerror,{property: 'opacity',duration:500, fps:30}),
-        LSinfos:  new Fx.Tween(this.LSinfos,{property: 'opacity',duration:500, fps:30})
-      };
-      
       // LSjsConfig
       this.LSjsConfigEl = $('LSjsConfig');
       if ($type(this.LSjsConfigEl)) {
@@ -46,15 +41,15 @@ var LSdefault = new Class({
       
       // Display Infos
       if (this.LSdebugInfos.innerHTML != '') {
-        this.displayDebugBox();
+        this.LSdebug.display(this.LSdebugInfos.innerHTML);
       }
       
-      if (this.LSerror.innerHTML != '') {
-        this.displayErrorBox();
+      if (this.LSerror_div.innerHTML != '') {
+        this.LSerror.display(this.LSerror_div.innerHTML);
       }
       
-      if (this.LSinfos.innerHTML != '') {
-        this.displayInfosBox();
+      if (this.LSinfos_div.innerHTML != '') {
+        this.LSinfos.display(this.LSinfos_div.innerHTML);
       }
       
       // :)
@@ -121,21 +116,8 @@ var LSdefault = new Class({
     },
 
     moo: function() {
-      var mooTxt = "         (__)     .ooooooooooooooooooo.\n         (oo) °°°°0 I love LdapSaisie 0\n   /------\\\/      °ooooooooooooooooooo°\n  / |    ||\n *  /\---/\\\n    ~~   ~~";
-      var ulMoo = this.LSinfos.getElement('ul'); 
-      var preMoo = new Element('pre');
-      preMoo.set('html',mooTxt);
-      if ($type(ulMoo)) {
-        ulMoo.empty();
-        var liMoo = new Element('li');
-        liMoo.injectInside(ulMoo);
-        preMoo.injectInside(liMoo);
-      }
-      else {
-        this.LSinfos.empty();
-        preMoo.injectInside(this.LSinfos);
-      }
-      this.displayInfosBox();
+      var mooTxt = "<pre>         (__)     .ooooooooooooooooooo.\n         (oo) °°°°0 I love LdapSaisie 0\n   /------\\\/      °ooooooooooooooooooo°\n  / |    ||\n *  /\---/\\\n    ~~   ~~</pre>";
+      this.LSinfos.addInfo(mooTxt);
     },
 
     onLSsession_topDnChange: function() {
@@ -143,7 +125,7 @@ var LSdefault = new Class({
     },
 
     checkAjaxReturn: function(data) {
-      this.hideLSerror(0);
+      this.LSerror.close(0);
       if ($type(data) == 'object') {
         if (($type(data.LSredirect)) && (!$type(data.LSdebug)) ) {
           document.location = data.LSredirect;
@@ -159,15 +141,15 @@ var LSdefault = new Class({
         
         if ($type(data.LSdebug)) {
           LSdebug(data.LSdebug);
-          this.displayDebug(data.LSdebug);
+          this.LSdebug.display(data.LSdebug);
         }
         
         if ($type(data.LSinfos)) {
-          this.displayInfos(data.LSinfos);
+          this.LSinfos.display(data.LSinfos);
         }
         
         if ($type(data.LSerror)) {
-          this.displayError(data.LSerror);
+          this.LSerror.display(data.LSerror);
           return;
         }
         return true;
@@ -177,73 +159,6 @@ var LSdefault = new Class({
         this.loadingImgHide();
         return;
       }
-    },
-
-    /*
-     * Set and Display Methods
-     */
-    displayError: function(html) {
-      this.LSerror.set('html',html);
-      this.displayErrorBox();
-    },
-
-    displayDebug: function(html) {
-      this.LSdebugInfos.set('html',html);
-      this.displayDebugBox();
-    },
-    
-    displayInfos: function(html) {
-      this.LSinfos.set('html',html);
-      this.displayInfosBox();
-    },
-    
-    /*
-     * Display Methods
-     */
-    displayErrorBox: function() {
-      this.LSerror.setStyle('top',getScrollTop()+10);
-      if (this.LSerror_open) {
-        return true;
-      }
-      this.fx.LSerror.start(0,0.8);
-      this.LSerror_open = 1;
-    },
-    
-    displayDebugBox: function() {
-      this.LSdebug.setStyle('top',getScrollTop()+10);
-      if (this.LSdebug_open) {
-        return true;
-      }
-      this.fx.LSdebug.start(0,0.8);
-      this.LSdebug_open = 1;
-    },
-    
-    /*
-     * Hide Methods
-     */
-    hideLSdebug: function(){
-      if (this.LSdebug_open) {
-        this.fx.LSdebug.start(0.8,0);
-        this.LSdebug_open = 0;
-      }
-    },
-    
-    hideLSerror: function(withoutEffect){
-      if (this.LSerror_open) {
-        this.LSerror_open = 0;
-        if (withoutEffect==0) {
-          this.fx.LSerror.start(0.9,0);
-        }
-        else {
-          this.fx.LSerror.set(0);
-        }
-      }
-    },
-
-    displayInfosBox: function() {
-      this.LSinfos.setStyle('top',getScrollTop()+10);
-      this.fx.LSinfos.start(0,0.9);
-      (function(){this.fx.LSinfos.start(0.9,0);}).delay(5000, this);
     },
 
     loadingImgDisplay: function(el,position,size) {
@@ -268,7 +183,7 @@ var LSdefault = new Class({
     loadingImgHide: function(id) {
       if (isNaN(id)) {
         this.loading_img.each(function(el)  {
-          if (typeof(el) != 'undefined')
+          if ($type(el))
             el.destroy();
         },this);
         this.loading_img_id=-1;
@@ -283,7 +198,7 @@ var LSdefault = new Class({
       if (LSdebug_txt) {
         var debug = LSdebug_txt.innerHTML;
         if (debug) {
-          this.displayDebug(debug.toString());
+          this.LSdebug.display(debug.toString());
         }
       }
       
@@ -291,7 +206,7 @@ var LSdefault = new Class({
       if (LSerror_txt) {
         var error=LSerror_txt.innerHTML;
         if (error) {
-          this.displayError(error.toString());
+          this.LSerror.display(error.toString());
         }
       }
     },
