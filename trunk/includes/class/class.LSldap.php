@@ -186,14 +186,8 @@ class LSldap {
   public static function getEntry($object_type,$dn) {
     $obj_conf=LSconfig :: get('LSobjects.'.$object_type);
     if(is_array($obj_conf)){
-      $entry = self :: $cnx -> getEntry($dn);
-      if (Net_LDAP2::isError($entry)) {
-        //$newentry = new Net_LDAP2_Entry(&self :: $cnx);
-        //$newentry -> dn($dn);
-        //$newentry -> add(array('objectclass' => $obj_conf['objectclass']));
-        //foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
-        //  $newentry->add(array($attr_name => $attr_conf['default_value']));
-        //}
+      $entry = self :: getLdapEntry($dn);
+      if ($entry === false) {
         $attributes = array();
         foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
           if( isset($attr_conf['default_value']) ) {
@@ -215,6 +209,26 @@ class LSldap {
     else {
       LSerror :: addErrorCode('LSldap_03');
       return;
+    }
+  }
+  
+  /**
+   * Retourne un object NetLDAP d'une entree existante
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $dn string DN de l'entrÃ© Ldap
+   *
+   * @retval ldapentry|boolean  Un objet ldapentry (PEAR::Net_LDAP2) ou false en
+   *                            cas de problème
+   */
+  public static function getLdapEntry($dn) {
+    $entry = self :: $cnx -> getEntry($dn);
+    if (Net_LDAP2::isError($entry)) {
+      return false;
+    }
+    else {
+      return $entry;
     }
   }
   
