@@ -77,7 +77,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
-      'generate_function' => 'generate_gidNumber',
+      'generate_function' => 'generate_gidNumber_withSambaDomainObject',
       'validation' => array (
         array (
           'filter' => 'gidNumber=%{val}',

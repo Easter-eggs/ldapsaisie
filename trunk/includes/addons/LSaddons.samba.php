@@ -36,7 +36,16 @@ LSerror :: defineError('SAMBA_SUPPORT_03',
 
 // Autres erreurs
 LSerror :: defineError('SAMBA_01',
-  _("SAMBA Support : The attribute%{dependency} is missing. Unable to forge the attribute %{attr}.")
+  _("SAMBA Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
+);
+LSerror :: defineError('SAMBA_02',
+  _("SAMBA Support : Can't get the sambaDomain object.")
+);
+LSerror :: defineError('SAMBA_03',
+  _("SAMBA Support : Error modifying the sambaDomain object.")
+);
+LSerror :: defineError('SAMBA_04',
+  _("SAMBA Support : The %{attr} of the sambaDomain object is incorrect.")
 );
 
  /**
@@ -61,6 +70,7 @@ LSerror :: defineError('SAMBA_01',
 
     $MUST_DEFINE_CONST= array(
       'LS_SAMBA_DOMAIN_SID',
+      'LS_SAMBA_DOMAIN_OBJECT_DN',
       'LS_SAMBA_SID_BASE_USER',
       'LS_SAMBA_SID_BASE_GROUP',
       'LS_SAMBA_UIDNUMBER_ATTR',
@@ -150,7 +160,7 @@ LSerror :: defineError('SAMBA_01',
   */
   function generate_sambaPrimaryGroupSID($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SAMBA_02',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaPrimaryGroupSID'));
+      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaPrimaryGroupSID'));
       return;
     }
     
@@ -172,7 +182,7 @@ LSerror :: defineError('SAMBA_01',
   */
   function generate_sambaNTPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SAMBA_03',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaNTPassword'));
+      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaNTPassword'));
       return;
     }
 
@@ -197,7 +207,7 @@ LSerror :: defineError('SAMBA_01',
   */
   function generate_sambaLMPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SAMBA_04',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaLMPassword'));
+      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_USERPASSWORD_ATTR, 'attr' => 'sambaLMPassword'));
       return;
     }
 
@@ -209,6 +219,72 @@ LSerror :: defineError('SAMBA_01',
       return;
     }
     return $sambaLMPassword;
+  }
+
+/**
+  * Generation de uidNumber en utilisant l'objet sambaDomain
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval integer uidNumber ou false si il y a un problème durant la génération
+  */
+  function generate_uidNumber_withSambaDomainObject($ldapObject) {
+    $sambaDomain = LSldap :: getLdapEntry ( LS_SAMBA_DOMAIN_OBJECT_DN );
+    if ($sambaDomain === false) {
+      LSerror :: addErrorCode('SAMBA_02');
+      return;
+    }
+    
+    $uidNumber = $sambaDomain->getValue('uidNumber','single');
+    if (Net_LDAP2::isError($uidNumber) || $uidNumber==0) {
+      LSerror :: addErrorCode('SAMBA_04','uidNumber');
+      return;
+    }
+
+    $sambaDomain->replace(array('uidNumber' => ($uidNumber+1)));
+    $res = $sambaDomain->update();
+    if(!Net_LDAP2::isError($res)) {
+      return $uidNumber;
+    }
+    else {
+      LSerror :: addErrorCode('SAMBA_03');
+      return;
+    }
+  }
+
+ /**
+  * Generation de gidNumber en utilisant l'objet sambaDomain
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval integer gidNumber ou false si il y a un problème durant la génération
+  */
+  function generate_gidNumber_withSambaDomainObject($ldapObject) {
+    $sambaDomain = LSldap :: getLdapEntry ( LS_SAMBA_DOMAIN_OBJECT_DN );
+    if ($sambaDomain === false) {
+      LSerror :: addErrorCode('SAMBA_02');
+      return;
+    }
+    
+    $gidNumber = $sambaDomain->getValue('gidNumber','single');
+    if (Net_LDAP2::isError($gidNumber) || $gidNumber==0) {
+      LSerror :: addErrorCode('SAMBA_04','gidNumber');
+      return;
+    }
+
+    $sambaDomain->replace(array('gidNumber' => ($gidNumber+1)));
+    $res = $sambaDomain->update();
+    if(!Net_LDAP2::isError($res)) {
+      return $gidNumber;
+    }
+    else {
+      LSerror :: addErrorCode('SAMBA_03');
+      return;
+    }
   }
 
 ?>

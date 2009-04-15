@@ -29,6 +29,9 @@
 // SID du domaine Samba géré
 define('LS_SAMBA_DOMAIN_SID','S-1-5-21-2421470416-3566881284-3047381809');
 
+// Le DN de l'objet sambaDomain du domaine
+define('LS_SAMBA_DOMAIN_OBJECT_DN','sambaDomainName=LS,o=ls');
+
 // Nombre de base pour le calcul des sambaSID Utilisateur
 define('LS_SAMBA_SID_BASE_USER',1000);
 
