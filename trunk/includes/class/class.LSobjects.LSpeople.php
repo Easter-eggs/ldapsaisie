@@ -21,11 +21,11 @@
 ******************************************************************************/
 
 /**
- * Objet Ldap eepeople
+ * Objet Ldap people
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSeepeople extends LSldapObject {
+class LSpeople extends LSldapObject {
   // ~
 }
 

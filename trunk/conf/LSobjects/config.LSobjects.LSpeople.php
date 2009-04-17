@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-$GLOBALS['LSobjects']['LSeepeople'] = array (
+$GLOBALS['LSobjects']['LSpeople'] = array (
   'objectclass' => array(
     'top',
     'lspeople',
@@ -53,7 +53,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
     'groups' => array(
       'label' => 'Belongs to groups ...',
       'emptyText' => "Doesn't belong to any group.",
-      'LSobject' => 'LSeegroup',
+      'LSobject' => 'LSgroup',
       'list_function' => 'listUserGroups',
       'getkeyvalue_function' => 'getMemberKeyValue',
       'update_function' => 'updateUserGroups',
@@ -273,7 +273,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_options' => array (
         'possible_values' => array(
           'OTHER_OBJECT' => array(
-            'object_type' => 'LSeegroup',                      // Nom de l'objet à lister
+            'object_type' => 'LSgroup',                      // Nom de l'objet à lister
             'display_name_format' => '%{cn} (%{gidNumber})',   // Spécifie le attributs à lister pour le choix,
                                                                // si non définie => utilisation du 'display_name_format'
                                                                // de la définition de l'objet
@@ -295,7 +295,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'validation' => array (
         array (
           'msg' => "This group doesn't exist.",
-          'object_type' => 'LSeegroup',           // 'object_type' : Permet definir le type d'objet recherchés
+          'object_type' => 'LSgroup',           // 'object_type' : Permet definir le type d'objet recherchés
           //'basedn' => 'o=company',                    // et d'utiliser les objectClass définis dans le fichier de configuration
           'filter' => '(gidNumber=%{val})',       // pour la recherche
           'result' => 1
@@ -586,7 +586,7 @@ $GLOBALS['LSobjects']['LSeepeople'] = array (
       'html_type' => 'select_object',
       'html_options' => array (
         'selectable_object' => array(
-            'object_type' => 'LSeepeople',
+            'object_type' => 'LSpeople',
             'value_attribute' => '%{dn}'
         ),
       ),

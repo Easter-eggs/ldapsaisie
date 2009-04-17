@@ -53,18 +53,18 @@ $GLOBALS['LSconfig'] = array(
           'ou=people,o=ls' => array (
             'cn=adminldap,ou=groups,o=ls' => array (
               'attr' => 'uniqueMember',
-              'LSobject' => 'LSeegroup'
+              'LSobject' => 'LSgroup'
             )
           )
         ),
         'godfather' => array (
           'LSobjects' => array (
-            'LSeepeople' => array (
+            'LSpeople' => array (
               'attr' => 'lsGodfatherDn',
               'attr_value' => '%{dn}',
               'basedn' => 'ou=people,o=ls'
             ),
-            'LSeegroup' => array (
+            'LSgroup' => array (
               'filter' => 'lsGodfatherDn=%{dn}'
             )
           )
@@ -72,12 +72,12 @@ $GLOBALS['LSconfig'] = array(
       ),
       'cacheLSprofiles' => true,
       'cacheSearch' => true,
-      'authObjectType' => 'LSeepeople',
+      'authObjectType' => 'LSpeople',
       'authObjectFilter' => '(|(uid=%{user})(mail=%{user}))',
       'authObjectTypeAttrPwd' => 'userPassword',
       'LSaccess' => array(
-        'LSeepeople',
-        'LSeegroup'
+        'LSpeople',
+        'LSgroup'
       ),
       'recoverPassword' => array(
         'mailAttr' => 'mail',
@@ -114,27 +114,27 @@ $GLOBALS['LSconfig'] = array(
             'uid=eeggs,ou=people,o=ls' => NULL,
             'cn=adminldap,ou=groups,o=ls' => array (
               'attr' => 'uniqueMember',
-              'LSobject' => 'LSeegroup'
+              'LSobject' => 'LSgroup'
             )
           )
         )
       ),
-      'authObjectType' => 'LSeepeople',
+      'authObjectType' => 'LSpeople',
       'subDnLabel' => 'Company',
       'subDn' => array(
         '== All ==' => array(
           'dn' => 'o=ls',
           'LSobjects' => array(
-            'LSeepeople',
-            'LSeegroup',
-            'LSeecompany'
+            'LSpeople',
+            'LSgroup',
+            'LScompany'
           )
         ),
         'LSobject' => array(
-          'LSeecompany' => array(
+          'LScompany' => array(
             'LSobjects' => array(
-              'LSeepeople',
-              'LSeegroup'
+              'LSpeople',
+              'LSgroup'
             )
           )
         )

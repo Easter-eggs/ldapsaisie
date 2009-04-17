@@ -83,7 +83,7 @@
     <programlisting>class.LSobjects.[nom du type d'LSobject].php</programlisting>
     Le plus simple pour cette étape est de recopier un des fichiers d'exemple et
     de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier.
-    Pour cela, le fichier de classe du type <emphasis>LSeepeople</emphasis> est 
+    Pour cela, le fichier de classe du type <emphasis>LSpeople</emphasis> est 
     le plus simple car il ne contient que le strict minimum.</para></listitem>
     
     <listitem><simpara>Configurer vos LSobject : Cette partie est certainement la
@@ -96,7 +96,7 @@
     <listitem><simpara>Configurer si nécessaire les relations entre les objets
     appelés &LSrelations;. Cette opération consiste dans un premier temps à écrire
     les méthodes PHP nécessaires pour gérer ces relations : pour cela regardez le
-    fichier de classe du type <emphasis>LSeegroup</emphasis>. Il faudra ensuite
+    fichier de classe du type <emphasis>LSgroup</emphasis>. Il faudra ensuite
     déclarer ces relations dans la configuration des types d'LSobjects : Pour plus
     de détails, reportez-vous à <link linkend="config-LSobject-LSrelation">la 
     section concernée</link>.</simpara>

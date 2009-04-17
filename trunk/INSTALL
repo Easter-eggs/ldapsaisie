@@ -96,11 +96,11 @@ Cette section décrit rapidement les différentes étapes de l'installation de L
 
             class.LSobjects.[nom du type d'LSobject].php
 
-            Le plus simple pour cette étape est de recopier un des fichiers d'exemple et de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier. Pour cela, le fichier de classe du type LSeepeople est le plus simple car il ne contient que le strict minimum.
+            Le plus simple pour cette étape est de recopier un des fichiers d'exemple et de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier. Pour cela, le fichier de classe du type LSpeople est le plus simple car il ne contient que le strict minimum.
 
          2. Configurer vos LSobject : Cette partie est certainement la plus longue et consiste à déclarer l'ensemble des informations relatives aux types des objets LDAP manipulés. Les fichiers d'exemples fournis vous seront certainement d'une aide précieuse. Pour plus de détails, consulter la documentation du projet. [1]
 
-         3. Configurer si nécessaire les relations entre les objets appelés LSrelations. Cette opération consiste dans un premier temps à écrire les méthodes PHP nécessaires pour gérer ces relations : pour cela regardez le fichier de classe du type LSeegroup. Il faudra ensuite déclarer ces relations dans la configuration des types d'LSobjects : Pour plus de détails, consulter la documentation du projet. [1]
+         3. Configurer si nécessaire les relations entre les objets appelés LSrelations. Cette opération consiste dans un premier temps à écrire les méthodes PHP nécessaires pour gérer ces relations : pour cela regardez le fichier de classe du type LSgroup. Il faudra ensuite déclarer ces relations dans la configuration des types d'LSobjects : Pour plus de détails, consulter la documentation du projet. [1]
 
    4. Personnaliser l'interface : Il est possible de personnaliser à votre goût l'interface en écrivant votre template ou en modifiant simplement les fichiers CSS. Une partie de cette documentation concernera bientôt cette problématique. Patience...
 

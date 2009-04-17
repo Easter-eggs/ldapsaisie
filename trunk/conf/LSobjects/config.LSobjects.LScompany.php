@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-$GLOBALS['LSobjects']['LSeecompany'] = array (
+$GLOBALS['LSobjects']['LScompany'] = array (
   'objectclass' => array(
     'top',
     'lscompany'
@@ -80,7 +80,7 @@ $GLOBALS['LSobjects']['LSeecompany'] = array (
       'html_type' => 'select_object',
       'html_options' => array(
         'selectable_object' => array(
-          'object_type' => 'LSeepeople',
+          'object_type' => 'LSpeople',
           'value_attribute' => '%{dn}'
         )
       ),

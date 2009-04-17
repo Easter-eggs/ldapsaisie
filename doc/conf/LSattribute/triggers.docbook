@@ -62,9 +62,9 @@ l'exécution des actions liées, si une des fonctions retourne <literal>false
     <para>La configuration des déclencheurs se fait dans la définition des 
     &LSattributes;. Par exemple, pour définir les fonctions à exécuter après la 
     modification de la valeur de l'attribut <emphasis>mail</emphasis> du type de
-    &LSobject; <emphasis>LSeepeople</emphasis>, c'est à dire lors de leur évenement
+    &LSobject; <emphasis>LSpeople</emphasis>, c'est à dire lors de leur évenement
     <literal>after_modify</literal>, il faut définir la variable suivante :
-    <programlisting linenumbering="unnumbered"><![CDATA[$GLOBALS['LSobjects']['LSeepeople']['attrs']['mail']['after_modify']]]></programlisting>
+    <programlisting linenumbering="unnumbered"><![CDATA[$GLOBALS['LSobjects']['LSpeople']['attrs']['mail']['after_modify']]]></programlisting>
     Cette variable peut contenir soit une chaine de caractères correspondant au
     nom de la fonction à exécuter, soit un tableau de chaînes de caractères
     correspondant aux noms des fonctions à exécuter.</para>

@@ -21,13 +21,13 @@
 ******************************************************************************/
 
 /**
- * Objet Ldap eegroup
+ * Objet Ldap group
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSeegroup extends LSldapObject {
+class LSgroup extends LSldapObject {
 
-  var $userObjectType = 'LSeepeople';
+  var $userObjectType = 'LSpeople';
   var $memberAttr = 'uniqueMember';
 
   /* ========== Members ========== */
@@ -45,12 +45,12 @@ class LSeegroup extends LSldapObject {
   /**
    * Retourne la liste des groupes pour utilisateur
    * 
-   * Retourne un tableau de LSeegroup correspondant aux groupes
+   * Retourne un tableau de LSgroup correspondant aux groupes
    * auxquels appartient un utilisateur
    * 
    * @param[in] $userObject Un object user (type : $this -> userObjectType)
    * 
-   * @retval Array of LSeegroup Les groupes de l'utilisateur
+   * @retval Array of LSgroup Les groupes de l'utilisateur
    **/
   function listUserGroups($userObject) {
     return $this -> listObjectsInRelation($userObject,$this -> memberAttr,$this -> userObjectType);

@@ -180,7 +180,7 @@ class LSsession {
  /**
   * Chargement d'une classe d'LdapSaisie
   *
-  * @param[in] $class Nom de la classe Ã  charger (Exemple : LSeepeople)
+  * @param[in] $class Nom de la classe Ã  charger (Exemple : LSpeople)
   * @param[in] $type (Optionnel) Type de classe Ã  charger (Exemple : LSobjects)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com

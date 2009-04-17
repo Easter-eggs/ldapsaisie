@@ -69,7 +69,7 @@ l'exécution des actions liées, si une des fonctions retourne <literal>false
     <title>Configuration</title>
     <para>La configuration des déclencheurs se fait dans la définition des types
     d'&LSobjects;. Par exemple, pour définir les fonctions à exécuter après la 
-    modification des LSobjects de type <emphasis>LSeepeople</emphasis>, c'est à
+    modification des LSobjects de type <emphasis>LSpeople</emphasis>, c'est à
     dire lors de leur évènement <literal>after_modify</literal>, il faut définir
     la variable suivante :
     <programlisting linenumbering="unnumbered"><![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['after_modify']]]></programlisting>

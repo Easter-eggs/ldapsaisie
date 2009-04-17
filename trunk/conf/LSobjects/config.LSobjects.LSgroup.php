@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-$GLOBALS['LSobjects']['LSeegroup'] = array (
+$GLOBALS['LSobjects']['LSgroup'] = array (
   'objectclass' => array(
     'lsgroup',
     'posixGroup'
@@ -102,7 +102,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'html_type' => 'select_object',
       'html_options' => array(
         'selectable_object' => array(
-          'object_type' => 'LSeepeople',                      // Nom de l'objet à lister
+          'object_type' => 'LSpeople',                      // Nom de l'objet à lister
           'display_name_format' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
                                                               // si non définie => utilisation du 'display_name_format'
                                                               // de la définition de l'objet
@@ -156,7 +156,7 @@ $GLOBALS['LSobjects']['LSeegroup'] = array (
       'html_type' => 'select_object',
       'html_options' => array (
         'selectable_object' => array(
-            'object_type' => 'LSeepeople',
+            'object_type' => 'LSpeople',
             'value_attribute' => 'dn'
         ),
       ),
