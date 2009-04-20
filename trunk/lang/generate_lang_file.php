@@ -21,15 +21,19 @@
 
 ******************************************************************************/
 
+require_once('../core.php');
 require_once('../conf/config.inc.php');
-require_once('../'.LS_INCLUDE_DIR.'/functions.php');
+
+if (isset($argv[2]) && is_file($argv[2])) {
+  @include($argv[2]);
+}
 
 $data=array();
 
 function add($msg) {
   if ($msg!='') {
     global $data;
-    $data[$msg]="";
+    $data[$msg]=$GLOBALS['LSlang'][$msg];
   }
 }
 
@@ -100,7 +104,7 @@ ksort($data);
 echo "<?php\n\n\$GLOBALS['LSlang'] = array (\n";
 
 foreach($data as $key => $val) {
-  print "\n\"$key\" =>\n  \"\",\n";
+  print "\n\"$key\" =>\n  \"$val\",\n";
 }
 
 echo "\n);\n\n?>\n";
