@@ -32,6 +32,9 @@
 </varlistentry>
 
 </variablelist>
+
+<important><simpara>Les valeurs possibles pour le paramètre <parameter>default_value</parameter>
+sont <literal>yes</literal> et <literal>no</literal>.</simpara></important>
   
   
 </sect4>

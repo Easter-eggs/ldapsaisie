@@ -49,7 +49,8 @@
     'dependAttrs' => array(
       // Attributs en dépendance
     ),
-    'generate_function' => 'fonction1'
+    'generate_function' => 'fonction1',
+    'onDisplay' => 'fonction2'
   ),
   /* ----------- end -----------*/
   ...
@@ -205,6 +206,16 @@
     <simpara>Nom de la fonction permettant de générer la valeur de l'attribut.
     Cette fonction sera éxecutée, en passant en premier paramètre, l'objet 
     &LSobject; courant.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>onDisplay</term>
+  <listitem>
+    <simpara>Nom ou liste de nom des fonctions retournant les valeurs d'affichages
+    de l'attribut. Si c'est une liste, chacune des fonctions seront executée les
+    unes après les autres. Ces fonctions seront éxecutées, en passant en premier
+    paramètre, le tableau des valeurs de l'objet.</simpara>
   </listitem>
 </varlistentry>
 
