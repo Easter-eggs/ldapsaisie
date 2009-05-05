@@ -73,6 +73,12 @@ var LSsmoothbox = new Class({
     asNew: function(options) {
       this._options = ($type(options))?option:{};
       
+      if (this.img) {
+        this.img.dispose();
+        this.img.destroy();
+        this.img=undefined;
+      }
+      
       // Listeners
       this.listeners = {
         close:    new Array(),
@@ -88,7 +94,7 @@ var LSsmoothbox = new Class({
       
       this.openOptions = {};
       
-      this.frame.set('html','');
+      this.frame.empty();
     },
     
     position: function(){ 
@@ -150,17 +156,31 @@ var LSsmoothbox = new Class({
     },
     
     getEndStyles: function() {
-      if (this.openOptions.width) {
+      w = window.getWidth() * 0.9;
+      if (this.openOptions.width && (this.openOptions.width<=w)) {
         w = this.openOptions.width;
       }
-      else {
-        w = window.getWidth() * 0.9;
-      }
-      if (this.openOptions.height) {
+      
+      h = window.getHeight() * 0.8;
+      if (this.openOptions.height && (this.openOptions.height<=h)) {
         h = this.openOptions.height;
       }
-      else {
-        h = window.getHeight() * 0.8;
+      
+      if (this.img) {
+        var rH = h.toInt() / this.img.height;
+        var rW = w.toInt() / this.img.width;
+        if (rH > rW) {
+          // W
+          this.img.height = Math.floor(this.img.height*w.toInt()/this.img.width);
+          h = this.img.height;
+          this.img.width  = w.toInt();
+        }
+        else {
+          // H
+          this.img.width  = Math.floor(this.img.width * h.toInt()/this.img.height);
+          w = this.img.width;
+          this.img.height = h.toInt();
+        }
       }
       
       var endStyles = {
@@ -305,6 +325,8 @@ var LSsmoothbox = new Class({
       this.openOptions.width = 120;
       this.openOptions.height = 120;
       this.resize();
+      this.openOptions.width = undefined;
+      this.openOptions.height = undefined;
       this.loadingImage.injectInside(this.frame);
     },
     
@@ -317,28 +339,12 @@ var LSsmoothbox = new Class({
       this.openOptions=openOptions;
       this.open();
       this.load();
-      this.img = new Asset.image(src, {onload: this.resizeToImage.bind(this)});
+      this.img = new Asset.image(src, {onload: this.endLoadImg.bind(this)});
       this.img.addEvent('dblclick',this.closeConfirm.bind(this));
     },
     
-    resizeToImage: function() {
-      if ((this.img.height > this.win.height)||(this.img.width>this.win.width)) {
-        var rH = this.win.height / this.img.height;
-        var rW = this.win.width / this.img.width;
-        if (rH > rW) {
-          // W
-          this.img.height = Math.floor(this.img.height*this.win.width/this.img.width);
-          this.img.width  = this.win.width;
-        }
-        else {
-          // H
-          this.img.width  = Math.floor(this.img.width * this.win.height/this.img.height);
-          this.img.height = this.win.height;
-        }
-      }
+    endLoadImg: function() {
       this.endLoad();
-      this.openOptions.width = this.img.width;
-      this.openOptions.height = this.img.height;
       this.resize();
       this.img.injectInside(this.frame);
     },
