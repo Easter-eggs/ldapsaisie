@@ -112,7 +112,7 @@ var LSmail = new Class({
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         if ($type(data.msgok)) {
-          varLSdefault.displayInfos(data.msgok);
+          varLSdefault.LSinfos.display(data.msgok);
         }
       }
     },
