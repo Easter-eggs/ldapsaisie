@@ -192,13 +192,23 @@ class LSformElement_password extends LSformElement {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
         $object = new $_REQUEST['objecttype']();
-        $form = $object -> getForm($_REQUEST['idform']);
         $object -> loadData($_REQUEST['objectdn']);
-        $field=$form -> getElement($_REQUEST['attribute']);
-        $val = $field -> verifyPassword($_REQUEST['fieldValue']);
-        $data = array(
-          'verifyPassword' => $val
-        );
+        $form = $object -> getForm($_REQUEST['idform']);
+        if ($form) {
+          $field=$form -> getElement($_REQUEST['attribute']);
+          if ($field) {
+            $val = $field -> verifyPassword($_REQUEST['fieldValue']);
+            $data = array(
+              'verifyPassword' => $val
+            );
+          }
+          else {
+            LSdebug('Impossible de récupérer le LSformElement');
+          }
+        }
+        else {
+          LSdebug('Impossible de recuperer le LSform.');
+        }
       }
     }
   }
