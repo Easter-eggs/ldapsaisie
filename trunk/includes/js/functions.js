@@ -144,3 +144,25 @@ function replaceSpaces(str,to) {
   }
   return new_str;
 }
+
+/**
+ * Add one variable with value in URL
+ * @param[in] url string The original URL
+ * @param[in] name string The variable name
+ * @param[in] value string The value of the variable
+ * 
+ * @retval string The URL with the value
+ */
+function urlAddVar(url,name,value) {
+  if ($type(url)) {
+    var isExtended = RegExp('[?]');
+    if (isExtended.test(url)) {
+      url=url+'&';
+    }
+    else {
+      url=url+'?';
+    }
+    return url + name + '=' + value;
+  }
+  return url;
+}
