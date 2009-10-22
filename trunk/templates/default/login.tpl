@@ -40,7 +40,7 @@
 </dl>
 </form>
 <span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
-<a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword'>{$loginform_label_recoverPassword}</a>
+<a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword LSsession_recoverPassword_hidden'>{$loginform_label_recoverPassword}</a>
 </div>
 </body>
 </html>
