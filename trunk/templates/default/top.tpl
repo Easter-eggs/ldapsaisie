@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="{$LS_CSS_DIR}/base.css" title="Normal" />
     <link rel="stylesheet" type="text/css" href="{$LS_CSS_DIR}/base_print.css" media='print' title="Normal" />
     {$LSsession_css}
-    {$LSsession_js}
   </head>
 <body>
 
