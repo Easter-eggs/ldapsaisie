@@ -95,9 +95,13 @@ function getFData($format,$data,$meth=NULL) {
         }
       }
     }
-    else {
+    elseif (is_object($data)) {
       if ($meth==NULL) {
         while (ereg($expr,$format[$i],$ch)) {
+          $value = $data -> $ch[1];
+          if (is_array($value)) {
+            $value = $value[0];
+          }
           if($ch[3]) {
             if ($ch[5]) {
               $s=$ch[3];
@@ -107,12 +111,9 @@ function getFData($format,$data,$meth=NULL) {
               $s=0;
               $l=$ch[3];
             }
-            $val=substr((string)$data,$s,$l);
+            $value=substr((string)$value,$s,$l);
           }
-          else {
-            $val=$data;
-          }
-          $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
+          $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
         }
       }
       else {
@@ -140,6 +141,25 @@ function getFData($format,$data,$meth=NULL) {
             break;
           }
         }
+      }
+    }
+    else {
+      while (ereg($expr,$format[$i],$ch)) {
+        if($ch[3]) {
+          if ($ch[5]) {
+            $s=$ch[3];
+            $l=$ch[5];
+          }
+          else {
+            $s=0;
+            $l=$ch[3];
+          }
+          $val=substr((string)$data,$s,$l);
+        }
+        else {
+          $val=$data;
+        }
+        $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
       }
     }
   }
@@ -215,7 +235,7 @@ function LSdebug_print($return=false) {
         $txt.='<li><pre>'.print_r($debug,true).'</pre></li>';
       }
       else {
-        $txt.='<li>'.$debug.'</li>';
+        $txt.='<li><pre>'.$debug.'</pre></li>';
       }
     }
     $txt.='</ul>';
