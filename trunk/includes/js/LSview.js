@@ -43,7 +43,8 @@ var LSview = new Class({
     },
     
     onTdLSobjectListNamesOut: function(td) {
-      td.imgEdit.destroy();
+      if(td.imgEdit)
+        td.imgEdit.destroy();
     },
     
     onRemoveListBtnClick: function(event,a) {
