@@ -154,6 +154,21 @@ class LSerror {
   private static function resetError() {
     unset ($_SESSION['LSerror']);
   }
+  
+  /**
+   * Check if is Net_LDAP2 error and display possible error message
+   * 
+   * @param[in] $data mixed Data
+   * 
+   * @retval boolean True if it's an error or False
+   **/
+  public function isLdapError($data) {
+    if (Net_LDAP2::isError($data)) {
+      LSerror :: addErrorCode(0,$data -> getMessage());
+      return true;
+    }
+    return;
+  }
 }
 
 /*
