@@ -137,6 +137,10 @@ class LSsession {
         $GLOBALS['Smarty'] -> force_compile = TRUE;
         // recompile template if it is changed
         $GLOBALS['Smarty'] -> compile_check = TRUE;
+        if (isset($_REQUEST['debug_smarty'])) {
+          // debug smarty
+          $GLOBALS['Smarty'] -> debugging = true; 
+        }
       }
       
       $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
@@ -439,7 +443,7 @@ class LSsession {
       $_POST['LSsession_user'] = 'a determiner plus tard';
     }
     
-    if(isset($_SESSION['LSsession'])) {
+    if(isset($_SESSION['LSsession']['dn'])) {
       // Session existante
       self :: $topDn        = $_SESSION['LSsession']['topDn'];
       self :: $dn           = $_SESSION['LSsession']['dn'];
@@ -845,6 +849,21 @@ class LSsession {
     }
   }
 
+  /**
+   * Use this function to know if subDn is enabled for the curent LdapServer
+   * 
+   * @retval boolean
+   **/
+  public static function subDnIsEnabled() {
+    if (!isset(self :: $ldapServer['subDn'])) {
+      return;
+    }
+    if ( !is_array(self :: $ldapServer['subDn']) ) {
+      return;
+    }
+    return true;
+  }
+
  /**
   * Retourne les sous-dns du serveur Ldap courant
   *
@@ -854,10 +873,7 @@ class LSsession {
     if (self :: cacheSudDn() && isset(self :: $_subDnLdapServer[self :: $ldapServerId])) {
       return self :: $_subDnLdapServer[self :: $ldapServerId];
     }
-    if (!isset(self :: $ldapServer['subDn'])) {
-      return;
-    }
-    if ( !is_array(self :: $ldapServer['subDn']) ) {
+    if (!self::subDnIsEnabled()) {
       return;
     }
     $return=array();
@@ -1981,10 +1997,9 @@ class LSsession {
     LSerror :: defineError('LSsession_04',
     _("LSsession : Failed to load LSobject type %{type} : unknon type.")
     );
-    // no longer used
-    /*LSerror :: defineError(1005,
-    _("LSsession : Object type use for authentication is unknow (%{type}).")
-    );*/
+    LSerror :: defineError('LSsession_05',
+    _("LSsession : Failed to load LSclass %{class}.")
+    );
     LSerror :: defineError('LSsession_06',
     _("LSsession : Login or password incorrect.")
     );

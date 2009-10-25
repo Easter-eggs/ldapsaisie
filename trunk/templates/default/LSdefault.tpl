@@ -8,6 +8,8 @@
 
 <div id='LSdebug_txt'>{if $LSdebug != ''}{$LSdebug}{/if}</div>
 
+<div id="_smarty_console"></div>
+
 <div id='LSlang_select'>
 {foreach from=$LSlanguages item=lang}
   <img src='{$LS_IMAGES_DIR}/{$lang}.png' alt='{$lang}' title='{$lang}'/>
