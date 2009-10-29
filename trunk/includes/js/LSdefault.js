@@ -110,14 +110,14 @@ var LSdefault = new Class({
 
     onWantMoo: function(event) {
       event=new Event(event);
-      if ((event.control) && (event.shift) && (event.key=='m')) {
+      if ((event.shift) && (event.key=='m')) {
         this.moo.run(null,this);
       }
     },
 
     moo: function() {
       var mooTxt = "<pre>         (__)     .ooooooooooooooooooo.\n         (oo) °°°°0 I love LdapSaisie 0\n   /------\\\/      °ooooooooooooooooooo°\n  / |    ||\n *  /\---/\\\n    ~~   ~~</pre>";
-      this.LSinfos.addInfo(mooTxt);
+      this.LSinfos.displayOrAdd(mooTxt);
     },
 
     onLSsession_topDnChange: function() {
@@ -140,16 +140,15 @@ var LSdefault = new Class({
         }
         
         if ($type(data.LSdebug)) {
-          LSdebug(data.LSdebug);
-          this.LSdebug.display(data.LSdebug);
+          this.LSdebug.displayOrAdd(data.LSdebug);
         }
         
         if ($type(data.LSinfos)) {
-          this.LSinfos.display(data.LSinfos);
+          this.LSinfos.displayOrAdd(data.LSinfos);
         }
         
         if ($type(data.LSerror)) {
-          this.LSerror.display(data.LSerror);
+          this.LSerror.displayOrAdd(data.LSerror);
           return;
         }
         return true;
@@ -194,19 +193,19 @@ var LSdefault = new Class({
     },
     
     ajaxDisplayDebugAndError: function() {
-      var LSdebug_txt = $('LSdebug_txt');
+      var LSdebug_txt = $('LSdebug_txt_ajax');
       if (LSdebug_txt) {
         var debug = LSdebug_txt.innerHTML;
         if (debug) {
-          this.LSdebug.display(debug.toString());
+          this.LSdebug.displayOrAdd(debug);
         }
       }
       
-      var LSerror_txt = $('LSerror_txt');
+      var LSerror_txt = $('LSerror_txt_ajax');
       if (LSerror_txt) {
         var error=LSerror_txt.innerHTML;
         if (error) {
-          this.LSerror.display(error.toString());
+          this.LSerror.displayOrAdd(error);
         }
       }
     },
@@ -265,6 +264,10 @@ var LSdefault = new Class({
     keepLSsessionComplete: function() {
       LSdebug('Keep LSsession OK');
       this.keepLSsession.delay(this.LSjsConfig['keepLSsessionActive'],this);
+    },
+    
+    log: function(data) {
+      this.LSdebug.addInfo(data);
     }
 
 });
