@@ -60,6 +60,10 @@ var LSinfosBox = new Class({
       this.core.inject(document.body,'top');
     },
     
+    isOpened: function() {
+      return this.opened;
+    },
+    
     open: function() {
       this.core.setStyle('top',getScrollTop()+10);
       
@@ -97,23 +101,27 @@ var LSinfosBox = new Class({
     },
     
     addInfo: function(html) {
-      if (this.content.innerHTML=='') {
-        this.content.set('html',html);
-      }
-      else {
-        var ul = this.content.getLast("ul");
-        if (!$type(ul)) {
-          ul = new Element('ul');
+      var ul = this.content.getLast("ul");
+      var add = 0;
+      if (!$type(ul)) {
+        ul = new Element('ul');
+        if (this.content.innerHTML!="") {
           var c_li = new Element('li');
           c_li.set('html',this.content.innerHTML);
           c_li.injectInside(ul);
-          this.content.empty();
-          ul.injectInside(this.content);
+          add=1;
         }
-        var li = new Element('li');
-        li.set('html',html);
-        li.injectInside(ul);
+        this.content.empty();
+        ul.injectInside(this.content);
       }
+      if (add) {
+        var b_li = new Element('li');
+        b_li.set('html','<hr/>');
+        b_li.injectInside(ul);
+      }
+      var li = new Element('li');
+      li.set('html',html);
+      li.injectInside(ul);
       this.open();
     },
     
