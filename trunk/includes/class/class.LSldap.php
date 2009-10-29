@@ -407,6 +407,31 @@ class LSldap {
     }
     return true;
   }
+  
+  /**
+   * Combine LDAP Filters
+   * 
+   * @params array Array of LDAP filters
+   * 
+   * @retval Net_LDAP2_Filter | False The combined filter or False
+   **/
+  public static function combineFilters($op,$filters,$asStr=false) {
+    if (is_array($filters) && !empty($filters)) {
+      if (count($filters)==1) {
+        return $filters[0];
+      }
+      $filter=Net_LDAP2_Filter::combine($op,$filters);
+      if (!Net_LDAP2::isError($filter)) {
+        if ($asStr) {
+          return $filter->asString();
+        }
+        else {
+          return $filter;
+        }
+      }
+    }
+    return;
+  }
 }
 
 /*
