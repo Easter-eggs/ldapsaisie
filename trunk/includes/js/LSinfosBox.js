@@ -102,8 +102,9 @@ var LSinfosBox = new Class({
     
     addInfo: function(html) {
       var ul = this.content.getLast("ul");
-      var add = 0;
+      var add = 1;
       if (!$type(ul)) {
+        add=0;
         ul = new Element('ul');
         if (this.content.innerHTML!="") {
           var c_li = new Element('li');
@@ -131,5 +132,24 @@ var LSinfosBox = new Class({
         this.content.set('html',html);
       }
       this.open();
+    },
+    
+    displayInUl: function(html) {
+      if ($type(html)) {
+        ul = new Element('ul');
+        this.content.empty();
+        ul.set('html',html);
+        ul.inject(this.content);
+      }
+      this.open();
+    },
+    
+    displayOrAdd: function(html) {
+      if (this.isOpened()) {
+        this.addInfo(html);
+      }
+      else {
+        this.displayInUl(html);
+      }
     }
 });
