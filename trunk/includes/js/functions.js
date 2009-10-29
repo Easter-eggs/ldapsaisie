@@ -10,6 +10,10 @@ function LSdebug(arguments) {
       opera.postError(arguments);
       return true;
     }
+    if (typeof varLSdefault != 'undefined') {
+      varLSdefault.log(arguments);
+      return true;
+    }
     alert(arguments);
 }
 
