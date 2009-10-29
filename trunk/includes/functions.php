@@ -227,9 +227,9 @@ function LSdebug($data,$dump=false) {
   return true;
 }
 
-function LSdebug_print($return=false) {
+function LSdebug_print($return=false,$ul=true) {
   if (( $GLOBALS['LSdebug_fields'] ) && (LSdebug)) {
-    $txt='<ul>';
+    if ($ul) $txt='<ul>'; else $ul="";
     foreach($GLOBALS['LSdebug_fields'] as $debug) {
       if (is_array($debug)||is_object($debug)) {
         $txt.='<li><pre>'.print_r($debug,true).'</pre></li>';
@@ -238,7 +238,7 @@ function LSdebug_print($return=false) {
         $txt.='<li><pre>'.$debug.'</pre></li>';
       }
     }
-    $txt.='</ul>';
+    if ($ul) $txt.='</ul>';
     $GLOBALS['Smarty'] -> assign('LSdebug',$txt);
     if ($return) {
       return $txt;
