@@ -137,7 +137,7 @@ var LSselect = new Class({
     
     sortBy: function(value) {
       this.tempInput['sortBy'] = new Element('input');
-      this.tempInput['sortBy'].setProperty('name','orderby');
+      this.tempInput['sortBy'].setProperty('name','sortBy');
       this.tempInput['sortBy'].setProperty('type','hidden');
       this.tempInput['sortBy'].setProperty('value',value);
       this.tempInput['sortBy'].injectInside(this.LSselect_search_form);

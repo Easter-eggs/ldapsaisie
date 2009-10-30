@@ -94,36 +94,36 @@ class LSattr_html_select_list extends LSattr_html{
             LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
             break;
           }
-          if (!LSsession :: loadLSobject($val['object_type'])) {
+          if (!LSsession :: loadLSclass('LSsearch')) {
             return;
           }
-          $obj = new $val['object_type']();
-          if($val['scope']) {
-            $param=array('scope' => $val['scope']);
-          }
-          else {
-            $param=array();
-          }
           
-          $param['attributes'] = getFieldInFormat($val['display_name_format']);
+          $param=array(
+            'filter' => $val['filter'],
+            'basedn' => $val['basedn'],
+            'scope' => $val['scope'],
+            'displayFormat' => $val['display_name_format'],
+          );
+          
+          
           
           if ($val['value_attribute']!='dn') {
             $param['attributes'][] = $val['value_attribute'];
           }
           
-          $list = $obj -> search($val['filter'],$val['basedn'],$param);
+          $LSsearch = new LSsearch($val['object_type'],'LSattr_html_select_list',$param,true);
+          $LSsearch -> run();
           if(($val['value_attribute']=='dn')||($val['value_attribute']=='%{dn}')) {
-            for($i=0;$i<count($list);$i++) {
-              $retInfos[$list[$i]['dn']]=getFData($val['display_name_format'],$list[$i]['attrs']);
-            }
+            $retInfos = $LSsearch -> listObjectsName();
           }
           else {
-            for($i=0;$i<count($list);$i++) {
-              $key = $list[$i]['attrs'][$val['value_attribute']];
+            $list = $LSsearch -> getSearchEntries();
+            foreach($list as $entry) {
+              $key = $entry -> get($val['value_attribute']);
               if(is_array($key)) {
                 $key = $key[0];
               }
-              $retInfos[$key]=getFData($val['display_name_format'],$list[$i]['attrs']);
+              $retInfos[$key]=$entry -> displayName;
             }
           }
         }

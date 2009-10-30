@@ -65,7 +65,7 @@ $GLOBALS['LSconfig'] = array(
               'basedn' => 'ou=people,o=ls'
             ),
             'LSgroup' => array (
-              'filter' => 'lsGodfatherDn=%{dn}'
+              'filter' => '(lsGodfatherDn=%{dn})'
             )
           )
         )

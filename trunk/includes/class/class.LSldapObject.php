@@ -41,11 +41,12 @@ class LSldapObject {
   var $other_values=array();
   var $submitError=true;
   var $_whoami=NULL;
-  var $_subDn_value=NULL;
   var $_LSrelationsCache=array();
 
   var $_events=array();
   var $_objectEvents=array();
+  
+  var $cache=array();
   
   /**
    * Constructeur
@@ -149,7 +150,7 @@ class LSldapObject {
     }
     $val = $this -> getFData($spe,&$this -> attrs,'getDisplayValue');
     if (LSsession :: haveSubDn() && $full) {
-      $val.=' ('.$this -> getSubDnName().')';
+      $val.=' ('.$this -> subDnName.')';
     }
     return $val;
   }
@@ -626,17 +627,27 @@ class LSldapObject {
    *
    * @retval string le filtre ldap correspondant au type de l'objet
    */ 
-  function getObjectFilter() {
-    if(!isset($this -> config['objectclass'])) return;
-    $filter="(&";
-    foreach ($this -> config['objectclass'] as $class) {
-      $filter.='(objectClass='.$class.')';
+  function getObjectFilter($type=null) {
+    if (is_null($type)) {
+      $type = $this -> type_name;
     }
-    $filter.=')';
-    if ($this -> config['filter']) {
-      $filter="(&(".$this -> config['filter'].")$filter)";
+    $oc=LSconfig::get("LSobjects.$type.objectclass");
+    if(!is_array($oc)) return;
+    $filters=array();
+    foreach ($oc as $class) {
+      $filters[]=Net_LDAP2_Filter::create('objectClass','equals',$class);
     }
-    return $filter;
+    
+    $filter=LSconfig::get("LSobjects.$type.filter");
+    if ($filter) {
+      $filters[]=$filter;
+    }
+
+    $filter = LSldap::combineFilters('and',$filters,true);
+    if ($filter)
+      return $filter;
+    LSerror :: addErrorCode('LSldapObject_30',$type);
+    return;
   }
   
   /**
@@ -691,17 +702,34 @@ class LSldapObject {
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */ 
   function listObjects($filter=NULL,$basedn=NULL,$params=array()) {
-    $retInfos=array();
+    if (!LSsession :: loadLSclass('LSsearch')) {
+      LSerror::addErrorCode('LSsession_05','LSsearch');
+      return;
+    }
     
-    $ret = $this -> search($filter,$basedn,$params);
+    $sparams = array(
+      'basedn' => $basedn,
+      'filter' => $filter,
+      'attributes' => array('dn')
+    );
+
+    if (is_array($params)) {    
+      $sparams=array_merge($sparams,$params);
+    }
+    $LSsearch = new LSsearch($this -> type_name,'LSldapObjet::listObjects',$sparams,true);
     
-    // CrÃ©ation d'un tableau d'objet correspondant au valeur retournÃ©
+    $LSsearch -> run();
+    
+    return $LSsearch -> listObjects();
+    
+/*
     for($i=0;$i<count($ret);$i++) {
       $retInfos[$i] = new $this -> type_name($this -> config);
       $retInfos[$i] -> loadData($ret[$i]['dn']);
     }
     
     return $retInfos;
+*/
   }
   
   /**
@@ -719,6 +747,7 @@ class LSldapObject {
    *
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */ 
+/*
   function search($filter='',$basedn=NULL,$params=array()) {
     $retInfos=array();
     $attrs=false;
@@ -901,6 +930,7 @@ class LSldapObject {
     }
     return $ret;
   }
+*/
   
   /**
    * Retourne une liste d'objet du mÃªme type et retourne leur noms
@@ -917,31 +947,31 @@ class LSldapObject {
    *
    * @retval array Tableau dn => name correspondant au resultat de la recherche
    */ 
-  function listObjectsName($filter=NULL,$sbasedn=NULL,$sparams=array(),$displayFormat=false) {
-    $retInfos=array();
+  function listObjectsName($filter=NULL,$sbasedn=NULL,$sparams=array(),$displayFormat=false,$cache=true) {
+    if (!LSsession :: loadLSclass('LSsearch')) {
+      LSerror::addErrorCode('LSsession_05','LSsearch');
+      return;
+    }
     
     if (!$displayFormat) {
       $displayFormat = $this -> getDisplayNameFormat();
     }
-    // Attributes
-    $attrs = getFieldInFormat($displayFormat);
-    if(!empty($attrs)) {
-      $sparams['attributes'] = $attrs;
+    
+    $params = array(
+      'displayFormat' => $displayFormat,
+      'basedn' => $sbasedn,
+      'filter' => $filter
+    );
+
+    if (is_array($sparams)) {    
+      $params=array_merge($sparams,$params);
     }
     
-    // Lancement de la recherche
-    $ret=$this -> search ($filter,$sbasedn,$sparams);
+    $LSsearch = new LSsearch($this -> type_name,'LSldapObject::listObjectsName',$params,true);
     
-    if (is_array($ret)) {
-      foreach($ret as $obj) {
-        if (in_array('subDnName',$attrs)) {
-          $obj['attrs']['subDnName']=$this -> getSubDnName($obj['dn']);
-        }
-        $retInfos[$obj['dn']] = getFData($displayFormat,$obj['attrs']);
-      }
-    }
+    $LSsearch -> run($cache);
     
-    return $retInfos;
+    return $LSsearch -> listObjectsName();
   }
  
  
@@ -955,17 +985,18 @@ class LSldapObject {
    * @param[in] $name string Valeur de son RDN ou de la valeur pour composer le filtre
    * @param[in] $basedn string Le DN de base de la recherche
    * @param[in] $filter string Le filtre de recherche de l'objet
+   * @param[in] $params array Tableau de paramètres
    * 
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */
-  function searchObject($name,$basedn=NULL,$filter=NULL) {
+  function searchObject($name,$basedn=NULL,$filter=NULL,$params=NULL) {
     if (!$filter) {
-      $filter = $this -> config['rdn'].'='.$name;
+      $filter = '('.$this -> config['rdn'].'='.$name.')';
     }
     else {
       $filter = getFData($filter,$name);
     }
-    return $this -> listObjects($filter,$basedn); 
+    return $this -> listObjects($filter,$basedn,$params); 
   }
 
   /**
@@ -993,10 +1024,10 @@ class LSldapObject {
       return $this -> attrs[ $this -> config['rdn'] ] -> getValue();
     }
     else if(($val=='subDn')||($val=='%{subDn}')) {
-      return $this -> getSubDnValue();
+      return $this -> subDnValue;
     }
     else if(($val=='subDnName')||($val=='%{subDnName}')) {
-      return $this -> getSubDnName();
+      return $this -> subDnName;
     }
     else if(isset($this ->  attrs[$val])){
       if (method_exists($this ->  attrs[$val],'getValue'))
@@ -1019,9 +1050,8 @@ class LSldapObject {
    *
    * @retval array('dn' => 'display')
    */
-  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false) {
-    $filter=$this -> getPatternFilter($pattern,$approx);
-    return $this -> listObjectsName($filter,$topDn,array(),$displayFormat);
+  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false,$cache=true) {
+    return $this -> listObjectsName($filter,$topDn,array('pattern' => $pattern),$displayFormat,$cache);
   }
 
   /**
@@ -1089,8 +1119,11 @@ class LSldapObject {
    * 
    * @retval string Le label de l'objet ($this -> config['label'])
    */
-  function getLabel() {
-    return __($this -> config['label']);
+  function getLabel($type=null) {
+    if (is_null($type)) {
+      $type = $this -> type_name;
+    }
+    return __(LSconfig::get("LSobjects.$type.label"));
   }
   
   
@@ -1134,13 +1167,7 @@ class LSldapObject {
    * 
    * @return string La valeur du subDn de l'object
    */
-  function getSubDnValue($dn=NULL) {
-    if (!$dn) {
-      $dn = $this -> getValue('dn');
-    }
-    if ($this -> _subDn_value[$dn]) {
-      return $this -> _subDn_value[$dn];
-    }
+  public static function getSubDnValue($dn) {
     $subDn_value='';
     $subDnLdapServer = LSsession :: getSortSubDnLdapServer();
     foreach ($subDnLdapServer as $subDn => $subDn_name) {
@@ -1149,7 +1176,6 @@ class LSldapObject {
         break;
       }
     }
-    $this -> _subDn_value[$dn] = $subDn_value;
     return $subDn_value;
   }
 
@@ -1160,9 +1186,9 @@ class LSldapObject {
    * 
    * @return string Le nom du subDn de l'object
    */
-  function getSubDnName($dn=NULL) {
+  public static function getSubDnName($dn) {
     $subDnLdapServer = LSsession :: getSortSubDnLdapServer();
-    return $subDnLdapServer[$this -> getSubDnValue($dn)];
+    return $subDnLdapServer[self :: getSubDnValue($dn)];
   }
   
   /**
@@ -1318,6 +1344,11 @@ class LSldapObject {
       }
     }
     
+    // LSsearch : Purge LSobject cache
+    if (LSsession :: loadLSclass('LSsearch')) {
+      LSsearch :: purgeCache($this -> type_name);
+    }
+    
     return !$error;
   }
   
@@ -1359,6 +1390,31 @@ class LSldapObject {
           }
         }
       }
+    }
+    
+    // LSsearch : Purge LSobject cache
+    if (LSsession :: loadLSclass('LSsearch')) {
+      LSsearch :: purgeCache($this -> type_name);
+    }
+    
+    return !$error;
+  }
+  
+  /**
+   * Methode executant les actions nécéssaires après la modification de
+   * l'objet.
+   * 
+   * Cette méthode n'est qu'un exemple et elle doit être certainement réécrite
+   * pour les objets plus complexe.
+   * 
+   * @retval True en cas de cas ce succès, False sinon.
+   */
+  function afterModify() {
+    $error = 0;
+    
+    // LSsearch : Purge LSobject cache
+    if (LSsession :: loadLSclass('LSsearch')) {
+      LSsearch :: purgeCache($this -> type_name);
     }
     
     return !$error;
@@ -1422,9 +1478,8 @@ class LSldapObject {
       $val = $val[0];
     }
     if ($val) {
-      $filter = $this -> getObjectFilter();
-      $filter = '(&'.$filter.'('.$attr.'='.$val.'))';
-      return $this -> listObjects($filter,LSsession :: $ldapServer['ldap_config']['basedn'],array('scope' => 'sub'));
+      $filter = Net_LDAP2_Filter::create($attr,'equals',$val);
+      return $this -> listObjects($filter,LSsession :: getRootDn(),array('scope' => 'sub','recursive' => true,'withoutCache'=>true));
     }
     return;
   }
@@ -1814,7 +1869,7 @@ class LSldapObject {
    * @param[in] $event string Le nom de l'événement
    * 
    * @retval boolean True si tout c'est bien passé, false sinon
-   */
+   **/
   function fireObjectEvent($event) {
     switch($event) {
       case 'after_create':
@@ -1823,10 +1878,8 @@ class LSldapObject {
         return $this -> afterDelete();
       case 'after_rename':
         return $this -> afterRename();
-/*
       case 'after_modify':
         return $this -> afterModify();
-*/
 /*
       case 'before_create':
         return $this -> beforeCreate();
@@ -1841,6 +1894,30 @@ class LSldapObject {
 */
     }
     return true;
+  }
+  
+  /**
+   * Access to infos of the object
+   * 
+   * @param[in] $key string The name of the value
+   * 
+   * @retval mixed The value
+   **/
+  function __get($key) {
+    if ($key=='subDnValue') {
+      if ($this -> cache['subDnValue']) {
+        return $this -> cache['subDnValue'];
+      }
+      $this -> cache['subDnValue'] = self :: getSubDnValue($this -> dn);
+      return $this -> cache['subDnValue'];
+    }
+    if ($key=='subDnName') {
+      if ($this -> cache['subDnName']) {
+        return $this -> cache['subDnName'];
+      }
+      $this -> cache['subDnName'] = self :: getSubDnName($this -> dn);
+      return $this -> cache['subDnName'];
+    }
   }
   
 }
@@ -1943,6 +2020,14 @@ _("LSldapObject : %{meth} method, to be executed on object event %{event}, doesn
 );
 LSerror :: defineError('LSldapObject_29',
 _("LSldapObject : Error during execution of %{meth} method on object event %{event}.")
+);
+LSerror :: defineError('LSldapObject_30',
+_("LSldapObject : Error during generate LDAP filter for %{LSobject}.")
+);
+
+// LSrelation
+LSerror :: defineError('LSrelations_05',
+_("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
 );
 
 ?>

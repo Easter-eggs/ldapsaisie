@@ -1,32 +1,78 @@
-<table class='LSobject-list' id='LSselect-object' caption='{$LSobject_list_objecttype}'>
+<table class='LSobject-list' id='LSselect-object' caption='{$LSsearch->LSobject}'>
   <tr class='LSobject-list'>
     <th class='LSobject-list LSobject-select-check'></th>
-    <th class='LSobject-list sortBy_displayName'>{if $LSobject_list_orderby == 'displayName'}<strong>{$LSobject_list_objectname}</strong><img src='{$LS_IMAGES_DIR}/{$LSobject_list_ordersense}.png' class='LSobject-list-ordersense' alt='{$LSobject_list_ordersense}'/>{else}{$LSobject_list_objectname}{/if}</th>
-    {if $LSobject_list_subDn}<th class='LSobject-list LSobject-list-subdn sortBy_subDn'>{if $LSobject_list_orderby == 'subDn'}<strong>{$label_level}</strong><img src='{$LS_IMAGES_DIR}/{$LSobject_list_ordersense}.png' class='LSobject-list-ordersense' alt='{$LSobject_list_ordersense}'/>{else}{$label_level}{/if}</th>{/if}
+    <th class='LSobject-list{if $LSsearch->sort} sortBy_displayName{/if}'>
+      {if $LSsearch->sortBy == 'displayName'}
+        <strong>{$LSsearch->label_objectName}</strong>
+        <img src='{$LS_IMAGES_DIR}/{$LSsearch->sortDirection}.png' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
+      {else}
+        {$LSsearch->label_objectName}
+      {/if}
+    </th>
+    {if $LSsearch->displaySubDn}
+      <th class='LSobject-list LSobject-list-subdn{if $LSsearch->sort} sortBy_subDn{/if}'>
+        {if $LSsearch->sort}
+          {if $LSsearch->sortBy == 'subDn'}
+            <strong>{$LSsearch->label_level}</strong>
+            <img src='{$LS_IMAGES_DIR}/{$LSsearch->sortDirection}.png' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
+          {else}
+            {$LSsearch->label_level}
+          {/if}
+        {else}
+          {$LSsearch->label_level}
+        {/if}
+      </th>
+    {/if}
   </tr>
-{assign var='bis' value=false}
-{foreach from=$LSobject_list item=object}
-    <tr class='LSobject-list{if $bis} LSobject-list-bis{assign var='bis' value=false}{else}{assign var='bis' value=true}{/if}'>
-        <td class='LSobject-list LSobject-select-check'><input type='{if $LSselect_multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object.dn}' {if $object.select}checked="true"{/if} class='LSobject-select' /></td>
-        <td class='LSobject-list LSobject-select-names'>{$object.displayName}</td>
-        {if $LSobject_list_subDn}<td class='LSobject-list LSobject-select-level'>{$object.subDn}</td>{/if}
+{foreach from=$page.list item=object}
+    <tr class='{cycle values="LSobject-list,LSobject-list LSobject-list-bis"}'>
+        <td class='LSobject-list LSobject-select-check'><input type='{if $searchForm.multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object->dn}' {if $object->LSselect}checked="true"{/if} class='LSobject-select' /></td>
+        <td class='LSobject-list LSobject-select-names'>{$object->displayName}</td>
+        {if $LSsearch->displaySubDn}
+          <td class='LSobject-list LSobject-select-level'>{$object->subDn}</td>
+        {/if}
     </tr>
 {foreachelse}
     <tr class='LSobject-list'>
-      <td colspan='3' class='LSobject-list-without-result'>{$LSobject_list_without_result_label}</td>
+      <td colspan='3' class='LSobject-list-without-result'>{$LSsearch->label_no_result}</td>
     </tr> 
 {/foreach}
 </table>
-{if $LSobject_list_nbpage}
+
+
+{if $page.nbPages > 1}
   <p class='LSobject-list-page'>
-  {section name=listpage loop=$LSobject_list_nbpage step=1}
-    {if $LSobject_list_currentpage == $smarty.section.listpage.index}
-      <strong class='LSobject-list-page'>{$LSobject_list_currentpage+1}</strong> 
+  {if $page.nbPages > 10}
+    {php}$this->assign('range', range(0,10));{/php}
+    {if $page.nb > 5}
+      {if $page.nb > $page.nbPages-6}
+        {assign var=start value=$page.nbPages-12}
+       {else}
+        {assign var=start value=$page.nb-6}
+      {/if}
     {else}
-      <a href='select.php?LSobject={$LSobject_list_objecttype}&amp;multiple={$LSselect_multiple}&amp;page={$smarty.section.listpage.index}&amp;{$LSobject_list_filter}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a> 
+      {assign var=start value=0}
     {/if}
-  {/section}
+    <a href='select.php?LSobject={$LSsearch->LSobject}&amp;page=0&amp;multiple={$searchForm.multiple}' class='LSobject-list-page'><</a> 
+    {foreach from=$range item=i}
+      {if $page.nb==$start+$i}
+        <strong class='LSobject-list-page'>{$page.nb+1}</strong> 
+      {else}
+        <a href='select.php?LSobject={$LSsearch->LSobject}&amp;page={$i+$start}&amp;multiple={$searchForm.multiple}'  class='LSobject-list-page'>{$i+$start+1}</a> 
+      {/if}
+    {/foreach}
+    <a href='select.php?LSobject={$LSsearch->LSobject}&amp;page={$page.nbPages-1}&amp;multiple={$searchForm.multiple}' class='LSobject-list-page'>></a> 
+  {else}
+    {section name=listpage loop=$page.nbPages step=1}
+      {if $page.nb == $smarty.section.listpage.index}
+        <strong class='LSobject-list-page'>{$page.nb+1}</strong> 
+      {else}
+        <a href='select.php?LSobject={$LSsearch->LSobject}&amp;page={$smarty.section.listpage.index}&amp;multiple={$searchForm.multiple}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a> 
+      {/if}
+    {/section}
+  {/if}
   </p>
 {/if}
-<div id='LSdebug_txt'>{$LSdebug_txt}</div>
-<div id='LSerror_txt'>{$LSerror_txt}</div>
+
+<div id='LSdebug_txt_ajax' style='display: none'>{$LSdebug_txt}</div>
+<div id='LSerror_txt_ajax' style='display: none'>{$LSerror_txt}</div>

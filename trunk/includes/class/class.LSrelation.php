@@ -295,4 +295,20 @@ class LSrelation {
   }
 }
 
+/**
+ * Error Codes
+ **/
+LSerror :: defineError('LSrelations_01',
+_("LSrelation : The listing function for the relation %{relation} is unknow.")
+);
+LSerror :: defineError('LSrelations_02',
+_("LSrelation : The update function of the relation %{relation} is unknow.")
+);
+LSerror :: defineError('LSrelations_03',
+_("LSrelation : Error during relation update of the relation %{relation}.")
+);
+LSerror :: defineError('LSrelations_04',
+_("LSrelation : Object type %{LSobject} unknow (Relation : %{relation}).")
+);
+
 ?>

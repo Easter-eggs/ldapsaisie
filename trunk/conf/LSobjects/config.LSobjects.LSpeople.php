@@ -115,7 +115,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'uid',
       'mail'
     ),
-    'recursive' => true
+    'params' => array (
+      'recursive' => true
+    )
   ),
   
   // Attributes

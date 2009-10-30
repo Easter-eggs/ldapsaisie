@@ -148,19 +148,21 @@ class LSattr_html_select_object extends LSattr_html{
           }
         }
         else {
-          $filter='';
+          $filters=array();
           foreach($values as $val) {
             if (!empty($val)) {
-              $filter.='('.$conf['value_attribute'].'='.$val.')';
+              $filters[]=Net_LDAP2_Filter::create($conf['value_attribute'],'equals',$val);
             }
           }
-          if ($filter!='') {
-            $filter='(|'.$filter.')';
-            $obj = new $conf['object_type']();
-            $listobj = $obj -> listObjectsName($filter,NULL,array(),$conf['display_name_format']);
-            foreach($listobj as $dn => $name) {
-              $DNs[]=$dn;
-              $retInfos[$dn] = $name;
+          if (!empty($filters)) {
+            $filter=LSldap::combineFilters('or',$filters);
+            if ($filter) {
+              $obj = new $conf['object_type']();
+              $listobj = $obj -> listObjectsName($filter,NULL,array(),$conf['display_name_format']);
+              foreach($listobj as $dn => $name) {
+                $DNs[]=$dn;
+                $retInfos[$dn] = $name;
+              }
             }
           }
         }
