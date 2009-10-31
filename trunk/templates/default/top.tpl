@@ -45,7 +45,7 @@
       </select>
       <input type='submit' value='->'/>
     </form>
-    {$connected_as} <span id='user_name'>{$LSsession_username}</span> <a href='index.php?LSsession_logout'><img src='{$LS_IMAGES_DIR}/logout.png' alt='Logout' title='Logout' /></a>
+    {$connected_as} <span id='user_name'>{$LSsession_username}</span>{if $displayLogoutBtn} <a href='index.php?LSsession_logout'><img src='{$LS_IMAGES_DIR}/logout.png' alt='Logout' title='Logout' /></a>{/if}
     </td>
   </tr>
   <tr>

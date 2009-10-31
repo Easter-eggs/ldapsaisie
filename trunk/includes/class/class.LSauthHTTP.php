@@ -21,33 +21,30 @@
 ******************************************************************************/
 
 /**
- * Gestion de l'authentification d'un utilisateur
- *
- * Cette classe gere l'authentification des utilisateurs � l'interface
+ * Gestion de l'authentification d'un utilisateur suite � une authentification 
+ * HTTP
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSauth {
-  
-  static private $authData=NULL;
+class LSauthHTTP extends LSauth {
   
   var $params = array (
-    'displayLoginForm' => true,
-    'displayLogoutBtn' => true
+    'displayLoginForm' => false,
+    'displayLogoutBtn' => false
   );
   
   /**
    * Check Post Data
    * 
-   * @retval boolean True if post data permit the authentification or False
+   * @retval array|False Array of post data if exist or False
    **/
   public function getPostData() {
-    if (isset($_POST['LSsession_user']) && !empty($_POST['LSsession_user'])) {
+    if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER'])) {
       $this -> authData = array(
-        'username' => $_POST['LSsession_user'],
-        'password' => $_POST['LSsession_pwd'],
-        'ldapserver' => $_POST['LSsession_ldapserver'],
-        'topDn' => $_POST['LSsession_topDn']
+        'username' => $_SERVER['PHP_AUTH_USER'],
+        'password' => $_SERVER['PHP_AUTH_PW'],
+        'ldapserver' => $_REQUEST['LSsession_ldapserver'],
+        'topDn' => $_REQUEST['LSsession_topDn']
       );
       return true;
     }
@@ -66,7 +63,7 @@ class LSauth {
     if (LSsession :: loadLSobject(LSsession :: $ldapServer['authObjectType'])) {
       $authobject = new LSsession :: $ldapServer['authObjectType']();
       $result = $authobject -> searchObject(
-        $this -> authData['username'],
+        $this ->  authData['username'],
         LSsession :: getTopDn(),
         LSsession :: $ldapServer['authObjectFilter']
       );
@@ -81,13 +78,9 @@ class LSauth {
         // duplication d'authentité
         LSerror :: addErrorCode('LSauth_02');
       }
-      elseif ( $this -> checkUserPwd($result[0],$this -> authData['password']) ) {
+      else {
         // Authentication succeeded
         return $result[0];
-      }
-      else {
-        LSerror :: addErrorCode('LSauth_01');
-        LSdebug('mdp incorrect');
       }
     }
     else {
@@ -96,44 +89,5 @@ class LSauth {
     return;
   }
   
- /**
-  * Test un couple LSobject/pwd
-  *
-  * Test un bind sur le serveur avec le dn de l'objet et le mot de passe fourni.
-  *
-  * @param[in] LSobject L'object "user" pour l'authentification
-  * @param[in] string Le mot de passe à tester
-  *
-  * @retval boolean True si l'authentification à réussi, false sinon.
-  */
-  public static function checkUserPwd($object,$pwd) {
-    return LSldap :: checkBind($object -> getValue('dn'),$pwd);
-  }
-  
-  /**
-   * Define if login form can be displayed or not
-   * 
-   * @retval boolean
-   **/
-  public function __get($key) {
-    if ($key=='params') {
-      return $this -> params;
-    }
-    return;
-  }
-  
 }
-
-/*
- * Error Codes
- */
-LSerror :: defineError('LSauth_01',
-_("LSauth : Login or password incorrect.")
-);
-LSerror :: defineError('LSauth_02',
-_("LSauth : Impossible to identify you : Duplication of identities.")
-);
-LSerror :: defineError('LSauth_03',
-_("LSsession : Could not load type of identifiable objects.")
-);
 ?>

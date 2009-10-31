@@ -45,6 +45,11 @@ $GLOBALS['LSconfig'] = array(
             'filter'   => '(objectClass=*)',
             'scope'    => 'sub'
       ),
+/*
+      'LSauth' => array (
+        'method' => 'HTTP'
+      ),
+*/
       'LSprofiles' => array (
         'admin' => array (
           'o=ls' => array (
