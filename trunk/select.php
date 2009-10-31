@@ -39,7 +39,7 @@ if(LSsession :: startLSsession()) {
         
         $searchForm = array (
           'action' => $_SERVER['PHP_SELF'],
-          'recursive' => (! LSsession :: isSubDnLSobject($LSobject) ),
+          'recursive' => (! LSsession :: isSubDnLSobject($LSobject) && LSsession :: subDnIsEnabled() ),
           'multiple' => $multiple,
           'labels' => array (
             'submit' => _('Search'),

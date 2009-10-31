@@ -97,7 +97,7 @@ if(LSsession :: startLSsession()) {
           
           $searchForm = array (
             'action' => $_SERVER['PHP_SELF'],
-            'recursive' => (! LSsession :: isSubDnLSobject($LSobject) ),
+            'recursive' => (! LSsession :: isSubDnLSobject($LSobject) && LSsession :: subDnIsEnabled() ),
             'labels' => array (
               'submit' => _('Search'),
               'approx' => _('Approximative search'),
