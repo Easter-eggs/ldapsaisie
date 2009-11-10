@@ -37,10 +37,8 @@
   'after_create' => 'function3',
   'after_delete' => 'function4',
   
-  'label' => 'objet1',
-  
+  'label' => 'objet1',  
   'display_name_format' => '[format]',
-  'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
   
   // LSrelation
   'LSrelation' => array(
@@ -164,16 +162,6 @@
     <simpara><link linkend="config-LSformat">Format paramètrable</link> du nom
     des objets composés à partir des valeurs d'affichage des attributs de l'objet.
     </simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>orderby</term>
-  <listitem>
-    <simpara>Paramétrage du tri par défaut des objets lors de l'affiche du
-    résultat d'une recherche.</simpara>
-    <simpara>Valeurs possibles : <literal>displayName</literal> ou <literal>subDn</literal></simpara>
-    <simpara>(Paramètre facultatif)</simpara>
   </listitem>
 </varlistentry>
 

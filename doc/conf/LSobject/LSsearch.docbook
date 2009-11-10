@@ -14,7 +14,22 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     'attr2',
     ...
   ),
-  'recursive' => [booléen]
+  'params' => array(
+    // Paramètres de la recherche
+    'pattern' => '[string]',
+    'sizelimit' => [integer],
+    'recursive' => [boolean],
+    'approx' => [boolean],
+    'withoutCache' => [boolean],
+    // Paramètres de tri
+    'sortBy' => [displayName|subDn],
+    'sortDirection' => [ASC|DESC],
+    'sortlimit' => [integer],
+    // Paramètre d'affichage
+    'displayFormat' => [LSformat],
+    'nbObjectsByPage' => [integer],
+    'nbPageLinkByPage' => [integer]
+  )
 );]]>
 </programlisting>
 
@@ -42,10 +57,103 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
 </varlistentry>
 
 <varlistentry>
+  <term>params</term>
+  <listitem>
+    <para>Tableau des paramètres par défaut d'une recherche. Ce tableau contient
+les paramètres qui seront utilisés pour initialisé une recherche. Ces paramètres
+pourront être redéfini par l'utilisateur ou par l'application en fonction du
+contexte dans lequel cette recherche est effectuée.</para>
+    
+    <variablelist>
+    <title>Paramètres de configuration</title>
+    
+<varlistentry>
+  <term>pattern</term>
+  <listitem>
+    <simpara>Mot clé de la recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>sizelimit</term>
+  <listitem>
+    <simpara>Entier determinant le nombre maximum d'objet pouvant être retournés dans
+    une recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
   <term>recursive</term>
   <listitem>
-    <para>Booléen déterminant si la recherche récursive est activée ou non par
-    défaut pour ce type d'LSobject.</para>
+    <simpara>Booléen déterminant si la recherche récursive est activée.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>approx</term>
+  <listitem>
+    <simpara>Booléen déterminant si la recherche approximative est activée.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>withoutCache</term>
+  <listitem>
+    <simpara>Booléen déterminant si le cache de recherche doit être utilisé.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>sortBy</term>
+  <listitem>
+    <simpara>Mot clé déterminant sur quel valeur/colonne le résultat de recherche
+    sera trié.</simpara>
+    <simpara>Valeurs possibles : <literal>displayName</literal>, <literal>subDn</literal> ou  <literal>NULL</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>sortDirection</term>
+  <listitem>
+    <simpara>Mot clé déterminant le sens du trie du résultat de la recherche.</simpara>
+    <simpara>Valeurs possibles : <literal>ASC</literal>, <literal>DESC</literal> ou  <literal>NULL</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>sortlimit</term>
+  <listitem>
+    <simpara>Entier determinant le nombre maximum d'objet pouvant être triés dans
+    le résultat d'une recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>displayFormat</term>
+  <listitem>
+    <simpara>&LSformat; d'affichage du nom de l'objet dans le résultat de la recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>nbObjectsByPage</term>
+  <listitem>
+    <simpara>Entier déterminant le nombre d'objet maximum affichés dans une page
+    de résultat de la recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>nbPageLinkByPage</term>
+  <listitem>
+    <simpara>Entier déterminant le nombre maximum de liens vers d'autres pages
+    affichés sous le résultat de la recherche.</simpara>
+    <simpara>Par défaut : <literal>10</literal></simpara>
+  </listitem>
+</varlistentry>
+
+    </variablelist>
+    
   </listitem>
 </varlistentry>
 
