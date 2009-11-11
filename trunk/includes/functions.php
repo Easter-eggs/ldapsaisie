@@ -208,13 +208,18 @@ function return_data($data) {
   return $data;
 }
 
+function varDump($data) {
+  ob_start();
+  var_dump($data);
+  $data=ob_get_contents(); 
+  ob_end_clean();
+  return $data;
+}
+
 $GLOBALS['LSdebug_fields']=array();
 function LSdebug($data,$dump=false) {
   if ($dump) {
-    ob_start();
-    var_dump($data);
-    $GLOBALS['LSdebug_fields'][]=ob_get_contents(); 
-    ob_end_clean();
+    $GLOBALS['LSdebug_fields'][]=varDump($data);
   }
   else {
     if (is_array($data)||is_object($data)) {
