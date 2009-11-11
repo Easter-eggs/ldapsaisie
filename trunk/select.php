@@ -35,12 +35,27 @@ if(LSsession :: startLSsession()) {
         $LSsearch -> setParamsFormPostData();
         $LSsearch -> setParam('nbObjectsByPage',NB_LSOBJECT_LIST_SELECT);
         
+        $selectablly=((isset($_REQUEST['selectablly']))?$_REQUEST['selectablly']:0);
+        
+        if (is_string($_REQUEST['editableAttr'])) {
+          $LSsearch -> setParam(
+            'customInfos',
+            array (
+              'selectablly' => array (
+                'function' => array('LSselect','selectablly'),
+                'args' => $_REQUEST['editableAttr']
+              )
+            )
+          );
+          $selectablly=1;
+        }
         $multiple = ((isset($_REQUEST['multiple']))?1:0);
         
         $searchForm = array (
           'action' => $_SERVER['PHP_SELF'],
           'recursive' => (! LSsession :: isSubDnLSobject($LSobject) && LSsession :: subDnIsEnabled() ),
           'multiple' => $multiple,
+          'selectablly' => $selectablly,
           'labels' => array (
             'submit' => _('Search'),
             'approx' => _('Approximative search'),
@@ -60,6 +75,7 @@ if(LSsession :: startLSsession()) {
             $LSsearch -> getHiddenFieldForm(),
             array(
               'ajax' => 1,
+              'selectablly' => $selectablly,
               'multiple' => $multiple
             )
           )

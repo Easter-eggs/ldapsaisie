@@ -26,7 +26,7 @@
   </tr>
 {foreach from=$page.list item=object}
     <tr class='{cycle values="LSobject-list,LSobject-list LSobject-list-bis"}'>
-        <td class='LSobject-list LSobject-select-check'><input type='{if $searchForm.multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object->dn}' {if $object->LSselect}checked="true"{/if} class='LSobject-select' /></td>
+        <td class='LSobject-list LSobject-select-check'><input type='{if $searchForm.multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object->dn}' {if $object->LSselect}checked="true"{/if}{if $searchForm.selectablly}{if !$object->selectablly} disabled{/if}{/if} class='LSobject-select' /></td>
         <td class='LSobject-list LSobject-select-names'>{$object->displayName}</td>
         {if $LSsearch->displaySubDn}
           <td class='LSobject-list LSobject-select-level'>{$object->subDn}</td>

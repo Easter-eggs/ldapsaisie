@@ -82,6 +82,10 @@ class LSselect {
       LSerror :: addErrorCode('LSsession_12');
     }
   }
+  
+  public static function selectablly($obj,$args) {
+    return (LSsession::canEdit($obj->type,$obj->dn,$args))?1:0;
+  }
 }
 
 ?>
