@@ -113,6 +113,9 @@ class LSsearchEntry {
       $this -> cache['displayName'] = $this -> getFData($this -> params['displayFormat']);
       return $this -> cache['displayName'];
     }
+    elseif ($key=='LSobject'||$key=='type_name'||$key=='type') {
+      return $this -> LSobject;
+    }
     elseif ($key=='dn') {
       return $this -> dn;
     }
@@ -174,7 +177,20 @@ class LSsearchEntry {
     elseif (in_array($key,array_keys($this -> attrs))) {
       return $this -> attrs[$key];
     }
+    elseif (array_key_exists($key,$this->params['customInfos'])) {
+      if(isset($this -> cache['customInfos'][$key])) {
+        return $this -> cache['customInfos'][$key];
+      }
+      if(is_array($this->params['customInfos'][$key]['function']) && is_string($this->params['customInfos'][$key]['function'][0])) {
+        LSsession::loadLSclass($this->params['customInfos'][$key]['function'][0]);
+      }
+      if(is_callable($this->params['customInfos'][$key]['function'])) {
+        $this -> cache['customInfos'][$key]=call_user_func($this->params['customInfos'][$key]['function'],$this,$this->params['customInfos'][$key]['args']);
+        return $this -> cache['customInfos'][$key];
+      }
+    }
     else {
+      LSlog('LSsearchEntry : '.$this -> dn.' => Unknown property '.$key.' !');
       return __("Unknown property !");
     }
   }

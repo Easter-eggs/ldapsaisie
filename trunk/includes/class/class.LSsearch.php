@@ -57,6 +57,7 @@ class LSsearch {
     'displayFormat' => NULL,
     'nbObjectsByPage' => NB_LSOBJECT_LIST,
     'nbPageLinkByPage' => 10,
+    'customInfos' => array(),
     'withoutCache' => false
   );
   
@@ -440,6 +441,24 @@ class LSsearch {
     // Display Format
     if (is_string($params['displayFormat'])) {
       $this -> params['displayFormat'] = $params['displayFormat'];
+    }
+    
+    // Custom Infos
+    if (is_array($params['customInfos'])) {
+      foreach($params['customInfos'] as $name => $data) {
+        if(is_array($data['function']) && is_string($data['function'][0])) {
+          LSsession::loadLSclass($data['function'][0]);
+        }
+        if (is_callable($data['function'])) {
+          $this -> params['customInfos'][$name] = array (
+            'function' => &$data['function'],
+            'args' => $data['args']
+          );
+        }
+        else {
+          LSerror :: addErrorCode('LSsearch_14',$name);
+        }
+      }
     }
 
     $this -> saveParamsInSession();
@@ -1125,6 +1144,9 @@ _("LSsearch : Error during the search.")
 );
 LSerror :: defineError('LSsearch_13',
 _("LSsearch : Error sorting the search.")
+);
+LSerror :: defineError('LSsearch_14',
+_("LSsearch : The function of the custum information %{name} is not callable.")
 );
 
 ?>
