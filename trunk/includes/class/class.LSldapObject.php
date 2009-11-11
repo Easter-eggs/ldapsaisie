@@ -1493,15 +1493,23 @@ class LSldapObject {
    * @param[in] $attrValue La valeur que doit avoir l'attribut :
    *                      - soit le dn (par defaut)
    *                      - soit la valeur [0] d'un attribut
+   * @param[in] $canEditFunction  Le nom de la fonction pour vérifier que la
+   *                              relation avec l'objet est éditable par le user
    * 
    * @retval boolean true si l'objet à été ajouté, False sinon
    **/  
-  function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
+  function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','addOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
+      if ($canEditFunction) {
+        if (!$this -> $canEditFunction()) {
+          LSerror :: addErrorCode('LSsession_11');
+          return;
+        }
+      }
       if ($this -> attrs[$attr] instanceof LSattribute) {
         if ($attrValue=='dn') {
           $val = $object -> getDn();
@@ -1543,15 +1551,23 @@ class LSldapObject {
    * @param[in] $attrValue La valeur que doit avoir l'attribut :
    *                      - soit le dn (par defaut)
    *                      - soit la valeur [0] d'un attribut
+   * @param[in] $canEditFunction  Le nom de la fonction pour vérifier que la
+   *                              relation avec l'objet est éditable par le user
    * 
    * @retval boolean true si l'objet à été supprimé, False sinon
    **/  
-  function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn') {
+  function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','deleteOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
+      if ($canEditFunction) {
+        if (!$this -> $canEditFunction()) {
+          LSerror :: addErrorCode('LSsession_11');
+          return;
+        }
+      }
       if ($this -> attrs[$attr] instanceof LSattribute) {
         if ($attrValue=='dn') {
           $val = $object -> getDn();
@@ -1638,10 +1654,12 @@ class LSldapObject {
    * @param[in] $attrValue La valeur que doit avoir l'attribut :
    *                      - soit le dn (par defaut)
    *                      - soit la valeur [0] d'un attribut
+   * @param[in] $canEditFunction  Le nom de la fonction pour vérifier que la
+   *                              relation avec l'objet est éditable par le user
    * 
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
-  function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn') {
+  function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','updateObjectsInRelation');
       return;
@@ -1685,7 +1703,7 @@ class LSldapObject {
             continue;
           }
           else {
-            if (!$currentObjects[$i] -> deleteOneObjectInRelation($object,$attr,$objectType,$attrValue)) {
+            if (!$currentObjects[$i] -> deleteOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
               return;
             }
           }
@@ -1698,7 +1716,7 @@ class LSldapObject {
           else {
             $obj = new $type();
             if ($obj -> loadData($dn)) {
-              if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue)) {
+              if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
                 return;
               }
             }
@@ -1717,7 +1735,7 @@ class LSldapObject {
       foreach($listDns as $dn) {
         $obj = new $type();
         if ($obj -> loadData($dn)) {
-          if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue)) {
+          if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
             return;
           }
         }

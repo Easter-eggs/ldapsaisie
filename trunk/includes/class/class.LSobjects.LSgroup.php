@@ -64,7 +64,7 @@ class LSgroup extends LSldapObject {
    * @retval boolean true si l'utilisateur à été ajouté, False sinon
    **/  
   function addOneMember($object) {
-    return $this -> addOneObjectInRelation($object,$this -> memberAttr, $this -> userObjectType);
+    return $this -> addOneObjectInRelation($object,$this -> memberAttr, $this -> userObjectType,'dn','canEditGroupRelation');
   }
   
   /**
@@ -75,7 +75,7 @@ class LSgroup extends LSldapObject {
    * @retval boolean true si l'utilisateur à été supprimé, False sinon
    **/  
   function deleteOneMember($object) {
-    return $this -> deleteOneObjectInRelation($object,$this -> memberAttr,$this -> userObjectType);
+    return $this -> deleteOneObjectInRelation($object,$this -> memberAttr,$this -> userObjectType,'dn','canEditGroupRelation');
   }
   
  /**
@@ -99,7 +99,19 @@ class LSgroup extends LSldapObject {
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
   function updateUserGroups($object,$listDns) {
-    return $this -> updateObjectsInRelation($object,$listDns,$this -> memberAttr,$this -> userObjectType);
+    return $this -> updateObjectsInRelation($object,$listDns,$this -> memberAttr,$this -> userObjectType,'dn','canEditGroupRelation');
+  }
+  
+  /**
+   * Test si l'utilisateur peut d'editer la relation avec ce groupe
+   * 
+   * @retval boolean true si tout l'utilisateur peut éditer la relation, False sinon
+   **/  
+  function canEditGroupRelation($dn=NULL) {
+    if (!$dn) {
+      $dn=$this -> dn;
+    }
+    return LSsession :: canEdit($this -> type_name,$this -> dn,$this -> memberAttr);
   }
 }
 

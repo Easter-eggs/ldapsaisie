@@ -26,7 +26,6 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
     'posixGroup'
   ),
   'rdn' => 'cn',
-  'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
   'container_dn' => 'ou=groups',
   'container_auto_create' => array(
     'objectclass' => array(
@@ -121,6 +120,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'view' => 1,
       'rights' => array(
         'admin' => 'w',
+        'admingroup' => 'w',
         'godfather' => 'w'
       ),
       'form' => array (

@@ -122,6 +122,11 @@ $GLOBALS['LSconfig'] = array(
               'LSobject' => 'LSgroup'
             )
           )
+        ),
+        'admingroup' => array (
+          'ou=company1,ou=companies,o=ls' => array (
+            'uid=user1,ou=people,ou=company1,ou=companies,o=ls' => NULL
+          )
         )
       ),
       'authObjectType' => 'LSpeople',

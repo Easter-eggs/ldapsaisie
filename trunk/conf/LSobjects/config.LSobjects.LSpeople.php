@@ -27,7 +27,6 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     'posixAccount',
     'sambaSamAccount',
   ),
-  'orderby' => 'displayName',  // Valeurs possibles : 'displayName' ou 'subDn'
   'rdn' => 'uid',
   'container_dn' => 'ou=people',
   
@@ -59,9 +58,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'update_function' => 'updateUserGroups',
       'remove_function' => 'deleteOneMember',
       'rename_function' => 'renameOneMember',
+      'canEdit_function' => 'canEditGroupRelation',
+      'canEdit_attribute' => 'uniqueMember',
       'rights' => array(
         'self' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
+        'admingroup' => 'w'
       )
     )
   ),

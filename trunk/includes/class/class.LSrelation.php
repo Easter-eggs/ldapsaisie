@@ -80,7 +80,7 @@ class LSrelation {
           if (LSsession :: relationCanEdit($object -> getValue('dn'),$object->getType(),$relationName)) {
             $return['actions'][] = array(
               'label' => _('Modify'),
-              'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1',
+              'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1'.((isset($relationConf['canEdit_attribute']))?'&amp;editableAttr='.$relationConf['canEdit_attribute']:''),
               'action' => 'modify'
             );
           }
@@ -99,6 +99,12 @@ class LSrelation {
                     'text' => $o -> getDisplayName(NULL,true),
                     'dn' => $o -> getDn()
                   );
+                  if (isset($relationConf['canEdit_function'])) {
+                    $o_infos['canEdit']= $o -> $relationConf['canEdit_function']();
+                  }
+                  else {
+                    $o_infos['canEdit']=true;
+                  }
                   $return['objectList'][] = $o_infos;
                 }
               }
@@ -187,7 +193,18 @@ class LSrelation {
                         $list = $objRel -> $relationConf['list_function']($object);
                         if (is_array($list)&&(!empty($list))) {
                           foreach($list as $o) {
-                            $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".$o -> getDn()."' class='LSrelation' id='".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
+                            if (isset($relationConf['canEdit_function'])) {
+                              if ($o -> $relationConf['canEdit_function']()) {
+                                $class=' LSrelation_editable';
+                              }
+                              else {
+                                $class='';
+                              }
+                            }
+                            else {
+                              $class=' LSrelation_editable';
+                            }
+                            $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".$o -> getDn()."' class='LSrelation$class' id='".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
                           }
                         }
                         else {
@@ -249,12 +266,19 @@ class LSrelation {
                     $ok=false;
                     foreach($list as $o) {
                       if($o -> getDn() == $_REQUEST['dn']) {
+                        if (isset($relationConf['canEdit_function'])) {
+                          if (!$o -> $relationConf['canEdit_function']()) {
+                            LSerror :: addErrorCode('LSsession_11');
+                            break;
+                          }
+                        }
                         if (!$o -> $relationConf['remove_function']($object)) {
                           LSerror :: addErrorCode('LSrelations_03',$conf['relationName']);
                         }
                         else {
                           $ok = true;
                         }
+                        break;
                       }
                     }
                     if (!$ok) {

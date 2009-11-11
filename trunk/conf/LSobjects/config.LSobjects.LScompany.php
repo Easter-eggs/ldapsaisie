@@ -26,7 +26,6 @@ $GLOBALS['LSobjects']['LScompany'] = array (
     'lscompany'
   ),
   'rdn' => 'ou',
-  'orderby' => 'displayName',  // possible cases : 'displayName' ou 'subDn'
   'container_dn' => 'ou=companies',
   'display_name_format' => '%{ou}',
   'label' => 'Companies',

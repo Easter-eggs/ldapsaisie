@@ -28,7 +28,7 @@ var LSrelation = new Class({
         el.destroy();
       }, this);
       this.deleteBtnId = 0;
-      $$('a.LSrelation').each(function(a) {
+      $$('a.LSrelation_editable').each(function(a) {
         this.deleteBtn[this.deleteBtnId] = new Element('img');
         this.deleteBtn[this.deleteBtnId].src = varLSdefault.imagePath('delete.png');
         this.deleteBtn[this.deleteBtnId].setStyle('cursor','pointer');
