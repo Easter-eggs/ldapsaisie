@@ -16,6 +16,8 @@
     'update_function' => '[methode3]',
     'remove_function' => '[methode4]',
     'rename_function' => '[methode5]',
+    'canEdit_function' => '[methode6]',
+    'canEdit_attribute' => '[nom d'attribut]',
     'rights' => array(
       'LSprofile1' => 'r',
       'LSprofile2' => 'w',
@@ -94,6 +96,24 @@
     d'effectuer les actions nécessaires lorsque l'objet courant est renommé dans
     le but de maintenir les valeurs clés permettant d'établir les relations entre
     l'objet courant et les objets en relation avec lui.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>canEdit_function</term>
+  <listitem>
+    <simpara>La méthode de la classe du type d'&LSobject; en relation permettant
+    de vérifier que l'utilisateur à le droit de modifier la relation avec un objet
+    en particulier.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>canEdit_attribute</term>
+  <listitem>
+    <simpara>Le nom de l'attibut du type d'&LSobject; en relation devant être
+    éditable par l'utilisateur pour que celui-ci puisse modifier la relation.
+    </simpara>
   </listitem>
 </varlistentry>
 
