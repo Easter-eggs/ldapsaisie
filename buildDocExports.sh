@@ -18,6 +18,12 @@ then
     exit 0
 fi
 
+if [ ! -d "$EXPORT_DOC_DIR" ]
+then
+    echo "Error : Export directory $EXPORT_DOC_DIR does not exist !"
+    exit 2
+fi
+
 DOC_DIR=$ROOT_DIR/doc
 TMP_DIR=`mktemp -d`
 ERROR=0
