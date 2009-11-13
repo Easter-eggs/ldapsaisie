@@ -1,19 +1,16 @@
 #!/bin/sh
 
+
 ROOT_DIR=$( cd `dirname $0`; pwd )
 
-# List of local files which will be install in web root
-LOCAL_FILES="
-"
+# Import config
+if [ ! -f $ROOT_DIR/config.local/local.sh ]
+then
+    echo "Error : You don't have create your own local.sh file in config.local directory. You could rely on the local.sh.example file to create your version."
+    exit 1
+fi
 
-LOCAL_SAV_DIR="$ROOT_DIR/config.local"
-LOG_FILE="$ROOT_DIR/upgrade.log"
-
-# The theme name to install (optional)
-#THEME="inha"
-
-# Do doc export ?
-DO_DOC=1
+source $ROOT_DIR/config.local/local.sh
 
 function msg() {
     echo $2 "$1" | tee -a "$LOG_FILE"

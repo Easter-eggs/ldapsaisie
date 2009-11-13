@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# List of local files which will be install in web root
+LOCAL_FILES="
+"
+
+LOCAL_SAV_DIR="$ROOT_DIR/config.local"
+LOG_FILE="$ROOT_DIR/upgrade.log"
+
+# The theme name to install (optional)
+#THEME="mytheme"
+
+# Do doc export ?
+DO_DOC=1
+

@@ -3,3 +3,4 @@
 *.tpl
 *.tpl~
 *.orig
+*.sh
