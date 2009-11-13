@@ -39,4 +39,4 @@ CSS=$ROOT_DIR/doc/styles/LS.css
 IMAGES=$ROOT_DIR/doc/images
 
 # The name of last update file
-LAST_UPDATE_FILE=$EXPORT_DIR/last_update.txt
+LAST_UPDATE_FILE=$EXPORT_DOC_DIR/last_update.txt
