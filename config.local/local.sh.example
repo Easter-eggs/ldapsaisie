@@ -4,7 +4,6 @@
 LOCAL_FILES="
 "
 
-LOCAL_SAV_DIR="$ROOT_DIR/config.local"
 LOG_FILE="$ROOT_DIR/upgrade.log"
 
 # The theme name to install (optional)

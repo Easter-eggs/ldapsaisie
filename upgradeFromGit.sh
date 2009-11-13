@@ -2,15 +2,16 @@
 
 
 ROOT_DIR=$( cd `dirname $0`; pwd )
+LOCAL_SAV_DIR="$ROOT_DIR/config.local"
 
 # Import config
-if [ ! -f $ROOT_DIR/config.local/local.sh ]
+if [ ! -f $LOCAL_SAV_DIR/local.sh ]
 then
     echo "Error : You don't have create your own local.sh file in config.local directory. You could rely on the local.sh.example file to create your version."
     exit 1
 fi
 
-source $ROOT_DIR/config.local/local.sh
+source $LOCAL_SAV_DIR/local.sh
 
 function msg() {
     echo $2 "$1" | tee -a "$LOG_FILE"
@@ -119,10 +120,9 @@ do
 			if [ -f $SRC.orig ]
 			then
 				DIFF=`diff $ROOT_DIR/$i.sav $SRC.orig`
-				msg "$DIFF" -e
 				if [ "$DIFF" != "" ]
 				then	
-					msg "\n\t\t\t-> Caution : This file changed. Do you want edit this file now ? [y/N] " -en
+				    msg "\n$DIFF\n\t\t\t-> Caution : This file changed. Do you want edit this file now ? [y/N] " -en
 					read a
 					echo "Reponse : $a"  >> $LOG_FILE
 					if [ "$a" == "y" -o "$a" == "Y" ]
@@ -133,7 +133,7 @@ do
 					msg "No change"
 				fi
 			else
-				echo
+				msg "Original backup file does not exist. Pass ..."
 			fi
 			msg "\t\t-> Backup file for next upgrade : " -en
 			cp -f $ROOT_DIR/$i.sav $SRC.orig >> $LOG_FILE 2>&1
