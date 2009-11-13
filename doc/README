@@ -1,0 +1,32 @@
+Makefile :
+##########
+
+The root Makefile permit currently 3 actions :
+ * Validation : For the xml validation of docbook files
+  make validate
+  
+ * Export : For build the documentation exports in all available formats
+  make export
+  
+ * Clean : Delete non-sources files
+  make clean
+
+Dependencies :
+##############
+
+For validation :
+================
+ * xmllint command (in debian package libxml2-utils)
+ 
+For exports :
+=============
+ * in HTML :
+ ~~~~~~~~~~~
+   + xsltproc command (in debian package xsltproc)
+   + XSL stylesheets by N.Walsh (html/docbook.xsl, htmlhelp/htmlhelp.xsl
+     and xhtml/chunk.xsl) (in debian package docbook-xsl)
+     
+ * in PDF :
+ ~~~~~~~~~~
+   + jw command (in debian package docbook-utils)
+ 
