@@ -21,25 +21,25 @@
 <sect1 id="install-download">
   <title>Téléchargement</title>
   <para>Il n'existe pas encore de version stable publiée. Vous pouvez obtenir le
-  code source soit en le rapatriant à partir du serveur Subversion, soit en téléchargeant
-  le dernier snapshot nocturne de l'arbre Subversion.
+  code source soit en le rapatriant à partir du serveur Git, soit en téléchargeant
+  le dernier snapshot nocturne de l'arbre Git.
   </para>
   
   <sect2>
-    <title>A partir de Subversion</title>
-    <para>Le dépôt Subversion peut être récupéré anonymement en utilisant la
+    <title>A partir de Git</title>
+    <para>Le dépôt Git peut être récupéré anonymement en utilisant la
     commande suivante :
     <screen>
-      <command>svn checkout svn://labs.libre-entreprise.org/svnroot/ldapsaisie</command>
+      <command>git clone git://git.labs.libre-entreprise.org/ldapsaisie.git</command>
     </screen> 
     La racine web de l'application se trouvera alors dans le dossier <emphasis>
-    /ldapsaisie/trunk/</emphasis>.
+    /ldapsaisie/public_html/</emphasis>.
     </para>
   </sect2>
 
   <sect2>
     <title>A partir des snapshot</title>
-    <para>Toutes les nuits, un snapshot de l'arbre Subversion est réalisé et est
+    <para>Toutes les nuits, un snapshot de l'arbre Git est réalisé et est
     téléchargeable au format <emphasis>tar.gz</emphasis> à l'adresse suivante : 
     <ulink url='http://labs.libre-entreprise.org/snapshots.php?group_id=118'>
     http://labs.libre-entreprise.org/snapshots.php?group_id=118</ulink>

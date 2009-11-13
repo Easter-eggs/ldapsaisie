@@ -19,22 +19,22 @@ La librairie Net_LDAP2 oblige le fait que la racine DSE de l'annuaire soit lisib
 2. Téléchargement
 =================
 
-Il n'existe pas encore de version stable publiée. Vous pouvez obtenir le code source soit en le rapatriant à partir du serveur Subversion, soit en téléchargeant le dernier snapshot nocturne de l'arbre Subversion.
+Il n'existe pas encore de version stable publiée. Vous pouvez obtenir le code source soit en le rapatriant à partir du serveur Git, soit en téléchargeant le dernier snapshot nocturne de l'arbre Git.
 
-2.1. A partir de Subversion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2.1. A partir de Git
+~~~~~~~~~~~~~~~~~~~~
 
-Le dépôt Subversion peut être récupéré anonymement en utilisant la commande suivante :
+Le dépôt Git peut être récupéré anonymement en utilisant la commande suivante :
 
-      svn checkout svn://labs.libre-entreprise.org/svnroot/ldapsaisie
+      git clone git://git.labs.libre-entreprise.org/ldapsaisie.git
     
 
-La racine web de l'application se trouvera alors dans le dossier /ldapsaisie/trunk/.
+La racine web de l'application se trouvera alors dans le dossier /ldapsaisie/public_html/.
 
 2.2. A partir des snapshot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Toutes les nuits, un snapshot de l'arbre Subversion est réalisé et est téléchargeable au format tar.gz à l'adresse suivante : http://labs.libre-entreprise.org/snapshots.php?group_id=118
+Toutes les nuits, un snapshot de l'arbre Git est réalisé et est téléchargeable au format tar.gz à l'adresse suivante : http://labs.libre-entreprise.org/snapshots.php?group_id=118
 
 
 3. Arborescence du projet
@@ -42,40 +42,46 @@ Toutes les nuits, un snapshot de l'arbre Subversion est réalisé et est téléc
 
 Racine
 
-conf/
+doc/
+    Les fichiers sources de la documentation (docbook).
 
-    Contient les fichiers de configuration.
-
-    LSobjects/
-        Configuration des LSobjets.
-    LSaddons/
-        Configuration des LSaddons.
-
-includes/
-
-    Contient les fichiers des ressources.
-
-    addons/
-        Les addons au projet.
-    class/
-        Les fichiers de définition des classes PHP.
-    js/
-        Les fichiers Javascript.
-    libs/
-        Les librairies utilisées.
-
-l10n/
-    Les fichiers d'internationalisation.
 lsexample/
     Les fichiers relatifs à l'annuaire d'exemple.
-templates/
-    Les fichiers template de l'interface. Il y a un sous-dossier par template.
-css/
-    Les fichiers css de l'interface. Il y a un sous-dossier par template CSS.
-images/
-    Les images de l'interface. Il y a un sous-dossier par template d'image.
-tmp/
-    Les fichiers temporaires (y compris le cache des templates).
+
+public_html /
+    
+    conf/
+    
+        Contient les fichiers de configuration.
+    
+        LSobjects/
+            Configuration des LSobjets.
+        LSaddons/
+            Configuration des LSaddons.
+    
+    includes/
+    
+        Contient les fichiers des ressources.
+    
+        addons/
+            Les addons au projet.
+        class/
+            Les fichiers de définition des classes PHP.
+        js/
+            Les fichiers Javascript.
+        libs/
+            Les librairies utilisées.
+    
+    lang/
+        Les fichiers d'internationalisation.
+    templates/
+        Les fichiers template de l'interface. Il y a un sous-dossier par template.
+    css/
+        Les fichiers css de l'interface. Il y a un sous-dossier par template CSS.
+    images/
+        Les images de l'interface. Il y a un sous-dossier par template d'image.
+    tmp/
+        Les fichiers temporaires (y compris le cache des templates).
 
 
 4. Les étapes de l'installation
