@@ -56,8 +56,8 @@ done
 
 if [ $DO_DOC -eq 1 ]
 then
-	msg "-> Clean de la doc :" -en
-	cd $SVN_DIR/doc >> $LOG_FILE && make clean >> $LOG_FILE && cd - >> $LOG_FILE
+	msg "-> Clean the doc :" -en
+	cd $ROOT_DIR/doc >> $LOG_FILE && make clean >> $LOG_FILE && cd - >> $LOG_FILE
 	if [ $? -gt 0 ]
 	then
 	        msg "Error"
@@ -70,7 +70,7 @@ fi
 if [ "$THEME" != "" ]
 then
 	msg "\t\t-> Remove theme : " -en
-	rm -f $SVN_DIR/trunk/templates/$THEME $SVN_DIR/trunk/images/$THEME $SVN_DIR/trunk/css/$THEME >> $LOG_FILE 2>&1
+	rm -f $ROOT_DIR/trunk/templates/$THEME $ROOT_DIR/trunk/images/$THEME $ROOT_DIR/trunk/css/$THEME >> $LOG_FILE 2>&1
 	if [ $? -gt 0 ]
 	then
   	msg "Error"
@@ -108,10 +108,10 @@ do
 	if [ -f $SRC ]
 	then
 		msg
-        if [ -f $SVN_DIR/$i ]
+        if [ -f $ROOT_DIR/$i ]
 		then
 			msg "\t\t-> Backup original file : " -en
-			mv $SVN_DIR/$i $SVN_DIR/$i.sav >> $LOG_FILE 2>&1
+			mv $ROOT_DIR/$i $ROOT_DIR/$i.sav >> $LOG_FILE 2>&1
 			if [ $? -gt 0 ]
 			then
 				msg "Error"
@@ -122,7 +122,7 @@ do
 			msg "\t\t-> Check possible change of the original file since last upgrade : " -en
 			if [ -f $SRC.orig ]
 			then
-				DIFF=`diff $SVN_DIR/$i.sav $SRC.orig`
+				DIFF=`diff $ROOT_DIR/$i.sav $SRC.orig`
 				msg "$DIFF" -e
 				if [ "$DIFF" != "" ]
 				then	
@@ -131,7 +131,7 @@ do
 					echo "Reponse : $a"  >> $LOG_FILE
 					if [ "$a" == "y" -o "$a" == "Y" ]
 					then
-						vi -d $SRC $SVN_DIR/$i.sav
+						vi -d $SRC $ROOT_DIR/$i.sav
 					fi
 				else
 					msg "No change"
@@ -140,7 +140,7 @@ do
 				echo
 			fi
 			msg "\t\t-> Backup file for next upgrade : " -en
-			cp -f $SVN_DIR/$i.sav $SRC.orig >> $LOG_FILE 2>&1
+			cp -f $ROOT_DIR/$i.sav $SRC.orig >> $LOG_FILE 2>&1
 			if [ $? -gt 0 ]
 			then
 				msg "Error"
@@ -149,7 +149,7 @@ do
 			msg "Ok"
 		fi
 		msg "\t\t-> Install local file : " -en
-		ln -s $SRC $SVN_DIR/$i >> $LOG_FILE 2>&1
+		ln -s $SRC $ROOT_DIR/$i >> $LOG_FILE 2>&1
 		if [ $? -gt 0 ]
 		then
 			msg "Error"
@@ -163,9 +163,9 @@ done
 if [ "$THEME" != "" ]
 then
 	msg "-> Install theme : " -en
-	ln -s $LOCAL_SAV_DIR/theme/templates $SVN_DIR/trunk/templates/$THEME >> $LOG_FILE 2>&1
-	ln -s $LOCAL_SAV_DIR/theme/images $SVN_DIR/trunk/images/$THEME >> $LOG_FILE 2>&1
-	ln -s $LOCAL_SAV_DIR/theme/css $SVN_DIR/trunk/css/$THEME >> $LOG_FILE 2>&1
+	ln -s $LOCAL_SAV_DIR/theme/templates $ROOT_DIR/trunk/templates/$THEME >> $LOG_FILE 2>&1
+	ln -s $LOCAL_SAV_DIR/theme/images $ROOT_DIR/trunk/images/$THEME >> $LOG_FILE 2>&1
+	ln -s $LOCAL_SAV_DIR/theme/css $ROOT_DIR/trunk/css/$THEME >> $LOG_FILE 2>&1
 	msg "Ok"
 fi
 
@@ -176,7 +176,7 @@ then
 	if [ "$a" == "y" -o "$a" == "Y" ]
 	then
         msg "-> Compile de la doc :" -en
-		cd $SVN_DIR/doc >> $LOG_FILE && make >> $LOG_FILE && cd - >> $LOG_FILE
+		cd $ROOT_DIR/doc >> $LOG_FILE && make >> $LOG_FILE && cd - >> $LOG_FILE
 		if [ $? -gt 0 ]
 		then
 		        msg "Error"
