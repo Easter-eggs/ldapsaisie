@@ -1,15 +1,16 @@
 #!/bin/sh
 
 ROOT_DIR=$( cd `dirname $0`; pwd )
+LOCAL_CFG_DIR=$ROOT_DIR/config.local
 
 # Import config
-if [ ! -f $LOCAL_SAV_DIR/local.sh ]
+if [ ! -f $LOCAL_CFG_DIR/local.sh ]
 then
     echo "Error : You don't have create your own local.sh file in config.local directory. You could rely on the local.sh.example file to create your version."
     exit 1
 fi
 
-source $LOCAL_SAV_DIR/local.sh
+source $LOCAL_CFG_DIR/local.sh
 
 if [ ! -n "$EXPORT_DOC_DIR" ]
 then
@@ -21,7 +22,7 @@ DOC_DIR=$ROOT_DIR/doc
 TMP_DIR=`mktemp -d`
 ERROR=0
 
-echo "Export documentation in $EXPORT_DOC_DIR :"
+echo "-> Export documentation in $EXPORT_DOC_DIR :"
 
 # PDF
 if [ -n "$PDF" ]
@@ -55,7 +56,7 @@ then
     mkdir $TMP_DIR/$ALL_IN_ONE/styles
     cp $CSS $TMP_DIR/$ALL_IN_ONE/styles/
 
-    echo "Build archive and move it later ..."
+    echo "done. Build archive and move it later ..."
 fi
 
 
@@ -75,7 +76,7 @@ then
     mkdir $TMP_DIR/$ONLINE/styles
     cp $CSS $TMP_DIR/$ONLINE/styles/
 
-    echo "Build archive and move it later ..."
+    echo "done. Build archive and move it later ..."
 fi
 
 
@@ -98,10 +99,10 @@ then
     	cp $i $TMP_DIR/$DOCBOOK/$i
     done
     
-    echo "Build archive and move it later ..."
+    echo "done. Build archive and move it later ..."
 fi
 
-echo "Build archives and move all in export directory :"
+echo "-> Build archives and move all in export directory :"
 cd $TMP_DIR/
 for i in $ALL_IN_ONE $ONLINE $DOCBOOK
 do
@@ -129,7 +130,7 @@ done
 
 if [ -n "$LAST_UPDATE_FILE" ]
 then
-    echo -n "Create last-update file : "
+    echo -n "-> Create last-update file : "
     echo "Last update :" > $LAST_UPDATE_FILE
     date >> $LAST_UPDATE_FILE
     echo >> $LAST_UPDATE_FILE

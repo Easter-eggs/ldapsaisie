@@ -19,7 +19,7 @@ function msg() {
 
 cd $ROOT_DIR
 
-msg "Clean git repos : "
+msg "-> Clean git repos : "
 for i in $LOCAL_FILES
 do
 	msg "\t-> $i : " -en
@@ -77,7 +77,7 @@ then
   fi
 fi
 
-msg "Verification of git repos state : "
+msg "-> Verification of git repos state : "
 git status >> $LOG_FILE 2>&1
 if [ "$ETAT" != "" ]
 then
@@ -86,7 +86,7 @@ then
 fi
 msg "\t->[OK]" -e
 
-msg "Upgrade git repos : "
+msg "-> Upgrade git repos : "
 RES_GIT=`git pull`
 RES=$?
 msg "$RES_GIT" -e
@@ -97,7 +97,7 @@ then
 fi
 msg "\t-> [OK]" -e
 
-msg "Install local files : "
+msg "-> Install local files : "
 for i in $LOCAL_FILES
 do
 	msg "\t-> $i : " -ne
