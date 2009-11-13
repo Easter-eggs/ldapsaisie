@@ -24,11 +24,10 @@ cd $ROOT_DIR
 msg "Clean git repos : "
 for i in $LOCAL_FILES
 do
-	msg "\t-> $i :" -en
+	msg "\t-> $i : " -en
 	if [ -L $i ]
 	then
-		msg
-        msg "\t\t-> Delete file : " -en
+        msg "\n\t\t-> Delete file : " -en
 		rm -fr $i >> $LOG_FILE 2>&1
 		if [ $? -gt 0 ]
 		then
@@ -56,7 +55,7 @@ done
 
 if [ $DO_DOC -eq 1 ]
 then
-	msg "-> Clean the doc :" -en
+	msg "-> Clean the doc : " -en
 	cd $ROOT_DIR/doc >> $LOG_FILE && make clean >> $LOG_FILE && cd - >> $LOG_FILE
 	if [ $? -gt 0 ]
 	then
@@ -70,7 +69,7 @@ fi
 if [ "$THEME" != "" ]
 then
 	msg "\t\t-> Remove theme : " -en
-	rm -f $ROOT_DIR/trunk/templates/$THEME $ROOT_DIR/trunk/images/$THEME $ROOT_DIR/trunk/css/$THEME >> $LOG_FILE 2>&1
+	rm -f $ROOT_DIR/public_html/templates/$THEME $ROOT_DIR/public_html/images/$THEME $ROOT_DIR/public_html/css/$THEME >> $LOG_FILE 2>&1
 	if [ $? -gt 0 ]
 	then
   	msg "Error"
@@ -163,9 +162,9 @@ done
 if [ "$THEME" != "" ]
 then
 	msg "-> Install theme : " -en
-	ln -s $LOCAL_SAV_DIR/theme/templates $ROOT_DIR/trunk/templates/$THEME >> $LOG_FILE 2>&1
-	ln -s $LOCAL_SAV_DIR/theme/images $ROOT_DIR/trunk/images/$THEME >> $LOG_FILE 2>&1
-	ln -s $LOCAL_SAV_DIR/theme/css $ROOT_DIR/trunk/css/$THEME >> $LOG_FILE 2>&1
+	ln -s $LOCAL_SAV_DIR/theme/templates $ROOT_DIR/public_html/templates/$THEME >> $LOG_FILE 2>&1
+	ln -s $LOCAL_SAV_DIR/theme/images $ROOT_DIR/public_html/images/$THEME >> $LOG_FILE 2>&1
+	ln -s $LOCAL_SAV_DIR/theme/css $ROOT_DIR/public_html/css/$THEME >> $LOG_FILE 2>&1
 	msg "Ok"
 fi
 
@@ -175,8 +174,8 @@ then
 	read a
 	if [ "$a" == "y" -o "$a" == "Y" ]
 	then
-        msg "-> Compile de la doc :" -en
-		cd $ROOT_DIR/doc >> $LOG_FILE && make >> $LOG_FILE && cd - >> $LOG_FILE
+        msg "-> Export the doc : " -en
+		cd $ROOT_DIR/doc >> $LOG_FILE 2>&1 && make >> $LOG_FILE 2>&1 && cd - >> $LOG_FILE 2>&1
 		if [ $? -gt 0 ]
 		then
 		        msg "Error"
