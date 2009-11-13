@@ -38,7 +38,7 @@ then
     cp -f $DOC_DIR/exports/pdf/LdapSaisie.pdf $EXPORT_DOC_DIR/LdapSaisie.pdf
     if [ $? -ne 0 ]
     then
-        echo Error
+        echo -e "\n-> Error"
         ERROR=1
     else
         echo Ok
@@ -97,12 +97,12 @@ then
     cd $DOC_DIR
     for i in `find -type d|grep -v 'export'`
     do
-    	mkdir -p $TMP_DIR/$DOCBOOK/$i
+        mkdir -p $TMP_DIR/$DOCBOOK/$i
     done
     
-    for i in `find -type f|grep -v '(Makefile|^./export)'`
+    for i in `find -type f|egrep -v '(Makefile|^./export)'`
     do
-    	cp $i $TMP_DIR/$DOCBOOK/$i
+        cp $i $TMP_DIR/$DOCBOOK/$i
     done
     
     echo "done. Build archive and move it later ..."
@@ -114,22 +114,23 @@ for i in $ALL_IN_ONE $ONLINE $DOCBOOK
 do
     echo -e "\t$i : "
     echo -en "\t\t+ Archive : "
-	tar -cjf LdapSaisie--Doc--$i.tar.bz2 $i && mv LdapSaisie--Doc--$i.tar.bz2 $EXPORT_DOC_DIR/
+    tar -cjf LdapSaisie--Doc--$i.tar.bz2 $i && mv LdapSaisie--Doc--$i.tar.bz2 $EXPORT_DOC_DIR/
     if [ $? -eq 0 ]
     then
         echo Ok
     else
-        echo Erreur
+        echo -e "\n-> Error"
         ERROR=1
     fi
 
     echo -en "\t\t+ Web dir : "
-	rm -fr $EXPORT_DOC_DIR/$i/* && cp -fr $i/* $EXPORT_DOC_DIR/$i/ && rm -fr $i
+    [ ! -d "$EXPORT_DOC_DIR/$i" ] && echo "you must create export $i directory manualy before run this script. (path : $EXPORT_DOC_DIR/$i)" && continue
+    rm -fr $EXPORT_DOC_DIR/$i/* && cp -fr $i/* $EXPORT_DOC_DIR/$i/ && rm -fr $i
     if [ $? -eq 0 ]
     then
         echo Ok
     else
-        echo Erreur
+        echo -e "\n-> Error"
         ERROR=1
     fi
 done
@@ -144,3 +145,5 @@ then
 fi
 
 rm -fr $TMP_DIR
+
+exit $ERROR

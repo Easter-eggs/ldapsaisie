@@ -33,10 +33,10 @@ ONLINE=online
 DOCBOOK=docbook
 
 # The CSS file to use in export
-CSS=$DOC_DIR/styles/LS.css
+CSS=$ROOT_DIR/doc/styles/LS.css
 
 # The image doc directory
-IMAGES=$DOC_DIR/images
+IMAGES=$ROOT_DIR/doc/images
 
 # The name of last update file
 LAST_UPDATE_FILE=$EXPORT_DIR/last_update.txt
