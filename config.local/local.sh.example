@@ -10,5 +10,33 @@ LOG_FILE="$ROOT_DIR/upgrade.log"
 #THEME="mytheme"
 
 # Do doc export ?
-DO_DOC=1
+BUILD_DOC=1
 
+# The export dir
+# If EXPORT_DIR is a zero length string, will not export doc
+EXPORT_DOC_DIR=/var/www/ldapsaisie-doc
+
+# PDF export name file
+# If PDF is a zero length string, pdf doc export will not build
+PDF=LdapSaisie.pdf
+
+# ALL_IN_ONE export name
+# If ALL_IN_ONE is a zero length string, all-in-one doc export will not build
+ALL_IN_ONE=all-in-one
+
+# On-line export name
+# If ONLINE is a zero length string, on-line doc export will not build
+ONLINE=online
+
+# Docbook export name
+# If DOCBOOK is a zero length string, docbook doc export will not buil
+DOCBOOK=docbook
+
+# The CSS file to use in export
+CSS=$DOC_DIR/styles/LS.css
+
+# The image doc directory
+IMAGES=$DOC_DIR/images
+
+# The name of last update file
+LAST_UPDATE_FILE=$EXPORT_DIR/last_update.txt

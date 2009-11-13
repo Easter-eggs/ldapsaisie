@@ -51,7 +51,7 @@ do
 	fi
 done
 
-if [ $DO_DOC -eq 1 ]
+if [ $BUILD_DOC -eq 1 ]
 then
 	msg "-> Clean the doc : " -en
 	cd $ROOT_DIR/doc >> $LOG_FILE && make clean >> $LOG_FILE && cd - >> $LOG_FILE
@@ -165,7 +165,7 @@ then
 	msg "Ok"
 fi
 
-if [ $DO_DOC -eq 1 ]
+if [ $BUILD_DOC -eq 1 ]
 then
 	msg "-> Do you want export the documentation (y/N) ? " -en
 	read a
@@ -180,5 +180,10 @@ then
 		else
 	        	msg "Ok"
 		fi
-	fi
+
+        if [ -n "$EXPORT_DOC_DIR" ]
+        then
+            $ROOT_DIR/buildDocExports.sh
+        fi
+    fi
 fi
