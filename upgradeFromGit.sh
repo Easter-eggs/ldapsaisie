@@ -167,11 +167,11 @@ fi
 
 if [ $BUILD_DOC -eq 1 ]
 then
-	msg "-> Do you want export the documentation (y/N) ? " -en
+	msg "-> Do you want build the documentation (y/N) ? " -en
 	read a
 	if [ "$a" == "y" -o "$a" == "Y" ]
 	then
-        msg "-> Export the doc : " -en
+        msg "-> Build the doc : " -en
 		cd $ROOT_DIR/doc >> $LOG_FILE 2>&1 && make >> $LOG_FILE 2>&1 && cd - >> $LOG_FILE 2>&1
 		if [ $? -gt 0 ]
 		then
