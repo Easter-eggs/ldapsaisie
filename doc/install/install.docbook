@@ -242,9 +242,9 @@ public_html/includes/class/class.LSobjects.LSexample.php</programlisting>
   </simpara></listitem>
   
   <listitem><simpara>Vous devriez dès à présent accèder à l'application
-  via votre navigateur web à l'URL suivante :
+  via votre navigateur web à l'URL suivante :</simpara>
   <programlisting>http://[IP ou nom du serveur]/ldapsaisie/public_html</programlisting>
-  </simpara></listitem>
+  </listitem>
   
 </orderedlist>
 
