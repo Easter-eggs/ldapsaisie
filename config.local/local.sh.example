@@ -9,6 +9,11 @@ LOG_FILE="$ROOT_DIR/upgrade.log"
 # The theme name to install (optional)
 #THEME="mytheme"
 
+# The theme name in reference for template/CSS/image files
+THEME_TPL_REF="default"
+THEME_CSS_REF="default"
+THEME_IMG_REF="default"
+
 # Do doc export ?
 BUILD_DOC=1
 

@@ -156,13 +156,70 @@ do
 		msg "file does not exist. Pass..."
 	fi
 done
+
 if [ "$THEME" != "" ]
 then
-	msg "-> Install theme : " -en
+	msg "-> Install theme : "
+
+	# TPL
+	msg "\t- Template : " -e
 	ln -s $LOCAL_SAV_DIR/theme/templates $ROOT_DIR/public_html/templates/$THEME >> $LOG_FILE 2>&1
+	if [ -d $ROOT_DIR/public_html/templates/$THEME_TPL_REF ]
+	then
+		msg "\t\t-> Vérification de la présence des fichiers : " -e
+		for i in $ROOT_DIR/public_html/templates/$THEME_TPL_REF/*
+		do
+			f=`basename $i`
+			msg "\t\t\t- $f : " -en
+			if [ -f $ROOT_DIR/public_html/templates/$THEME/$f ]
+			then
+				msg "present."
+			else
+				ln -s $ROOT_DIR/public_html/templates/$THEME_TPL_REF/$f $ROOT_DIR/public_html/templates/$THEME/$f
+				msg "link."
+			fi
+		done
+	fi
+
+	# IMG
+	msg "\t- Images : " -e
 	ln -s $LOCAL_SAV_DIR/theme/images $ROOT_DIR/public_html/images/$THEME >> $LOG_FILE 2>&1
+	if [ -d $ROOT_DIR/public_html/images/$THEME_IMG_REF ]
+	then
+		msg "\t\t-> Vérification de la présence des fichiers : " -e
+		for i in $ROOT_DIR/public_html/images/$THEME_IMG_REF/*
+		do
+			f=`basename $i`
+			msg "\t\t\t- $f : " -en
+			if [ -f $ROOT_DIR/public_html/images/$THEME/$f ]
+			then
+				msg "present."
+			else
+				ln -s $ROOT_DIR/public_html/images/$THEME_IMG_REF/$f $ROOT_DIR/public_html/images/$THEME/$f
+				msg "link."
+			fi
+		done
+	fi
+
+	# CSS
+	msg "\t- CSS : " -e
 	ln -s $LOCAL_SAV_DIR/theme/css $ROOT_DIR/public_html/css/$THEME >> $LOG_FILE 2>&1
-	msg "Ok"
+	if [ -d $ROOT_DIR/public_html/css/$THEME_CSS_REF ]
+	then
+		msg "\t\t-> Vérification de la présence des fichiers : " -e
+		for i in $ROOT_DIR/public_html/css/$THEME_CSS_REF/*
+		do
+			f=`basename $i`
+			msg "\t\t\t- $f : " -en
+			if [ -f $ROOT_DIR/public_html/css/$THEME/$f ]
+			then
+				msg "present."
+			else
+				ln -s $ROOT_DIR/public_html/css/$THEME_CSS_REF/$f $ROOT_DIR/public_html/css/$THEME/$f
+				msg "link."
+			fi
+		done
+	fi
 fi
 
 if [ $BUILD_DOC -eq 1 ]
