@@ -17,6 +17,16 @@ function msg() {
     echo $2 "$1" | tee -a "$LOG_FILE"
 }
 
+function check_file_or_symlink() {
+    [ -f "$1" ] && echo 0 && return 0
+    if [ -L "$1" ]
+    then
+        [ -r "$1" ] && echo 0 && return 0
+        rm -f "$1"
+    fi
+    echo 1 && return 1
+}
+
 cd $ROOT_DIR
 
 msg "-> Clean git repos : "
@@ -171,7 +181,7 @@ then
 		do
 			f=`basename $i`
 			msg "\t\t\t- $f : " -en
-			if [ -f $ROOT_DIR/public_html/templates/$THEME/$f ]
+			if [ `check_file_or_symlink "$ROOT_DIR/public_html/templates/$THEME/$f"` -eq 0 ]
 			then
 				msg "present."
 			else
@@ -191,7 +201,7 @@ then
 		do
 			f=`basename $i`
 			msg "\t\t\t- $f : " -en
-			if [ -f $ROOT_DIR/public_html/images/$THEME/$f ]
+			if [ `check_file_or_symlink "$ROOT_DIR/public_html/images/$THEME/$f"` -eq 0 ]
 			then
 				msg "present."
 			else
@@ -211,7 +221,7 @@ then
 		do
 			f=`basename $i`
 			msg "\t\t\t- $f : " -en
-			if [ -f $ROOT_DIR/public_html/css/$THEME/$f ]
+			if [ `check_file_or_symlink "$ROOT_DIR/public_html/css/$THEME/$f"` -eq 0 ]
 			then
 				msg "present."
 			else
