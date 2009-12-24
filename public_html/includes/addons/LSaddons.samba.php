@@ -48,6 +48,11 @@ LSerror :: defineError('SAMBA_04',
   _("SAMBA Support : The %{attr} of the sambaDomain object is incorrect.")
 );
 
+// CONSTANTES
+
+// Le temps infini au sens NT
+define('LS_SAMBA_INFINITY_TIME',2147483647);
+
  /**
   * Verification du support Samba par ldapSaisie
   * 
@@ -285,6 +290,19 @@ LSerror :: defineError('SAMBA_04',
       LSerror :: addErrorCode('SAMBA_03');
       return;
     }
+  }
+
+ /**
+  * Retourne le temps infini au sens NT
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval integer le temps infinie au sens NT
+  */
+  function return_sambaInfinityTime($ldapObject) {
+    return LS_SAMBA_INFINITY_TIME;
   }
 
 ?>
