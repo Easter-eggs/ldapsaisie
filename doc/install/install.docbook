@@ -6,9 +6,10 @@
 <sect1>
   <title>Pré-requis</title>
   <itemizedlist>
-    <listitem><simpara>&php; 5 avec <parameter>magic_quotes_gpc</parameter> à <literal>off</literal></simpara></listitem>
+    <listitem><simpara>&php; 5 avec <parameter>magic_quotes_gpc</parameter> et <parameter>register_globals</parameter> à <literal>off</literal></simpara></listitem>
     <listitem><simpara>Le support <application>LDAP</application> dans &php; (paquet php5-ldap dans <application>Debian</application>)</simpara></listitem>
-    <listitem><simpara>Le support <application>mhash</application> dans &php; (paquet php5-mash dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>Le support <application>mhash</application> dans &php; (paquet php5-mhash dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>Le support <application>json</application> dans &php; (<command>pear install pecl/json</command> sur <application>RedHat</application>, dans <literal>common</literal> sur <application>Debian</application>)</simpara></listitem>
     <listitem><simpara>&netldap;</simpara></listitem>
     <listitem><simpara>&smarty;</simpara></listitem>
     <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'.</simpara></listitem>
