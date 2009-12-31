@@ -29,6 +29,7 @@
     'multiple' => 0,
     'required' => 1,
     'default_value' => 'valeur1',
+    'generate_value_format' => '[LSformat]',
     'check_data' => array (
       // Régle de vérification syntaxique des données saisies
     ),
@@ -136,6 +137,13 @@
   <listitem>
     <simpara>Valeur par défaut de l'attribut.</simpara>
     <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>generate_value_format</term>
+  <listitem>
+    <simpara>&LSformat; permettant la génération de l'attribut.</simpara>
   </listitem>
 </varlistentry>
 
