@@ -409,9 +409,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_type' => 'select_list',
       'html_options' => array (
         'possible_values' => array(
-          'M.' => 'M.',
-          'Mme' => 'Mme',
-          'Mlle' => 'Mlle'
+          'M.' => 'Mr',
+          'Mme' => 'Mrs',
+          'Mlle' => 'Ms'
         )
       ),
       'required' => 1,

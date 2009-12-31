@@ -83,6 +83,15 @@ $GLOBALS['LSlang'] = array (
 "Members" =>
   "Membres",
 
+"Mr" =>
+  "M.",
+
+"Mrs" =>
+  "Mms",
+
+"Ms" =>
+  "Mlle",
+
 "Name" =>
   "Nom",
 
@@ -142,7 +151,8 @@ $GLOBALS['LSlang'] = array (
 
 "To proceed password recovery procedure, please follow that link:
 %{url}" =>
-  "Pour poursuivre la procédure de récupération de mot de passe, merci de suivre ce lien :\n%{url}",
+  "Pour poursuivre la procédure de récupération de mot de passe, merci de suivre ce lien :
+%{url}",
 
 "Users" =>
   "Utilisateurs",
@@ -152,7 +162,8 @@ $GLOBALS['LSlang'] = array (
 
 "Your password has been changed.
 New password : %{mdp}" =>
-  "Votre mot de passe a été modifié.\nNouveau mot de passe : %{mdp}",
+  "Votre mot de passe a été modifié.
+Nouveau mot de passe : %{mdp}",
 
 "Your password must contain from 8 to 10 characters." =>
   "Votre mot de passe doit contenir entre 8 et 10 caractères.",

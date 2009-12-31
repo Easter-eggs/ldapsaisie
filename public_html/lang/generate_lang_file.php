@@ -81,6 +81,15 @@ if (loadDir('../'.LS_OBJECTS_DIR)) {
         add($attr['html_options']['mail']['subject']);
         add($attr['html_options']['mail']['msg']);
         
+        // LSattr_html_select_list
+        if ($attr['html_type']=='select_list' && is_array($attr['html_options']['possible_values'])) {
+          foreach($attr['html_options']['possible_values'] as $pkey => $pname) {
+            if ($pkey != 'OTHER_OBJECT') {
+              add($pname);
+            }
+          }
+        }
+        
         // Check data
         if (is_array($attr['check_data'])) {
           foreach($attr['check_data'] as $check) {

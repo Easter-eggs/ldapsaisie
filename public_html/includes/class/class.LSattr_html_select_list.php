@@ -129,7 +129,7 @@ class LSattr_html_select_list extends LSattr_html{
         }
         else {
           $val_name=$this->attribute->ldapObject->getFData($val_name);
-          $val=$this->attribute->ldapObject->getFData($val);
+          $val=$this->attribute->ldapObject->getFData(__($val));
           $retInfos[$val_name]=$val;
         }
       }
