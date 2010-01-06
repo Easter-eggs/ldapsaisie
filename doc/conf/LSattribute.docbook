@@ -28,8 +28,9 @@
     ),
     'multiple' => 0,
     'required' => 1,
-    'default_value' => 'valeur1',
+    'generate_function' => 'fonction1',
     'generate_value_format' => '[LSformat]',
+    'default_value' => 'valeur1',
     'check_data' => array (
       // Régle de vérification syntaxique des données saisies
     ),
@@ -50,7 +51,6 @@
     'dependAttrs' => array(
       // Attributs en dépendance
     ),
-    'generate_function' => 'fonction1',
     'onDisplay' => 'fonction2'
   ),
   /* ----------- end -----------*/
@@ -133,10 +133,11 @@
 </varlistentry>
 
 <varlistentry>
-  <term>default_value</term>
+  <term>generate_function</term>
   <listitem>
-    <simpara>Valeur par défaut de l'attribut.</simpara>
-    <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+    <simpara>Nom de la fonction permettant de générer la valeur de l'attribut.
+    Cette fonction sera éxecutée, en passant en premier paramètre, l'objet 
+    &LSobject; courant.</simpara>
   </listitem>
 </varlistentry>
 
@@ -144,6 +145,18 @@
   <term>generate_value_format</term>
   <listitem>
     <simpara>&LSformat; permettant la génération de l'attribut.</simpara>
+    <note><simpara>Cette méthode de génération est utilisée uniquement si aucune fonction de génération
+    de la valeur n'est définie (paramètre <parameter>generate_function</parameter>).</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>default_value</term>
+  <listitem>
+    <simpara>Valeur par défaut de l'attribut.</simpara>
+    <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+    <note><simpara>Cette valeur est également utilisée dans le cadre de la génération automatique
+    de la valeur de l'attribut si aucune autre méthode n'est disponible (via une fonction ou un &LSformat;).</simpara></note>
   </listitem>
 </varlistentry>
 
@@ -205,15 +218,6 @@
     de l'attribut courant. Cette génération sera effectué avec la fonction
     définie dans le paramètre <varname>generate_function</varname> de
     l'attribut.</simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>generate_function</term>
-  <listitem>
-    <simpara>Nom de la fonction permettant de générer la valeur de l'attribut.
-    Cette fonction sera éxecutée, en passant en premier paramètre, l'objet 
-    &LSobject; courant.</simpara>
   </listitem>
 </varlistentry>
 
