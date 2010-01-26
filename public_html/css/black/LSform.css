@@ -28,6 +28,7 @@ li.LSform_layout_active {
   color:              #fff;
   background-color:   #cac9c4;
   -moz-border-radius: 3px 3px 0px 0px;
+  border-radius:      3px 3px 0px 0px;
   padding:            4px;
   display:            inline;
   margin-right:       1px;
@@ -150,6 +151,7 @@ img.LSform-add-field-btn, img.LSform-remove-field-btn {
   background:       #33302b;
   opacity:          0.8;
   -moz-border-radius:   2px;
+  border-radius:        2px;
   max-width:        500px;
   text-align:       justify;
 }

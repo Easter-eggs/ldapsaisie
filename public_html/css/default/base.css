@@ -65,6 +65,7 @@ a img {
   background-color:   #fff;
   border:             1px solid #0072b8;
   -moz-border-radius: 15px;
+  border-radius:      15px;
   padding-top:        30px;
   padding-bottom:     30px;
 }

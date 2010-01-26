@@ -1,5 +1,6 @@
 #box-LSconfirmBox {
   -moz-border-radius:   5px;
+  border-radius:        5px;
   margin:               auto;
   position:             absolute;
   z-index:              4;
@@ -49,6 +50,7 @@
 .btn-LSconfirmBox {
   background-color:     #fff;
   -moz-border-radius:   5px;
+  border-radius:        5px;
   color:                #000;
   font-weight:          bold;
   padding:              3px;

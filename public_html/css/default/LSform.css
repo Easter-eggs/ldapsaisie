@@ -28,6 +28,7 @@ li.LSform_layout_active {
   color:              #fff;
   background-color:   #52BCE5;
   -moz-border-radius: 3px 3px 0px 0px;
+  border-radius:      3px 3px 0px 0px;
   padding:            4px;
   display:            inline;
   margin-right:       1px;

@@ -10,6 +10,7 @@ div.LSformElement_image {
   padding:            5px;
   text-align:         center;
   -moz-border-radius: 1em;
+  border-radius:      1em;
 }
 
 img.LSformElement_image {

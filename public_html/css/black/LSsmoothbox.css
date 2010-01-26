@@ -9,6 +9,7 @@
   background-color:     #fff;
   border:               10px solid #33302b;
   -moz-border-radius:   5px;
+  border-radius:        5px;
   margin:               auto;
   position:             absolute;
   z-index:              3;
@@ -36,6 +37,7 @@
 #validBtn-LSsmoothbox {
   background-color:     #33302b;
   -moz-border-radius:   5px;
+  border-radius:        5px;
   height:               22px;
   font-size:            18px;
   color:                #fff;
