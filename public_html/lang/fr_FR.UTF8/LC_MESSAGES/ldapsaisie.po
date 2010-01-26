@@ -53,7 +53,7 @@ msgstr "a bien été supprimé"
 #: includes/class/class.LSrelation.php:38
 #: includes/class/class.LSform.php:147
 msgid "Do you really want to delete"
-msgstr "Voulez-vous vraiement supprimer"
+msgstr "Voulez-vous vraiment supprimer"
 
 #: remove.php:49
 #: includes/class/class.LSsession.php:1170
