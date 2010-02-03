@@ -121,8 +121,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'recursive' => true,
     ),
     'predefinedFilters' => array (
-      'personalTitle=Mr.' => 'Man',
-      'personalTitle=Ms' => 'Woman'
+      '(jpegPhoto=*)' => 'Avec photo',
+      '(!(jpegPhoto=*))' => 'Sans photo'
     )
   ),
   
