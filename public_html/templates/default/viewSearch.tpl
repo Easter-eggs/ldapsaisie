@@ -1,6 +1,7 @@
 {include file='top.tpl'}
-<form action='{$searchForm.action}' method='post' class='LSview_search'>
-  
+<form action='{$searchForm.action}' method='post' class='LSview_search' id='LSsearch_form'>
+
+<div class='LSview_search'>
   {foreach from=$searchForm.hiddenFields item=value key=name}
     <input type='hidden' name='{$name}' value='{$value}' />
   {/foreach}
@@ -11,7 +12,7 @@
     <label class='LSview_search'>{$searchForm.labels.approx} : <input type='checkbox' name='approx' class='LSview_search' {if $searchForm.values.approx!=''}checked="true"{/if} /></label>
     {if $searchForm.recursive}<label class='LSview_search'>{$searchForm.labels.recursive} : <input type='checkbox' name='recursive' class='LSview_search' {if $searchForm.values.recursive!=''}checked="true"{/if}/></label>{/if}
   </p>
-</form>
+</div>
 
 <h1>
   {$pagetitle}
@@ -26,6 +27,16 @@
   {/foreach}
 </ul>
 {/if}
+
+{if ! empty($LSsearch)}
+  <select id='LSview_search_predefinedFilter' name='predefinedFilter'>
+    <option value=''>--</option>
+    {html_options options=$LSsearch->predefinedFilters selected=$searchForm.predefinedFilter}
+  </select>
+{/if}
+
+
+</form>
 
 <table class='LSobject-list'>
     <tr class='LSobject-list'>

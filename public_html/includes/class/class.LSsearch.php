@@ -41,6 +41,7 @@ class LSsearch {
     // Search params
     'filter' => NULL,
     'pattern' => NULL,
+    'predefinedFilter' => false,
     'basedn' => NULL,
     'subDn' => NULL,
     'scope' => NULL,
@@ -437,6 +438,28 @@ class LSsearch {
         $OK=false;
       }
     }
+
+    // predefinedFilter
+    if (isset($params['predefinedFilter'])) {
+      if (is_string($params['predefinedFilter'])) {
+        if (empty($params['predefinedFilter'])) {
+          $this->params['predefinedFilter']=false;
+        }
+        elseif(is_array($this -> config['predefinedFilters'])) {
+          if(isset($this->config['predefinedFilters'][$params['predefinedFilter']])) {
+            $this -> params['predefinedFilter'] = $params['predefinedFilter'];
+          }
+          else {
+            LSerror :: addErrorCode('LSsearch_03','predefinedFilter');
+            $OK=false;
+          }
+        }
+      }
+      else {
+        LSerror :: addErrorCode('LSsearch_03','predefinedFilter');
+        $OK=false;
+      }
+    }
     
     // Display Format
     if (is_string($params['displayFormat'])) {
@@ -648,6 +671,19 @@ class LSsearch {
       }
     }
     
+    // predefinedFilter
+    if (is_string($this -> params['predefinedFilter'])) {
+      if (!is_null($retval['filter'])) {
+        $filter=LSldap::combineFilters('and',array($this -> params['predefinedFilter'],$retval['filter']));
+        if ($filter) {
+          $retval['filter']=$filter;
+        }
+      }
+      else {
+        $retval['filter']=$this -> params['predefinedFilter'];
+      }
+    }
+    
     // Filter
     $objFilter=LSldapObject::getObjectFilter($this -> LSobject);
     if ($objFilter) {
@@ -661,7 +697,6 @@ class LSsearch {
         $retval['filter']=$objFilter;
       }
     }
-    
     
     // Recursive
     if (is_null($retval['basedn'])) {
@@ -924,6 +959,9 @@ class LSsearch {
         return $this -> _canCopy;
       $this -> _canCopy = LSsession :: canCreate($this -> LSobject);
       return $this -> _canCopy;
+    }
+    elseif ($key=='predefinedFilters') {
+      return ((is_array($this -> config['predefinedFilters']))?$this -> config['predefinedFilters']:array());
     }
     else {
       throw new Exception('Incorrect property !');

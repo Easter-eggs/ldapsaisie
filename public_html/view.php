@@ -111,7 +111,8 @@ if(LSsession :: startLSsession()) {
             'names' => array (
               'submit' => 'LSsearch_submit'
             ),
-            'hiddenFields' => $LSsearch -> getHiddenFieldForm()
+            'hiddenFields' => $LSsearch -> getHiddenFieldForm(),
+            'predefinedFilter' => $LSsearch->getParam('predefinedFilter')
           );
           $GLOBALS['Smarty']->assign('searchForm',$searchForm);
           

@@ -30,6 +30,18 @@ var LSview = new Class({
           el.addEvent('click',this.onRemoveViewBtnClick.bindWithEvent(this,el));
         }
       }, this);
+      
+      this.LSsearchForm = $('LSsearch_form');
+      this.LSsearchPredefinedFilter = $('LSview_search_predefinedFilter');
+      if($type(this.LSsearchPredefinedFilter) && $type('LSsearch_form')) {
+        this.LSsearchPredefinedFilter.addEvent('change',this.onLSsearchPredefinedFilterChange.bind(this));
+      }
+    },
+    
+    onLSsearchPredefinedFilterChange: function() {
+      if (this.LSsearchForm) {
+        this.LSsearchForm.submit();
+      }
     },
 
     onTdLSobjectListNamesClick: function(td) {

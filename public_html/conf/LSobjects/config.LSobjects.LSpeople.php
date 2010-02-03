@@ -118,7 +118,11 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'mail'
     ),
     'params' => array (
-      'recursive' => true
+      'recursive' => true,
+    ),
+    'predefinedFilters' => array (
+      'personalTitle=Mr.' => 'Man',
+      'personalTitle=Ms' => 'Woman'
     )
   ),
   

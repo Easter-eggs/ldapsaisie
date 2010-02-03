@@ -286,10 +286,10 @@ a.question {
  * LSview_search
  *********************
  */
-form.LSview_search {
+div.LSview_search {
   float:              right;
   margin:             0;
-  margin-top:         0.5em;
+  margin-top:         -0.5em;
   margin-right:       2em;
 }
 
@@ -312,4 +312,11 @@ input[type='submit'].LSview_search {
   width:              8em;
   background-color:   #0072b8;
   color:              #fff;
+}
+
+#LSview_search_predefinedFilter {
+  float:              left;
+  margin-top:         -1.8em;
+  margin-bottom:      0;
+  margin-left:        1.2em;
 }
