@@ -121,6 +121,13 @@ class LSsearch {
    */
   private function loadConfig() {
     $this -> config = LSconfig::get("LSobjects.".$this -> LSobject.".LSsearch");
+    if (is_array($this -> config['predefinedFilters'])) {
+      foreach(array_keys($this -> config['predefinedFilters']) as $key) {
+        if(!LSldap::isValidFilter($key)) {
+          unset($this -> config['predefinedFilters'][$key]);
+        }
+      }
+    }
   }
   
   /**
