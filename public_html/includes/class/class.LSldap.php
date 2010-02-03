@@ -429,6 +429,29 @@ class LSldap {
           return $filter;
         }
       }
+      else {
+        LSerror :: addErrorCode(0,$filter -> getMessage());
+      }
+    }
+    return;
+  }
+  
+  /**
+   * Check LDAP Filters String
+   * 
+   * @params string A LDAP filter as string
+   * 
+   * @retval boolean True only if the filter could be parsed
+   **/
+  public static function isValidFilter($filter) {
+    if (is_string($filter) && !empty($filter)) {
+      $filter=Net_LDAP2_Filter::parse($filter);
+      if (!Net_LDAP2::isError($filter)) {
+        return true;
+      }
+      else {
+        LSerror :: addErrorCode(0,$filter -> getMessage());
+      }
     }
     return;
   }
