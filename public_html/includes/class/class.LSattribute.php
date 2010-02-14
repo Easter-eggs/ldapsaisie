@@ -394,7 +394,7 @@ class LSattribute {
    * @retval void
    */
   function setUpdateData($data) {
-    if($this -> getFormVal() != $data) {
+    if($this -> ldap -> isUpdated($data)) {
       $this -> updateData=$data;
     }
   }

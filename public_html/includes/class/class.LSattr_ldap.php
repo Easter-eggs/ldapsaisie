@@ -47,6 +47,7 @@ class LSattr_ldap {
   function LSattr_ldap ($name,$config,&$attribute) {
     $this -> name = $name;
     $this -> config = $config;
+    $this -> attribute = $attribute;
     return true;
   }
 
@@ -70,6 +71,22 @@ class LSattr_ldap {
    */
   function getDisplayValue($data) {
     return $data;
+  }
+ 
+  /**
+   * Retourne vrai si la valeur passé en paramètre n'était pas la même que la 
+   * valeur passer au formulaire
+   *
+   * @param[in] $data mixed La valeur a tester
+   *
+   * @retval boolean True uniquement si la valeur passer en paramètre différe de l'actuelle
+   */
+  function isUpdated($data) {
+    $data=$this -> getUpdateData($data);
+    if ($this -> attribute -> data != $data) {
+      return true;
+    }
+    return;
   }
 }
 
