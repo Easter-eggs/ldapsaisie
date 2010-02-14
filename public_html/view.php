@@ -137,6 +137,9 @@ if(LSsession :: startLSsession()) {
           $GLOBALS['Smarty']->assign('LSview_actions',$LSview_actions);
           
           $LSsearch -> run();
+          
+          $LSsearch -> redirectWhenOnlyOneResult();
+          
           $page=(int)$_REQUEST['page'];
           $page = $LSsearch -> getPage($page);
           $GLOBALS['Smarty']->assign('page',$page);

@@ -496,6 +496,15 @@ class LSsearch {
   }
 
   /**
+   * Return true only if the form is submited
+   * 
+   * @retval boolean True only if the is submited
+   **/
+  private function formIsSubmited() {
+    return isset($_REQUEST['LSsearch_submit']);
+  }
+
+  /**
    * Define search parameters by reading Post Data ($_REQUEST)
    * 
    * @retval void
@@ -503,7 +512,7 @@ class LSsearch {
   public function setParamsFormPostData() {
     $data = $_REQUEST;
     
-    if (isset($data['LSsearch_submit'])) {
+    if (self::formIsSubmited()) {
       // Recursive 
       if (is_null($data['recursive'])) {
         $data['recursive']=false;
@@ -1017,6 +1026,18 @@ class LSsearch {
    **/
   function afterUsingResult() {
     $this -> addResultToCache();
+  }
+  
+  /**
+   * Redirect user to object view if the search have only one result
+   * 
+   * @retval boolean True only if user have been redirected
+   **/
+  function redirectWhenOnlyOneResult() {
+    if ($this -> total == 1 && $this -> result && self::formIsSubmited()) {
+      LSsession :: redirect('view.php?LSobject='.$this -> LSobject.'&dn='.$this -> result['list'][0]['dn']);
+    }
+    return;
   }
   
   /**
