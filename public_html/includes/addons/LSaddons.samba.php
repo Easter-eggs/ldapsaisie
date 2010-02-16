@@ -305,4 +305,17 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
     return LS_SAMBA_INFINITY_TIME;
   }
 
+ /**
+  * Generation de l'attribut sambaPwdLastSet
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * 
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval string sambaPwdLastSet
+  */
+  function generate_sambaPwdLastSet($ldapObject) {
+    return time();
+  }
+
 ?>
