@@ -80,6 +80,9 @@
   <screen>
     <command>git clone git://git.labs.libre-entreprise.org/ldapsaisie.git</command>
   </screen>
+  <note><simpara>Pour que cette commande se déroule correctement, vous devez avoir
+  accès au port TCP 9418 du serveur git.labs.libre-entreprise.org. En cas de problème
+  vérifiez votre firewalling.</simpara></note>
   La suite des opérations se déroulera donc maintenant dans le dossier
   <literal>/var/www/ldapsaisie</literal>. Pour avoir plus de détails sur
   les élements qu'on retrouve dans ce dossier, vous pouvez consulter 
