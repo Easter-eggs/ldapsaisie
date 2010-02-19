@@ -157,6 +157,12 @@ $GLOBALS['LSlang'] = array (
 "Users" =>
   "Utilisateurs",
 
+"With photo" =>
+  "Avec photo",
+
+"Without photo" =>
+  "Sans photo",
+
 "Your new password : %{mdp}" =>
   "Votre nouveau mot de passe : %{mdp}",
 
