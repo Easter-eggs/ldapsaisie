@@ -124,6 +124,7 @@ class LSsearch {
     if (is_array($this -> config['predefinedFilters'])) {
       foreach(array_keys($this -> config['predefinedFilters']) as $key) {
         if(!LSldap::isValidFilter($key)) {
+          LSerror::addErrorCode('LSsearch_01','$key');
           unset($this -> config['predefinedFilters'][$key]);
         }
       }
