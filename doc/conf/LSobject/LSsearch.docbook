@@ -29,6 +29,10 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     'displayFormat' => [LSformat],
     'nbObjectsByPage' => [integer],
     'nbPageLinkByPage' => [integer]
+  ),
+  'predefinedFilters' => array(
+    'filter1' => 'label filter1',
+    'filter2' => 'label filter2'
   )
 );]]>
 </programlisting>
@@ -156,6 +160,14 @@ contexte dans lequel cette recherche est effectuée.</para>
     
   </listitem>
 </varlistentry>
+
+<varlistentry>
+  <term>predefinedFilters</term>
+  <listitem>
+    <para>Tableau associatif contenant des filtres prédéfinis pour la recherche.
+    Les clés sont les filtres au format LDAP et les valeurs sont les labels associés.</para>
+  </listitem>
+</varlistentry> 
 
 </variablelist>
 </para>
