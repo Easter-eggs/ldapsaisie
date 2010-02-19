@@ -28,7 +28,7 @@
 </ul>
 {/if}
 
-{if ! empty($LSsearch)}
+{if count($LSsearch->predefinedFilters) != 0}
   <select id='LSview_search_predefinedFilter' name='predefinedFilter'>
     <option value=''>--</option>
     {html_options options=$LSsearch->predefinedFilters selected=$searchForm.predefinedFilter}
