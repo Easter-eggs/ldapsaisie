@@ -73,6 +73,13 @@ if (loadDir('../'.LS_OBJECTS_DIR)) {
         add($lay['label']);
       }
     }
+    // LSsearch
+    if (is_array($conf['LSsearch']['predefinedFilters'])) {
+      foreach($conf['LSsearch']['predefinedFilters'] as $lay) {
+        add($lay);
+      }
+    }
+
     
     if(is_array($conf['attrs'])) {
       foreach($conf['attrs'] as $attr) {
