@@ -978,7 +978,13 @@ class LSsearch {
       return $this -> _canCopy;
     }
     elseif ($key=='predefinedFilters') {
-      return ((is_array($this -> config['predefinedFilters']))?$this -> config['predefinedFilters']:array());
+			$retval=array();
+			if (is_array($this -> config['predefinedFilters'])) {
+				foreach($this -> config['predefinedFilters'] as $filter => $label) {
+					$retval[$filter]=__($label);
+				}
+			}
+      return $retval;
     }
     else {
       throw new Exception('Incorrect property !');
