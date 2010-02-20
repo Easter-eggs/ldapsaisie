@@ -258,7 +258,6 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'autoGenerateOnCreate' => true    // default : false
       ),
       'required' => 1,
-      'validation' => 'valid',
       'rights' => array(
         'self' => 'r',
         'user' => 'r',
