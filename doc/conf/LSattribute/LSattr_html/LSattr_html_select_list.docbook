@@ -84,7 +84,16 @@
 
 <variablelist>
   <varlistentry>
-    <term>filter</term>
+    <term>scope</term>
+    <listitem>
+      <simpara>Scope falcultatif de la recherche des LSobjets.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<variablelist>
+  <varlistentry>
+    <term>basedn</term>
     <listitem>
       <simpara>Basedn falcultatif de la recherche des LSobjets.</simpara>
     </listitem>
