@@ -190,7 +190,7 @@ class LSformElement {
     }
     $return['label'] = $this -> getLabel();
     if (isset($this -> params['help_info'])) {
-      $return['help_info']=$this -> params['help_info'];
+      $return['help_info']=__($this -> params['help_info']);
     }
     return $return;
   }
