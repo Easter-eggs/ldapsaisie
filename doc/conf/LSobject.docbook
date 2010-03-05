@@ -25,6 +25,8 @@
     ...
   ),
   'rdn' => 'attr1',
+
+  'LSaddons' => [LSaddon(s)],
   
   'container_dn' => 'ou=people',
   'container_auto_create' => array(
@@ -78,6 +80,15 @@
   <listitem>
     <simpara>Nom de l'attribut correspondant au <emphasis>RDN</emphasis> des
     objets LDAP.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSaddons</term>
+  <listitem>
+    <simpara>LSaddon(s) dont le type d'objet dépend. Ce peut être un tableau de chaînes de
+    caractères ou une simpe chaîne de caractères correspondant au(x) nom(s) du/des LSaddon(s)
+    en dépendance.</simpara>
   </listitem>
 </varlistentry>
 
