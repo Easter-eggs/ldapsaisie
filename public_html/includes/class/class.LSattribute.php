@@ -472,6 +472,7 @@ class LSattribute {
    * @retval boolean true si la valeur à put être générée, false sinon
    */
   function generateValue() {
+    $value=false;
     if (function_exists($this -> config['generate_function'])) {
       $value=call_user_func($this -> config['generate_function'],$this -> ldapObject);
     }
@@ -481,11 +482,16 @@ class LSattribute {
     else if (is_string($this -> config['default_value']) && strlen($this -> config['default_value'])>0) {
       $value = $this -> config['default_value'];
     }
-    if (!empty($value)) {
-      if (!is_array($value)) {
-        $value=array($value);
+    if ($value!==false) {
+      if (!empty($value)) {
+        if (!is_array($value)) {
+          $value=array($value);
+        }
+        $this -> updateData=$value;
       }
-      $this -> updateData=$value;
+      else {
+        $this -> updateData=array();
+      }
       return true;
     }
     return;
