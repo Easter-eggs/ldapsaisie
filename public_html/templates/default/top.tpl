@@ -37,7 +37,7 @@
     </td>
     <td id='status'>
     <span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
-    <form action='' methode='post' style='display: none' class='LSlang_hidden'/>
+    <form action='' methode='post' style='display: none' class='LSlang_hidden'>
       <select name='lang'>
       {foreach from=$LSlanguages item=lang}
         <option value='{$lang}'>{$lang}</option>
