@@ -120,74 +120,20 @@ LSerror :: defineError('SUPANN_02',
     $noms = $ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ] -> getValue();
     $prenoms = $ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ] -> getValue();
 
-    return (replaceAccents($noms[0]).' '.replaceAccents($prenoms[0]));
-  }
-  
-  
- /**
-  * Supprime les accents d'une chaine
-  * 
-  * @param[in] $string La chaine originale
-  * 
-  * @retval string La chaine sans les accents
-  */
-  function replaceAccents($string){
-    $replaceAccent = Array(
-      "à" => "a",
-      "á" => "a",
-      "â" => "a",
-      "ã" => "a",
-      "ä" => "a",
-      "ç" => "c",
-      "è" => "e",
-      "é" => "e",
-      "ê" => "e",
-      "ë" => "e",
-      "ì" => "i",
-      "í" => "i",
-      "î" => "i",
-      "ï" => "i",
-      "ñ" => "n",
-      "ò" => "o",
-      "ó" => "o",
-      "ô" => "o",
-      "õ" => "o",
-      "ö" => "o",
-      "ù" => "u",
-      "ú" => "u",
-      "û" => "u",
-      "ü" => "u",
-      "ý" => "y",
-      "ÿ" => "y",
-      "À" => "A",
-      "Á" => "A",
-      "Â" => "A",
-      "Ã" => "A",
-      "Ä" => "A",
-      "Ç" => "C",
-      "È" => "E",
-      "É" => "E",
-      "Ê" => "E",
-      "Ë" => "E",
-      "Ì" => "I",
-      "Í" => "I",
-      "Î" => "I",
-      "Ï" => "I",
-      "Ñ" => "N",
-      "Ò" => "O",
-      "Ó" => "O",
-      "Ô" => "O",
-      "Õ" => "O",
-      "Ö" => "O",
-      "Ù" => "U",
-      "Ú" => "U",
-      "Û" => "U",
-      "Ü" => "U",
-      "Ý" => "Y"
-    );
-    return strtr($string, $replaceAccent);
+    return (withoutAccents($noms[0]).' '.withoutAccents($prenoms[0]));
   }
 
+ /**
+  * Generation des valeurs de l'attribut eduPersonOrgUnitDN à partir des
+  * valeurs de l'attribut supannEntiteAffectation.
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval array Les valeurs de l'attribut eduPersonOrgUnitDN ou false
+  *               si il y a un problème durant la génération
+  */ 
   function generate_eduPersonOrgUnitDN($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'supannEntiteAffectation' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEntiteAffectation', 'attr' => 'eduPersonOrgUnitDN'));
@@ -210,6 +156,17 @@ LSerror :: defineError('SUPANN_02',
     return $retval;
   }
 
+ /**
+  * Generation de la valeur de l'attribut eduPersonPrimaryOrgUnitDN 
+  * à partir de la valeur de l'attribut supannEntiteAffectationPrincipale.
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval array La valeur de l'attribut eduPersonPrimaryOrgUnitDN
+  *               ou false si il y a un problème durant la génération
+  */ 
   function generate_eduPersonPrimaryOrgUnitDN($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'supannEntiteAffectationPrincipale' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEntiteAffectationPrincipale', 'attr' => 'eduPersonPrimaryOrgUnitDN'));
@@ -232,6 +189,20 @@ LSerror :: defineError('SUPANN_02',
     return $retval;
   }
 
+ /**
+  * Generation de la valeur de l'attribut eduPersonOrgDN 
+  * à partir de la valeur de l'attribut supannEtablissement.
+  *
+  * La valeur sera LS_SUPANN_ETABLISSEMENT_DN si l'attribut supannEtablissement
+  * vaut {UAI}LS_SUPANN_ETABLISSEMENT_UAI.
+  * 
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $ldapObject L'objet ldap
+  *
+  * @retval array La valeur de l'attribut eduPersonOrgDN ou false
+  *               si il y a un problème durant la génération
+  */ 
   function generate_eduPersonOrgDN($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'supannEtablissement' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEtablissement', 'attr' => 'eduPersonOrgDN'));
