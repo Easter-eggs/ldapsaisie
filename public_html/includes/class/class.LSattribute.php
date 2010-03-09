@@ -482,8 +482,10 @@ class LSattribute {
       $value = $this -> config['default_value'];
     }
     if (!empty($value)) {
-      //$this -> setValue($value); // pas nécéssaire ??
-      $this -> updateData=array($value);
+      if (!is_array($value)) {
+        $value=array($value);
+      }
+      $this -> updateData=$value;
       return true;
     }
     return;
