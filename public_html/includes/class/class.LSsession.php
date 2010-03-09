@@ -241,6 +241,20 @@ class LSsession {
       if (!LSconfig :: set("LSobjects.$object",$GLOBALS['LSobjects'][$object])) {
         $error = 1;
       }
+      else if (isset($GLOBALS['LSobjects'][$object]['LSaddons'])){
+        if (is_array($GLOBALS['LSobjects'][$object]['LSaddons'])) {
+          foreach ($GLOBALS['LSobjects'][$object]['LSaddons'] as $addon) {
+            if (!self :: loadLSaddon($addon)) {
+              $error = 1;
+            }
+          }
+        }
+        else {
+          if (!self :: loadLSaddon($GLOBALS['LSobjects'][$object]['LSaddons'])) {
+            $error = 1;
+          }
+        } 
+      }
     }
     if ($error) {
       LSerror :: addErrorCode('LSsession_04',$object);

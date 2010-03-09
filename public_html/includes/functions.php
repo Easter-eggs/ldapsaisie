@@ -39,7 +39,7 @@
  */
 function getFData($format,$data,$meth=NULL) {
   $unique=false;
-  $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?}";
+  $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?}";
   if(!is_array($format)) {
     $format=array($format);
     $unique=true;
@@ -54,17 +54,7 @@ function getFData($format,$data,$meth=NULL) {
           else {
             $val = $data[$ch[1]];
           }
-          if($ch[3]) {
-            if ($ch[5]) {
-              $s=$ch[3];
-              $l=$ch[5];
-            }
-            else {
-              $s=0;
-              $l=$ch[3];
-            }
-            $val=substr((string)$val,$s,$l);
-          }
+	  $val=_getFData_extractAndModify($val,$ch);
           $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
         }
       }
@@ -75,17 +65,7 @@ function getFData($format,$data,$meth=NULL) {
             if (is_array($value)) {
               $value = $value[0];
             }
-            if($ch[3]) {
-              if ($ch[5]) {
-                $s=$ch[3];
-                $l=$ch[5];
-              }
-              else {
-                $s=0;
-                $l=$ch[3];
-              }
-              $value=substr((string)$value,$s,$l);
-            }
+	    $value=_getFData_extractAndModify($value,$ch);
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
@@ -102,17 +82,7 @@ function getFData($format,$data,$meth=NULL) {
           if (is_array($value)) {
             $value = $value[0];
           }
-          if($ch[3]) {
-            if ($ch[5]) {
-              $s=$ch[3];
-              $l=$ch[5];
-            }
-            else {
-              $s=0;
-              $l=$ch[3];
-            }
-            $value=substr((string)$value,$s,$l);
-          }
+	  $value=_getFData_extractAndModify($value,$ch);
           $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
         }
       }
@@ -123,17 +93,7 @@ function getFData($format,$data,$meth=NULL) {
             if (is_array($value)) {
               $value = $value[0];
             }
-            if($ch[3]) {
-              if ($ch[5]) {
-                $s=$ch[3];
-                $l=$ch[5];
-              }
-              else {
-                $s=0;
-                $l=$ch[3];
-              }
-              $value=substr((string)$value,$s,$l);
-            }
+	    $value=_getFData_extractAndModify($value,$ch);
             $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
           }
           else {
@@ -145,20 +105,7 @@ function getFData($format,$data,$meth=NULL) {
     }
     else {
       while (ereg($expr,$format[$i],$ch)) {
-        if($ch[3]) {
-          if ($ch[5]) {
-            $s=$ch[3];
-            $l=$ch[5];
-          }
-          else {
-            $s=0;
-            $l=$ch[3];
-          }
-          $val=substr((string)$data,$s,$l);
-        }
-        else {
-          $val=$data;
-        }
+	$val=_getFData_extractAndModify($data,$ch);
         $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
       }
     }
@@ -167,6 +114,54 @@ function getFData($format,$data,$meth=NULL) {
     return $format[0];
   }
   return $format;
+}
+
+function _getFData_extractAndModify($data,$ch) {
+  if($ch[3]) {
+    if ($ch[5]) {
+      if ($ch[6]) {
+	if ($ch[3]<0) {
+          $s=strlen($data)-(-1*$ch[3])-$ch[5];
+          $l=$ch[5];
+        }
+        else {
+          $s=$ch[3]-$ch[5];
+          $l=$ch[5];
+          if ($s<0) {
+            $l=$l-(-1*$s);
+	    $s=0;
+          }
+        }
+      }
+      else {
+        $s=$ch[3];
+        $l=$ch[5];
+      }
+    }
+    else {
+      $s=0;
+      $l=$ch[3];
+    }
+    $val=substr((string)$data,$s,$l);
+  }
+  else {
+    $val=$data;
+  }
+
+  # Without Accent
+  if ($ch[8]) {
+    $val = withoutAccents($val);
+  }
+ 
+  # Upper / Lower case
+  if ($ch[7]=="!") {
+    $val=strtoupper($val);
+  }
+  elseif ($ch[7]=='_') {
+    $val=strtolower($val);
+  }
+
+  return $val;
 }
 
 function getFieldInFormat($format) {
@@ -470,4 +465,69 @@ function LSdebugDefined() {
       }
     }
   }
+
+ /**
+  * Supprime les accents d'une chaine
+  * 
+  * @param[in] $string La chaine originale
+  * 
+  * @retval string La chaine sans les accents
+  */
+  function withoutAccents($string){
+    $replaceAccent = Array(
+      "à" => "a",
+      "á" => "a",
+      "â" => "a",
+      "ã" => "a",
+      "ä" => "a",
+      "ç" => "c",
+      "è" => "e",
+      "é" => "e",
+      "ê" => "e",
+      "ë" => "e",
+      "ì" => "i",
+      "í" => "i",
+      "î" => "i",
+      "ï" => "i",
+      "ñ" => "n",
+      "ò" => "o",
+      "ó" => "o",
+      "ô" => "o",
+      "õ" => "o",
+      "ö" => "o",
+      "ù" => "u",
+      "ú" => "u",
+      "û" => "u",
+      "ü" => "u",
+      "ý" => "y",
+      "ÿ" => "y",
+      "À" => "A",
+      "Á" => "A",
+      "Â" => "A",
+      "Ã" => "A",
+      "Ä" => "A",
+      "Ç" => "C",
+      "È" => "E",
+      "É" => "E",
+      "Ê" => "E",
+      "Ë" => "E",
+      "Ì" => "I",
+      "Í" => "I",
+      "Î" => "I",
+      "Ï" => "I",
+      "Ñ" => "N",
+      "Ò" => "O",
+      "Ó" => "O",
+      "Ô" => "O",
+      "Õ" => "O",
+      "Ö" => "O",
+      "Ù" => "U",
+      "Ú" => "U",
+      "Û" => "U",
+      "Ü" => "U",
+      "Ý" => "Y"
+    );
+    return strtr($string, $replaceAccent);
+  }
+
 ?>
