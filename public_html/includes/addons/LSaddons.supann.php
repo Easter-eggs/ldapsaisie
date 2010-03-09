@@ -26,10 +26,17 @@
 LSerror :: defineError('SUPANN_SUPPORT_01',
   _("SUPANN Support : The constant %{const} is not defined.")
 );
+LSerror :: defineError('SUPANN_SUPPORT_02',
+  _("SUPANN Support : The LSobject type %{type} does not exist. Can't work with entities..")
+);
+
 
 // Autres erreurs
 LSerror :: defineError('SUPANN_01',
   _("SUPANN Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
+);
+LSerror :: defineError('SUPANN_02',
+  _("SUPANN Support : Can't get the basedn of entities. Unable to forge the attribute %{attr}.")
 );
       
  /**
@@ -44,13 +51,22 @@ LSerror :: defineError('SUPANN_01',
         
     $MUST_DEFINE_CONST= array(
       'LS_SUPANN_LASTNAME_ATTR',
-      'LS_SUPANN_FIRSTNAME_ATTR'
+      'LS_SUPANN_FIRSTNAME_ATTR',
+      'LS_SUPANN_LSOBJECT_ENTITE_TYPE',
+      'LS_SUPANN_ETABLISSEMENT_UAI',
+      'LS_SUPANN_ETABLISSEMENT_DN'
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
       if ( (!defined($const)) || (constant($const) == "")) {
         LSerror :: addErrorCode('SUPANN_SUPPORT_01',$const);
         $retval=false;
+      }
+    }
+
+    if ( defined('LS_SUPANN_LSOBJECT_ENTITE_TYPE') ) {
+      if ( ! LSsession :: loadLSobject( LS_SUPANN_LSOBJECT_ENTITE_TYPE ) ) {
+        LSerror :: addErrorCode('SUPANN_SUPPORT_02', LS_SUPANN_LSOBJECT_ENTITE_TYPE);
       }
     }
     
@@ -171,4 +187,65 @@ LSerror :: defineError('SUPANN_01',
     );
     return strtr($string, $replaceAccent);
   }
+
+  function generate_eduPersonOrgUnitDN($ldapObject) {
+    if ( get_class($ldapObject -> attrs[ 'supannEntiteAffectation' ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEntiteAffectation', 'attr' => 'eduPersonOrgUnitDN'));
+      return;
+    }
+
+    $affectations = $ldapObject -> attrs[ 'supannEntiteAffectation' ] -> getUpdateData();
+
+    $basedn=LSconfig :: get('LSobjects.'.LS_SUPANN_LSOBJECT_ENTITE_TYPE.'.container_dn').','.LSsession::getTopDn();
+    if ($basedn=="") {
+      LSerror :: addErrorCode('SUPANN_02','eduPersonOrgUnitDN');
+      return;
+    }
+
+    $retval=array();
+    foreach ($affectations as $aff) {
+      $retval[]="supannCodeEntite=".$aff.",$basedn";
+    }
+
+    return $retval;
+  }
+
+  function generate_eduPersonPrimaryOrgUnitDN($ldapObject) {
+    if ( get_class($ldapObject -> attrs[ 'supannEntiteAffectationPrincipale' ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEntiteAffectationPrincipale', 'attr' => 'eduPersonPrimaryOrgUnitDN'));
+      return;
+    }
+
+    $affectations = $ldapObject -> attrs[ 'supannEntiteAffectationPrincipale' ] -> getUpdateData();
+
+    $basedn=LSconfig :: get('LSobjects.'.LS_SUPANN_LSOBJECT_ENTITE_TYPE.'.container_dn').','.LSsession::getTopDn();
+    if ($basedn=="") {
+      LSerror :: addErrorCode('SUPANN_02','eduPersonPrimaryOrgUnitDN');
+      return;
+    }
+
+    $retval=array();
+    foreach ($affectations as $aff) {
+      $retval[]="supannCodeEntite=".$aff.",$basedn";
+    }
+
+    return $retval;
+  }
+
+  function generate_eduPersonOrgDN($ldapObject) {
+    if ( get_class($ldapObject -> attrs[ 'supannEtablissement' ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEtablissement', 'attr' => 'eduPersonOrgDN'));
+      return;
+    }
+
+    $eta = $ldapObject -> attrs[ 'supannEtablissement' ] -> getUpdateData();
+
+    $retval=array();
+    if ($eta[0] == '{UAI}'.LS_SUPANN_ETABLISSEMENT_UAI) {
+    	$retval[] = LS_SUPANN_ETABLISSEMENT_DN;
+    }
+
+    return $retval;
+  }
+
 ?>

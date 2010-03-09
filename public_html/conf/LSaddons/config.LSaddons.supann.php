@@ -32,4 +32,14 @@ define('LS_SUPANN_LASTNAME_ATTR','sn');
 // Nom de l'attribut LDAP prenom
 define('LS_SUPANN_FIRSTNAME_ATTR','givenName');
 
+// Type de LSobject correspondant aux entites SUPANN
+define('LS_SUPANN_LSOBJECT_ENTITE_TYPE','LSsupannEntite');
+
+// DN de l'entite SUPANN correspondant à l'etablissement
+define('LS_SUPANN_ETABLISSEMENT_DN','supannCodeEntite=XXX,ou=structures,dc=univ,dc=fr');
+
+// Type de LSobject correspondant aux entites SUPANN
+// Exemple : 0753742K
+define('LS_SUPANN_ETABLISSEMENT_UAI','0753742K');
+
 ?>
