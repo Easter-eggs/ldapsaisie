@@ -285,6 +285,33 @@ class LSsession {
   }
 
  /**
+  * Chargement d'une classe d'authentification d'LdapSaisie
+  *
+  * @param[in] $auth Nom de la classe d'authentification a charger (Exemple : HTTP)
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  * 
+  * @retval boolean true si le chargement a reussi, false sinon.
+  */
+  public static function loadLSauth($auth=false) {
+    if (self :: loadLSclass('LSauth')) {
+      if ($auth) {
+        if(self :: includeFile(LS_CLASS_DIR .'class.LSauth'.$auth.'.php')) {
+          self :: includeFile(LS_CONF_DIR."LSauth/config.LSauth".$auth.".php");
+          return true;
+        }
+      }
+      else {
+        return true;
+      } 
+    }
+    else {
+      LSerror :: addErrorCode('LSsession_05','LSauth');
+    }
+    return;
+  }
+
+ /**
   * Chargement des addons LdapSaisie
   *
   * Chargement des LSaddons contenue dans la variable
@@ -553,11 +580,11 @@ class LSsession {
                                    );
         }
         else {
-          if (self :: loadLSclass('LSauth')) {
+          if (self :: loadLSauth()) {
             if (isset(self :: $ldapServer['LSauth']['method'])) {
               $LSauthClass = 'LSauth'.self :: $ldapServer['LSauth']['method'];
-              if (!self :: loadLSclass($LSauthClass)) {
-                LSerror :: addErrorCode('LSsession_08',$LSauthClass);
+              if (!self :: loadLSauth(self :: $ldapServer['LSauth']['method'])) {
+                LSerror :: addErrorCode('LSsession_08',self :: $ldapServer['LSauth']['method']);
                 $LSauthClass = 'LSauth';
               }
             }
@@ -581,9 +608,6 @@ class LSsession {
                 return true;
               }
             }
-          }
-          else {
-            LSerror :: addErrorCode('LSsession_05','LSauth');
           }
         }
       }
