@@ -122,6 +122,15 @@ class LSauth {
     return;
   }
   
+ /**
+  * Logout
+  * 
+  * @retval void
+  **/
+  public function logout() {
+     // Do nothing in the standard LSauth class
+  }
+  
 }
 
 /*
