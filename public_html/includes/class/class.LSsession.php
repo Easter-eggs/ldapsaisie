@@ -499,23 +499,6 @@ class LSsession {
       self :: $tmp_file     = $_SESSION['LSsession']['tmp_file'];
       self :: $authParams   = $_SESSION['LSsession']['authParams'];
       
-      if (isset($_GET['LSsession_logout'])) {
-        $authObj = self :: getLSauthObject();
-        if ($authObj) {
-          $authObj -> logout();
-        }
-        session_destroy();
-        
-        if (is_array($_SESSION['LSsession']['tmp_file'])) {
-          self :: $tmp_file = $_SESSION['LSsession']['tmp_file'];
-        }
-        self :: deleteTmpFile();
-        unset($_SESSION['LSsession']);
-        
-        self :: redirect('index.php');
-        return;
-      }
-      
       if ( self :: cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
         self :: setLdapServer(self :: $ldapServerId);
         self :: $LSprofiles   = $_SESSION['LSsession']['LSprofiles'];
@@ -535,6 +518,23 @@ class LSsession {
       }
       
       if (!self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
+        return;
+      }
+      
+      if (isset($_GET['LSsession_logout'])) {
+        $authObj = self :: getLSauthObject();
+        if ($authObj) {
+          $authObj -> logout();
+        }
+        session_destroy();
+        
+        if (is_array($_SESSION['LSsession']['tmp_file'])) {
+          self :: $tmp_file = $_SESSION['LSsession']['tmp_file'];
+        }
+        self :: deleteTmpFile();
+        unset($_SESSION['LSsession']);
+        
+        self :: redirect('index.php');
         return;
       }
       
