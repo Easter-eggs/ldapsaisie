@@ -1,0 +1,18 @@
+<sect2 id="config-LSauthHTTP">
+  <title>LSauthHTTP</title>
+  <para>Cet &LSauth; est utilisé pour gérer l'authentification via les
+  variables d'environnements définies suite à une authentification gérée
+  par le serveur HTTP. En &php;, ces informations sont consultables via
+  les variables <literal>$_SERVER['PHP_AUTH_USER']</literal> et 
+  <literal>$_SERVER['PHP_AUTH_PW']</literal>. Cet &LSauth; n'utilise ici
+  que la variable <literal>$_SERVER['PHP_AUTH_USER']</literal>. Si celle-ci
+  est présente, une recherche dans l'annuaire est effectué pour trouver
+  l'utilisateur correspondant. L'authentification réussi uniquement un et
+  un seul utilisateur est retourné par la recherche.</para>
+  
+  <note><simpara>La recherche est effectuée sur une égalité
+  parfaite du RDN ou en utilisant le &LSformat; de fitre de recherche 
+  <literal>authObjectFilter</literal> défini dans la 
+  <link linkend='config-srv-ldap'>configuration du serveur LDAP</link>
+  </simpara></note>
+</sect2>

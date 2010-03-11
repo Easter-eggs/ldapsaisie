@@ -5,6 +5,8 @@
 <!ENTITY php "<application><ulink url='http://www.php.net/'>PHP</ulink></application>">
 <!ENTITY openldap "<application><ulink url='http://www.openldap.org/'>OpenLDAP</ulink></application>">
 <!ENTITY courier "<application><ulink url='http://www.courier-mta.org/'>Courier</ulink></application>">
+<!ENTITY CAS "<application><ulink url='http://www.jasig.org/cas'>CAS</ulink></application>">
+<!ENTITY phpCAS "<application><ulink url='http://www.ja-sig.org/wiki/display/CASC/phpCAS'>phpCAS</ulink></application>">
 
 <!ENTITY subDn "<link linkend='config-subDn'>subDn</link>">
 <!ENTITY LSprofile "<link linkend='config-LSprofile'>LSprofile</link>">
@@ -21,4 +23,5 @@
 <!ENTITY LSformats "<link linkend='config-LSformat'>LSformats</link>">
 <!ENTITY LSaddon "<link linkend='config-LSaddon'>LSaddon</link>">
 <!ENTITY LSaddons "<link linkend='config-LSaddon'>LSaddons</link>">
+<!ENTITY LSauth "<link linkend='config-LSauth'>LSauth</link>">
 <!ENTITY LSselect "<emphasis>LSselect</emphasis>">

@@ -10,6 +10,8 @@
 
 <!ENTITY conf-LSaddon SYSTEM "LSaddon.docbook">
 
+<!ENTITY conf-LSauth SYSTEM "LSauth.docbook">
+
 <!ENTITY conf-LSobject SYSTEM "LSobject.docbook">
 <!ENTITY conf-LSobject-container_auto_create SYSTEM "LSobject/container_auto_create.docbook">
 <!ENTITY conf-LSobject-triggers SYSTEM "LSobject/triggers.docbook">

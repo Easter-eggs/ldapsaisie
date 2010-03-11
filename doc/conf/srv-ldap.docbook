@@ -16,12 +16,16 @@ serveur LDAP.</para>
       'ldap_config'=> array(
         // Définition des paramètres de connexion à l'annuaire
       ),
+      'LSauth' => array (
+        'method' => [LSauth method]
+      ),
       'LSprofiles' => array (
         // Définition des LSprofiles
       ),
       'cacheLSprofiles' => [boolean],
       'cacheSearch' => [boolean],
       'authObjectType' => [LSobject],
+      'authObjectFilter' => [LSformat],
       'authObjectTypeAttrPwd' => [attribut],
       'LSaccess' => array (
         [Type LSobject 1],
@@ -79,6 +83,19 @@ serveur LDAP.</para>
 
 
 <varlistentry>
+  <term>LSauth</term>
+  <listitem>
+    <simpara>Définition de la méthode d'authentification &LSauth;. Pour le
+    moment ce tableau associatif ne contient qu'un paramètre <parameter>
+    method</parameter> qui correpond au nom de la librairie d'authentification.
+    Exemple : pour utiliser la classe <literal>LSauthHTTP</literal>, la 
+    valeur du paramètre <parameter>method</parameter> sera <literal>HTTP</literal>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
   <term>cacheLSprofiles</term>
   <listitem>
     <simpara>Activation/Désactivation de la mise en cache des &LSprofiles; des 
@@ -101,6 +118,18 @@ serveur LDAP.</para>
   <listitem>
     <simpara>Nom du type d'&LSobject; pouvant être utilisé pour authentifier un 
     utilisateur se connectant à l'interface.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>authObjectFilter</term>
+  <listitem>
+    <simpara>&LSformat; du filtre de recherche de l'utilisateur à sa connexion.
+    Le LSformat sera composé avec la valeur de l'information fourni par l'utilisateur.
+    Cela peut pemettre par exemple de permettre à l'utilisateur de se connecter en 
+    fournissant soit son login, soit son email. Exemple de valeur : 
+    <literal>(|(uid=%{user})(mail=%{user}))</literal></simpara>
   </listitem>
 </varlistentry>
 

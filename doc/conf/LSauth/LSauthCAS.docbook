@@ -1,0 +1,144 @@
+<sect2 id="config-LSauthCAS">
+  <title>LSauthCAS</title>
+  <para>Cet &LSauth; est utilisé pour gérer l'authentification via un
+  service SSO &CAS;. Cette librairie doit être configuré en éditant le 
+  fichier de configiration <literal>conf/LSauth/config.LSauthCAS.php</literal>.</para>
+  
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure du fichier</citetitle>/*
+ *****************************************************
+ * Configuration of the CAS authentification support *
+ *****************************************************
+ */
+
+// phpCAS Path (http://www.ja-sig.org/wiki/display/CASC/phpCAS)
+define('PHP_CAS_PATH','/usr/share/php/CAS.php');
+
+// phpCAS Debug File
+// define('PHP_CAS_DEBUG_FILE','/tmp/phpCAS.log');
+
+// Disable logout
+define('LSAUTH_CAS_DISABLE_LOGOUT',false);
+
+// CAS Server version (used constant name know by phpCAS : CAS_VERSION_1_0 or CAS_VERSION_2_0)
+define('LSAUTH_CAS_VERSION','CAS_VERSION_2_0');
+
+// CAS Server hostname
+define('LSAUTH_CAS_SERVER_HOSTNAME','cas.univ.fr');
+
+// CAS Server port
+define('LSAUTH_CAS_SERVER_PORT',443);
+
+// CAS Server URI (empty by default)
+// define('LSAUTH_CAS_SERVER_URI','cas/');
+
+// No SSL validation for the CAS server
+define('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION',false);
+
+// CAS server SSL Certificate path
+//define('LSAUTH_CAS_SERVER_SSL_CERT','');
+
+// CAS server SSL CA Certificate path
+//define('LSAUTH_CAS_SERVER_SSL_CACERT','');
+</programlisting>
+
+<!-- Début Paramètres Configuration -->  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>PHP_CAS_PATH</term>
+  <listitem>
+    <simpara>Le chemin d'accès du fichier <literal>CAS.php</literal> de 
+    la librairie &phpCAS;. Le chemin d'exemple correspond au chemin résultant
+    d'une installation via PEAR sur une Debian (Lenny).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>PHP_CAS_DEBUG_FILE</term>
+  <listitem>
+    <simpara>Chemin du fichier de log de la librairie &phpCAS;. Commenter
+    la ligne pour désactiver les logs.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_DISABLE_LOGOUT</term>
+  <listitem>
+    <simpara>Booléen définissant si l'utilisateur peut se déconnecter du 
+    serveur &CAS; depuis l'interface.</simpara>
+    <note><simpara>Remarque : l'appel de l'URL de déconnexion via une requête
+    <literal>GET</literal> supprimera la session &php; et donc la session
+    LdapSaisie sans déconnecter pour autant l'utilisateur au niveau du 
+    serveur &CAS;. Cela peut donc permettre de gérer la déconnexion
+    automatique au niveau d'LdapSaisie suite à une déconnexion au niveau du
+    CAS à traver le concepte de <literal>Global Logout</literal>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_VERSION</term>
+  <listitem>
+    <simpara>Nom de la constant &phpCAS; permettant de définir la version
+    CAS du serveur. Actuellement, la librairie &phpCAS; ne reconnait que 
+    la constante <literal>CAS_VERSION_1_0</literal> pour la version 1 de
+    CAS ou la constante <literal>CAS_VERSION_2_0</literal> pour la version
+    2 de CAS.</simpara>
+    <note><simpara>Remarque : Des tests on montrés que l'utilisation d'une
+    compatibilité CAS version 2 peut également fonctionner sur un version
+    3 du serveur CAS.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_SERVER_HOSTNAME</term>
+  <listitem>
+    <simpara>Le nom d'hôte du serveur &CAS;.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_SERVER_PORT</term>
+  <listitem>
+    <simpara>Le port d'écoute du serveur &CAS;.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_SERVER_URI</term>
+  <listitem>
+    <simpara>Le dossier HTTP dans lequel se trouve le service &CAS;.
+    Exemple : Pour un service CAS accessible via l'URL 
+    <literal>https://cas.univ.fr/cas/</literal>, la constante devra valoir
+    <literal>cas/</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_SERVER_NO_SSL_VALIDATION</term>
+  <listitem>
+    <simpara>Booléen permettant de désactiver la validation du certificat
+    SSL du serveur CAS lors des requêtes de validation des tickets CAS.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_SERVER_SSL_CERT</term>
+  <listitem>
+    <simpara>Chemin d'accès du fichier contenant le certificat SSL du serveur
+    CAS au format PEM. Commenter la ligne pour désactiver ce paramètre.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTH_CAS_SERVER_SSL_CACERT</term>
+  <listitem>
+    <simpara>Chemin d'accès du fichier contenant le certificat SSL de la 
+    CA du serveur CAS au format PEM. Commenter la ligne pour désactiver
+    ce paramètre.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>

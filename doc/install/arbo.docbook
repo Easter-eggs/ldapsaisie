@@ -37,14 +37,21 @@
                 <varlistentry>
                   <term><filename>LSobjects/</filename></term>
                   <listitem>
-                    <simpara>Configuration des LSobjets.</simpara>
+                    <simpara>Configuration des &LSobjects;.</simpara>
                   </listitem>
                 </varlistentry>
                 
                 <varlistentry>
                   <term><filename>LSaddons/</filename></term>
                   <listitem>
-                    <simpara>Configuration des LSaddons.</simpara>
+                    <simpara>Configuration des &LSaddons;.</simpara>
+                  </listitem>
+                </varlistentry>
+                
+                <varlistentry>
+                  <term><filename>LSauth/</filename></term>
+                  <listitem>
+                    <simpara>Configuration des &LSauth;.</simpara>
                   </listitem>
                 </varlistentry>
                 
