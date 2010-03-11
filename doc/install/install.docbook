@@ -42,8 +42,8 @@
     <title>A partir des snapshot</title>
     <para>Toutes les nuits, un snapshot de l'arbre Git est réalisé et est
     téléchargeable au format <emphasis>tar.gz</emphasis> à l'adresse suivante : 
-    <ulink url='http://labs.libre-entreprise.org/snapshots.php?group_id=118'>
-    http://labs.libre-entreprise.org/snapshots.php?group_id=118</ulink>
+    <ulink url='http://ldapsaisie.easter-eggs.org/download/ldapsaisie-snapshoot.tar.gz'>
+    http://ldapsaisie.easter-eggs.org/download/ldapsaisie-snapshoot.tar.gz</ulink>
     </para>
   </sect2>
   
