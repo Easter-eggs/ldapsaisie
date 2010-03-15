@@ -1545,7 +1545,7 @@ class LSldapObject {
           }
         }
         if (isset($updateData)) {
-          return LSldap :: update($this -> getType(),$this -> getDn(), array($attr => $updateData));
+          return $this -> _updateData(array($attr => $updateData));
         }
         return true;
       }
@@ -1598,7 +1598,7 @@ class LSldapObject {
               $updateData[]=$value;
             }
           }
-          return LSldap :: update($this -> getType(),$this -> getDn(), array($attr => $updateData));
+          return $this -> _updateData(array($attr => $updateData));
         }
       }
     }
@@ -1646,7 +1646,7 @@ class LSldapObject {
               $updateData[] = $val;
             }
           }
-          return LSldap :: update($this -> getType(),$this -> getDn(), array($attr => $updateData));
+          return $this -> _updateData(array($attr => $updateData));
         }
       }
     }
