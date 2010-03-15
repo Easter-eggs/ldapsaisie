@@ -263,8 +263,6 @@ class LSldapObject {
   }
   
   /**
-   * Met Ã  jour les donnÃ©es de l'objet et de l'entrÃ© de l'annuaire
-   * 
    * Met Ã  jour les donnÃ©es de l'objet Ã  partir d'un retour d'un formulaire.
    *
    * @param[in] $idForm Identifiant du formulaire d'origine
@@ -272,11 +270,8 @@ class LSldapObject {
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval boolean true si la mise Ã  jour a rÃ©ussi, false sinon
-   *
-   * @see validateAttrsData()
-   * @see submitChange()
    */ 
-  function updateData($idForm=NULL) {
+  public function updateData($idForm=NULL) {
     if($idForm!=NULL) {
       if(isset($this -> forms[$idForm]))
         $LSform = $this -> forms[$idForm][0];
@@ -299,6 +294,22 @@ class LSldapObject {
       }
     }
     $new_data = $LSform -> exportValues();
+    return $this -> _updateData($new_data);
+  }
+
+  /**
+   * Met Ã  jour les donnÃ©es de l'objet et de l'entrÃ© de l'annuaire
+   * 
+   * @param[in] $new_data Tableau des données de modification de l'objet
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean true si la mise Ã  jour a rÃ©ussi, false sinon
+   *
+   * @see validateAttrsData()
+   * @see submitChange()
+   */ 
+  private function _updateData($new_data) {
     if(!is_array($new_data)) {
       return;
     }
