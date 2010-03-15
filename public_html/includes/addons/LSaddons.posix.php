@@ -41,7 +41,7 @@ LSerror :: defineError('POSIX_01',
   * 
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval boolean true si Samba est pleinement supporté, false sinon
+  * @retval boolean true si POSIX est pleinement supporté, false sinon
   */
   function LSaddon_posix_support() {
     
