@@ -148,6 +148,17 @@ class LSattribute {
       return $updateData;
     }
   }
+
+  /**
+   * Retourne la valeur originale de l'attribut
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval mixed La valeur originale de l'attribut
+   */
+  function getOldValue() {
+    return $this -> data;
+  }
   
   /**
    * Retourne la valeur d'affichage de l'attribut
