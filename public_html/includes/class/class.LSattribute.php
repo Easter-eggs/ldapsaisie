@@ -140,12 +140,11 @@ class LSattribute {
    * @retval mixed La valeur de l'attribut
    */
   function getValue() {
-    $updateData=$this -> getUpdateData();
-    if (empty($updateData)) {
-      return $this -> data;
-    }
+    if ($this -> isUpdate()) {
+      return $this -> getUpdateData();
+    {
     else {
-      return $updateData;
+      return $this -> getOldValue();
     }
   }
 
