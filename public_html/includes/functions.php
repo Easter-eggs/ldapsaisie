@@ -121,7 +121,7 @@ function _getFData_extractAndModify($data,$ch) {
     if ($ch[5]) {
       if ($ch[6]) {
 	if ($ch[3]<0) {
-          $s=strlen($data)-(-1*$ch[3])-$ch[5];
+          $s=strlen((string)$data)-(-1*$ch[3])-$ch[5];
           $l=$ch[5];
         }
         else {
@@ -145,7 +145,7 @@ function _getFData_extractAndModify($data,$ch) {
     $val=substr((string)$data,$s,$l);
   }
   else {
-    $val=$data;
+    $val=(string)$data;
   }
 
   # Without Accent
