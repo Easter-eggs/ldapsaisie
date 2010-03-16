@@ -142,7 +142,7 @@ class LSattribute {
   function getValue() {
     if ($this -> isUpdate()) {
       return $this -> getUpdateData();
-    {
+    }
     else {
       return $this -> getOldValue();
     }
