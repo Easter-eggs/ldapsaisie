@@ -490,7 +490,7 @@ class LSattribute {
       $value = $this -> ldapObject -> getFData($this -> config['generate_value_format']);
     }
     else if (is_string($this -> config['default_value']) && strlen($this -> config['default_value'])>0) {
-      $value = $this -> config['default_value'];
+      $value = $this -> ldapObject -> getFData($this -> config['default_value']);
     }
     if ($value!==false) {
       if (!empty($value)) {
