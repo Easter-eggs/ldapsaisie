@@ -188,14 +188,7 @@ class LSldap {
     if(is_array($obj_conf)){
       $entry = self :: getLdapEntry($dn);
       if ($entry === false) {
-        $attributes = array();
-        foreach($obj_conf['attrs'] as $attr_name => $attr_conf) {
-          if( isset($attr_conf['default_value']) ) {
-            $attributes[$attr_name]=$attr_conf['default_value'];
-          }
-        }
-        
-        $newentry = self :: getNewEntry($dn,$obj_conf['objectclass'],$attributes);
+        $newentry = self :: getNewEntry($dn,$obj_conf['objectclass'],array());
         
         if (!$newentry) {
           return;
