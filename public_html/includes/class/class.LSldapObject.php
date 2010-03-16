@@ -1440,7 +1440,6 @@ class LSldapObject {
    * Retourne la valeur clef d'un objet en relation
    * 
    * @param[in] $object Un object de type $objectType
-   * @param[in] $attr L'attribut dans lequel l'objet doit apparaitre
    * @param[in] $objectType Le type d'objet en relation
    * @param[in] $value La valeur que doit avoir l'attribut :
    *                      - soit le dn (par defaut)
@@ -1448,8 +1447,8 @@ class LSldapObject {
    * 
    * @retval Mixed La valeur clef d'un objet en relation
    **/
-  function getObjectKeyValueInRelation($object,$attr,$objectType,$attrValue='dn') {
-    if ((!$attr)||(!$objectType)) {
+  function getObjectKeyValueInRelation($object,$objectType,$attrValue='dn') {
+    if (!$objectType) {
       LSerror :: addErrorCode('LSrelations_05','getObjectKeyValueInRelation');
       return;
     }

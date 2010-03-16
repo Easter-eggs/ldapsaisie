@@ -39,7 +39,7 @@ class LSgroup extends LSldapObject {
    * @retval Mixed La valeur clef d'un membre
    **/
   function getMemberKeyValue($object) {
-    return $this -> getObjectKeyValueInRelation($object,$this -> memberAttr,$this -> userObjectType);
+    return $this -> getObjectKeyValueInRelation($object,$this -> userObjectType);
   }
   
   /**
