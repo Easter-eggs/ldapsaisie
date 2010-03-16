@@ -309,7 +309,7 @@ class LSldapObject {
    * @see validateAttrsData()
    * @see submitChange()
    */ 
-  private function _updateData($new_data) {
+  private function _updateData($new_data,$idForm=null) {
     if(!is_array($new_data)) {
       return;
     }
@@ -367,9 +367,14 @@ class LSldapObject {
    *
    * @retval boolean true si les donnÃ©es sont valides, false sinon
    */ 
-  function validateAttrsData($idForm) {
+  function validateAttrsData($idForm=null) {
     $retval = true;
-    $LSform=$this -> forms[$idForm][0];
+    if ($idForm) {
+      $LSform=$this -> forms[$idForm][0];
+    }
+    else {
+      $LSform=false;
+    }
     foreach($this -> attrs as $attr) {
       $attr_values = $attr -> getValue();
       if (!$attr -> isValidate()) {
@@ -460,13 +465,13 @@ class LSldapObject {
             $ret=LSldap :: getNumberResult ($sfilter,$sbasedn,$sparams);
             if($test['result']==0) {
               if($ret!=0) {
-                $LSform -> setElementError($attr,$msg_error);
+                if ($LSform) $LSform -> setElementError($attr,$msg_error);
                 $retval = false;
               }
             }
             else {
               if($ret<0) {
-                $LSform -> setElementError($attr,$msg_error);
+                if ($LSform) $LSform -> setElementError($attr,$msg_error);
                 $retval = false;
               }
             }
@@ -475,7 +480,7 @@ class LSldapObject {
           else if(isset($test['function'])) {
             if (function_exists($test['function'])) {
               if(!$test['function']($this)) {
-                $LSform -> setElementError($attr,$msg_error);
+                if ($LSform) $LSform -> setElementError($attr,$msg_error);
                 $retval = false;
               }
             }
