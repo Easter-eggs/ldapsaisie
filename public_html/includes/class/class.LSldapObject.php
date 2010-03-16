@@ -294,7 +294,7 @@ class LSldapObject {
       }
     }
     $new_data = $LSform -> exportValues();
-    return $this -> _updateData($new_data);
+    return $this -> _updateData($new_data,$idForm);
   }
 
   /**
