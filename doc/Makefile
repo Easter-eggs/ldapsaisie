@@ -9,5 +9,8 @@ validate:
 export:
 				cd exports; make all
 
+html:
+				cd exports/html; make all-in-one/LdapSaisie.html
+
 clean:
 				cd exports; make clean
