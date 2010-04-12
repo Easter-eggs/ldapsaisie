@@ -3,6 +3,7 @@
 <!ENTITY netldap "<application><ulink url='http://pear.php.net/package/Net_LDAP2'>Net_LDAP2</ulink></application>">
 <!ENTITY smarty "<application><ulink url='http://www.smarty.net/'>Smarty</ulink></application>">
 <!ENTITY php "<application><ulink url='http://www.php.net/'>PHP</ulink></application>">
+<!ENTITY PEAR "<application><ulink url='http://pear.php.net/'>PEAR</ulink></application>">
 <!ENTITY openldap "<application><ulink url='http://www.openldap.org/'>OpenLDAP</ulink></application>">
 <!ENTITY courier "<application><ulink url='http://www.courier-mta.org/'>Courier</ulink></application>">
 <!ENTITY CAS "<application><ulink url='http://www.jasig.org/cas'>CAS</ulink></application>">
