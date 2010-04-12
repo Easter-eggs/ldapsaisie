@@ -149,3 +149,10 @@ span.term {
   font-size:              1.1em;
   margin:                 5px;
 }
+
+/*
+ * Function synopsis
+ */
+div.funcsynopsis table {
+  border:                none;
+}
