@@ -3,9 +3,13 @@
   <title>Configuration des LSaddons</title>
   <para>
     Cette partie décrit la manière de configurer les différents &LSaddons;
-    actuellement supportés par &LdapSaisie;. FIXME
+    actuellement supportés par &LdapSaisie;. Ces addons peuvent avoir un
+    fichier de configuration et il sera alors stocké dans le dossier
+    <literal>conf/LSaddons/</literal> et potera le nom 
+    <literal>config.LSaddons.[addon name].php</literal>.
   </para>
   
+  &conf-LSaddon_mail;
   &conf-LSaddon_maildir;
   
 </sect1>
