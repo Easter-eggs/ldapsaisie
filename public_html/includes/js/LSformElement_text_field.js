@@ -6,8 +6,8 @@ var LSformElement_text_field = new Class({
       this.input = input;
       this.params = varLSdefault.LSjsConfig[this.name];
       this._auto=1;
-      this.input.addEvent('change',this.unauto.bind(this));
       this.onChangeColor = '#f16d6d';
+      this.generatedValue = "";
     },
     
     start: function() {
@@ -34,7 +34,12 @@ var LSformElement_text_field = new Class({
           if (this.params.autoGenerateOnModify) {
             force = 1;
           }
-          if (((this.input.value=='')&&(this.params.autoGenerateOnCreate))||(force)) {
+          this.isCreation = false;
+          if (input.value=="") {
+            this.isCreation = true;
+          }
+
+          if (((this.isCreation)&&(this.params.autoGenerateOnCreate))||(force)) {
             this.dependsFields = this.parent.getDependsFields(this.format);
             this.dependsFields.each(function(el) {
               var input = this.parent.getInput.bind(this.parent)(el);
@@ -58,7 +63,7 @@ var LSformElement_text_field = new Class({
       if (force==true) {
         this._auto=1;
       }
-      if ((this._auto)||(force==true)) {
+      if (((this._auto)||(force==true))&&((this.generatedValue=="")||(this.generatedValue==this.input.value)||(force==true))) {
         var val=getFData(this.format,this.parent,'getValue');
         if ($type(this.params['withoutAccent'])) {
           if(this.params['withoutAccent']) {
@@ -81,12 +86,10 @@ var LSformElement_text_field = new Class({
           }
         }
         this.input.value = val;
+        this.generatedValue = val;
         this.fx.start(this.onChangeColor);
         (function() {this.fx.start(this.oldBg);}).delay(1000,this);
+        this.input.fireEvent('change');
       }
-    },
-    
-    unauto: function() {
-      this._auto=0;
     }
 });
