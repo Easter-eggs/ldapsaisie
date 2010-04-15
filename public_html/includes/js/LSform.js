@@ -244,8 +244,10 @@ var LSform = new Class({
           dd.injectAfter(this.getParent());
         },ul);
         
-        var dt = ul.getParent().getPrevious('dt');
-        dt.addClass('LSform-errors');
+        var dt = ul.getParent('dd.LSform').getPrevious('dt');
+        if ($type(dt)) {
+          dt.addClass('LSform-errors');
+        }
         
         var layout = ul.getParent('div.LSform_layout_active');
         if ($type(layout)) {
