@@ -35,7 +35,7 @@ var LSformElement_text_field = new Class({
             force = 1;
           }
           this.isCreation = false;
-          if (input.value=="") {
+          if (this.input.value=="") {
             this.isCreation = true;
           }
 
