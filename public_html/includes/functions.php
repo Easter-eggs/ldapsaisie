@@ -166,7 +166,7 @@ function _getFData_extractAndModify($data,$ch) {
 
 function getFieldInFormat($format) {
   $fields=array();
-  $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?}";
+  $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?}";
   while (ereg($expr,$format,$ch)) {
     $fields[]=$ch[1];
     $format=ereg_replace($ch[0],'',$format);
