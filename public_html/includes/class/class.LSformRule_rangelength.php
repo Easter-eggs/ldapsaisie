@@ -44,7 +44,7 @@ class LSformRule_rangelength extends LSformRule {
       return;
     }
     $len=strlen($value);
-    return ($len >= $$options['params']['limits'][0] && $len <= $$options['params']['limits'][1]);
+    return ($len >= $options['params']['limits'][0] && $len <= $options['params']['limits'][1]);
   }
   
 }
