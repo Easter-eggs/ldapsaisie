@@ -17,13 +17,21 @@ cd $ROOT_DIR/doc
 make clean >> $LOG_FILE 2>&1
 make >> $LOG_FILE 2>&1 &
 
-PID=$!
+export P=$!
 
-while [ -d /proc/$PID ]
+
+trap exitwhell INT
+
+function exitwhell() {
+	kill -9 $P 2> /dev/null
+	echo " -- INT -- "
+}
+
+while [ -d /proc/$P ]
 do
 	echo -n .
 	sleep 1
 done
 echo done.
 
-kill -9 $PID 2> /dev/null
+
