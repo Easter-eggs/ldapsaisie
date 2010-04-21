@@ -239,19 +239,32 @@ then
 	read a
 	if [ "$a" == "y" -o "$a" == "Y" ]
 	then
-        msg "-> Build the doc : " -en
-		cd $ROOT_DIR/doc >> $LOG_FILE 2>&1 && make >> $LOG_FILE 2>&1 && cd - >> $LOG_FILE 2>&1
-		if [ $? -gt 0 ]
-		then
-		        msg "Error"
-		        exit 1
-		else
-	        	msg "Ok"
-		fi
+        	msg "-> Build the doc : " -en
+		cd $ROOT_DIR/doc
+		
+		make clean >> $LOG_FILE 2>&1
+		make >> $LOG_FILE 2>&1 &
+		
+		export P=$!
+		
+		trap exitwhell INT
+		
+		function exitwhell() {
+			[ -n "$P" ] && kill -9 $P 2> /dev/null
+			echo " -- INT -- "
+			exit 1
+		}
+		
+		while [ -d /proc/$P ]
+		do
+			echo -n .
+			sleep 1
+		done
+		echo done.
 
-        if [ -n "$EXPORT_DOC_DIR" ]
-        then
-            $ROOT_DIR/buildDocExports.sh
-        fi
-    fi
+	        if [ -n "$EXPORT_DOC_DIR" ]
+        	then
+	            $ROOT_DIR/buildDocExports.sh
+        	fi
+	fi
 fi
