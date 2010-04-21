@@ -140,6 +140,8 @@ then
     echo -n "-> Create last-update file : "
     echo "Last update :" > $LAST_UPDATE_FILE
     date >> $LAST_UPDATE_FILE
+    cd $ROOT_DIR
+    git log|head -n 1 >> $LAST_UPDATE_FILE
     echo >> $LAST_UPDATE_FILE
     echo done.
 fi
