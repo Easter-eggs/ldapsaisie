@@ -234,6 +234,7 @@ fi
 
 if [ $BUILD_DOC -eq 1 ]
 then
+	[ -n "$LAST_UPDATE_FILE" ] && [ "`$ROOT_DIR/checkDocExportsNecessity.sh`" == "" ] && echo "Export documentation is not necessary. Pass." && exit 
 	msg "-> Do you want build the documentation (y/N) ? " -en
 	read a
 	if [ "$a" == "y" -o "$a" == "Y" ]
