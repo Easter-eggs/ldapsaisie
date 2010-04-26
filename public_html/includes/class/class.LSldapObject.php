@@ -98,6 +98,7 @@ class LSldapObject {
         if(!$this -> attrs[$attr_name] -> loadData($data[$attr_name]))
           return;
       }
+      $this->cache=array();
       return true;
     }
     return;
