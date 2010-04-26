@@ -23,18 +23,17 @@
 LSsession :: loadLSclass('LSformElement');
 
 /**
- * Element select d'un formulaire pour LdapSaisie
+ * Select object element for LdapSaisie form
  *
- * Cette classe définis les éléments select des formulaires.
- * Elle étant la classe basic LSformElement.
+ * This class define select elements for form. It extends the generic class LSformElement.
  *
- * Options HTML : 
+ * HTML options : 
  * // *************************************
  * 'html_options' => array (
  *   selectable_object => array (
- *     'object_type' => '[Type d'LSobject selectionnable]',
- *     'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
- *     'value_attribute' => '[LSformat de la valeur clé référant à un LSobject donnée]'
+ *     'object_type' => '[Type of LSobject witch is selectable]',
+ *     'display_name_format' => '[LSformat of the display name of the LSobjects]',
+ *     'value_attribute' => '[The attribute name whitch is used as the key value of one LSobject]'
  *   )
  * ),
  * // *************************************
@@ -48,9 +47,9 @@ class LSformElement_select_object extends LSformElement {
   var $template = 'LSformElement_select_object.tpl';
 
  /**
-  * Retourn les infos d'affichage de l'Ã©lÃ©ment
+  * Return display informations of the element
   * 
-  * Cette mÃ©thode retourne les informations d'affichage de l'Ã©lement
+  * This method return the display informations of the element.
   *
   * @retval array
   */
@@ -94,16 +93,16 @@ class LSformElement_select_object extends LSformElement {
   }
   
   /*
-   * Retourne les valeurs de l'objet à partir de la variable Session
+   * Return the values of the object form the session variable
    */
   function getValuesFromSession() {
     return $this -> attr_html -> getValuesFromSession();
   }
   
   /**
-   * DÃ©fini le type d'objet sÃ©lectionnable
+   * Defined the type of object witch is selectionable
    * 
-   * @param[in] $object string Le type d'object
+   * @param[in] $object string The type of object
    * 
    * @retval void
    **/
@@ -112,9 +111,9 @@ class LSformElement_select_object extends LSformElement {
   }
   
   /**
-   * Exporte les valeurs de l'élément
+   * Export the values of the element
    * 
-   * @retval Array Les valeurs de l'élement
+   * @retval Array The values of the element
    */
   function exportValues(){
     $values = $this -> attr_html -> getValuesFromFormValues($this -> values);
@@ -122,17 +121,13 @@ class LSformElement_select_object extends LSformElement {
   }
 
   /**
-   * Définis la valeur de l'élément à partir des données 
-   * envoyées en POST du formulaire
-   *
-   * Cette méthode définis la valeur de l'élément à partir des données 
-   * envoyées en POST du formulaire.
+   * Defined the value of the element from the data sent in POST with the form.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] [<b>required</b>] string or array La futur valeur de l'élément
+   * @param[in] [<b>required</b>] string or array The new value of the element
    *
-   * @retval boolean Retourne True
+   * @retval boolean Return True
    */
   function setValueFromPostData($data) {
     LSformElement::setValueFromPostData($data);
@@ -141,11 +136,11 @@ class LSformElement_select_object extends LSformElement {
   }
 
   /**
-   * Recherche les objets sélectionnables à partir du pattern fournis
+   * Search the selectionable objects with a pattern
    * 
-   * @param[in] $pattern Pattern de recherche
+   * @param[in] $pattern The pattern of the search
    * 
-   * @retval array(dn -> displayName) Les objets trouvés
+   * @retval array(dn -> displayName) Found objects
    */
   function searchAdd ($pattern) {
     if (is_array($this -> params['html_options']['selectable_object'])) {
@@ -159,7 +154,15 @@ class LSformElement_select_object extends LSformElement {
     }
     return array();
   }
-  
+ 
+  /**
+   * This ajax method is used to refresh the value display
+   * in the form element after the modify window is closed.
+   *
+   * @param[in] $data The address to the array of data witch will be return by the ajax request
+   * 
+   * @retval void
+   **/
   public static function ajax_refresh(&$data) {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
@@ -176,6 +179,13 @@ class LSformElement_select_object extends LSformElement {
     }
   }
 
+  /**
+   * This ajax method is used by the search-and-add function of the form element.
+   *
+   * @param[in] $data The address to the array of data witch will be return by the ajax request
+   * 
+   * @retval void
+   **/
   public static function ajax_searchAdd(&$data) {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['pattern'])) && (isset($_REQUEST['idform'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
