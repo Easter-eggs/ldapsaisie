@@ -99,6 +99,10 @@ class LSattr_html_select_object extends LSattr_html{
             if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
               $val = $dn;
             }
+            elseif (!isset($obj->attrs[$conf['value_attribute']])) {
+              LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
+              return;
+            }
             else {
               $val = $obj -> getValue($conf['value_attribute']);
               $val = $val[0];
@@ -151,6 +155,10 @@ class LSattr_html_select_object extends LSattr_html{
           }
         }
         else {
+          if (!isset($conf['value_attribute']) || (!is_array(LSconfig::get('LSobjects.'.$conf['object_type'].'.attrs.'.$conf['value_attribute'])))) {
+            LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
+            return;
+          }
           $filters=array();
           foreach($values as $val) {
             if (!empty($val)) {
@@ -202,6 +210,9 @@ class LSattr_html_select_object extends LSattr_html{
  */
 LSerror :: defineError('LSattr_html_select_object_01',
 _("LSattr_html_select_object : LSobject type is undefined (attribute : %{attr}).")
+);
+LSerror :: defineError('LSattr_html_select_object_02',
+_("LSattr_html_select_object : the value of the parameter value_attribute in the configuration of the attribute %{attrs} is incorrect. This attribute does not exists.")
 );
 
 ?>
