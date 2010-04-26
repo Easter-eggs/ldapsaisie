@@ -60,6 +60,13 @@ class LSformElement_password extends LSformElement {
         return true;
       }
       
+      if ($this -> verifyPassword($return[$this -> name][0])) {
+        LSdebug("Password : no change");
+        unset($return[$this -> name]);
+        $this -> form -> _notUpdate[$this -> name] == true;
+        return true;
+      }      
+      
       //Mail
       if (isset($_POST['LSformElement_password_'.$this -> name.'_send'])) {
         if ($_POST['LSformElement_password_'.$this -> name.'_send']==1) {
