@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-26 17:00+0200\n"
-"PO-Revision-Date: 2010-04-26 17:05+0100\n"
+"POT-Creation-Date: 2010-04-27 15:53+0200\n"
+"PO-Revision-Date: 2010-04-27 16:05+0100\n"
 "Last-Translator: Benjamin RENARD <brenard@easter-eggs.com>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise.org>\n"
 "MIME-Version: 1.0\n"
@@ -682,22 +682,26 @@ msgid "Display password."
 msgstr "Afficher le mot de passe."
 
 #: includes/class/class.LSformElement_password.php:127
+msgid "Display hashed password."
+msgstr "Afficher le mot de passe haché."
+
+#: includes/class/class.LSformElement_password.php:128
 msgid "Hide password."
 msgstr "Cacher le mot de passe."
 
-#: includes/class/class.LSformElement_password.php:128
+#: includes/class/class.LSformElement_password.php:129
 msgid "The password will be sent by mail if changed. Click to disable automatic notification."
 msgstr "Le mot de passe sera envoyé par e-mail en cas de modification. Cliquer pour désactiver la notification."
 
-#: includes/class/class.LSformElement_password.php:129
+#: includes/class/class.LSformElement_password.php:130
 msgid "The password will not be sent if changed. Click to enable automatic notification."
 msgstr "Le mot de passe ne sera pas envoyé en cas de modification. Cliquer pour activer la notification automatique."
 
-#: includes/class/class.LSformElement_password.php:130
+#: includes/class/class.LSformElement_password.php:131
 msgid "Modify the mail sent to notice the user"
 msgstr "Modifier mail de notification de l'utilisateur"
 
-#: includes/class/class.LSformElement_password.php:187
+#: includes/class/class.LSformElement_password.php:189
 msgid "Notice mail sent."
 msgstr "Le mail de notification a été envoyé."
 
@@ -773,7 +777,7 @@ msgstr "Non"
 msgid "Function 'getFData' : The method %{meth} of the object %{obj} doesn't exist."
 msgstr "Fonction getFData : La méthode %{meth} de l'objet %{obj} n'existe pas."
 
-#: includes/functions.php:186
+#: includes/functions.php:191
 msgid "Folder not found"
 msgstr "Dossier introuvable"
 

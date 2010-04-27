@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-26 17:00+0200\n"
+"POT-Creation-Date: 2010-04-27 15:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -744,26 +744,30 @@ msgid "Display password."
 msgstr ""
 
 #: includes/class/class.LSformElement_password.php:127
-msgid "Hide password."
+msgid "Display hashed password."
 msgstr ""
 
 #: includes/class/class.LSformElement_password.php:128
+msgid "Hide password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:129
 msgid ""
 "The password will be sent by mail if changed. Click to disable automatic "
 "notification."
 msgstr ""
 
-#: includes/class/class.LSformElement_password.php:129
+#: includes/class/class.LSformElement_password.php:130
 msgid ""
 "The password will not be sent if changed. Click to enable automatic "
 "notification."
 msgstr ""
 
-#: includes/class/class.LSformElement_password.php:130
+#: includes/class/class.LSformElement_password.php:131
 msgid "Modify the mail sent to notice the user"
 msgstr ""
 
-#: includes/class/class.LSformElement_password.php:187
+#: includes/class/class.LSformElement_password.php:189
 msgid "Notice mail sent."
 msgstr ""
 
@@ -851,7 +855,7 @@ msgid ""
 "Function 'getFData' : The method %{meth} of the object %{obj} doesn't exist."
 msgstr ""
 
-#: includes/functions.php:186
+#: includes/functions.php:191
 msgid "Folder not found"
 msgstr ""
 
