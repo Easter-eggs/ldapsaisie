@@ -124,6 +124,7 @@ class LSformElement_password extends LSformElement {
           'generate' => _('Generate a password.'),
           'verify' => _('Compare with stored password.'),
           'view' => _('Display password.'),
+          'viewHash' => _('Display hashed password.'),
           'hide' => _('Hide password.'),
           'mail' => _("The password will be sent by mail if changed. Click to disable automatic notification."),
           'nomail' => _("The password will not be sent if changed. Click to enable automatic notification."),
@@ -137,6 +138,7 @@ class LSformElement_password extends LSformElement {
       
       $params = array(
         'generate' => ($this -> params['html_options']['generationTool']==True),
+        'viewHash' => ($this -> params['html_options']['viewHash']==True),
         'verify' => (!$this -> attr_html -> attribute -> ldapObject-> isNew())
       );
       if (isset($this -> params['html_options']['mail'])) {
@@ -233,6 +235,24 @@ class LSformElement_password extends LSformElement {
       }
     }
   }
+
+  public static function ajax_viewHash(&$data) {
+    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) ) {
+      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
+        $object = new $_REQUEST['objecttype']();
+        $object -> loadData($_REQUEST['objectdn']);
+        if (LSsession::canAccess($_REQUEST['objecttype'],$_REQUEST['objectdn'],null,$_REQUEST['attribute'])) {
+          $values = $object -> getValue($_REQUEST['attribute']);
+          if (is_string($values[0])) {
+            $data = array (
+              'hash' => $values[0]
+            );
+          }
+        }
+      }
+    }
+  }
+
 }
   
 ?>

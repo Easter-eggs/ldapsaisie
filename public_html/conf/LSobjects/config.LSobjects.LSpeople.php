@@ -463,6 +463,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_type' => 'password',
       'html_options' => array(
         'generationTool' => true,
+        'viewHash' => true,
         'autoGenerate' => false,
         'lenght' => 8,
         'chars' => array (

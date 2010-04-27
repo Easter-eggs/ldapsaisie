@@ -7,6 +7,16 @@ var LSformElement_password_field = new Class({
     },
     
     initialiseLSformElement_password_field: function() {
+      // ViewHashBtn
+      if (this.params['viewHash'] && varLSform.objectdn!= "") {
+        this.viewHashBtn = new Element('img');
+        this.viewHashBtn.src = varLSdefault.imagePath('view_hash.png');
+        this.viewHashBtn.addClass('btn');
+        this.viewHashBtn.addEvent('click',this.onViewHashBtnClick.bind(this));
+        this.viewHashBtn.injectAfter(this.input);
+        varLSdefault.addHelpInfo(this.viewHashBtn,'LSformElement_password','viewHash');
+      }
+      
       // Mail
       if (this.params['mail']) {
         if ((this.params.mail['canEdit']==1)||(!$type(this.params.mail['canEdit']))) {
@@ -208,6 +218,29 @@ var LSformElement_password_field = new Class({
           this.verifyFx.start('#f59a67');
         }
         (function(){this.verifyFx.start(this.bgColor);}).delay(1000, this);
+      }
+    },
+
+    onViewHashBtnClick: function() {
+      var data = {
+        template:   'LSformElement_password',
+        action:     'viewHash',
+        attribute:  this.name,
+        objecttype: varLSform.objecttype,
+        objectdn:   varLSform.objectdn
+      };
+      data.imgload=varLSdefault.loadingImgDisplay(this.viewHashBtn);
+      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onViewHashBtnClickComplete.bind(this)}).send();
+    },
+    
+    onViewHashBtnClickComplete: function(responseText, responseXML) {
+      var data = JSON.decode(responseText);
+      if ( varLSdefault.checkAjaxReturn(data) ) {
+        if (data.hash) {
+          // ok
+          this.input.value=data.hash;
+          this.changeInputType('view');
+        }
       }
     }
 });
