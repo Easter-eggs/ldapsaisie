@@ -136,7 +136,8 @@ class LSformElement_quota extends LSformElement {
           if (isset($_POST[$this -> name.'_sizeFact'][$key]) && ($_POST[$this -> name.'_sizeFact'][$key]!=1)) {
             $f = $_POST[$this -> name.'_sizeFact'][$key];
           }
-          $return[$this -> name][$key] = intval(ceil(($val*$f)*$this -> getFactor()));
+          $val=preg_replace('/,/','.',$val);
+          $return[$this -> name][$key] = ceil(ceil(($val*$f)*$this -> getFactor()));
         }
       }
       return true;
