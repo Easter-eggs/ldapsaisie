@@ -52,6 +52,9 @@
       // Attributs en dépendance
     ),
     'onDisplay' => 'fonction2'
+    
+    'before_modify' => 'function1',
+    'after_modify' => 'function2'
   ),
   /* ----------- end -----------*/
   ...
