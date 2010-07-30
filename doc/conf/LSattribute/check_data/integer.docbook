@@ -1,0 +1,25 @@
+<sect4 id="config-LSattribute-check-data-integer">
+  <title>integer</title>
+  <para>Cette règle vérifie que la valeur saisie est un entier. Les paramètres 
+  permettent de spécifier éventuellement si la valeur doit être positive ou négative.</para>
+  
+<variablelist>
+<title>Paramêtres de configuration</title>
+
+<varlistentry>
+  <term>positive</term>
+  <listitem>
+    <simpara>Booléen définissant si la valeur doit être positive.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>negative</term>
+  <listitem>
+    <simpara>Booléen définissant si la valeur doit être negative.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
