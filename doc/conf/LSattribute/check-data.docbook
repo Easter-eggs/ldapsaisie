@@ -50,6 +50,7 @@ règles.</para>
 &conf-LSattribute-check-data-filesize;
 &conf-LSattribute-check-data-imagefile;
 &conf-LSattribute-check-data-imagesize;
+&conf-LSattribute-check-data-integer;
 &conf-LSattribute-check-data-lettersonly;
 &conf-LSattribute-check-data-maxlength;
 &conf-LSattribute-check-data-minlength;
