@@ -33,6 +33,8 @@
     // Information des configurations pour la création du conteneur du type d'LSobjet
     // lors de la création nouveau subDn
   ),
+
+  'disable_creation' => [boolean]',
   
   'before_modify' => 'function1',
   'after_modify' => 'function2',
@@ -116,6 +118,14 @@
     nouveaux objets utilisés comme &subDn;. 
     <link linkend="config-LSobject-container_auto_create">Voir la section
     concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>disable_creation</term>
+  <listitem>
+    <simpara>Booléen permetant de desactiver la creation de ce type d'objet de
+    manière globale.</simpara>
   </listitem>
 </varlistentry>
 

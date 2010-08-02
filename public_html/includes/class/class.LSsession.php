@@ -1844,6 +1844,12 @@ class LSsession {
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
    */    
   public static function canCreate($LSobject) {
+    if (!self :: loadLSobject($LSobject)) {
+      return;
+    }
+    if (LSconfig :: get("LSobjects.$LSobject.disable_creation")) {
+      return;
+    }
     return self :: canAccess($LSobject,NULL,'w','rdn');
   }
   
