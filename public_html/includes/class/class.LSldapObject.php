@@ -437,7 +437,7 @@ class LSldapObject {
 
         // DÃ©finition du message d'erreur
         if (!empty($test['msg'])) {
-          $msg_error=getFData($test['msg'],$this,'getValue');
+          $msg_error=getFData(__($test['msg']),$this,'getValue');
         }
         else {
           $msg_error=getFData(_("The attribute %{attr} is not valid."),$attr -> getLabel());
