@@ -188,4 +188,27 @@ LSerror :: defineError('POSIX_01',
     return true;
   }
 
+function generateMemberFromMemberUid($ldapObject) {
+    if ( get_class($ldapObject -> attrs[ 'memberUid' ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('POSIX_01',array('dependency' => 'memberUid', 'attr' => 'member'));
+      return;
+    }
+
+    if ( get_class($ldapObject -> attrs[ 'member' ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('POSIX_01',array('dependency' => 'member', 'attr' => 'member'));
+      return;
+    }
+
+    $uids = $ldapObject -> attrs[ 'memberUid' ] -> getValue();
+    $member = array();
+    if (is_array($uids)) {
+      foreach ( $uids as $uid ) {
+        $member[]='uid='.$uid.','.LSconfig::get('LSobjets.LSehessPerson.container_dn').','.LSsession::getTopDn();
+      }
+    }
+    return $member;
+
+  }
+
+
 ?>
