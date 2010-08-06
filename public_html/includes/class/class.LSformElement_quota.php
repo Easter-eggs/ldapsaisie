@@ -36,9 +36,9 @@ class LSformElement_quota extends LSformElement {
 
   var $sizeFacts = array(
     1     => 'o',
-    1000   => 'Ko',
-    1000000  => 'Mo',
-    1000000000 => 'Go'
+    1024   => 'Ko',
+    1048576  => 'Mo',
+    1073741824 => 'Go'
   );
 
  /**
@@ -58,14 +58,14 @@ class LSformElement_quota extends LSformElement {
         $infos = array(
           'size' => ceil($regs[1]/$this -> getFactor())
         );
-        if ($infos['size'] >= 1000000000) {
-          $infos['valueSizeFact']=1000000000;
+        if ($infos['size'] >= 1073741824) {
+          $infos['valueSizeFact']=1073741824;
         }
-        else if ($infos['size'] >= 1000000) {
-          $infos['valueSizeFact']=1000000;
+        else if ($infos['size'] >= 1048576) {
+          $infos['valueSizeFact']=1048576;
         }
-        else if ($infos['size'] >= 1000) {
-          $infos['valueSizeFact']=1000;
+        else if ($infos['size'] >= 1024) {
+          $infos['valueSizeFact']=1024;
         }
         else {
           $infos['valueSizeFact']=1;
