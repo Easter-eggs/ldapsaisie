@@ -122,9 +122,9 @@ class LSsearch {
   private function loadConfig() {
     $this -> config = LSconfig::get("LSobjects.".$this -> LSobject.".LSsearch");
     if (is_array($this -> config['predefinedFilters'])) {
-      foreach(array_keys($this -> config['predefinedFilters']) as $key) {
-        if(!LSldap::isValidFilter($key)) {
-          LSerror::addErrorCode('LSsearch_01','$key');
+      foreach($this -> config['predefinedFilters'] as $filter => $label) {
+        if(!LSldap::isValidFilter($filter)) {
+          LSerror::addErrorCode('LSsearch_15',array('label' => $label, 'filter' => $filter, 'type' => $this -> LSobject));
           unset($this -> config['predefinedFilters'][$key]);
         }
       }
@@ -1220,6 +1220,9 @@ _("LSsearch : Error sorting the search.")
 );
 LSerror :: defineError('LSsearch_14',
 _("LSsearch : The function of the custum information %{name} is not callable.")
+);
+LSerror :: defineError('LSsearch_15',
+_("LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} (filter : %{filter}).")
 );
 
 ?>
