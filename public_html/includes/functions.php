@@ -530,4 +530,21 @@ function LSdebugDefined() {
     return strtr($string, $replaceAccent);
   }
 
+
+ /**
+  * Supprime les espaces d'une chaine en les remplacant par un motif ou non
+  *
+  * @param[in] $str La chaine originale
+  * @param[in] $to Le motif de remplacement. S'il n'est pas spécifié, les espaces seront simplement supprimés
+  *
+  * @retval string La chaine sans les espaces
+  **/
+  function replaceSpaces($str,$to='') {
+    return strtr($str,array (
+               ' ' => $to,
+               "\t" => $to
+             )
+           );
+  }
+
 ?>
