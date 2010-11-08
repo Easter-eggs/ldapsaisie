@@ -95,7 +95,7 @@ class LSldapObject {
     $data = LSldap :: getAttrs($dn);
     if(!empty($data)) {
       foreach($this -> attrs as $attr_name => $attr) {
-        if(!$this -> attrs[$attr_name] -> loadData($data[$attr_name]))
+        if( !$this -> attrs[$attr_name] -> loadData( (isset($data[$attr_name])?$data[$attr_name]:NULL) ) )
           return;
       }
       $this->cache=array();
