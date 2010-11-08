@@ -2091,7 +2091,7 @@ class LSsession {
    * @retval boolean true si le serveur LDAP courant a des subDn, false sinon
    */
   public static function haveSubDn() {
-    return (is_array(self :: $ldapServer['subDn']));
+    return (isset(self :: $ldapServer['subDn']) && is_array(self :: $ldapServer['subDn']));
   }
 
   /**
