@@ -514,7 +514,7 @@ class LSsession {
       }
       
       if ( self :: cacheSudDn() && (!isset($_REQUEST['LSsession_refresh'])) ) {
-        self :: $_subDnLdapServer = $_SESSION['LSsession_subDnLdapServer'];
+        self :: $_subDnLdapServer = ((isset($_SESSION['LSsession_subDnLdapServer']))?$_SESSION['LSsession_subDnLdapServer']:NULL);
       }
       
       if (!self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
@@ -546,7 +546,7 @@ class LSsession {
       
       $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
       
-      if ($_POST['LSsession_topDn']) {
+      if (isset ($_POST['LSsession_topDn']) && $_POST['LSsession_topDn']) {
         if (self :: validSubDnLdapServer($_POST['LSsession_topDn'])) {
           self :: $topDn = $_POST['LSsession_topDn'];
           $_SESSION['LSsession']['topDn'] = $_POST['LSsession_topDn'];
