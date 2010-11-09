@@ -176,7 +176,7 @@ class LSsearch {
     }
     
     foreach ($params as $param => $value) {
-      if ($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]!=$value) {
+      if ( !isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]) || $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]!=$value) {
         LSdebug("S: $param => $value");
         $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]=$value;
       }
