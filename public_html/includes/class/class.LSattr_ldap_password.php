@@ -51,16 +51,34 @@ class LSattr_ldap_password extends LSattr_ldap {
    */
   function getUpdateData($data) {
     $this -> clearPassword = $data[0];
+    $data=array();
+
+    $data[]=$this -> encodePassword($this -> clearPassword);
+
+    return $data;
+  }
+
+  /**
+   * Encode the password
+   *
+   * Note : Password encoding was strongly inspired of the project phpLdapAdmin.
+   * URL : http://phpldapadmin.sourceforge.net/
+   *
+   * @param[in] $clearPassword string The clear password
+   *
+   * @retval strinf The encode password
+   */
+  function encodePassword($clearPassword) {
     if (!$this -> config['ldap_options']['encode']) {
       $this -> config['ldap_options']['encode'] = 'md5crypt';
     }
     switch($this -> config['ldap_options']['encode']) {
       case 'crypt':
         if ($this -> config['ldap_options']['no_random_crypt_salt']) {
-          return array('{CRYPT}' . crypt($this -> clearPassword,substr($this -> clearPassword,0,2)));
+          return '{CRYPT}' . crypt($clearPassword,substr($clearPassword,0,2));
         }
         else {
-          return array('{CRYPT}' . crypt($this -> clearPassword,$this -> getSalt(2)));
+          return '{CRYPT}' . crypt($clearPassword,$this -> getSalt(2));
         }
         break;
       case 'ext_des':
@@ -68,7 +86,7 @@ class LSattr_ldap_password extends LSattr_ldap {
           LSerror :: addErrorCode('LSattr_ldap_password_01','ext_des');
         }
         else {
-          return array('{CRYPT}' . crypt( $this -> clearPassword, '_' . $this -> getSalt(8) ));
+          return '{CRYPT}' . crypt( $clearPassword, '_' . $this -> getSalt(8) );
         }
         break;
       case 'blowfish':
@@ -76,15 +94,15 @@ class LSattr_ldap_password extends LSattr_ldap {
           LSerror :: addErrorCode('LSattr_ldap_password_01','blowfish');
         }
         else {
-          return array('{CRYPT}' . crypt( $this -> clearPassword, '$2a$12$' . $this -> getSalt(13) ));
+          return '{CRYPT}' . crypt( $clearPassword, '$2a$12$' . $this -> getSalt(13) );
         }
         break;
       case 'sha':
         if( function_exists('sha1') ) {
-          return array('{SHA}' . base64_encode( pack( 'H*' , sha1( $this -> clearPassword ) ) ));
+          return '{SHA}' . base64_encode( pack( 'H*' , sha1( $clearPassword ) ) );
         }
         elseif( function_exists( 'mhash' ) ) {
-          return array('{SHA}' . base64_encode( mhash( MHASH_SHA1, $this -> clearPassword ) ));
+          return '{SHA}' . base64_encode( mhash( MHASH_SHA1, $clearPassword ) );
         } else {
           LSerror :: addErrorCode('LSattr_ldap_password_01','sha');
         }
@@ -92,8 +110,8 @@ class LSattr_ldap_password extends LSattr_ldap {
       case 'ssha':
         if( function_exists( 'mhash' ) && function_exists( 'mhash_keygen_s2k' ) ) {
           mt_srand( (double) microtime() * 1000000 );
-          $salt = mhash_keygen_s2k( MHASH_SHA1, $this -> clearPassword, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
-          return array("{SSHA}".base64_encode( mhash( MHASH_SHA1, $this -> clearPassword.$salt ).$salt ));
+          $salt = mhash_keygen_s2k( MHASH_SHA1, $clearPassword, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
+          return "{SSHA}".base64_encode( mhash( MHASH_SHA1, $clearPassword.$salt ).$salt );
         }
         else {
           LSerror :: addErrorCode('LSattr_ldap_password_01','ssha');
@@ -103,29 +121,29 @@ class LSattr_ldap_password extends LSattr_ldap {
         if( function_exists( 'mhash' ) && function_exists( 'mhash_keygen_s2k' ) ) {
           mt_srand( (double) microtime() * 1000000 );
           $salt = mhash_keygen_s2k( MHASH_MD5, $password_clear, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
-          return array("{SMD5}".base64_encode( mhash( MHASH_MD5, $password_clear.$salt ).$salt ));
+          return "{SMD5}".base64_encode( mhash( MHASH_MD5, $password_clear.$salt ).$salt );
         }
         else {
           LSerror :: addErrorCode('LSattr_ldap_password_01','smd5');
         }
         break;
       case 'md5':
-        return array('{MD5}' . base64_encode( pack( 'H*' , md5( $this -> clearPassword ) ) ));
+        return '{MD5}' . base64_encode( pack( 'H*' , md5( $clearPassword ) ) );
         break;
       case 'md5crypt':
         if( ! defined( 'CRYPT_MD5' ) || CRYPT_MD5 == 0 ) {
           LSerror :: addErrorCode('LSattr_ldap_password_01','md5crypt');
         }
         else {
-          return array('{CRYPT}'.crypt($this -> clearPassword,'$1$'.$this -> getSalt().'$'));
+          return '{CRYPT}'.crypt($clearPassword,'$1$'.$this -> getSalt().'$');
         }
         break;
       case 'clear':
-        return array($this -> clearPassword);
+        return $clearPassword;
         break;
     }
     LSerror :: addErrorCode('LSattr_ldap_password_01',$this -> config['ldap_options']['encode']);
-    return array($this -> clearPassword);
+    return $clearPassword;
   }
  
   /**
