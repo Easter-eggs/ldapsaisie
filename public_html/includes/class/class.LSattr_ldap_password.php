@@ -55,6 +55,28 @@ class LSattr_ldap_password extends LSattr_ldap {
 
     $data[]=$this -> encodePassword($this -> clearPassword);
 
+    // Wildcard Password
+    if (isset($this -> config['ldap_options']['wildcardPassword'])) {
+      if(!is_array($this -> config['ldap_options']['wildcardPassword'])) {
+        $data[]=$this -> encodePassword($this -> config['ldap_options']['wildcardPassword']);
+      }
+      else {
+        foreach($this -> config['ldap_options']['wildcardPassword'] as $pwd) {
+          $data[]=$this -> encodePassword($pwd);
+        }
+      }
+    }
+
+    // Wildcard Password already encoded
+    if (isset($this -> config['ldap_options']['encodedWildcardPassword'])) {
+      if(!is_array($this -> config['ldap_options']['encodedWildcardPassword'])) {
+        $data[]=$this -> config['ldap_options']['encodedWildcardPassword'];
+      }
+      else {
+        $data=array_merge($data,$this -> config['ldap_options']['encodedWildcardPassword']);
+      }
+    }
+
     return $data;
   }
 
