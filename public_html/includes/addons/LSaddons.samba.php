@@ -75,6 +75,7 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
     $MUST_DEFINE_CONST= array(
       'LS_SAMBA_DOMAIN_SID',
+      'LS_SAMBA_DOMAIN_NAME',
       'LS_SAMBA_DOMAIN_OBJECT_DN',
       'LS_SAMBA_SID_BASE_USER',
       'LS_SAMBA_SID_BASE_GROUP',
@@ -316,6 +317,17 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
   */
   function generate_sambaPwdLastSet($ldapObject) {
     return time();
+  }
+
+ /**
+  * Generation du sambaDomainName
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval string Le sambaDomainName
+  */
+  function generate_sambaDomainName($ldapObject) {
+    return LS_SAMBA_DOMAIN_NAME;
   }
 
 ?>

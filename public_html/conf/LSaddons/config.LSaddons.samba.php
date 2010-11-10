@@ -29,6 +29,9 @@
 // SID du domaine Samba géré
 define('LS_SAMBA_DOMAIN_SID','S-1-5-21-2421470416-3566881284-3047381809');
 
+// Nom du domaine Samba géré (sambaDomainName)
+define('LS_SAMBA_DOMAIN_NAME','LS');
+
 // Le DN de l'objet sambaDomain du domaine
 define('LS_SAMBA_DOMAIN_OBJECT_DN','sambaDomainName=LS,o=ls');
 
