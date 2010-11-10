@@ -330,4 +330,15 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
     return LS_SAMBA_DOMAIN_NAME;
   }
 
+ /**
+  * Generation du sambaHomePath
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval string Le sambaHomePath
+  */
+  function generate_sambaHomePath($ldapObject) {
+    return $ldapObject -> getFData(LS_SAMBA_HOME_PATH_FORMAT);
+  }
+
 ?>
