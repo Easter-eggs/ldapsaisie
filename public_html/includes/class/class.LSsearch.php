@@ -240,7 +240,7 @@ class LSsearch {
     $OK=true;
     
     // Filter
-    if (is_string($params['filter'])) {
+    if (isset($params['filter']) && is_string($params['filter'])) {
       $filter = Net_LDAP2_Filter::parse($params['filter']);
       if (!LSerror::isLdapError($filter)) {
         $this -> params['filter'] = $filter;
@@ -281,7 +281,7 @@ class LSsearch {
       $this -> params['pattern'] = NULL;
       $this -> params['filter'] = NULL;
     }
-    elseif (self :: isValidPattern($params['pattern'])) {
+    elseif (isset($params['pattern']) && self :: isValidPattern($params['pattern'])) {
       $this -> params['pattern'] = $params['pattern'];
       if (!is_string($params['filter'])) {
         $this -> params['filter']=NULL;
@@ -290,7 +290,7 @@ class LSsearch {
     
     
     // BaseDN
-    if (is_string($params['basedn'])) {
+    if (isset($params['basedn']) && is_string($params['basedn'])) {
       if (isCompatibleDNs(LSsession :: getRootDn(),$params['basedn'])) {
         $this -> params['basedn'] = $params['basedn'];
       }
@@ -301,7 +301,7 @@ class LSsearch {
     }
     
     // subDn
-    if (is_string($params['subDn'])) {
+    if (isset($params['subDn']) && is_string($params['subDn'])) {
       if (LSsession :: validSubDnLdapServer($params['subDn'])) {
         $this -> params['subDn'] = $params['subDn'];
       }
@@ -312,7 +312,7 @@ class LSsearch {
     }
     
     // Scope
-    if (is_string($params['scope'])) {
+    if (isset($params['scope']) && is_string($params['scope'])) {
       if (in_array($params['scope'],array('sub','one','base'))) {
         $this -> params['scope'] = $params['scope'];
       }
@@ -348,7 +348,7 @@ class LSsearch {
     }
     
     // Sort Direction
-    if (is_string($params['sortDirection'])) {
+    if (isset($params['sortDirection']) && is_string($params['sortDirection'])) {
       if (in_array($params['sortDirection'],array('ASC','DESC'))) {
         $this -> params['sortDirection'] = $params['sortDirection'];
       }
@@ -359,7 +359,7 @@ class LSsearch {
     }
     
     // Sort By
-    if (is_string($params['sortBy'])) {
+    if (isset($params['sortBy']) && is_string($params['sortBy'])) {
       if (in_array($params['sortBy'],array('displayName','subDn'))) {
         if ($this -> params['sortBy'] == $params['sortBy']) {
           $this -> toggleSortDirection();
@@ -470,12 +470,12 @@ class LSsearch {
     }
     
     // Display Format
-    if (is_string($params['displayFormat'])) {
+    if (isset($params['displayFormat']) && is_string($params['displayFormat'])) {
       $this -> params['displayFormat'] = $params['displayFormat'];
     }
     
     // Custom Infos
-    if (is_array($params['customInfos'])) {
+    if (isset($params['customInfos']) && is_array($params['customInfos'])) {
       foreach($params['customInfos'] as $name => $data) {
         if(is_array($data['function']) && is_string($data['function'][0])) {
           LSsession::loadLSclass($data['function'][0]);
