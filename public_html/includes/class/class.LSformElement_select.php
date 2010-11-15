@@ -55,6 +55,7 @@ class LSformElement_select extends LSformElement {
       LSsession :: addJSscript('LSformElement_select.js');
     }
     $params['possible_values'] = $this -> params['text_possible_values'];
+    $params['unrecognized_value_label_format'] = _("%{value} (unrecognized value)");
     $return['html'] = $this -> fetchTemplate(NULL,$params);
     return $return;
   }
