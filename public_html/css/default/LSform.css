@@ -119,6 +119,11 @@ input[type='submit'].LSform {
   width:                      8em;
 }
 
+li.LSform-errors {
+  color:                      #fff;
+  background-color:           #f59a67;
+}
+
 dd.LSform-errors {
   color:                      #fff;
   background-color:           #f59a67;
