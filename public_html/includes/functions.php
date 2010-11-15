@@ -164,6 +164,11 @@ function _getFData_extractAndModify($data,$ch) {
   return $val;
 }
 
+function smarty_getFData($params) {
+    extract($params);
+    echo getFData($format,$data,$meth=NULL);
+}
+
 function getFieldInFormat($format) {
   $fields=array();
   $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?}";

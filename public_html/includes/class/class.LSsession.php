@@ -148,6 +148,8 @@ class LSsession {
           $GLOBALS['Smarty'] -> debugging = true; 
         }
       }
+
+      $GLOBALS['Smarty'] -> register_function('getFData','smarty_getFData');
       
       $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
       $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
