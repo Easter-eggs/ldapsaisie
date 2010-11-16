@@ -1796,7 +1796,7 @@ class LSsession {
       if (($right=='r')||($right=='w')) {
         foreach($whoami as $who) {
           foreach ($attrs_conf as $attr_name => $attr_config) {
-            if ($attr_config['rights'][$who]==$right) {
+            if (isset($attr_config['rights'][$who]) && $attr_config['rights'][$who]==$right) {
               return true;
             }
           }
@@ -1805,7 +1805,7 @@ class LSsession {
       else {
         foreach($whoami as $who) {
           foreach ($attrs_conf as $attr_name => $attr_config) {
-            if ( ($attr_config['rights'][$who]=='r') || ($attr_config['rights'][$who]=='w') ) {
+            if ( (isset($attr_config['rights'][$who])) && ( ($attr_config['rights'][$who]=='r') || ($attr_config['rights'][$who]=='w') ) ) {
               return true;
             }
           }
