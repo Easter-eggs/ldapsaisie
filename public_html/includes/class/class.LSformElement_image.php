@@ -46,6 +46,7 @@ class LSformElement_image extends LSformElement {
   function getDisplay(){
     LSsession :: addCssFile('LSformElement_image.css');
     $return = true;
+    $id=$this -> name.'_'.rand();
     if (!$this -> isFreeze()) {
       LSsession :: addHelpInfos(
         'LSformElement_date',
@@ -54,7 +55,6 @@ class LSformElement_image extends LSformElement {
           'delete' => _('Click to delete the picture.')
         )
       );
-      $id=$this -> name.'_'.rand();
       $return = $this -> getLabelInfos();
       $return['html'] = $this -> fetchTemplate(NULL,array('id' => 'LSformElement_image_input_'.$id));
       $this -> form -> setMaxFileSize(MAX_SEND_FILE_SIZE);
