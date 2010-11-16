@@ -252,7 +252,7 @@ class LSformElement {
    * @retval boolean True si le champ est à valeur multiple, False sinon
    */
   function isMultiple() {
-    return ($this -> params['multiple'] == true);
+    return ( (isset($this -> params['multiple']))?($this -> params['multiple'] == true):false );
   }
   
  /**
