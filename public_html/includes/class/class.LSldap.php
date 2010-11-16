@@ -293,9 +293,14 @@ class LSldap {
           $dropAttr[] = $attrName;
         }
       }
-      $entry -> replace($changeData);
-      LSdebug('change : <pre>'.print_r($changeData,true).'</pre>');
-      LSdebug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
+      if (isset($changeData)) {
+        $entry -> replace($changeData);
+        LSdebug('change : <pre>'.print_r($changeData,true).'</pre>');
+        LSdebug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
+      }
+      else {
+        LSdebug('No change');
+      }
 
       if ($new) {
         LSdebug('LSldap :: add()');
