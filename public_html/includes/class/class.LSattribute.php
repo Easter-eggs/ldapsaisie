@@ -451,7 +451,7 @@ class LSattribute {
    * @retval boolean true si l'attribut est obligatoire, false sinon
    */
   function isRequired() {
-    return $this -> config['required'];
+    return (isset($this -> config['required'])?(bool)$this -> config['required']:false);
   }
   
   /**
