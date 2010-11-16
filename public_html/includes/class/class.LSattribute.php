@@ -646,7 +646,7 @@ class LSattribute {
       }
     }
     
-    if (is_array($this -> _events[$event])) {
+    if (isset($this -> _events[$event]) && is_array($this -> _events[$event])) {
       foreach ($this -> _events[$event] as $e) {
         if ($e['class']) {
           if (class_exists($e['class'])) {
@@ -688,7 +688,7 @@ class LSattribute {
       }
     }
     
-    if (is_array($this -> _objectEvents[$event])) {
+    if (isset($this -> _objectEvents[$event]) && is_array($this -> _objectEvents[$event])) {
       foreach ($this -> _objectEvents[$event] as $e) {
         if (method_exists($e['obj'],$e['meth'])) {
           try {
