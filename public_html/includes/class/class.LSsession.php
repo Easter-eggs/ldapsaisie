@@ -1876,7 +1876,7 @@ class LSsession {
     if (($right=='w') || ($right=='r')) {
       $r = 'n';
       foreach($whoami as $who) {
-        $nr = $relConf['rights'][$who];
+        $nr = ((isset($relConf['rights'][$who]))?$relConf['rights'][$who]:'');
         if($nr == 'w') {
           $r = 'w';
         }
@@ -1893,7 +1893,7 @@ class LSsession {
     }
     else {
       foreach($whoami as $who) {
-        if (($relConf['rights'][$who] == 'w') || ($relConf['rights'][$who] == 'r')) {
+        if ((isset($relConf['rights'][$who])) && ( ($relConf['rights'][$who] == 'w') || ($relConf['rights'][$who] == 'r') ) ) {
           return true;
         }
       }
