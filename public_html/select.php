@@ -92,7 +92,7 @@ if(LSsession :: startLSsession()) {
         $GLOBALS['Smarty']->assign('LSview_actions',$LSview_actions);
         
         $LSsearch -> run();
-        $page=(int)$_REQUEST['page'];
+        $page=(isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
         $page = $LSsearch -> getPage($page);
         $GLOBALS['Smarty']->assign('page',$page);
         $GLOBALS['Smarty']->assign('LSsearch',$LSsearch);
