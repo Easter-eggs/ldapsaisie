@@ -150,7 +150,7 @@ class LSsearch {
    */
   private function loadParamsFromSession() {
     LSdebug('LSsearch : load context params session '.$this -> context);
-    if (is_array($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context])) {
+    if (isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context]) && is_array($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context])) {
       $params = $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context];
       
       if ($params['filter']) {
