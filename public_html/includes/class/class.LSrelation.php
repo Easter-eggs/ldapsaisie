@@ -192,6 +192,7 @@ class LSrelation {
                       if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
                         $list = $objRel -> $relationConf['list_function']($object);
                         if (is_array($list)&&(!empty($list))) {
+                          $data['html']="";
                           foreach($list as $o) {
                             if (isset($relationConf['canEdit_function'])) {
                               if ($o -> $relationConf['canEdit_function']()) {
