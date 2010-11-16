@@ -54,7 +54,7 @@ class LSformElement_mail extends LSformElement_text {
     if (LSsession :: loadLSclass('LSmail')) {
       LSmail :: loadDependenciesDisplay();
     }
-    return parent :: getDisplay($return);
+    return parent :: getDisplay();
   }
 }
 
