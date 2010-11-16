@@ -25,7 +25,7 @@ require_once 'core.php';
 if(LSsession :: startLSsession()) {
   if (isset($_REQUEST['LSobject'])) {
     $LSobject = $_REQUEST['LSobject'];
-    $dn = $_REQUEST['dn'];
+    $dn = isset($_REQUEST['dn'])?$_REQUEST['dn']:null;
     
     if (LSsession :: in_menu($LSobject)) {
     
@@ -140,7 +140,7 @@ if(LSsession :: startLSsession()) {
           
           $LSsearch -> redirectWhenOnlyOneResult();
           
-          $page=(int)$_REQUEST['page'];
+          $page=(isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
           $page = $LSsearch -> getPage($page);
           $GLOBALS['Smarty']->assign('page',$page);
           $GLOBALS['Smarty']->assign('LSsearch',$LSsearch);
