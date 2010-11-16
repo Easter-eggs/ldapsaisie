@@ -2145,7 +2145,7 @@ class LSsession {
    */
   public static function addHelpInfos($group,$infos) {
     if (is_array($infos)) {
-      if (is_array(self :: $_JSconfigParams['helpInfos'][$group])) {
+      if (isset(self :: $_JSconfigParams['helpInfos'][$group]) && is_array(self :: $_JSconfigParams['helpInfos'][$group])) {
         self :: $_JSconfigParams['helpInfos'][$group] = array_merge(self :: $_JSconfigParams['helpInfos'][$group],$infos);
       }
       else {
