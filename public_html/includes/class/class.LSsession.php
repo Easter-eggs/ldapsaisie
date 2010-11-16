@@ -1601,7 +1601,7 @@ class LSsession {
    */
   private static function loadLSaccess() {
     $LSaccess=array();
-    if (is_array(self :: $ldapServer['subDn'])) {
+    if (isset(self :: $ldapServer['subDn']) && is_array(self :: $ldapServer['subDn'])) {
       foreach(self :: $ldapServer['subDn'] as $name => $config) {
         if ($name=='LSobject') {
           if (is_array($config)) {
