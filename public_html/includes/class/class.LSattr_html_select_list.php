@@ -99,10 +99,10 @@ class LSattr_html_select_list extends LSattr_html{
           }
           
           $param=array(
-            'filter' => $val['filter'],
-            'basedn' => $val['basedn'],
-            'scope' => $val['scope'],
-            'displayFormat' => $val['display_name_format'],
+            'filter' => (isset($val['filter'])?$val['filter']:null),
+            'basedn' => (isset($val['basedn'])?$val['basedn']:null),
+            'scope'  => (isset($val['scope'])?$val['scope']:null),
+            'displayFormat' => (isset($val['display_name_format'])?$val['display_name_format']:null),
           );
           
           
