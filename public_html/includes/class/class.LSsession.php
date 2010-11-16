@@ -2067,7 +2067,7 @@ class LSsession {
    */
   public static function isSubDnLSobject($type) {
     $result = false;
-    if (is_array(self :: $ldapServer['subDn']['LSobject'])) {
+    if (isset(self :: $ldapServer['subDn']['LSobject']) && is_array(self :: $ldapServer['subDn']['LSobject'])) {
       foreach(self :: $ldapServer['subDn']['LSobject'] as $key => $value) {
         if ($key==$type) {
           $result=true;
