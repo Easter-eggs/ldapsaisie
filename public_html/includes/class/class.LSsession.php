@@ -1518,7 +1518,7 @@ class LSsession {
               if (is_array($rightsInfos)) {
                 foreach ($rightsInfos as $LSobject => $listInfos) {
                   if (self :: loadLSclass('LSsearch')) {
-                    if ($listInfos['filter']) {
+                    if (isset($listInfos['filter'])) {
                       $filter = self :: getLSuserObject() -> getFData($listInfos['filter']);
                     }
                     else {
@@ -1526,11 +1526,11 @@ class LSsession {
                     }
                     
                     $params = array (
-                      'basedn' => $listInfos['basedn'],
+                      'basedn' => (isset($listInfos['basedn'])?$listInfos['basedn']:null),
                       'filter' => $filter
                     );
                     
-                    if (is_array($listInfos['params'])) {
+                    if (isset($listInfos['params']) && is_array($listInfos['params'])) {
                       $params = array_merge($listInfos['params'],$params);
                     }
                     
