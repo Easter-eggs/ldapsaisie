@@ -297,6 +297,7 @@ class LSattribute {
           }
           break;
         default:
+          if (!isset($this -> config['rights'][$who])) break;
           if ($this -> config['rights'][$who] == 'w') {
             $return='w';
             break;
