@@ -240,18 +240,20 @@ class LSsearch {
     $OK=true;
     
     // Filter
-    if (isset($params['filter']) && is_string($params['filter'])) {
-      $filter = Net_LDAP2_Filter::parse($params['filter']);
-      if (!LSerror::isLdapError($filter)) {
-        $this -> params['filter'] = $filter;
+    if (isset($params['filter'])) {
+      if (is_string($params['filter'])) {
+        $filter = Net_LDAP2_Filter::parse($params['filter']);
+        if (!LSerror::isLdapError($filter)) {
+          $this -> params['filter'] = $filter;
+        }
+        else {
+          LSerror :: addErrorCode('LSsearch_01',$params['filter']);
+          $OK=false;
+        }
       }
-      else {
-        LSerror :: addErrorCode('LSsearch_01',$params['filter']);
-        $OK=false;
+      elseif($params['filter'] instanceof Net_LDAP2_Filter) {
+        $this -> params['filter'] =& $params['filter'];
       }
-    }
-    elseif($params['filter'] instanceof Net_LDAP2_Filter) {
-      $this -> params['filter'] =& $params['filter'];
     }
 
     // Approx
@@ -277,14 +279,16 @@ class LSsearch {
     }
     
     // Patterm
-    if (isset($params['pattern']) && $params['pattern']=="") {
-      $this -> params['pattern'] = NULL;
-      $this -> params['filter'] = NULL;
-    }
-    elseif (isset($params['pattern']) && self :: isValidPattern($params['pattern'])) {
-      $this -> params['pattern'] = $params['pattern'];
-      if (!is_string($params['filter'])) {
-        $this -> params['filter']=NULL;
+    if (isset($params['pattern'])) {
+      if ($params['pattern']=="") {
+        $this -> params['pattern'] = NULL;
+        $this -> params['filter'] = NULL;
+      }
+      elseif (self :: isValidPattern($params['pattern'])) {
+        $this -> params['pattern'] = $params['pattern'];
+        if (!is_string($params['filter'])) {
+          $this -> params['filter']=NULL;
+        }
       }
     }
     
