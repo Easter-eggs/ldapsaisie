@@ -2230,7 +2230,7 @@ class LSsession {
       self :: setLdapServer($_REQUEST['server']);
       $data = array();
       if ( self :: LSldapConnect() ) {
-        session_start();
+        if (session_id()=="") session_start();
         if (isset($_SESSION['LSsession_topDn'])) {
           $sel = $_SESSION['LSsession_topDn'];
         }
