@@ -524,7 +524,7 @@ class LSattribute {
       return  $this -> _finalUpdateData;
     }
     $data=$this -> updateData;
-    if ($this -> config['onSave']) {
+    if (isset($this -> config['onSave'])) {
       if (is_array($this -> config['onSave'])) {
         $result=$data;
         foreach($this -> config['onSave'] as $func) {
