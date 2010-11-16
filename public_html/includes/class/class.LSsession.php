@@ -574,7 +574,7 @@ class LSsession {
       if (self :: LSldapConnect()) {
 
         // topDn
-        if ( $_POST['LSsession_topDn'] != '' ){
+        if (isset($_POST['LSsession_topDn']) && $_POST['LSsession_topDn'] != '' ){
           self :: $topDn = $_POST['LSsession_topDn'];
         }
         else {
