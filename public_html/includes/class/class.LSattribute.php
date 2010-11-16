@@ -172,7 +172,7 @@ class LSattribute {
       return;
     }
     $data = $this -> ldap -> getDisplayValue($this -> data);
-    if ($this -> config['onDisplay']) {
+    if (isset($this -> config['onDisplay'])) {
       if (is_array($this -> config['onDisplay'])) {
         $result=$data;
         foreach($this -> config['onDisplay'] as $func) {
