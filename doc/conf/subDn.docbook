@@ -70,6 +70,7 @@ l'annuaire.
   // Déclaration manuelle
   '[Nom du sous-niveau]' => array(
     'dn' => '[basedn du sous-niveau]',
+    'nologin' => true, // Désactive la connection dans ce subDn
     'LSobjects' => array( // Liste des types d'LSobjets présents dans le sous-niveau
       [LSobject1],
       [LSobject2],
@@ -81,6 +82,7 @@ l'annuaire.
     '[type d'LSobject]' => array( // le type d'LSobjet à lister
       'basedn' => '[basedn]', // Le basedn de la recherche
       'displayValue' => '[format]', // Format du nom des sous-niveaux
+      'nologin' => true, // Désactive la connection dans ces subDn
       'LSobjects' => array( // Liste des types d'LSobjets présents dans les sous-niveaux
         [LSobject1],
         [LSobject2],

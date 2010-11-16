@@ -1032,8 +1032,9 @@ class LSsession {
   *
   * @retval mixed Tableau des subDn, false si une erreur est survenue.
   */
-  public static function getSubDnLdapServer() {
-    if (self :: cacheSudDn() && isset(self :: $_subDnLdapServer[self :: $ldapServerId])) {
+  public static function getSubDnLdapServer($login=false) {
+    $login=(bool)$login;
+    if (self :: cacheSudDn() && isset(self :: $_subDnLdapServer[self :: $ldapServerId][$login])) {
       return self :: $_subDnLdapServer[self :: $ldapServerId];
     }
     if (!self::subDnIsEnabled()) {
@@ -1041,6 +1042,7 @@ class LSsession {
     }
     $return=array();
     foreach(self :: $ldapServer['subDn'] as $subDn_name => $subDn_config) {
+      if ($login && $subDn_config['nologin']) continue;
       if ($subDn_name == 'LSobject') {
         if (is_array($subDn_config)) {
           foreach($subDn_config as $LSobject_name => $LSoject_config) {
@@ -1083,7 +1085,7 @@ class LSsession {
       }
     }
     if (self :: cacheSudDn()) {
-      self :: $_subDnLdapServer[self :: $ldapServerId]=$return;
+      self :: $_subDnLdapServer[self :: $ldapServerId][$login]=$return;
       $_SESSION['LSsession_subDnLdapServer'] = self :: $_subDnLdapServer;
     }
     return $return;
@@ -1095,8 +1097,8 @@ class LSsession {
    * 
    * @return array() Tableau des subDn trié
    */  
-  public static function getSortSubDnLdapServer() {
-    $subDnLdapServer = self :: getSubDnLdapServer();
+  public static function getSortSubDnLdapServer($login=false) {
+    $subDnLdapServer = self :: getSubDnLdapServer($login);
     if (!$subDnLdapServer) {
       return array();
     }
@@ -1112,8 +1114,8 @@ class LSsession {
   *
   * @retval string Les options (<option>) pour la sÃ©lection du topDn.
   */
-  public static function getSubDnLdapServerOptions($selected=NULL) {
-    $list = self :: getSubDnLdapServer();
+  public static function getSubDnLdapServerOptions($selected=NULL,$login=false) {
+    $list = self :: getSubDnLdapServer($login);
     if ($list) {
       asort($list);
       $display='';
@@ -2235,7 +2237,7 @@ class LSsession {
         else {
           $sel = NULL;
         }
-        $list = self :: getSubDnLdapServerOptions($sel);
+        $list = self :: getSubDnLdapServerOptions($sel,true);
         if (is_string($list)) {
           $data['list_topDn'] = "<select name='LSsession_topDn' id='LSsession_topDn'>".$list."</select>";
           $data['subDnLabel'] = self :: getSubDnLabel();
