@@ -61,6 +61,7 @@ class LSconfig {
     if(is_array($vars)) {
       $data=self :: $data;
       foreach ($vars as $v) {
+        if (!isset($data[$v])) return;
         $data=$data[$v];
       }
       return $data;
