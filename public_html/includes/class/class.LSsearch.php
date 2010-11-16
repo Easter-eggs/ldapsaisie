@@ -1104,7 +1104,7 @@ class LSsearch {
    * @retval array The Table of id lines of results sorted
    **/
   function getSortTable() {
-    if ($this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']]) {
+    if (isset($this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']])) {
       return $this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']];
     }
     return range(0,($this -> total-1));
