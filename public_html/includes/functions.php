@@ -234,7 +234,7 @@ function LSdebug($data,$dump=false) {
 
 function LSdebug_print($return=false,$ul=true) {
   if (( $GLOBALS['LSdebug_fields'] ) && (LSdebug)) {
-    if ($ul) $txt='<ul>'; else $ul="";
+    if ($ul) $txt='<ul>'; else $txt="";
     foreach($GLOBALS['LSdebug_fields'] as $debug) {
       if (is_array($debug)||is_object($debug)) {
         $txt.='<li><pre>'.print_r($debug,true).'</pre></li>';
@@ -286,10 +286,9 @@ function LSdebugDefined() {
     $infos2=array_reverse($infos2);
     
     for($i=0;$i<$infos1['count'];$i++) {
-      if(($infos1[$i]==$infos2[$i])||(!isset($infos2[$i])))
-        continue;
-      else
-        return false;
+      if (!isset($infos2[$i])) continue;
+      if($infos1[$i]==$infos2[$i]) continue;
+      return false;
     }
     return true;
   }
