@@ -579,7 +579,7 @@ class LSattribute {
    * @retval array les noms des attributs dépendants
    */
   function getDependsAttrs() {
-    return $this -> config['dependAttrs'];
+    return (isset($this -> config['dependAttrs'])?$this -> config['dependAttrs']:null);
   }
 
   /**
