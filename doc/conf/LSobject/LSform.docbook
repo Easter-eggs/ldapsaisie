@@ -32,7 +32,11 @@ via Ajax ou encore la disposition logique des attributs dans le formulaire.</par
   'ajaxSubmit' => [booléen],
   'layout' => array (
     // Configuration de la disposition logique des attributs
+  ),
+  'dataEntryForm' => array (
+    // Configuration des masques de saisie
   )
+
 );]]>
 </programlisting>
 
@@ -56,6 +60,17 @@ via Ajax ou encore la disposition logique des attributs dans le formulaire.</par
     en les regroupant dans des onglets et en les faisant apparaître dans un
     ordre logique.<link linkend='config-LSobject-LSform-layout'>Voir la section
     concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>dataEntryForm</term>
+  <listitem>
+    <simpara>Tableau contenant la configuration des masques de saisie : il est
+    possible de définir des masques de saisie pour faire en sorte que lors de la
+    création d'un objet, seul un certain nombre d'élements soit demandé à 
+    l'utilisateur. <link linkend='config-LSobject-LSform-dataEntryForm'>Voir la 
+    section concernée.</link></simpara>
   </listitem>
 </varlistentry>
 
@@ -124,5 +139,79 @@ Ainsi, si un attribut est défini dans la configuration de l'objet comme présen
 dans le &LSform; courant, mais que celui-ci n'est pas présent dans le <emphasis>
 layout</emphasis>, il ne sera pas du tout affiché.</simpara></important>
 </sect3>
+
+<sect3 id="config-LSobject-LSform-dataEntryForm">
+<title>Configuration des masques de saisie</title>
+
+<para>La configuration des masques de saisie (<emphasis>dataEntryForm</emphasis>) se situe dans la 
+configuration des &LSobjects;, dans la variable <varname>dataEntryForm</varname>
+(<emphasis>$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSform']['dataEntryForm']</emphasis>).
+Cette variable est un tableau associatif dont la clé est l'identifiant du masque de saisie
+et dont la valeur associée est sa configuration.
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSform']['dataEntryForm'] = array (
+  'masque1' => array(
+    'label' => '[label du masque de saisie]',
+    'disabledLayout' => [booleen], 
+    'displayedElements' => array (
+      'arg1',
+      'arg2',
+      ...
+    ),
+    'defaultValues' => array (
+      'arg3' => [value],
+      'arg4' => [value],
+      ...
+    )
+  ),
+  ...
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>label</term>
+  <listitem>
+    <simpara>Le label du masque de saisie.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>disabledLayout</term>
+  <listitem>
+    <simpara>Active ou non les  <link linkend="config-LSobject-LSform-layout">layouts</link>
+    pour ce masque de saisie.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>displayedElements</term>
+  <listitem>
+    <simpara>Tableau contenant la liste des attributs qui devront être saisie
+    dans le masque de saisie.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>defaultValues</term>
+  <listitem>
+    <simpara>Tableau associatif contenant la liste des valeurs par défaut des
+    attributs. Les valeurs multiples sont possibles en utilisant des
+    tableaux.</simpara>
+    <important><simpara>Les valeurs seront vue comme des valeurs retournées par
+    le formulaire et non comme des valeurs des attribus LDAP eux-même. Ainsi 
+    et par exemple, un attribut traité comme un booléen dans un formulaire pourra
+    prendre comme valeur par défaut <emphasis>yes</emphasis> ou
+    <emphasis>no</emphasis>.</simpara></important>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect3>
+
 
 </sect2>
