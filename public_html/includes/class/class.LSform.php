@@ -130,6 +130,13 @@ class LSform {
     $GLOBALS['Smarty'] -> assign('LSform_header',$LSform_header);
     
     $GLOBALS['Smarty'] -> assign('LSform_fields',$fields);
+
+    $JSconfig = array (
+      'ajaxSubmit' => ((isset($this -> config['LSform']['ajaxSubmit']))?$this -> config['LSform']['ajaxSubmit']:1)
+    );
+
+    LSsession :: addJSconfigParam('LSform_'.$this -> idForm,$JSconfig);
+
     if($this -> can_validate) {
       $GLOBALS['Smarty'] -> assign('LSform_submittxt',$this -> submit);
     }
