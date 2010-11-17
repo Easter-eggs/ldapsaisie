@@ -27,14 +27,15 @@ var LSform = new Class({
           this.params={};
         }
         this._ajaxSubmit=this.params.ajaxSubmit;
+
+        this.warnBox = new LSinfosBox({
+          name: 'LSformWarnBox',
+          fxDuration: 600,
+          closeBtn: 1,
+          autoClose: 0
+        });
+
         if ($type(this.params.warnings)) {
-          this.warnBox = new LSinfosBox({
-            name: 'LSformWarnBox',
-            fxDuration: 600,
-            closeBtn: 1,
-            autoClose: 0
-          });
-          
           this.warnTxt = '<ul>';
           this.params.warnings.each(function(w) {
             this.warnTxt +='<li>'+w+'</li>';
@@ -271,6 +272,15 @@ var LSform = new Class({
             li.addClass('LSform_layout_errors');
           }
         }
+      }
+      else {
+        this.tmp=name+" :</br><ul>";
+        errors = new Array(errors);
+        errors.each(function(error){
+          this.tmp += "<li>"+error+"</li>";
+        },this);
+        this.tmp +="</ul>";
+        this.warnBox.display(this.tmp);
       }
     }
 });
