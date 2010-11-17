@@ -73,6 +73,11 @@ if (loadDir('../'.LS_OBJECTS_DIR)) {
         add($lay['label']);
       }
     }
+    if (is_array($conf['LSform']['dataEntryForm'])) {
+      foreach($conf['LSform']['dataEntryForm'] as $def) {
+        add($def['label']);
+      }
+    }
     // LSsearch
     if (is_array($conf['LSsearch']['predefinedFilters'])) {
       foreach($conf['LSsearch']['predefinedFilters'] as $lay) {
