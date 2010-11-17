@@ -45,6 +45,8 @@ class LSform {
   
   var $maxFileSize = NULL;
 
+  var $warnings = array();
+
   /**
    * Constructeur
    *
@@ -134,6 +136,10 @@ class LSform {
     $JSconfig = array (
       'ajaxSubmit' => ((isset($this -> config['LSform']['ajaxSubmit']))?$this -> config['LSform']['ajaxSubmit']:1)
     );
+
+    if (!empty($this -> warnings)) {
+      $JSconfig['warnings']=$this -> warnings;
+    }
 
     LSsession :: addJSconfigParam('LSform_'.$this -> idForm,$JSconfig);
 
@@ -549,6 +555,16 @@ class LSform {
     $this -> maxFileSize = $size;
   }
 
+   /**
+    * Ajoute un avertissement au sujet du formulaire
+    *
+    * @param[in] $txt string Le texte de l'avertissement
+    *
+    * @retval void
+    **/
+   function addWarning($txt) {
+     $this -> warnings[]=$txt;
+   }
 
   /**
    * Méthode Ajax permetant de retourner le code HTML d'un élément du formulaire vide

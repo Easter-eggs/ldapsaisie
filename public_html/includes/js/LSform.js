@@ -27,6 +27,21 @@ var LSform = new Class({
           this.params={};
         }
         this._ajaxSubmit=this.params.ajaxSubmit;
+        if ($type(this.params.warnings)) {
+          this.warnBox = new LSinfosBox({
+            name: 'LSformWarnBox',
+            fxDuration: 600,
+            closeBtn: 1,
+            autoClose: 0
+          });
+          
+          this.warnTxt = '<ul>';
+          this.params.warnings.each(function(w) {
+            this.warnTxt +='<li>'+w+'</li>';
+          },this);
+          this.warnTxt += '</ul>';
+          this.warnBox.display(this.warnTxt);
+        }
         LSdebug(this.params);
       }
       
