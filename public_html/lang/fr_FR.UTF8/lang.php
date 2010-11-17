@@ -134,6 +134,9 @@ $GLOBALS['LSlang'] = array (
 "Samba Password (NT)" =>
   "Mot de passe Samba (NT)",
 
+"Simple" =>
+  "Simple",
+
 "The first name must contain alphanumeric values only." =>
   "Le prénom doit contenir uniquement des caractères alpha-numérique.",
 
