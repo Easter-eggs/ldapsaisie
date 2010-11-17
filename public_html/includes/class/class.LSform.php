@@ -550,6 +550,13 @@ class LSform {
   }
 
 
+  /**
+   * Méthode Ajax permetant de retourner le code HTML d'un élément du formulaire vide
+   *
+   * @param[in] &$data Variable de retour
+   *
+   * @retval void
+   **/
   public static function ajax_onAddFieldBtnClick(&$data) {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['fieldId'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
