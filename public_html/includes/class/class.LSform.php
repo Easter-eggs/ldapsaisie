@@ -614,9 +614,4 @@ _("LSfom : Field type unknow (%{type}).")
 LSerror :: defineError('LSform_06',
 _("LSform : Error during the creation of the element '%{element}'.")
 );
-// No longer used
-/*LSerror :: defineError(207,
-_("LSform : No value has been entered into the field '%{element}'.")
-);*/
-
 ?>
