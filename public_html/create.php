@@ -43,6 +43,15 @@ if(LSsession :: startLSsession()) {
         else {
           $form = $object -> getForm('create');
         }
+
+        if (isset($_REQUEST['LSform_dataEntryForm'])) {
+          $form -> applyDataEntryForm((string)$_REQUEST['LSform_dataEntryForm']);
+          $GLOBALS['Smarty'] -> assign('LSform_dataEntryForm',(string)$_REQUEST['LSform_dataEntryForm']);
+        }
+
+        $GLOBALS['Smarty'] -> assign('listAvailableDataEntryForm',array_merge(array(''=>''),LSform :: listAvailableDataEntryForm($LSobject)));
+        $GLOBALS['Smarty'] -> assign('DataEntryFormLabel',_('Data entry form'));
+
         if ($form->validate()) {
           // Data update for LDAP object
           if ($object -> updateData('create')) {

@@ -44,6 +44,11 @@ var LSform = new Class({
           this.warnBox.display(this.warnTxt);
         }
         LSdebug(this.params);
+
+        this.listAvailableDataEntryForm=$('LSform_listAvailableDataEntryForm');
+        if ($type(this.listAvailableDataEntryForm)) {
+          this.listAvailableDataEntryForm.addEvent('change',this.onListAvailableDataEntryFormChange.bind(this));
+        }
       }
       
       LSforms = $$('form.LSform');
@@ -282,6 +287,14 @@ var LSform = new Class({
         this.tmp +="</ul>";
         this.warnBox.display(this.tmp);
       }
+    },
+
+    onListAvailableDataEntryFormChange: function() {
+      var url=window.location.pathname+"?LSobject="+this.objecttype
+      if (this.listAvailableDataEntryForm.value!="") {
+        url+="&LSform_dataEntryForm="+this.listAvailableDataEntryForm.value;
+      }
+      document.location=url;
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {

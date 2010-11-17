@@ -106,7 +106,27 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'sambaNTPassword'
         )
       )
-    ) // fin Layout
+    ), // fin Layout
+    'dataEntryForm' => array (
+      'simple' => array (
+        'label' => 'Simple',
+        'disabledLayout' => true,
+        'displayedElements' => array (
+          'uid',
+          'personalTitle',
+          'givenName',
+          'sn',
+          'cn',
+          'mail',
+          'userPassword'
+        ),
+        'defaultValues' => array (
+          'description' => 'Create with the simple data entry form',
+          'loginShell' => 'no',
+          'gidNumber' => '102001'
+        )
+      )
+    ) // fin dataEntryForm
   ), // fin LSform
   
   'LSsearch' => array (

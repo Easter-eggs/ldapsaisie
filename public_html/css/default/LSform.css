@@ -147,3 +147,11 @@ div.LSformWarnBox {
   border:                   1px solid #f00!important;
   color:                    #fff!important;
 }
+
+/* -- LSform_listAvailableDataEntryForm -- */
+p.LSform_listAvailableDataEntryForm {
+  margin:                   2px;
+  margin-right:             1em;
+  color:                    #0072b8;
+  float:                    right;
+}

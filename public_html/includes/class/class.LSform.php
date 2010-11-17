@@ -45,6 +45,9 @@ class LSform {
   
   var $maxFileSize = NULL;
 
+  var $dataEntryForm = NULL;
+  var $dataEntryFormConfig = NULL;
+
   var $warnings = array();
 
   /**
@@ -111,19 +114,48 @@ class LSform {
     $GLOBALS['Smarty'] -> assign('LSform_object',$LSform_object);
     
     $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
-    if (is_array($layout_config)) {
-      $GLOBALS['Smarty'] -> assign('LSform_layout',$layout_config);
-      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
+
+    if (!isset($this -> dataEntryFormConfig['disabledLayout']) || $this -> dataEntryFormConfig['disabledLayout']==false) {
+      if (is_array($layout_config)) {
+        $GLOBALS['Smarty'] -> assign('LSform_layout',$layout_config);
+        $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
+      }
     }
     
     $fields = array();
-    foreach($this -> elements as $element) {
-      $field = array();
-      $field = $element -> getDisplay();
-      if (isset($this -> _elementsErrors[$element -> name])) {
-        $field['errors']= $this -> _elementsErrors[$element -> name];
+    if (!isset($this -> dataEntryFormConfig['displayedElements']) && !is_array($this -> dataEntryFormConfig['displayedElements'])) {
+      foreach($this -> elements as $element) {
+        $field = array();
+        $field = $element -> getDisplay();
+        if (isset($this -> _elementsErrors[$element -> name])) {
+          $field['errors']= $this -> _elementsErrors[$element -> name];
+        }
+        $fields[$element -> name] = $field;
       }
-      $fields[$element -> name] = $field;
+    }
+    else {
+      foreach($this -> dataEntryFormConfig['displayedElements'] as $elementName) {
+        if (!isset($this -> elements[$elementName])) {
+          LSerror :: addErrorCode('LSform_09',$elementName);
+          continue;
+        }
+        $element = $this -> elements[$elementName];
+        $field = array();
+        $field = $element -> getDisplay();
+        if (isset($this -> _elementsErrors[$element -> name])) {
+          $field['errors']= $this -> _elementsErrors[$element -> name];
+        }
+        $fields[$element -> name] = $field;
+      }
+      // Add warning for other elements errors
+      foreach(array_keys($this -> elements) as $name) {
+        if (isset($this -> _elementsErrors[$name]) && !isset($fields[$name])) {
+          foreach ($this -> _elementsErrors[$name] as $error) {
+            $this -> addWarning("$name : $error");
+          }
+        }
+      }
+      $LSform_header .= "\t<input type='hidden' name='LSform_dataEntryForm' value='".$this -> dataEntryForm."'/>\n";
     }
     
     if ($this -> maxFileSize) {
@@ -379,10 +411,31 @@ class LSform {
    * @retval boolean true si les valeurs ont bien été récupérées, false sinon.
    */
   function getPostData() {
-    foreach($this -> elements as $element_name => $element) {
-      if( !($element -> getPostData($this -> _postData)) ) {
-        LSerror :: addErrorCode('LSform_02',$element_name);
-        return;
+    if (is_null($this -> dataEntryForm)) {
+      foreach($this -> elements as $element_name => $element) {
+        if( !($element -> getPostData($this -> _postData)) ) {
+          LSerror :: addErrorCode('LSform_02',$element_name);
+          return;
+        }
+      }
+    }
+    else {
+      $elementsList = $this -> dataEntryFormConfig['displayedElements'];
+      if (isset($this -> dataEntryFormConfig['defaultValues']) && is_array($this -> dataEntryFormConfig['defaultValues'])) {
+        $this -> setPostData($this -> dataEntryFormConfig['defaultValues']);
+        $elementsList = array_merge($elementsList,array_keys($this -> dataEntryFormConfig['defaultValues']));
+      }
+
+      foreach($elementsList as $elementName) {
+        if (!isset($this -> elements[$elementName])) {
+          LSerror :: addErrorCode('LSform_09',$elementName);
+          continue;
+        }
+        $element = $this -> elements[$elementName];
+        if( !($element -> getPostData($this -> _postData)) ) {
+          LSerror :: addErrorCode('LSform_02',$element_name);
+          return;
+        }
       }
     }
     return true;
@@ -555,6 +608,54 @@ class LSform {
     $this -> maxFileSize = $size;
   }
 
+  /**
+   * Applique un masque de saisie au formulaire
+   *
+   * @param[in] $dataEntryForm string Le nom du masque de saisie
+   *
+   * @retval boolean True si le masque de saisie a été appliqué, False sinon
+   **/
+   function applyDataEntryForm($dataEntryForm) {
+     $dataEntryForm=(string)$dataEntryForm;
+     $objType = $this -> ldapObject -> getType();
+     $config=LSconfig :: get("LSobjects.".$objType.".LSform.dataEntryForm.".$dataEntryForm);
+     if (is_array($config)) {
+       if (!is_array($config['displayedElements'])) {
+         LSerror :: addErrorCode('LSform_08',$dataEntryForm);
+       }
+       $this -> dataEntryForm       = $dataEntryForm;
+       $this -> dataEntryFormConfig = $config;
+       return true;
+     }
+     LSerror :: addErrorCode('LSform_07',$dataEntryForm);
+     return;
+   }
+
+   /**
+    * Liste les dataEntryForm disponible pour un type d'LSldapObject
+    *
+    * @param[in] $type string Le type d'LSldapObject
+    *
+    * @retval array Tableau contenant la liste de dataEntryForm disponible pour ce type d'LSldapObject (nom => label)
+    **/
+    public static function listAvailableDataEntryForm($type) {
+      $retval=array();
+      if (LSsession ::loadLSobject($type)) {
+        $config=LSconfig :: get("LSobjects.".$type.".LSform.dataEntryForm");
+        if (is_array($config)) {
+          foreach($config as $name => $conf) {
+            if (isset($conf['label'])) {
+              $retval[$name]=__($conf['label']);
+            }
+            else {
+              $retval[$name]=__($name);
+            }
+          }
+        }
+      }
+      return $retval;
+    }
+
    /**
     * Ajoute un avertissement au sujet du formulaire
     *
@@ -613,5 +714,14 @@ _("LSfom : Field type unknow (%{type}).")
 );
 LSerror :: defineError('LSform_06',
 _("LSform : Error during the creation of the element '%{element}'.")
+);
+LSerror :: defineError('LSform_07',
+_("LSform : The data entry form %{name} doesn't exist.")
+);
+LSerror :: defineError('LSform_08',
+_("LSform : The data entry form %{name} is not correctly configured.")
+);
+LSerror :: defineError('LSform_09',
+_("LSform : The element %{name}, listed as displayed in data entry form configuration, doesn't exist.")
 );
 ?>
