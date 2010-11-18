@@ -24,8 +24,13 @@
 require_once('../core.php');
 require_once('../conf/config.inc.php');
 
-if (isset($argv[2]) && is_file($argv[2])) {
-  @include($argv[2]);
+if ($argc > 1) {
+  for ($i=1;$i<$argc;$i++) {
+    if (is_file($argv[$i])) {
+	echo $argv[$i];
+      @include($argv[$i]);
+    }
+  }
 }
 
 $data=array();
