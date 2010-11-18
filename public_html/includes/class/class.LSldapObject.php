@@ -1058,6 +1058,18 @@ class LSldapObject {
   }
 
   /**
+   * Ajoute une valeur dans le tableau $this -> other_values
+   *
+   * @param[in] $name string Le nom de la valeur
+   * @param[in] $value mixed La valeur
+   *
+   * @retval void
+   **/
+  function registerOtherValue($name,$value) {
+    $this -> other_values[$name]=$value;
+  }
+
+  /**
    * Retourn un tableau pour un select d'un objet du mÃªme type
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
