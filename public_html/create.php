@@ -49,7 +49,7 @@ if(LSsession :: startLSsession()) {
           $GLOBALS['Smarty'] -> assign('LSform_dataEntryForm',(string)$_REQUEST['LSform_dataEntryForm']);
         }
 
-        $GLOBALS['Smarty'] -> assign('listAvailableDataEntryForm',array_merge(array(''=>''),LSform :: listAvailableDataEntryForm($LSobject)));
+        $GLOBALS['Smarty'] -> assign('listAvailableDataEntryForm',LSform :: listAvailableDataEntryForm($LSobject));
         $GLOBALS['Smarty'] -> assign('DataEntryFormLabel',_('Data entry form'));
 
         if ($form->validate()) {
