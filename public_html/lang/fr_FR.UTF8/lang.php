@@ -170,9 +170,11 @@ $GLOBALS['LSlang'] = array (
   "Votre nouveau mot de passe : %{mdp}",
 
 "Your password has been changed.
-New password : %{mdp}" =>
-  "Votre mot de passe a été modifié.
-Nouveau mot de passe : %{mdp}",
+Login : %{uid}
+New password : %{password}" =>
+  "Votre mot de passe a été changé.
+Identifiant : %{uid}
+Nouveau mot de passe : %{password}",
 
 "Your password must contain from 8 to 10 characters." =>
   "Votre mot de passe doit contenir entre 8 et 10 caractères.",
