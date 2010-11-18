@@ -498,7 +498,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'send' => 1,
           'ask' => 1,
           'subject' => "LSexample : Your new credentials.",
-          'msg' => "Your password has been changed.\nNew password : %{mdp}",
+          'msg' => "Your password has been changed.\nLogin : %{uid}\nNew password : %{password}",
           'mail_attr' => 'mail'
         )
       ),

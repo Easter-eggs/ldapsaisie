@@ -79,7 +79,7 @@ class LSformElement_password extends LSformElement {
         LSdebug ('send by config');
       }
       if ($this -> sendMail && LSsession :: loadLSaddon('mail')) {
-        $msg = getFData($this -> params['html_options']['mail']['msg'],$return[$this -> name][0]);
+        $msg = $this -> params['html_options']['mail']['msg'];
         $subject = $this -> params['html_options']['mail']['subject'];
         if (isset($_POST['LSformElement_password_'.$this -> name.'_msg'])) {
           $msgInfos = json_decode($_POST['LSformElement_password_'.$this -> name.'_msg']);
@@ -87,7 +87,7 @@ class LSformElement_password extends LSformElement {
             $subject = $msgInfos -> subject;
           }
           if ($msgInfos -> msg) {
-            $msg = getFData($msgInfos -> msg,$return[$this -> name][0]);
+            $msg = $msgInfos -> msg;
           }
           if ($msgInfos -> mail) {
             $mail = $msgInfos -> mail;
@@ -96,7 +96,8 @@ class LSformElement_password extends LSformElement {
         $this -> sendMail = array (
           'subject' => $subject,
           'msg' => $msg,
-          'mail' => $mail
+          'mail' => $mail,
+          'pwd' => $return[$this -> name][0]
         );
         $this -> attr_html -> attribute -> addObjectEvent('after_modify',$this,'send');
       }
@@ -181,10 +182,12 @@ class LSformElement_password extends LSformElement {
       }
               
       if (checkEmail($mail,NULL,true)) {
+        $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password',$this -> sendMail['pwd']);
+        $msg = $this -> attr_html -> attribute -> ldapObject -> getFData($this -> sendMail['msg']);
         if (sendMail(
           $mail,
           $this -> sendMail['subject'],
-          $this -> sendMail['msg']
+          $msg
         )) {
           LSsession :: addInfo(_('Notice mail sent.'));
         }
