@@ -43,6 +43,7 @@
   
   'label' => 'objet1',  
   'display_name_format' => '[format]',
+  'displayAttrName' => '[booleen]',
   
   // LSrelation
   'LSrelation' => array(
@@ -183,6 +184,14 @@
     <simpara><link linkend="config-LSformat">Format paramètrable</link> du nom
     des objets composés à partir des valeurs d'affichage des attributs de l'objet.
     </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>displayAttrName</term>
+  <listitem>
+    <simpara>Booléen définissant si le nom des attributs doit être affiché en
+    préfixe de leur message d'aide (paramètre <parameter>help_info</parameter>).</simpara>
   </listitem>
 </varlistentry>
 

@@ -17,7 +17,8 @@
   /* ----------- start -----------*/
   'attr1' => array (
     'label' => '[label de l'attr1',
-    'help_info' => '[Message d'aide sur l'attribut attr1',
+    'displayAttrName' => '[booleen]',
+    'help_info' => '[Message d'aide sur l'attribut attr1]',
     'ldap_type' => 'ldaptype1',
     'ldap_options' => array(
       // Options LDAP liées au type LDAP de l'attribut
@@ -73,6 +74,13 @@
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>displayAttrName</term>
+  <listitem>
+    <simpara>Booléen définissant si le nom de l'attribut doit être affiché en
+    préfixe du message d'aide (paramètre <parameter>help_info</parameter>).</simpara>
+  </listitem>
+</varlistentry>
 
 <varlistentry>
   <term>help_info</term>
