@@ -154,7 +154,7 @@ class LSformElement_password extends LSformElement {
     return $return;
   }
   
-  function generatePassword($param=NULL) {
+  function generatePassword($params=NULL) {
     return generatePassword($params['html_options']['chars'],$params['html_options']['lenght']);
   }
   
