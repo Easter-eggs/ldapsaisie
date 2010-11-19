@@ -436,11 +436,17 @@ function LSdebugDefined() {
       return 1;
   }
   
-  function LSlog($msg) {
+  function LSlog($msg,$dump=false) {
     if ($GLOBALS['LSlog']['enable']) {
       global $LSlogFile;
       if (!$LSlogFile) {
         $LSlogFile=fopen($GLOBALS['LSlog']['filename'],'a');
+      }
+      if ($dump) {
+        $msg=varDump($msg);
+      }
+      else if (is_array($msg)||is_object($msg)) {
+        $msg = print_r($msg,true);
       }
       fwrite($LSlogFile,$_SERVER['REQUEST_URI']." : ".$msg."\n");
     }
