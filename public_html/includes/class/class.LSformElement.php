@@ -189,9 +189,17 @@ class LSformElement {
         $return['required']=true;
     }
     $return['label'] = $this -> getLabel();
-    if (isset($this -> params['help_info'])) {
-      $return['help_info']=__($this -> params['help_info']);
+    $help_info = "";
+    if ( (isset($this -> params['displayAttrName']) && $this -> params['displayAttrName']) || (isset($this -> attr_html -> attribute -> ldapObject -> config['displayAttrName']) && $this -> attr_html -> attribute -> ldapObject -> config['displayAttrName']) ) {
+      $help_info=_("Attribute")." : ".$this -> name."\n";
     }
+    if (isset($this -> params['help_info'])) {
+      if (!empty($help_info)) $help_info .= " - ";
+      $help_info.=__($this -> params['help_info']);
+    }
+    if (!empty($help_info))
+      $return['help_info'] = $help_info;
+
     return $return;
   }
 
