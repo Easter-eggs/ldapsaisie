@@ -30,107 +30,103 @@
 class LSauth {
   
   static private $authData=NULL;
+  static private $authObject=NULL;
+  static private $config=array();
+  static private $provider=NULL;
   
-  var $params = array (
+  static private $params = array (
     'displayLoginForm' => true,
     'displayLogoutBtn' => true
   );
-  
-  /**
-   * Check Post Data
-   * 
-   * @retval boolean True if post data permit the authentification or False
-   **/
-  public function getPostData() {
-    if (isset($_POST['LSsession_user']) && !empty($_POST['LSsession_user'])) {
-      $this -> authData = array(
-        'username' => $_POST['LSsession_user'],
-        'password' => $_POST['LSsession_pwd'],
-        'ldapserver' => $_POST['LSsession_ldapserver'],
-        'topDn' => $_POST['LSsession_topDn']
-      );
+
+  function start() {
+		LSdebug('LSauth :: start()');
+    // Load Config
+    if (isset(LSsession :: $ldapServer['LSauth']) && is_array(LSsession :: $ldapServer['LSauth'])) {
+      self :: $config = LSsession :: $ldapServer['LSauth'];
+    }
+    if (!LSsession :: loadLSclass('LSauthMethod')) {
+			LSdebug('LSauth :: Failed to load LSauthMethod');
+			return;
+		}
+    if (!isset(self :: $config['method'])) {
+      self :: $config['method']='basic';
+    }
+    $class='LSauthMethod_'.self :: $config['method'];
+    LSdebug('LSauth : provider -> '.$class);
+    if (LSsession :: loadLSclass($class)) {
+      self :: $provider = new $class();
+      if (!self :: $provider) {
+        LSerror :: addErrorCode('LSauth_05',self :: $config['method']);
+      }
+      LSdebug('LSauth : Provider Started !');
       return true;
     }
-    return;
-  }
-  
-  /**
-   * Check user login
-   *
-   * @param[in] $username The username
-   * @param[in] $password The password
-   *
-   * @retval LSldapObject|false The LSldapObject of the user authificated or false 
-   */
-  public function authenticate() {
-    if (LSsession :: loadLSobject(LSsession :: $ldapServer['authObjectType'])) {
-      $authobject = new LSsession :: $ldapServer['authObjectType']();
-      $result = $authobject -> searchObject(
-        $this -> authData['username'],
-        LSsession :: getTopDn(),
-        LSsession :: $ldapServer['authObjectFilter']
-      );
-      $nbresult=count($result);
-      
-      if ($nbresult==0) {
-        // identifiant incorrect
-        LSdebug('identifiant incorrect');
-        LSerror :: addErrorCode('LSauth_01');
-      }
-      else if ($nbresult>1) {
-        // duplication d'authentité
-        LSerror :: addErrorCode('LSauth_02');
-      }
-      elseif ( $this -> checkUserPwd($result[0],$this -> authData['password']) ) {
-        // Authentication succeeded
-        return $result[0];
-      }
-      else {
-        LSerror :: addErrorCode('LSauth_01');
-        LSdebug('mdp incorrect');
-      }
-    }
     else {
-      LSerror :: addErrorCode('LSauth_03');
+      LSerror :: addErrorCode('LSauth_04',self :: $config['method']);
+      return;
     }
-    return;
   }
   
- /**
-  * Test un couple LSobject/pwd
-  *
-  * Test un bind sur le serveur avec le dn de l'objet et le mot de passe fourni.
-  *
-  * @param[in] LSobject L'object "user" pour l'authentification
-  * @param[in] string Le mot de passe à tester
-  *
-  * @retval boolean True si l'authentification à réussi, false sinon.
-  */
-  public static function checkUserPwd($object,$pwd) {
-    return LSldap :: checkBind($object -> getValue('dn'),$pwd);
-  }
-  
-  /**
-   * Define if login form can be displayed or not
-   * 
-   * @retval boolean
-   **/
-  public function __get($key) {
-    if ($key=='params') {
-      return $this -> params;
-    }
-    return;
-  }
-  
+  function forceAuthentication() {
+		LSdebug('LSauth :: forceAuthentication()');
+		if (!is_null(self :: $provider)) {
+			self :: $authData = self :: $provider -> getAuthData();
+			if (self :: $authData) {
+				self :: $authObject = self :: $provider -> authenticate();
+				return self :: $authObject;
+			}
+			// No data : user has not filled the login form
+			LSdebug('LSauth : No data -> user has not filled the login form');
+			return;
+		}
+		LSerror :: addErrorCode('LSauth_06');
+		return;
+	}
+
  /**
   * Logout
   * 
   * @retval void
   **/
   public function logout() {
-     // Do nothing in the standard LSauth class
+     if (!is_null(self :: $provider)) {
+			return self :: $provider -> logout();
+		}
+		LSerror :: addErrorCode('LSauth_06');
+		return;
   }
+
+ /**
+  * Disable logout button in LSauth parameters
+  * 
+  * @retval void
+  **/
+  public function disableLogoutBtn() {
+		self :: $params['displayLogoutBtn'] = false;
+	}
+
+ /**
+  * Can display or not logout button in LSauth parameters
+  * 
+  * @retval boolean
+  **/	
+	public function displayLogoutBtn() {
+		return self :: $params['displayLogoutBtn'];
+	}
   
+  /*
+   * For compatibillity until loginForm is migrated in LSauth
+   */
+  public function disableLoginForm() {
+		self :: $params['displayLoginForm'] = false;
+	}
+	
+	public function displayLoginForm() {
+		return self :: $params['displayLoginForm'];
+	}
+	
+
 }
 
 /*
@@ -143,6 +139,19 @@ LSerror :: defineError('LSauth_02',
 _("LSauth : Impossible to identify you : Duplication of identities.")
 );
 LSerror :: defineError('LSauth_03',
-_("LSsession : Could not load type of identifiable objects.")
+_("LSauth : Could not load type of identifiable objects.")
 );
+LSerror :: defineError('LSauth_04',
+_("LSauth : Can't load authentication method %{method}.")
+);
+LSerror :: defineError('LSauth_05',
+_("LSauth : Failed to build the authentication provider %{method}.")
+);
+LSerror :: defineError('LSauth_06',
+_("LSauth : Not correctly initialized.")
+);
+LSerror :: defineError('LSauth_07',
+_("LSauth : Failed to get authentication informations from provider.")
+);
+
 ?>

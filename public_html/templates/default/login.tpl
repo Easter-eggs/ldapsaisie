@@ -25,9 +25,9 @@
   <dt class='loginform-level' id='LSsession_topDn_label' {$loginform_ldapserver_style}>{$loginform_label_level}</dt>
   <dd class='loginform-level' {$loginform_ldapserver_style}><select name='LSsession_topDn' id='LSsession_topDn'>{html_options values=$loginform_topdn_index output=$loginform_topdn_name selected=$topDn}</select></dd>
   <dt>{$loginform_label_user}</dt>
-  <dd><input type='text' name='LSsession_user' /></dd>
+  <dd><input type='text' name='LSauth_user' /></dd>
   <dt>{$loginform_label_pwd}</dt>
-  <dd><input type='password' name='LSsession_pwd' /></dd>
+  <dd><input type='password' name='LSauth_pwd' /></dd>
   <dt class='LSlang_hidden'>{$lang_label}</dt>
   <dd class='LSlang_hidden'>
   <select name='lang'>

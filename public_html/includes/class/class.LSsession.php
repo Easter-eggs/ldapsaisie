@@ -50,9 +50,6 @@ class LSsession {
   // Les droits d'accès de l'utilisateur
   private static $LSaccess = array();
   
-  // Authentification parameters
-  private static $authParams = array();
-  
   // Les fichiers temporaires
   private static $tmp_file = array();
   
@@ -292,23 +289,13 @@ class LSsession {
  /**
   * Chargement d'une classe d'authentification d'LdapSaisie
   *
-  * @param[in] $auth Nom de la classe d'authentification a charger (Exemple : HTTP)
-  *
   * @author Benjamin Renard <brenard@easter-eggs.com
   * 
   * @retval boolean true si le chargement a reussi, false sinon.
   */
-  public static function loadLSauth($auth=false) {
+  public static function loadLSauth() {
     if (self :: loadLSclass('LSauth')) {
-      if ($auth) {
-        if(self :: includeFile(LS_CLASS_DIR .'class.LSauth'.$auth.'.php')) {
-          self :: includeFile(LS_CONF_DIR."LSauth/config.LSauth".$auth.".php");
-          return true;
-        }
-      }
-      else {
-        return true;
-      } 
+      return true;
     }
     else {
       LSerror :: addErrorCode('LSsession_05','LSauth');
@@ -473,6 +460,7 @@ class LSsession {
     
     self :: startLSerror();
     self :: loadLSaddons();
+    self :: loadLSauth();
     return true;
   }
 
@@ -493,16 +481,20 @@ class LSsession {
     }
     
     if(isset($_SESSION['LSsession']['dn']) && !isset($_GET['LSsession_recoverPassword'])) {
-      // Session existante
+      LSdebug('LSsession : Session existente'); 
+      // --------------------- Session existante --------------------- //
       self :: $topDn        = $_SESSION['LSsession']['topDn'];
       self :: $dn           = $_SESSION['LSsession']['dn'];
       self :: $rdn          = $_SESSION['LSsession']['rdn'];
       self :: $ldapServerId = $_SESSION['LSsession']['ldapServerId'];
       self :: $tmp_file     = $_SESSION['LSsession']['tmp_file'];
-      self :: $authParams   = $_SESSION['LSsession']['authParams'];
       
       if ( self :: cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
         self :: setLdapServer(self :: $ldapServerId);
+        if (!LSauth :: start()) {
+          LSdebug("LSsession : can't start LSauth -> stop");
+          return;
+        }
         self :: $LSprofiles   = $_SESSION['LSsession']['LSprofiles'];
         self :: $LSaccess   = $_SESSION['LSsession']['LSaccess'];
         if (!self :: LSldapConnect())
@@ -510,6 +502,10 @@ class LSsession {
       }
       else {
         self :: setLdapServer(self :: $ldapServerId);
+        if (!LSauth :: start()) {
+          LSdebug("LSsession : can't start LSauth -> stop");
+          return;
+        }
         if (!self :: LSldapConnect())
           return;
         self :: loadLSprofiles();
@@ -524,10 +520,7 @@ class LSsession {
       }
       
       if (isset($_GET['LSsession_logout'])) {
-        $authObj = self :: getLSauthObject();
-        if ($authObj) {
-          $authObj -> logout();
-        }
+        LSauth :: logout();
         session_destroy();
         
         if (is_array($_SESSION['LSsession']['tmp_file'])) {
@@ -539,8 +532,6 @@ class LSsession {
         self :: redirect('index.php');
         return;
       }
-      
-      self :: getLSuserObject();
       
       if ( !self :: cacheLSprofiles() || isset($_REQUEST['LSsession_refresh']) ) {
         self :: loadLSaccess();
@@ -559,6 +550,7 @@ class LSsession {
       
     }
     else {
+      // --------------------- Session inexistante --------------------- //
       if (isset($_GET['LSsession_recoverPassword'])) {
         session_destroy();
       }
@@ -581,7 +573,12 @@ class LSsession {
           self :: $topDn = self :: $ldapServer['ldap_config']['basedn'];
         }
         $_SESSION['LSsession_topDn']=self :: $topDn;
-
+       
+        if (!LSauth :: start()) {
+          LSdebug("LSsession : can't start LSauth -> stop");
+          return;
+        }
+        
         if (isset($_GET['LSsession_recoverPassword'])) {
           $recoveryPasswordInfos = self :: recoverPasswd(
                                       $_REQUEST['LSsession_user'],
@@ -589,22 +586,17 @@ class LSsession {
                                    );
         }
         else {
-          $authObj=self :: getLSauthObject();
-          if ($authObj) {
-            if ($authObj -> getPostData()) {
-              $LSuserObject = $authObj -> authenticate();
-              if ($LSuserObject) {
-                // Authentication successful
-                self :: $LSuserObject = $LSuserObject;
-                self :: $dn = $LSuserObject->getValue('dn');
-                self :: $rdn = $LSuserObject->getValue('rdn');
-                self :: loadLSprofiles();
-                self :: loadLSaccess();
-                $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
-                $_SESSION['LSsession']=self :: getContextInfos();
-                return true;
-              }
-            }
+          $LSuserObject = LSauth :: forceAuthentication();
+          if ($LSuserObject) {
+            // Authentication successful
+            self :: $LSuserObject = $LSuserObject;
+            self :: $dn = $LSuserObject->getValue('dn');
+            self :: $rdn = $LSuserObject->getValue('rdn');
+            self :: loadLSprofiles();
+            self :: loadLSaccess();
+            $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
+            $_SESSION['LSsession']=self :: getContextInfos();
+            return true;
           }
         }
       }
@@ -619,7 +611,7 @@ class LSsession {
       if (isset($_GET['LSsession_recoverPassword'])) {
         self :: displayRecoverPasswordForm($recoveryPasswordInfos);
       }
-      elseif(self :: $authParams['displayLoginForm']) {
+      elseif(LSauth :: displayLoginForm()) {
         self :: displayLoginForm();
       }
       else {
@@ -629,32 +621,6 @@ class LSsession {
       return;
     }
   }
-
-  /**
-   * Get LSauthObject
-   * 
-   * @retval LSauth object or false
-   **/
-  private static function getLSauthObject() {
-    if (!self :: $LSauthObject) {
-      if (self :: loadLSauth()) {
-        if (isset(self :: $ldapServer['LSauth']['method'])) {
-          $LSauthClass = 'LSauth'.self :: $ldapServer['LSauth']['method'];
-          if (!self :: loadLSauth(self :: $ldapServer['LSauth']['method'])) {
-            LSerror :: addErrorCode('LSsession_08',self :: $ldapServer['LSauth']['method']);
-            $LSauthClass = 'LSauth';
-          }
-        }
-        else {
-          $LSauthClass = 'LSauth';
-        }
-        
-        self :: $LSauthObject = new $LSauthClass();
-        self :: $authParams = self :: $LSauthObject->params;
-      }
-    }
-    return self :: $LSauthObject;
-  }     
   
   /**
    * Do recover password
@@ -896,8 +862,7 @@ class LSsession {
       'ldapServerId' => self :: $ldapServerId,
       'ldapServer' => self :: $ldapServer,
       'LSprofiles' => self :: $LSprofiles,
-      'LSaccess' => self :: $LSaccess,
-      'authParams' => self :: $authParams
+      'LSaccess' => self :: $LSaccess
     );
   }
   
@@ -1406,7 +1371,7 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('LSencoding',self :: $encoding);
     $GLOBALS['Smarty'] -> assign('lang_label',_('Language'));
     
-    $GLOBALS['Smarty'] -> assign('displayLogoutBtn',self :: $authParams['displayLogoutBtn']);
+    $GLOBALS['Smarty'] -> assign('displayLogoutBtn',LSauth :: displayLogoutBtn());
 
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {

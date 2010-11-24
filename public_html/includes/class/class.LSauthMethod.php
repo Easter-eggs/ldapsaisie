@@ -21,67 +21,61 @@
 ******************************************************************************/
 
 /**
- * Gestion de l'authentification d'un utilisateur suite à une authentification 
- * HTTP
+ * Base of a authentication provider for LSauth
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSauthHTTP extends LSauth {
+class LSauthMethod {
+
+  var $authData = array();
   
-  var $params = array (
-    'displayLoginForm' => false,
-    'displayLogoutBtn' => false
-  );
-  
+  function LSauthMethod() {
+		// Load config
+		LSsession :: includeFile(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
+		LSdebug(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
+		return true;
+	}
+
   /**
-   * Check Post Data
+   * Check Auth Data
    * 
-   * @retval array|False Array of post data if exist or False
+   * Return authentication data or false
+   * 
+   * @retval Array|false Array of authentication data or False
    **/
-  public function getPostData() {
-    if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER'])) {
-      $this -> authData = array(
-        'username' => $_SERVER['PHP_AUTH_USER'],
-        'password' => $_SERVER['PHP_AUTH_PW'],
-        'ldapserver' => $_REQUEST['LSsession_ldapserver'],
-        'topDn' => $_REQUEST['LSsession_topDn']
-      );
-      return true;
-    }
-    return;
+  public function getAuthData() {
+    // Do nothing in the standard LSauthMethod class
+    // This method have to define $this -> authData['username']
+    return false;
   }
   
   /**
-   * Check user login
-   *
-   * @param[in] $username The username
-   * @param[in] $password The password
+   * Check authentication
    *
    * @retval LSldapObject|false The LSldapObject of the user authificated or false 
    */
   public function authenticate() {
     if (LSsession :: loadLSobject(LSsession :: $ldapServer['authObjectType'])) {
       $authobject = new LSsession :: $ldapServer['authObjectType']();
-      $result = $authobject -> searchObject(
-        $this ->  authData['username'],
-        LSsession :: getTopDn(),
-        LSsession :: $ldapServer['authObjectFilter']
-      );
-      $nbresult=count($result);
-      
-      if ($nbresult==0) {
-        // identifiant incorrect
-        LSdebug('identifiant incorrect');
-        LSerror :: addErrorCode('LSauth_01');
-      }
-      else if ($nbresult>1) {
-        // duplication d'authentitÃ©
-        LSerror :: addErrorCode('LSauth_02');
-      }
-      else {
-        // Authentication succeeded
-        return $result[0];
-      }
+			$result = $authobject -> searchObject(
+				$this -> authData['username'],
+				LSsession :: getTopDn(),
+				LSsession :: $ldapServer['authObjectFilter']
+			);
+			$nbresult=count($result);
+			
+			if ($nbresult==0) {
+				// incorrect login
+				LSdebug('identifiant incorrect');
+				LSerror :: addErrorCode('LSauth_01');
+			}
+			else if ($nbresult>1) {
+				// duplication of identity
+				LSerror :: addErrorCode('LSauth_02');
+			}
+			else {
+				return $result[0];
+			}
     }
     else {
       LSerror :: addErrorCode('LSauth_03');
@@ -89,5 +83,16 @@ class LSauthHTTP extends LSauth {
     return;
   }
   
+ /**
+  * Logout
+  * 
+  * @retval boolean True on success or False
+  **/
+  public function logout() {
+     // Do nothing in the standard LSauthMethod class
+     return true;
+  }
+  
 }
+
 ?>
