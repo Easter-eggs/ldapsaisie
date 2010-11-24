@@ -444,7 +444,7 @@ class LSldapObject {
           if((isset($test['filter'])||isset($test['basedn']))&&(isset($test['result']))) {
             $sparams=(isset($test['scope']))?array('scope' => $test['scope']):array();
             $this -> other_values['val']=$val;
-            $sfilter_user=(isset($test['basedn']))?getFData($test['filter'],$this,'getValue'):NULL;
+            $sfilter_user=(isset($test['filter']))?getFData($test['filter'],$this,'getValue'):NULL;
             if(isset($test['object_type'])) {
               $test_obj = new $test['object_type']();
               $sfilter=$test_obj->getObjectFilter();
