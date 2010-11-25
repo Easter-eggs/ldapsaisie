@@ -114,7 +114,7 @@ class LSldapObject {
   function reloadData() {
     $data = LSldap :: getAttrs($this -> dn);
     foreach($this -> attrs as $attr_name => $attr) {
-      if(!$this -> attrs[$attr_name] -> reloadData($data[$attr_name]))
+      if(!$this -> attrs[$attr_name] -> reloadData( (isset($data[$attr_name])?$data[$attr_name]:NULL) ))
         return;
     }
     return true;
