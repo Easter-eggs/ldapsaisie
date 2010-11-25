@@ -1948,7 +1948,7 @@ class LSldapObject {
    **/
   function __get($key) {
     if ($key=='subDnValue') {
-      if ($this -> cache['subDnValue']) {
+      if (isset($this -> cache['subDnValue'])) {
         return $this -> cache['subDnValue'];
       }
       $this -> cache['subDnValue'] = self :: getSubDnValue($this -> dn);
