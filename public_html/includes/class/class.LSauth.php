@@ -36,7 +36,8 @@ class LSauth {
   
   static private $params = array (
     'displayLoginForm' => true,
-    'displayLogoutBtn' => true
+    'displayLogoutBtn' => true,
+    'displaySelfAccess' => true
   );
 
   function start() {
@@ -115,6 +116,24 @@ class LSauth {
 		return self :: $params['displayLogoutBtn'];
 	}
   
+ /**
+  * Disable self access
+  *
+  * @retval void
+  **/
+  public function disableSelfAccess() {
+		self :: $params['displaySelfAccess'] = false;
+	}
+
+ /**
+  * Can display or not self access
+  *
+  * @retval boolean
+  **/
+  public function displaySelfAccess() {
+    return self :: $params['displaySelfAccess'];
+  }
+
   /*
    * For compatibillity until loginForm is migrated in LSauth
    */

@@ -1372,6 +1372,7 @@ class LSsession {
     $GLOBALS['Smarty'] -> assign('lang_label',_('Language'));
     
     $GLOBALS['Smarty'] -> assign('displayLogoutBtn',LSauth :: displayLogoutBtn());
+    $GLOBALS['Smarty'] -> assign('displaySelfAccess',LSauth :: displaySelfAccess());
 
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
@@ -1627,13 +1628,15 @@ class LSsession {
         $LSaccess[self :: $topDn] = $access;
       }
     }
-    foreach($LSaccess as $dn => $access) {
-      $LSaccess[$dn] = array_merge(
-        array(
-          'SELF' => 'My account'
-        ),
-        $access
-      );
+    if (LSauth :: displaySelfAccess()) {
+      foreach($LSaccess as $dn => $access) {
+        $LSaccess[$dn] = array_merge(
+          array(
+            'SELF' => 'My account'
+          ),
+          $access
+        );
+      }
     }
     
     self :: $LSaccess = $LSaccess;
