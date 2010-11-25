@@ -1007,17 +1007,17 @@ class LSsession {
     }
     $return=array();
     foreach(self :: $ldapServer['subDn'] as $subDn_name => $subDn_config) {
-      if ($login && $subDn_config['nologin']) continue;
+      if ($login && isset($subDn_config['nologin']) && $subDn_config['nologin']) continue;
       if ($subDn_name == 'LSobject') {
         if (is_array($subDn_config)) {
           foreach($subDn_config as $LSobject_name => $LSoject_config) {
-            if ($LSoject_config['basedn']) {
+            if (isset($LSoject_config['basedn']) && !empty($LSoject_config['basedn'])) {
               $basedn = $LSoject_config['basedn'];
             }
             else {
               $basedn = self::getRootDn();
             }
-            if ($LSoject_config['displayName']) {
+            if (isset($LSoject_config['displayName']) && !empty($LSoject_config['displayName'])) {
               $displayName = $LSoject_config['displayName'];
             }
             else {
