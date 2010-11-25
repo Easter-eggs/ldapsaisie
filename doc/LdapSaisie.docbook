@@ -15,8 +15,8 @@ book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
   %conf-LSattribute-check_data-entities;
   <!ENTITY % conf-LSaddon-entities SYSTEM "conf/LSaddon/LSaddon.entities.xml">
   %conf-LSaddon-entities;
-  <!ENTITY % conf-LSauth-entities SYSTEM "conf/LSauth/LSauth.entities.xml">
-  %conf-LSauth-entities;
+  <!ENTITY % conf-LSauthMethod-entities SYSTEM "conf/LSauthMethod/LSauthMethod.entities.xml">
+  %conf-LSauthMethod-entities;
 
   <!ENTITY intro SYSTEM "intro/intro.docbook">
   <!ENTITY install SYSTEM "install/install.docbook">

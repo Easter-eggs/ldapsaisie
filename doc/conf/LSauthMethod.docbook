@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sect1 id='config-LSauthMethod'>
+  <title>Configuration des LSauthMethods</title>
+  <para>
+    Cette partie décrit la manière de configurer les méthodes 
+    d'authentification d'&LdapSaisie; appelée &LSauthMethod;. Ces 
+    librairies peuvent avoir un fichier de configuration et il sera alors
+    stocké dans le dossier <literal>conf/LSauth/</literal>.
+  </para>
+  
+  &conf-LSauthMethod_HTTP;
+  &conf-LSauthMethod_CAS;
+  
+</sect1>

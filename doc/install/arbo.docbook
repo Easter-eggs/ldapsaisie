@@ -51,7 +51,7 @@
                 <varlistentry>
                   <term><filename>LSauth/</filename></term>
                   <listitem>
-                    <simpara>Configuration des &LSauth;.</simpara>
+                    <simpara>Configuration des &LSauthMethod;.</simpara>
                   </listitem>
                 </varlistentry>
                 

@@ -1,8 +1,9 @@
-<sect2 id="config-LSauthCAS">
-  <title>LSauthCAS</title>
-  <para>Cet &LSauth; est utilisé pour gérer l'authentification via un
-  service SSO &CAS;. Cette librairie doit être configuré en éditant le 
-  fichier de configiration <literal>conf/LSauth/config.LSauthCAS.php</literal>.</para>
+<sect2 id="config-LSauthMethod_CAS">
+  <title>LSauthMethod_CAS</title>
+  <para>Cette &LSauthMethod; est utilisée pour gérer l'authentification
+  via un service SSO &CAS;. Cette librairie doit être configurée en éditant
+  le fichier de configiration
+  <literal>conf/LSauth/config.LSauthMethod_CAS.php</literal>.</para>
   
 <programlisting linenumbering="unnumbered">
   <citetitle>Structure du fichier</citetitle>/*

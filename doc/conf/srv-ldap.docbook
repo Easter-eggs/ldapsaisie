@@ -85,10 +85,10 @@ serveur LDAP.</para>
 <varlistentry>
   <term>LSauth</term>
   <listitem>
-    <simpara>Définition de la méthode d'authentification &LSauth;. Pour le
+    <simpara>Définition de la méthode d'authentification &LSauthMethod;. Pour le
     moment ce tableau associatif ne contient qu'un paramètre <parameter>
     method</parameter> qui correpond au nom de la librairie d'authentification.
-    Exemple : pour utiliser la classe <literal>LSauthHTTP</literal>, la 
+    Exemple : pour utiliser la classe <literal>LSauthMethod_HTTP</literal>, la
     valeur du paramètre <parameter>method</parameter> sera <literal>HTTP</literal>.
     </simpara>
   </listitem>

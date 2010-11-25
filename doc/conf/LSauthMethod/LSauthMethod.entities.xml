@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!ENTITY conf-LSauthMethod_HTTP SYSTEM "LSauthMethod_HTTP.docbook">
+<!ENTITY conf-LSauthMethod_CAS SYSTEM "LSauthMethod_CAS.docbook">
+
+
+
+
