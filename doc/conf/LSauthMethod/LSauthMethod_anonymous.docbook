@@ -1,0 +1,10 @@
+<sect2 id="config-LSauthMethod_anonymous">
+  <title>LSauthMethod_anonymous</title>
+  <para>Cette &LSauthMethod; est utilisée pour gérer l'authentification
+  automatique des utilisateurs arrivant (équivalent à un mode anonyme). 
+  Cette librairie doit être configurée en éditant le fichier de
+  configuration <literal>conf/LSauth/config.LSauthMethod_anonymous.php</literal>
+  et notament en définissant la constante <parameter>LSAUTHMETHOD_ANONYMOUS_USER</parameter>
+  contenant le login d'un utilisateur dont les droits d'accès seront 
+  endossés par tout les personnes utilisant LdapSaisie.</para>
+</sect2>

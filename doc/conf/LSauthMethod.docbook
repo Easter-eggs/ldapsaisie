@@ -10,5 +10,6 @@
   
   &conf-LSauthMethod_HTTP;
   &conf-LSauthMethod_CAS;
+  &conf-LSauthMethod_anonymous;
   
 </sect1>
