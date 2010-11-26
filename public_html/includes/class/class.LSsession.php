@@ -1000,7 +1000,7 @@ class LSsession {
   public static function getSubDnLdapServer($login=false) {
     $login=(bool)$login;
     if (self :: cacheSudDn() && isset(self :: $_subDnLdapServer[self :: $ldapServerId][$login])) {
-      return self :: $_subDnLdapServer[self :: $ldapServerId];
+      return self :: $_subDnLdapServer[self :: $ldapServerId][$login];
     }
     if (!self::subDnIsEnabled()) {
       return;
@@ -1638,7 +1638,6 @@ class LSsession {
         );
       }
     }
-    
     self :: $LSaccess = $LSaccess;
     $_SESSION['LSsession']['LSaccess'] = $LSaccess;
   }
@@ -2018,9 +2017,9 @@ class LSsession {
     if (!$subDn) {
       $subDn = self :: $topDn;
     }
-    if (self :: getSubDnLdapServer()) {
-      if (isset(self :: $_subDnLdapServer[self :: $ldapServerId][$subDn])) {
-        return self :: $_subDnLdapServer[self :: $ldapServerId][$subDn];
+    if (self :: getSubDnLdapServer(false)) {
+      if (isset(self :: $_subDnLdapServer[self :: $ldapServerId][false][$subDn])) {
+        return self :: $_subDnLdapServer[self :: $ldapServerId][false][$subDn];
       }
     }
     return '';
