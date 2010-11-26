@@ -60,7 +60,7 @@ class LSauthMethod {
 			$result = $authobject -> searchObject(
 				$this -> authData['username'],
 				LSsession :: getTopDn(),
-				LSsession :: $ldapServer['authObjectFilter']
+				(isset(LSsession :: $ldapServer['authObjectFilter'])?LSsession :: $ldapServer['authObjectFilter']:NULL)
 			);
 			$nbresult=count($result);
 			
