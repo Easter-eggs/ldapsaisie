@@ -164,6 +164,7 @@ et dont la valeur associée est sa configuration.
       'arg4' => [value],
       ...
     ),
+    'requiredAllAttributes' => [booleen],
     'requiredAttributes' => array (
       'arg1',
       'arg2',
@@ -221,6 +222,15 @@ et dont la valeur associée est sa configuration.
     Cette liste d'attributs obligatoires viendra en complément de la configuration
     des attributs. Il est ainsi possible de rendre des attributs obligatoires durant la
     saisie d'un masque tout en les laissant facultatif le reste du temps.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>requiredAllAttributes</term>
+  <listitem>
+    <simpara>Si ce parametre vaut <emphasis>True</emphasis>, tout les attributs du masque
+    de saisie seront tous obligatoires de la même manière qu'avec le paramètre
+    <parameter>requiredAttributes</parameter>.</simpara>
   </listitem>
 </varlistentry>
 
