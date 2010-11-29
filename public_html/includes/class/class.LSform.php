@@ -140,6 +140,9 @@ class LSform {
           continue;
         }
         $element = $this -> elements[$elementName];
+        if (isset($this -> dataEntryFormConfig['requiredAttributes']) && is_array($this -> dataEntryFormConfig['requiredAttributes']) && in_array($elementName,$this -> dataEntryFormConfig['requiredAttributes'])) {
+            $element -> setRequired();
+        }
         $field = array();
         $field = $element -> getDisplay();
         if (isset($this -> _elementsErrors[$element -> name])) {
@@ -432,6 +435,9 @@ class LSform {
           continue;
         }
         $element = $this -> elements[$elementName];
+        if (isset($this -> dataEntryFormConfig['requiredAttributes']) && is_array($this -> dataEntryFormConfig['requiredAttributes']) && in_array($elementName,$this -> dataEntryFormConfig['requiredAttributes'])) {
+            $element -> setRequired();
+        }
         if( !($element -> getPostData($this -> _postData)) ) {
           LSerror :: addErrorCode('LSform_02',$element_name);
           return;
