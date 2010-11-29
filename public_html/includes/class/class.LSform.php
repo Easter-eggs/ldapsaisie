@@ -140,7 +140,7 @@ class LSform {
           continue;
         }
         $element = $this -> elements[$elementName];
-        if (isset($this -> dataEntryFormConfig['requiredAttributes']) && is_array($this -> dataEntryFormConfig['requiredAttributes']) && in_array($elementName,$this -> dataEntryFormConfig['requiredAttributes'])) {
+        if ((isset($this -> dataEntryFormConfig['requiredAllAttributes']) && $this -> dataEntryFormConfig['requiredAllAttributes']) || isset($this -> dataEntryFormConfig['requiredAttributes']) && is_array($this -> dataEntryFormConfig['requiredAttributes']) && in_array($elementName,$this -> dataEntryFormConfig['requiredAttributes'])) {
             $element -> setRequired();
         }
         $field = array();
@@ -435,7 +435,7 @@ class LSform {
           continue;
         }
         $element = $this -> elements[$elementName];
-        if (isset($this -> dataEntryFormConfig['requiredAttributes']) && is_array($this -> dataEntryFormConfig['requiredAttributes']) && in_array($elementName,$this -> dataEntryFormConfig['requiredAttributes'])) {
+        if ((isset($this -> dataEntryFormConfig['requiredAllAttributes']) && $this -> dataEntryFormConfig['requiredAllAttributes']) || isset($this -> dataEntryFormConfig['requiredAttributes']) && is_array($this -> dataEntryFormConfig['requiredAttributes']) && in_array($elementName,$this -> dataEntryFormConfig['requiredAttributes'])) {
             $element -> setRequired();
         }
         if( !($element -> getPostData($this -> _postData)) ) {
