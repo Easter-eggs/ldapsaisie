@@ -163,6 +163,11 @@ et dont la valeur associée est sa configuration.
       'arg3' => [value],
       'arg4' => [value],
       ...
+    ),
+    'requiredAttributes' => array (
+      'arg1',
+      'arg2',
+      ...
     )
   ),
   ...
@@ -206,6 +211,16 @@ et dont la valeur associée est sa configuration.
     et par exemple, un attribut traité comme un booléen dans un formulaire pourra
     prendre comme valeur par défaut <emphasis>yes</emphasis> ou
     <emphasis>no</emphasis>.</simpara></important>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>requiredAttributes</term>
+  <listitem>
+    <simpara>Tableau contenant la liste des attributs obligatoires du masque de saisie.
+    Cette liste d'attributs obligatoires viendra en complément de la configuration
+    des attributs. Il est ainsi possible de rendre des attributs obligatoires durant la
+    saisie d'un masque tout en les laissant facultatif le reste du temps.</simpara>
   </listitem>
 </varlistentry>
 
