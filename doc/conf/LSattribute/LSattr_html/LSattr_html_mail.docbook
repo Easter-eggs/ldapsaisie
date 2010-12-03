@@ -3,6 +3,30 @@
   <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
   une adresse e-mail. Il propose directement dans l'interface, la possibilité
   d'envoyer des mails à l'adresse saisie.</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array(
+  'disableMailSending' => [booléen]
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>disableMailSending</term>
+  <listitem>
+    <simpara>Désactive l'envoi de mail depuis l'interface pour cet attribut.</simpara>
+    <note><simpara>Ceci ne désactive pas pour autant le lien HTML de type
+    <emphasis>mailto:</emphasis>. Pour cela, utilisez plutôt le type d'attribut HTML
+     <link linkend='config-LSattr_html_text'>text</link>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
   <important><simpara>Ce type d'attribut HTML est dérivé du type 
   <link linkend='config-LSattr_html_text'>text</link>. Il profite donc de toutes
   les fonctionnalités d'un champ de ce type (autogénération, ...).</simpara>
