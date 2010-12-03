@@ -12,10 +12,14 @@ var LSformElement_mail = new Class({
         el = document;
       }
       el.getElements('input.LSformElement_mail').each(function(input) {
-        this.addBtnAfter.bind(this)(input);
+	if (!input.hasClass('LSformElement_mail_disableMailSending')) {
+          this.addBtnAfter.bind(this)(input);
+        }
       }, this);
       el.getElements('a.LSformElement_mail').each(function(a) {
-        this.addBtnAfter.bind(this)(a);
+        if (!input.hasClass('LSformElement_mail_disableMailSending')) {
+          this.addBtnAfter.bind(this)(a);
+        }
       }, this);
     },
     

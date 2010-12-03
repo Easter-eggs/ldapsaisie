@@ -56,6 +56,13 @@ class LSformElement_mail extends LSformElement_text {
     }
     return parent :: getDisplay();
   }
+
+  function fetchTemplate($template=NULL,$variables=array()) {
+    if (isset($this -> params['html_options']['disableMailSending']) && $this -> params['html_options']['disableMailSending']) {
+      $this -> fetchVariables['uriClass'] .= " LSformElement_mail_disableMailSending";
+    }
+    return  parent :: fetchTemplate($template,$variables);
+  }
 }
 
 ?>
