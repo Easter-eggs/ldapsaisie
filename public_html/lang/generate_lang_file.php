@@ -27,7 +27,6 @@ require_once('../conf/config.inc.php');
 if ($argc > 1) {
   for ($i=1;$i<$argc;$i++) {
     if (is_file($argv[$i])) {
-	echo $argv[$i];
       @include($argv[$i]);
     }
   }
