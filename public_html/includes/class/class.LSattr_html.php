@@ -104,6 +104,18 @@ class LSattr_html {
   function refreshForm($data) {
     return $data;
   }
+
+  /**
+   * Return the values to be displayed in the LSform
+   *
+   * @param[in] $data The values of attribute
+   *
+   * @retval array The values to be displayed in the LSform
+   **/
+  function getFormVal($data) {
+    return $this -> attribute -> getDisplayValue();
+  }
+
 }
 
 /*
