@@ -176,7 +176,7 @@ class LSldapObject {
   /**
    * Chaine formatee
    *
-   * Cette fonction retourne la valeur d'une chaine formatÃ©e en prennant les valeurs
+   * Cette fonction retourne la valeur d'une chaine formatee en prennant les valeurs
    * d'affichage de l'objet.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -186,8 +186,7 @@ class LSldapObject {
    * @retval string Valeur d'une chaine formatee
    */
   function getDisplayFData($format) {
-    $format=getFData($format,$this,'getDisplayValue');
-    return $format;
+    return getFData($format,$this,'getDisplayValue');
   }
   
   /**
