@@ -1074,6 +1074,27 @@ class LSldapObject {
   }
 
   /**
+   * Retourne une valeur d'affichage de l'objet
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $val string Le nom de la valeur demandee
+   *
+   * @retval mixed la valeur demandee ou ' ' si celle-ci est inconnue.
+   */
+  function getDisplayValue($val) {
+    if(isset($this ->  attrs[$val])){
+      if (method_exists($this ->  attrs[$val],'getDisplayValue'))
+        return $this -> attrs[$val] -> getDisplayValue();
+      else
+        return ' ';
+    }
+    else {
+      return $this -> getValue($val);
+    }
+  }
+
+  /**
    * Ajoute une valeur dans le tableau $this -> other_values
    *
    * @param[in] $name string Le nom de la valeur
