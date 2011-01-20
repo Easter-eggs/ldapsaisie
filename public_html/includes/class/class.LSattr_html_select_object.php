@@ -203,6 +203,17 @@ class LSattr_html_select_object extends LSattr_html{
     return false;
   }
 
+  /**
+   * Return the values to be displayed in the LSform
+   *
+   * @param[in] $data The values of attribute
+   *
+   * @retval array The values to be displayed in the LSform
+   **/
+  function getFormVal($data) {
+    return $data;
+  }
+
 }
 
 /*
