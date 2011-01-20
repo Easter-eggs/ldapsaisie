@@ -385,7 +385,7 @@ class LSattribute {
    * @retval string La valeur a afficher dans le formulaire.
    */
   function getFormVal() {
-    $data=$this -> getDisplayValue();
+    $data=$this -> html -> getFormVal($this -> data);
     if ($data==NULL) {
       $data=array();
     }
