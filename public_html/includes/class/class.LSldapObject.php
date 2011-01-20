@@ -172,6 +172,23 @@ class LSldapObject {
     $format=getFData($format,$this,'getValue');
     return $format;
   }
+
+  /**
+   * Chaine formatee
+   *
+   * Cette fonction retourne la valeur d'une chaine formatÃ©e en prennant les valeurs
+   * d'affichage de l'objet.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $format string Format de la chaine
+   *
+   * @retval string Valeur d'une chaine formatee
+   */
+  function getDisplayFData($format) {
+    $format=getFData($format,$this,'getDisplayValue');
+    return $format;
+  }
   
   /**
    * Construit un formulaire de l'objet
