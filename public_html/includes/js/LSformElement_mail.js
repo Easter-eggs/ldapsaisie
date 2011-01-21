@@ -17,7 +17,7 @@ var LSformElement_mail = new Class({
         }
       }, this);
       el.getElements('a.LSformElement_mail').each(function(a) {
-        if (!input.hasClass('LSformElement_mail_disableMailSending')) {
+        if (!a.hasClass('LSformElement_mail_disableMailSending')) {
           this.addBtnAfter.bind(this)(a);
         }
       }, this);
