@@ -373,6 +373,9 @@ class LSsession {
       if (is_file(LS_I18N_DIR.'/'.$lang.'/lang.php')) {
         include(LS_I18N_DIR.'/'.$lang.'/lang.php');
       }
+      foreach (listFiles(LS_I18N_DIR.'/'.$lang,'/^lang.+\.php$/') as $file) {
+        include(LS_I18N_DIR."/$lang/$file");
+      }
     }
     else {
       if ($encoding && $lang) {
