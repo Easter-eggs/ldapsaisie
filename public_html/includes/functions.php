@@ -557,4 +557,27 @@ function LSdebugDefined() {
            );
   }
 
+ /**
+  * List files in a directory corresponding to a regex
+  *
+  * @param[in] $dir The path of the directory
+  * @param[in] $regex The regex apply on filename
+  * 
+  * @retval array() List of file name
+  **/
+  function listFiles($dir,$regex) {
+    $retval=array();
+    if (is_dir($dir)) {
+      $d = dir($dir);
+      while (false !== ($file = $d->read())) {
+        if (is_file("$dir/$file")) {
+          if (preg_match($regex,$file)) {
+            $retval[]=$file;
+          }
+        }
+      }
+    }
+    return $retval;
+  }
+
 ?>
