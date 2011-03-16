@@ -409,7 +409,7 @@ function LSdebugDefined() {
           $nchars.=$chs['chars'];
         }
       }
-      if(strlen($chars)>0) {
+      if(is_string($chars) && strlen($chars)>0) {
         $chars=$nchars;
       }
       else {
