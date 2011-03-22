@@ -56,5 +56,9 @@ define('LS_SAMBA_GIDNUMBER_ATTR','gidNumber');
 define('LS_SAMBA_USERPASSWORD_ATTR','userPassword');
 
 // Format du chemin du home
-define('LS_SAMBA_HOME_PATH_FORMAT','\\SERVER\profiles');
+define('LS_SAMBA_HOME_PATH_FORMAT','\\SERVER\%{uid}');
+
+// Format du chemin du profile
+define('LS_SAMBA_PROFILE_PATH_FORMAT','\\SERVER\profiles\%{uid}');
+
 ?>
