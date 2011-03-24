@@ -13,7 +13,7 @@
     {$noValueTxt}
   {/if}
 {else}
-  {if $values_and_units[$value].valueWithUnit}
+  {if $values_and_units[$value].valueWithUnit || !$values_and_units[$value]}
     <input name='{$attr_name}_valueWithUnit[]' type=text class='LSformElement_valueWithUnit' value="{$values_and_units[$value].valueWithUnit}"/>
     <select name='{$attr_name}_unitFact[]' class='LSform LSformElement_valueWithUnit'>
       {html_options options=$units selected=$values_and_units[$value].unitSill}
