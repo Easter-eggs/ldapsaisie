@@ -1,0 +1,14 @@
+input.LSformElement_valueWithUnit {
+  width:              3em !important;
+  text-align:         right;
+}
+
+select.LSformElement_valueWithUnit {
+  width:              6em;
+}
+
+span.LSformElement_valueWithUnit_unknown {
+  color:              #f59a67;
+}
+
+
