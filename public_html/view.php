@@ -61,6 +61,20 @@ if(LSsession :: startLSsession()) {
                 'action' => 'delete'
               );
             }
+
+            // Custum Actions
+            $customActionsConfig = LSconfig :: get('LSobjects.'.$LSobject.'.customActions');
+            if (is_array($customActionsConfig)) {
+              foreach($customActionsConfig as $name => $config) {
+                if (LSsession :: canExecuteCustomAction($dn,$LSobject,$name)) {
+                  $LSview_actions[] = array (
+                    'label' => ((isset($config['label']))?__($config['label']):__($name)),
+                    'url' => 'custom_action.php?LSobject='.$LSobject.'&amp;dn='.$dn.'&amp;customAction='.$name,
+                    'action' => ((isset($config['icon']))?$config['icon']:'generate')
+                  );
+                }
+              }
+            }
             
             if (LSsession :: getLSuserObjectDn() != $dn) {
               $object = new $LSobject();

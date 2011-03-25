@@ -1885,6 +1885,32 @@ class LSsession {
   }
 
   /**
+   * Retourne le droit de l'utilisateur a executer une customAction
+   * 
+   * @param[in] string $dn Le DN de l'objet
+   * @param[in] string $LSobject Le type de l'objet
+   * @param[in] string $customActionName Le nom de la customAction
+   *
+   * @retval boolean True si l'utilisateur peut executer cette customAction, false sinon
+   */
+  public static function canExecuteCustomAction($dn,$LSobject,$customActionName) {
+    $conf=LSconfig :: get('LSobjects.'.$LSobject.'.customActions.'.$customActionName);
+    if (!is_array($conf))
+      return;
+    $whoami = self :: whoami($dn);
+
+    if (isset($conf['rights']) && is_array($conf['rights'])) {
+      foreach($whoami as $who) {
+        if (in_array($who,$conf['rights'])) {
+          return True;
+        }
+      }
+    }
+    
+    return;
+  }
+
+  /**
    * Ajoute un fichier temporaire
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -2169,7 +2195,10 @@ class LSsession {
     LSerror :: defineError('LSsession_12',
     _("LSsession : Some informations are missing to display this page.")
     );
-    // 13 -> 16 : not yet used
+    LSerror :: defineError('LSsession_13',
+    _("LSsession : The function of the custom action %{name} does not exists or is not configured.")
+    );
+    // 14 -> 16 : not yet used
     LSerror :: defineError('LSsession_17',
     _("LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})")
     );

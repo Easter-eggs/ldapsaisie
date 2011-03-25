@@ -71,6 +71,15 @@ if (loadDir('../'.LS_OBJECTS_DIR)) {
         add($rel['emptyText']);
       }
     }
+    // Custom Actions
+    if (is_array($conf['customActions'])) {
+      foreach($conf['customActions'] as $act) {
+        add($act['label']);
+        add($act['question_format']);
+        add($act['onSuccessMsgFormat']);
+      }
+    }
+
     // LSform
     if (is_array($conf['LSform']['layout'])) {
       foreach($conf['LSform']['layout'] as $lay) {
