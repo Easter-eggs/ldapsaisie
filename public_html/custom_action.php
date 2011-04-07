@@ -51,7 +51,7 @@ if(LSsession :: startLSsession()) {
                   LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
                 }
                 else {
-                  LSerror :: addErrorCode('LSldapObject_15',$objectname);
+                  LSerror :: addErrorCode('LSldapObject_31',array('objectname' => $objectname,'customAction' => $_GET['customAction']));
                 }
               }
               else {

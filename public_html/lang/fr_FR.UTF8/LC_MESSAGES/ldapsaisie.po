@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-25 18:05+0100\n"
-"PO-Revision-Date: 2011-03-25 18:08+0100\n"
+"POT-Creation-Date: 2011-04-07 19:27+0200\n"
+"PO-Revision-Date: 2011-04-07 19:29+0100\n"
 "Last-Translator: Benjamin Renard <brenard@easter-eggs.com>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise.org>\n"
 "Language: \n"
@@ -326,7 +326,11 @@ msgstr "LSldapObject : Erreur durant l'exécution de la méthode %{meth} lors de
 msgid "LSldapObject : Error during generate LDAP filter for %{LSobject}."
 msgstr "LSldapObject : Erreur durant la génération du filtre LDAP de l'objet %{LSobject}."
 
-#: includes/class/class.LSldapObject.php:2110
+#: includes/class/class.LSldapObject.php:2109
+msgid "LSldapObject : Error during execution of the custom action %{customAction} on %{objectname}."
+msgstr "LSldapObject : Erreur durant l'exécution de l'action personnalisée %{customAction} sur l'objet %{objectname}."
+
+#: includes/class/class.LSldapObject.php:2114
 msgid "LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth})."
 msgstr "LSrelation : Des paramètres sont manquant dans l'appel des méthodes de manipulation des relations standards."
 

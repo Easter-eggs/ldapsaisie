@@ -2105,6 +2105,10 @@ LSerror :: defineError('LSldapObject_30',
 _("LSldapObject : Error during generate LDAP filter for %{LSobject}.")
 );
 
+LSerror :: defineError('LSldapObject_31',
+_("LSldapObject : Error during execution of the custom action %{customAction} on %{objectname}.")
+);
+
 // LSrelation
 LSerror :: defineError('LSrelations_05',
 _("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
