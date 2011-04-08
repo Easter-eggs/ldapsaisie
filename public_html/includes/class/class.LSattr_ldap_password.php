@@ -91,7 +91,16 @@ class LSattr_ldap_password extends LSattr_ldap {
    * @retval strinf The encode password
    */
   function encodePassword($clearPassword) {
-    if (!$this -> config['ldap_options']['encode']) {
+    if (isset($this -> config['ldap_options']['encode_function']) || $this -> config['ldap_options']['encode']=='function') {
+      if (!is_callable($this -> config['ldap_options']['encode_function'])) {
+        $this -> config['ldap_options']['encode'] = 'clear';
+        LSerror :: addErrorCode('LSattr_ldap_password_02',$this -> config['ldap_options']['encode_function']);
+      }
+      else {
+        $this -> config['ldap_options']['encode'] = 'function';
+      }
+    }
+    elseif (!$this -> config['ldap_options']['encode']) {
       $this -> config['ldap_options']['encode'] = 'md5crypt';
     }
     switch($this -> config['ldap_options']['encode']) {
@@ -163,6 +172,9 @@ class LSattr_ldap_password extends LSattr_ldap {
       case 'clear':
         return $clearPassword;
         break;
+      case 'function':
+        return $this -> config['ldap_options']['encode_function']($this -> attribute -> ldapObject, $clearPassword); 
+        break;
     }
     LSerror :: addErrorCode('LSattr_ldap_password_01',$this -> config['ldap_options']['encode']);
     return $clearPassword;
@@ -201,4 +213,8 @@ class LSattr_ldap_password extends LSattr_ldap {
 LSerror :: defineError('LSattr_ldap_password_01',
 _("LSattr_ldap_password : Encoding type %{type} is not supported. This password will be stored in clear text.")
 );
+LSerror :: defineError('LSattr_ldap_password_02',
+_("LSattr_ldap_password : Encoding function %{function} is not callable. This password will be stored in clear text.")
+);
+
 ?>
