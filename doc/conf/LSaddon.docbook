@@ -9,6 +9,7 @@
     <literal>config.LSaddons.[addon name].php</literal>.
   </para>
   
+  &conf-LSaddon_asterisk;
   &conf-LSaddon_mail;
   &conf-LSaddon_maildir;
   

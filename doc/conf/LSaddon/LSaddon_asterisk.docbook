@@ -1,0 +1,7 @@
+<sect2 id="config-LSaddon_asterisk">
+  <title>LSaddon_asterisk</title>
+  <para>Cet &LSaddon; est utilisé pour gérer les fonctionnalités spécifiques au serveur de téléphonie Asterisk.
+  Cet &LSaddon; donne accès à une fonction permettant l'encodage d'un mot de passe au format spécifique attendu
+  par Asterisk. Ce format est un hash MD5 d'une chaine de caractère composée du nom d'utilisateur, d'une chaine
+  fixe spécifiée dans la configuration d'Asterisk et du mot de passe en clair.</para>
+</sect2>
