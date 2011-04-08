@@ -60,11 +60,13 @@ class LSformElement_password extends LSformElement {
         return true;
       }
       
-      if ($this -> verifyPassword($return[$this -> name][0])) {
-        LSdebug("Password : no change");
-        unset($return[$this -> name]);
-        $this -> form -> _notUpdate[$this -> name] == true;
-        return true;
+      if (!isset($this -> params['html_options']['isLoginPassword']) || $this -> params['html_options']['isLoginPassword']) {
+        if ($this -> verifyPassword($return[$this -> name][0])) {
+          LSdebug("Password : no change");
+          unset($return[$this -> name]);
+          $this -> form -> _notUpdate[$this -> name] == true;
+          return true;
+        }
       }      
       
       //Mail
