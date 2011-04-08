@@ -21,6 +21,8 @@
 
 ******************************************************************************/
 
+error_reporting(E_ERROR);
+
 require_once('../core.php');
 require_once('../conf/config.inc.php');
 
