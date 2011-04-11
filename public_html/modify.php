@@ -28,7 +28,13 @@ if(LSsession :: startLSsession()) {
     $LSobject = $_POST['LSform_objecttype'];
   }
   else if (isset($_GET['LSobject'])) {
-    $LSobject = $_GET['LSobject'];
+    if ($_GET['LSobject'] == 'SELF') {
+      $LSobject = LSsession :: getLSuserObject() -> getType();
+      $dn = LSsession :: getLSuserObjectDn();
+    }
+    else { 
+      $LSobject = $_GET['LSobject'];
+    }
   }
   
   if (isset($_POST['LSform_objectdn'])) {
