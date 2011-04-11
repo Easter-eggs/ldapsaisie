@@ -142,7 +142,7 @@ class LSformElement_password extends LSformElement {
       $params = array(
         'generate' => ($this -> params['html_options']['generationTool']==True),
         'viewHash' => ($this -> params['html_options']['viewHash']==True),
-        'verify' => (!$this -> attr_html -> attribute -> ldapObject-> isNew())
+        'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && ( (isset($this -> params['html_options']['verify']) && $this -> params['html_options']['verify']) || (!isset($this -> params['html_options']['verify'])) ) )
       );
       if (isset($this -> params['html_options']['mail'])) {
         $params['mail'] = $this -> params['html_options']['mail'];
