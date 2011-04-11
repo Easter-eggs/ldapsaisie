@@ -33,6 +33,7 @@
 class LSformElement_textarea extends LSformElement {
 
   var $fieldTemplate = 'LSformElement_textarea_field.tpl';
+  var $fieldTemplateExtraClass = '';
 
  /**
   * Retourne les infos d'affichage de l'élément
@@ -52,7 +53,13 @@ class LSformElement_textarea extends LSformElement {
       );
       LSsession :: addJSscript('LSformElement_textarea.js');
     }
-    $return['html'] = $this -> fetchTemplate();
+    LSsession :: addCssFile('LSformElement_textarea.css');
+    $return['html'] = $this -> fetchTemplate(
+      NULL,
+      array (
+        'LSformElement_textarea_extra' => $this -> fieldTemplateExtraClass
+      )
+    );
     return $return;
   }
 }
