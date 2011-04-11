@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-08 14:19+0200\n"
-"PO-Revision-Date: 2011-04-08 14:20+0100\n"
+"POT-Creation-Date: 2011-04-11 11:26+0200\n"
+"PO-Revision-Date: 2011-04-11 11:26+0100\n"
 "Last-Translator: Benjamin RENARD <brenard@easter-eggs.com>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise.org>\n"
 "Language: \n"
@@ -308,6 +308,10 @@ msgstr "Afficher le site internet."
 msgid "Add this website to my bookmarks."
 msgstr "Ajouter ce site internet à mes favoris."
 
+#: includes/class/class.LSformElement_postaladdress.php:53
+msgid "View on map"
+msgstr "Voir sur une carte"
+
 #: includes/class/class.LSformElement_password.php:127
 msgid "Generate a password."
 msgstr "Générer un mot de passe."
@@ -500,7 +504,7 @@ msgstr "LSsession : Erreur durant la récupération de votre mot de passe. Conta
 msgid "LSsession : problem during initialisation."
 msgstr "LSsession : Problème durant l'initialisation."
 
-#: includes/class/class.LSformElement_textarea.php:50
+#: includes/class/class.LSformElement_textarea.php:51
 msgid "Clear"
 msgstr "Nettoyer"
 
