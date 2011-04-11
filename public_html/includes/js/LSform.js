@@ -2,6 +2,7 @@ var LSform = new Class({
     initialize: function(){
       this._modules=[];
       this._elements=[];
+      this._tabBtns=[];
       
       if ($type($('LSform_idform'))) {
         this.objecttype = $('LSform_objecttype').value;
@@ -79,10 +80,21 @@ var LSform = new Class({
         }
         li.getFirst('a').addEvent('click',this.onTabBtnClick.bindWithEvent(this,li));
       },this);
-      
+
+      $$('li.LSform_layout a').each(function(a) {
+        this._tabBtns[a.href]=a;
+      },this);
+     
       if (LIs.length != 0) {
-        this._currentTab = 'default_value';
-        document.getElement('li.LSform_layout').getFirst('a').fireEvent('click');
+        if ($type(this._tabBtns[window.location])) {
+          this._currentTab = 'default_value';
+          this._tabBtns[window.location].fireEvent('click');
+          byDefault=0;
+        }
+        else {
+          this._currentTab = 'default_value';
+          document.getElement('li.LSform_layout').getFirst('a').fireEvent('click');
+        }
       }
     },
 
