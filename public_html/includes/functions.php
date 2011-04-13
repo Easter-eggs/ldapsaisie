@@ -39,7 +39,7 @@
  */
 function getFData($format,$data,$meth=NULL) {
   $unique=false;
-  $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?}";
+  $expr="%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]";
   if(!is_array($format)) {
     $format=array($format);
     $unique=true;
@@ -55,7 +55,7 @@ function getFData($format,$data,$meth=NULL) {
             $val = $data[$ch[1]];
           }
 	  $val=_getFData_extractAndModify($val,$ch);
-          $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
+          $format[$i]=str_replace($ch[0],$val,$format[$i]);
         }
       }
       else {
@@ -66,7 +66,7 @@ function getFData($format,$data,$meth=NULL) {
               $value = $value[0];
             }
 	    $value=_getFData_extractAndModify($value,$ch);
-            $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
+            $format[$i]=str_replace($ch[0],$value,$format[$i]);
           }
           else {
             LSerror :: addErrorCode('fct_getFData_01',array('meth' => $meth,'obj' => $ch[1]));
@@ -83,7 +83,7 @@ function getFData($format,$data,$meth=NULL) {
             $value = $value[0];
           }
 	  $value=_getFData_extractAndModify($value,$ch);
-          $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
+          $format[$i]=str_replace($ch[0],$value,$format[$i]);
         }
       }
       else {
@@ -94,7 +94,7 @@ function getFData($format,$data,$meth=NULL) {
               $value = $value[0];
             }
 	    $value=_getFData_extractAndModify($value,$ch);
-            $format[$i]=ereg_replace($ch[0],$value,$format[$i]);
+            $format[$i]=str_replace($ch[0],$value,$format[$i]);
           }
           else {
             LSerror :: addErrorCode(0,getFData(_("Function 'getFData' : The method %{meth} of the object %{obj} doesn't exist."),array('meth' => $meth,'obj' => get_class($data))));
@@ -106,7 +106,7 @@ function getFData($format,$data,$meth=NULL) {
     else {
       while (ereg($expr,$format[$i],$ch)) {
 	$val=_getFData_extractAndModify($data,$ch);
-        $format[$i]=ereg_replace($ch[0],$val,$format[$i]);
+        $format[$i]=str_replace($ch[0],$val,$format[$i]);
       }
     }
   }
@@ -171,10 +171,10 @@ function smarty_getFData($params) {
 
 function getFieldInFormat($format) {
   $fields=array();
-  $expr="%{([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?}";
+  $expr="%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]";
   while (ereg($expr,$format,$ch)) {
     $fields[]=$ch[1];
-    $format=ereg_replace($ch[0],'',$format);
+    $format=str_replace($ch[0],'',$format);
   }
   return $fields;
 }
