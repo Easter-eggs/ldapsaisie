@@ -43,6 +43,12 @@ class LSformElement_postaladdress extends LSformElement_textarea {
     $return = parent :: getDisplay();
     if ($this -> isFreeze()) {
       if (isset($this -> params['html_options']['map_url_format']) && !empty($this->values)) {
+	if (isset($this -> params['html_options']['map_url_pattern_format'])) {
+		$pattern=$this -> attr_html -> attribute -> ldapObject -> getFData($this -> params['html_options']['map_url_pattern_format']);
+		$pattern=str_replace("\n"," ",$pattern);
+		$pattern=urlencode($pattern);
+		$this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',$pattern);
+	}
         LSsession :: addJSconfigParam('LSformElement_postaladdress_'.$this -> name, array (
             'map_url' => $this -> attr_html -> attribute -> ldapObject -> getFData($this -> params['html_options']['map_url_format']) 
           )
