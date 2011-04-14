@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSformElement');
 
 /**
  * Element texte d'un formulaire pour LdapSaisie
