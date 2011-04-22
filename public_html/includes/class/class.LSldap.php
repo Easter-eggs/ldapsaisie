@@ -318,7 +318,8 @@ class LSldap {
       else {
         if (!empty($dropAttr)) {
           foreach($dropAttr as $attr) {
-            if(Net_LDAP2::isError($entry -> getValue($attr))) {
+            $value = $entry -> getValue($attr);
+            if(Net_LDAP2::isError($value) || empty($value)) {
               // Attribut n'existe pas dans l'annuaire
               continue;
             }
