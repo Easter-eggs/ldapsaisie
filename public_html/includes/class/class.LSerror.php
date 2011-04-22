@@ -64,6 +64,7 @@ class LSerror {
    */ 
   public static function addErrorCode($code=-1,$msg='') {
     $_SESSION['LSerror'][] = array($code,$msg);
+    LSlog('[ERROR] '.self::getError(array($code,$msg)));
   }
   
   /**
