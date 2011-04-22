@@ -54,7 +54,7 @@ class LSformElement_mailQuota extends LSformElement {
     $quotas=array();
     
     foreach ($this -> values as $value) {
-      if (ereg('([0-9]*)S',$value,$regs)) {
+      if (ereg('([0-9]*)'.$this -> getSuffix(),$value,$regs)) {
         $infos = array(
           'size' => $regs[1]
         );
@@ -107,7 +107,21 @@ class LSformElement_mailQuota extends LSformElement {
       )
     );
   }
-  
+
+ /**
+  * Return suffix value
+  *
+  * @retval string Suffix value
+  **/
+  function getSuffix() {
+    if(isset($this -> params['html_options']['suffix'])){
+      return strval($this -> params['html_options']['suffix']);
+    }
+    else {
+      return "S";
+    }
+  }
+
   /**
    * Recupère la valeur de l'élement passée en POST
    *
@@ -136,7 +150,7 @@ class LSformElement_mailQuota extends LSformElement {
           if (isset($_POST[$this -> name.'_sizeFact'][$key]) && ($_POST[$this -> name.'_sizeFact'][$key]!=1)) {
             $f = $_POST[$this -> name.'_sizeFact'][$key];
           }
-          $return[$this -> name][$key] = ($val*$f).'S';
+          $return[$this -> name][$key] = ($val*$f).$this->getSuffix();
         }
       }
       return true;
