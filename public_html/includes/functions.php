@@ -219,16 +219,13 @@ function varDump($data) {
 $GLOBALS['LSdebug_fields']=array();
 function LSdebug($data,$dump=false) {
   if ($dump) {
-    $GLOBALS['LSdebug_fields'][]=varDump($data);
+    $data=varDump($data);
   }
-  else {
-    if (is_array($data)||is_object($data)) {
-      $GLOBALS['LSdebug_fields'][]=$data;
-    }
-    else {
-      $GLOBALS['LSdebug_fields'][]="[$data]";
-    }
+  else if (!is_array($data) && !is_object($data)) {
+    $data="[$data]";
   }
+  $GLOBALS['LSdebug_fields'][]=$data;
+  LSlog('[DEBUG] '.$data);
   return true;
 }
 
