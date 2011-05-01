@@ -60,14 +60,12 @@ class LSformElement_password extends LSformElement {
         return true;
       }
       
-      if (!isset($this -> params['html_options']['isLoginPassword']) || $this -> params['html_options']['isLoginPassword']) {
-        if ($this -> verifyPassword($return[$this -> name][0])) {
-          LSdebug("Password : no change");
-          unset($return[$this -> name]);
-          $this -> form -> _notUpdate[$this -> name] == true;
-          return true;
-        }
-      }      
+      if ($this -> verifyPassword($return[$this -> name][0])) {
+        LSdebug("Password : no change");
+        unset($return[$this -> name]);
+        $this -> form -> _notUpdate[$this -> name] == true;
+        return true;
+      }
       
       //Mail
       if (isset($_POST['LSformElement_password_'.$this -> name.'_send'])) {
@@ -164,7 +162,18 @@ class LSformElement_password extends LSformElement {
     if ($this -> attr_html -> attribute -> ldapObject -> isNew()) {
       return false;
     }
-    return LSsession :: checkUserPwd($this -> attr_html -> attribute -> ldapObject,$pwd);
+    if ($this -> isLoginPassword()) {
+      return LSsession :: checkUserPwd($this -> attr_html -> attribute -> ldapObject,$pwd);
+    }
+    else {
+      $hash = $this -> attr_html -> attribute -> ldap -> encodePassword($pwd);
+      $find=false;
+      foreach($this -> attr_html -> attribute -> data as $val) {
+        if ($hash == $val)
+          $find=true;
+      }
+      return $find;
+    }
   }
   
   function send($params) {
@@ -256,6 +265,13 @@ class LSformElement_password extends LSformElement {
         }
       }
     }
+  }
+
+  public function isLoginPassword() {
+    if (!isset($this -> params['html_options']['isLoginPassword']) || $this -> params['html_options']['isLoginPassword']) {
+      return true;
+    }
+    return false;
   }
 
 }
