@@ -2,6 +2,28 @@
   <title>LSattr_html_mailQuota</title>
   <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
   le quota d'une boite mail. Le format de la valeur générée correspondant au format
-  attendu par le serveur de mail &courier;. Exemple : <emphasis>50000000S</emphasis>
+  attendu par le serveur de mail &courier; par défaut. Exemple : <emphasis>50000000S</emphasis>
   correspond à un quota de 50Mio.</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array(
+    'suffix' => '[suffix]',
+  )
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>suffix</term>
+  <listitem>
+    <simpara>Chaine de caractères suffixant la valeur du quota (Par défaut : <literal>S</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
 </sect4>

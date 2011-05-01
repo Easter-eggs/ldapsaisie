@@ -64,6 +64,7 @@ class LSerror {
    */ 
   public static function addErrorCode($code=-1,$msg='') {
     $_SESSION['LSerror'][] = array($code,$msg);
+    LSlog('[ERROR] '.self::getError(array($code,$msg)));
   }
   
   /**
@@ -114,7 +115,7 @@ class LSerror {
   public static function getErrors() {
     if(!empty($_SESSION['LSerror'])) {
       foreach ($_SESSION['LSerror'] as $error) {
-        $txt.=self::getError($error);
+        $txt.=self::getError($error)."<br />\n";
       }
       self::resetError();
       return $txt;
@@ -130,7 +131,7 @@ class LSerror {
   * @retvat string Le texte des erreurs
   */
   private static function getError($error) {
-    return "(Code ".$error[0].") ".getFData(self :: $_errorCodes[$error[0]]['msg'],$error[1])."<br />\n";
+    return "(Code ".$error[0].") ".getFData(self :: $_errorCodes[$error[0]]['msg'],$error[1]);
   }
   
  /**
