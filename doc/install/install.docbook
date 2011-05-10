@@ -17,6 +17,16 @@
   <warning><simpara>La librairie &netldap; oblige le fait que la racine DSE de
   l'annuaire soit lisible en anonyme sinon la connexion à l'annuaire échouera
   systématiquement.</simpara></warning>
+  <note><para>Cette documentation est écrite à l'aide du langage Docbook.
+  Les mécanismes d'exportation de celle-ci requiert un certain nombre de programmes
+  et librairies :
+  <itemizedlist>
+    <listitem><simpara><application>make</application> (paquet <application>make</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>la feuille de style <literal>html</literal> XSL de Norman Walsh pour <application>Docbook</application> (fichier <literal>/usr/share/xml/docbook/stylesheet/nwalsh/html/docbook.xsl</literal> fournis par le paquet <application>docbook-xsl</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara><application>xmllint</application> (validation XML) (paquet <application>libxml2-utils</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara><application>jw</application> (exportation PDF) (paquet <application>docbook-utils</application> dans <application>Debian</application>)</simpara></listitem>
+  </itemizedlist>
+  </para></note>
 </sect1>
 
 <sect1 id="install-download">
