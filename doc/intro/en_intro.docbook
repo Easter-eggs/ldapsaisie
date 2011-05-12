@@ -1,0 +1,92 @@
+<chapter>
+<title>Introduction</title>
+<para>LdapSaisie is a web application build using PHP &amp; Javascript technology, 
+which focuses on LDAP directory administration. The main idea of the project is to mask
+LDAP complexity thanks to a clear and intuitive administration interface. The main 
+objective beyond is modularity, which permits modules and plugins to be added as 
+extension and/or adaptation. This project is to be used to manage LDAP directories and 
+to let the users access and modify their data according to specified policies.</para>
+<sect1>
+<title>Features</title>
+<para>Thanks to its modularity, &LdapSaisie; is easily expandable. Anyway, here's 
+following some of the most used features :</para>
+<itemizedlist>
+<listitem><simpara>Management of simple and several-branch directory</simpara></listitem>
+<listitem><simpara>Management of an unlimited amount of object types</simpara></listitem>
+<listitem><simpara>Management of an unlimited amount of users able to log in and use
+administration interface</simpara></listitem>
+<listitem><simpara>Deep management of user's rights, permitting each objects and attributes
+to be configured, allowing rights delegation.</simpara></listitem>
+
+<listitem><simpara>Gestion d'un grand nombre de types d'attributs :</simpara>
+
+  <itemizedlist>
+  <listitem><simpara>Texte (court ou long)</simpara></listitem>
+  <listitem><simpara>Date (format paramétrable)</simpara></listitem>
+  <listitem><simpara>Booléen (valeurs paramétrables)</simpara></listitem>
+  <listitem><simpara>Image/Photo</simpara></listitem>
+  <listitem><simpara>Mot de passe (génération de mot passe avec gestion d'une 
+  politique fine)</simpara></listitem>
+  <listitem><simpara>Adresse mail</simpara></listitem>
+  <listitem><simpara>Flux RSS</simpara></listitem>
+  <listitem><simpara>Lien web (URL)</simpara></listitem>
+  <listitem><simpara>Adresse XMPP</simpara></listitem>
+  <listitem><simpara><emphasis>Maildir</emphasis></simpara></listitem>
+  <listitem><simpara>Quota de mails</simpara></listitem>
+  <listitem><simpara>Clef publique SSH</simpara></listitem>
+  <listitem><simpara>Liste déroulante à choix simple ou multiple</simpara></listitem>
+  <listitem><simpara>Relation à d'autres objets de l'annuaire/ Exemple : membres 
+  d'un groupe, parrain d'un utilisateur, ... (valeur clé paramétrable)</simpara></listitem>
+  </itemizedlist>
+  
+  <note><simpara>Chaque type d'attribut à des fonctionnalités qui lui sont propres
+  et qui rendent plus facile et agréable l'utilisation de l'interface (génération 
+  automatique de mot de passe, génération des valeurs d'un champ à partir 
+  d'autres, ...).</simpara></note>
+  
+</listitem>
+
+<listitem><simpara>Gestion d'un grand nombre de règles de vérification des valeurs
+  des attributs :</simpara>
+  
+  <itemizedlist>
+  <listitem><simpara>Alpha-numérique</simpara></listitem>
+  <listitem><simpara>Lettres uniquement</simpara></listitem>
+  <listitem><simpara>Longeur maximale/minimale d'une chaine de caractères</simpara></listitem>
+  <listitem><simpara>Valeur différente de zéro</simpara></listitem>
+  <listitem><simpara>Pas de signe de ponctuation</simpara></listitem>
+  <listitem><simpara>Valeur numérique</simpara></listitem>
+  <listitem><simpara>Comparaison de valeur</simpara></listitem>
+  <listitem><simpara>Date</simpara></listitem>
+  <listitem><simpara>Adresse mail</simpara></listitem>
+  <listitem><simpara>Poids d'une image</simpara></listitem>
+  <listitem><simpara>Taille d'une image</simpara></listitem>
+  <listitem><simpara>Type de fichiers images</simpara></listitem>
+  <listitem><simpara>Politique de mot de passe (longueur/caractères
+  autorisés/caractères obligatoires)</simpara></listitem>
+  </itemizedlist>
+  
+</listitem>
+
+<listitem><simpara>Gestion simplifiée des relations entre les objets de 
+l'annuaire</simpara></listitem>
+<listitem><simpara>Interface facilement personnalisable grâce à l'utilisation
+d'un système de template.</simpara></listitem>
+<listitem><simpara>Possibilité de postionner des déclencheurs permettant
+d'exécuter vos propres scripts, fonctions ou méthodes au moments précis ou
+l'utilisateur créé, modifie ou supprime un objet ou un de ses attributs.
+Ces déclencheurs, en fonction de leur positionnement, peuvent influencer le
+comportement de l'application en empêchant par exemple, la validation des données
+d'un formulaire.</simpara></listitem>
+<listitem><simpara>Gestion fine de l'affichage des attributs en fonction de l'écran
+(=vue) sur lequel se trouve l'utilisateur.</simpara></listitem>
+<listitem><simpara>Gestion des dépendances entre attributs, permettant par exemple
+de regénérer automatiquement la valeur d'un attribut caché lors de la modification
+d'un autre.</simpara></listitem>
+<listitem><simpara>Possibilité de gérer des attributs entièrement cachés, dont les
+valeurs seront modifiées lors de la modification d'attribut en
+dépendance.</simpara></listitem>
+</itemizedlist>
+</sect1>
+</chapter>
+
