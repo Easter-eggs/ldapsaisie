@@ -8,7 +8,7 @@ extension and/or adaptation. This project is to be used to manage LDAP directori
 to let the users access and modify their data according to specified policies.</para>
 <sect1>
 <title>Features</title>
-<para>Thanks to its modularity, &LdapSaisie; is easily expandable. Anyway, here's 
+<para>Thanks to its modularity, &LdapSaisie; is easily expansable. Anyway, here's 
 following some of the most used features :</para>
 <itemizedlist>
 <listitem><simpara>Management of simple and several-branch directory</simpara></listitem>
@@ -18,52 +18,49 @@ administration interface</simpara></listitem>
 <listitem><simpara>Deep management of user's rights, permitting each objects and attributes
 to be configured, allowing rights delegation.</simpara></listitem>
 
-<listitem><simpara>Gestion d'un grand nombre de types d'attributs :</simpara>
+<listitem><simpara>Management of multiple attributes:</simpara>
 
   <itemizedlist>
-  <listitem><simpara>Texte (court ou long)</simpara></listitem>
-  <listitem><simpara>Date (format paramétrable)</simpara></listitem>
-  <listitem><simpara>Booléen (valeurs paramétrables)</simpara></listitem>
-  <listitem><simpara>Image/Photo</simpara></listitem>
-  <listitem><simpara>Mot de passe (génération de mot passe avec gestion d'une 
-  politique fine)</simpara></listitem>
-  <listitem><simpara>Adresse mail</simpara></listitem>
-  <listitem><simpara>Flux RSS</simpara></listitem>
-  <listitem><simpara>Lien web (URL)</simpara></listitem>
-  <listitem><simpara>Adresse XMPP</simpara></listitem>
+  <listitem><simpara>Text (short, long)</simpara></listitem>
+  <listitem><simpara>Date (customizable formatting)</simpara></listitem>
+  <listitem><simpara>Boolean (customizable)</simpara></listitem>
+  <listitem><simpara>Picture/Photo</simpara></listitem>
+  <listitem><simpara>Password (generation based upon a defined and customizable policy)
+  </simpara></listitem>
+  <listitem><simpara>Email address</simpara></listitem>
+  <listitem><simpara>RSS</simpara></listitem>
+  <listitem><simpara>Hyperlink (URL)</simpara></listitem>
+  <listitem><simpara>XMPP Address</simpara></listitem>
   <listitem><simpara><emphasis>Maildir</emphasis></simpara></listitem>
-  <listitem><simpara>Quota de mails</simpara></listitem>
-  <listitem><simpara>Clef publique SSH</simpara></listitem>
-  <listitem><simpara>Liste déroulante à choix simple ou multiple</simpara></listitem>
-  <listitem><simpara>Relation à d'autres objets de l'annuaire/ Exemple : membres 
-  d'un groupe, parrain d'un utilisateur, ... (valeur clé paramétrable)</simpara></listitem>
+  <listitem><simpara>Email quotat</simpara></listitem>
+  <listitem><simpara>Public key (for SSH)</simpara></listitem>
+  <listitem><simpara>Single or multiple choice list</simpara></listitem>
+  <listitem><simpara>Object-Object relations. For instance, member of a group, godfather of a user, etc. (Key/value customizable) 
+  </simpara></listitem>
   </itemizedlist>
   
-  <note><simpara>Chaque type d'attribut à des fonctionnalités qui lui sont propres
-  et qui rendent plus facile et agréable l'utilisation de l'interface (génération 
-  automatique de mot de passe, génération des valeurs d'un champ à partir 
-  d'autres, ...).</simpara></note>
+  <note><simpara>Each type of attribute has its own feature, which ease Web Interface handling
+  (automatic password generation, field completion according to others, etc.)
+  </simpara></note>
   
 </listitem>
 
-<listitem><simpara>Gestion d'un grand nombre de règles de vérification des valeurs
-  des attributs :</simpara>
+<listitem><simpara>Management of high amount of checking rules for attribute values:</simpara>
   
   <itemizedlist>
-  <listitem><simpara>Alpha-numérique</simpara></listitem>
-  <listitem><simpara>Lettres uniquement</simpara></listitem>
-  <listitem><simpara>Longeur maximale/minimale d'une chaine de caractères</simpara></listitem>
-  <listitem><simpara>Valeur différente de zéro</simpara></listitem>
-  <listitem><simpara>Pas de signe de ponctuation</simpara></listitem>
-  <listitem><simpara>Valeur numérique</simpara></listitem>
-  <listitem><simpara>Comparaison de valeur</simpara></listitem>
+  <listitem><simpara>Alphanumeric</simpara></listitem>
+  <listitem><simpara>Letters only</simpara></listitem>
+  <listitem><simpara>Strings length (minimum, maximum)</simpara></listitem>
+  <listitem><simpara>Non null value</simpara></listitem>
+  <listitem><simpara>No punctuation marks</simpara></listitem>
+  <listitem><simpara>Only numeric value</simpara></listitem>
+  <listitem><simpara>External value comparison</simpara></listitem>
   <listitem><simpara>Date</simpara></listitem>
-  <listitem><simpara>Adresse mail</simpara></listitem>
-  <listitem><simpara>Poids d'une image</simpara></listitem>
-  <listitem><simpara>Taille d'une image</simpara></listitem>
-  <listitem><simpara>Type de fichiers images</simpara></listitem>
-  <listitem><simpara>Politique de mot de passe (longueur/caractères
-  autorisés/caractères obligatoires)</simpara></listitem>
+  <listitem><simpara>Email address</simpara></listitem>
+  <listitem><simpara>Size of pointed file (picture)</simpara></listitem>
+  <listitem><simpara>Dimensions of a picture</simpara></listitem>
+  <listitem><simpara>Filetype of a picture file</simpara></listitem>
+  <listitem><simpara>Policy filters (for password, etc.)</simpara></listitem>
   </itemizedlist>
   
 </listitem>
