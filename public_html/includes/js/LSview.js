@@ -29,6 +29,9 @@ var LSview = new Class({
         if (checkRemove.exec(el.href)) {
           el.addEvent('click',this.onRemoveViewBtnClick.bindWithEvent(this,el));
         }
+        else if(el.hasClass('LScustomActions')) {
+          el.addEvent('click',this.onCustomActionBtnClick.bindWithEvent(this,el));
+        }
       }, this);
       
       this.LSsearchForm = $('LSsearch_form');
