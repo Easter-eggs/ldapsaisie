@@ -42,11 +42,13 @@ if(LSsession :: startLSsession()) {
                 $objectname=$object -> getDisplayName();
                 $GLOBALS['Smarty'] -> assign('pagetitle',$title.' : '.$objectname);
                 if ($config['function']($object)) {
-                  if ($config['onSuccessMsgFormat']) {
-                    LSsession :: addInfo(getFData($config['onSuccessMsgFormat'],$objectname));
-                  }
-                  else {
-                    LSsession :: addInfo(getFData(_('The custom action %{customAction} have been successfully execute on %{objectname}.'),array('objectname' => $objectname,'customAction' => $_GET['customAction'])));
+                  if ($config['disableOnSuccessMsg']!=true) {
+                    if ($config['onSuccessMsgFormat']) {
+                      LSsession :: addInfo(getFData($config['onSuccessMsgFormat'],$objectname));
+                    }
+                    else {
+                      LSsession :: addInfo(getFData(_('The custom action %{customAction} have been successfully execute on %{objectname}.'),array('objectname' => $objectname,'customAction' => $_GET['customAction'])));
+                    }
                   }
                   LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
                 }
