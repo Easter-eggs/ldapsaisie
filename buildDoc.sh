@@ -34,4 +34,7 @@ do
 done
 echo done.
 
-
+if [ -n "$EXPORT_DOC_DIR" ]
+then
+    $ROOT_DIR/buildDocExports.sh
+fi
