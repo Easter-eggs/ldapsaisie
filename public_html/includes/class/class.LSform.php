@@ -83,7 +83,7 @@ class LSform {
    */ 
   function display(){
     if ($this -> idForm == 'view') {
-      self :: loadDependenciesDisplayView();
+      self :: loadDependenciesDisplayView($this -> $ldapObject);
     }
     else {
       LSsession :: addJSscript('LSformElement_field.js');
@@ -188,14 +188,35 @@ class LSform {
   * 
   * @retval void
   */
-  public static function loadDependenciesDisplayView() {
+  public static function loadDependenciesDisplayView($ldapObject=false) {
     LSsession :: addCssFile('LSform.css');
     LSsession :: addJSscript('LSform.js');
-    LSsession :: addJSconfigParam('LSview_labels', array(
+    $customActionLabels = array ();
+    if (is_a($ldapObject,'LSldapObject')) {
+      $objectname=$ldapObject -> getDisplayName();
+      $customActionsConfig = LSconfig :: get('LSobjects.'.$ldapObject->type_name.'.customActions');
+      if (is_array($customActionsConfig)) {
+        foreach($customActionsConfig as $name => $config) {
+          if (isset($config['question_format'])) {
+            $customActionLabels['custom_action_'.$name.'_confirm_text'] = getFData(__($config['question_format']),$objectname);
+          }
+          else {
+            $customActionLabels['custom_action_'.$name.'_confirm_text'] = getFData(
+                                _('Do you really want to execute custom action %{customAction} on %{objectname} ?'),
+                                array(
+                                        'objectname' => $objectname,
+                                        'customAction' => $name
+                                )
+            );
+          }
+        }
+      }
+    }
+    LSsession :: addJSconfigParam('LSview_labels', array_merge(array(
       'delete_confirm_text'     => _("Do you really want to delete"),
       'delete_confirm_title'    => _("Caution"),
       'delete_confirm_validate'  => _("Delete")
-    ));
+    ),$customActionLabels));
     if (LSsession :: loadLSclass('LSconfirmBox')) {
       LSconfirmBox :: loadDependenciesDisplay();
     }
@@ -210,7 +231,7 @@ class LSform {
    * @retval void
    */ 
   function displayView(){
-    self :: loadDependenciesDisplayView();
+    self :: loadDependenciesDisplayView($this -> ldapObject);
     
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),

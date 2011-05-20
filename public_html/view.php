@@ -70,7 +70,8 @@ if(LSsession :: startLSsession()) {
                   $LSview_actions[] = array (
                     'label' => ((isset($config['label']))?__($config['label']):__($name)),
                     'url' => 'custom_action.php?LSobject='.$LSobject.'&amp;dn='.$dn.'&amp;customAction='.$name,
-                    'action' => ((isset($config['icon']))?$config['icon']:'generate')
+                    'action' => ((isset($config['icon']))?$config['icon']:'generate'),
+                    'class' => 'LScustomActions'
                   );
                 }
               }
