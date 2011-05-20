@@ -12,6 +12,7 @@
     'function' => '[fonction à exécuter]',
     'question_format' => '[LSformat de la question de confirmation]',
     'onSuccessMsgFormat' => '[LSformat du message à afficher en cas de succès de l'action]',
+    'disableOnSuccessMsg' => '[booléen]',
     'rights' => array(
       'LSprofile1',
       'LSprofile2',
@@ -63,6 +64,14 @@
   <listitem>
     <simpara>Le &LSformat; du message à afficher en cas de succès d'exécution de
     l'action. Ce &LSformat; sera composé à l'aide du nom de l'objet.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>disableOnSuccessMsg</term>
+  <listitem>
+    <simpara>Booléen permetant de désactiver le message afficher en cas de succès
+    d'exécution de l'action.</simpara>
   </listitem>
 </varlistentry>
 
