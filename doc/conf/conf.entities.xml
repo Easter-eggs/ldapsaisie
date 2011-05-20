@@ -17,6 +17,7 @@
 <!ENTITY conf-LSobject-triggers SYSTEM "LSobject/triggers.docbook">
 <!ENTITY conf-LSobject-LSform SYSTEM "LSobject/LSform.docbook">
 <!ENTITY conf-LSobject-LSsearch SYSTEM "LSobject/LSsearch.docbook">
+<!ENTITY conf-LSobject-customActions SYSTEM "LSobject/customActions.docbook">
 <!ENTITY conf-LSobject-LSrelation SYSTEM "LSobject/LSrelation.docbook">
 
 <!ENTITY conf-LSattribute SYSTEM "LSattribute.docbook">

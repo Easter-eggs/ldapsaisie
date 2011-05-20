@@ -44,6 +44,11 @@
   'label' => 'objet1',  
   'display_name_format' => '[format]',
   'displayAttrName' => '[booleen]',
+
+  //Custom Actions
+  'customActions' => array (
+    // Configuration des customActions pour ce type d'objet
+  ),
   
   // LSrelation
   'LSrelation' => array(
@@ -196,6 +201,15 @@
 </varlistentry>
 
 <varlistentry>
+  <term>customActions</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration
+    des &customActions;. <link linkend="config-LSobject-customActions">Voir la section
+    concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
   <term>LSrelation</term>
   <listitem>
     <simpara>Tableau associatif contenant les paramètres de configuration
@@ -246,6 +260,7 @@
   &conf-LSattribute;
   &conf-LSobject-container_auto_create;
   &conf-LSobject-triggers;
+  &conf-LSobject-customActions;
   &conf-LSobject-LSrelation;
   &conf-LSobject-LSform;
   &conf-LSobject-LSsearch;

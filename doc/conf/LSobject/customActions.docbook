@@ -1,0 +1,109 @@
+<sect2 id="config-LSobject-customActions">
+  <title>customActions</title>
+  <para>Cette section décrit la manière de configurer les actions personnalisées exécutables
+  sur les &LSobjects; appelées &customActions;.</para>
+  
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['customActions'] = array (
+  'action1' => array(
+    'label' => '[label l'action]',
+    'icon' => '[nom de l'icône de l'action]',
+    'function' => '[fonction à exécuter]',
+    'question_format' => '[LSformat de la question de confirmation]',
+    'onSuccessMsgFormat' => '[LSformat du message à afficher en cas de succès de l'action]',
+    'rights' => array(
+      'LSprofile1',
+      'LSprofile2',
+      ...
+    )
+  )
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>label</term>
+  <listitem>
+    <simpara>Le label de la relation.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>icon</term>
+  <listitem>
+    <simpara>Nom de l'îcone à afficher dans le bouton de l'action. Ce nom correspond
+    au nom du fichier de l'image (sans l'extention) qui devra se trouver dans le 
+    dossier <emphasis>/public_html/images/[nom du theme d'images]/</emphasis>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>function</term>
+  <listitem>
+    <simpara>Le nom de la fonction à exécuter qui implémente l'action personnalisée
+    Cette fonction prendra en seule paramètre le &LSobject; sur lequel l'action devra
+    être exécutée et retournera <emphasis>True</emphasis> en cas de succès ou 
+    <emphasis>False</emphasis> en cas d'échec d'exécution de la fonction.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>question_format</term>
+  <listitem>
+    <simpara>Le &LSformat; de la question de confirmation d'exécution de l'action.
+    Ce &LSformat; sera composé à l'aide du nom de l'objet.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>onSuccessMsgFormat</term>
+  <listitem>
+    <simpara>Le &LSformat; du message à afficher en cas de succès d'exécution de
+    l'action. Ce &LSformat; sera composé à l'aide du nom de l'objet.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>rights</term>
+  <listitem>
+    <simpara>Tableau contenant la liste des noms des &LSprofiles; ayant le droit
+    d'exécuter cette action.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+<sect3>
+    <title>Ecriture d'une fonction implémentant une customAction</title>
+    <para>Une fonction implémentant une <emphasis>customAction</emphasis> se déclare de
+    la manière suivante :
+    <programlisting linenumbering="unnumbered"><![CDATA[
+/*
+ * Ma fonction implémentant ma customAction
+ *
+ * Paramètre :
+ *     - $object : Le LSobject sur lequel mon action doit être exécutée
+ *
+ * Valeurs retournées :
+ *     - True : Tout s'est bien passé
+ *     - False : Une erreur est survenue
+ */
+function maFonction ($object) {
+
+  // Actions
+
+}
+    ]]></programlisting>
+Cette fonction doit prendre pour seul paramètre, le &LSobject; sur lequel l'action
+personnalisée doit être exécutée et doit retourner soit <literal>True</literal> si 
+tout s'est bien passé, soit <literal>False</literal> en cas de problème.</para>
+
+<note><simpara>Ces fonctions sont le plus couramment définies au sein d'&LSaddon;.</simpara></note>
+
+</sect3>
+
+
+</sect2>

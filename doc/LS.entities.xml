@@ -16,6 +16,7 @@
 <!ENTITY LSobjects "<link linkend='config-LSobject'>LSobjects</link>">
 <!ENTITY LSattribute "<link linkend='config-LSattribute'>LSattribute</link>">
 <!ENTITY LSattributes "<link linkend='config-LSattribute'>LSattributes</link>">
+<!ENTITY customActions "<link linkend='config-LSobject-customActions'>customActions</link>">
 <!ENTITY LSrelation "<link linkend='config-LSobject-LSrelation'>LSrelation</link>">
 <!ENTITY LSrelations "<link linkend='config-LSobject-LSrelation'>LSrelations</link>">
 <!ENTITY LSform "<link linkend='config-LSobject-LSform'>LSform</link>">
