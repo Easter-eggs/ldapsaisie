@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ROOT_DIR=$( cd `dirname $0`; pwd )
 LOCAL_CFG_DIR=$ROOT_DIR/config.local
