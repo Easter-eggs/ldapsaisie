@@ -68,6 +68,12 @@ class LSformElement_password extends LSformElement {
       }
       
       //Mail
+
+      // Do not send mail if password is not set :
+      if (empty($return[$this -> name])) {
+        return true;
+      }
+
       if (isset($_POST['LSformElement_password_'.$this -> name.'_send'])) {
         if ($_POST['LSformElement_password_'.$this -> name.'_send']==1) {
           $this -> sendMail = true;
