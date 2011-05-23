@@ -168,7 +168,16 @@ class LSformElement_password extends LSformElement {
     else {
       $hash = $this -> attr_html -> attribute -> ldap -> encodePassword($pwd);
       $find=false;
-      foreach($this -> attr_html -> attribute -> data as $val) {
+      if (is_array($this -> attr_html -> attribute -> data)) {
+        $data = $this -> attr_html -> attribute -> data;
+      }
+      elseif (!is_array($this -> attr_html -> attribute -> data) && !empty($this -> attr_html -> attribute -> data)) {
+        $data = array($this -> attr_html -> attribute -> data);
+      }
+      else {
+        return $find;
+      }
+      foreach($data as $val) {
         if ($hash == $val)
           $find=true;
       }
