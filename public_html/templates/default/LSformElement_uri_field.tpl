@@ -8,5 +8,5 @@
   </span>
   <input type='hidden' name='{$attr_name}[]' class='LSformElement_text' value="{$value}"/>
 {else}
-  <input type='text' name='{$attr_name}[]' class='LSformElement_text {$uriClass}' value="{$value}"/>
+  <input type='text' name='{$attr_name}[]' class='LSformElement_text {$uriClass}' value="{$value}" autocomplete="off"/>
 {/if}
