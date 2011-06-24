@@ -1,13 +1,18 @@
 <sect4 id="config-LSattr_html_date">
   <title>LSattr_html_date</title>
   <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
-  une date.</para>
+  une date. L'outil de sélection de date <application>
+  <ulink url='http://mootools.net/forge/p/mootools_datepicker'>
+  MooTools-DatePicker</ulink></application> est utilisé pour la sélection
+  graphique de la date et de l'heure.</para>
   
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['html_options' => array (
-  'firstDayOfWeek' => '[Le rang du premier jour de la semaine]',
   'format' => '[Format d'affichage de la date]',
+  'time' => '[Booleen pour le choix ou non de l heure]',
+  'manual' => '[Booleen pour l edition manuelle ou non]',
+  'style' => '[Nom du style utilise]'
 ),]]>
 ...
 </programlisting>
@@ -16,21 +21,176 @@
 <title>Paramètres de configuration</title>
 
 <varlistentry>
-  <term>firstDayOfWeek</term>
+  <term>format</term>
   <listitem>
-    <simpara>Un entier correspondant au rang du premier jour de la semaine : 
-    de 0 à 6, 0 correspondant à Dimanche et 6 à Lundi.</simpara>
-    <note><simpara>La valeur par défaut est 0, donc Dimanche.</simpara></note>
+    <para>Format d'affichage de la date dans le champ de saisie. Ce format
+    est composé à partir des motifs clés suivants :
+<informaltable>
+ <tgroup cols="2">
+   <thead>
+     <row>
+       <entry>Mot clé</entry>
+       <entry>Valeur de substitution</entry>
+       <entry>Exemple de valeur</entry>
+     </row>
+   </thead>
+   <tbody>
+     <row>
+       <entry><literal>%a</literal></entry>
+       <entry><simpara>Nom abrégé du jour de la semaine</simpara></entry>
+       <entry><simpara>De Sun à Sat</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%A</literal></entry>
+       <entry><simpara>Nom complet du jour de la semaine</simpara></entry>
+       <entry><simpara>De Sunday à Saturday</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%b</literal></entry>
+       <entry><simpara>Nom du mois, abrégé, suivant la locale</simpara></entry>
+       <entry><simpara>De Jan à Dec</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%B</literal></entry>
+       <entry><simpara>Nom complet du mois, suivant la locale</simpara></entry>
+       <entry><simpara>De January à December</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%c</literal></entry>
+       <entry><simpara>Date et heure préférées, basées sur la locale</simpara></entry>
+       <entry><simpara>Exemple : Tue Feb 5 00:45:10 2009 pour le 5 Février 2009 à 12:45:10 AM</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%d</literal></entry>
+       <entry><simpara>Jour du mois en numérique, sur 2 chiffres (avec le zéro initial)</simpara></entry>
+       <entry><simpara>De 01 à 31</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%e</literal></entry>
+       <entry><simpara>Jour du mois, avec un espace précédant le premier chiffre. L'implémentation Windows est différente, voyez après pour plus d'informations.</simpara></entry>
+       <entry><simpara>De 1 à 31</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%H</literal></entry>
+       <entry><simpara>L'heure, sur 2 chiffres, au format 24 heures</simpara></entry>
+       <entry><simpara>De 00 à 23</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%I</literal></entry>
+       <entry><simpara>Heure, sur 2 chiffres, au format 12 heures</simpara></entry>
+       <entry><simpara>De 01 à 12</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%j</literal></entry>
+       <entry><simpara>Jour de l'année, sur 3 chiffres avec un zéro initial</simpara></entry>
+       <entry><simpara>001 à 366</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%m</literal></entry>
+       <entry><simpara>Mois, sur 2 chiffres</simpara></entry>
+       <entry><simpara>De 01 (pour Janvier) à 12 (pour Décembre)</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%M</literal></entry>
+       <entry><simpara>Minute, sur 2 chiffres</simpara></entry>
+       <entry><simpara>De 00 à 59</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%p</literal></entry>
+       <entry><simpara>'AM' ou 'PM', en majuscule, basé sur l'heure fournie</simpara></entry>
+       <entry><simpara>Exemple : AM pour 00:31, PM pour 22:23</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%s</literal></entry>
+       <entry><simpara>Timestamp de l'époque Unix (identique à la fonction time())</simpara></entry>
+       <entry><simpara>Exemple : 305815200 pour le 10 Septembre 1979 08:40:00 AM</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%S</literal></entry>
+       <entry><simpara>Seconde, sur 2 chiffres</simpara></entry>
+       <entry><simpara>De 00 à 59</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%T</literal></entry>
+       <entry><simpara>Identique à "%H:%M:%S" Exemple : 21:34:17 pour 09:34:17 PM</simpara></entry>
+       <entry><simpara></simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%U</literal></entry>
+       <entry><simpara>Numéro de la semaine de l'année donnée, en commençant par le premier Lundi comme première semaine</simpara></entry>
+       <entry><simpara>13 (pour la 13ème semaine pleine de l'année)</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%w</literal></entry>
+       <entry><simpara>Représentation numérique du jour de la semaine</simpara></entry>
+       <entry><simpara>De 0 (pour Dimanche) à 6 (pour Samedi)</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%y</literal></entry>
+       <entry><simpara>L'année, sur 2 chiffres</simpara></entry>
+       <entry><simpara>Exemple : 09 pour 2009, 79 pour 1979</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%Y</literal></entry>
+       <entry><simpara>L'année, sur 4 chiffres</simpara></entry>
+       <entry><simpara>Exemple : 2038</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%z</literal></entry>
+       <entry><simpara> Soit le décalage horaire depuis UTC, ou son abréviation (suivant le système d'exploitation)</simpara></entry>
+       <entry><simpara> Exemple : -0500 ou EST pour l'heure de l'Est</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%Z</literal></entry>
+       <entry><simpara> Le décalage horaire ou son abréviation NON fournie par %z (suivant le système d'exploitation)</simpara></entry>
+       <entry><simpara> Exemple : -0500 ou EST pour l'heure de l'Est</simpara></entry>
+     </row>
+     <row>
+       <entry><literal>%%</literal></entry>
+       <entry><simpara>Le caractère de pourcentage ("%")</simpara></entry>
+       <entry><simpara>---</simpara></entry>
+     </row>
+   </tbody>
+ </tgroup>
+</informaltable>
+    </para>
+    <note><simpara>La valeur par défaut est <emphasis>%d/%m/%Y, %T</emphasis>.
+    Exemple : <emphasis>23/04/2009, 23:03:04</emphasis></simpara></note>
   </listitem>
 </varlistentry>
 
 <varlistentry>
-  <term>format</term>
+  <term>time</term>
   <listitem>
-    <para>Format d'affichage de la date dans le champ de saisie. Ce format
-    est composé à partir des motifs clés suivants : FIXME</para>
-    <note><simpara>La valeur par défaut est <emphasis>%d/%m/%Y, %T</emphasis>.
-    Exemple : <emphasis>23/04/2009, 23:03:04</emphasis></simpara></note>
+    <simpara>Booléen définissant si l'outil de sélection permetra ou non le choix
+    de l'heure en plus de la date</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>manual</term>
+  <listitem>
+    <simpara>Booléen autorisant ou non l'édition manuelle du champs. Si ce paramètre
+    vaut <literal>False</literal>, la sélection se fera uniquement à l'aide de l'outil
+    graphique</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>style</term>
+  <listitem>
+    <para>Nom du style d'affichage de l'outil de sélection. Les valeurs possibles
+    sont par défaut :
+    <itemizedlist>
+      <listitem><simpara>default</simpara></listitem>
+      <listitem><simpara>dashboard</simpara></listitem>
+      <listitem><simpara>vista</simpara></listitem>
+      <listitem><simpara>jqui</simpara></listitem>
+    </itemizedlist>
+    <note><simpara>La création de nouveau thème est possible. Pour plus d'information,
+    consulter <ulink url='http://mootools.net/forge/p/mootools_datepicker'>l'aide de
+    l'outil de sélection de date</ulink>.</simpara></note>
+    </para>
   </listitem>
 </varlistentry>
 
