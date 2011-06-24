@@ -39,35 +39,30 @@ class LSformElement_date extends LSformElement {
     "A" => "A",
     "b" => "b",
     "B" => "B",
-    "C" => "C",
+    "c" => "c",
     "d" => "d",
-    "D" => "m/%d/%y",
     "e" => "e",
-    "h" => "b",
     "H" => "H",
     "I" => "I",
     "j" => "j",
     "m" => "m",
     "M" => "M",
-    "n" => "n",
     "p" => "p",
-    "r" => "p",
-    "R" => "H:%M",
+    "s" => "s",
     "S" => "S",
-    "t" => "t",
-    "T" => "H:%M:%S",
-    "u" => "u",
+    "T" => "T",
     "U" => "U",
-    "V" => "V",
     "w" => "w",
-    "W" => "W",
     "y" => "y",
     "Y" => "Y",
-    "Z" => "T",
-    "%" => "%"
+    "z" => "z",
+    "Z" => "Z",
+    "%" => "%",
   );
-  
+
   var $_cache_php2js_format=array();
+
+  var $default_style="vista";
 
   /**
    * Définis la valeur de l'élément date
@@ -82,9 +77,14 @@ class LSformElement_date extends LSformElement {
     if (!is_array($data)) {
       $data=array($data);
     }
-    
+
     for($i=0;$i<count($data);$i++) {
-      $data[$i]=strftime($this -> getFormat(),$data[$i]);
+      if(is_numeric($data[$i])) {
+        $data[$i]=strftime($this -> getFormat(),$data[$i]);
+      }
+      else {
+        $this -> form -> setElementError($this -> attr_html);
+      }
     }
 
     $this -> values = $data;
@@ -119,8 +119,26 @@ class LSformElement_date extends LSformElement {
       return $this -> params['html_options']['format'];
     }
     else {
+      if (isset($this -> params['html_options']['time']) && !$this -> params['html_options']['time']) {
+        return '%d/%m/%Y';
+      }
       return "%d/%m/%Y, %T";
     }
+  }
+
+ /**
+  * Return date picker style value
+  *
+  * @retval string The date picker style
+  **/
+  function getStyle() {
+    if (isset($this -> params['html_options']['style'])) {
+      if (is_dir(LS_LIB_DIR.'arian-mootools-datepicker/datepicker_'.strval($this -> params['html_options']['style']))) {
+        return $this -> params['html_options']['style'];
+      }
+      LSdebug('LSformElement :: Date => unknown style parameter value '.strval($this -> params['html_options']['style']));
+    }
+    return $this -> default_style;
   }
 
  /**
@@ -138,22 +156,26 @@ class LSformElement_date extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_date',
         array(
-          'calendar' => _('Select in a calendar.'),
           'now' => _('Now.')
         )
       );
       
       $params = array(
         'format' => $this -> php2js_format($this -> getFormat()),
-        'firstDayOfWeek' => $this -> getFirstDayOfWeek()
+        'style' => $this -> getStyle(),
+        'time' => (isset($this -> params['html_options']['time'])?$this -> params['html_options']['time']:true),
+        'manual' => (isset($this -> params['html_options']['manual'])?$this -> params['html_options']['manual']:true)
       );
       LSsession :: addJSconfigParam($this -> name,$params);
       
-      LSsession :: addCssFile('theme.css',LS_LIB_DIR.'jscalendar/skins/aqua/');
-      LSsession :: addJSscript('calendar.js',LS_LIB_DIR.'jscalendar/');
-      LSsession :: addJSscript('calendar-en.js',LS_LIB_DIR.'jscalendar/lang/');
-      $codeLang = LSsession :: getLang(true);
-      LSsession :: addJSscript('calendar-'.$codeLang.'.js',LS_LIB_DIR.'jscalendar/lang/');
+      $codeLang = str_replace('_','-',preg_replace('/\..*$/','',LSsession :: getLang()));
+
+      LSsession :: addJSscript('Picker.js',LS_LIB_DIR.'arian-mootools-datepicker/');
+      LSsession :: addJSscript('Picker.Attach.js',LS_LIB_DIR.'arian-mootools-datepicker/');
+      LSsession :: addJSscript('Picker.Date.js',LS_LIB_DIR.'arian-mootools-datepicker/');
+      LSsession :: addJSscript('Locale.'.$codeLang.'.DatePicker.js',LS_LIB_DIR.'arian-mootools-datepicker/');
+      LSsession :: addCssFile('datepicker_'.$params['style'].'.css',LS_LIB_DIR.'arian-mootools-datepicker/datepicker_'.$params['style'].'/');
+
       LSsession :: addJSscript('LSformElement_date_field.js');
       LSsession :: addJSscript('LSformElement_date.js');
     }
@@ -161,20 +183,6 @@ class LSformElement_date extends LSformElement {
     return $return;
   }
  
- /**
-  * Retourne le nurméro du premier jour de la semaine
-  * 
-  * @retval int 0=dimanche ... 6=samedi, par défaut 0=dimanche
-  */
-  function getFirstDayOfWeek() {
-    if (isset($this -> params['html_options']['firstDayOfWeek'])) {
-      return $this -> params['html_options']['firstDayOfWeek'];
-    }
-    else {
-      return 0;
-    }
-  }
-  
  /**
   * Convertis un format de date Php (strftime) en JS (jscalendar)
   * 
