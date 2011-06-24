@@ -26,6 +26,7 @@ var LSformElement_date_field = new Class({
           this.params.format = "%d/%m/%Y";
         }
       }
+      Date.defineParser(this.params.format);
 
       this.calendar = new DatePicker(this.input, {
           format: this.params.format,
