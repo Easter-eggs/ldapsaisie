@@ -43,9 +43,35 @@ var LSformElement_date_field = new Class({
       this.nowBtn.addEvent('click',this.onNowBtnClick.bind(this));
       this.nowBtn.injectAfter(this.input);
       varLSdefault.addHelpInfo(this.nowBtn,'LSformElement_date','now');
+
+      this.todayBtn = new Element('img');
+      this.todayBtn.src = varLSdefault.imagePath('calendar.png');
+      this.todayBtn.addClass('btn');
+      this.todayBtn.addEvent('click',this.onTodayBtnClick.bind(this));
+      this.todayBtn.injectAfter(this.nowBtn);
+      varLSdefault.addHelpInfo(this.todayBtn,'LSformElement_date','today');
     },
     
     onNowBtnClick: function() {
       this.input.value = new Date().format(this.params.format);
+    },
+
+    onTodayBtnClick: function() {
+      if (this.input.value) {
+        var cur = Date.parse(this.input.value,this.params.format);
+        if (cur == null) {
+          var cur = Date.parse(this.input.value);
+        }
+        if (cur) {
+          var now = new Date();
+          var today = cur.clone();
+          today.set({
+            year: now.get('year'),
+            mo: now.get('mo'),
+            date: now.get('date')
+          });
+          this.input.value = today.format(this.params.format);
+        }
+      }
     }
 });

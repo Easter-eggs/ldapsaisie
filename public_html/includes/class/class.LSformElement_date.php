@@ -156,7 +156,8 @@ class LSformElement_date extends LSformElement {
       LSsession :: addHelpInfos(
         'LSformElement_date',
         array(
-          'now' => _('Now.')
+          'now' => _('Now.'),
+          'today' => _('Today.')
         )
       );
       
