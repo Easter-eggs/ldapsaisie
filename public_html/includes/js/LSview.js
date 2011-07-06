@@ -101,6 +101,9 @@ var LSview = new Class({
     },
 
     onCustomActionBtnClick: function(event,a) {
+      if (a.hasClass('LScustomActions_noConfirmation')) {
+        return true;
+      }
       Event(event).stop();
       if (!this._confirmBoxOpen) {
         this._confirmBoxOpen = 1;

@@ -71,7 +71,7 @@ if(LSsession :: startLSsession()) {
                     'label' => ((isset($config['label']))?__($config['label']):__($name)),
                     'url' => 'custom_action.php?LSobject='.$LSobject.'&amp;dn='.$dn.'&amp;customAction='.$name,
                     'action' => ((isset($config['icon']))?$config['icon']:'generate'),
-                    'class' => 'LScustomActions'
+                    'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
                   );
                 }
               }

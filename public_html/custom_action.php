@@ -38,7 +38,7 @@ if(LSsession :: startLSsession()) {
               else {
                 $title=__($_GET['customAction']);
               }
-              if (isset($_GET['valid'])) {
+              if (isset($_GET['valid']) || $config['noConfirmation']) {
                 $objectname=$object -> getDisplayName();
                 $GLOBALS['Smarty'] -> assign('pagetitle',$title.' : '.$objectname);
                 if ($config['function']($object)) {
