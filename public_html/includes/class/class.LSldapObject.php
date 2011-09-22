@@ -523,6 +523,10 @@ class LSldapObject {
             LSerror :: addErrorCode('LSattribute_07',$this -> attrs[$dependAttr] -> getLabel());
             $retval = false;
           }
+          elseif (!$this -> validateAttrData($LSform,$this -> attrs[$dependAttr])) {
+            LSerror :: addErrorCode('LSattribute_08',$this -> attrs[$dependAttr] -> getLabel());
+            $retval = false;
+          }
         }
         else {
           LSerror :: addErrorCode('LSattribute_06',$this -> attrs[$dependAttr] -> getLabel());
