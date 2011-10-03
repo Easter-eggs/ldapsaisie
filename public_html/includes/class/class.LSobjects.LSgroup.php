@@ -29,6 +29,7 @@ class LSgroup extends LSldapObject {
 
   var $userObjectType = 'LSpeople';
   var $memberAttr = 'uniqueMember';
+  var $memberAttrValue = 'dn';
 
   /* ========== Members ========== */
   /**
@@ -39,7 +40,7 @@ class LSgroup extends LSldapObject {
    * @retval Mixed La valeur clef d'un membre
    **/
   function getMemberKeyValue($object) {
-    return $this -> getObjectKeyValueInRelation($object,$this -> userObjectType);
+    return $this -> getObjectKeyValueInRelation($object,$this -> memberAttr,$this -> userObjectType);
   }
   
   /**
@@ -53,7 +54,7 @@ class LSgroup extends LSldapObject {
    * @retval Array of LSgroup Les groupes de l'utilisateur
    **/
   function listUserGroups($userObject) {
-    return $this -> listObjectsInRelation($userObject,$this -> memberAttr,$this -> userObjectType);
+    return $this -> listObjectsInRelation($userObject,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue);
   }
 
   /**
@@ -64,7 +65,7 @@ class LSgroup extends LSldapObject {
    * @retval boolean true si l'utilisateur à été ajouté, False sinon
    **/  
   function addOneMember($object) {
-    return $this -> addOneObjectInRelation($object,$this -> memberAttr, $this -> userObjectType,'dn','canEditGroupRelation');
+    return $this -> addOneObjectInRelation($object,$this -> memberAttr, $this -> userObjectType,$this -> memberAttrValue,'canEditGroupRelation');
   }
   
   /**
@@ -75,7 +76,7 @@ class LSgroup extends LSldapObject {
    * @retval boolean true si l'utilisateur à été supprimé, False sinon
    **/  
   function deleteOneMember($object) {
-    return $this -> deleteOneObjectInRelation($object,$this -> memberAttr,$this -> userObjectType,'dn','canEditGroupRelation');
+    return $this -> deleteOneObjectInRelation($object,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue,'canEditGroupRelation');
   }
   
  /**
@@ -87,7 +88,7 @@ class LSgroup extends LSldapObject {
   * @retval boolean True en cas de succès, False sinon
   */
   function renameOneMember($object,$oldDn) {
-    return $this -> renameOneObjectInRelation($object,$oldDn,$this -> memberAttr,$this -> userObjectType);
+    return $this -> renameOneObjectInRelation($object,$oldDn,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue);
   }
   
   /**
@@ -99,9 +100,9 @@ class LSgroup extends LSldapObject {
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
   function updateUserGroups($object,$listDns) {
-    return $this -> updateObjectsInRelation($object,$listDns,$this -> memberAttr,$this -> userObjectType,'dn','canEditGroupRelation');
+    return $this -> updateObjectsInRelation($object,$listDns,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue,'canEditGroupRelation');
   }
-  
+
   /**
    * Test si l'utilisateur peut d'editer la relation avec ce groupe
    * 
