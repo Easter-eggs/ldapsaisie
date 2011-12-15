@@ -14,6 +14,7 @@
     'onSuccessMsgFormat' => '[LSformat du message à afficher en cas de succès de l'action]',
     'disableOnSuccessMsg' => '[booléen]',
     'noConfirmation' => '[booléen]',
+    'redirectToObjectList' => '[booléen]',
     'rights' => array(
       'LSprofile1',
       'LSprofile2',
@@ -81,6 +82,14 @@
   <listitem>
     <simpara>Booléen permetant de désactiver la confirmation de l'exécution de
     l'action.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>redirectToObjectList</term>
+  <listitem>
+    <simpara>Booléen permetant de rediriger l'utilisateur vers la liste des objets
+    plutôt que sur la fiche de l'objet après l'execution de l'action.</simpara>
   </listitem>
 </varlistentry>
 
