@@ -50,7 +50,12 @@ if(LSsession :: startLSsession()) {
                       LSsession :: addInfo(getFData(_('The custom action %{customAction} have been successfully execute on %{objectname}.'),array('objectname' => $objectname,'customAction' => $_GET['customAction'])));
                     }
                   }
-                  LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
+                  if ($config['redirectToObjectList']) {
+                    LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
+                  }
+                  else {
+                    LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&dn='.$_GET['dn']);
+                  }
                 }
                 else {
                   LSerror :: addErrorCode('LSldapObject_31',array('objectname' => $objectname,'customAction' => $_GET['customAction']));
