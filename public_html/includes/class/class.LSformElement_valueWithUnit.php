@@ -149,6 +149,12 @@ class LSformElement_valueWithUnit extends LSformElement {
         }
       }
     }
+    if (isset($_POST[$this -> name])) {
+      if(!is_array($_POST[$this -> name])) {
+        $_POST[$this -> name] = array($_POST[$this -> name]);
+      }
+      $return[$this -> name]=array_merge($return[$this -> name],$_POST[$this -> name]);
+    }
     if (isset($_POST[$this -> name.'_value'])) {
       if (!is_array($_POST[$this -> name.'_value'])) {
         $_POST[$this -> name.'_value']=array($_POST[$this -> name.'_value']);
