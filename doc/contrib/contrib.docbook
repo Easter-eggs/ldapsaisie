@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<chapter>
+
+<title>Contribution</title>
+
+<para>Comme tout projet libre qui se respecte, les contributions à LdapSaisie sont les bienvenues. Ce chapitre explique les possibilités de contribution.</para>
+
+<sect1 id="contrib-LSaddons">
+  <title>LSaddons</title>
+  <para>Les &LSaddons; sont utilisés pour implémenter dans &LdapSaisie; des fonctionnalités spécifiques telque le support du famille d'attribut spécifiques (POSIX, Samba, ...) ou encore des tâches communes et génériques (envoi de mails, connexion FTP, ...). Les &LSaddons; vont permettront également d'adapter &LdapSaisie; à vos besoins en écrivrant par exemple les fonctions appelées par les déclencheurs.</para>
+
+<sect2 id="contrib-LSaddons-structure">
+  <title>Structure d'écriture</title>
+
+  <para>L'écriture d'un &LSaddon; doit respecter une structure suffisament souple afin de ne pas être un frein à vos contributions, tout en permettant d'assurer la bonne intégration de votre contibution au projet. Le code que vous ecrirez sera répartis dans deux fichiers :</para>
+<variablelist>
+
+<varlistentry>
+  <term>conf/LSaddons/config.LSaddons.[addon name].php</term>
+  <listitem><simpara>Ce fichier contiendra la configuration de votre LSadons. On y retrouvera la déclaration de constances et/ou variables de configuration permettant d'adapter votre LSaddon à une installation et à un environement.</simpara></listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>includes/addons/LSaddons.[addon name].php</term>
+  <listitem><simpara>Ce fichier contiendra le code à proprement dit de votre LSaddons.</simpara></listitem>
+</varlistentry>
+
+</variablelist>
+
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure du fichier includes/addons/LSaddons.[addon name].php</citetitle>
+<![CDATA[<?php
+
+// Messages d'erreur
+
+// Support
+LSerror :: defineError('MYADDON_SUPPORT_01',
+  _("MYADDON Support : first support error...")
+);
+
+LSerror :: defineError('MYADDON_SUPPORT_02',
+  _("MYADDON Support : second support error...")
+);
+
+// Autres erreurs
+LSerror :: defineError('MYADDON_01',
+  _("MYADDON_01 : an error : %{msg}.")
+);
+
+LSerror :: defineError('MYADDON_02',
+  _("MYADDON_02 : an other error : %{msg}")
+);
+
+// Constantes
+
+// Un constante
+define('LS_MYADDON_CONST01',XXXXXXXX);
+
+/**
+ * Verify support of my addon by LdapSaisie
+ * 
+ * @author My Name <my.email@example.com>
+ *
+ * @retval boolean true if my addon is totaly supported, false in other cases
+ **/
+function LSaddon_myaddon_support() {
+
+  $retval=true;
+
+  // Dependance de librairie
+  if ( !class_exists('mylib') ) {
+    if ( !LSsession::includeFile(LS_LIB_DIR . 'class.mylib.php') ) {
+      LSerror :: addErrorCode('MYADDON_SUPPORT_01');
+      $retval=false;
+    }
+  }
+
+
+  $MUST_DEFINE_CONST= array(
+    'LS_MYADDON_CONF_O1',
+    'LS_MYADDON_CONF_O2',
+    ...
+  );
+
+  foreach($MUST_DEFINE_CONST as $const) {
+    if ( (!defined($const)) || (constant($const) == "")) {
+      LSerror :: addErrorCode('MYADDON_SUPPORT_02',$const);
+      $retval=false;
+    }
+  }
+
+  // Other check ...
+
+  return $retval;
+}
+
+/**
+ * Ma première fonction.
+ * 
+ * Ce qu'elle fait.
+ * 
+ * @author My Name <my.email@example.com>
+ * 
+ * @retval [type valeur retournée] [Signification de la valeur retournée]
+ **/
+function myaddon_first_function($arg1,$arg2) {
+
+  ...
+
+}
+
+?>
+]]>
+</programlisting>
+
+</sect2>
+
+</sect1>
+ 
+</chapter>
