@@ -44,7 +44,7 @@ if(LSsession :: startLSsession()) {
                 if ($config['function']($object)) {
                   if ($config['disableOnSuccessMsg']!=true) {
                     if ($config['onSuccessMsgFormat']) {
-                      LSsession :: addInfo(getFData($config['onSuccessMsgFormat'],$objectname));
+                      LSsession :: addInfo(getFData(__($config['onSuccessMsgFormat']),$objectname));
                     }
                     else {
                       LSsession :: addInfo(getFData(_('The custom action %{customAction} have been successfully execute on %{objectname}.'),array('objectname' => $objectname,'customAction' => $_GET['customAction'])));
