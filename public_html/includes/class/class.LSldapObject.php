@@ -341,13 +341,24 @@ class LSldapObject {
       
       // $this -> attrs[ {inNewData} ] -> fireEvent('before_modify')
       foreach($new_data as $attr_name => $attr_val) {
-        if (!$this -> attrs[$attr_name] -> fireEvent('before_modify')) {
+        if ($this -> attrs[$attr_name] -> isUpdate() && !$this -> attrs[$attr_name] -> fireEvent('before_modify')) {
           return;
         }
       }
       
       if ($this -> submitChange($idForm)) {
         LSdebug('Les modifications sont submitÃ©es');
+        // Event After Modify
+        if(!$this -> submitError) {
+          $this -> fireEvent('after_modify');
+        }
+
+        // $this -> attrs[*] => After Modify
+        foreach($new_data as $attr_name => $attr_val) {
+          if ($this -> attrs[$attr_name] -> isUpdate()) {
+            $this -> attrs[$attr_name] -> fireEvent('after_modify');
+          }
+        }
         $this -> submitError = false;
         $this -> reloadData();
         $this -> refreshForm($idForm);
@@ -355,16 +366,7 @@ class LSldapObject {
       else {
         return;
       }
-      
-      // Event After Modify
-      if(!$this -> submitError) {
-        $this -> fireEvent('after_modify');
-      }
-      
-      // $this -> attrs[*] => After Modify
-      foreach($new_data as $attr_name => $attr_val) {
-        $this -> attrs[$attr_name] -> fireEvent('after_modify');
-      }
+
       return true;
     }
     else {
