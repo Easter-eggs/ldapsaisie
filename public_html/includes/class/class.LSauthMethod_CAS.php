@@ -50,6 +50,10 @@ class LSauthMethod_CAS extends LSauthMethod {
 				phpCAS::setCasServerCACert(LSAUTH_CAS_SERVER_SSL_CACERT);
 			}
 
+			if (defined('LSAUTH_CAS_CURL_SSLVERION')) {
+				phpCAS::setExtraCurlOption(CURLOPT_SSLVERSION,LSAUTH_CAS_CURL_SSLVERION);
+			}
+
 			if (LSAUTH_CAS_DISABLE_LOGOUT) {
 				LSauth :: disableLogoutBtn();
 			}

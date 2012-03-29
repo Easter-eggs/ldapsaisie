@@ -56,4 +56,9 @@ define('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION',false);
 // CAS server SSL CA Certificate path
 //define('LSAUTH_CAS_SERVER_SSL_CACERT','');
 
+// phpCAS use cURL to validate ticket from the CAS server.
+// You could have to set SSLVERSION manualy if you have cURL
+// error on ticket validation. Possibles values : 2 or 3
+//define('LSAUTH_CAS_CURL_SSLVERION',3);
+
 ?>
