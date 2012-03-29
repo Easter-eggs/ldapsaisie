@@ -42,11 +42,11 @@ class LSauthMethod_CAS extends LSauthMethod {
 				phpCAS::setNoCasServerValidation();
 			}
 
-			if (defined(LSAUTH_CAS_SERVER_SSL_CERT)) {
+			if (defined('LSAUTH_CAS_SERVER_SSL_CERT')) {
 				phpCAS::setCasServerCert(LSAUTH_CAS_SERVER_SSL_CERT);
 			}
 
-			if (defined(LSAUTH_CAS_SERVER_SSL_CACERT)) {
+			if (defined('LSAUTH_CAS_SERVER_SSL_CACERT')) {
 				phpCAS::setCasServerCACert(LSAUTH_CAS_SERVER_SSL_CACERT);
 			}
 
