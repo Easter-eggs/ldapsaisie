@@ -210,10 +210,17 @@ class LSformElement_password extends LSformElement {
       if (checkEmail($mail,NULL,true)) {
         $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password',$this -> sendMail['pwd']);
         $msg = $this -> attr_html -> attribute -> ldapObject -> getFData($this -> sendMail['msg']);
+        if (isset($this -> params['html_options']['mail']['headers'])) {
+          $headers = $this -> params['html_options']['mail']['headers'];
+        }
+        else {
+          $headers = array();
+        }
         if (sendMail(
           $mail,
           $this -> sendMail['subject'],
-          $msg
+          $msg,
+          $headers
         )) {
           LSsession :: addInfo(_('Notice mail sent.'));
         }
