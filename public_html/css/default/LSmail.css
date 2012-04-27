@@ -2,3 +2,11 @@
 	height:		22em;
 	width:		50em;
 }
+
+dl.LSmail dd {
+	margin-left:	7em;
+}
+
+dl.LSmail dt {
+	width:		7em;
+}

@@ -1,4 +1,4 @@
-<dl class='LSform'>
+<dl class='LSform LSmail'>
   <dt class='LSform'>{$LSmail_mail_label}</dt>
   <dd class='LSform'>
     {if $LSmail_mails != ""}
