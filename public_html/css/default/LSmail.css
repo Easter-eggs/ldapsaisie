@@ -10,3 +10,7 @@ dl.LSmail dd {
 dl.LSmail dt {
 	width:		7em;
 }
+
+#LSmail_mail, #LSmail_subject {
+	width:		50.3em;
+}

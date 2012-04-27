@@ -72,7 +72,7 @@ var LSmail = new Class({
         varLSsmoothbox.asNew();
         varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.addEvent('close',this.onLSsmoothboxClose.bind(this));
-        varLSsmoothbox.openHTML(data.html,{startElement: this.startElement, width: 865, height: 400});
+        varLSsmoothbox.openHTML(data.html,{startElement: this.startElement, width: 800, height: 400});
       }
     },
     
