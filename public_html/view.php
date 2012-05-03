@@ -49,7 +49,7 @@ if(LSsession :: startLSsession()) {
             if (LSsession :: canCreate($LSobject)) {
               $LSview_actions[] = array(
                 'label' => _('Copy'),
-                'url' =>'create.php?LSobject='.$LSobject.'&amp;load='.$dn,
+                'url' =>'create.php?LSobject='.$LSobject.'&amp;load='.urlencode($dn),
                 'action' => 'copy'
               );
             }
@@ -57,7 +57,7 @@ if(LSsession :: startLSsession()) {
             if (LSsession :: canRemove($LSobject,$dn)) {
               $LSview_actions[] = array(
                 'label' => _('Delete'),
-                'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$dn,
+                'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn),
                 'action' => 'delete'
               );
             }
