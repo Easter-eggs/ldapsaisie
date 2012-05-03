@@ -41,7 +41,7 @@ if(LSsession :: startLSsession()) {
     $dn = $_POST['LSform_objectdn'];
   }
   else if (isset($_GET['dn'])) {
-    $dn = $_GET['dn'];
+    $dn = urldecode($_GET['dn']);
   }
 
   if ((isset($dn)) && (isset($LSobject)) ) {
