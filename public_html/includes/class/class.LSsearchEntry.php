@@ -151,7 +151,7 @@ class LSsearchEntry {
       if ($this -> LSsearch -> canCopy) {
         $this -> cache['actions'][] = array(
           'label' => _('Copy'),
-          'url' =>'create.php?LSobject='.$this -> LSobject.'&amp;load='.$this -> dn,
+          'url' =>'create.php?LSobject='.$this -> LSobject.'&amp;load='.urlencode($this -> dn),
           'action' => 'copy'
         );
       }
@@ -159,7 +159,7 @@ class LSsearchEntry {
       if (LSsession :: canRemove($this -> LSobject,$this -> dn)) {
         $this -> cache['actions'][] = array (
           'label' => _('Delete'),
-          'url' => 'remove.php?LSobject='.$this -> LSobject.'&amp;dn='.$this -> dn,
+          'url' => 'remove.php?LSobject='.$this -> LSobject.'&amp;dn='.urlencode($this -> dn),
           'action' => 'delete'
         );
       }
