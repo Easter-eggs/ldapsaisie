@@ -38,7 +38,7 @@ if(LSsession :: startLSsession()) {
         $object = new $LSobject();
         
         if ($_GET['load']!='') {
-          $form = $object -> getForm('create',$_GET['load']);
+          $form = $object -> getForm('create',urldecode($_GET['load']));
         }
         else {
           $form = $object -> getForm('create');
