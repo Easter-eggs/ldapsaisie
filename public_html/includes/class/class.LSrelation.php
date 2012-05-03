@@ -205,7 +205,7 @@ class LSrelation {
                             else {
                               $class=' LSrelation_editable';
                             }
-                            $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".$o -> getDn()."' class='LSrelation$class' id='".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
+                            $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=".$relationConf['LSobject']."&amp;dn=".urlencode($o -> getDn())."' class='LSrelation$class' id='".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
                           }
                         }
                         else {
