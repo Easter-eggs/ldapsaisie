@@ -1046,7 +1046,7 @@ class LSsearch {
    **/
   function redirectWhenOnlyOneResult() {
     if ($this -> total == 1 && $this -> result && self::formIsSubmited()) {
-      LSsession :: redirect('view.php?LSobject='.$this -> LSobject.'&dn='.$this -> result['list'][0]['dn']);
+      LSsession :: redirect('view.php?LSobject='.$this -> LSobject.'&dn='.urlencode($this -> result['list'][0]['dn']));
     }
     return;
   }
