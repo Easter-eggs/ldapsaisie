@@ -25,7 +25,7 @@ require_once 'core.php';
 if(LSsession :: startLSsession()) {
   if (isset($_REQUEST['LSobject'])) {
     $LSobject = $_REQUEST['LSobject'];
-    $dn = isset($_REQUEST['dn'])?$_REQUEST['dn']:null;
+    $dn = isset($_REQUEST['dn'])?urldecode($_REQUEST['dn']):null;
     
     if (LSsession :: in_menu($LSobject)) {
     
