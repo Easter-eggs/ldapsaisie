@@ -102,14 +102,14 @@ if(LSsession :: startLSsession()) {
           else {
             $LSview_actions[] = array(
               'label' => _('View'),
-              'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
+              'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.urlencode($object -> getDn()),
               'action' => 'view'
             );
           
             if (LSsession :: canRemove($LSobject,$object -> getDn())) {
               $LSview_actions[] = array(
                 'label' => _('Delete'),
-                'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.$object -> getDn(),
+                'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.urlencode($object -> getDn()),
                 'action' => 'delete'
               );
             }
