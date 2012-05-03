@@ -41,7 +41,7 @@ if(LSsession :: startLSsession()) {
             if ( LSsession :: canEdit($LSobject,$dn) ) {
               $LSview_actions[] = array(
                 'label' => _('Modify'),
-                'url' =>'modify.php?LSobject='.$LSobject.'&amp;dn='.$dn,
+                'url' =>'modify.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn),
                 'action' => 'modify'
               );
             }
