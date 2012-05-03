@@ -25,18 +25,21 @@ require_once 'core.php';
 if(LSsession :: startLSsession()) {
 
   if ((isset($_GET['LSobject'])) && (isset($_GET['dn'])) && (isset($_GET['customAction']))) {
-    
-    if (LSsession ::loadLSobject($_GET['LSobject'])) {
-        if ( LSsession :: canExecuteCustomAction($_GET['dn'],$_GET['LSobject'],$_GET['customAction']) ) {
-          $object = new $_GET['LSobject']();
-          if ($object -> loadData($_GET['dn'])) {
-            $config = LSconfig :: get('LSobjects.'.$_GET['LSobject'].'.customActions.'.$_GET['customAction']);
+    $LSobject=urldecode($_GET['LSobject']);
+    $dn=urldecode($_GET['dn']);
+    $customAction=urldecode($_GET['customAction']);
+
+    if (LSsession ::loadLSobject($LSobject)) {
+        if ( LSsession :: canExecuteCustomAction($dn,$LSobject,$customAction) ) {
+          $object = new $LSobject();
+          if ($object -> loadData($dn)) {
+            $config = LSconfig :: get('LSobjects.'.$LSobject.'.customActions.'.$customAction);
             if (isset($config['function']) && is_callable($config['function'])) {
               if (isset($config['label'])) {
                 $title=__($config['label']);
               }
               else {
-                $title=__($_GET['customAction']);
+                $title=__($customAction);
               }
               if (isset($_GET['valid']) || $config['noConfirmation']) {
                 $objectname=$object -> getDisplayName();
@@ -47,18 +50,18 @@ if(LSsession :: startLSsession()) {
                       LSsession :: addInfo(getFData(__($config['onSuccessMsgFormat']),$objectname));
                     }
                     else {
-                      LSsession :: addInfo(getFData(_('The custom action %{customAction} have been successfully execute on %{objectname}.'),array('objectname' => $objectname,'customAction' => $_GET['customAction'])));
+                      LSsession :: addInfo(getFData(_('The custom action %{customAction} have been successfully execute on %{objectname}.'),array('objectname' => $objectname,'customAction' => $customAction)));
                     }
                   }
                   if ($config['redirectToObjectList']) {
-                    LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&refresh');
+                    LSsession :: redirect('view.php?LSobject='.$LSobject.'&refresh');
                   }
                   else {
-                    LSsession :: redirect('view.php?LSobject='.$_GET['LSobject'].'&dn='.$_GET['dn']);
+                    LSsession :: redirect('view.php?LSobject='.$LSobject.'&dn='.urlencode($dn));
                   }
                 }
                 else {
-                  LSerror :: addErrorCode('LSldapObject_31',array('objectname' => $objectname,'customAction' => $_GET['customAction']));
+                  LSerror :: addErrorCode('LSldapObject_31',array('objectname' => $objectname,'customAction' => $customAction));
                 }
               }
               else {
@@ -70,13 +73,13 @@ if(LSsession :: startLSsession()) {
 				_('Do you really want to execute custom action %{customAction} on %{objectname} ?'),
 				array(
 					'objectname' => $objectname,
-					'customAction' => $_GET['customAction']
+					'customAction' => $customAction
 				)
 			)
 		);
                 $GLOBALS['Smarty'] -> assign('pagetitle',$title.' : '.$objectname);
                 $GLOBALS['Smarty'] -> assign('question',$question);
-                $GLOBALS['Smarty'] -> assign('validation_url','custom_action.php?LSobject='.$_GET['LSobject'].'&amp;dn='.$_GET['dn'].'&amp;customAction='.$_GET['customAction'].'&amp;valid');
+                $GLOBALS['Smarty'] -> assign('validation_url','custom_action.php?LSobject='.urlencode($LSobject).'&amp;dn='.urlencode($dn).'&amp;customAction='.urlencode($customAction).'&amp;valid');
                 $GLOBALS['Smarty'] -> assign('validation_label',_('Validate'));
               }
               LSsession :: setTemplate('question.tpl');
