@@ -466,13 +466,15 @@ class LSldapObject {
             if(isset($test['object_type'])) {
               $test_obj = new $test['object_type']();
               $sfilter=$test_obj->getObjectFilter();
-              $sfilter='(&'.$sfilter;
-              if($sfilter_user[0]=='(') {
-                $sfilter=$sfilter.$sfilter_user.')';
-              }
-              else {
-                $sfilter=$sfilter.'('.$sfilter_user.'))';
-              }
+	      if ($sfilter_user) {
+                $sfilter='(&'.$sfilter;
+                if($sfilter_user[0]=='(') {
+                  $sfilter=$sfilter.$sfilter_user.')';
+                }
+                else {
+                  $sfilter=$sfilter.'('.$sfilter_user.'))';
+                }
+	      }
             }
             else {
               $sfilter=$sfilter_user;
