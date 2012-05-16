@@ -24,6 +24,9 @@ var LSformElement_select = new Class({
     },
     
     resetSelect: function(select) {
+      if ($type(select)!='select') {
+        select=select.getParent('select');
+      }
       select.selectedIndex=-1;
     }
 });
