@@ -109,6 +109,7 @@ class LSldap {
       LSerror :: addErrorCode('LSldap_02',$ret -> getMessage());
       return;
     }
+    LSdebug("LSldap::search() : return ".$ret->count()." objet(s)");
     $retInfos=array();
     foreach($ret -> entries() as $entry) {
       if (!$entry instanceof Net_LDAP2_Entry) {
