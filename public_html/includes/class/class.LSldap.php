@@ -111,6 +111,10 @@ class LSldap {
     }
     $retInfos=array();
     foreach($ret -> entries() as $entry) {
+      if (!$entry instanceof Net_LDAP2_Entry) {
+        LSerror :: addErrorCode('LSldap_02',"LDAP search return an ".get_class($entry).". object");
+        continue;
+      }
       $retInfos[]=array('dn' => $entry -> dn(), 'attrs' => $entry -> getValues());
     }
     return $retInfos;
