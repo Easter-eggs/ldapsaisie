@@ -72,6 +72,8 @@ LSerror :: defineError('SUPANN_02',
       'supannTypeEntite',
       'supannTranslateRoleEntiteValueDirectory',
       'supannTranslateFunctionDirectory',
+      'tableCodeUAI',
+      'supannTranslateEtablissementDirectory',
     );
     foreach($MUST_DEFINE_ARRAY as $array) {
       if ( !isset($GLOBALS[$array]) || !is_array($GLOBALS[$array])) {
@@ -375,5 +377,37 @@ LSerror :: defineError('SUPANN_02',
       );
     }
   }
+
+ /**
+  * Traduit une valeur en fonction de sa cle extrait d'un attribut
+  * supannEtablissement
+  *
+  * @param[in] $key La cle
+  * @param[in] $value La valeur
+  *
+  * @retval array Un tableau cle->valeur contenant label et translated
+  **/
+  function supannTranslateEtablissement($value) {
+    $label='no';
+    $pl=supannParseLabeledValue($value);
+    if ($pl) {
+      $label=$pl['label'];
+      $value=$pl['value'];
+    }
+
+    if (isset($GLOBALS['supannTranslateEtablissementDirectory'][$label][$value])) {
+      return array(
+        'translated' => $GLOBALS['supannTranslateEtablissementDirectory'][$label][$value],
+        'label' => $label
+     );
+    }
+    else {
+      return array(
+        'label' => $label,
+        'translated' => $value
+      );
+    }
+  }
+
 
 ?>
