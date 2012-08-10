@@ -29,7 +29,9 @@ LSerror :: defineError('SUPANN_SUPPORT_01',
 LSerror :: defineError('SUPANN_SUPPORT_02',
   _("SUPANN Support : The LSobject type %{type} does not exist. Can't work with entities..")
 );
-
+LSerror :: defineError('SUPANN_SUPPORT_03',
+  _("SUPANN Support : The global array %{array} is not defined.")
+);
 
 // Autres erreurs
 LSerror :: defineError('SUPANN_01',
@@ -53,6 +55,7 @@ LSerror :: defineError('SUPANN_02',
       'LS_SUPANN_LASTNAME_ATTR',
       'LS_SUPANN_FIRSTNAME_ATTR',
       'LS_SUPANN_LSOBJECT_ENTITE_TYPE',
+      'LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME',
       'LS_SUPANN_ETABLISSEMENT_UAI',
       'LS_SUPANN_ETABLISSEMENT_DN'
     );
@@ -60,6 +63,19 @@ LSerror :: defineError('SUPANN_02',
     foreach($MUST_DEFINE_CONST as $const) {
       if ( (!defined($const)) || (constant($const) == "")) {
         LSerror :: addErrorCode('SUPANN_SUPPORT_01',$const);
+        $retval=false;
+      }
+    }
+
+    $MUST_DEFINE_ARRAY= array(
+      'supannRoleGenerique',
+      'supannTypeEntite',
+      'supannTranslateRoleEntiteValueDirectory',
+      'supannTranslateFunctionDirectory',
+    );
+    foreach($MUST_DEFINE_ARRAY as $array) {
+      if ( !isset($GLOBALS[$array]) || !is_array($GLOBALS[$array])) {
+        LSerror :: addErrorCode('SUPANN_SUPPORT_01',$array);
         $retval=false;
       }
     }
@@ -217,6 +233,147 @@ LSerror :: defineError('SUPANN_02',
     }
 
     return $retval;
+  }
+
+ /**
+  * Parse une valeur composite SUPANN
+  *
+  * Exemple de valeur :
+  *
+  *    [key1=value][key2=value][key3=value]
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $val La valeur composite
+  *
+  * @retval array Un tableau contenant key->value ou false en cas d'erreur
+  **/
+  function supannParseCompositeValue($val) {
+    if (preg_match_all('/\[([^=]*)=([^\]]*)\]/',$val,$matches)) {
+      $parseValue=array();
+      for($i=0;$i<count($matches[0]);$i++) {
+        $parseValue[$matches[1][$i]]=$matches[2][$i];
+      }
+      return $parseValue;
+    }
+    return;
+  }
+
+ /**
+  * Retourne une eventuelle fonction de traduction d'une valeur
+  * en fonction de son label et de sa cle.
+  *
+  * Utilise la table $GLOBALS['supannTranslateFunctionDirectory']
+  *
+  * @param[in] $label Le label de la valeur
+  * @param[in] $key La cle de la valeur
+  *
+  * @retval string|false Le nom de la fonction de traduction ou false
+  **/
+  function supannTranslateRoleEntiteFunction($label,$key) {
+    if (isset($GLOBALS['supannTranslateFunctionDirectory'][$label][$key])) {
+      return $GLOBALS['supannTranslateFunctionDirectory'][$label][$key];
+    }
+    return;
+  }
+
+
+ /**
+  * Retourne le nom court d'une entite en fonction de son identifiant
+  *
+  * Fonction utilise comme fonction de traduction dans la fonction 
+  * supannTranslateRoleEntiteValue()
+  *
+  * @param[in] $label Le label de la valeur
+  * @param[in] $key La cle de la valeur
+  * @param[in] $value La valeur : l'identifiant de l'entite (supannCodeEntite)
+  *
+  * @retval string Le nom de l'entite
+  **/
+  function supanGetEntiteNameById($label,$key,$value) {
+    if (LSsession::loadLSobject(LS_SUPANN_LSOBJECT_ENTITE_TYPE)) {
+      $type=LS_SUPANN_LSOBJECT_ENTITE_TYPE;
+      $e = new $type();
+      $list=$e -> listObjectsName("(supannCodeEntite=$value)",NULL,array(),LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME);
+      if (count($list)==1) {
+        return array(
+          'translated' => array_pop($list),
+          'label' => $label
+        );
+      }
+    }
+    return array(
+      'translated' => getFData(__("%{value} (unrecognized value)"),$value),
+      'label' => $label
+    );
+  }
+
+ /**
+  * Parse une valeur a etiquette SUPANN
+  *
+  * Exemple de valeur :
+  *
+  *    {SUPANN}S410
+  *
+  * @param[in] $val La valeur
+  *
+  * @retval array Un tableau cle->valeur contenant label et value ou False
+  **/
+  function supannParseLabeledValue($value) {
+    if (preg_match('/^\{([^\}]*)\}(.*)$/',$value,$m)) {
+      return array(
+        'label'=>$m[1],
+        'value'=>$m[2]
+      );
+    }
+    return;
+  }
+
+ /**
+  * Traduit une valeur en fonction de sa cle extrait d'un attribut
+  * supannRoleEntite.
+  *
+  * @param[in] $key La cle
+  * @param[in] $value La valeur
+  *
+  * @retval array Un tableau cle->valeur contenant label et translated ou False
+  **/
+  function supannTranslateRoleEntiteValue($key,$value) {
+    $label='no';
+    $pl=supannParseLabeledValue($value);
+    if ($pl) {
+      $label=$pl['label'];
+      $value=$pl['value'];
+    }
+
+    // Translate by method
+    if (supannTranslateRoleEntiteFunction($label,$key)) {
+      $func = supannTranslateRoleEntiteFunction($label,$key);
+      if (function_exists($func)) {
+        try {
+          return $func($label,$key,$value);
+        }
+        catch (Exception $e) {
+          return;
+        }
+      }
+      else {
+        return;
+      }
+    }
+    // Translate by directory
+    elseif (isset($GLOBALS['supannTranslateRoleEntiteValueDirectory'][$label][$key][$value])) {
+      return array(
+        'translated' => $GLOBALS['supannTranslateRoleEntiteValueDirectory'][$label][$key][$value],
+        'label' => $label
+     );
+    }
+    else {
+      return array(
+        'label' => $label,
+        'translated' => $value
+      );
+    }
   }
 
 ?>
