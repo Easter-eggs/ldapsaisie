@@ -133,6 +133,9 @@ class LSsession {
       $GLOBALS['Smarty'] = new Smarty();
       $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
       $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
+      if ( ! is_writable(LS_TMP_DIR) ) {
+        die('Smarty compile directory is not writable (dir : '.LS_TMP_DIR.')');
+      }
       
       if (LSdebug) {
         $GLOBALS['Smarty'] -> caching = 0;
