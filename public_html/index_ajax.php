@@ -18,7 +18,7 @@ if (!isset($_ERRORS)) {
   if (LSsession :: loadLSclass($class)) {
     $meth = 'ajax_'.$_REQUEST['action'];
     if (method_exists($class,$meth)) {
-       call_user_func(array($class,$meth),$data);
+       $class :: $meth($data);
     }
   }
 }
