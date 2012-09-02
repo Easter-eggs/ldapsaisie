@@ -149,7 +149,19 @@ class LSsession {
         }
       }
 
-      $GLOBALS['Smarty'] -> register_function('getFData','smarty_getFData');
+      if (method_exists($GLOBALS['Smarty'],'register_function')) {
+        define('SMARTY3',False);
+        $GLOBALS['Smarty'] -> register_function('getFData','smarty_getFData');
+        $GLOBALS['Smarty'] -> register_function('tr','smarty_tr');
+      }
+      elseif (method_exists($GLOBALS['Smarty'],'registerPlugin')) {
+        define('SMARTY3',True);
+        $GLOBALS['Smarty'] -> registerPlugin("function","getFData", "smarty_getFData");
+        $GLOBALS['Smarty'] -> registerPlugin("function","tr", "smarty_tr");
+      }
+      else {
+        die("Smarty : Can't register getFData fonction");
+      }
       
       $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
       $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);

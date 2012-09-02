@@ -4,7 +4,7 @@
   <!-- Tabs - Start Title -->
   <ul class='LSform_layout'>
   {foreach from=$LSform_layout item=tab key=tab_key}
-    <li class='LSform_layout' id='LSform_layout_btn_{$tab_key}'><a href="#{$tab_key}">{php}tr('tab','label'){/php}</a></li>
+    <li class='LSform_layout' id='LSform_layout_btn_{$tab_key}'><a href="#{$tab_key}">{tr msg=$tab.label}</a></li>
   {/foreach}
   </ul>
   <!-- Tabs - End Title -->

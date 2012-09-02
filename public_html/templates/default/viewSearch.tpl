@@ -22,7 +22,7 @@
 <ul class='LSview-actions'>
   {foreach from=$LSview_actions item=item}
     {if is_array($item)}
-      <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{$LS_IMAGES_DIR}/{$item.action}.png' alt='{php}tr('label');{/php}' title='{php}tr('label');{/php}' /> {php}tr('item','label');{/php}</a></li>
+      <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{$LS_IMAGES_DIR}/{$item.action}.png' alt='{tr msg=$label}' title='{tr msg=$label}' /> {tr msg=$item.label}</a></li>
     {/if}
   {/foreach}
 </ul>

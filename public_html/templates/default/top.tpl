@@ -31,7 +31,7 @@
       {/if}
       <ul class='menu'>
       {foreach from=$LSaccess item=label key=LSobject_type}
-        <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{php}tr('label'){/php}</a></li>
+        <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{tr msg=$label}</a></li>
       {/foreach}
       </ul>
     </td>
