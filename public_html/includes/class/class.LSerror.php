@@ -114,6 +114,7 @@ class LSerror {
   */
   public static function getErrors() {
     if(!empty($_SESSION['LSerror'])) {
+      $txt='';
       foreach ($_SESSION['LSerror'] as $error) {
         $txt.=self::getError($error)."<br />\n";
       }
