@@ -43,7 +43,6 @@
 {if $page.nbPages > 1}
   <p class='LSobject-list-page'>
   {if $page.nbPages > 10}
-    {php}$this->assign('range', range(0,10));{/php}
     {if $page.nb > 5}
       {if $page.nb > $page.nbPages-6}
         {assign var=start value=$page.nbPages-12}
@@ -54,7 +53,7 @@
       {assign var=start value=0}
     {/if}
     <a href='select.php?LSobject={$LSsearch->LSobject}&amp;page=0&amp;multiple={$searchForm.multiple}' class='LSobject-list-page'><</a> 
-    {foreach from=$range item=i}
+    {foreach from=0|range:10 item=i}
       {if $page.nb==$start+$i}
         <strong class='LSobject-list-page'>{$page.nb+1}</strong> 
       {else}
