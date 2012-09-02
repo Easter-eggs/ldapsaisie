@@ -149,7 +149,7 @@ class LSldapObject {
     if ($spe=='') {
       $spe = $this -> getDisplayNameFormat();
     }
-    $val = $this -> getFData($spe,&$this -> attrs,'getDisplayValue');
+    $val = $this -> getFData($spe,$this -> attrs,'getDisplayValue');
     if (LSsession :: haveSubDn() && $full) {
       $val.=' ('.$this -> subDnName.')';
     }
