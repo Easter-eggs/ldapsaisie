@@ -232,13 +232,16 @@ class LSattribute {
       else if (isset($this -> config['default_value'])) {
         $data=$obj -> getFData($this -> config['default_value']);
       }
+      else {
+        $data=NULL;
+      }
       
       $element = $this -> html -> addToForm($form,$idForm,$data);
       if(!$element) {
         LSerror :: addErrorCode('LSform_06',$this -> name);
       }
 
-      if($this -> config['required']==1) {
+      if(isset($this -> config['required']) && $this -> config['required']==1) {
         $form -> setRequired($this -> name);
       }
 
@@ -568,7 +571,10 @@ class LSattribute {
    * @retval mixed La configuration de validation de l'attribut
    */
   function getValidateConfig() {
-    return $this -> config['validation'];
+    if (isset($this -> config['validation'])) {
+      return $this -> config['validation'];
+    }
+    return;
   }
 
   /**

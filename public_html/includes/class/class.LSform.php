@@ -352,7 +352,7 @@ class LSform {
         if (empty($value)) {
           continue;
         }
-        if (!is_array($this -> _rules[$element]))
+        if (!isset($this -> _rules[$element]) || !is_array($this -> _rules[$element]))
           continue;
         LSsession :: loadLSclass('LSformRule');
         foreach($this -> _rules[$element] as $rule) {

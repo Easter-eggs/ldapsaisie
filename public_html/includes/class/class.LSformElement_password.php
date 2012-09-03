@@ -80,7 +80,7 @@ class LSformElement_password extends LSformElement {
           LSdebug ('send by form');
         }
       }
-      else if ($this -> params['html_options']['mail']['send']==1) {
+      else if (isset($this -> params['html_options']['mail']['isset'])) && $this -> params['html_options']['mail']['send']==1) {
         $this -> sendMail = true;
         LSdebug ('send by config');
       }
