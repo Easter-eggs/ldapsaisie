@@ -1,7 +1,8 @@
 <sect4 id="config-LSattribute-check-data-integer">
   <title>integer</title>
   <para>Cette règle vérifie que la valeur saisie est un entier. Les paramètres 
-  permettent de spécifier éventuellement si la valeur doit être positive ou négative.</para>
+  permettent de spécifier éventuellement si la valeur doit être positive ou négative
+  et également de borner les valeurs valides.</para>
   
 <variablelist>
 <title>Paramêtres de configuration</title>
@@ -20,6 +21,19 @@
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>min</term>
+  <listitem>
+    <simpara>Valeur minimale (supérieur ou égale).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>max</term>
+  <listitem>
+    <simpara>Valeur maximale (inférieur ou égale).</simpara>
+  </listitem>
+</varlistentry>
 </variablelist>
 
 </sect4>

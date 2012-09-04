@@ -37,6 +37,12 @@ class LSformRule_integer extends LSformRule{
    * @return boolean true if the value is valided, false otherwise
    */
   function validate ($value,$options=array(),$formElement) {
+    if($options['params']['max'] && $value > $options['params']['max']) {
+      return;
+    }
+    if($options['params']['min'] && $value < $options['params']['min']) {
+      return;
+    }
     if($options['params']['negative']) {
       $regex = '/^-[0-9]*$/';
     }
