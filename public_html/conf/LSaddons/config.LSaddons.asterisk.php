@@ -29,4 +29,6 @@
 // Asterisk hashed password LSformat
 define('LS_ASTERISK_HASH_PWD_FORMAT','%{uid}:sip.lsexample.com:%{clearPassword}');
 
+// Password attribute name to generate MD5 hashed asterisk password
+define('LS_ASTERISK_USERPASSWORD_ATTR','userPassword');
 ?>

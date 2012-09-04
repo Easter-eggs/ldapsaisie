@@ -29,6 +29,12 @@ LSerror :: defineError('ASTERISK_SUPPORT_01',
 LSerror :: defineError('ASTERISK_01',
   __("Asterisk : The function %{function} only work with %{objectName}.")
 );
+LSerror :: defineError('ASTERISK_02',
+  __("Asterisk : The attribute %{dependency} is missing. Unable to generate MD5 hashed password.")
+);
+LSerror :: defineError('ASTERISK_03',
+  __("Asterisk : Clear password not availlable. Unable to generate MD5 hashed password.")
+);
 
  /**
   * Check support of Asterisk by LdapSaisie
@@ -42,6 +48,7 @@ LSerror :: defineError('ASTERISK_01',
 
     $MUST_DEFINE_CONST= array(
       'LS_ASTERISK_HASH_PWD_FORMAT',
+      'LS_ASTERISK_USERPASSWORD_ATTR',
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
@@ -80,6 +87,29 @@ LSerror :: defineError('ASTERISK_01',
     }
     $ldapObject -> registerOtherValue('clearPassword',$clearPassword);
     return md5($ldapObject->getFData(LS_ASTERISK_HASH_PWD_FORMAT));
+ }
+
+ /**
+  * Generate asterisk MD5 hashed password
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $ldapObject The LSldapObject
+  *
+  * @retval string asterisk MD5 hashed password or False
+  */
+  function generate_asteriskMD5HashedPassword($ldapObject) {
+    if ( get_class($ldapObject -> attrs[ LS_ASTERISK_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('ASTERISK_02',array(LS_ASTERISK_USERPASSWORD_ATTR));
+      return;
+    }
+
+    $password = $ldapObject -> attrs[ LS_ASTERISK_USERPASSWORD_ATTR ] -> ldap -> getClearPassword();
+    if (!$password or empty($password)) {
+      LSerror :: addErrorCode('ASTERISK_03');
+      return;
+    }
+    return hashAsteriskPassword($ldapObject,(string)$password);
   }
   
   
