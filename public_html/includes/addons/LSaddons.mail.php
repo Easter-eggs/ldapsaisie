@@ -77,7 +77,20 @@ LSerror :: defineError('MAIL_01',
       $headers['From'] = LSsession :: getEmailSender();
     }
     $headers["To"] = $to;
-    
+
+    $to = array (
+      'To' => $to
+    );
+
+    foreach(array_keys($headers) as $header) {
+      if(strtoupper($header) == 'BCC') {
+        $to['BCC'] = $headers[$header];
+      }
+      elseif(strtoupper($header) == 'CC') {
+        $to['CC'] = $headers[$header];
+      }
+    }
+
     $ret = $mail_obj -> send($to,$headers,$msg);
     
     if ($ret instanceof PEAR_Error) {
