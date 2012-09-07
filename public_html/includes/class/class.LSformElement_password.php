@@ -216,6 +216,9 @@ class LSformElement_password extends LSformElement {
         else {
           $headers = array();
         }
+	if ($this -> params['html_options']['mail']['bcc']) {
+		$headers['Bcc']=$this -> params['html_options']['mail']['bcc'];
+	}
         if (sendMail(
           $mail,
           $this -> sendMail['subject'],
