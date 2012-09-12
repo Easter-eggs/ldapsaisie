@@ -9,5 +9,9 @@
     {$noValueTxt}
   {/if}
 {else}
-<input type='text' name='{$attr_name}[]' class='LSformElement_text' value="{$value}" autocomplete="off"/>
+{if $parseValue}
+  <input type='text' name='{$attr_name}[]' class='LSformElement_text' value="{$parseValue.value}" autocomplete="off"/>
+{else}
+  <input type='text' name='{$attr_name}[]' class='LSformElement_text' value="{$value}" autocomplete="off"/>
+{/if}
 {/if}

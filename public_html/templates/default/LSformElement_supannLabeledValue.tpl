@@ -6,6 +6,7 @@
       <li>{include file=$fieldTemplate}</li>
     {foreachelse}
       {assign var=value value=""}
+      {assign var=parseValue value=""}
       <li>{include file=$fieldTemplate}</li>
     {/foreach}
   {else}
@@ -13,6 +14,7 @@
       <li>{include file=$fieldTemplate}</li>
     {foreachelse}
       {assign var=value value=""} 
+      {assign var=parseValue value=""}
       <li>{include file=$fieldTemplate}</li>
     {/foreach}
   {/if}
