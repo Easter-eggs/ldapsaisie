@@ -51,7 +51,7 @@ class LSformElement_supannRoleEntite extends LSformElement {
     foreach($this -> values as $val) {
       $keyValue=supannParseCompositeValue($val);
       if ($keyValue) {
-        $parseValue=array();
+        $parseValue=array('value' => $val);
         foreach($keyValue as $key => $value) {
           $parseValue[$key]=array(
             'value' => $value
