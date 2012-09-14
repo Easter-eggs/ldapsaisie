@@ -3,3 +3,8 @@ p.LSformElement_pre {
   word-wrap: break-word;
   font-family: monospace;
 }
+
+textarea.LSformElement_pre {
+  height: 20em;
+  width: 38.5em;
+}
