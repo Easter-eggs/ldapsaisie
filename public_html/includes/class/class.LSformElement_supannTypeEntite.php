@@ -20,15 +20,31 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSformElement_supannLabeledValue');
+LSsession :: loadLSaddon('supann');
+
 /**
- * Type d'attribut HTML supannTypeEntiteAffectation
+ * Element supannTypeEntite d'un formulaire pour LdapSaisie
+ *
+ * Cette classe définis les éléments supannTypeEntite des formulaires.
+ * Elle etant la classe basic LSformElement_supannLabeledValue.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_html_supannTypeEntiteAffectation extends LSattr_html {
 
-  var $LSformElement_type = 'supannTypeEntiteAffectation';
-  
+class LSformElement_supannTypeEntite extends LSformElement_supannLabeledValue {
+
+ /**
+  * Traduit une valeur
+  *
+  * @param[in] $value La valeur
+  *
+  * @retval array Un tableau cle->valeur contenant translated et label ou False
+  **/
+  function translate($value) {
+    return supannTranslateRoleEntiteValue('type',$value); 
+  }
+
+
 }
 
-?>
