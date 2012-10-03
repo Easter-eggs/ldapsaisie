@@ -88,7 +88,11 @@ class LSformElement_select_object extends LSformElement {
         LSselect :: loadDependenciesDisplay();
       }
     }
-    $return['html'] = $this -> fetchTemplate(NULL,array('selectableObject' => $this -> selectableObject));
+    $return['html'] = $this -> fetchTemplate(NULL,array(
+      'selectableObject' => $this -> selectableObject,
+      'unrecognizedValues' => $this -> attr_html -> unrecognizedValues,
+      'unrecognizedValueLabel' => _("%{value} (unrecognized value)")
+    ));
     return $return;
   }
   

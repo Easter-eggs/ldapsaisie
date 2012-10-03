@@ -27,6 +27,8 @@
  */
 class LSattr_html_select_object extends LSattr_html{
 
+  var $unrecognizedValues=false;
+
   /**
    * Ajoute l'attribut au formualaire passer en paramètre
    *
@@ -145,9 +147,9 @@ class LSattr_html_select_object extends LSattr_html{
       }
       
       if (is_array($values)) {
+        $obj = new $conf['object_type']();
         if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')||$fromDNs) {
           $DNs=$values;
-          $obj = new $conf['object_type']();
           foreach($DNs as $dn) {
             if($obj -> loadData($dn)) {
               $retInfos[$dn] = $obj -> getDisplayName($conf['display_name_format']);
@@ -159,23 +161,26 @@ class LSattr_html_select_object extends LSattr_html{
             LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
             return;
           }
-          $filters=array();
+          $unrecognizedValues=array();
           foreach($values as $val) {
             if (!empty($val)) {
-              $filters[]=Net_LDAP2_Filter::create($conf['value_attribute'],'equals',$val);
-            }
-          }
-          if (!empty($filters)) {
-            $filter=LSldap::combineFilters('or',$filters);
-            if ($filter) {
-              $obj = new $conf['object_type']();
+              $filter=Net_LDAP2_Filter::create($conf['value_attribute'],'equals',$val);
               $listobj = $obj -> listObjectsName($filter,NULL,array(),$conf['display_name_format']);
-              foreach($listobj as $dn => $name) {
-                $DNs[]=$dn;
-                $retInfos[$dn] = $name;
+              if (count($listobj)==1) {
+		foreach($listobj as $dn => $name) {
+                  $DNs[]=$dn;
+                  $retInfos[$dn] = $name;
+                }
+              }
+              else {
+                $unrecognizedValues[]=$val;
+                if(count($listobj)>1) {
+                  LSerror :: addErrorCode('LSattr_html_select_object_03',array('val' => $val, 'attribute' => $this -> name));
+                }
               }
             }
           }
+          $this -> unrecognizedValues=$unrecognizedValues;
         }
       }
       else {
@@ -224,6 +229,9 @@ _("LSattr_html_select_object : LSobject type is undefined (attribute : %{attr}).
 );
 LSerror :: defineError('LSattr_html_select_object_02',
 _("LSattr_html_select_object : the value of the parameter value_attribute in the configuration of the attribute %{attrs} is incorrect. This attribute does not exists.")
+);
+LSerror :: defineError('LSattr_html_select_object_03',
+_("LSattr_html_select_object : more than one object returned corresponding to value %{val} of attribute %{attr}.")
 );
 
 ?>

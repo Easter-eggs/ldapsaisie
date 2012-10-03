@@ -18,3 +18,10 @@
   </tr>
 </table>
 {/if}
+{if !empty($unrecognizedValues)}
+  <ul class="LSform">
+  {foreach from=$unrecognizedValues item=v}
+    <li class="LSform-errors">{getFData format=$unrecognizedValueLabel data=$v}</li>
+  {/foreach}
+  <ul>
+{/if}
