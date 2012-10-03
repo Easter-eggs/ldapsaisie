@@ -73,10 +73,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
   * @retval array Un tableau cle->valeur contenant translated et label ou False
   **/
   function translate($value) {
-    return array (
-      'translated' => 'NOT IMPLEMENTED',
-      'label' => 'NOT IMPLEMENTED',
-    );
+    return supannTranslateLabeledValue($value);
   }
 
 }

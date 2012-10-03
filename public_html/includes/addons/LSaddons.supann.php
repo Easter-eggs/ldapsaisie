@@ -332,6 +332,28 @@ LSerror :: defineError('SUPANN_02',
   }
 
  /**
+  * Simple découpage label/valeur sans traduction réel
+  *
+  * @param[in] $key La cle
+  * @param[in] $value La valeur
+  *
+  * @retval array Un tableau cle->valeur contenant label et translated
+  **/
+  function supannTranslateLabeledValue($value) {
+    $label='no';
+    $pl=supannParseLabeledValue($value);
+    if ($pl) {
+      $label=$pl['label'];
+      $value=$pl['value'];
+    }
+
+    return array(
+      'label' => $label,
+      'translated' => $value
+    );
+  }
+
+ /**
   * Traduit une valeur en fonction de sa cle extrait d'un attribut
   * supannRoleEntite.
   *
