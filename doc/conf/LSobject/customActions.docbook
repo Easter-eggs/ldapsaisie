@@ -8,6 +8,7 @@
 <![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['customActions'] = array (
   'action1' => array(
     'label' => '[label l'action]',
+    'hideLabel' => '[booléen]',
     'icon' => '[nom de l'icône de l'action]',
     'function' => '[fonction à exécuter]',
     'question_format' => '[LSformat de la question de confirmation]',
@@ -30,7 +31,14 @@
 <varlistentry>
   <term>label</term>
   <listitem>
-    <simpara>Le label de la relation.</simpara>
+    <simpara>Le label de l'action.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>hideLabel</term>
+  <listitem>
+    <simpara>Cache le label dans le bouton de l'action.</simpara>
   </listitem>
 </varlistentry>
 

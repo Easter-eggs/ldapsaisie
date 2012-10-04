@@ -69,6 +69,7 @@ if(LSsession :: startLSsession()) {
                 if (LSsession :: canExecuteCustomAction($dn,$LSobject,$name)) {
                   $LSview_actions[] = array (
                     'label' => ((isset($config['label']))?__($config['label']):__($name)),
+                    'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
                     'url' => 'custom_action.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn).'&amp;customAction='.$name,
                     'action' => ((isset($config['icon']))?$config['icon']:'generate'),
                     'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
