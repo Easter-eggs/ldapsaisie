@@ -171,7 +171,14 @@ class LSattribute {
       LSerror :: addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
       return;
     }
-    $data = $this -> ldap -> getDisplayValue($this -> data);
+
+    if ($this -> isUpdate()) {
+      $data = $this -> ldap -> getDisplayValue($this -> updateData);
+    }
+    else {
+      $data = $this -> ldap -> getDisplayValue($this -> data);
+    }
+
     if (isset($this -> config['onDisplay'])) {
       if (is_array($this -> config['onDisplay'])) {
         $result=$data;
