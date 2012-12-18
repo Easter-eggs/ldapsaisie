@@ -111,10 +111,18 @@ var LSformElement_password_field = new Class({
         this.LSmail.addEvent('valid',this.onLSmailValid.bind(this));
       }
       
-      var mail = varLSform.getValue(this.params.mail['mail_attr']);
+      var mails = []
+      if ($type(this.params.mail['mail_attr'])=='array') {
+        this.params.mail['mail_attr'].each(function(a) {
+          this.append(varLSform.getValue(a));
+        },mails);
+      }
+      else {
+        mails.append(varLSform.getValue(this.params.mail['mail_attr']));
+      }
 
       this.LSmail_open = 1;
-      this.LSmail.setMails(mail);
+      this.LSmail.setMails(mails);
       this.LSmail.setSubject(this.params.mail['subject']);
       this.LSmail.setMsg(this.params.mail['msg']);
       this.LSmail.open(this.editMailBtn);

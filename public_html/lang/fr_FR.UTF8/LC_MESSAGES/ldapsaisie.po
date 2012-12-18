@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-03 12:19+0200\n"
-"PO-Revision-Date: 2012-10-03 12:21+0100\n"
+"POT-Creation-Date: 2012-12-18 11:55+0100\n"
+"PO-Revision-Date: 2012-12-18 11:56+0100\n"
 "Last-Translator: Benjamin Renard <brenard@easter-eggs.com>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise.org>\n"
 "Language: \n"
@@ -806,43 +806,43 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: includes/class/class.LSattribute.php:260
+#: includes/class/class.LSattribute.php:267
 msgid "The value of field %{label} is invalid."
 msgstr "La valeur du champ %{label} est incorrecte."
 
-#: includes/class/class.LSattribute.php:724
+#: includes/class/class.LSattribute.php:731
 msgid "LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} & HTML = %{html})."
 msgstr "LSattribute : Attribut %{attr} : Les types LDAP ou HTML sont inconnus (LDAP = %{ldap} & HTML = %{html})."
 
-#: includes/class/class.LSattribute.php:727
+#: includes/class/class.LSattribute.php:734
 msgid "LSattribute : The function %{func} to display the attribute %{attr} is unknow."
 msgstr "LSattribute : La fonction %{func} pour afficher l'attribut %{attr} est inconnue."
 
-#: includes/class/class.LSattribute.php:730
+#: includes/class/class.LSattribute.php:737
 msgid "LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
 msgstr "LSattribute : La règle %{rule} de validation de l'attribut %{attr} n'existe pas."
 
-#: includes/class/class.LSattribute.php:733
+#: includes/class/class.LSattribute.php:740
 msgid "LSattribute : Configuration data to verify the attribute %{attr} are incorrect."
 msgstr "LSattribute : Les données de configuration pour vérifier l'attribut %{attr} sont incorrecte."
 
-#: includes/class/class.LSattribute.php:736
+#: includes/class/class.LSattribute.php:743
 msgid "LSattribute : The function %{func} to save the attribute %{attr} is unknow."
 msgstr "LSattribute : La fonction %{func} pour sauvegarder l'attribut %{attr} est inconnue."
 
-#: includes/class/class.LSattribute.php:739
+#: includes/class/class.LSattribute.php:746
 msgid "LSattribute : The value of the attribute %{attr} can't be generated."
 msgstr "LSattribute : La valeur de l'attribut %{attr} ne peut être générée."
 
-#: includes/class/class.LSattribute.php:742
+#: includes/class/class.LSattribute.php:749
 msgid "LSattribute : Generation of the attribute %{attr} failed."
 msgstr "LSattribute : La génération de l'attribut %{attr} a échouée."
 
-#: includes/class/class.LSattribute.php:745
+#: includes/class/class.LSattribute.php:752
 msgid "LSattribute : Generation of the attribute %{attr} did not return a correct value."
 msgstr "LSattribute : La génération de l'attribut %{attr} n'a pas retournée de valeur correcte."
 
-#: includes/class/class.LSattribute.php:748
+#: includes/class/class.LSattribute.php:755
 msgid "LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
 msgstr "LSattribute : L'objet attr_%{type} de l'attribut %{name} n'est pas encore défini."
 
@@ -958,9 +958,17 @@ msgstr "Le mot de passe ne sera pas envoyé en cas de modification. Cliquer pour
 msgid "Modify the mail sent to notice the user"
 msgstr "Modifier mail de notification de l'utilisateur"
 
-#: includes/class/class.LSformElement_password.php:228
+#: includes/class/class.LSformElement_password.php:243
 msgid "Notice mail sent."
 msgstr "Le mail de notification a été envoyé."
+
+#: includes/class/class.LSformElement_password.php:323
+msgid "LSformElement_password : No contact mail available to send password."
+msgstr "LSformElement_password : Aucun mail de contact disponible pour envoyer le mot de passe."
+
+#: includes/class/class.LSformElement_password.php:326
+msgid "LSformElement_password : Contact mail invalid (%{mail}). Can't send password."
+msgstr "LSformElement_password : Mail de contact invalide (%{mail}). Impossible d'envoyer le mot de passe."
 
 #: includes/class/class.LSformElement_date.php:159
 msgid "Now."
@@ -998,21 +1006,21 @@ msgstr "Discuter avec cette personne."
 msgid "The custom action %{customAction} have been successfully execute on %{objectname}."
 msgstr "L'action personnalisée %{customAction} a été correctement exécutée sur %{objectname}."
 
-#: view.php:87
+#: view.php:88
 msgid "My account"
 msgstr "Mon compte"
 
-#: view.php:117
+#: view.php:118
 #: select.php:60
 msgid "Search"
 msgstr "Rechercher"
 
-#: view.php:118
+#: view.php:119
 #: select.php:61
 msgid "Approximative search"
 msgstr "Recherche approximative"
 
-#: view.php:119
+#: view.php:120
 #: select.php:62
 msgid "Recursive search"
 msgstr "Recherche récursive"

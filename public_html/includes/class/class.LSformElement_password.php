@@ -196,13 +196,28 @@ class LSformElement_password extends LSformElement {
       $mail = (String)$this -> sendMail['mail'];
       Lsdebug($mail);
       if ($mail=="") {
-        $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$this -> params['html_options']['mail']['mail_attr']];
-        if ($mail_attr instanceOf LSattribute) {
-          $mail = $mail_attr -> getValue();
-          $mail=$mail[0];
+        $mail_attrs = $this -> params['html_options']['mail']['mail_attr'];
+        if (!is_array($mail_attrs)) {
+          $mail_attrs=array();
         }
-        else {
-          LSdebug("L'attribut $mail_attr pour l'envoie du nouveau mot de passe n'existe pas.");
+        foreach($mail_attrs as $attr) {
+          $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$attr];
+          if ($mail_attr instanceOf LSattribute) {
+            $mail = $mail_attr -> getValue();
+            if (!empty($mail) && checkEmail($mail[0],NULL,true)) {
+              $mail=$mail[0];
+              break;
+            }
+            else {
+              $mail="";
+            }
+          }
+          else {
+            LSdebug("L'attribut $mail_attr pour l'envoie du nouveau mot de passe n'existe pas.");
+          }
+        }
+        if ($mail=="") {
+          LSerror :: addErrorCode('LSformElement_password_01');
           return;
         }
       }
@@ -229,7 +244,7 @@ class LSformElement_password extends LSformElement {
         }
       }
       else {
-        LSdebug('Adresse mail incorrect : '.$mail);
+        LSerror :: addErrorCode('LSformElement_password_02',$mail);
         return;
       }
     }
@@ -300,5 +315,15 @@ class LSformElement_password extends LSformElement {
   }
 
 }
-  
+
+/*
+ * Error Codes
+ */
+LSerror :: defineError('LSformElement_password_01',
+_("LSformElement_password : No contact mail available to send password.")
+);
+LSerror :: defineError('LSformElement_password_02',
+_("LSformElement_password : Contact mail invalid (%{mail}). Can't send password.")
+);
+
 ?>

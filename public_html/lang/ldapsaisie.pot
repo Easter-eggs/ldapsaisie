@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-03 12:19+0200\n"
+"POT-Creation-Date: 2012-12-18 11:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -899,53 +899,53 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: includes/class/class.LSattribute.php:260
+#: includes/class/class.LSattribute.php:267
 msgid "The value of field %{label} is invalid."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:724
+#: includes/class/class.LSattribute.php:731
 msgid ""
 "LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} "
 "& HTML = %{html})."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:727
+#: includes/class/class.LSattribute.php:734
 msgid ""
 "LSattribute : The function %{func} to display the attribute %{attr} is "
 "unknow."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:730
+#: includes/class/class.LSattribute.php:737
 msgid ""
 "LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:733
+#: includes/class/class.LSattribute.php:740
 msgid ""
 "LSattribute : Configuration data to verify the attribute %{attr} are "
 "incorrect."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:736
+#: includes/class/class.LSattribute.php:743
 msgid ""
 "LSattribute : The function %{func} to save the attribute %{attr} is unknow."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:739
+#: includes/class/class.LSattribute.php:746
 msgid "LSattribute : The value of the attribute %{attr} can't be generated."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:742
+#: includes/class/class.LSattribute.php:749
 msgid "LSattribute : Generation of the attribute %{attr} failed."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:745
+#: includes/class/class.LSattribute.php:752
 msgid ""
 "LSattribute : Generation of the attribute %{attr} did not return a correct "
 "value."
 msgstr ""
 
-#: includes/class/class.LSattribute.php:748
+#: includes/class/class.LSattribute.php:755
 msgid ""
 "LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
 msgstr ""
@@ -1076,8 +1076,17 @@ msgstr ""
 msgid "Modify the mail sent to notice the user"
 msgstr ""
 
-#: includes/class/class.LSformElement_password.php:228
+#: includes/class/class.LSformElement_password.php:243
 msgid "Notice mail sent."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:323
+msgid "LSformElement_password : No contact mail available to send password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:326
+msgid ""
+"LSformElement_password : Contact mail invalid (%{mail}). Can't send password."
 msgstr ""
 
 #: includes/class/class.LSformElement_date.php:159
@@ -1118,19 +1127,19 @@ msgid ""
 "%{objectname}."
 msgstr ""
 
-#: view.php:87
+#: view.php:88
 msgid "My account"
 msgstr ""
 
-#: view.php:117 select.php:60
+#: view.php:118 select.php:60
 msgid "Search"
 msgstr ""
 
-#: view.php:118 select.php:61
+#: view.php:119 select.php:61
 msgid "Approximative search"
 msgstr ""
 
-#: view.php:119 select.php:62
+#: view.php:120 select.php:62
 msgid "Recursive search"
 msgstr ""
 
