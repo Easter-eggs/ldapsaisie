@@ -51,6 +51,7 @@ class LSsearch {
     'recursive' => false,
     'attributes' => array(),
     // Display params
+    'onlyAccessible' => NULL,
     'sortDirection' => NULL,
     'sortBy' => NULL,
     'sortlimit' => 0,
@@ -496,6 +497,11 @@ class LSsearch {
       }
     }
 
+    // Only Accessible objects
+    if (isset($params['onlyAccessible'])) {
+      $this -> params['onlyAccessible'] = (bool)$params['onlyAccessible'];
+    }
+
     $this -> saveParamsInSession();
     return $OK;
   }
@@ -787,16 +793,34 @@ class LSsearch {
         'sortBy' => NULL,
         'sortDirection' => NULL
       );
-      $this -> result['list'] = LSldap :: search(
+
+      // Search in LDAP
+      $list = LSldap :: search(
         $this -> _searchParams['filter'],
         $this -> _searchParams['basedn'],
         $this -> _searchParams
       );
-      if ($this -> result['list'] === false) {
+
+      // Check result
+      if ($list === false) {
         LSerror :: addErrorCode('LSsearch_12');
-        unset($this -> result['list']);
         return;
       }
+
+      if ($this -> getParam('onlyAccessible') && LSsession :: getLSuserObjectDn()) {
+        $this -> result['list']=array();
+
+        // Check user rights on objets
+        foreach($list as $id => $obj) {
+          if (LSsession :: canAccess($this -> LSobject,$obj['dn'])) {
+            $this -> result['list'][]=$obj;
+          }
+        }
+      }
+      else {
+	$this -> result['list']=$list;
+      }
+
       $this -> addResultToCache();
     }
     
