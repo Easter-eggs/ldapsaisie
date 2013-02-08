@@ -1521,7 +1521,7 @@ class LSsession {
                     $LSsearch = new LSsearch($LSobject,'LSsession :: loadLSprofiles',$params,true);
                     $LSsearch -> run(false);
                     
-                    $LSprofiles[$profile] = $LSsearch -> listObjectsDn();
+                    self :: $LSprofiles[$profile] = $LSsearch -> listObjectsDn();
                   }
                 }
               }
