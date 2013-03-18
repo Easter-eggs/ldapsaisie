@@ -652,6 +652,17 @@ class LSform {
        }
        $this -> dataEntryForm       = $dataEntryForm;
        $this -> dataEntryFormConfig = $config;
+
+       // Set default value of displayed elements
+       if(is_array($config['defaultValues'])) {
+         foreach($config['displayedElements'] as $el) {
+           if (isset($config['defaultValues'][$el])) {
+             if (isset($this -> elements[$el])) {
+               $this -> elements[$el] -> setValueFromPostData($config['defaultValues'][$el]);
+             }
+           }
+         }
+       }
        return true;
      }
      LSerror :: addErrorCode('LSform_07',$dataEntryForm);
