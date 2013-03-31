@@ -92,7 +92,10 @@ class LSsession {
   * @retval true si tout c'est bien passé, false sinon
   */
   public static function includeFile($file) {
-    if (!file_exists($file)) {
+    if (file_exists(LS_LOCAL_DIR.'/'.$file)) {
+      $file=LS_LOCAL_DIR.'/'.$file;
+    }
+    elseif (!file_exists($file)) {
       return;
     }
     if (defined('LSdebug') && constant('LSdebug')) {
@@ -385,11 +388,10 @@ class LSsession {
       bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR);
       textdomain(LS_TEXT_DOMAIN);
       
-      if (is_file(LS_I18N_DIR.'/'.$lang.'/lang.php')) {
-        include(LS_I18N_DIR.'/'.$lang.'/lang.php');
-      }
-      foreach (listFiles(LS_I18N_DIR.'/'.$lang,'/^lang.+\.php$/') as $file) {
-        include(LS_I18N_DIR."/$lang/$file");
+      self :: includeFile(LS_I18N_DIR.'/'.$lang.'/lang.php');
+
+      foreach (listFiles(LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang,'/^lang.+\.php$/') as $file) {
+        include(LS_LOCAL_DIR.'/'.LS_I18N_DIR."/$lang/$file");
       }
     }
     else {

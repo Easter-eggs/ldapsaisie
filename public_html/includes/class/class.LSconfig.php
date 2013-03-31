@@ -39,12 +39,16 @@ class LSconfig {
   * @retval boolean True si tout s'est bien passé, False sinon
   **/
   public static function start() {
-    if (loadDir(LS_CONF_DIR, '^config\..*\.php$')) {
-      if (is_array($GLOBALS['LSconfig'])) {
-        self :: $data = $GLOBALS['LSconfig'];
-        self :: $data['LSaddons'] = $GLOBALS['LSaddons'];
-        return true;
+    $files=array('config.inc.php','config.LSaddons.php');
+    foreach($files as $file) {
+      if (!LSsession::includeFile(LS_CONF_DIR.'/'.$file)) {
+        return;
       }
+    }
+    if (is_array($GLOBALS['LSconfig'])) {
+      self :: $data = $GLOBALS['LSconfig'];
+      self :: $data['LSaddons'] = $GLOBALS['LSaddons'];
+      return true;
     }
     return;
   }
