@@ -1,0 +1,4 @@
+etc/ldapsaisie
+usr/share/doc/ldapsaisie
+var/tmp/ldapsaisie
+var/log/ldapsaisie

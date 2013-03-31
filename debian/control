@@ -1,0 +1,22 @@
+Source: ldapsaisie
+Section: admin
+Priority: extra
+Build-Depends: debhelper, xsltproc, docbook-xsl
+Maintainer: Benjamin Renard <brenard@easter-eggs.com>
+
+Package: ldapsaisie
+Architecture: all
+Depends: apache2 | httpd, php5-ldap, libapache2-mod-php5 | php5-cli, smarty, php-net-ldap2, php-net-ftp, php-mail
+Maintainer: Benjamin Renard <brenard@easter-eggs.com>
+Description:  web based interface for managing LDAP servers content
+ LdapSaisie is a Web application developed to manage LDAP directory.
+ It has been written in PHP / JavaScript and is published under the
+ GNU GPL license. This application is designed to abstract the
+ complexity of the directory through a simple and intuitive
+ administration interface. It was designed with the objective of
+ maximal modularity and easy extension or adaptation: you can use
+ modules, extensions and plugins. LdapSaisie allows any system
+ administrator to manage data stored inside a LDAP server, and thus
+ administrate its information system in a simple manner. It's also
+ possible to let users access their own data, with read-only or
+ read-write access.

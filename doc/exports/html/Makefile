@@ -2,6 +2,7 @@ DOCBOOK_FILE=../../LdapSaisie.docbook
 XSL_FILE=../../styles/LS.xsl
 XSL_MULTI_FILE=../../styles/LS-multi.xsl
 XSL_HELP_FILE=../../styles/LS-help.xsl
+XSL_DEBIAN_FILE=../../styles/LS-debian.xsl
 
 XSLTPROC=xsltproc
 
@@ -19,5 +20,11 @@ online/index.html:		$(DOCBOOK_FILE)
 help/index.html:		$(DOCBOOK_FILE)
 						cd help; $(XSLTPROC) ../$(XSL_HELP_FILE)	../$(DOCBOOK_FILE)
 
+debian: debian/LdapSaisie.html
+
+debian/LdapSaisie.html:		$(DOCBOOK_FILE)
+						$(XSLTPROC) --output debian/LdapSaisie.html $(XSL_DEBIAN_FILE) $(DOCBOOK_FILE)
+
+
 clean:
-				rm -f all-in-one/LdapSaisie.html online/* help/*
+				rm -f all-in-one/LdapSaisie.html online/* help/* debian/LdapSaisie.html

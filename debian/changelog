@@ -1,0 +1,5 @@
+ldapsaisie (1.0-1) unstable; urgency=low
+
+  * Initial Debian release
+
+ -- Benjamin Renard <brenard@zionetrix.net>  Tue, 31 Mar 2013 05:25:12 +0100
