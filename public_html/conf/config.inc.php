@@ -182,7 +182,7 @@ define('LS_IMAGES_DIR', 'images/'.LS_THEME);
 define('LS_CSS_DIR', 'css/'.LS_THEME);
 
 //Debug
-define('LSdebug',true);
+define('LSdebug',false);
 
 // Logs
 $GLOBALS['LSlog']['filename'] = 'tmp/LS.log';
