@@ -46,6 +46,7 @@ class LSformElement_valueWithUnit extends LSformElement {
       foreach($this -> params['html_options']['units'] as $sill => $label) {
         $units[$sill]=__($label);
       }
+      krsort($units);
       return $units;
     }
     LSerror :: addErrorCode('LSformElement_valueWithUnit_01',$this -> name);
