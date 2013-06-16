@@ -26,6 +26,7 @@ install: build
 
 	cp -fr $(CURDIR)/public_html $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie
 	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .gitignore -exec rm -f {} \;
+	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .placefolder -exec rm -f {} \;
 
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/
 	find $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/local -type f -exec rm -f \{\} \;
