@@ -1,8 +1,8 @@
 # AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
-# CRC32 e6593e2f
-dn: cn={5}ls
+# CRC32 5c6a815f
+dn: cn={5}lsexample
 objectClass: olcSchemaConfig
-cn: {5}ls
+cn: {5}lsexample
 olcObjectIdentifier: {0}EeRoot 1.3.6.1.4.1.10650
 olcObjectIdentifier: {1}LeRoot EeRoot:4
 olcObjectIdentifier: {2}LsRoot LeRoot:10000
@@ -23,17 +23,17 @@ olcObjectClasses: {0}( LsLDAPObjectClass:1 NAME 'lspeople' DESC 'LS people Obj
  $ personalTitle $ description $ userPassword $ lsallowedservices $ lsRecovery
  Hash $ lsGodfatherDn ) )
 olcObjectClasses: {1}( LsLDAPObjectClass:3 NAME 'lsgroup' DESC 'LS group Objec
- tclass' STRUCTURAL MUST cn MAY ( uniquemember $ description $ lsGodfatherDn )
-  )
+ tclass' AUXILIARY MUST cn MAY ( uniquemember $ description $ lsGodfatherDn ) 
+ )
 olcObjectClasses: {2}( LsLDAPObjectClass:4 NAME 'lssysaccount' DESC 'LS system
   account Objectclass' STRUCTURAL MUST uid MAY ( userpassword $ description ) 
  )
 olcObjectClasses: {3}( LsLDAPObjectClass:5 NAME 'lscompany' SUP organizational
  Unit STRUCTURAL MUST ou MAY ( description $ lsGodfatherDn ) )
 structuralObjectClass: olcSchemaConfig
-entryUUID: 5606be58-6a95-1032-977c-cf219862f309
+entryUUID: 076f2732-6a9d-1032-82eb-95e24cffa2a0
 creatorsName: cn=config
-createTimestamp: 20130616055713Z
-entryCSN: 20130616055713.639138Z#000000#000#000000
+createTimestamp: 20130616065217Z
+entryCSN: 20130616065217.757414Z#000000#000#000000
 modifiersName: cn=config
-modifyTimestamp: 20130616055713Z
+modifyTimestamp: 20130616065217Z

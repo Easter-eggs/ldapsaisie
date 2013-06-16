@@ -1,4 +1,5 @@
 etc/ldapsaisie
+etc/ldap/schema
 usr/share/doc/ldapsaisie
 var/tmp/ldapsaisie
 var/log/ldapsaisie

@@ -1,5 +1,5 @@
 # AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
-# CRC32 960a7473
+# CRC32 4ba4a558
 dn: olcDatabase={1}hdb
 objectClass: olcDatabaseConfig
 objectClass: olcHdbConfig
@@ -73,12 +73,14 @@ olcDbIndex: cn eq,approx,sub
 olcDbIndex: uid eq,approx,sub
 olcDbIndex: uidNumber eq
 olcDbIndex: gidNumber eq
-olcDbIndex: lsAllowedServices eq
 olcDbIndex: sambaSID eq
+olcDbIndex: lsAllowedServices eq
+olcDbIndex: lsGodfatherDn eq
+olcDbIndex: uniqueMember eq
 olcDbIndex: sambaDomainName eq
-olcDbIndex: sn eq,approx,sub
 olcDbIndex: memberUid eq
 olcDbIndex: givenName eq,approx,sub
+olcDbIndex: sn eq,approx,sub
 olcDbIndex: mail eq,approx,sub
 olcDbLinearIndex: FALSE
 olcDbMode: 0600
@@ -87,9 +89,9 @@ olcDbShmKey: 0
 olcDbCacheFree: 1
 olcDbDNcacheSize: 0
 structuralObjectClass: olcHdbConfig
-entryUUID: 5606f454-6a95-1032-977f-cf219862f309
+entryUUID: a17059aa-6aa2-1032-8f84-37b4f3699116
 creatorsName: cn=config
-createTimestamp: 20130616055713Z
-entryCSN: 20130616055713.639138Z#000000#000#000000
+createTimestamp: 20130616073223Z
+entryCSN: 20130616073223.616056Z#000000#000#000000
 modifiersName: cn=config
-modifyTimestamp: 20130616055713Z
+modifyTimestamp: 20130616073223Z

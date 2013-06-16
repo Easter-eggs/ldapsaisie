@@ -35,6 +35,9 @@ install: build
 
 	rm -fr $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/tmp
 	dh_link /var/tmp/ldapsaisie /usr/share/ldapsaisie/tmp
+
+	cp -f $(CURDIR)/lsexample/schema/lsexample.schema  $(CURDIR)/debian/ldapsaisie/etc/ldap/schema/
+	cp -f $(CURDIR)/lsexample/schema/lsexample.ldif  $(CURDIR)/debian/ldapsaisie/etc/ldap/schema/
 	
 
 # Build architecture-independent files here.

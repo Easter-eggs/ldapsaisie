@@ -38,7 +38,7 @@ objectclass (LsLDAPObjectClass:1
 objectclass (LsLDAPObjectClass:3
   NAME 'lsgroup'
   DESC 'LS group Objectclass'
-  STRUCTURAL
+  AUXILIARY
   MUST ( cn )
   MAY ( uniquemember $ description $ lsGodfatherDn ))
 
@@ -50,11 +50,11 @@ objectclass (LsLDAPObjectClass:4
   MAY (userpassword $ description))
 
 objectclass ( LsLDAPObjectClass:5
-	NAME 'lscompany'
-	SUP organizationalUnit
-	STRUCTURAL
-	MUST ( ou )
-	MAY ( description $ lsGodfatherDn ))
+  NAME 'lscompany'
+  SUP organizationalUnit
+  STRUCTURAL
+  MUST ( ou )
+  MAY ( description $ lsGodfatherDn ))
 
 # </Ls Objectclass>
 
