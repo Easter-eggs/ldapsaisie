@@ -63,7 +63,7 @@ class LSmail {
     $GLOBALS['Smarty'] -> assign('LSmail_msg_label',_('Message'));
 
     $data = array(
-      'html' => $GLOBALS['Smarty'] -> fetch('LSmail.tpl')
+      'html' => LSsession :: fetchTemplate('LSmail.tpl')
     );
   }
   
