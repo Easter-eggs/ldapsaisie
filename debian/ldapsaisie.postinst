@@ -1,4 +1,4 @@
 #!/bin/sh
 
 chown www-data:adm /var/tmp/ldapsaisie /var/log/ldapsaisie
-chmod 640 /var/tmp/ldapsaisie /var/log/ldapsaisie
+chmod 750 /var/tmp/ldapsaisie /var/log/ldapsaisie
