@@ -28,6 +28,7 @@ install: build
 	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .gitignore -exec rm -f {} \;
 
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/
+	find $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/local -type f -exec rm -f \{\} \;
 	dh_link /etc/ldapsaisie/local /usr/share/ldapsaisie/local
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/local/conf/
 	sed -i 's/tmp\/LS.log/\/var\/log\/ldapsaisie\/ldapsaisie.log/' $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/local/conf/config.inc.php
