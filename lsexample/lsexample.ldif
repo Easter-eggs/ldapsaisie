@@ -503,7 +503,7 @@ sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001028
 homeDirectory: /home/demo
 mail: demo@ls.com
 description:: VXRpbGlzYXRldXIgZGUgZMOpbW9uc3RyYXRpb24=
-userPassword: toto
+userPassword: demo
 sambaLMPassword: 193DB29CB51FD313AAD3B435B51404EE
 sambaNTPassword: 527C9C819B286EFB8EC4EBB5B5AE71CF
 structuralObjectClass: lspeople
@@ -523,7 +523,7 @@ cn: Administration LdapSaisie
 gidNumber: 70000
 sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001030
 homeDirectory: /home/admin
-userPassword: toto
+userPassword: admin
 sambaLMPassword: F0D412BD764FFE81AAD3B435B51404EE
 sambaNTPassword: 209C6174DA490CAEB422F3FA5A7AE634
 structuralObjectClass: lspeople
