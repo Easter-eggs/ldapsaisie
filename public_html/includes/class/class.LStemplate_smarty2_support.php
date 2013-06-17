@@ -75,7 +75,7 @@ function LStemplate_smarty_get_timestamp($tpl_name, &$tpl_timestamp, &$smarty_ob
 function LStemplate_smarty_get_secure($tpl_name, &$smarty_obj) {
   return True;
 }
-The fourth function, trusted() is supposed to return TRUE or FALSE, depending on whether the requested resource is trusted or not. This function is used for only for PHP script components requested by {include_php} tag or {insert} tag with the src attribute. However, it should still be defined even for template resources.
+
 /**
  * Determine if template is trusted or not
  *
