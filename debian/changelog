@@ -1,3 +1,13 @@
+ldapsaisie (1.0-2) unstable; urgency=low
+
+  * Added LStemplate component permited template customization
+  * Handle PHP error messages
+  * Remove noisy files
+  * Improve LSexample (shema, LDIF and slapd configuration)
+  * LSformElement::valueWithUnit : sort units params before using
+
+ -- Benjamin Renard <brenard@zionetrix.net>  Mon, 17 Jun 2013 23:42:58 +0200
+
 ldapsaisie (1.0-1) unstable; urgency=low
 
   * Initial Debian release
