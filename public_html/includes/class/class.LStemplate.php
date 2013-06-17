@@ -93,7 +93,7 @@ class LStemplate {
       elseif (method_exists(self :: $_smarty,'registerPlugin')) {
         self :: $_smarty_version=3;
         if (!LSsession :: loadLSclass('LStemplate_smarty3_support')) {
-          die(_("LStemplate : Can't load Smarty 2 support file"));
+          die(_("LStemplate : Can't load Smarty 3 support file"));
         }
       }
       else {
