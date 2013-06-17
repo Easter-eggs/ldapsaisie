@@ -10,7 +10,7 @@
   </head>
 <body>
 
-{include file='LSdefault.tpl'}
+{include file='ls:LSdefault.tpl'}
 
 <div class='recoverpasswordform'>
 <img src='{$LS_IMAGES_DIR}/logo.png' alt='Logo' id='recoverpasswordform_logo' />

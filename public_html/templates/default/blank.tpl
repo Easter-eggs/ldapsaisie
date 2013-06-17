@@ -12,7 +12,7 @@
   </head>
 <body>
 
-{include file='LSdefault.tpl'}
+{include file='ls:LSdefault.tpl'}
 
 {$LSsession_js}
 

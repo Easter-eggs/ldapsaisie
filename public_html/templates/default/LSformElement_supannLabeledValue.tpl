@@ -3,19 +3,19 @@
     {foreach from=$parseValues item=parseValue}
       {if $parseValue.translated}{assign var=value value=$parseValue.translated}{else}{assign var=value value=$parseValue.value}{/if}
       {if $parseValue.label!="no"}{assign var=label value=$parseValue.label}{else}{assign var=label value=""}{/if}
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {foreachelse}
       {assign var=value value=""}
       {assign var=parseValue value=""}
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {/foreach}
   {else}
     {foreach from=$values item=value}
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {foreachelse}
       {assign var=value value=""} 
       {assign var=parseValue value=""}
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {/foreach}
   {/if}
 </ul>

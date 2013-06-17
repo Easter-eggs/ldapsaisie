@@ -26,7 +26,7 @@
     </div>
   </form>
   <div id='content'>
-    {include file='select_table.tpl'}
+    {include file='ls:select_table.tpl'}
   </div>
 </div>
 <script type='text/javascript'>

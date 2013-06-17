@@ -51,7 +51,7 @@ if(LSsession :: startLSsession()) {
         $object = new $LSobject();
         if ($object -> loadData($dn)) {
           // Définition du Titre de la page
-          $GLOBALS['Smarty'] -> assign('pagetitle',_('Modify').' : '.$object -> getDisplayName());
+          LStemplate :: assign('pagetitle',_('Modify').' : '.$object -> getDisplayName());
           $form = $object -> getForm('modify');
           if ($form->validate()) {
             // MàJ des données de l'objet LDAP
@@ -114,7 +114,7 @@ if(LSsession :: startLSsession()) {
               );
             }
             
-            $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
+            LStemplate :: assign('LSview_actions',$LSview_actions);
             LSsession :: setTemplate('modify.tpl');
             $form -> display();
             LSsession :: displayTemplate();

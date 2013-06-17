@@ -241,7 +241,7 @@ function LSdebug_print($return=false,$ul=true) {
       }
     }
     if ($ul) $txt.='</ul>';
-    $GLOBALS['Smarty'] -> assign('LSdebug',$txt);
+    LStemplate :: assign('LSdebug',$txt);
     if ($return) {
       return $txt;
     }

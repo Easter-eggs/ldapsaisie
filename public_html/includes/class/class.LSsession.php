@@ -132,48 +132,19 @@ class LSsession {
   * @retval true si tout c'est bien passÃ©, false sinon
   */  
   private static function startLStemplate() {
-    if ( self :: includeFile(LSconfig :: get('Smarty')) ) {
-      $GLOBALS['Smarty'] = new Smarty();
-      $GLOBALS['Smarty'] -> template_dir = LS_TEMPLATES_DIR;
-      $GLOBALS['Smarty'] -> compile_dir = LS_TMP_DIR;
-      if ( ! is_writable(LS_TMP_DIR) ) {
-        die('Smarty compile directory is not writable (dir : '.LS_TMP_DIR.')');
-      }
-      
-      if (LSdebug) {
-        $GLOBALS['Smarty'] -> caching = 0;
-        // cache files are always regenerated
-        $GLOBALS['Smarty'] -> force_compile = TRUE;
-        // recompile template if it is changed
-        $GLOBALS['Smarty'] -> compile_check = TRUE;
-        if (isset($_REQUEST['debug_smarty'])) {
-          // debug smarty
-          $GLOBALS['Smarty'] -> debugging = true; 
-        }
-      }
-
-      if (method_exists($GLOBALS['Smarty'],'register_function')) {
-        define('SMARTY3',False);
-        $GLOBALS['Smarty'] -> register_function('getFData','smarty_getFData');
-        $GLOBALS['Smarty'] -> register_function('tr','smarty_tr');
-      }
-      elseif (method_exists($GLOBALS['Smarty'],'registerPlugin')) {
-        define('SMARTY3',True);
-        $GLOBALS['Smarty'] -> registerPlugin("function","getFData", "smarty_getFData");
-        $GLOBALS['Smarty'] -> registerPlugin("function","tr", "smarty_tr");
-      }
-      else {
-        die("Smarty : Can't register getFData fonction");
-      }
-      
-      $GLOBALS['Smarty'] -> assign('LS_CSS_DIR',LS_CSS_DIR);
-      $GLOBALS['Smarty'] -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
-      
+    if ( self :: loadLSclass('LStemplate') ) {
       self :: addJSconfigParam('LS_IMAGES_DIR',LS_IMAGES_DIR);
-      return true;
+      return LStemplate :: start(
+        array(
+          'smarty_path'  => LSconfig :: get('Smarty'),
+          'template_dir' => LS_TEMPLATES_DIR,
+          'compile_dir'  => LS_TMP_DIR,
+          'debug'        => LSdebug,
+          'debug_smarty' => (isset($_REQUEST['LStemplate_debug'])),
+        )
+      );
     }
-    die("ERROR : Can't load Smarty.");
-    return;
+    return False;
   }
   
  /**
@@ -557,7 +528,7 @@ class LSsession {
         self :: loadLSaccess();
       }
       
-      $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
+      LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
       
       if (isset ($_POST['LSsession_topDn']) && $_POST['LSsession_topDn']) {
         if (self :: validSubDnLdapServer($_POST['LSsession_topDn'])) {
@@ -614,7 +585,7 @@ class LSsession {
             self :: $rdn = $LSuserObject->getValue('rdn');
             self :: loadLSprofiles();
             self :: loadLSaccess();
-            $GLOBALS['Smarty'] -> assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
+            LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
             $_SESSION['LSsession']=self :: getContextInfos();
             return true;
           }
@@ -625,9 +596,9 @@ class LSsession {
       }
       
       if (self :: $ldapServerId) {
-        $GLOBALS['Smarty'] -> assign('ldapServerId',self :: $ldapServerId);
+        LStemplate :: assign('ldapServerId',self :: $ldapServerId);
       }
-      $GLOBALS['Smarty'] -> assign('topDn',self :: $topDn);
+      LStemplate :: assign('topDn',self :: $topDn);
       if (isset($_GET['LSsession_recoverPassword'])) {
         self :: displayRecoverPasswordForm($recoveryPasswordInfos);
       }
@@ -1159,31 +1130,31 @@ class LSsession {
   * @retval void
   */
   public static function displayLoginForm() {
-    $GLOBALS['Smarty'] -> assign('pagetitle',_('Connection'));
+    LStemplate :: assign('pagetitle',_('Connection'));
     if (isset($_GET['LSsession_logout'])) {
-      $GLOBALS['Smarty'] -> assign('loginform_action','index.php');
+      LStemplate :: assign('loginform_action','index.php');
     }
     else {
-      $GLOBALS['Smarty'] -> assign('loginform_action',$_SERVER['REQUEST_URI']);
+      LStemplate :: assign('loginform_action',$_SERVER['REQUEST_URI']);
     }
     if (count(LSconfig :: get('ldap_servers'))==1) {
-      $GLOBALS['Smarty'] -> assign('loginform_ldapserver_style','style="display: none"');
+      LStemplate :: assign('loginform_ldapserver_style','style="display: none"');
     }
-    $GLOBALS['Smarty'] -> assign('loginform_label_ldapserver',_('LDAP server'));
+    LStemplate :: assign('loginform_label_ldapserver',_('LDAP server'));
     $ldapservers_name=array();
     $ldapservers_index=array();
     foreach(LSconfig :: get('ldap_servers') as $id => $infos) {
       $ldapservers_index[]=$id;
       $ldapservers_name[]=__($infos['name']);
     }
-    $GLOBALS['Smarty'] -> assign('loginform_ldapservers_name',$ldapservers_name);
-    $GLOBALS['Smarty'] -> assign('loginform_ldapservers_index',$ldapservers_index);
+    LStemplate :: assign('loginform_ldapservers_name',$ldapservers_name);
+    LStemplate :: assign('loginform_ldapservers_index',$ldapservers_index);
 
-    $GLOBALS['Smarty'] -> assign('loginform_label_level',_('Level'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_user',_('Identifier'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_pwd',_('Password'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_submit',_('Connect'));
-    $GLOBALS['Smarty'] -> assign('loginform_label_recoverPassword',_('Forgot your password ?'));
+    LStemplate :: assign('loginform_label_level',_('Level'));
+    LStemplate :: assign('loginform_label_user',_('Identifier'));
+    LStemplate :: assign('loginform_label_pwd',_('Password'));
+    LStemplate :: assign('loginform_label_submit',_('Connect'));
+    LStemplate :: assign('loginform_label_recoverPassword',_('Forgot your password ?'));
     
     self :: setTemplate('login.tpl');
     self :: addJSscript('LSsession_login.js');
@@ -1201,26 +1172,26 @@ class LSsession {
   * @retval void
   */
   public static function displayRecoverPasswordForm($recoveryPasswordInfos) {
-    $GLOBALS['Smarty'] -> assign('pagetitle',_('Recovery of your credentials'));
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
+    LStemplate :: assign('pagetitle',_('Recovery of your credentials'));
+    LStemplate :: assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
     
     if (count(LSconfig :: get('ldap_servers'))==1) {
-      $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapserver_style','style="display: none"');
+      LStemplate :: assign('recoverpasswordform_ldapserver_style','style="display: none"');
     }
     
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_ldapserver',_('LDAP server'));
+    LStemplate :: assign('recoverpasswordform_label_ldapserver',_('LDAP server'));
     $ldapservers_name=array();
     $ldapservers_index=array();
     foreach(LSconfig :: get('ldap_servers') as $id => $infos) {
       $ldapservers_index[]=$id;
       $ldapservers_name[]=$infos['name'];
     }
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapservers_name',$ldapservers_name);
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_ldapservers_index',$ldapservers_index);
+    LStemplate :: assign('recoverpasswordform_ldapservers_name',$ldapservers_name);
+    LStemplate :: assign('recoverpasswordform_ldapservers_index',$ldapservers_index);
 
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_user',_('Identifier'));
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_submit',_('Validate'));
-    $GLOBALS['Smarty'] -> assign('recoverpasswordform_label_back',_('Back'));
+    LStemplate :: assign('recoverpasswordform_label_user',_('Identifier'));
+    LStemplate :: assign('recoverpasswordform_label_submit',_('Validate'));
+    LStemplate :: assign('recoverpasswordform_label_back',_('Back'));
     
     $recoverpassword_msg = _('Please fill the identifier field to proceed recovery procedure');
     
@@ -1239,7 +1210,7 @@ class LSsession {
       );
     }
     
-    $GLOBALS['Smarty'] -> assign('recoverpassword_msg',$recoverpassword_msg);
+    LStemplate :: assign('recoverpassword_msg',$recoverpassword_msg);
     
     self :: setTemplate('recoverpassword.tpl');
     self :: addJSscript('LSsession_recoverPassword.js');
@@ -1342,7 +1313,7 @@ class LSsession {
       self :: addJSconfigParam('keepLSsessionActive',ini_get('session.gc_maxlifetime'));
     }
 
-    $GLOBALS['Smarty'] -> assign('LSjsConfig',json_encode(self :: $_JSconfigParams));
+    LStemplate :: assign('LSjsConfig',json_encode(self :: $_JSconfigParams));
     
     if (LSdebug) {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";
@@ -1351,7 +1322,7 @@ class LSsession {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 0;</script>\n";
     }
     
-    $GLOBALS['Smarty'] -> assign('LSsession_js',$JSscript_txt);
+    LStemplate :: assign('LSsession_js',$JSscript_txt);
 
     // Css
     self :: addCssFile("LSdefault.css");
@@ -1362,37 +1333,37 @@ class LSsession {
       }
       $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file['path'].$file['file']."' />\n";
     }
-    $GLOBALS['Smarty'] -> assign('LSsession_css',$Css_txt);
+    LStemplate :: assign('LSsession_css',$Css_txt);
   
     if (isset(self :: $LSaccess[self :: $topDn])) {
-      $GLOBALS['Smarty'] -> assign('LSaccess',self :: $LSaccess[self :: $topDn]);
+      LStemplate :: assign('LSaccess',self :: $LSaccess[self :: $topDn]);
     }
     
     // Niveau
     $listTopDn = self :: getSubDnLdapServer();
     if (is_array($listTopDn)) {
       asort($listTopDn);
-      $GLOBALS['Smarty'] -> assign('label_level',self :: getSubDnLabel());
-      $GLOBALS['Smarty'] -> assign('_refresh',_('Refresh'));
+      LStemplate :: assign('label_level',self :: getSubDnLabel());
+      LStemplate :: assign('_refresh',_('Refresh'));
       $LSsession_topDn_index = array();
       $LSsession_topDn_name = array();
       foreach($listTopDn as $index => $name) {
         $LSsession_topDn_index[]  = $index;
         $LSsession_topDn_name[]   = $name;
       }
-      $GLOBALS['Smarty'] -> assign('LSsession_subDn_indexes',$LSsession_topDn_index);
-      $GLOBALS['Smarty'] -> assign('LSsession_subDn_names',$LSsession_topDn_name);
-      $GLOBALS['Smarty'] -> assign('LSsession_subDn',self :: $topDn);
-      $GLOBALS['Smarty'] -> assign('LSsession_subDnName',self :: getSubDnName());
+      LStemplate :: assign('LSsession_subDn_indexes',$LSsession_topDn_index);
+      LStemplate :: assign('LSsession_subDn_names',$LSsession_topDn_name);
+      LStemplate :: assign('LSsession_subDn',self :: $topDn);
+      LStemplate :: assign('LSsession_subDnName',self :: getSubDnName());
     }
     
-    $GLOBALS['Smarty'] -> assign('LSlanguages',self :: getLangList());
-    $GLOBALS['Smarty'] -> assign('LSlang',self :: $lang);
-    $GLOBALS['Smarty'] -> assign('LSencoding',self :: $encoding);
-    $GLOBALS['Smarty'] -> assign('lang_label',_('Language'));
+    LStemplate :: assign('LSlanguages',self :: getLangList());
+    LStemplate :: assign('LSlang',self :: $lang);
+    LStemplate :: assign('LSencoding',self :: $encoding);
+    LStemplate :: assign('lang_label',_('Language'));
     
-    $GLOBALS['Smarty'] -> assign('displayLogoutBtn',LSauth :: displayLogoutBtn());
-    $GLOBALS['Smarty'] -> assign('displaySelfAccess',LSauth :: displaySelfAccess());
+    LStemplate :: assign('displayLogoutBtn',LSauth :: displayLogoutBtn());
+    LStemplate :: assign('displaySelfAccess',LSauth :: displaySelfAccess());
 
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
@@ -1401,13 +1372,13 @@ class LSsession {
         $txt_infos.="<li>$info</li>\n";
       }
       $txt_infos.="</ul>\n";
-      $GLOBALS['Smarty'] -> assign('LSinfos',$txt_infos);
+      LStemplate :: assign('LSinfos',$txt_infos);
       $_SESSION['LSsession_infos']=array();
     }
     
     if (self :: $ajaxDisplay) {
-      $GLOBALS['Smarty'] -> assign('LSerror_txt',LSerror :: getErrors());
-      $GLOBALS['Smarty'] -> assign('LSdebug_txt',LSdebug_print(true));
+      LStemplate :: assign('LSerror_txt',LSerror :: getErrors());
+      LStemplate :: assign('LSdebug_txt',LSdebug_print(true));
     }
     else {
       LSerror :: display();
@@ -1416,9 +1387,9 @@ class LSsession {
     if (!self :: $template)
       self :: setTemplate('empty.tpl');
       
-    $GLOBALS['Smarty'] -> assign('connected_as',_("Connected as"));
+    LStemplate :: assign('connected_as',_("Connected as"));
     
-    $GLOBALS['Smarty'] -> display(self :: $template);
+    LStemplate :: display(self :: $template);
   }
   
  /**
@@ -1481,9 +1452,9 @@ class LSsession {
   */
   public static function fetchTemplate($template,$variables=array()) {
     foreach($variables as $name => $val) {
-      $GLOBALS['Smarty'] -> assign($name,$val);
+      LStemplate :: assign($name,$val);
     }
-    return $GLOBALS['Smarty'] -> fetch($template);
+    return LStemplate :: fetch($template);
   }
   
   /**
@@ -2131,8 +2102,8 @@ class LSsession {
    * @retval void
    */  
   public static function redirect($url,$exit=true) {
-    $GLOBALS['Smarty'] -> assign('url',$url);
-    $GLOBALS['Smarty'] -> display('redirect.tpl');
+    LStemplate :: assign('url',$url);
+    LStemplate :: display('redirect.tpl');
     if ($exit) {
       exit();
     }

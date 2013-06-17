@@ -62,16 +62,16 @@ class LSformElement_image extends LSformElement {
 
     if (!empty($this -> values[0])) {
       $img_path = LSsession :: getTmpFile($this -> values[0]);
-      $GLOBALS['Smarty'] -> assign('LSformElement_image',array(
+      LStemplate :: assign('LSformElement_image',array(
         'img' => $img_path,
         'id'  => $id,
       ));
       if (!$this -> isFreeze()) {
-        $GLOBALS['Smarty'] -> assign('LSformElement_image_actions','delete');
+        LStemplate :: assign('LSformElement_image_actions','delete');
       }
       
       if ($this -> form -> definedError($this -> name)) {
-        $GLOBALS['Smarty'] -> assign('LSformElement_image_errors',true);
+        LStemplate :: assign('LSformElement_image_errors',true);
       }
       if (LSsession :: loadLSclass('LSsmoothbox')) {
         LSsmoothbox :: loadDependenciesDisplay();

@@ -50,17 +50,17 @@ class LSmail {
       $subject = $_REQUEST['subject'];
     }
 
-    $GLOBALS['Smarty'] -> assign('LSmail_msg',$msg);
-    $GLOBALS['Smarty'] -> assign('LSmail_subject',$subject);
+    LStemplate :: assign('LSmail_msg',$msg);
+    LStemplate :: assign('LSmail_subject',$subject);
     if (is_array($_REQUEST['mails'])) {
-      $GLOBALS['Smarty'] -> assign('LSmail_mails',$_REQUEST['mails']);
+      LStemplate :: assign('LSmail_mails',$_REQUEST['mails']);
     }
     else if(empty($_REQUEST['mails'])) {
-      $GLOBALS['Smarty'] -> assign('LSmail_mails',array($_REQUEST['mails']));
+      LStemplate :: assign('LSmail_mails',array($_REQUEST['mails']));
     }
-    $GLOBALS['Smarty'] -> assign('LSmail_mail_label',_('Email'));
-    $GLOBALS['Smarty'] -> assign('LSmail_subject_label',_('Title'));
-    $GLOBALS['Smarty'] -> assign('LSmail_msg_label',_('Message'));
+    LStemplate :: assign('LSmail_mail_label',_('Email'));
+    LStemplate :: assign('LSmail_subject_label',_('Title'));
+    LStemplate :: assign('LSmail_msg_label',_('Message'));
 
     $data = array(
       'html' => LSsession :: fetchTemplate('LSmail.tpl')

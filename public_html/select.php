@@ -29,7 +29,7 @@ if(LSsession :: startLSsession()) {
     if ( LSsession ::loadLSobject($LSobject) ) {
       if (LSsession :: loadLSclass('LSsearch')) {
         $object = new $LSobject();
-        $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
+        LStemplate :: assign('pagetitle',$object -> getLabel());
         
         $LSsearch = new LSsearch($LSobject,'LSselect');
         $LSsearch -> setParamsFormPostData();
@@ -80,7 +80,7 @@ if(LSsession :: startLSsession()) {
             )
           )
         );
-        $GLOBALS['Smarty']->assign('searchForm',$searchForm);
+        LStemplate :: assign('searchForm',$searchForm);
         
         $LSview_actions=array(
           array (
@@ -89,15 +89,15 @@ if(LSsession :: startLSsession()) {
             'action' => 'refresh'
           )
         );
-        $GLOBALS['Smarty']->assign('LSview_actions',$LSview_actions);
+        LStemplate :: assign('LSview_actions',$LSview_actions);
         
         $LSsearch -> run();
         $page=(isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
         $page = $LSsearch -> getPage($page);
-        $GLOBALS['Smarty']->assign('page',$page);
-        $GLOBALS['Smarty']->assign('LSsearch',$LSsearch);
+        LStemplate :: assign('page',$page);
+        LStemplate :: assign('LSsearch',$LSsearch);
 
-        $GLOBALS['Smarty']->assign('LSobject_list_objectname',$object -> getLabel());
+        LStemplate :: assign('LSobject_list_objectname',$object -> getLabel());
         
         if (isset($_REQUEST['ajax'])) {
           LSsession :: setTemplate('select_table.tpl');

@@ -5,11 +5,11 @@
 {/if}
       <ul class='LSform LSformElement_select_object' id='{$attr_name}'>
         {foreach from=$values item=txt key=dn}
-          <li>{include file=$fieldTemplate}</li>
+          <li>{include file="ls:$fieldTemplate"}</li>
         {foreachelse}
           {assign var=dn value=""} 
           {assign var=txt value=""} 
-          <li>{include file=$fieldTemplate}</li>
+          <li>{include file="ls:$fieldTemplate"}</li>
         {/foreach}
       </ul>
 {if !$freeze}

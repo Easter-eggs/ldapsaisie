@@ -1,4 +1,4 @@
-{include file='top.tpl'}
+{include file='ls:top.tpl'}
     {if $pagetitle != ''}<h1>{$pagetitle}</h1>{/if}
     {if $LSview_actions != ''}
     <p class='LSview-actions'>
@@ -10,4 +10,4 @@
     
     <p class='question'>{$question}</p>
     <a href='{$validation_url}' class='question'>{$validation_label}</a>
-{include file='bottom.tpl'}
+{include file='ls:bottom.tpl'}

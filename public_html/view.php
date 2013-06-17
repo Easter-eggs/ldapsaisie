@@ -81,11 +81,11 @@ if(LSsession :: startLSsession()) {
             if (LSsession :: getLSuserObjectDn() != $dn) {
               $object = new $LSobject();
               $object -> loadData($dn);
-              $GLOBALS['Smarty'] -> assign('pagetitle',$object -> getDisplayName());
+              LStemplate :: assign('pagetitle',$object -> getDisplayName());
             }
             else {
               $object = LSsession :: getLSuserObject();
-              $GLOBALS['Smarty'] -> assign('pagetitle',_('My account'));
+              LStemplate :: assign('pagetitle',_('My account'));
             }
             
             $view = $object -> getView();
@@ -96,7 +96,7 @@ if(LSsession :: startLSsession()) {
               LSrelation :: displayInLSview($object);
             }
             
-            $GLOBALS['Smarty'] -> assign('LSview_actions',$LSview_actions);
+            LStemplate :: assign('LSview_actions',$LSview_actions);
             LSsession :: setTemplate('view.tpl');
           }
           else {
@@ -106,7 +106,7 @@ if(LSsession :: startLSsession()) {
         // Affichage d'une liste d'un type d'objet
         elseif (LSsession :: loadLSclass('LSsearch')) {
           $object = new $LSobject();
-          $GLOBALS['Smarty']->assign('pagetitle',$object -> getLabel());
+          LStemplate :: assign('pagetitle',$object -> getLabel());
           
           $LSsearch = new LSsearch($LSobject,'LSview');
           $LSsearch -> setParamsFormPostData();
@@ -130,7 +130,7 @@ if(LSsession :: startLSsession()) {
             'hiddenFields' => $LSsearch -> getHiddenFieldForm(),
             'predefinedFilter' => $LSsearch->getParam('predefinedFilter')
           );
-          $GLOBALS['Smarty']->assign('searchForm',$searchForm);
+          LStemplate :: assign('searchForm',$searchForm);
           
           $LSview_actions=array();
           if(LSsession :: canCreate($LSobject)) {
@@ -150,7 +150,7 @@ if(LSsession :: startLSsession()) {
             'url' => 'view.php?LSobject='.$LSobject.'&amp;LSsearchPurgeSession',
             'action' => 'delete'
           );*/
-          $GLOBALS['Smarty']->assign('LSview_actions',$LSview_actions);
+          LStemplate :: assign('LSview_actions',$LSview_actions);
           
           $LSsearch -> run();
           
@@ -158,8 +158,8 @@ if(LSsession :: startLSsession()) {
           
           $page=(isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
           $page = $LSsearch -> getPage($page);
-          $GLOBALS['Smarty']->assign('page',$page);
-          $GLOBALS['Smarty']->assign('LSsearch',$LSsearch);
+          LStemplate :: assign('page',$page);
+          LStemplate :: assign('LSsearch',$LSsearch);
           
           if (LSsession :: loadLSclass('LSform')) {
             LSform :: loadDependenciesDisplayView();

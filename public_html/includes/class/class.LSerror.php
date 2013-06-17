@@ -82,7 +82,7 @@ class LSerror {
       if ($return) {
         return $errors;
       }
-      $GLOBALS['Smarty'] -> assign('LSerrors',$errors);
+      LStemplate :: assign('LSerrors',$errors);
     }
   }
 

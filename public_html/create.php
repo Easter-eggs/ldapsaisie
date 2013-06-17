@@ -46,11 +46,11 @@ if(LSsession :: startLSsession()) {
 
         if (isset($_REQUEST['LSform_dataEntryForm'])) {
           $form -> applyDataEntryForm((string)$_REQUEST['LSform_dataEntryForm']);
-          $GLOBALS['Smarty'] -> assign('LSform_dataEntryForm',(string)$_REQUEST['LSform_dataEntryForm']);
+          LStemplate :: assign('LSform_dataEntryForm',(string)$_REQUEST['LSform_dataEntryForm']);
         }
 
-        $GLOBALS['Smarty'] -> assign('listAvailableDataEntryForm',LSform :: listAvailableDataEntryForm($LSobject));
-        $GLOBALS['Smarty'] -> assign('DataEntryFormLabel',_('Data entry form'));
+        LStemplate :: assign('listAvailableDataEntryForm',LSform :: listAvailableDataEntryForm($LSobject));
+        LStemplate :: assign('DataEntryFormLabel',_('Data entry form'));
 
         if ($form->validate()) {
           // Data update for LDAP object
@@ -95,7 +95,7 @@ if(LSsession :: startLSsession()) {
           exit();
         }
         // Define page title
-        $GLOBALS['Smarty'] -> assign('pagetitle',_('New').' : '.$object -> getLabel());
+        LStemplate :: assign('pagetitle',_('New').' : '.$object -> getLabel());
         LSsession :: setTemplate('create.tpl');
         $form -> display();
       }

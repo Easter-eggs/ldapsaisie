@@ -100,7 +100,7 @@ class LSform {
       )
     );
     
-    $GLOBALS['Smarty'] -> assign('LSform_action',$_SERVER['PHP_SELF']);
+    LStemplate :: assign('LSform_action',$_SERVER['PHP_SELF']);
     $LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n
     \t<input type='hidden' name='idForm' id='LSform_idform' value='".$this -> idForm."'/>\n
     \t<input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='".$this -> ldapObject -> getType()."'/>\n
@@ -111,14 +111,14 @@ class LSform {
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getValue('dn')
     );
-    $GLOBALS['Smarty'] -> assign('LSform_object',$LSform_object);
+    LStemplate :: assign('LSform_object',$LSform_object);
     
     $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
 
     if (!isset($this -> dataEntryFormConfig['disabledLayout']) || $this -> dataEntryFormConfig['disabledLayout']==false) {
       if (is_array($layout_config)) {
-        $GLOBALS['Smarty'] -> assign('LSform_layout',$layout_config);
-        $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
+        LStemplate :: assign('LSform_layout',$layout_config);
+        LStemplate :: assign('LSform_layout_nofield_label',_('No field.'));
       }
     }
     
@@ -164,9 +164,9 @@ class LSform {
     if ($this -> maxFileSize) {
       $LSform_header.="\t<input type='hidden' name='MAX_FILE_SIZE' value='".$this -> maxFileSize."'/>\n";
     }
-    $GLOBALS['Smarty'] -> assign('LSform_header',$LSform_header);
+    LStemplate :: assign('LSform_header',$LSform_header);
     
-    $GLOBALS['Smarty'] -> assign('LSform_fields',$fields);
+    LStemplate :: assign('LSform_fields',$fields);
 
     $JSconfig = array (
       'ajaxSubmit' => ((isset($this -> config['LSform']['ajaxSubmit']))?$this -> config['LSform']['ajaxSubmit']:1)
@@ -179,7 +179,7 @@ class LSform {
     LSsession :: addJSconfigParam('LSform_'.$this -> idForm,$JSconfig);
 
     if($this -> can_validate) {
-      $GLOBALS['Smarty'] -> assign('LSform_submittxt',$this -> submit);
+      LStemplate :: assign('LSform_submittxt',$this -> submit);
     }
   }
   
@@ -237,18 +237,18 @@ class LSform {
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getDn()
     );
-    $GLOBALS['Smarty'] -> assign('LSform_object',$LSform_object);
+    LStemplate :: assign('LSform_object',$LSform_object);
     $fields = array();
     foreach($this -> elements as $element) {
       $field = $element -> getDisplay();
       $fields[$element -> name] = $field;
     }
-    $GLOBALS['Smarty'] -> assign('LSform_fields',$fields);
+    LStemplate :: assign('LSform_fields',$fields);
     
     $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
     if (is_array($layout_config)) {
-      $GLOBALS['Smarty'] -> assign('LSform_layout',$layout_config);
-      $GLOBALS['Smarty'] -> assign('LSform_layout_nofield_label',_('No field.'));
+      LStemplate :: assign('LSform_layout',$layout_config);
+      LStemplate :: assign('LSform_layout_nofield_label',_('No field.'));
     }
   }  
   

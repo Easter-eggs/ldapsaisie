@@ -1,4 +1,4 @@
-{include file='top.tpl'}
+{include file='ls:top.tpl'}
     {if $pagetitle != ''}<h1 id='LSview_title'>{$pagetitle}</h1>{/if}
     {if $LSview_actions != ''}
     <ul class='LSview-actions'>
@@ -10,11 +10,11 @@
     </ul>
     {/if}
     
-    {include file='LSform_view.tpl'}
+    {include file='ls:LSform_view.tpl'}
     
     {if $LSrelations!=''}
       {foreach from=$LSrelations item=item}
-        {include file='LSrelations.tpl'}
+        {include file='ls:LSrelations.tpl'}
       {/foreach}
     {/if}
-{include file='bottom.tpl'}
+{include file='ls:bottom.tpl'}

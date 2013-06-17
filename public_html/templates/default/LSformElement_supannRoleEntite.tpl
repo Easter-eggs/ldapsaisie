@@ -7,19 +7,19 @@
       {if $parseValue.type.label!="no"}{assign var=label_type value=$parseValue.type.label}{else}{assign var=label_type value=""}{/if}
       {if $parseValue.code.translated}{assign var=code value=$parseValue.code.translated}{else}{assign var=code value=$parseValue.code.value}{/if}
       {if $parseValue.code.label!="no"}{assign var=label_code value=$parseValue.code.label}{else}{assign var=label_code value=""}{/if}
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {foreachelse}
       {assign var=value value=""}
       {assign var=parseValue value=""} 
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {/foreach}
   {else}
     {foreach from=$values item=value}
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {foreachelse}
       {assign var=value value=""} 
       {assign var=parseValue value=""} 
-      <li>{include file=$fieldTemplate}</li>
+      <li>{include file="ls:$fieldTemplate"}</li>
     {/foreach}
   {/if}
 </ul>

@@ -43,7 +43,7 @@ if(LSsession :: startLSsession()) {
               }
               if (isset($_GET['valid']) || $config['noConfirmation']) {
                 $objectname=$object -> getDisplayName();
-                $GLOBALS['Smarty'] -> assign('pagetitle',$title.' : '.$objectname);
+                LStemplate :: assign('pagetitle',$title.' : '.$objectname);
                 if ($config['function']($object)) {
                   if ($config['disableOnSuccessMsg']!=true) {
                     if ($config['onSuccessMsgFormat']) {
@@ -77,10 +77,10 @@ if(LSsession :: startLSsession()) {
 				)
 			)
 		);
-                $GLOBALS['Smarty'] -> assign('pagetitle',$title.' : '.$objectname);
-                $GLOBALS['Smarty'] -> assign('question',$question);
-                $GLOBALS['Smarty'] -> assign('validation_url','custom_action.php?LSobject='.urlencode($LSobject).'&amp;dn='.urlencode($dn).'&amp;customAction='.urlencode($customAction).'&amp;valid');
-                $GLOBALS['Smarty'] -> assign('validation_label',_('Validate'));
+                LStemplate :: assign('pagetitle',$title.' : '.$objectname);
+                LStemplate :: assign('question',$question);
+                LStemplate :: assign('validation_url','custom_action.php?LSobject='.urlencode($LSobject).'&amp;dn='.urlencode($dn).'&amp;customAction='.urlencode($customAction).'&amp;valid');
+                LStemplate :: assign('validation_label',_('Validate'));
               }
               LSsession :: setTemplate('question.tpl');
             }

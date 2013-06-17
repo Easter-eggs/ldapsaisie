@@ -1,3 +1,3 @@
-{include file='top.tpl'}
+{include file='ls:top.tpl'}
     <h1>{$pagetitle}</h1>
-{include file='bottom.tpl'}
+{include file='ls:bottom.tpl'}

@@ -1,4 +1,4 @@
-{include file='top.tpl'}
+{include file='ls:top.tpl'}
 <form action='{$searchForm.action}' method='post' class='LSview_search' id='LSsearch_form'>
 
 <div class='LSview_search'>
@@ -122,4 +122,4 @@
   {/if}
   </p>
 {/if}
-{include file='bottom.tpl'}
+{include file='ls:bottom.tpl'}

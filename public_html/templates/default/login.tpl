@@ -11,7 +11,7 @@
   </head>
 <body>
 
-{include file='LSdefault.tpl'}
+{include file='ls:LSdefault.tpl'}
 
 <div class='loginform'>
 <img src='{$LS_IMAGES_DIR}/logo.png' alt='Logo' id='loginform_logo' />

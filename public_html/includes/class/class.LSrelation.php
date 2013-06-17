@@ -123,7 +123,7 @@ class LSrelation {
         }
       }
       
-      $GLOBALS['Smarty'] -> assign('LSrelations',$LSrelations);
+      LStemplate :: assign('LSrelations',$LSrelations);
       LSsession :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
     }
   }
