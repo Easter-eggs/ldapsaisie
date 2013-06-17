@@ -443,13 +443,13 @@ class LSsession {
       return;
     }
     
+    self :: startLSerror();
     self :: startLStemplate();
     
     session_start();
     
     self :: setLocale();
     
-    self :: startLSerror();
     self :: loadLSaddons();
     self :: loadLSauth();
     return true;
