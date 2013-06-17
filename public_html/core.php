@@ -24,6 +24,7 @@
 ini_set( 'magic_quotes_gpc', 'off' );
 ini_set( 'magic_quotes_sybase', 'off' );
 ini_set( 'magic_quotes_runtime', 'off' );
+error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
 
 // Définitions des dossiers d'inclusions
 define('LS_CONF_DIR','conf/');
