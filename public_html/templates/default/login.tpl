@@ -14,7 +14,7 @@
 {include file='ls:LSdefault.tpl'}
 
 <div class='loginform'>
-<img src='{img name='logo.png' alt='Logo' id='loginform_logo' />
+<img src='{img name='logo'}' alt='Logo' id='loginform_logo' />
 <div id='loading_zone'></div>
 <form action='{$loginform_action}' method='post'>
 <dl class='loginform'>
