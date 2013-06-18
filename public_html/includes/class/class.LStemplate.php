@@ -49,6 +49,12 @@ class LStemplate {
   // Smarty version
   private static $_smarty_version = NULL;
 
+  // Array of directories
+  private static $directories = array(
+                                  'local',
+                                  LS_THEME
+                                );
+
  /**
   * Start LStemplate
   *
@@ -112,30 +118,42 @@ class LStemplate {
   }
 
  /**
+  * Return the path of the file to use
+  *
+  * @param[in] string $name The file name (eg: mail.png)
+  * @param[in] string $root_dir The root directory (eg: images)
+  * @param[in] string $default_dir The default directory (eg: default)
+  *
+  * @retval string The path of the file
+  **/
+  public static function getFilePath($file,$root_dir,$default_dir='default') {
+    foreach(self :: $directories as $dir) {
+      if (file_exists($root_dir.'/'.$dir.'/'.$file)) {
+        return $root_dir.'/'.$dir.'/'.$file;
+      }
+    }
+    if (!$default_dir) {
+      return;
+    }
+    return $root_dir.'/'.$default_dir.'/'.$file;
+  }
+
+ /**
   * Return the path of the Smarty template file to use
   *
   * @param[in] string $template The template name (eg: top.tpl)
-  * 
+  *
   * @retval string The path of the Smarty template file
   **/
   public static function getTemplatePath($template) {
-    $directories=array(
-      'local',
-      LS_THEME
-    );
-    foreach($directories as $dir) {
-      if (file_exists(self :: $config['template_dir'].'/'.$dir.'/'.$template)) {
-        return self :: $config['template_dir'].'/'.$dir.'/'.$template;
-      }
-    }
-    return $config['template_dir'].'/default/'.$template;
+    return self :: getFilePath($template,self :: $config['template_dir']);
   }
 
  /**
   * Return the content of a Smarty template file.
   *
   * @param[in] string $template The template name (eg: top.tpl)
-  * 
+  *
   * @retval string The content of the Smarty template file
   **/
   public static function getTemplateSource($template) {
@@ -152,7 +170,7 @@ class LStemplate {
   * template file.
   *
   * @param[in] string $template The template name (eg: top.tpl)
-  * 
+  *
   * @retval string The timestamp of the last change of the Smarty template file
   **/
   public static function getTemplateTimestamp($template) {
@@ -170,7 +188,7 @@ class LStemplate {
   *
   * @param[in] string $name The variable name
   * @param[in] mixed $value The variable value
-  * 
+  *
   * @retval void
   **/
   public static function assign($name,$value) {
@@ -181,7 +199,7 @@ class LStemplate {
   * Display a template
   *
   * @param[in] string $template The template name (eg: empty.tpl)
-  * 
+  *
   * @retval void
   **/
   public static function display($template) {
@@ -192,13 +210,23 @@ class LStemplate {
   * Fetch a template
   *
   * @param[in] string $template The template name (eg: empty.tpl)
-  * 
+  *
   * @retval string The template compiled
   **/
   public static function fetch($template) {
     return self :: $_smarty -> fetch("ls:$template");
   }
 
+}
+
+function LStemplate_smarty_getFData($params) {
+    extract($params);
+    echo getFData($format,$data,$meth=NULL);
+}
+
+function LStemplate_smarty_tr($params) {
+  extract($params);
+  echo __($msg);
 }
 
 // Errors
