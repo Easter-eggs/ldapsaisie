@@ -1,3 +1,9 @@
+ldapsaisie (1.0-3) unstable; urgency=low
+
+  * Manage image path with LStemplate (that permit local image)
+
+ -- Benjamin Renard <brenard@zionetrix.net>  Wed, 19 Jun 2013 00:58:51 +0200
+
 ldapsaisie (1.0-2) unstable; urgency=low
 
   * Added LStemplate component permited template customization
