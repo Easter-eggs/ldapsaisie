@@ -12,6 +12,6 @@
 
 <div id='LSlang_select'>
 {foreach from=$LSlanguages item=lang}
-  <img src='{$LS_IMAGES_DIR}/{$lang}.png' alt='{$lang}' title='{$lang}'/>
+  <img src='{img name=$lang}' alt='{$lang}' title='{$lang}'/>
 {/foreach}
 </div>

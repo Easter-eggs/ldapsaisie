@@ -3,7 +3,7 @@
     {if $LSview_actions != ''}
     <p class='LSview-actions'>
       {foreach from=$LSview_actions item=item}
-        <a href='{$item.url}' class='LSview-actions'><img src='{$LS_IMAGES_DIR}/{$item.action}.png' alt='{$item.label}' title='{$item.label}' /></a>
+        <a href='{$item.url}' class='LSview-actions'><img src='{img name=$item.action}' alt='{$item.label}' title='{$item.label}' /></a>
       {/foreach}
     </p>
     {/if}

@@ -133,16 +133,18 @@ class LSsession {
   */  
   private static function startLStemplate() {
     if ( self :: loadLSclass('LStemplate') ) {
-      self :: addJSconfigParam('LS_IMAGES_DIR',LS_IMAGES_DIR);
-      return LStemplate :: start(
+      $res = LStemplate :: start(
         array(
           'smarty_path'  => LSconfig :: get('Smarty'),
           'template_dir' => LS_TEMPLATES_DIR,
+          'image_dir'    => LS_IMAGES_DIR,
           'compile_dir'  => LS_TMP_DIR,
           'debug'        => LSdebug,
           'debug_smarty' => (isset($_REQUEST['LStemplate_debug'])),
         )
       );
+      self :: addJSconfigParam('LS_IMAGES_DIR',LStemplate :: getDefaultImageDirPath());
+      return $res;
     }
     return False;
   }

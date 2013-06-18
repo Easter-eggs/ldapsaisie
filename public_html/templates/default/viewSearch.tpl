@@ -22,7 +22,7 @@
 <ul class='LSview-actions'>
   {foreach from=$LSview_actions item=item}
     {if is_array($item)}
-      <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{$LS_IMAGES_DIR}/{$item.action}.png' alt='{tr msg=$label}' title='{tr msg=$label}' /> {tr msg=$item.label}</a></li>
+      <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{img name=$item.action}' alt='{tr msg=$label}' title='{tr msg=$label}' /> {tr msg=$item.label}</a></li>
     {/if}
   {/foreach}
 </ul>
@@ -45,7 +45,7 @@
         <a href='view.php?LSobject={$LSsearch->LSobject}&amp;sortBy=displayName&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == 'displayName'}
             <strong>{$LSsearch->label_objectName}</strong>
-            <img src='{$LS_IMAGES_DIR}/{$LSsearch->sortDirection}.png' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
+            <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
           {else}
             {$LSsearch->label_objectName}
           {/if}
@@ -60,7 +60,7 @@
           <a href='view.php?LSobject={$LSsearch->LSobject}&amp;sortBy=subDn&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == 'subDn'}
             <strong>{$LSsearch->label_level}</strong>
-            <img src='{$LS_IMAGES_DIR}/{$LSsearch->sortDirection}.png' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
+            <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
           {else}
             {$LSsearch->label_level}
           {/if}
@@ -78,7 +78,7 @@
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn}</td>{/if}
         <td class='LSobject-list LSobject-list-actions'>
         {foreach from=$object->actions item=item}
-          <a href='{$item.url}'  class='LSobject-list-actions'><img src='{$LS_IMAGES_DIR}/{$item.action}.png' alt='{$item.label}' title='{$item.label}'/></a>
+          <a href='{$item.url}'  class='LSobject-list-actions'><img src='{img name=$item.action}' alt='{$item.label}' title='{$item.label}'/></a>
         {/foreach}
         </td>
     </tr>

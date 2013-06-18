@@ -35,13 +35,21 @@ class LStemplate {
    * array(
    *   'smarty_path' => '/path/to/Smarty.php',
    *   'template_dir' => '/path/to/template/directory',
+   *   'image_dir' => '/path/to/image/directory',
    *   'compile_dir' => '/path/to/compile/directory',
    *   'debug' => True,
    *   'debug_smarty' => True
    * ) 
    *
    **/
-  private static $config = NULL;
+  private static $config = array (
+    'smarty_path' => 'smarty/libs/Smarty.class.php',
+    'template_dir' => 'templates',
+    'image_dir' => 'images',
+    'compile_dir' => 'tmp',
+    'debug' => False,
+    'debug_smarty' => False
+  );
 
   // Smarty object
   public static $_smarty = NULL;
@@ -66,24 +74,26 @@ class LStemplate {
   * @retval boolean True on success, False instead
   **/
   public static function start($config) {
-    self :: $config = $config;
+    foreach ($config as $key => $value) {
+      self :: $config[$key] = $value;
+    }
 
-    if (LSsession :: includeFile($config['smarty_path'])) {
+    if (LSsession :: includeFile(self :: $config['smarty_path'])) {
       self :: $_smarty = new Smarty();
-      self :: $_smarty -> template_dir = $config['template_dir'];
+      self :: $_smarty -> template_dir = self :: $config['template_dir'];
 
-      if ( ! is_writable($config['compile_dir']) ) {
-        die(_('LStemplate : compile directory is not writable (dir : '.$config['compile_dir'].')'));
+      if ( ! is_writable(self :: $config['compile_dir']) ) {
+        die(_('LStemplate : compile directory is not writable (dir : '.self :: $config['compile_dir'].')'));
       }
-      self :: $_smarty -> compile_dir = $config['compile_dir'];
+      self :: $_smarty -> compile_dir = self :: $config['compile_dir'];
 
-      if ($config['debug']) {
+      if (self :: $config['debug']) {
         self :: $_smarty -> caching = 0;
         // cache files are always regenerated
         self :: $_smarty -> force_compile = TRUE;
         // recompile template if it is changed
         self :: $_smarty -> compile_check = TRUE;
-        if ($config['debug_smarty']) {
+        if (self :: $config['debug_smarty']) {
           // debug smarty
           self :: $_smarty -> debugging = true;
         }
@@ -107,7 +117,7 @@ class LStemplate {
       }
 
       self :: $_smarty -> assign('LS_CSS_DIR',LS_CSS_DIR);
-      self :: $_smarty -> assign('LS_IMAGES_DIR',LS_IMAGES_DIR);
+      self :: $_smarty -> assign('LS_IMAGES_DIR',self :: getDefaultImageDirPath());
 
       return True;
     }
@@ -137,6 +147,36 @@ class LStemplate {
     }
     return $root_dir.'/'.$default_dir.'/'.$file;
   }
+
+ /**
+  * Return the default path of images directory
+  *
+  * @retval string The path of the file
+  **/
+  public static function getDefaultImageDirPath() {
+    if (is_dir(self :: $config['image_dir'].'/'.LS_THEME)) {
+      return self :: $config['image_dir'].'/'.LS_THEME;
+    }
+    return self :: $config['image_dir'].'/default';
+  }
+
+
+ /**
+  * Return the path of the image file to use
+  *
+  * @param[in] string $image The image name (eg: mail)
+  *
+  * @retval string The path of the image file
+  **/
+  public static function getImagePath($image) {
+    $exts=array('png','gif','jpg');
+    foreach($exts as $ext) {
+      $path=self :: getFilePath("$image.$ext",self :: $config['image_dir'],False);
+      if ($path) return $path;
+    }
+    return self :: $config['image_dir']."/default/$image.png";
+  }
+
 
  /**
   * Return the path of the Smarty template file to use
@@ -227,6 +267,11 @@ function LStemplate_smarty_getFData($params) {
 function LStemplate_smarty_tr($params) {
   extract($params);
   echo __($msg);
+}
+
+function LStemplate_smarty_img($params) {
+  extract($params);
+  echo LStemplate :: getImagePath($name);
 }
 
 // Errors

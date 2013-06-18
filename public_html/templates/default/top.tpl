@@ -17,12 +17,12 @@
 <table id='main'>
   <tr>
     <td rowspan=2 id='left'>
-      <a href='index.php'><img src='{$LS_IMAGES_DIR}/logo.png' alt='Logo' id='logo'/></a>
+      <a href='index.php'><img src='{img name='logo'}' alt='Logo' id='logo'/></a>
       
       {if $LSsession_subDn!=""}
         <form action="index.php" method='post' id='LSsession_topDn_form'>
           <label>{$label_level}
-            <a href="index.php?LSsession_refresh"><img src='{$LS_IMAGES_DIR}/refresh.png' alt='{$_refresh}' title='{$_refresh}' /></a>
+            <a href="index.php?LSsession_refresh"><img src='{img name='refresh'}' alt='{$_refresh}' title='{$_refresh}' /></a>
             <select name='LSsession_topDn' id='LSsession_topDn'>
               {html_options values=$LSsession_subDn_indexes output=$LSsession_subDn_names selected=$LSsession_subDn}
             </select>
@@ -36,7 +36,7 @@
       </ul>
     </td>
     <td id='status'>
-    <span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
+    <span>{$lang_label} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang}' title='{$LSlang}'/></span>
     <form action='' methode='post' style='display: none' class='LSlang_hidden'>
       <select name='lang'>
       {foreach from=$LSlanguages item=lang}
@@ -45,7 +45,7 @@
       </select>
       <input type='submit' value='->'/>
     </form>
-    {if $displaySelfAccess}{$connected_as} <span id='user_name'>{$LSsession_username}</span>{/if}{if $displayLogoutBtn} <a href='index.php?LSsession_logout'><img src='{$LS_IMAGES_DIR}/logout.png' alt='Logout' title='Logout' /></a>{/if}
+    {if $displaySelfAccess}{$connected_as} <span id='user_name'>{$LSsession_username}</span>{/if}{if $displayLogoutBtn} <a href='index.php?LSsession_logout'><img src='{img name='logout'}' alt='Logout' title='Logout' /></a>{/if}
     </td>
   </tr>
   <tr>

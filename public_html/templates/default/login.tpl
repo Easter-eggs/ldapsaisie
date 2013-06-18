@@ -14,7 +14,7 @@
 {include file='ls:LSdefault.tpl'}
 
 <div class='loginform'>
-<img src='{$LS_IMAGES_DIR}/logo.png' alt='Logo' id='loginform_logo' />
+<img src='{img name='logo.png' alt='Logo' id='loginform_logo' />
 <div id='loading_zone'></div>
 <form action='{$loginform_action}' method='post'>
 <dl class='loginform'>
@@ -39,7 +39,7 @@
   <dd><input type='submit' value='{$loginform_label_submit}' /></dd>
 </dl>
 </form>
-<span>{$lang_label} : <img id='LSlang' src='{$LS_IMAGES_DIR}/{$LSlang}.png' alt='{$LSlang}' title='{$LSlang}'/></span>
+<span>{$lang_label} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang}' title='{$LSlang}'/></span>
 <a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword LSsession_recoverPassword_hidden'>{$loginform_label_recoverPassword}</a>
 </div>
 </body>

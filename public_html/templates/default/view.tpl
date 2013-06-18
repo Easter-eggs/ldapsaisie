@@ -4,7 +4,7 @@
     <ul class='LSview-actions'>
       {foreach from=$LSview_actions item=item}
         {if is_array($item)}
-        <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions{if $item.class} {$item.class}{/if}' ><img src='{$LS_IMAGES_DIR}/{$item.action}.png' alt='{$item.label}' title='{$item.label}' />{if !isset($item.hideLabel) || !$item.hideLabel} {$item.label}{/if}</a></li>
+        <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions{if $item.class} {$item.class}{/if}' ><img src='{img name=$item.action}' alt='{$item.label}' title='{$item.label}' />{if !isset($item.hideLabel) || !$item.hideLabel} {$item.label}{/if}</a></li>
         {/if}
       {/foreach}
     </ul>

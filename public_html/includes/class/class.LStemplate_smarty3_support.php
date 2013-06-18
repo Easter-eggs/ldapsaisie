@@ -63,4 +63,5 @@ LStemplate :: $_smarty -> registerResource('ls', new Smarty_Resource_LdapSaisie(
 // Register special template functions
 LStemplate :: $_smarty -> registerPlugin("function","getFData", "LStemplate_smarty_getFData");
 LStemplate :: $_smarty -> registerPlugin("function","tr", "LStemplate_smarty_tr");
+LStemplate :: $_smarty -> registerPlugin("function","img", "LStemplate_smarty_img");
 

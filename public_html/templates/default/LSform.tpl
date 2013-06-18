@@ -18,9 +18,9 @@
       <div class='LSformElement_image{if $LSformElement_image_errors} LSformElement_image_errors{/if}'>
         {if $LSformElement_image_actions!='' && !$LSformElement_image_errors}
         <ul class='LSformElement_image_actions'>
-            <li><img src='{$LS_IMAGES_DIR}/zoom.png' class='LSformElement_image_actions LSformElement_image_action_zoom' id='LSformElement_image_action_zoom_{$LSformElement_image.id}' /></li>
+            <li><img src='{img name="zoom"}' class='LSformElement_image_actions LSformElement_image_action_zoom' id='LSformElement_image_action_zoom_{$LSformElement_image.id}' /></li>
           {foreach from=$LSformElement_image_actions item=item}
-            <li><img src='{$LS_IMAGES_DIR}/{$item}.png' class='LSformElement_image_actions LSformElement_image_action_{$item}' id='LSformElement_image_action_{$item}_{$LSformElement_image.id}' /></li>
+            <li><img src='{img name=$item}' class='LSformElement_image_actions LSformElement_image_action_{$item}' id='LSformElement_image_action_{$item}_{$LSformElement_image.id}' /></li>
           {/foreach}
         </ul>
         {/if}
@@ -31,7 +31,7 @@
       <dl class='LSform'>
         {foreach from=$tab.args item=arg}
           {if $LSform_fields[$arg]}
-            <dt class='LSform{if $LSform_fields[$arg].errors != ''} LSform-errors{/if}'>{$LSform_fields[$arg].label}{if $LSform_fields[$arg].required} *{/if}{if $LSform_fields[$arg].help_info!=""} <img class='LStips' src="{$LS_IMAGES_DIR}/help.png" alt='?' title="{$LSform_fields[$arg].help_info}"/>{/if}</dt>
+            <dt class='LSform{if $LSform_fields[$arg].errors != ''} LSform-errors{/if}'>{$LSform_fields[$arg].label}{if $LSform_fields[$arg].required} *{/if}{if $LSform_fields[$arg].help_info!=""} <img class='LStips' src="{img name='help'}" alt='?' title="{$LSform_fields[$arg].help_info}"/>{/if}</dt>
             <dd class='LSform'>{$LSform_fields[$arg].html}{if $LSform_fields[$arg].add != ''} <span class='LSform-addfield'>+ Ajouter un champ</span>{/if}</dd>
             {if $LSform_fields[$arg].errors != ''}
               {foreach from=$LSform_fields[$arg].errors item=error}
@@ -51,9 +51,9 @@
     <div class='LSformElement_image{if $LSformElement_image_errors} LSformElement_image_errors{/if}'>
       {if $LSformElement_image_actions!='' && !$LSformElement_image_errors}
       <ul class='LSformElement_image_actions'>
-          <li><img src='{$LS_IMAGES_DIR}/zoom.png' class='LSformElement_image_actions LSformElement_image_action_zoom' id='LSformElement_image_action_zoom_{$LSformElement_image.id}' /></li>
+          <li><img src='{img name='zoom'}' class='LSformElement_image_actions LSformElement_image_action_zoom' id='LSformElement_image_action_zoom_{$LSformElement_image.id}' /></li>
         {foreach from=$LSformElement_image_actions item=item}
-          <li><img src='{$LS_IMAGES_DIR}/{$item}.png' class='LSformElement_image_actions LSformElement_image_action_{$item}' id='LSformElement_image_action_{$item}_{$LSformElement_image.id}' /></li>
+          <li><img src='{img name=$item}' class='LSformElement_image_actions LSformElement_image_action_{$item}' id='LSformElement_image_action_{$item}_{$LSformElement_image.id}' /></li>
         {/foreach}
       </ul>
       {/if}
@@ -64,7 +64,7 @@
   <div class='LSform'>
     <dl class='LSform'>
       {foreach from=$LSform_fields item=field}
-      <dt class='LSform{if $field.errors != ''} LSform-errors{/if}'>{$field.label}{if $field.required} *{/if}{if $field.help_info!=""} <img class='LStips' src="{$LS_IMAGES_DIR}/help.png" alt='?' title="{$field.help_info}"/>{/if}</dt>
+      <dt class='LSform{if $field.errors != ''} LSform-errors{/if}'>{$field.label}{if $field.required} *{/if}{if $field.help_info!=""} <img class='LStips' src="{img name='help'}" alt='?' title="{$field.help_info}"/>{/if}</dt>
       <dd class='LSform'>{$field.html}{if $field.add != ''} <span class='LSform-addfield'>+ Ajouter un champ</span>{/if}</dd>
       {if $field.errors != ''}
         {foreach from=$field.errors item=error}

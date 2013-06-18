@@ -18,7 +18,7 @@
     <div class='LSselect_search'>
       <input type='text' name='pattern' class='LSview_search' value="{$searchForm.values.pattern}"/>
       <input type='submit' value='{$searchForm.labels.submit}' name='{$searchForm.names.submit}' class='LSview_search' />
-      <img src='{$LS_IMAGES_DIR}/refresh.png' alt='{$searchForm.labels.refresh}' title='{$searchForm.labels.refresh}' id='LSselect_refresh_btn' />
+      <img src='{img name='refresh'}' alt='{$searchForm.labels.refresh}' title='{$searchForm.labels.refresh}' id='LSselect_refresh_btn' />
       <p id='LSview_search_param'>
         <label class='LSview_search'>{$searchForm.labels.approx} : <input type='checkbox' name='approx' class='LSview_search' {if $searchForm.values.approx!=''}checked="true"{/if} /></label>
         {if $searchForm.recursive}<label class='LSview_search'>{$searchForm.labels.recursive} : <input type='checkbox' name='recursive' class='LSview_search' {if $searchForm.values.recursive!=''}checked="true"{/if}/></label>{/if}

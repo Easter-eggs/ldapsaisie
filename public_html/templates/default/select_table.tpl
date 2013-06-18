@@ -4,7 +4,7 @@
     <th class='LSobject-list{if $LSsearch->sort} sortBy_displayName{/if}'>
       {if $LSsearch->sortBy == 'displayName'}
         <strong>{$LSsearch->label_objectName}</strong>
-        <img src='{$LS_IMAGES_DIR}/{$LSsearch->sortDirection}.png' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
+        <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
       {else}
         {$LSsearch->label_objectName}
       {/if}
@@ -14,7 +14,7 @@
         {if $LSsearch->sort}
           {if $LSsearch->sortBy == 'subDn'}
             <strong>{$LSsearch->label_level}</strong>
-            <img src='{$LS_IMAGES_DIR}/{$LSsearch->sortDirection}.png' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
+            <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
           {else}
             {$LSsearch->label_level}
           {/if}
