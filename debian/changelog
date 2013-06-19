@@ -1,3 +1,9 @@
+ldapsaisie (1.0-4) unstable; urgency=low
+
+  * Added image.php to permit fully dynamic image path (including via JS)
+
+ -- Benjamin Renard <brenard@zionetrix.net>  Wed, 19 Jun 2013 02:20:39 +0200
+
 ldapsaisie (1.0-3) unstable; urgency=low
 
   * Manage image path with LStemplate (that permit local image)
