@@ -320,7 +320,7 @@ var LSsmoothbox = new Class({
     load: function() {
       this.frame.empty();
       this.loadingImage = new Element('img');
-      this.loadingImage.setProperty('src',varLSdefault.imagePath('loading.gif'));
+      this.loadingImage.setProperty('src',varLSdefault.imagePath('loading'));
       this.loadingImage.setProperty('id','loadingImage-LSsmoothbox');
       this.openOptions.width = 120;
       this.openOptions.height = 120;

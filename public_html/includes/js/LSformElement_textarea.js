@@ -13,7 +13,7 @@ var LSformElement_textarea = new Class({
       el.getElements('textarea.LSform').each(function(textarea) {
         var btn = new Element('img');
         btn.addClass('btn');
-        btn.src = varLSdefault.imagePath('clear.png');
+        btn.src = varLSdefault.imagePath('clear');
         btn.addEvent('click',this.onClearBtnClick.bind(this,btn));
         btn.injectAfter(textarea);
         varLSdefault.addHelpInfo(btn,'LSformElement_textarea','clear');

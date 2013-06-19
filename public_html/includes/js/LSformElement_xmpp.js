@@ -21,7 +21,7 @@ var LSformElement_xmpp = new Class({
     addBtnAfter: function(el) {
       var btn = new Element('img');
       btn.setProperties({
-        src:    varLSdefault.imagePath('xmpp.png'),
+        src:    varLSdefault.imagePath('xmpp'),
         alt:    'Chat'
       });
       btn.addClass('btn');

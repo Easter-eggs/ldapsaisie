@@ -44,7 +44,7 @@ var LSformElement_postaladdress = new Class({
       }
       var btn = new Element('img');
       btn.setProperties({
-        src:    varLSdefault.imagePath('map_go.png'),
+        src:    varLSdefault.imagePath('map_go'),
         alt:    'View on map'
       });
       btn.addClass('btn');

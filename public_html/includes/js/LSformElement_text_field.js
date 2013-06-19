@@ -24,7 +24,7 @@ var LSformElement_text_field = new Class({
           // GenerateBtn
           this.generateBtn = new Element('img');
           this.generateBtn.addClass('btn');
-          this.generateBtn.src=varLSdefault.imagePath('generate.png');
+          this.generateBtn.src=varLSdefault.imagePath('generate');
           this.generateBtn.addEvent('click',this.refreshValue.bind(this,true));
           this.generateBtn.injectAfter(this.input);
           varLSdefault.addHelpInfo(this.generateBtn,'LSformElement_text','generate');

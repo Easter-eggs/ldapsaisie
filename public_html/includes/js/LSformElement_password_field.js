@@ -10,7 +10,7 @@ var LSformElement_password_field = new Class({
       // ViewHashBtn
       if (this.params['viewHash'] && varLSform.objectdn!= "") {
         this.viewHashBtn = new Element('img');
-        this.viewHashBtn.src = varLSdefault.imagePath('view_hash.png');
+        this.viewHashBtn.src = varLSdefault.imagePath('view_hash');
         this.viewHashBtn.addClass('btn');
         this.viewHashBtn.addEvent('click',this.onViewHashBtnClick.bind(this));
         this.viewHashBtn.injectAfter(this.input);
@@ -21,7 +21,7 @@ var LSformElement_password_field = new Class({
       if (this.params['mail']) {
         if ((this.params.mail['canEdit']==1)||(!$type(this.params.mail['canEdit']))) {
           this.editMailBtn = new Element('img');
-          this.editMailBtn.src = varLSdefault.imagePath('mail-edit.png');
+          this.editMailBtn.src = varLSdefault.imagePath('mail-edit');
           this.editMailBtn.addClass('btn');
           this.editMailBtn.addEvent('click',this.onEditMailBtnClick.bind(this));
           this.LSmail_open = 0;
@@ -39,12 +39,12 @@ var LSformElement_password_field = new Class({
           });
           if (this.params.mail['send']) {
             this.mailInput.value = 1;
-            this.mailBtn.src = varLSdefault.imagePath('mail.png');
+            this.mailBtn.src = varLSdefault.imagePath('mail');
             varLSdefault.addHelpInfo(this.mailBtn,'LSformElement_password','mail');
           }  
           else {
             this.mailInput.value = 0;
-            this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+            this.mailBtn.src = varLSdefault.imagePath('nomail');
             varLSdefault.addHelpInfo(this.mailBtn,'LSformElement_password','nomail');
           }
           this.mailBtn.injectAfter(this.input);
@@ -54,7 +54,7 @@ var LSformElement_password_field = new Class({
       
       // ViewBtn
       this.viewBtn = new Element('img');
-      this.viewBtn.src = varLSdefault.imagePath('view.png');
+      this.viewBtn.src = varLSdefault.imagePath('view');
       this.viewBtn.addClass('btn');
       this.viewBtn.addEvent('click',this.changeInputType.bind(this));
       this.viewBtn.injectAfter(this.input);
@@ -65,7 +65,7 @@ var LSformElement_password_field = new Class({
         this.bgColor = this.input.getStyle('background-color');
         this.verifyFx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
         this.verifyBtn = new Element('img');
-        this.verifyBtn.src = varLSdefault.imagePath('verify.png');
+        this.verifyBtn.src = varLSdefault.imagePath('verify');
         this.verifyBtn.addClass('btn');
         this.verifyBtn.addEvent('click',this.onVerifyBtnClick.bind(this));
         this.verifyBtn.injectAfter(this.input);
@@ -74,7 +74,7 @@ var LSformElement_password_field = new Class({
       
       if (this.params['generate']) {
         this.generateBtn = new Element('img');
-        this.generateBtn.src = varLSdefault.imagePath('generate.png');
+        this.generateBtn.src = varLSdefault.imagePath('generate');
         this.generateBtn.addClass('btn');
         this.generateBtn.addEvent('click',this.onGenerateBtnClick.bind(this));
         this.generateBtn.injectAfter(this.input);
@@ -94,12 +94,12 @@ var LSformElement_password_field = new Class({
     onMailBtnClick: function() {
       if (this.mailInput.value==0) {
         this.mailInput.value = 1;
-        this.mailBtn.src = varLSdefault.imagePath('mail.png');
+        this.mailBtn.src = varLSdefault.imagePath('mail');
         varLSdefault.setHelpInfo(this.mailBtn,'LSformElement_password','mail');
       }
       else {
         this.mailInput.value = 0;
-        this.mailBtn.src = varLSdefault.imagePath('nomail.png');
+        this.mailBtn.src = varLSdefault.imagePath('nomail');
         varLSdefault.setHelpInfo(this.mailBtn,'LSformElement_password','nomail');
       }
     },
@@ -179,12 +179,12 @@ var LSformElement_password_field = new Class({
       }
       if (this.input.type=='password') {
         var newType = 'text';
-        this.viewBtn.src=varLSdefault.imagePath('hide.png');
+        this.viewBtn.src=varLSdefault.imagePath('hide');
         varLSdefault.setHelpInfo(this.viewBtn,'LSformElement_password','hide');
       }
       else {
         var newType = 'password';
-        this.viewBtn.src=varLSdefault.imagePath('view.png');
+        this.viewBtn.src=varLSdefault.imagePath('view');
         varLSdefault.setHelpInfo(this.viewBtn,'LSformElement_password','view');
       }
       var newInput = new Element('input');

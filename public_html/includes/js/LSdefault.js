@@ -164,10 +164,10 @@ var LSdefault = new Class({
       this.loading_img_id++;
       this.loading_img[this.loading_img_id] = new Element('img');
       if (size=='big') {
-        var src = this.imagePath('loading.gif');
+        var src = this.imagePath('loading');
       }
       else {
-        var src = this.imagePath('ajax-loader.gif');
+        var src = this.imagePath('ajax-loader');
       }
       this.loading_img[this.loading_img_id].src=src;
       if (position=='inside') {
@@ -211,7 +211,7 @@ var LSdefault = new Class({
     },
     
     imagePath: function(image) {
-      return this.LSjsConfig['LS_IMAGES_DIR'] + '/' + image;
+      return 'image.php?i=' + image;
     },
     
     getParams: function(name) {

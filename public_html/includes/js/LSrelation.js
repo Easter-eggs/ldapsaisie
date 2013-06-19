@@ -30,7 +30,7 @@ var LSrelation = new Class({
       this.deleteBtnId = 0;
       $$('a.LSrelation_editable').each(function(a) {
         this.deleteBtn[this.deleteBtnId] = new Element('img');
-        this.deleteBtn[this.deleteBtnId].src = varLSdefault.imagePath('delete.png');
+        this.deleteBtn[this.deleteBtnId].src = varLSdefault.imagePath('delete');
         this.deleteBtn[this.deleteBtnId].setStyle('cursor','pointer');
         this.deleteBtn[this.deleteBtnId].addClass('LSrelation-btn');
         this.deleteBtn[this.deleteBtnId].addEvent('click',this.onDeleteBtnClick.bind(this,this.deleteBtn[this.deleteBtnId]));

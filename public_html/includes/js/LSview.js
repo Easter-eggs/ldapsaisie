@@ -53,7 +53,7 @@ var LSview = new Class({
 
     onTdLSobjectListNamesOver: function(td){
       td.imgEdit = new Element('img');
-      td.imgEdit.src = varLSdefault.imagePath('view.png');
+      td.imgEdit.src = varLSdefault.imagePath('view');
       td.imgEdit.injectInside(td);
     },
     

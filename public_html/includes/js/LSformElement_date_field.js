@@ -38,14 +38,14 @@ var LSformElement_date_field = new Class({
       );
 
       this.nowBtn = new Element('img');
-      this.nowBtn.src = varLSdefault.imagePath('now.png');
+      this.nowBtn.src = varLSdefault.imagePath('now');
       this.nowBtn.addClass('btn');
       this.nowBtn.addEvent('click',this.onNowBtnClick.bind(this));
       this.nowBtn.injectAfter(this.input);
       varLSdefault.addHelpInfo(this.nowBtn,'LSformElement_date','now');
 
       this.todayBtn = new Element('img');
-      this.todayBtn.src = varLSdefault.imagePath('calendar.png');
+      this.todayBtn.src = varLSdefault.imagePath('calendar');
       this.todayBtn.addClass('btn');
       this.todayBtn.addEvent('click',this.onTodayBtnClick.bind(this));
       this.todayBtn.injectAfter(this.nowBtn);

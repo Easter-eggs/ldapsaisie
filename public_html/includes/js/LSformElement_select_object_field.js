@@ -54,7 +54,7 @@ var LSformElement_select_object_field = new Class({
       var btn = new Element('img');
       btn.addClass('btn');
       btn.setProperties({
-        src:    varLSdefault.imagePath('delete.png'),
+        src:    varLSdefault.imagePath('delete'),
         alt:    this.params.deleteBtns
       });
       btn.addEvent('click',this.onDeleteBtnClick.bind(this,btn));
@@ -64,7 +64,7 @@ var LSformElement_select_object_field = new Class({
     
     addSingleAddBtn: function(insideEl) {
       this.addBtn = new Element('img');
-      this.addBtn.setProperty('src',varLSdefault.imagePath('modify.png'));
+      this.addBtn.setProperty('src',varLSdefault.imagePath('modify'));
       this.addBtn.addClass('btn');
       this.addBtn.addEvent('click',this.onAddBtnClick.bindWithEvent(this));
       this.addBtn.injectInside(insideEl);
@@ -73,7 +73,7 @@ var LSformElement_select_object_field = new Class({
     
     addSearchAddBtn: function() {
       this.searchAddBtn = new Element('img');
-      this.searchAddBtn.setProperty('src',varLSdefault.imagePath('add.png'));
+      this.searchAddBtn.setProperty('src',varLSdefault.imagePath('add'));
       this.searchAddBtn.addClass('btn');
       this.searchAddBtn.addEvent('click',this.onSearchAddBtnClick.bindWithEvent(this));
       this.searchAddBtn.injectAfter(this.addBtn);
