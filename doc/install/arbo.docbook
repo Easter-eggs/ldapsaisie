@@ -137,7 +137,14 @@
               d'image.</simpara>
             </listitem>
           </varlistentry>
-          
+
+          <varlistentry>
+            <term><filename>local/</filename></term>
+            <listitem>
+              <simpara>Les fichiers personnalisés de l'installation.</simpara>
+            </listitem>
+          </varlistentry>
+                   
           <varlistentry>
             <term><filename>tmp/</filename></term>
             <listitem>

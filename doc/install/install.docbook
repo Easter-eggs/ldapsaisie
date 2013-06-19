@@ -12,7 +12,7 @@
     <listitem><simpara>Le support <application>json</application> dans &php; (<command>pear install pecl/json</command> sur <application>RedHat</application>, intégré au paquet <literal>php5-common</literal> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara>&netldap; (paquet <application>php-net-ldap2</application> dans <application>Debian</application> ou <command>pear install net_ldap2</command>)</simpara></listitem>
     <listitem><simpara>&smarty; (paquet <application>smarty</application> dans <application>Debian</application>)</simpara></listitem>
-    <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'.</simpara></listitem>
+    <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'. En cas d'installation à partir du paquet Debian, ce dossier est remplacé par un lien symbolique vers le dossier <emphasis>/var/tmp/ldapsaisie/</emphasis>.</simpara></listitem>
   </itemizedlist>
   <warning><simpara>La librairie &netldap; oblige le fait que la racine DSE de
   l'annuaire soit lisible en anonyme sinon la connexion à l'annuaire échouera
@@ -31,10 +31,25 @@
 
 <sect1 id="install-download">
   <title>Téléchargement</title>
-  <para>Il n'existe pas encore de version stable publiée. Vous pouvez obtenir le
-  code source soit en le rapatriant à partir du serveur Git, soit en téléchargeant
-  le dernier snapshot nocturne de l'arbre Git.
-  </para>
+
+  <sect2 id="install-from-git">
+    <title>A partir du paquet Debian</title>
+    <para>L'installation à partir du paquet Debian peut être réalisée soit en
+    téléchargeant manuellement le paquet, soit en déclarant le dépôt APT suivant
+    dans votre fichier <emphasis>/etc/apt/sources.list</emphasis> :
+    <screen>
+      <command>deb http://ldapsaisie.easter-eggs.org/debian stable main</command>
+    </screen> 
+    Il ne vous restera ensuite plus qu'a installer le paquet <emphasis>ldapsaisie
+    </emphasis> avec la commande suivante :
+    <screen>
+      <command>apt-get install ldapsaisie</command>
+    </screen> 
+    Le fichier <emphasis>/etc/ldapsaisie/apache.conf</emphasis> est un example de
+    configuration du serveur web Apache. La configuration du logiciel ce fera ensuite
+    dans le dossier <emphasis>/etc/ldapsaisie/local/</emphasis>.
+    </para>
+  </sect2>
   
   <sect2>
     <title>A partir de Git</title>
@@ -64,17 +79,13 @@
 <sect1>
   <title>Tutoriel d'installation</title>
   <para>Cette section décrit les différentes étapes de l'installation de
-  LdapSaisie. Aucune version d'LdapSaisie n'étant pour le moment sortie,
-  cette méthode d'installation se base sur la récupération des sources
-  directement dans le repos Git du projet. Des scripts ont été développés
-  pour faciliter ces opérations de mises à jours tout en permettant une
-  grande souplesse de confirguration et de personnalisation de l'application.</para>
-  
+  LdapSaisie. Deux méthodes d'installation sont présentées ici, l'une à
+  partir des sources du projet et l'autre à partir du paquet Debian.</para>
   
   <para>Dans ce tutoriel, nous partirons du principe que vous avez 
   pleinement la main sur votre serveur (installation de nouveau paquet et
-  configuration de votre serveur web) et que l'installation se fera 
-  dans le dossier <literal>/var/www/ldapsaisie</literal>. Nous partons
+  configuration de votre serveur web) et que l'installation à partir des sources
+  se fera dans le dossier <literal>/var/www/ldapsaisie</literal>. Nous partons
   également du principe que votre annuaire LDAP est déjà en place. Nous
   utiliserons pour cette exemple de mise ne oeuvre l'annuaire correspondant
   au schéma et à la configuration présente dans les sources du projet dans
@@ -82,8 +93,19 @@
   
 <orderedlist>
   <listitem>
-  <para>La première étape consiste à faire un clonage du 
-  repos Git. Pour cela il vous faut avoir installés les outils de Git 
+  <para>La première étape consiste à installer le locigiel en tant que tel.
+  Pour une installation à partir du paquet Debian référez vous au chapitre
+  <link linkend="install-from-git">Téléchargement</link>. Une fois le paquet
+  Debian, la configuration du logiciel se fera dans le dossier
+  <emphasis>/etc/ldapsaisie/local/</emphasis>. Les fichiers placés dans ce
+  dossier prévaleront toujours aux fichiers fournis par le paquet Debian,
+  vous permettant facilement de modifier un composant existant ou dans écrire
+  de nouveaux. Ainsi, pour modifier un fichier CSS par exemple, il vous
+  suffira de le placer dans le dossier
+  <emphasis>/etc/ldapsaisie/local/css/</emphasis>.</para>
+
+  <para>Pour une installation à partir du code source, il vous faut
+  cloner le repos Git. Pour cela il vous faut avoir installés les outils de Git 
   contenu, dans Debian, dans le paquet <literal>git-core</literal>. Le
   dépôt Git doit ensuite être récupéré anonymement en utilisant la
   commande suivante :
@@ -175,10 +197,13 @@ du dossier d'installation, c'est à dire dans notre exemple
   
   <listitem><simpara>La deuxième étape concerne la configuration globale
   de l'application : Cette partie est principalement contenue dans le
-  fichier <emphasis>conf/config.inc.php</emphasis>. Il faut donc dans un
-  premier temps copier ce fichier dans le dossier <literal>config.local</literal>
-  et le déclarer dans la liste des fichiers à déployer lors des mises à
-  jour (variable <literal>LOCAL_FILES</literal> dans le fichier 
+  fichier <emphasis>conf/config.inc.php</emphasis> (ou
+  <emphasis>/etc/ldapsaisie/local/conf/config.inc.php</emphasis> en cas
+  d'installation à partir du paquet Debian). En cas d'installation à partir
+  du code source, il faut donc dans un premier temps copier ce fichier dans
+  le dossier <literal>config.local</literal> et le déclarer dans la liste
+  des fichiers à déployer lors des mises à jour
+  (variable <literal>LOCAL_FILES</literal> dans le fichier 
   <literal>local.sh</literal>). Il s'agit en particulier dans ce fichier
   de configurer la connexion à votre annuaire. Vous pouvez vous inspirer
   du fichier d'exemple fourni et pour plus de détails, reportez-vous à
@@ -202,11 +227,10 @@ du dossier d'installation, c'est à dire dans notre exemple
     <emphasis>/includes/class/</emphasis> et portent les noms composés de la 
     manière suivante : 
     <programlisting>class.LSobjects.[nom du type d'LSobject].php</programlisting>
-    Le plus simple pour cette étape est de copier un des fichiers d'exemple dans
-    le dossier <literal>config.local</literal> et de l'adapter en changeant
-    le nom du type d'objet dans l'ensemble du fichier. Pour cela, le fichier
-    de classe du type <emphasis>LSpeople</emphasis> est le plus simple
-    car il ne contient que le strict minimum. Pour un fichier de classe
+    Le plus simple pour cette étape est de copier un des fichiers d'exemple afin
+    de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier.
+    Pour cela, le fichier de classe du type <emphasis>LSpeople</emphasis> est le
+    plus simple car il ne contient que le strict minimum. Pour un fichier de classe
     ayant des &LSrelations; à gérer, le fichier de classe <emphasis>LSgroup
     </emphasis> contient déjà les méthodes nécéssaires pour gérer ces cas.
     </para></listitem>
@@ -232,9 +256,10 @@ du dossier d'installation, c'est à dire dans notre exemple
     
   </orderedlist>
   
-  <important><simpara>Pensez à déclarer les fichiers que vous venez de créer dans la variable
-  <literal>LOCAL_FILES</literal> du fichier <literal>local.sh</literal>. Exemple pour le
-  type d'LSobjet portant comme nom <literal>LSexample</literal> :</simpara>
+  <important><simpara>En cas d'installation à partir du code source, pensez à déclarer
+  les fichiers que vous venez de créer dans la variable <literal>LOCAL_FILES</literal>
+  du fichier <literal>local.sh</literal>. Exemple pour le type d'LSobjet portant comme
+  nom <literal>LSexample</literal> :</simpara>
 <programlisting>public_html/conf/LSobjects/config.LSobjects.LSexample.php
 public_html/includes/class/class.LSobjects.LSexample.php</programlisting>
   </important>
@@ -247,18 +272,13 @@ public_html/includes/class/class.LSobjects.LSexample.php</programlisting>
   
   </listitem>
   
-  <listitem><simpara>La dernière étape à ce niveau consiste à lancer le script
-  <literal>upgradeFromGit.sh</literal> pour qu'il installe les fichiers
-  que vous venez de créer. Ce script est conçu pour dire tout ce qu'il fait
-  donc en cas de problème vous devriez rapidement comprendre où cela coince.
-  Dans tout les cas, n'hésitez pas à poser vos questions à la communauté sur
-  la liste <email>ldapsaisie-users@lists.labs.libre-entreprise.org</email>.
+  <listitem><simpara>En cas d'installation à partir du code source, une dernière
+  étape à ce niveau consiste à lancer le script <literal>upgradeFromGit.sh</literal>
+  pour qu'il installe les fichiers que vous venez de créer. Ce script est conçu pour
+  dire tout ce qu'il fait donc en cas de problème vous devriez rapidement comprendre
+  où cela coince. Dans tout les cas, n'hésitez pas à poser vos questions à la 
+  communauté sur la liste <email>ldapsaisie-users@lists.labs.libre-entreprise.org</email>.
   </simpara></listitem>
-  
-  <listitem><simpara>Vous devriez dès à présent accèder à l'application
-  via votre navigateur web à l'URL suivante :</simpara>
-  <programlisting>http://[IP ou nom du serveur]/ldapsaisie/public_html</programlisting>
-  </listitem>
   
 </orderedlist>
 

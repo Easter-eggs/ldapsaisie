@@ -160,7 +160,7 @@ define('CONST2','val2')
   <term>LS_TEMPLATES_DIR</term>
   <listitem>
     <simpara>Constante déterminant le chemin du dossier des templates.</simpara>
-    <simpara>Valeur par défaut : <emphasis>templates/LS_THEME</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>templates</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -168,7 +168,7 @@ define('CONST2','val2')
   <term>LS_IMAGES_DIR</term>
   <listitem>
     <simpara>Constante déterminant le chemin du dossier des images.</simpara>
-    <simpara>Valeur par défaut : <emphasis>images/LS_THEME</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>images</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -176,7 +176,7 @@ define('CONST2','val2')
   <term>LS_CSS_DIR</term>
   <listitem>
     <simpara>Constante déterminant le chemin du dossier des CSS.</simpara>
-    <simpara>Valeur par défaut : <emphasis>css/LS_THEME</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>css</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -229,7 +229,7 @@ define('CONST2','val2')
 <varlistentry>
   <term>$GLOBALS['defaultJSscipts']</term>
   <listitem>
-    <simpara>Tableau déterminant les fichiers CSS à charger sur toute les pages.</simpara>
+    <simpara>Tableau déterminant les fichiers Javascript à charger sur toute les pages.</simpara>
   </listitem>
 </varlistentry>
 
