@@ -1,3 +1,11 @@
+ldapsaisie (1.0-5) unstable; urgency=low
+
+  * Manage CSS path with LStemplate
+  * Update documentation
+  * Fixed last release bugs
+
+ -- Benjamin Renard <brenard@zionetrix.net>  Wed, 19 Jun 2013 04:04:39 +0200
+
 ldapsaisie (1.0-4) unstable; urgency=low
 
   * Added image.php to permit fully dynamic image path (including via JS)
