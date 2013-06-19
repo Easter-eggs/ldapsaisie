@@ -117,7 +117,6 @@ class LStemplate {
       }
 
       self :: $_smarty -> assign('LS_CSS_DIR',LS_CSS_DIR);
-      self :: $_smarty -> assign('LS_IMAGES_DIR',self :: getDefaultImageDirPath());
 
       return True;
     }
@@ -147,19 +146,6 @@ class LStemplate {
     }
     return $root_dir.'/'.$default_dir.'/'.$file;
   }
-
- /**
-  * Return the default path of images directory
-  *
-  * @retval string The path of the file
-  **/
-  public static function getDefaultImageDirPath() {
-    if (is_dir(self :: $config['image_dir'].'/'.LS_THEME)) {
-      return self :: $config['image_dir'].'/'.LS_THEME;
-    }
-    return self :: $config['image_dir'].'/default';
-  }
-
 
  /**
   * Return the path of the image file to use

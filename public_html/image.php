@@ -21,7 +21,7 @@
 ******************************************************************************/
 
 require_once 'core.php';
-if(LSsession :: startLSsession()) {
+if(LSsession :: initialize()) {
   if (isset($_GET['i'])) {
     $img_path=LStemplate :: getImagePath($_GET['i']);
     if (is_file($img_path)) {
