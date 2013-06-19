@@ -36,6 +36,7 @@ class LStemplate {
    *   'smarty_path' => '/path/to/Smarty.php',
    *   'template_dir' => '/path/to/template/directory',
    *   'image_dir' => '/path/to/image/directory',
+   *   'css_dir' => '/path/to/css/directory',
    *   'compile_dir' => '/path/to/compile/directory',
    *   'debug' => True,
    *   'debug_smarty' => True
@@ -46,6 +47,7 @@ class LStemplate {
     'smarty_path' => 'smarty/libs/Smarty.class.php',
     'template_dir' => 'templates',
     'image_dir' => 'images',
+    'css_dir' => 'css',
     'compile_dir' => 'tmp',
     'debug' => False,
     'debug_smarty' => False
@@ -116,8 +118,6 @@ class LStemplate {
         die(_("LStemplate : Smarty version not recognized."));
       }
 
-      self :: $_smarty -> assign('LS_CSS_DIR',LS_CSS_DIR);
-
       return True;
     }
     else {
@@ -163,6 +163,16 @@ class LStemplate {
     return self :: $config['image_dir']."/default/$image.png";
   }
 
+ /**
+  * Return the path of the CSS file to use
+  *
+  * @param[in] string $css The CSS name (eg: main.css)
+  *
+  * @retval string The path of the CSS file
+  **/
+  public static function getCSSPath($css) {
+    return self :: getFilePath($css,self :: $config['css_dir']);
+  }
 
  /**
   * Return the path of the Smarty template file to use
@@ -258,6 +268,11 @@ function LStemplate_smarty_tr($params) {
 function LStemplate_smarty_img($params) {
   extract($params);
   echo "image.php?i=$name";
+}
+
+function LStemplate_smarty_css($params) {
+  extract($params);
+  echo LStemplate :: getCSSPath($name);
 }
 
 // Errors

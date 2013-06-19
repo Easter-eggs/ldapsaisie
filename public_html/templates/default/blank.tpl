@@ -6,8 +6,8 @@
     <meta http-equiv="content-type" content="text/html; charset={$LSencoding}">
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
     <link rel="icon" type="image/png" href="images/default/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="{$LS_CSS_DIR}/base.css" title="Normal" />
-    <link rel="stylesheet" type="text/css" href="{$LS_CSS_DIR}/base_print.css" media='print' title="Normal" />
+    <link rel="stylesheet" type="text/css" href="{css name='base.css'}" title="Normal" />
+    <link rel="stylesheet" type="text/css" href="{css name='base_print.css'}" media='print' title="Normal" />
     {$LSsession_css}
   </head>
 <body>

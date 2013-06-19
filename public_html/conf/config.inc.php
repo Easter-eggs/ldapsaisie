@@ -179,7 +179,7 @@ $GLOBALS['LSconfig'] = array(
 define('LS_THEME','default');
 define('LS_TEMPLATES_DIR', 'templates');
 define('LS_IMAGES_DIR', 'images');
-define('LS_CSS_DIR', 'css/'.LS_THEME);
+define('LS_CSS_DIR', 'css');
 
 //Debug
 define('LSdebug',false);

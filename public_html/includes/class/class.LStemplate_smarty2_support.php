@@ -106,4 +106,5 @@ LStemplate :: $_smarty -> register_resource('ls', array(
 LStemplate :: $_smarty -> register_function('getFData','LStemplate_smarty_getFData');
 LStemplate :: $_smarty -> register_function('tr','LStemplate_smarty_tr');
 LStemplate :: $_smarty -> register_function('img','LStemplate_smarty_img');
+LStemplate :: $_smarty -> register_function('css','LStemplate_smarty_css');
 

@@ -138,6 +138,7 @@ class LSsession {
           'smarty_path'  => LSconfig :: get('Smarty'),
           'template_dir' => LS_TEMPLATES_DIR,
           'image_dir'    => LS_IMAGES_DIR,
+          'css_dir'    => LS_CSS_DIR,
           'compile_dir'  => LS_TMP_DIR,
           'debug'        => LSdebug,
           'debug_smarty' => (isset($_REQUEST['LStemplate_debug'])),
@@ -1262,18 +1263,18 @@ class LSsession {
  /**
   * Ajoute une feuille de style au chargement de la page
   *
-  * Remarque : les scripts doivents Ãªtre dans le dossier LS_CSS_DIR.
-  *
   * @param[in] $script Le nom du fichier css Ã  charger.
   *
   * @retval void
   */
   public static function addCssFile($file,$path=NULL) {
-    $cssFile=array(
-      'file' => $file,
-      'path' => $path
-    );
-    self :: $CssFiles[$path.$file]=$cssFile;
+    if ($path) {
+      $file = $path.$file;
+    }
+    else {
+      $file = LStemplate :: getCSSPath($file);
+    }
+    self :: $CssFiles[$file]=$file;
   }
 
  /**
@@ -1328,10 +1329,7 @@ class LSsession {
     self :: addCssFile("LSdefault.css");
     $Css_txt='';
     foreach (self :: $CssFiles as $file) {
-      if (!$file['path']) {
-        $file['path']=LS_CSS_DIR.'/';
-      }
-      $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file['path'].$file['file']."' />\n";
+      $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file."' />\n";
     }
     LStemplate :: assign('LSsession_css',$Css_txt);
   
