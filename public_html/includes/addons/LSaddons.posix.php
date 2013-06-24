@@ -66,7 +66,8 @@ LSerror :: defineError('POSIX_01',
       'LS_POSIX_HOMEDIRECTORY_FTP_PORT',
       'LS_POSIX_HOMEDIRECTORY_FTP_USER',
       'LS_POSIX_HOMEDIRECTORY_FTP_PWD',
-      'LS_POSIX_HOMEDIRECTORY_FTP_PATH'
+      'LS_POSIX_HOMEDIRECTORY_FTP_PATH',
+      'LS_POSIX_DN_TO_UID_PATTERN',
     );
 
     foreach($MUST_DEFINE_CONST as $const) {
@@ -209,6 +210,29 @@ function generateMemberFromMemberUid($ldapObject) {
     return $member;
 
   }
+
+function generate_memberUidFromUniqueMember($ldapObject) {
+    if ( get_class($ldapObject -> attrs[ 'memberUid' ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('POSIX_01',array('dependency' => 'memberUid', 'attr' => 'memberUid'));
+      return;
+    }
+
+    if ( get_class($ldapObject -> attrs[ 'uniqueMember' ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('POSIX_01',array('dependency' => 'uniqueMember', 'attr' => 'memberUid'));
+      return;
+    }
+
+    $dns = $ldapObject -> attrs[ 'uniqueMember' ] -> getValue();
+    $uids = array();
+    if (is_array($dns)) {
+      foreach($dns as $dn) {
+        if(preg_match(LS_POSIX_DN_TO_UID_PATTERN,$dn,$matches)) {
+          $uids[]=$matches[1];
+        }
+      }
+    }
+    return $uids;
+}
 
 
 ?>

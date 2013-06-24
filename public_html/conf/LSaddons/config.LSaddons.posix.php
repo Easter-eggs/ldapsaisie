@@ -59,4 +59,7 @@ define('LS_POSIX_HOMEDIRECTORY_FTP_PWD','password');
 // Create homeDirectory by FTP - Path
 define('LS_POSIX_HOMEDIRECTORY_FTP_PATH','%{homeDirectory}');
 
+// Pattern to transform user DN to uid
+define('LS_POSIX_DN_TO_UID_PATTERN','/^'.LS_POSIX_UID_ATTR.'=([^,]*),.*$/');
+
 ?>
