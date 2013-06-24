@@ -54,11 +54,17 @@ var LSformElement_password_field = new Class({
       
       // ViewBtn
       this.viewBtn = new Element('img');
-      this.viewBtn.src = varLSdefault.imagePath('view');
+      if (this.params['clearEdit']) {
+        this.viewBtn.src = varLSdefault.imagePath('hide');
+        varLSdefault.addHelpInfo(this.viewBtn,'LSformElement_password','hide');
+      }
+      else {
+        this.viewBtn.src = varLSdefault.imagePath('view');
+        varLSdefault.addHelpInfo(this.viewBtn,'LSformElement_password','view');
+      }
       this.viewBtn.addClass('btn');
       this.viewBtn.addEvent('click',this.changeInputType.bind(this));
       this.viewBtn.injectAfter(this.input);
-      varLSdefault.addHelpInfo(this.viewBtn,'LSformElement_password','view');
       
       // Verify
       if (this.params['verify']) {

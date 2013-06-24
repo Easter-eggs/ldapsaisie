@@ -122,6 +122,9 @@ class LSformElement_password extends LSformElement {
     LSsession :: addCssFile('LSformElement_password.css');
     $return = $this -> getLabelInfos();
     $pwd = "";
+    if ($this -> params['html_options']['clearView'] or $this -> params['html_options']['clearEdit']) {
+      $pwd = $this -> values[0];
+    }
     if (!$this -> isFreeze()) {
       
       // Help Infos
@@ -145,6 +148,7 @@ class LSformElement_password extends LSformElement {
       
       $params = array(
         'generate' => ($this -> params['html_options']['generationTool']==True),
+        'clearEdit' => ($this -> params['html_options']['clearEdit']==True),
         'viewHash' => ($this -> params['html_options']['viewHash']==True),
         'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && ( (isset($this -> params['html_options']['verify']) && $this -> params['html_options']['verify']) || (!isset($this -> params['html_options']['verify'])) ) )
       );
@@ -156,7 +160,7 @@ class LSformElement_password extends LSformElement {
       LSsession :: addJSscript('LSformElement_password_field.js');
       LSsession :: addJSscript('LSformElement_password.js');
     }
-    $return['html'] = $this -> fetchTemplate(NULL,array('pwd' => $pwd));
+    $return['html'] = $this -> fetchTemplate(NULL,array('pwd' => $pwd,'clearView' => $this -> params['html_options']['clearView'],'clearEdit' => $this -> params['html_options']['clearEdit']));
     return $return;
   }
   
