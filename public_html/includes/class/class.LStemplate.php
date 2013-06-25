@@ -195,6 +195,11 @@ class LStemplate {
   public static function getTemplateSource($template) {
     $tpl_path=self :: getTemplatePath($template);
     if (!is_readable($tpl_path)) {
+      if (self :: $_smarty_version > 2) {
+        // No error return with Smarty3 and highter because it's call
+        // template name in lower first systematically
+        return '';
+      }
       $tpl_path=self :: getTemplatePath('empty.tpl');
       LSerror::addErrorCode('LStemplate_01',$template);
     }
