@@ -36,7 +36,24 @@ class LSattr_ldap_password extends LSattr_ldap {
    * @retval mixed The display value of this attribute
    */
   function getDisplayValue($data) {
-    return '********';
+    if ($this -> config['ldap_options']['displayClearValue']) {
+      if (is_array($data)) {
+        $ret=array();
+        foreach($data as $p) {
+          if ($p==$this -> config['ldap_options']['wildcardPassword'] || $p==$this -> config['ldap_options']['encodedWildcardPassword']) {
+            continue;
+          }
+          $ret[]=$p;
+        }
+        return $ret;
+      }
+      else {
+        return $data;
+      }
+    }
+    else {
+      return '********';
+    }
   }
 
   /**
