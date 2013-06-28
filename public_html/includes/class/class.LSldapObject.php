@@ -700,21 +700,39 @@ class LSldapObject {
    */ 
   function getPatternFilter($pattern=null,$approx=null) {
     if ($pattern!=NULL) {
+      $attrs=array();
       if (is_array($this -> config['LSsearch']['attrs'])) {
-        $attrs=$this -> config['LSsearch']['attrs'];
-      }
-      else {
-        $attrs=array($this -> config['rdn']);
-      }
-      $pfilter='(|';
-      if ($approx) {
-        foreach ($attrs as $attr_name) {
-          $pfilter.='('.$attr_name.'~='.$pattern.')';
+        foreach ($this -> config['LSsearch']['attrs'] as $key => $val) {
+          if (is_int($key)) {
+            $attrs[$val]=array();
+          }
+          else {
+            $attrs[$key]=$val;
+          }
         }
       }
       else {
-        foreach ($attrs as $attr_name) {
-          $pfilter.='('.$attr_name.'=*'.$pattern.'*)';
+        $attrs=array($this -> config['rdn'] => array());
+      }
+      $pfilter='(|';
+      if ($approx) {
+        foreach ($attrs as $attr_name => $attr_opts) {
+          if (isset($attr_opts['approxLSformat'])) {
+            $pfilter.=getFData($attr_opts['approxLSformat'],array('name' => $attr_name, 'pattern' => $pattern));
+          }
+          else {
+            $pfilter.='('.$attr_name.'~='.$pattern.')';
+          }
+        }
+      }
+      else {
+        foreach ($attrs as $attr_name => $attr_opts) {
+          if (isset($attr_opts['searchLSformat'])) {
+            $pfilter.=getFData($attr_opts['searchLSformat'],array('name' => $attr_name, 'pattern' => $pattern));
+          }
+          else {
+            $pfilter.='('.$attr_name.'=*'.$pattern.'*)';
+          }
         }
       }
       $pfilter.=')';

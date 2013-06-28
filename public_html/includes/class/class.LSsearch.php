@@ -574,10 +574,22 @@ class LSsearch {
       $pattern=$this -> params['pattern'];
     }
     if (self :: isValidPattern($pattern)) {
-      $operator=( ($params['approx'])?'approx':'contains' );
-      $attrsList=LSconfig::get("LSobjects.".$this -> LSobject.".LSsearch.attrs");
+      $attrsConfig=LSconfig::get("LSobjects.".$this -> LSobject.".LSsearch.attrs");
+      $attrsList=array();
       if (!is_array($attrsList)) {
-        $attrsList = array_keys(LSconfig::get("LSobjects.".$this -> LSobject.".attrs"));
+        foreach(LSconfig::get("LSobjects.".$this -> LSobject.".attrs") as $attr) {
+          $attrsList[$attr]=array();
+        }
+      }
+      else {
+        foreach($attrsConfig as $key => $val) {
+          if(is_int($key)) {
+            $attrsList[$val]=array();
+          }
+          else {
+            $attrsList[$key]=$val;
+          }
+        }
       }
       
       if (empty($attrsList)) {
@@ -586,8 +598,24 @@ class LSsearch {
       }
       
       $filters=array();
-      foreach ($attrsList as $attr) {
-        $filter=Net_LDAP2_Filter::create($attr,$operator,$pattern);
+      foreach ($attrsList as $attr => $opts) {
+        if ($params['approx']) {
+          if (isset($opts['approxLSformat'])) {
+            $filter=Net_LDAP2_Filter::parse(getFData($opts['approxLSformat'],array('name'=>$attr,'pattern'=>$pattern)));
+          }
+          else {
+            $filter=Net_LDAP2_Filter::create($attr,'approx',$pattern);
+          }
+        }
+        else {
+          if (isset($opts['searchLSformat'])) {
+            $filter=Net_LDAP2_Filter::parse(getFData($opts['searchLSformat'],array('name'=>$attr,'pattern'=>$pattern)));
+          }
+          else {
+            $filter=Net_LDAP2_Filter::create($attr,'contains',$pattern);
+          }
+        }
+
         if (!Net_LDAP2::isError($filter)) {
           $filters[]=$filter;
         }

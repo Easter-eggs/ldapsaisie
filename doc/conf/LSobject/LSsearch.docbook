@@ -13,6 +13,11 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     'attr1',
     'attr2',
     ...
+    'attr3' => array(
+      'searchLSformat' => '[LSformat]',
+      'approxLSformat' => '[LSformat]',
+    ),
+    ...
   ),
   'params' => array(
     // Paramètres de la recherche
@@ -48,15 +53,58 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     passé par l'utilisateur, &LdapSaisie; composera un filtre LDAP à partir de
     cette liste.</para>
     <para>Lors d'une recherche non-approximative, le filtre de recherche sera
-    composé de la manière suivante :
+    composé (par défaut) de la manière suivante :
     <programlisting>(|(attr1=*motif*)(attr2=*motif*)...)</programlisting></para>
     <para>Lors d'une recherche approximative, le filtre de recherche sera
-    composé de la manière suivante :
+    composé (par défaut) de la manière suivante :
     <programlisting>(|(attr1=~motif)(attr2~=motif)...)</programlisting></para>
+    <para>Il est également possible de paramétrer la manière dont sera composé le filtre
+    de recherche attribut par attribut à l'aide des paramètres <emphasis>searchLSformat</emphasis>
+    et <emphasis>approxLSformat</emphasis>.</para>
     <important><simpara>Ces filtres, une fois composés, sont insérés dans un autre,
     filtrant en plus sur les <emphasis>ObjectClass</emphasis> du type
     d'&LSobject; de la manière suivante :</simpara>
     <programlisting><![CDATA[(& (&(objectclass=oc1)(objectclass=oc2)) (filtre) )]]></programlisting></important>
+
+    <variablelist>
+    <title>Paramètres des attributs</title>
+
+<varlistentry>
+  <term>searchLSformat</term>
+  <listitem>
+    <para>Ce paramètre est un &LSformat; permettant de définir, attribut par attribut, comment le
+    filtre de recherche LDAP est composé à partir d'un motif de recherche et en cas de recherche
+    non-approximative.</para>
+    <para>Ce &LSformat; est composé à l'aide des éléments <emphasis>name</emphasis>, le nom de
+    l'attribut et <emphasis>pattern</emphasis>, le motif de recherche.
+    <programlisting>
+    <citetitle>Exemple</citetitle>
+<![CDATA[(%{name}=%{pattern})]]>
+    </programlisting></para>
+    <important><simpara>Le filtre déduit doit obligatoirement commencer par <emphasis>(</emphasis> et
+    se terminer par <emphasis>)</emphasis>.</simpara></important>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>approxLSformat</term>
+  <listitem>
+    <para>Ce paramètre est un &LSformat; permettant de définir, attribut par attribut, comment le
+    filtre de recherche LDAP est composé à partir d'un motif de recherche et en cas de recherche
+    approximative.</para>
+    <para>Ce &LSformat; est composé à l'aide des éléments <emphasis>name</emphasis>, le nom de
+    l'attribut et <emphasis>pattern</emphasis>, le motif de recherche.
+    <programlisting>
+    <citetitle>Exemple</citetitle>
+<![CDATA[(%{name}=~%{pattern})]]>
+    </programlisting></para>
+    <important><simpara>Le filtre déduit doit obligatoirement commencer par <emphasis>(</emphasis> et
+    se terminer par <emphasis>)</emphasis>.</simpara></important>
+  </listitem>
+</varlistentry>
+
+    </variablelist>
+
   </listitem>
 </varlistentry>
 
