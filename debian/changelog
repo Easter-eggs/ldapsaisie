@@ -1,3 +1,10 @@
+ldapsaisie (1.0-8) unstable; urgency=low
+
+  * Added LSaddon::phpLdapAdmin
+  * Disabled Apache directory listing and force FollowSymLinks option
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Fri, 28 Jun 2013 17:28:25 +0200
+
 ldapsaisie (1.0-7) unstable; urgency=low
 
   * LSsearch : Added searchLSformat and approxLSformat parameter for searched attributes
