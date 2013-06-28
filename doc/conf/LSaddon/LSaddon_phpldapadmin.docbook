@@ -1,0 +1,25 @@
+<sect2 id="config-LSaddon_phpldapadmin">
+  <title>LSaddon_phpldapadmin</title>
+  <para>Cet &LSaddon; est utilisé pour permettre un lien facile entre le logiciel
+  &PhpLdapAdmin; et LdapSaisie. Il sera possible ainsi à partir d'un objet dans
+  LdapSaisie de voir ce même objet dans &PhpLdapAdmin;.</para>
+
+  <para>Il est necessaire de configurer l'URL de votre installation de &PhpLdapAdmin; dans
+  le fichier de configuration <literal>config.LSaddons.phpldapadmin.php</literal>.</para>
+  
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Structure du fichier</citetitle>
+<![CDATA[// PhpLdapAdmin View Object URL format
+define('LS_PHPLDAPADMIN_VIEW_OBJECT_URL_FORMAT','//'.$_SERVER['SERVER_NAME'].'/phpldapadmin/cmd.php?cmd=template_engine&server_id=0&dn=%{dn}');]]>
+</programlisting>
+
+<para>Cet &LSaddon; offre la possibilité d'utilisé la fonction &php;
+<function>redirectToPhpLdapAdmin()</function> comme &customActions;.
+<funcsynopsis>
+<funcprototype>
+  <funcdef>bool <function>redirectToPhpLdapAdmin</function></funcdef>
+    <paramdef>LSldapObject <parameter>$ldapObject</parameter></paramdef>
+</funcprototype>
+</funcsynopsis>
+</para>
+</sect2>

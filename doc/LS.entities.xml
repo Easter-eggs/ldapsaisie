@@ -8,6 +8,7 @@
 <!ENTITY courier "<application><ulink url='http://www.courier-mta.org/'>Courier</ulink></application>">
 <!ENTITY CAS "<application><ulink url='http://www.jasig.org/cas'>CAS</ulink></application>">
 <!ENTITY phpCAS "<application><ulink url='http://www.ja-sig.org/wiki/display/CASC/phpCAS'>phpCAS</ulink></application>">
+<!ENTITY PhpLdapAdmin "<application><ulink url='http://phpldapadmin.sourceforge.net'>PhpLdapAdmin</ulink></application>">
 
 <!ENTITY subDn "<link linkend='config-subDn'>subDn</link>">
 <!ENTITY LSprofile "<link linkend='config-LSprofile'>LSprofile</link>">

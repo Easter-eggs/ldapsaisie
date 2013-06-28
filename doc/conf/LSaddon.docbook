@@ -12,5 +12,6 @@
   &conf-LSaddon_asterisk;
   &conf-LSaddon_mail;
   &conf-LSaddon_maildir;
+  &conf-LSaddon_phpldapadmin;
   
 </sect1>

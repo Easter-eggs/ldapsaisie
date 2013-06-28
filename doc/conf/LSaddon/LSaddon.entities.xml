@@ -2,7 +2,5 @@
 <!ENTITY conf-LSaddon_asterisk SYSTEM "LSaddon_asterisk.docbook">
 <!ENTITY conf-LSaddon_maildir SYSTEM "LSaddon_maildir.docbook">
 <!ENTITY conf-LSaddon_mail SYSTEM "LSaddon_mail.docbook">
-
-
-
+<!ENTITY conf-LSaddon_phpldapadmin SYSTEM "LSaddon_phpldapadmin.docbook">
 
