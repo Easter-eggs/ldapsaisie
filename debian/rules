@@ -29,7 +29,6 @@ install: build
 	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .placefolder -exec rm -f {} \;
 
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie
-	dh_link /usr/local/share/ldapsaisie /etc/ldapsaisie/local
 	find $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie -type f -exec rm -f \{\} \;
 	dh_link /usr/local/share/ldapsaisie /usr/share/ldapsaisie/local
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/

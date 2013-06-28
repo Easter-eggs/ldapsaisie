@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if test ! -L /etc/ldapsaisie/local
+then
+	echo "Move /etc/ldapsaisie/local in /usr/local/share/ldapsaisie"
+	mv /etc/ldapsaisie/local /usr/local/share/ldapsaisie
+	mv /usr/local/share/ldapsaisie/conf/config.inc.php /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move
+fi

@@ -2,3 +2,14 @@
 
 chown www-data:adm /var/tmp/ldapsaisie /var/log/ldapsaisie
 chmod 750 /var/tmp/ldapsaisie /var/log/ldapsaisie
+if test ! -L /etc/ldapsaisie/local
+then
+	echo "Install /etc/ldapsaisie/local symbolic link"
+	[ -e /etc/ldapsaisie/local ] && mv -f /etc/ldapsaisie/local /etc/ldapsaisie/local.dpkg-old
+	ln -s /usr/local/share/ldapsaisie /etc/ldapsaisie/local
+fi
+
+if [ -f /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move ]
+then
+	mv /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move /usr/local/share/ldapsaisie/conf/config.inc.php
+fi
