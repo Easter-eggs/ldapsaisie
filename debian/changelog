@@ -1,3 +1,11 @@
+ldapsaisie (1.0-7) unstable; urgency=low
+
+  * LSsearch : Added searchLSformat and approxLSformat parameter for searched attributes
+  * Added local LSaddons and LSauth directories
+  * Moved local directory in /usr/local/ldapsaisie
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Fri, 28 Jun 2013 12:09:23 +0200
+
 ldapsaisie (1.0-6) unstable; urgency=low
 
   * LStemplate : fixed template missing warning caused by Smarty3 peculiarities
