@@ -22,4 +22,23 @@ define('LS_PHPLDAPADMIN_VIEW_OBJECT_URL_FORMAT','//'.$_SERVER['SERVER_NAME'].'/p
 </funcprototype>
 </funcsynopsis>
 </para>
+<programlisting linenumbering="unnumbered">
+<citetitle>Exemple d'utilisation</citetitle><![CDATA[$GLOBALS['LSobjects']['LSpeople'] = array (
+        [...]
+        'customActions' => array (
+                'redirectPhpLdapAdmin' => array (
+                        'function' => 'redirectToPhpLdapAdmin',
+                        'label' => 'See in PhpLdapAdmin',
+                        'hideLabel' => True,
+                        'noConfirmation' => true,
+                        'disableOnSuccessMsg' => true,
+                        'icon' => 'phpldapadmin',
+                        'rights' => array (
+                                'admin'
+                        )
+                ),
+        ),
+        [...]
+);]]>
+</programlisting>
 </sect2>
