@@ -28,11 +28,12 @@ install: build
 	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .gitignore -exec rm -f {} \;
 	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .placefolder -exec rm -f {} \;
 
-	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/
-	find $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/local -type f -exec rm -f \{\} \;
-	dh_link /etc/ldapsaisie/local /usr/share/ldapsaisie/local
-	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/local/conf/
-	sed -i 's/tmp\/LS.log/\/var\/log\/ldapsaisie\/ldapsaisie.log/' $(CURDIR)/debian/ldapsaisie/etc/ldapsaisie/local/conf/config.inc.php
+	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie
+	dh_link /usr/local/share/ldapsaisie /etc/ldapsaisie/local
+	find $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie -type f -exec rm -f \{\} \;
+	dh_link /usr/local/share/ldapsaisie /usr/share/ldapsaisie/local
+	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/
+	sed -i 's/tmp\/LS.log/\/var\/log\/ldapsaisie\/ldapsaisie.log/' $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/config.inc.php
 
 	rm -fr $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/tmp
 	dh_link /var/tmp/ldapsaisie /usr/share/ldapsaisie/tmp
