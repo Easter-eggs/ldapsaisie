@@ -1,3 +1,9 @@
+ldapsaisie (1.0-9) unstable; urgency=low
+
+  * Fixed config.inc.php problem on upgrade
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 09 Jul 2013 13:56:24 +0200
+
 ldapsaisie (1.0-8) unstable; urgency=low
 
   * Added LSaddon::phpLdapAdmin
