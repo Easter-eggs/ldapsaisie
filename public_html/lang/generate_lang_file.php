@@ -26,10 +26,24 @@ error_reporting(E_ERROR);
 require_once('../core.php');
 require_once('../conf/config.inc.php');
 
+$withoutselectlist=False;
+$copyoriginalvalue=False;
 if ($argc > 1) {
   for ($i=1;$i<$argc;$i++) {
     if (is_file($argv[$i])) {
       @include($argv[$i]);
+    }
+    elseif($argv[$i]=='--without-select-list') {
+      $withoutselectlist=True;
+    }
+    elseif($argv[$i]=='--copy-original-value') {
+      $copyoriginalvalue=True;
+    }
+    elseif($argv[$i]=='-h') {
+      echo "Usage : ".$argv[0]." [file1] [file2] [-h] [options]\n";
+      echo "  --without-select-list    Don't add possibles values of select list\n";
+      echo "  --copy-original-value    Copy original value as translated value when no translated value exists\n";
+      exit(0);
     }
   }
 }
@@ -109,7 +123,7 @@ if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR))
         add($attr['html_options']['mail']['msg']);
         
         // LSattr_html_select_list
-        if ($attr['html_type']=='select_list' && is_array($attr['html_options']['possible_values'])) {
+        if ($attr['html_type']=='select_list' && is_array($attr['html_options']['possible_values']) && !$withoutselectlist) {
           foreach($attr['html_options']['possible_values'] as $pkey => $pname) {
             if ($pkey != 'OTHER_OBJECT') {
               add($pname);
@@ -147,6 +161,9 @@ ksort($data);
 echo "<?php\n\n\$GLOBALS['LSlang'] = array (\n";
 
 foreach($data as $key => $val) {
+  if ($copyoriginalvalue && $val=="") {
+    $val=$key;
+  }
   print "\n\"$key\" =>\n  \"$val\",\n";
 }
 
