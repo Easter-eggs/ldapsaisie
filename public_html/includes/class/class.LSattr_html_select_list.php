@@ -89,7 +89,7 @@ class LSattr_html_select_list extends LSattr_html{
     $retInfos = array();
     if (is_array($this -> config['html_options']['possible_values'])) {
       foreach($this -> config['html_options']['possible_values'] as $val_name => $val) {
-        if($val_name=='OTHER_OBJECT') {
+        if($val_name==='OTHER_OBJECT') {
           if ((!isset($val['object_type'])) || (!isset($val['value_attribute']))) {
             LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
             break;
