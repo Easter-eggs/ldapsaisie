@@ -62,7 +62,7 @@ foreach($GLOBALS['LSconfig']['ldap_servers'] as $conf) {
 
 
 // LSobject
-if (loadDir('../'.LS_OBJECTS_DIR)) {
+if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
   foreach($GLOBALS['LSobjects'] as $name => $conf) {
     add($conf['label']);
     
