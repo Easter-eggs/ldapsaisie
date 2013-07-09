@@ -31,8 +31,8 @@ install: build
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie
 	find $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie -type f -exec rm -f \{\} \;
 	dh_link /usr/local/share/ldapsaisie /usr/share/ldapsaisie/local
-	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/
-	sed -i 's/tmp\/LS.log/\/var\/log\/ldapsaisie\/ldapsaisie.log/' $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/config.inc.php
+	sed -i 's/tmp\/LS.log/\/var\/log\/ldapsaisie\/ldapsaisie.log/' $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php
+	cp $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/config.inc.example.php
 
 	rm -fr $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/tmp
 	dh_link /var/tmp/ldapsaisie /usr/share/ldapsaisie/tmp
