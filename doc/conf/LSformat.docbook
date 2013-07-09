@@ -2,7 +2,7 @@
 <title>Format paramétrable</title>
 <para>Un <emphasis>format paramétrable</emphasis> est une chaîne de caractères
 contenant des mots clés formés comme dans l'exemple suivant&nbsp;:
-<programlisting linenumbering="unnumbered">%{[nom du mot clé][:A][:B]}</programlisting>
+<programlisting linenumbering="unnumbered">%{[nom du mot clé][:A][:B][! ou _][~]}</programlisting>
 Le nom du mot clé peut contenir des lettres de "a" à "z", de "A" à "Z" et des
 chiffres de 0 à 9. Ces mots clés seront remplacés par les valeurs passées en
 paramètres et liées au contexte d'utilisation. Les paramètres <emphasis>:A</emphasis> et 
@@ -30,6 +30,10 @@ chaîne de substitution sera découpée et <varname>B</varname> le nombre maximu
 de caractères à extraire. Le signe de <varname>B</varname> influera comme expliqué
 dans le premier cas.
 </para>
+<para>Les paramètres <emphasis>!</emphasis> ou <emphasis>_</emphasis> permettre respectivement de forcer la mise en majuscule ou en minuscule de la valeur de substitution.</para>
+
+<para>Le paramètre <emphasis>~</emphasis> permet qu'en a lui de forcer la suppression des accents dans la valeur de substitution.</para>
+
 <important><simpara>Lorsque qu'une seule valeur clé est disponible pour la 
 substitution, le nom du mot clé n'importe pas. Tous les mots clés trouvés dans
 le format seront remplacés par cette seule valeur.</simpara></important>
