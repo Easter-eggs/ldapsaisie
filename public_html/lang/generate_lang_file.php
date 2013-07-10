@@ -28,6 +28,7 @@ require_once('../conf/config.inc.php');
 
 $withoutselectlist=False;
 $copyoriginalvalue=False;
+$additionalfileformat=False;
 if ($argc > 1) {
   for ($i=1;$i<$argc;$i++) {
     if (is_file($argv[$i])) {
@@ -39,10 +40,14 @@ if ($argc > 1) {
     elseif($argv[$i]=='--copy-original-value') {
       $copyoriginalvalue=True;
     }
+    elseif($argv[$i]=='--additional-file-format') {
+      $additionalfileformat=True;
+    }
     elseif($argv[$i]=='-h') {
       echo "Usage : ".$argv[0]." [file1] [file2] [-h] [options]\n";
       echo "  --without-select-list    Don't add possibles values of select list\n";
       echo "  --copy-original-value    Copy original value as translated value when no translated value exists\n";
+      echo "  --additional-file-format Additional file format output\n";
       exit(0);
     }
   }
@@ -158,15 +163,22 @@ if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR))
 
 ksort($data);
 
-echo "<?php\n\n\$GLOBALS['LSlang'] = array (\n";
+echo "<?php\n\n";
+
+if (!$additionalfileformat) print "\$GLOBALS['LSlang'] = array (\n";
 
 foreach($data as $key => $val) {
   if ($copyoriginalvalue && $val=="") {
     $val=$key;
   }
-  print "\n\"$key\" =>\n  \"$val\",\n";
+  if ($additionalfileformat) {
+    print "\$GLOBALS['LSlang'][\"$key\"] = \"$val\";\n";
+  }
+  else {
+    print "\n\"$key\" =>\n  \"$val\",\n";
+  }
 }
 
-echo "\n);\n\n?>\n";
+if (!$additionalfileformat) echo "\n);\n";
 
 ?>
