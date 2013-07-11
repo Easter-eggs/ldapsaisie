@@ -321,7 +321,7 @@ class LSldap {
         LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
       }
       else {
-        if (!empty($dropAttr)) {
+        if (!empty($dropAttr) && !$new) {
           foreach($dropAttr as $attr) {
             $value = $entry -> getValue($attr);
             if(Net_LDAP2::isError($value) || empty($value)) {
