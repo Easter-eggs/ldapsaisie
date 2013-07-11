@@ -576,8 +576,8 @@ class LSsearch {
     if (self :: isValidPattern($pattern)) {
       $attrsConfig=LSconfig::get("LSobjects.".$this -> LSobject.".LSsearch.attrs");
       $attrsList=array();
-      if (!is_array($attrsList)) {
-        foreach(LSconfig::get("LSobjects.".$this -> LSobject.".attrs") as $attr) {
+      if (!is_array($attrsConfig)) {
+        foreach(LSconfig::get("LSobjects.".$this -> LSobject.".attrs") as $attr => $config) {
           $attrsList[$attr]=array();
         }
       }
