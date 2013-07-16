@@ -29,12 +29,16 @@ class LSauthMethod_anonymous extends LSauthMethod {
 
   function LSauthMethod_anonymous() {
 		LSauth :: disableLoginForm();
-		LSauth :: disableLogoutBtn();
 		LSauth :: disableSelfAccess();
-		
+
 		if (!parent :: LSauthMethod())
 			return;
-			
+
+		if ( (!defined('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT')) || (constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT') === True)) {
+			LSlog('logout : '.constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT'));
+			LSauth :: disableLogoutBtn();
+		}
+
 		if ( (!defined('LSAUTHMETHOD_ANONYMOUS_USER')) || (constant('LSAUTHMETHOD_ANONYMOUS_USER') == "")) {
 			LSerror :: addErrorCode('LSauthMethod_anonymous_01');
 			return;
