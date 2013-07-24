@@ -354,4 +354,20 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
     return $ldapObject -> getFData(LS_SAMBA_PROFILE_PATH_FORMAT);
   }
 
+ /**
+  * Generation de l'attribut shadowExpire à partir de
+  * l'attribut sambaPwdMustChange
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval string La valeur de shadowExpire
+  */
+  function generate_shadowExpire_from_sambaPwdMustChange($ldapObject) {
+    $time=$ldapObject -> getValue('sambaPwdMustChange');
+    if (!empty($time)) {
+      $time=(int)$time[0];
+      return (string)round($time/86400);
+    }
+    return '';
+  }
 ?>
