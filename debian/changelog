@@ -1,3 +1,17 @@
+ldapsaisie (1.0-10) unstable; urgency=low
+
+  * Added documentation about LSformat modifiers
+  * LSattr_html_select_list : fixed bug with number key value
+  * generate_lang_file.php : Added inclusion of local directory
+    and --additional-file-format parameter
+  * LSldap : fixed problem with empty attribute on adding
+  * LSsearch : Fixed bug on no attributes specifies in config for LSsearch
+  * LSauthMethod::anonymous : Added parameter LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT
+  * LSaddon :: samba : added some new functions to generate attributes values
+  * Added new LSattr_ldap :: shadowExpire
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Fri, 26 Jul 2013 12:23:20 +0200
+
 ldapsaisie (1.0-9) unstable; urgency=low
 
   * Fixed config.inc.php problem on upgrade
