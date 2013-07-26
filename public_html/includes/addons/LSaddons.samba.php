@@ -370,4 +370,44 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
     }
     return '';
   }
+
+ /**
+  * Generation d'un timestamp a partir de l'attribut shadowExpire
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval string Timestamp correspant à shadowExpire
+  */
+  function generate_timestamp_from_shadowExpire($ldapObject) {
+    $days=$ldapObject -> getValue('shadowExpire');
+    if (!empty($days)) {
+      $days=(int)$days[0];
+      return (string)($days*86400);
+    }
+    return '';
+  }
+
+ /**
+  * Generation de l'attribut sambaPwdMustChange a partir de
+  * l'attribut shadowExpire
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval string La valeur de sambaPwdMustChange
+  */
+  function generate_sambaPwdMustChange_from_shadowExpire($ldapObject) {
+    return generate_timestamp_from_shadowExpire($ldapObject);
+  }
+
+ /**
+  * Generation de l'attribut sambaKickoffTime a partir de
+  * l'attribut shadowExpire
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval string La valeur de sambaKickoffTime
+  */
+  function generate_sambaKickoffTime_from_shadowExpire($ldapObject) {
+    return generate_timestamp_from_shadowExpire($ldapObject);
+  }
 ?>
