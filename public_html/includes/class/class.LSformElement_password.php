@@ -202,7 +202,7 @@ class LSformElement_password extends LSformElement {
       if ($mail=="") {
         $mail_attrs = $this -> params['html_options']['mail']['mail_attr'];
         if (!is_array($mail_attrs)) {
-          $mail_attrs=array();
+          $mail_attrs=array($mail_attrs);
         }
         foreach($mail_attrs as $attr) {
           $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$attr];
