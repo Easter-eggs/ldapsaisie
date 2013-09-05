@@ -282,14 +282,14 @@ class LSldap {
         $drop = true;
         if (is_array($attrVal)) {
           foreach($attrVal as $val) {
-            if (!empty($val)) {
+            if (!empty($val)||(is_string($val)&&($val=="0"))) {
               $drop = false;
               $changeData[$attrName][]=$val;
             }
           }
         }
         else {
-          if (!empty($attrVal)) {
+          if (!empty($attrVal)||(is_string($attrVal)&&($attrVal=="0"))) {
             $drop = false;
             $changeData[$attrName][]=$attrVal;
           }

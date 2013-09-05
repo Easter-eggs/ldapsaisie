@@ -223,7 +223,7 @@ class LSformElement {
         $_POST[$this -> name] = array($_POST[$this -> name]);
       }
       foreach($_POST[$this -> name] as $key => $val) {
-        if (!empty($val)) {
+        if (!empty($val)||(is_string($val)&&($val=="0"))) {
           $return[$this -> name][$key] = $val;
         }
       }
