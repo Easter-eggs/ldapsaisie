@@ -108,7 +108,7 @@ var LSformElement_select_object_field = new Class({
         varLSsmoothbox.asNew();
         varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.displayValidBtn();
-        varLSsmoothbox.openURL('select.php?LSobject='+this.params['object_type']+((this.params['multiple'])?'&multiple=1':''),{width: 635});
+        varLSsmoothbox.openURL('select.php?LSobject='+this.params['object_type']+((this.params['multiple'])?'&multiple=1':'')+((this.params['filter64'])?'&filter64='+this.params['filter64']:''),{width: 635});
       }
     },
     

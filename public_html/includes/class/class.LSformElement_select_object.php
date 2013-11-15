@@ -68,6 +68,7 @@ class LSformElement_select_object extends LSformElement {
           'addBtn' => _('Modify'),
           'deleteBtns' => _('Delete'),
           'multiple' => (($this -> params['multiple'])?1:0),
+          'filter64' => (($this -> params['html_options']['selectable_object']['filter'])?base64_encode($this -> params['html_options']['selectable_object']['filter']):''),
           'noValueLabel' => _('No set value'),
           'noResultLabel' => _('No result')
         )
@@ -150,7 +151,7 @@ class LSformElement_select_object extends LSformElement {
     if (is_array($this -> params['html_options']['selectable_object'])) {
       if (LSsession :: loadLSobject($this -> params['html_options']['selectable_object']['object_type'])) {
         $obj = new $this -> params['html_options']['selectable_object']['object_type']();
-        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_name_format']);
+        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_name_format'],false,true,$this -> params['html_options']['selectable_object']['filter']);
         if (is_array($ret)) {
           return $ret;
         }
