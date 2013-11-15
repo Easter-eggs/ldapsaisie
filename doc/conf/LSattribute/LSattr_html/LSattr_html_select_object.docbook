@@ -57,6 +57,15 @@
   </varlistentry>
 </variablelist>
 
+<variablelist>
+  <varlistentry>
+    <term>filter</term>
+    <listitem>
+      <simpara>Filtre de recherche (facultatif) qui sera ajouter au filtre par défaut
+      lors de la sélection des objets.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
 
   </listitem>
 </varlistentry>
