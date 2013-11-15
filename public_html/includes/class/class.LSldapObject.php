@@ -930,8 +930,8 @@ class LSldapObject {
    *
    * @retval array('dn' => 'display')
    */
-  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false,$cache=true) {
-    return $this -> listObjectsName(NULL,$topDn,array('pattern' => $pattern),$displayFormat,$cache);
+  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false,$cache=true,$filter=NULL) {
+    return $this -> listObjectsName($filter,$topDn,array('pattern' => $pattern),$displayFormat,$cache);
   }
 
   /**
