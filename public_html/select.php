@@ -49,6 +49,13 @@ if(LSsession :: startLSsession()) {
           );
           $selectablly=1;
         }
+
+	if (!empty($_REQUEST['filter64'])) {
+		$filter=base64_decode($_REQUEST['filter64'],1);
+		if ($filter) {
+			$LSsearch -> setParam('filter',$filter);
+		}
+	}
         $multiple = ((isset($_REQUEST['multiple']))?1:0);
         
         $searchForm = array (
@@ -75,6 +82,7 @@ if(LSsession :: startLSsession()) {
             $LSsearch -> getHiddenFieldForm(),
             array(
               'ajax' => 1,
+              'filter64' => $_REQUEST['filter64'],
               'selectablly' => $selectablly,
               'multiple' => $multiple
             )
