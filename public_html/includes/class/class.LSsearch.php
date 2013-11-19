@@ -435,7 +435,7 @@ class LSsearch {
       }
       elseif (is_array($params['attributes'])) {
         $this -> params['attributes']=array();
-        foreach ($this -> params['attributes'] as $attr) {
+        foreach ($params['attributes'] as $attr) {
           if (is_string($attr)) {
             if (LSconfig::get("LSobjects.".$this -> LSobject.".attrs.$attr")) {;
               $this -> params['attributes'][] = $attr;
