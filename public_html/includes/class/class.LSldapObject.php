@@ -765,8 +765,7 @@ class LSldapObject {
     
     $sparams = array(
       'basedn' => $basedn,
-      'filter' => $filter,
-      'attributes' => array('dn')
+      'filter' => $filter
     );
 
     if (is_array($params)) {    
