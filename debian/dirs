@@ -1,5 +1,6 @@
 etc/ldapsaisie
 etc/ldap/schema
+usr/bin
 usr/share
 usr/share/doc/ldapsaisie
 usr/local/share

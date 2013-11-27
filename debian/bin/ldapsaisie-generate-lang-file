@@ -1,0 +1,8 @@
+#!/bin/bash
+
+L="$1"
+[ ! -n "$1" ] && echo "Usage : $0 [lang] [lang1.php lang2.php ...]" && exit 1
+
+cd /usr/share/ldapsaisie/lang
+
+php generate_lang_file.php /etc/ldapsaisie/local/lang/$L/*.php $L/*.php $@
