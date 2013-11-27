@@ -29,10 +29,14 @@ require_once('../conf/config.inc.php');
 $withoutselectlist=False;
 $copyoriginalvalue=False;
 $additionalfileformat=False;
+$translations=array();
 if ($argc > 1) {
   for ($i=1;$i<$argc;$i++) {
     if (is_file($argv[$i])) {
       @include($argv[$i]);
+      foreach($GLOBALS['LSlang'] as $msg => $trans) {
+        $translations[$msg]=$trans;
+      }
     }
     elseif($argv[$i]=='--without-select-list') {
       $withoutselectlist=True;
@@ -57,8 +61,8 @@ $data=array();
 
 function add($msg) {
   if ($msg!='') {
-    global $data;
-    $data[$msg]=$GLOBALS['LSlang'][$msg];
+    global $data, $translations;
+    $data[$msg]=$translations[$msg];
   }
 }
 
