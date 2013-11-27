@@ -1,3 +1,15 @@
+ldapsaisie (1.0-11) unstable; urgency=low
+
+  * Add ldapsaisie-generate-lang-file command
+  * LSformElement_select_object : Added filter parameter
+  * Bugs fixed :
+    * LSformElement_password : fixed mail_attr parameter reading method
+    * Fixed some vales check to globally permit 'zero string' value
+    * LSsearch::setParams() : fixed attributes setting
+    * LSldapObject::listObjects() : removed 'dn' as attribute asked in LSsearch
+
+ -- Benjamin Renard <brenard@aconit.easter-eggs.fr>  Wed, 27 Nov 2013 18:26:55 +0100
+
 ldapsaisie (1.0-10) unstable; urgency=low
 
   * Added documentation about LSformat modifiers
