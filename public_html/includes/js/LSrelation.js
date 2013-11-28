@@ -69,7 +69,7 @@ var LSrelation = new Class({
         template:   'LSrelation',
         action:     'deleteByDn',
         id:         id,
-        dn:         a.id
+        dn:         this.a2dn(a)
       };
       data.imgload=varLSdefault.loadingImgDisplay(li,'inside');
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.deleteFromImgComplete.bind(this)}).send();
@@ -79,8 +79,8 @@ var LSrelation = new Class({
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         try  {
-          var li = $(data.dn).getParent();
-          var ul=$(data.dn).getParent().getParent();
+          var ul=$('LSrelation_ul_'+data.id);
+          var li = $('LSrelation_'+data.id+'_'+data.dn).getParent();
           li.destroy();
           if (!$type(ul.getFirst())) {
             var getId = /LSrelation_ul_([0-9]*)/
@@ -141,6 +141,11 @@ var LSrelation = new Class({
         $('LSrelation_ul_'+this.refreshRelation).set('html',data.html);
         this.initializeBtn();
       }
+    },
+
+    a2dn: function(a) {
+      var getId = /LSrelation_[0-9]*_(.*)$/
+      return getId.exec(a.id)[1];
     }
 
 });
