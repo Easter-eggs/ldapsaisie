@@ -13,4 +13,5 @@
 <!ENTITY conf-LSattr_html_text SYSTEM "LSattr_html_text.docbook">
 <!ENTITY conf-LSattr_html_textarea SYSTEM "LSattr_html_textarea.docbook">
 <!ENTITY conf-LSattr_html_url SYSTEM "LSattr_html_url.docbook">
+<!ENTITY conf-LSattr_html_valueWithUnit SYSTEM "LSattr_html_valueWithUnit.docbook">
 <!ENTITY conf-LSattr_html_xmpp SYSTEM "LSattr_html_xmpp.docbook">

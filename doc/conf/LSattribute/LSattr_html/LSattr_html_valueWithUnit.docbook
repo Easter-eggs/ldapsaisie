@@ -1,0 +1,31 @@
+<sect4 id="config-LSattr_html_valueWithUnit">
+  <title>LSattr_html_valueWithUnit</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est un entier
+  auxquel un facteur peut s'appliquer (par exemple : <literal>Kilo, Méga, ...</literal>).</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array(
+    'units' => array (
+      '[facteur1]' => '[label unit1]',
+      '[facteur2]' => '[label unit2]',
+      [...]
+    )
+  )
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>units</term>
+  <listitem>
+    <simpara>Tableau associatif dont la clé est un entier correspondant au facteur et la valeur est le label de l'unité. (Par exemple : <literal>1 => Octet, 1024 => Kilo-octet, ...</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
