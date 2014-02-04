@@ -9,7 +9,7 @@
 <varlistentry>
   <term>regex</term>
   <listitem>
-    <simpara>L'expression régulière devant être respectée.</simpara>
+    <simpara>L'expression régulière devant être respectée. Cette expression régulière doit être au format <ulink url='http://php.net/pcre.pattern'>PCRE</ulink>.</simpara>
   </listitem>
 </varlistentry>
 
