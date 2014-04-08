@@ -39,7 +39,6 @@ class LSldapObject {
   var $dn=false;
   var $oldDn=false;
   var $other_values=array();
-  var $submitError=true;
   var $_whoami=NULL;
   var $_LSrelationsCache=array();
 
@@ -349,9 +348,7 @@ class LSldapObject {
       if ($this -> submitChange($idForm)) {
         LSdebug('Les modifications sont submitÃ©es');
         // Event After Modify
-        if(!$this -> submitError) {
-          $this -> fireEvent('after_modify');
-        }
+        $this -> fireEvent('after_modify');
 
         // $this -> attrs[*] => After Modify
         foreach($new_data as $attr_name => $attr_val) {
@@ -359,7 +356,6 @@ class LSldapObject {
             $this -> attrs[$attr_name] -> fireEvent('after_modify');
           }
         }
-        $this -> submitError = false;
         $this -> reloadData();
         $this -> refreshForm($idForm);
       }
