@@ -118,6 +118,11 @@ class LStemplate {
         die(_("LStemplate : Smarty version not recognized."));
       }
 
+      self :: registerFunction("getFData", "LStemplate_smarty_getFData");
+      self :: registerFunction("tr", "LStemplate_smarty_tr");
+      self :: registerFunction("img", "LStemplate_smarty_img");
+      self :: registerFunction("css", "LStemplate_smarty_css");
+
       return True;
     }
     else {
@@ -256,6 +261,18 @@ class LStemplate {
   **/
   public static function fetch($template) {
     return self :: $_smarty -> fetch("ls:$template");
+  }
+
+ /**
+  * Register a template function
+  *
+  * @param[in] string $name The function name in template
+  * @param[in] string $function_name The function name in PHP
+  *
+  * @retval void
+  */
+  public static function registerFunction($name,$function_name) {
+    LStemplate_register_function($name,$function_name);
   }
 
 }

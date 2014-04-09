@@ -60,9 +60,14 @@ class Smarty_Resource_LdapSaisie extends Smarty_Resource_Custom {
 // Register 'ls' template ressource
 LStemplate :: $_smarty -> registerResource('ls', new Smarty_Resource_LdapSaisie());
 
-// Register special template functions
-LStemplate :: $_smarty -> registerPlugin("function","getFData", "LStemplate_smarty_getFData");
-LStemplate :: $_smarty -> registerPlugin("function","tr", "LStemplate_smarty_tr");
-LStemplate :: $_smarty -> registerPlugin("function","img", "LStemplate_smarty_img");
-LStemplate :: $_smarty -> registerPlugin("function","css", "LStemplate_smarty_css");
-
+/**
+ * Register a template function
+ *
+ * @param[in] string $name The function name in template
+ * @param[in] string $function_name The function name in PHP
+ *
+ * @retval void
+ */
+function LStemplate_register_function($name,$function_name) {
+  LStemplate :: $_smarty -> registerPlugin("function",$name,$function_name);
+}

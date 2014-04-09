@@ -101,10 +101,14 @@ LStemplate :: $_smarty -> register_resource('ls', array(
                                               'LStemplate_smarty_get_trusted'
                                             )
                                      );
-
-// Register special template functions
-LStemplate :: $_smarty -> register_function('getFData','LStemplate_smarty_getFData');
-LStemplate :: $_smarty -> register_function('tr','LStemplate_smarty_tr');
-LStemplate :: $_smarty -> register_function('img','LStemplate_smarty_img');
-LStemplate :: $_smarty -> register_function('css','LStemplate_smarty_css');
-
+/**
+ * Register a template function
+ *
+ * @param[in] string $name The function name in template
+ * @param[in] string $function_name The function name in PHP
+ *
+ * @retval void
+ */
+function LStemplate_register_function($name,$function_name) {
+  LStemplate :: $_smarty -> register_function($name,$function_name);
+}
