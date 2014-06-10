@@ -64,15 +64,8 @@ class LSattr_html_select_list extends LSattr_html{
     }
    
     // Mise en place de la regle de verification des donnees
-    $regex_check_data='/';
-    foreach ($possible_values as $val => $text) {
-      if($regex_check_data=='/')
-        $regex_check_data.='^'.preg_quote($val,'/').'$';
-      else
-        $regex_check_data.='|^'.preg_quote($val,'/').'$';
-    }
-    $regex_check_data.='/';
-    $form -> addRule($this -> name, 'regex', array('msg'=> 'Valeur incorrect','params' => array('regex' => $regex_check_data)) );
+    $form -> addRule($this -> name, 'inarray', array('msg'=> 'Valeur incorrect','params' => array('possible_values' => array_keys($possible_values))) );
+
     // On retourne un pointeur vers l'element ajouter
     return $element;
   }
