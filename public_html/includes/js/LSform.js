@@ -178,6 +178,17 @@ var LSform = new Class({
     
     getValue: function(fieldName) {
       var retVal = Array();
+      var inputs = this.getInput(fieldName);
+      inputs.each(function(el){
+        if (el.value!="") {
+          retVal.include(el.value);
+        }
+      },this);
+      return retVal;
+    },
+
+    getInput: function(fieldName) {
+      var retVal = Array();
       var ul = $(fieldName);
       if ($type(ul)) {
         var elements = ul.getElements('input');
@@ -190,11 +201,7 @@ var LSform = new Class({
           LSdebug(name);
           if (name) {
             if (name[1]==fieldName) {
-              if ($type(el.value)) {
-                if (el.value!="") {
-                  retVal.include(el.value);
-                }
-              }
+              retVal.include(el);
             }
           }
         },this);
