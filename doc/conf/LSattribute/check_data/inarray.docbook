@@ -1,0 +1,18 @@
+<sect4 id="config-LSattribute-check-data-inarray">
+  <title>inarray</title>
+  <para>Cette règle vérifie que la valeur saisie fait partie d'une liste de valeurs
+  autorisées.</para>
+  
+<variablelist>
+<title>Paramêtres de configuration</title>
+
+<varlistentry>
+  <term>possible_values</term>
+  <listitem>
+    <simpara>Tableau listant les valeurs autorisées.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
