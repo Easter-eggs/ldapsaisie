@@ -42,6 +42,8 @@
  */
 class LSattr_html_select_list extends LSattr_html{
 
+  var $LSformElement_type = 'select';
+
   /**
    * Ajoute l'attribut au formualaire passer en paramètre
    *
@@ -54,22 +56,15 @@ class LSattr_html_select_list extends LSattr_html{
   function addToForm (&$form,$idForm,$data=NULL) {
     $possible_values=$this -> getPossibleValues();
     $this -> config['text_possible_values'] = $possible_values;
-    $element=$form -> addElement('select', $this -> name, $this -> config['label'],$this -> config, $this);
-    if(!$element) {
-      LSerror :: addErrorCode('LSform_06',$this -> name);
-      return;
-    }
-    if ($data) {
-      $element -> setValue($data);
-    }
-   
-    // Mise en place de la regle de verification des donnees
-    $form -> addRule($this -> name, 'inarray', array('msg'=> 'Valeur incorrect','params' => array('possible_values' => array_keys($possible_values))) );
+    $element=parent::addToForm($form,$idForm,$data);
 
-    // On retourne un pointeur vers l'element ajouter
+    if ($element) {
+      // Mise en place de la regle de verification des donnees
+      $form -> addRule($this -> name, 'inarray', array('msg'=> 'Valeur incorrect','params' => array('possible_values' => array_keys($possible_values))) );
+    }
     return $element;
   }
-  
+
   /**
    * Retourne un tableau des valeurs possibles de la liste
    *
