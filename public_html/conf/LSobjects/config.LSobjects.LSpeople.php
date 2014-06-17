@@ -143,6 +143,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     'predefinedFilters' => array (
       '(jpegPhoto=*)' => 'With photo',
       '(!(jpegPhoto=*))' => 'Without photo'
+    ),
+    'extraDisplayedColumns' => array (
+      'mail' => array (
+        'label' => 'Mail',
+        'LSformat' => '%{mail}'
+      ),
     )
   ),
   

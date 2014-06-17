@@ -38,6 +38,20 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
   'predefinedFilters' => array(
     'filter1' => 'label filter1',
     'filter2' => 'label filter2'
+  ),
+  'extraDisplayedColumns' => array(
+    'col1' => array(
+      'label' => 'label column 1',
+      'LSformat' => '[LSformat]'
+    ),
+    'col2' => array(
+      'label' => 'label column 2',
+      'LSformat' => '[LSformat]',
+      'alternativeLSformats' => array (
+        '[LSformat 1]',
+        '[LSformat 2]'
+      )
+    )
   )
 );]]>
 </programlisting>
@@ -216,6 +230,44 @@ contexte dans lequel cette recherche est effectuée.</para>
     Les clés sont les filtres au format LDAP et les valeurs sont les labels associés.</para>
   </listitem>
 </varlistentry> 
+
+<varlistentry>
+  <term>extraDisplayedColumns</term>
+  <listitem>
+    <para>Tableau associatif contenant des colonnes supplémentaires à afficher dans les
+    résultats de recherche. Les clés sont les identifiants des colonnes supplémentaires
+    et les valeurs sont leur configuration définie à partir des paramètres suivant :</para>
+
+    <variablelist>
+
+      <varlistentry>
+        <term>label</term>
+        <listitem>
+          <simpara>Le label de la colonne.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>LSformat</term>
+        <listitem>
+          <simpara>Le &LSformat; d'affichage de la colonne. Ce format est composé à partir
+          des attributs des objets LDAP dans leur format brut.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>alternativeLSformats</term>
+        <listitem>
+          <simpara>Tableau des &LSformats; alternatifs à utiliser si le résultat du format
+          principal est vide. Les formats définis dans cette liste sont essayés les uns
+          après les autres et le premier &LSformat; retournant une valeur non-vide est
+          utilisé.</simpara>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+  </listitem>
+</varlistentry>
 
 </variablelist>
 </para>

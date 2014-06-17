@@ -70,12 +70,35 @@
         {/if}
         </th>
       {/if}
+      {if $LSsearch->extraDisplayedColumns}
+        {foreach from=$LSsearch->extraDisplayedColumns item=conf key=cid}
+        <th class='LSobject-list'>
+        {if $LSsearch->sort}
+          <a href='view.php?LSobject={$LSsearch->LSobject}&amp;sortBy={$cid}&amp;nocache={$smarty.now}'>
+          {if $LSsearch->sortBy == $cid}
+            <strong>{tr msg=$conf.label}</strong>
+            <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
+          {else}
+            {tr msg=$conf.label}
+          {/if}
+          </a>
+        {else}
+          {tr msg=$conf.label}
+        {/if}
+        </th>
+        {/foreach}
+      {/if}
       <th class='LSobject-list'>{$LSsearch->label_actions}</th>
     </tr>
     {foreach from=$page.list item=object}
     <tr class='{cycle values="LSobject-list,LSobject-list LSobject-list-bis"}'>
         <td class='LSobject-list LSobject-list-names'><a href='view.php?LSobject={$LSsearch->LSobject}&amp;dn={$object->dn|escape:'url'}'  class='LSobject-list'>{$object->displayName}</a> </td>
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn}</td>{/if}
+        {if $LSsearch->extraDisplayedColumns}
+          {foreach from=$LSsearch->extraDisplayedColumns item=conf key=cid}
+          <td class='LSobject-list'>{$object->$cid}</th>
+          {/foreach}
+        {/if}
         <td class='LSobject-list LSobject-list-actions'>
         {foreach from=$object->actions item=item}
           <a href='{$item.url}'  class='LSobject-list-actions'><img src='{img name=$item.action}' alt='{$item.label}' title='{$item.label}'/></a>

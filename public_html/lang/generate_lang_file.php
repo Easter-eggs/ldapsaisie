@@ -122,6 +122,11 @@ if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR))
         add($lay);
       }
     }
+    if (is_array($conf['LSsearch']['extraDisplayedColumns'])) {
+      foreach($conf['LSsearch']['extraDisplayedColumns'] as $cid => $cconf) {
+        add($cconf['label']);
+      }
+    }
 
     
     if(is_array($conf['attrs'])) {

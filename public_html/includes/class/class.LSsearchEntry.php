@@ -174,6 +174,20 @@ class LSsearchEntry {
       }
       return;
     }
+    elseif (is_array($this->LSsearch->extraDisplayedColumns) && array_key_exists($key,$this->LSsearch->extraDisplayedColumns)) {
+      if(isset($this -> cache[$key])) {
+        return $this -> cache[$key];
+      }
+      $ret=$this -> getFData($this->LSsearch->extraDisplayedColumns[$key]['LSformat']);
+      if (empty($ret) && is_array($this->LSsearch->extraDisplayedColumns[$key]['alternativeLSformats'])) {
+        foreach($this->LSsearch->extraDisplayedColumns[$key]['alternativeLSformats'] as $format) {
+          $ret=$this -> getFData($format);
+          if (!empty($ret)) break;
+        }
+      }
+      $this -> cache[$key] = $ret;
+      return $ret;
+    }
     elseif (in_array($key,array_keys($this -> attrs))) {
       return $this -> attrs[$key];
     }

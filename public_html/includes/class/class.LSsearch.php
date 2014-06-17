@@ -60,7 +60,8 @@ class LSsearch {
     'nbObjectsByPage' => NB_LSOBJECT_LIST,
     'nbPageLinkByPage' => 10,
     'customInfos' => array(),
-    'withoutCache' => false
+    'withoutCache' => false,
+    'extraDisplayedColumns' => false,
   );
   
   // The cache of search parameters
@@ -365,7 +366,7 @@ class LSsearch {
     
     // Sort By
     if (isset($params['sortBy']) && is_string($params['sortBy'])) {
-      if (in_array($params['sortBy'],array('displayName','subDn'))) {
+      if (in_array($params['sortBy'],array('displayName','subDn')) || ($this ->extraDisplayedColumns && isset($this ->extraDisplayedColumns[$params['sortBy']]))) {
         if ($this -> params['sortBy'] == $params['sortBy']) {
           $this -> toggleSortDirection();
         }
@@ -450,6 +451,11 @@ class LSsearch {
         LSerror :: addErrorCode('LSsearch_06');
         $OK=false;
       }
+    }
+
+    // Extra Columns
+    if (isset($params['extraDisplayedColumns'])) {
+      $this -> params['extraDisplayedColumns']=(bool)$params['extraDisplayedColumns'];
     }
 
     // predefinedFilter
@@ -788,6 +794,31 @@ class LSsearch {
     else {
       $retval['attributes']=$attrs;
     }
+
+    // Extra Columns
+    if ($this -> params['extraDisplayedColumns'] && is_array($this -> config['extraDisplayedColumns'])) {
+      foreach ($this -> config['extraDisplayedColumns'] as $id => $conf) {
+        $attrs=getFieldInFormat($conf['LSformat']);
+        if(is_array($conf['alternativeLSformats'])) {
+          foreach ($conf['alternativeLSformats'] as $format) {
+            $attrs=array_merge($attrs,getFieldInFormat($format));
+          }
+        }
+        else {
+          $attrs=array_merge($attrs,getFieldInFormat($conf['alternativeLSformats']));
+        }
+        if(is_array($retval['attributes'])) {
+          $retval['attributes']=array_merge($attrs,$retval['attributes']);
+        }
+        else {
+          $retval['attributes']=$attrs;
+        }
+      }
+    }
+
+    if (is_array($retval['attributes'])) {
+      $retval['attributes']=array_unique($retval['attributes']);
+    }
     
     $this -> _searchParams = $retval;
   }
@@ -1041,6 +1072,14 @@ class LSsearch {
 				}
 			}
       return $retval;
+    }
+    elseif ($key=='extraDisplayedColumns') {
+      if ($this->params['extraDisplayedColumns'] && is_array($this -> config['extraDisplayedColumns'])) {
+        return $this -> config['extraDisplayedColumns'];
+      }
+      else {
+        return False;
+      }
     }
     else {
       throw new Exception('Incorrect property !');

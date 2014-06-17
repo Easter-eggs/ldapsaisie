@@ -109,6 +109,7 @@ if(LSsession :: startLSsession()) {
           LStemplate :: assign('pagetitle',$object -> getLabel());
           
           $LSsearch = new LSsearch($LSobject,'LSview');
+          $LSsearch -> setParam('extraDisplayedColumns',True);
           $LSsearch -> setParamsFormPostData();
           
           $searchForm = array (
