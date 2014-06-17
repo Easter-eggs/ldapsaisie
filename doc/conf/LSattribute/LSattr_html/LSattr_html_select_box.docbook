@@ -1,0 +1,9 @@
+<sect4 id="config-LSattr_html_select_box">
+  <title>LSattr_html_select_box</title>
+  <para>Ce type est identique au type <emphasis>LSattr_html_select_list</emphasis>
+  excepté qu'il utilise en lieu et place d'une balise HTML <literal>select</literal>,
+  plusieurs balises HTML <literal>input</literal> de type <literal>checkbox</literal>
+  en cas de valeurs multiples ou de type <literal>radio</literal> en cas de valeur
+  unique. Les paramètres de configuration sont entièrement hérités de la classe 
+  <emphasis>LSattr_html_select_list</emphasis> et sont donc exactement les mêmes.</para>
+</sect4>
