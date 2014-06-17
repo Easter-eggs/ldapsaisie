@@ -51,14 +51,6 @@ var LSformElement_text = new Class({
         }           
       }
       return retval;
-    },
-    
-    getInput: function(name) {
-      return this.elements[name][0].getInput();
-    },
-    
-    getValue: function(name) {
-      return this.elements[name][0].getValue();
     }
     
 });

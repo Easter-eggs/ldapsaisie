@@ -42,8 +42,12 @@ var LSformElement_text_field = new Class({
           if (((this.isCreation)&&(this.params.autoGenerateOnCreate))||(force)) {
             this.dependsFields = this.parent.getDependsFields(this.format);
             this.dependsFields.each(function(el) {
-              var input = this.parent.getInput.bind(this.parent)(el);
-              input.addEvent('change',this.refreshValue.bind(this));
+              var inputs = varLSform.getInput.bind(this.parent)(el);
+              if (inputs.lenght>0) {
+                inputs.each(function(input) {
+                  input.addEvent('change',this.refreshValue.bind(this));
+                },this);
+              }
             },this);
           }
           this._start=true;
@@ -51,20 +55,12 @@ var LSformElement_text_field = new Class({
       }
     },
     
-    getInput: function() {
-      return this.input;
-    },
-    
-    getValue: function() {
-      return this.input.value;
-    },
-    
     refreshValue: function(force) {
       if (force==true) {
         this._auto=1;
       }
       if (((this._auto)||(force==true))&&((this.generatedValue=="")||(this.generatedValue==this.input.value)||(force==true))) {
-        var val=getFData(this.format,this.parent,'getValue');
+        var val=getFData(this.format,varLSform,'getValue');
         if ($type(this.params['withoutAccent'])) {
           if(this.params['withoutAccent']) {
             val = replaceAccents(val);
