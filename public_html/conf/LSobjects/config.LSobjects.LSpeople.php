@@ -513,7 +513,14 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'msg' => 'Your password must contain from 8 to 10 characters.',
           'params' => array(
             'minLength' => 8,
-            'maxLength' => 10
+            'maxLength' => 10,
+            'regex' => array (
+              '/[A-Z]/',
+              '/[a-z]/',
+              '/[0-9]/',
+              '/[^A-Za-z0-9]/',
+            ),
+            'minValidRegex' => 3
           )
         )
       ),

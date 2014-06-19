@@ -37,6 +37,8 @@ class LSformRule_password extends LSformRule {
    *                          - 'prohibitedValues' : Un tableau de valeurs interdites
    *                          - 'regex' : une ou plusieurs expressions régulières
    *                                      devant matche
+   *                          - 'minValidRegex' : le nombre minimun d'expressions
+   *                                              régulières à valider
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
@@ -56,14 +58,30 @@ class LSformRule_password extends LSformRule {
       if (!is_array($options['params']['regex'])) {
         $options['params']['regex']=array($options['params']['regex']);
       }
-      foreach($options['params']['regex'] as $regex) {
-        if (!ereg($regex,$value)) 
-          return;
+      if (isset($options['params']['minValidRegex'])) {
+        $options['params']['minValidRegex']=(int)$options['params']['minValidRegex'];
+        if ($options['params']['minValidRegex']==0 || $options['params']['minValidRegex']>count($options['params']['regex'])) {
+          $options['params']['minValidRegex']=count($options['params']['regex']);
+        }
       }
+      else {
+        $options['params']['minValidRegex']=count($options['params']['regex']);
+      }
+      $valid=0;
+      foreach($options['params']['regex'] as $regex) {
+        if ($regex[0]!='/') {
+          LSerror :: addErrorCode('LSformRule_password_01');
+          continue;
+        }
+        if (preg_match($regex,$value))
+          $valid++;
+      }
+      if ($valid<$options['params']['minValidRegex'])
+        return;
     }
-    
-    if(is_array($options['params']['prohibitedValues'])) {
-      if (in_array($value,$options['params']['prohibitedValues'])) 
+
+    if(isset($options['params']['prohibitedValues']) && is_array($options['params']['prohibitedValues'])) {
+      if (in_array($value,$options['params']['prohibitedValues']))
         return;
     }
     
@@ -72,4 +90,11 @@ class LSformRule_password extends LSformRule {
   
 }
 
+
+/*
+ * Error Codes
+ */
+LSerror :: defineError('LSformRule_password_01',
+_("LSformRule_password : Invalid regex configured : %{regex}. You must use PCRE (begining by '/' caracter).")
+);
 ?>
