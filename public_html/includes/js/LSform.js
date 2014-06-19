@@ -224,8 +224,6 @@ var LSform = new Class({
         });
         this.LSformAjaxInput.injectInside(this.LSform);
         
-        this.resetErrors();
-        
         this.LSform.set('send',{
           data:         this.LSform,
           onSuccess:    this.onAjaxSubmitComplete.bind(this),
@@ -252,6 +250,7 @@ var LSform = new Class({
     onAjaxSubmitComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
+        this.resetErrors();
         if ($type(data.LSformErrors) == 'object') {
           data.LSformErrors = new Hash(data.LSformErrors);
           data.LSformErrors.each(this.addError,this);
