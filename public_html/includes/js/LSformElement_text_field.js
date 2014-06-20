@@ -43,7 +43,7 @@ var LSformElement_text_field = new Class({
             this.dependsFields = this.parent.getDependsFields(this.format);
             this.dependsFields.each(function(el) {
               var inputs = varLSform.getInput.bind(this.parent)(el);
-              if (inputs.lenght>0) {
+              if (inputs.length>0) {
                 inputs.each(function(input) {
                   input.addEvent('change',this.refreshValue.bind(this));
                 },this);
