@@ -78,6 +78,14 @@ function getFData(format,data,meth) {
         if ($type(ch)) {
           try {
             val=data[meth](ch[2]);
+            if ($type(val)=='array') {
+              if (val.length==0) {
+                val=''
+              }
+              else {
+                val=val[0];
+              }
+            }
           }
           catch(e) {
             LSdebug('getFData() : '+meth+'() -> rater');
