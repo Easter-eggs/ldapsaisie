@@ -3,6 +3,7 @@ etc/ldap/schema
 usr/bin
 usr/share
 usr/share/doc/ldapsaisie
-usr/local/share
+usr/local/share/ldapsaisie/conf
+usr/share/ldapsaisie/local
 var/tmp/ldapsaisie
 var/log/ldapsaisie

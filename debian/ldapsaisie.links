@@ -1,0 +1,3 @@
+var/tmp/ldapsaisie usr/share/ldapsaisie/tmp
+usr/local/share/ldapsaisie usr/share/ldapsaisie/local
+usr/local/share/ldapsaisie etc/ldapsaisie/local

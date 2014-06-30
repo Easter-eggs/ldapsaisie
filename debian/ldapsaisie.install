@@ -1,0 +1,5 @@
+debian/conf/apache.conf etc/ldapsaisie/
+debian/bin/* usr/bin/
+lsexample/schema/lsexample.schema  etc/ldap/schema/
+lsexample/schema/lsexample.ldif  etc/ldap/schema/
+public_html/* usr/share/ldapsaisie/

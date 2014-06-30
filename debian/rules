@@ -1,81 +1,21 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+%:
+	dh $@
 
-build: build-doc
-
-build-doc:
+override_dh_auto_build:
 	make -C $(CURDIR)/doc/exports/html -f Makefile debian
 
-clean:
-	dh_testdir
-	dh_testroot
-
+override_dh_clean:
 	dh_clean
 	make -C $(CURDIR)/doc -f Makefile clean
 
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
-
-	dh_install debian/conf/apache.conf /etc/ldapsaisie/
-
-	cp -fr $(CURDIR)/public_html $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie
-	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .gitignore -exec rm -f {} \;
-	find $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie -name .placefolder -exec rm -f {} \;
+override_dh_install:
+	dh_install -X .gitignore -X .placefolder -X tmp
 
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie
 	find $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie -type f -exec rm -f \{\} \;
-	dh_link /usr/local/share/ldapsaisie /usr/share/ldapsaisie/local
 	sed -i 's/tmp\/LS.log/\/var\/log\/ldapsaisie\/ldapsaisie.log/' $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php
 	cp $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/config.inc.example.php
 
-	rm -fr $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/tmp
-	dh_link /var/tmp/ldapsaisie /usr/share/ldapsaisie/tmp
-
-	cp -fr $(CURDIR)/debian/bin/* $(CURDIR)/debian/ldapsaisie/usr/bin/
-
-	cp -f $(CURDIR)/lsexample/schema/lsexample.schema  $(CURDIR)/debian/ldapsaisie/etc/ldap/schema/
-	cp -f $(CURDIR)/lsexample/schema/lsexample.ldif  $(CURDIR)/debian/ldapsaisie/etc/ldap/schema/
-	
-
-# Build architecture-independent files here.
-binary-indep: build install
-	dh_installdocs
-	dh_installlogrotate
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-#	dh_installchangelogs ChangeLog
-#	dh_installexamples
-#	dh_install
-#	dh_installmenu
-#	dh_installdebconf
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_python
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
-#	dh_installman
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-#	dh_perl
-#	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
+override_dh_usrlocal:
