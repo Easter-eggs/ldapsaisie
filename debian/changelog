@@ -1,3 +1,35 @@
+ldapsaisie (1.1-2) unstable; urgency=low
+
+  * New features :
+    * Add LSattr_html::select_box
+    * LSformRule :: password : Added minValidRegex parameter and use preg_match() function instead of deprecated ereg()
+  * Bugs fixed :
+    * LSformElement :: text : fixed bug breaking autoGenerateOnModify feature
+    * JS / getFData() : fixed bug permitting to support than method() return array of string
+    * LSform : fixed JS bug leaving previous errors messages in form
+  * Improve debian rules file
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 30 Jun 2014 13:53:20 +0200
+
+ldapsaisie (1.1-1) unstable; urgency=low
+
+  * New features :
+    * Add possibility to add extra displayed columns in object search result
+    * Add inarray LSformRule
+    * LStemplate : add registerFunction() method permitting to register function usable by in template
+    * LSform.js : add method getInput() and use it in method getValue()
+    * LSformElement_text : use getValue/getInput of LSform object instead of LSformElement_text to permit value generation with more form element type
+  * Bugs fixed :
+    * Core : Fix error reporting
+    * LSldapObject : remove unsed variable $submitError fixing object's after_modify trigger bug
+    * LSattr_html_select_list : Use more robust inarray LSformRule instead of regex
+    * LSrelation : fixed refresh bug when multiple relations content the same object
+  * Doc :
+    * Added informations about LSattr_html_valueWithUnit
+    * Added details about regex format using in regex check_data
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 17 Jun 2014 16:18:01 +0200
+
 ldapsaisie (1.0-11) unstable; urgency=low
 
   * Add ldapsaisie-generate-lang-file command
