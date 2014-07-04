@@ -28,7 +28,9 @@ Lorsque le paramètre <varname>B</varname> est défini,
 <varname>A</varname> correspond au rang du premier caractère à partir duquel la
 chaîne de substitution sera découpée et <varname>B</varname> le nombre maximum
 de caractères à extraire. Le signe de <varname>B</varname> influera comme expliqué
-dans le premier cas.
+dans le premier cas. Si <varname>B</varname> vaut zéro, la totalité de la longeur
+de la chaîne sera retournée en tenant compte de <varname>A</varname> pour le rang
+du premier caractère.
 </para>
 <para>Les paramètres <emphasis>!</emphasis> ou <emphasis>_</emphasis> permettre respectivement de forcer la mise en majuscule ou en minuscule de la valeur de substitution.</para>
 

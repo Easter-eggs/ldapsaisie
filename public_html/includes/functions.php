@@ -39,6 +39,19 @@
  */
 function getFData($format,$data,$meth=NULL) {
   $unique=false;
+  /*
+   * Format : %{[key name][:A][:B][! ou _][~]}
+   *
+   * Extracted fields
+   * - 1 : key name
+   * - 2 : :A
+   * - 3 : A
+   * - 4 : :B
+   * - 5 : B
+   * - 6 : "-"
+   * - 7 : ! or _
+   * - 8 : ~
+   */
   $expr="%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]";
   if(!is_array($format)) {
     $format=array($format);
@@ -136,6 +149,16 @@ function _getFData_extractAndModify($data,$ch) {
       else {
         $s=$ch[3];
         $l=$ch[5];
+      }
+    }
+    else if ($ch[5]==0) {
+      if ($ch[3]<0) {
+        $s=strlen((string)$data)-(-1*$ch[3]);
+        $l=strlen((string)$data);
+      }
+      else {
+        $s=$ch[3];
+	$l=strlen((string)$data);
       }
     }
     else {

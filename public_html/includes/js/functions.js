@@ -43,7 +43,21 @@ function LSdebug(arguments) {
  * @retval string The formatted string
  */
 function getFData(format,data,meth) {
-  var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)\}');
+  /*
+   * Format : %{[key name][:A][:B][! ou _][~]}
+   *
+   * Extracted fields
+   * - 1 : full string in %{}
+   * - 2 : key name
+   * - 3 : :A
+   * - 4 : A
+   * - 5 : :B
+   * - 6 : B
+   * - 7 : "-"
+   * - 8 : ! or _
+   * - 9 : ~
+   */
+  var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)(-)?(\!|\_)?(~)?\}');
   var find=1;  
   var val="";
   if(($type(data)=='object') || ($type(data)=='array')) {
@@ -51,20 +65,7 @@ function getFData(format,data,meth) {
       while (find) {
         var ch = getMotif.exec(format);
         if ($type(ch)) {
-          if($type(ch[4])) {
-            if ($type(ch[6])) {
-              var s=ch[4];
-              var l=ch[6];
-            }
-            else {
-              var s=0;
-              var l=ch[4];
-            }
-            var val=data[ch[2]].substr(s,l);
-          }
-          else {
-            val=data[ch[2]];
-          }
+          val=_getFData_extractAndModify(data[ch[2]],ch);
           format=format.replace(new RegExp('%\{'+ch[1]+'\}'),val);
         }
         else {
@@ -92,19 +93,9 @@ function getFData(format,data,meth) {
             return;
           }
           
-          if($type(ch[4])&&ch[4]!="") {
-            if ($type(ch[6])&&ch[6]!="") {
-              var s=ch[4];
-              var l=ch[6];
-            }
-            else {
-              var s=0;
-              var l=ch[4];
-            }
-            val=val.substr(s,l);
-          }
+          val=_getFData_extractAndModify(val,ch);
           
-          format=format.replace(new RegExp('%\{'+ch[1]+'\}'),val);
+          format=format.replace(new RegExp('%\{'+ch[1]+'[\:0-9\!\_\~\-]*\}'),val);
         }
         else {
           find=0;
@@ -112,7 +103,82 @@ function getFData(format,data,meth) {
       }
     }
   }
+  else if(($type(data)=='string')) {
+    while (find) {
+      var ch = getMotif.exec(format);
+      if ($type(ch)) {
+        val=_getFData_extractAndModify(data,ch)
+        format=format.replace(new RegExp('%\{'+ch[1]+'[\:0-9\!\_\~\-]*\}'),val);
+      }
+      else {
+        find=0;
+      }
+    }
+  }
   return format;
+}
+
+function _getFData_extractAndModify(data,ch) {
+  console.log(ch);
+  var val=data;
+  // If A
+  if($type(ch[4])) {
+    ch[4]=parseInt(ch[4]);
+    var s=0;
+    var l=data.length;
+    if ($type(ch[6])) {
+      ch[6]=parseInt(ch[6]);
+      // With A and B
+      if (ch[6]==0) {
+        // If B == 0
+        ch[6]=data.length;
+      }
+      if (ch[4]>0) {
+        // A > 0
+        s=ch[4];
+        l=ch[6];
+      }
+      else {
+        // A < 0
+        s=data.length+ch[4];
+        if (ch[6]<0) {
+          // B < 0
+          l=data.length-s+ch[6];
+        }
+        else {
+          // B > 0
+          l=ch[6];
+        }
+      }
+    }
+    else {
+      // Only A
+      if (ch[4]>0) {
+        // A > 0
+        s=0;
+        l=ch[4];
+      }
+      else {
+        // A < 0
+        s=data.length+ch[4];
+        l=data.length;
+      }
+    }
+    console.log("s = " + s + " / l = " + l);
+    val=data.substr(s,l);
+  }
+  // Upper or Lower case
+  if (ch[8]=='!') {
+    val=val.toUpperCase();
+  }
+  else if (ch[8]=='_') {
+    val=val.toLowerCase();
+  }
+  // Strip accents
+  if (ch[9]=='~') {
+    val=replaceAccents(val);
+  }
+  return val;
 }
 
 /**
