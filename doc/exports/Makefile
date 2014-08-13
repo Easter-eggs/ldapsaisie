@@ -1,6 +1,6 @@
 DOCBOOK_FILE=../LdapSaisie.docbook
 
-all:    html pdf
+all:    html pdf epub
 
 # HTML
 html:		html/LdapSaisie.html
@@ -20,4 +20,13 @@ pdf/LdapSaisie.pdf:
 clean_pdf:
 				cd pdf; make clean
 
-clean:  clean_html clean_pdf
+# EPUB
+epub:		epub/LdapSaisie.epub
+
+epub/LdapSaisie.epub:
+				cd epub; make epub
+
+clean_epub:
+				cd epub; make clean
+
+clean:  clean_html clean_pdf clean_epub

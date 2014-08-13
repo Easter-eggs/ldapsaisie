@@ -25,6 +25,7 @@
     <listitem><simpara>la feuille de style <literal>html</literal> XSL de Norman Walsh pour <application>Docbook</application> (fichier <literal>/usr/share/xml/docbook/stylesheet/nwalsh/html/docbook.xsl</literal> fournis par le paquet <application>docbook-xsl</application> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara><application>xmllint</application> (validation XML) (paquet <application>libxml2-utils</application> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara><application>jw</application> (exportation PDF) (paquet <application>docbook-utils</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara><application>dbtoepub</application> (exportation EPUB) (paquet <application>dbtoepub</application> dans <application>Debian</application>)</simpara></listitem>
   </itemizedlist>
   </para></note>
 </sect1>
