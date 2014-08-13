@@ -25,6 +25,10 @@ EXPORT_DOC_DIR=/var/www/ldapsaisie-doc
 # If PDF is a zero length string, pdf doc export will not build
 PDF=LdapSaisie.pdf
 
+# EPUB export name file
+# If EPUB is a zero length string, epub doc export will not build
+EPUB=LdapSaisie.epub
+
 # ALL_IN_ONE export name
 # If ALL_IN_ONE is a zero length string, all-in-one doc export will not build
 ALL_IN_ONE=all-in-one

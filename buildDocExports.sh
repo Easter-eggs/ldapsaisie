@@ -46,6 +46,22 @@ then
 fi
 
 
+# EPUB
+if [ -n "$EPUB" ]
+then
+    echo -en "\t- EPUB : "
+    # EPUB
+    cp -f $DOC_DIR/exports/epub/LdapSaisie.epub $EXPORT_DOC_DIR/LdapSaisie.epub
+    if [ $? -ne 0 ]
+    then
+        echo -e "\n-> Error"
+        ERROR=1
+    else
+        echo Ok
+    fi
+fi
+
+
 # ALL-IN-ONE
 if [ -n "$ALL_IN_ONE" ]
 then
