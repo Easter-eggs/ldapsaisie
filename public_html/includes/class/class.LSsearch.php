@@ -1110,13 +1110,8 @@ class LSsearch {
     
     if ($va == $vb) return 0;
     
-    $val = array($va,$vb);
-    sort($val);
-    
-    if ($val[0]==$va)
-      return 1*$dir;
-      
-    return -1*$dir;
+    $val = strcoll(strtolower($va), strtolower($vb));
+    return $val*$dir;
   }
   
   /**
