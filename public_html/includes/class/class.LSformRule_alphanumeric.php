@@ -37,9 +37,17 @@ class LSformRule_alphanumeric extends LSformRule {
    * @return boolean true si la valeur est valide, false sinon
    */
   function validate ($value,$options=array(),$formElement) {
-    $regex = '/^[a-zA-Z0-9]+$/';
-    LSsession :: loadLSclass('LSformRule_regex');
-    return LSformRule_regex :: validate($value,$regex,$formElement);
+
+
+     if (isset($options['params']['with_accents']) && $options['params']['with_accents'] == true){
+         $regex = '/^[a-zA-Z0-9àâäéèêëîïôöù]+$/';
+     }
+     else {
+         $regex = '/^[a-zA-Z0-9]+$/';
+     }
+     LSsession :: loadLSclass('LSformRule_regex');
+     return LSformRule_regex :: validate($value,$regex,$formElement);
+
   }
   
 }

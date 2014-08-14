@@ -234,9 +234,10 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'default_value' => 'toto',
       'check_data' => array (
-        'alphanumeric' => array(
-          'msg' => 'The first name must contain alphanumeric values only.'
-        ),
+          'alphanumeric' => array(
+              'params' => array('with_accents' => true),
+              'msg' => 'The first name must contain alphanumeric values only.'
+          ),
       ),
       'rights' => array(
         'self' => 'r',
