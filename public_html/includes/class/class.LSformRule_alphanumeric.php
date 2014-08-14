@@ -40,7 +40,7 @@ class LSformRule_alphanumeric extends LSformRule {
 
 
      if (isset($options['params']['with_accents']) && $options['params']['with_accents'] == true){
-         $regex = '/^[a-zA-Z0-9àâäéèêëîïôöù]+$/';
+         $regex = '/(*UTF8)^[0-9\p{L}]+$/';
      }
      else {
          $regex = '/^[a-zA-Z0-9]+$/';
