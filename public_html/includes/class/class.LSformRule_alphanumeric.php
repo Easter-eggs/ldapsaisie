@@ -39,7 +39,7 @@ class LSformRule_alphanumeric extends LSformRule {
   function validate ($value,$options=array(),$formElement) {
 
 
-     if (isset($options['params']['with_accents']) && $options['params']['with_accents'] == true){
+     if (isset($options['params']['withAccents']) && $options['params']['withAccents'] == true){
          $regex = '/(*UTF8)^[0-9\p{L}]+$/';
      }
      else {
