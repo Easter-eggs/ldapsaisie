@@ -12,7 +12,9 @@
      'object_type' => '[Type d'LSobject selectionnable]',
      'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
      'value_attribute' => '[Nom de l'attribut clé des LSobjects]'
-   )
+   ),
+   'sort' => [Booléen],
+   'sortDirection' => '[ASC|DESC]'
 ),]]>
 ...
 </programlisting>
@@ -35,18 +37,14 @@
       <simpara>Nom du type d'&LSobject; en référence.</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>display_name_format</term>
     <listitem>
       <simpara>&LSformat; du nom d'affichage des objets lors de leur sélection.</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>value_attribute</term>
     <listitem>
@@ -55,9 +53,7 @@
       <emphasis>uid</emphasis>).</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>filter</term>
     <listitem>
@@ -67,6 +63,23 @@
   </varlistentry>
 </variablelist>
 
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>sort</term>
+  <listitem>
+    <simpara>Booléen définissant si la liste des objets choisis doit être
+    triée ou non (Vrai par défaut). Le trie est effectué sur les libellés
+    des objets choisis.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>sortDirection</term>
+  <listitem>
+    <simpara>Mot clé déterminant le sens du trie des objets choisis.</simpara>
+    <simpara>Valeurs possibles : <literal>ASC</literal> ou <literal>DESC</literal> (<literal>ASC</literal> par défaut).</simpara>
   </listitem>
 </varlistentry>
 

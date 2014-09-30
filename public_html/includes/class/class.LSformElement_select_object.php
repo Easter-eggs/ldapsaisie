@@ -89,12 +89,37 @@ class LSformElement_select_object extends LSformElement {
         LSselect :: loadDependenciesDisplay();
       }
     }
+
+    if (!isset($this -> params['html_options']['sort']) || $this -> params['html_options']['sort']) {
+      uasort($this -> values,array($this,'_sortTwoValues'));
+    }
+
     $return['html'] = $this -> fetchTemplate(NULL,array(
       'selectableObject' => $this -> selectableObject,
       'unrecognizedValues' => $this -> attr_html -> unrecognizedValues,
       'unrecognizedValueLabel' => _("%{value} (unrecognized value)")
     ));
     return $return;
+  }
+
+   /**
+   * Function use with uasort to sort two values
+   *
+   * @param[in] $va string One value
+   * @param[in] $vb string One value
+   *
+   * @retval int Value for uasort
+   **/
+  private function _sortTwoValues(&$va,&$vb) {
+    if (isset($this -> params['html_options']['sortDirection']) && $this -> params['html_options']['sortDirection']=='DESC') {
+      $dir=-1;
+    }
+    else {
+      $dir=1;
+    }
+    if ($va == $vb) return 0;
+    $val = strcoll(strtolower($va), strtolower($vb));
+    return $val*$dir;
   }
   
   /*
