@@ -10,5 +10,8 @@
   <note><simpara>Pour maîtriser les valeurs stockées dans l'annuaire, il faut
   coupler ce type d'attribut HTML avec le type d'attribut LDAP 
   <link linkend='config-LSattr_ldap_boolean'>boolean</link></simpara></note>
+  <important><simpara>La définition de la valeur par défaut d'un attribut utilisant
+  ce type HTML (paramètre <literal>default_value</literal>), doit se faire à l'aide
+  des valeurs <literal>yes</literal> ou <literal>no</literal>.</simpara></important>
   </para>
 </sect4>
