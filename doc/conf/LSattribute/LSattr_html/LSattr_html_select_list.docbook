@@ -20,7 +20,9 @@
        'scope' => '[Scope de la recherche]',
        'basedn' => '[Basedn de la recherche]'
      )
-   )
+   ),
+   'sort' => [Booléen],
+   'sortDirection' => '[ASC|DESC]'
 ),]]>
 ...
 </programlisting>
@@ -104,6 +106,23 @@
 </varlistentry>
 
 </variablelist>
-  
-  
+
+<variablelist>
+  <varlistentry>
+    <term>sort</term>
+    <listitem>
+      <simpara>Booléen définissant si les valeurs possibles doivent être
+      triées ou non (Vrai par défaut). Le trie est effectué sur les libellés
+      des valeurs possibles.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+<varlistentry>
+  <term>sortDirection</term>
+  <listitem>
+    <simpara>Mot clé déterminant le sens du trie des valeurs possibles.</simpara>
+    <simpara>Valeurs possibles : <literal>ASC</literal> ou <literal>DESC</literal> (<literal>ASC</literal> par défaut).</simpara>
+  </listitem>
+</varlistentry>
 </sect4>

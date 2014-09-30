@@ -122,9 +122,34 @@ class LSattr_html_select_list extends LSattr_html{
         }
       }
     }
+
+    if (!isset($this -> config['html_options']['sort']) || $this -> config['html_options']['sort']) {
+      uasort($retInfos,array($this,'_sortTwoValues'));
+    }
+
     return $retInfos;
   }
-  
+
+   /**
+   * Function use with uasort to sort two values
+   *
+   * @param[in] $va string One value
+   * @param[in] $vb string One value
+   *
+   * @retval int Value for uasort
+   **/
+  private function _sortTwoValues(&$va,&$vb) {
+    if (isset($this -> config['html_options']['sortDirection']) && $this -> config['html_options']['sortDirection']=='DESC') {
+      $dir=-1;
+    }
+    else {
+      $dir=1;
+    }
+    if ($va == $vb) return 0;
+    $val = strcoll(strtolower($va), strtolower($vb));
+    return $val*$dir;
+  }
+
 }
 
 /*
