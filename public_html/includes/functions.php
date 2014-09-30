@@ -578,4 +578,15 @@ function LSdebugDefined() {
     return $retval;
   }
 
+ /**
+  * Return current date in LDAP format
+  *
+  * @param[in] $mixed Anything (to permit using as generated function)
+  *
+  * @retval string The current date in LDAP format (YYYYMMDDHHMMSSZ)
+  **/
+  function now($mixed=Null) {
+    return date ('YmdHis').'Z';
+  }
+
 ?>
