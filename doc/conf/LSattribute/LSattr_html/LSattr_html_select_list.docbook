@@ -51,18 +51,14 @@
       <simpara>Nom du type d'&LSobject; en référence.</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>display_name_format</term>
     <listitem>
       <simpara>&LSformat; du nom d'affichage des objets lors de leur sélection.</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>value_attribute</term>
     <listitem>
@@ -71,9 +67,7 @@
       <emphasis>uid</emphasis>).</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>filter</term>
     <listitem>
@@ -82,18 +76,14 @@
       d'&LSobject;.</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>scope</term>
     <listitem>
       <simpara>Scope falcultatif de la recherche des LSobjets.</simpara>
     </listitem>
   </varlistentry>
-</variablelist>
 
-<variablelist>
   <varlistentry>
     <term>basedn</term>
     <listitem>
@@ -105,18 +95,15 @@
   </listitem>
 </varlistentry>
 
-</variablelist>
 
-<variablelist>
-  <varlistentry>
-    <term>sort</term>
-    <listitem>
-      <simpara>Booléen définissant si les valeurs possibles doivent être
-      triées ou non (Vrai par défaut). Le trie est effectué sur les libellés
-      des valeurs possibles.</simpara>
-    </listitem>
-  </varlistentry>
-</variablelist>
+<varlistentry>
+  <term>sort</term>
+  <listitem>
+    <simpara>Booléen définissant si les valeurs possibles doivent être
+    triées ou non (Vrai par défaut). Le trie est effectué sur les libellés
+    des valeurs possibles.</simpara>
+  </listitem>
+</varlistentry>
 
 <varlistentry>
   <term>sortDirection</term>
@@ -125,4 +112,5 @@
     <simpara>Valeurs possibles : <literal>ASC</literal> ou <literal>DESC</literal> (<literal>ASC</literal> par défaut).</simpara>
   </listitem>
 </varlistentry>
+</variablelist>
 </sect4>
