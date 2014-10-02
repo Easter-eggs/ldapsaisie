@@ -12,12 +12,6 @@ var LSview = new Class({
       $$('td.LSobject-list-names').each(function(el) {
         el.addEvent('click',this.onTdLSobjectListNamesClick.bind(this,el));
       }, this);
-      $$('td.LSobject-list-names').each(function(el) {
-        el.addEvent('mouseenter',this.onTdLSobjectListNamesOver.bind(this,el));
-      }, this);
-      $$('td.LSobject-list-names').each(function(el) {
-        el.addEvent('mouseleave',this.onTdLSobjectListNamesOut.bind(this,el));
-      }, this);
       $$('a.LSobject-list-actions').each(function(el) {
         var checkRemove = /remove\.php.*/;
         if (checkRemove.exec(el.href)) {
@@ -51,17 +45,6 @@ var LSview = new Class({
       window.location=td.getFirst().href;
     },
 
-    onTdLSobjectListNamesOver: function(td){
-      td.imgEdit = new Element('img');
-      td.imgEdit.src = varLSdefault.imagePath('view');
-      td.imgEdit.injectInside(td);
-    },
-    
-    onTdLSobjectListNamesOut: function(td) {
-      if(td.imgEdit)
-        td.imgEdit.destroy();
-    },
-    
     onRemoveListBtnClick: function(event,a) {
       Event(event).stop();
       if (!this._confirmBoxOpen) {
