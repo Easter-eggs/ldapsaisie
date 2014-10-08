@@ -18,6 +18,7 @@
 <!ENTITY LSattribute "<link linkend='config-LSattribute'>LSattribute</link>">
 <!ENTITY LSattributes "<link linkend='config-LSattribute'>LSattributes</link>">
 <!ENTITY customActions "<link linkend='config-LSobject-customActions'>customActions</link>">
+<!ENTITY customSearchActions "<link linkend='config-LSobject-customSearchActions'>customActions</link>">
 <!ENTITY LSrelation "<link linkend='config-LSobject-LSrelation'>LSrelation</link>">
 <!ENTITY LSrelations "<link linkend='config-LSobject-LSrelation'>LSrelations</link>">
 <!ENTITY LSform "<link linkend='config-LSobject-LSform'>LSform</link>">
@@ -28,3 +29,4 @@
 <!ENTITY LSaddons "<link linkend='config-LSaddon'>LSaddons</link>">
 <!ENTITY LSauthMethod "<link linkend='config-LSauthMethod'>LSauthMethod</link>">
 <!ENTITY LSselect "<emphasis>LSselect</emphasis>">
+<!ENTITY LSsearch "<link linkend='config-LSobject-LSsearch'>LSsearch</link>">

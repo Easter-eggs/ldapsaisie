@@ -127,6 +127,14 @@ if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR))
         add($cconf['label']);
       }
     }
+    if (is_array($conf['LSsearch']['customActions'])) {
+      foreach($conf['LSsearch']['customActions'] as $act) {
+        add($act['label']);
+        add($act['question_format']);
+        add($act['onSuccessMsgFormat']);
+      }
+    }
+
 
     
     if(is_array($conf['attrs'])) {

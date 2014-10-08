@@ -1011,6 +1011,7 @@ class LSsearch {
    **/
   public function __get($key) {
     $params = array (
+      'basedn',
       'sortBy',
       'sortDirection'
     );
@@ -1314,5 +1315,6 @@ _("LSsearch : The function of the custum information %{name} is not callable.")
 LSerror :: defineError('LSsearch_15',
 _("LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} (filter : %{filter}).")
 );
-
-?>
+LSerror :: defineError('LSsearch_16',
+_("LSsearch : Error during execution of the custom action %{customAction}.")
+);

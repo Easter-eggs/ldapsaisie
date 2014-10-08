@@ -151,6 +151,23 @@ if(LSsession :: startLSsession()) {
             'url' => 'view.php?LSobject='.$LSobject.'&amp;LSsearchPurgeSession',
             'action' => 'delete'
           );*/
+
+          // Custum Actions
+          $customActionsConfig = LSconfig :: get('LSobjects.'.$LSobject.'.LSsearch.customActions');
+          if (is_array($customActionsConfig)) {
+            foreach($customActionsConfig as $name => $config) {
+              if (LSsession :: canExecuteLSsearchCustomAction($LSsearch,$name)) {
+                $LSview_actions[] = array (
+                  'label' => ((isset($config['label']))?__($config['label']):__($name)),
+                  'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
+                  'url' => 'custom_search_action.php?LSobject='.$LSobject.'&amp;customAction='.$name,
+                  'action' => ((isset($config['icon']))?$config['icon']:'generate'),
+                  'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
+                );
+              }
+            }
+          }
+
           LStemplate :: assign('LSview_actions',$LSview_actions);
           
           $LSsearch -> run();

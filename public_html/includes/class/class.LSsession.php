@@ -1897,6 +1897,35 @@ class LSsession {
   }
 
   /**
+   * Retourne le droit de l'utilisateur a executer une customAction
+   * sur une recherche
+   *
+   * @param[in] string $LSsearch L'objet LSsearch
+   * @param[in] string $customActionName Le nom de la customAction
+   *
+   * @retval boolean True si l'utilisateur peut executer cette customAction, false sinon
+   */
+  public static function canExecuteLSsearchCustomAction($LSsearch,$customActionName) {
+    $conf=LSconfig :: get('LSobjects.'.$LSsearch -> LSobject.'.LSsearch.customActions.'.$customActionName);
+    if (!is_array($conf))
+      return;
+    $dn=$LSsearch -> basedn;
+    if (is_null($dn)) $dn=self::getTopDn();
+
+    $whoami = self :: whoami($dn);
+
+    if (isset($conf['rights']) && is_array($conf['rights'])) {
+      foreach($whoami as $who) {
+        if (in_array($who,$conf['rights'])) {
+          return True;
+        }
+      }
+    }
+
+    return;
+  }
+
+  /**
    * Ajoute un fichier temporaire
    * 
    * @author Benjamin Renard <brenard@easter-eggs.com>
