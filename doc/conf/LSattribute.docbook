@@ -27,6 +27,7 @@
     'html_options' => array(
       // Options HTML liées au type HTML de l'attribut
     ),
+    'no_value_label' => '[No set value label]',
     'multiple' => 0,
     'required' => 1,
     'generate_function' => 'fonction1',
@@ -121,6 +122,13 @@
     <simpara>Tableau associatif contenant les paramètres de configuration du
     type HTML de l'attribut.
     <link linkend='config-LSattr_html'>Voir la section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>no_value_label</term>
+  <listitem>
+    <simpara>Label affiché lorsque l'attribut n'a pas de valeur (facultatif).</simpara>
   </listitem>
 </varlistentry>
 
