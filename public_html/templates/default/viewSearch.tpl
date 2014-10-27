@@ -107,7 +107,9 @@
     </tr>
     {foreachelse}
       <tr class='LSobject-list'>
-        <td colspan='3' class='LSobject-list-without-result'>{$LSsearch->label_no_result}</td>
+        <td colspan='{if $LSsearch->extraDisplayedColumns}{count($LSsearch->extraDisplayedColumns)+3}{else}3{/if}' class='LSobject-list-without-result'>
+          {$LSsearch->label_no_result}
+        </td>
       </tr>   
     {/foreach}
 </table>
