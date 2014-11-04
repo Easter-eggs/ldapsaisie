@@ -1099,10 +1099,10 @@ class LSsearch {
     $sortBy = $this -> params['sortBy'];
     $sortDirection = $this -> params['sortDirection'];
     if ($sortDirection=='ASC') {
-      $dir = -1;
+      $dir = 1;
     }
     else {
-      $dir = 1;
+      $dir = -1;
     }
     $oa = new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$a);
     $va = $oa->$sortBy;
