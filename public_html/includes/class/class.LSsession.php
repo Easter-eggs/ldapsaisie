@@ -1492,7 +1492,17 @@ class LSsession {
                     $LSsearch = new LSsearch($LSobject,'LSsession :: loadLSprofiles',$params,true);
                     $LSsearch -> run(false);
                     
-                    self :: $LSprofiles[$profile] = $LSsearch -> listObjectsDn();
+                    $DNs = $LSsearch -> listObjectsDn();
+                    if (!is_array(self :: $LSprofiles[$profile])) {
+                      self :: $LSprofiles[$profile]=$DNs;
+                    }
+                    else {
+                      foreach($DNs as $dn) {
+                        if (!in_array($dn,self :: $LSprofiles[$profile])) {
+                          self :: $LSprofiles[$profile][] = $dn;
+                        }
+                      }
+                    }
                   }
                 }
               }
