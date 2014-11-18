@@ -29,4 +29,7 @@ For exports :
  * in PDF :
  ~~~~~~~~~~
    + jw command (in debian package docbook-utils)
- 
+
+ * in EPUB :
+ ~~~~~~~~~~~
+   + dbtoepub command ((in debian package dbtoepub)
