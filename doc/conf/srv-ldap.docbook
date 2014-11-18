@@ -16,6 +16,7 @@ serveur LDAP.</para>
       'ldap_config'=> array(
         // Définition des paramètres de connexion à l'annuaire
       ),
+      'useUserCredentials' => [boolean],
       'LSauth' => array (
         'method' => [LSauth method]
       ),
@@ -67,6 +68,20 @@ serveur LDAP.</para>
     structurées selon les attentes de la librairie &netldap;. 
     <ulink url='http://pear.php.net/manual/fr/package.networking.net-ldap.connecting.php'>
     Plus d'informations</ulink>
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>useUserCredentials</term>
+  <listitem>
+    <simpara>Booléen définissant si il faut utiliser les identifiants de l'utilisateur pour
+    se connecter à l'annuaire (<emphasis>false</emphasis> par défaut). Si cette option est
+    activée, la connexion à l'annuaire LDAP sera établie avec la configuration fournie dans
+    le paramètre <emphasis>ldap_config</emphasis> en écrasant les informations de connexion
+    (<emphasis>binddn</emphasis> et <emphasis>bindpwd</emphasis>) par ceux de l'utilisateur.
+    Si l'utilisateur n'est pas encore connecté, la connexion sera étalie sans modifier la
+    configuration fournie.
     </simpara>
   </listitem>
 </varlistentry>

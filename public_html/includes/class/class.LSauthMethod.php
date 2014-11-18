@@ -93,7 +93,25 @@ class LSauthMethod {
      // Do nothing in the standard LSauthMethod class
      return true;
   }
-  
+
+  /**
+   * Get LDAP credentials
+   *
+   * Return LDAP credentials or false
+   *
+   * @params[in] $user The LSldapObject of the user authificated
+   *
+   * @retval Array|false Array of LDAP credentials array('dn','pwd') or False
+   **/
+  public function getLDAPcredentials($user) {
+	if (isset($this -> authData['password'])) {
+	  return array(
+	    'dn' => $user -> getDn(),
+	    'pwd' => $this -> authData['password']
+	  );
+	}
+    return false;
+  }
 }
 
 ?>

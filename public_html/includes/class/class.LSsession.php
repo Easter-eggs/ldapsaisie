@@ -84,6 +84,9 @@ class LSsession {
   // The LSauht object of the session
   private static $LSauthObject = false;
 
+  // User LDAP credentials
+  private static $userLDAPcreds = false;
+
  /**
   * Include un fichier PHP
   *
@@ -475,11 +478,12 @@ class LSsession {
     if(isset($_SESSION['LSsession']['dn']) && !isset($_GET['LSsession_recoverPassword'])) {
       LSdebug('LSsession : Session existente'); 
       // --------------------- Session existante --------------------- //
-      self :: $topDn        = $_SESSION['LSsession']['topDn'];
-      self :: $dn           = $_SESSION['LSsession']['dn'];
-      self :: $rdn          = $_SESSION['LSsession']['rdn'];
-      self :: $ldapServerId = $_SESSION['LSsession']['ldapServerId'];
-      self :: $tmp_file     = $_SESSION['LSsession']['tmp_file'];
+      self :: $topDn         = $_SESSION['LSsession']['topDn'];
+      self :: $dn            = $_SESSION['LSsession']['dn'];
+      self :: $rdn           = $_SESSION['LSsession']['rdn'];
+      self :: $ldapServerId  = $_SESSION['LSsession']['ldapServerId'];
+      self :: $tmp_file      = $_SESSION['LSsession']['tmp_file'];
+      self :: $userLDAPcreds = $_SESSION['LSsession']['userLDAPcreds'];
       
       if ( self :: cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
         self :: setLdapServer(self :: $ldapServerId);
@@ -584,6 +588,18 @@ class LSsession {
             self :: $LSuserObject = $LSuserObject;
             self :: $dn = $LSuserObject->getValue('dn');
             self :: $rdn = $LSuserObject->getValue('rdn');
+            if (isset(self :: $ldapServer['useUserCredentials']) && self :: $ldapServer['useUserCredentials']) {
+              self :: $userLDAPcreds = LSauth :: getLDAPcredentials($LSuserObject);
+              if (!is_array(self :: $userLDAPcreds)) {
+                LSerror :: addErrorCode('LSsession_14');
+                self :: $userLDAPcreds = false;
+                return;
+              }
+              if (!LSldap :: reconnectAs(self :: $userLDAPcreds['dn'],self :: $userLDAPcreds['pwd'])) {
+                LSerror :: addErrorCode('LSsession_15');
+                return;
+              }
+            }
             self :: loadLSprofiles();
             self :: loadLSaccess();
             LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
@@ -851,6 +867,7 @@ class LSsession {
       'topDn' => self :: $topDn,
       'dn' => self :: $dn,
       'rdn' => self :: $rdn,
+      'userLDAPcreds' => self :: $userLDAPcreds,
       'ldapServerId' => self :: $ldapServerId,
       'ldapServer' => self :: $ldapServer,
       'LSprofiles' => self :: $LSprofiles,
@@ -955,7 +972,12 @@ class LSsession {
       if (!self :: loadLSclass('LSldap')) {
         return;
       }
-      LSldap :: connect(self :: $ldapServer['ldap_config']);
+      if (self :: $dn && isset(self :: $ldapServer['useUserCredentials']) && self :: $ldapServer['useUserCredentials']) {
+        LSldap :: reconnectAs(self :: $userLDAPcreds['dn'], self :: $userLDAPcreds['pwd'],self :: $ldapServer['ldap_config']);
+      }
+      else {
+        LSldap :: connect(self :: $ldapServer['ldap_config']);
+      }
       if (LSldap :: isConnected()) {
         return true;
       }
@@ -2223,7 +2245,13 @@ class LSsession {
     LSerror :: defineError('LSsession_13',
     _("LSsession : The function of the custom action %{name} does not exists or is not configured.")
     );
-    // 14 -> 16 : not yet used
+    LSerror :: defineError('LSsession_14',
+    _("LSsession : Fail to retreive user's LDAP credentials from LSauth.")
+    );
+    LSerror :: defineError('LSsession_15',
+    _("LSsession : Fail to reconnect to LDAP server with user's LDAP credentials.")
+    );
+    // 16 : not yet used
     LSerror :: defineError('LSsession_17',
     _("LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})")
     );
