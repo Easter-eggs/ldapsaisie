@@ -34,17 +34,7 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannEtablissement extends LSformElement_supannLabeledValue {
 
- /**
-  * Traduit une valeur
-  *
-  * @param[in] $value La valeur
-  *
-  * @retval array Un tableau cle->valeur contenant translated et label ou False
-  **/
-  function translate($value) {
-    return supannTranslateEtablissement($value); 
-  }
-
+  var $supannNomenclatureTable = 'codeEtablissement';
 
 }
 

@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-LSsession :: loadLSclass('LSformElement');
+LSsession :: loadLSclass('LSformElement_supannCompositeAttribute');
 LSsession :: loadLSaddon('supann');
 
 /**
@@ -32,46 +32,29 @@ LSsession :: loadLSaddon('supann');
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 
-class LSformElement_supannRoleEntite extends LSformElement {
+class LSformElement_supannRoleEntite extends LSformElement_supannCompositeAttribute {
 
-  var $template = 'LSformElement_supannRoleEntite.tpl';
-  var $fieldTemplate = 'LSformElement_supannRoleEntite_field.tpl';
-
- /**
-  * Retourne les infos d'affichage de l'élément
-  * 
-  * Cette méthode retourne les informations d'affichage de l'élement
-  *
-  * @retval array
-  */
-  function getDisplay(){
-    $return = $this -> getLabelInfos();
-
-    $parseValues=array();
-    foreach($this -> values as $val) {
-      $keyValue=supannParseCompositeValue($val);
-      if ($keyValue) {
-        $parseValue=array('value' => $val);
-        foreach($keyValue as $key => $value) {
-          $parseValue[$key]=array(
-            'value' => $value
-          );
-          $tr=supannTranslateRoleEntiteValue($key,$value);
-          if ($tr) {
-            if($tr['translated'])
-              $parseValue[$key]['translated']=$tr['translated'];
-            if($tr['label'])
-              $parseValue[$key]['label']=$tr['label'];
-          }
-        }
-        $parseValues[]=$parseValue;
-      }
-    }
-
-    $return['html'] = $this -> fetchTemplate(NULL,array('parseValues' => $parseValues));
-    return $return;
+  function LSformElement_supannRoleEntite (&$form, $name, $label, $params,&$attr_html){
+	  $this -> components = array (
+		  'role' => array (
+			'label' => _('Role'),
+			'type' => 'table',
+			'table' => 'roleGenerique',
+			'required' => true,
+		  ),
+		  'type' => array (
+			'label' => _('Entity type'),
+			'type' => 'table',
+			'table' => 'typeEntite',
+			'required' => true,
+		  ),
+		  'code' => array (
+			'label' => _('Entity'),
+			'type' => 'codeEntite',
+			'required' => false
+		  )
+	  );
+	  return parent::LSformElement ($form, $name, $label, $params,$attr_html);
   }
 
 }
-
-?>

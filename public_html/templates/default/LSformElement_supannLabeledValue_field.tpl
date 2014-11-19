@@ -1,7 +1,7 @@
 {if $freeze}
   {if $value or $parseValue}
     {if $parseValue}
-      <span class='LSformElement_supannLabeledValue'>{if $label}<img src='{img name="LSformElement_supannLabeledValue_label_$label"}' alt='[{$label}]' title='{$label}' /> {/if}<span title='{$parseValue.value}'>{$value}</span></span> 
+      <span class='LSformElement_supannLabeledValue'>{if $label}<img src='{img name="supann_label_$label"}' alt='[{$label}]' title='{$label}' /> {/if}<span title='{$parseValue.value}'>{$value}</span></span> 
     {else}
       <span class='LSformElement_supannLabeledValue_unparsed'>{$value}</span>
     {/if}

@@ -40,17 +40,17 @@ LSerror :: defineError('SUPANN_01',
 LSerror :: defineError('SUPANN_02',
   _("SUPANN Support : Can't get the basedn of entities. Unable to forge the attribute %{attr}.")
 );
-      
+
  /**
   * Verification du support SUPANN par ldapSaisie
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true si SUPANN est pleinement supporté, false sinon
   */
   function LSaddon_supann_support() {
     $retval = true;
-        
+
     $MUST_DEFINE_CONST= array(
       'LS_SUPANN_LASTNAME_ATTR',
       'LS_SUPANN_FIRSTNAME_ATTR',
@@ -68,16 +68,11 @@ LSerror :: defineError('SUPANN_02',
     }
 
     $MUST_DEFINE_ARRAY= array(
-      'supannRoleGenerique',
-      'supannTypeEntite',
-      'supannTranslateRoleEntiteValueDirectory',
-      'supannTranslateFunctionDirectory',
-      'tableCodeUAI',
-      'supannTranslateEtablissementDirectory',
+      'supannNomenclatures',
     );
     foreach($MUST_DEFINE_ARRAY as $array) {
       if ( !isset($GLOBALS[$array]) || !is_array($GLOBALS[$array])) {
-        LSerror :: addErrorCode('SUPANN_SUPPORT_01',$array);
+        LSerror :: addErrorCode('SUPANN_SUPPORT_03',$array);
         $retval=false;
       }
     }
@@ -87,13 +82,17 @@ LSerror :: defineError('SUPANN_02',
         LSerror :: addErrorCode('SUPANN_SUPPORT_02', LS_SUPANN_LSOBJECT_ENTITE_TYPE);
       }
     }
-    
+
     return $retval;
   }
 
+/***********************************************************************
+ * Fonctions de génération de valeurs d'attributs
+ **********************************************************************/
+
  /**
   * Generation du displayName
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @param[in] $ldapObject L'objet ldap
@@ -115,10 +114,10 @@ LSerror :: defineError('SUPANN_02',
 
     return ($prenoms[0].' '.$noms[0]);
   }
-  
+
  /**
   * Generation du CN
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @param[in] $ldapObject L'objet ldap
@@ -144,14 +143,14 @@ LSerror :: defineError('SUPANN_02',
  /**
   * Generation des valeurs de l'attribut eduPersonOrgUnitDN à partir des
   * valeurs de l'attribut supannEntiteAffectation.
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval array Les valeurs de l'attribut eduPersonOrgUnitDN ou false
   *               si il y a un problème durant la génération
-  */ 
+  */
   function generate_eduPersonOrgUnitDN($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'supannEntiteAffectation' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEntiteAffectation', 'attr' => 'eduPersonOrgUnitDN'));
@@ -175,16 +174,16 @@ LSerror :: defineError('SUPANN_02',
   }
 
  /**
-  * Generation de la valeur de l'attribut eduPersonPrimaryOrgUnitDN 
+  * Generation de la valeur de l'attribut eduPersonPrimaryOrgUnitDN
   * à partir de la valeur de l'attribut supannEntiteAffectationPrincipale.
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval array La valeur de l'attribut eduPersonPrimaryOrgUnitDN
   *               ou false si il y a un problème durant la génération
-  */ 
+  */
   function generate_eduPersonPrimaryOrgUnitDN($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'supannEntiteAffectationPrincipale' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEntiteAffectationPrincipale', 'attr' => 'eduPersonPrimaryOrgUnitDN'));
@@ -208,19 +207,19 @@ LSerror :: defineError('SUPANN_02',
   }
 
  /**
-  * Generation de la valeur de l'attribut eduPersonOrgDN 
+  * Generation de la valeur de l'attribut eduPersonOrgDN
   * à partir de la valeur de l'attribut supannEtablissement.
   *
   * La valeur sera LS_SUPANN_ETABLISSEMENT_DN si l'attribut supannEtablissement
   * vaut {UAI}LS_SUPANN_ETABLISSEMENT_UAI.
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval array La valeur de l'attribut eduPersonOrgDN ou false
   *               si il y a un problème durant la génération
-  */ 
+  */
   function generate_eduPersonOrgDN($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'supannEtablissement' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('SUPANN_01',array('dependency' => 'supannEtablissement', 'attr' => 'eduPersonOrgDN'));
@@ -235,6 +234,31 @@ LSerror :: defineError('SUPANN_02',
     }
 
     return $retval;
+  }
+
+/***********************************************************************
+ * Fonction de parsing des valeurs spécifiques SUPANN
+ **********************************************************************/
+
+ /**
+  * Parse une valeur a etiquette SUPANN
+  *
+  * Exemple de valeur :
+  *
+  *    {SUPANN}S410
+  *
+  * @param[in] $val La valeur
+  *
+  * @retval array Un tableau cle->valeur contenant label et value ou False
+  **/
+  function supannParseLabeledValue($value) {
+    if (preg_match('/^\{([^\}]*)\}(.*)$/',$value,$m)) {
+      return array(
+        'label'=>$m[1],
+        'value'=>$m[2]
+      );
+    }
+    return;
   }
 
  /**
@@ -261,175 +285,139 @@ LSerror :: defineError('SUPANN_02',
     return;
   }
 
- /**
-  * Retourne une eventuelle fonction de traduction d'une valeur
-  * en fonction de son label et de sa cle.
-  *
-  * Utilise la table $GLOBALS['supannTranslateFunctionDirectory']
-  *
-  * @param[in] $label Le label de la valeur
-  * @param[in] $key La cle de la valeur
-  *
-  * @retval string|false Le nom de la fonction de traduction ou false
-  **/
-  function supannTranslateRoleEntiteFunction($label,$key) {
-    if (isset($GLOBALS['supannTranslateFunctionDirectory'][$label][$key])) {
-      return $GLOBALS['supannTranslateFunctionDirectory'][$label][$key];
-    }
-    return;
-  }
-
+/***********************************************************************
+ * Fonctions relatives aux entités
+ **********************************************************************/
 
  /**
   * Retourne le nom court d'une entite en fonction de son identifiant
   *
-  * Fonction utilise comme fonction de traduction dans la fonction 
-  * supannTranslateRoleEntiteValue()
-  *
-  * @param[in] $label Le label de la valeur
-  * @param[in] $key La cle de la valeur
-  * @param[in] $value La valeur : l'identifiant de l'entite (supannCodeEntite)
+  * @param[in] $id L'identifiant de l'entite (supannCodeEntite)
   *
   * @retval string Le nom de l'entite
   **/
-  function supanGetEntiteNameById($label,$key,$value) {
+  function supanGetEntiteNameById($id) {
     if (LSsession::loadLSobject(LS_SUPANN_LSOBJECT_ENTITE_TYPE)) {
       $type=LS_SUPANN_LSOBJECT_ENTITE_TYPE;
       $e = new $type();
-      $list=$e -> listObjectsName("(supannCodeEntite=$value)",NULL,array(),LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME);
+      $list=$e -> listObjectsName("(supannCodeEntite=$id)",NULL,array(),LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME);
       if (count($list)==1) {
-        return array(
-          'translated' => array_pop($list),
-          'label' => $label
-        );
+        return array_pop($list);
       }
     }
-    return array(
-      'translated' => getFData(__("%{value} (unrecognized value)"),$value),
-      'label' => $label
-    );
+    return getFData(__("Entity %{id} (unrecognized)"),$id);
   }
 
  /**
-  * Parse une valeur a etiquette SUPANN
+  * Valide l'ID d'une entite
   *
-  * Exemple de valeur :
+  * @param[in] $id L'identifiant de l'entite (supannCodeEntite)
   *
-  *    {SUPANN}S410
-  *
-  * @param[in] $val La valeur
-  *
-  * @retval array Un tableau cle->valeur contenant label et value ou False
+  * @retval boolean True si une entité avec cet ID existe, False sinon
   **/
-  function supannParseLabeledValue($value) {
-    if (preg_match('/^\{([^\}]*)\}(.*)$/',$value,$m)) {
-      return array(
-        'label'=>$m[1],
-        'value'=>$m[2]
-      );
-    }
-    return;
-  }
-
- /**
-  * Simple découpage label/valeur sans traduction réel
-  *
-  * @param[in] $key La cle
-  * @param[in] $value La valeur
-  *
-  * @retval array Un tableau cle->valeur contenant label et translated
-  **/
-  function supannTranslateLabeledValue($value) {
-    $label='no';
-    $pl=supannParseLabeledValue($value);
-    if ($pl) {
-      $label=$pl['label'];
-      $value=$pl['value'];
-    }
-
-    return array(
-      'label' => $label,
-      'translated' => $value
-    );
-  }
-
- /**
-  * Traduit une valeur en fonction de sa cle extrait d'un attribut
-  * supannRoleEntite.
-  *
-  * @param[in] $key La cle
-  * @param[in] $value La valeur
-  *
-  * @retval array Un tableau cle->valeur contenant label et translated ou False
-  **/
-  function supannTranslateRoleEntiteValue($key,$value) {
-    $label='no';
-    $pl=supannParseLabeledValue($value);
-    if ($pl) {
-      $label=$pl['label'];
-      $value=$pl['value'];
-    }
-
-    // Translate by method
-    if (supannTranslateRoleEntiteFunction($label,$key)) {
-      $func = supannTranslateRoleEntiteFunction($label,$key);
-      if (function_exists($func)) {
-        try {
-          return $func($label,$key,$value);
-        }
-        catch (Exception $e) {
-          return;
-        }
-      }
-      else {
-        return;
+  function supannValidateEntityId($id) {
+	if (LSsession::loadLSobject(LS_SUPANN_LSOBJECT_ENTITE_TYPE)) {
+      $type=LS_SUPANN_LSOBJECT_ENTITE_TYPE;
+      $e = new $type();
+      $list=$e -> listObjectsName("(supannCodeEntite=$id)");
+      if (count($list)==1) {
+        return true;
       }
     }
-    // Translate by directory
-    elseif (isset($GLOBALS['supannTranslateRoleEntiteValueDirectory'][$label][$key][$value])) {
-      return array(
-        'translated' => $GLOBALS['supannTranslateRoleEntiteValueDirectory'][$label][$key][$value],
-        'label' => $label
-     );
-    }
-    else {
-      return array(
-        'label' => $label,
-        'translated' => $value
-      );
-    }
+    return false;
   }
 
  /**
-  * Traduit une valeur en fonction de sa cle extrait d'un attribut
-  * supannEtablissement
+  * Cherche des entités répond au pattern de recherche passé en paramètres
+  * et retourne un tableau mettant en relation leur identifiant et leur nom
+  * d'affichage.
   *
-  * @param[in] $key La cle
-  * @param[in] $value La valeur
+  * @param[in] $pattern string Le pattern de recherche
   *
-  * @retval array Un tableau cle->valeur contenant label et translated
+  * @retval array Tableau du résultat de la recherche mettant en relation
+  *               l'identifiant des entités trouvés avec leur nom d'affichage.
   **/
-  function supannTranslateEtablissement($value) {
-    $label='no';
-    $pl=supannParseLabeledValue($value);
-    if ($pl) {
-      $label=$pl['label'];
-      $value=$pl['value'];
-    }
-
-    if (isset($GLOBALS['supannTranslateEtablissementDirectory'][$label][$value])) {
-      return array(
-        'translated' => $GLOBALS['supannTranslateEtablissementDirectory'][$label][$value],
-        'label' => $label
-     );
-    }
-    else {
-      return array(
-        'label' => $label,
-        'translated' => $value
-      );
-    }
+  function supannSearchEntityByPattern($pattern) {
+		$retval=array();
+		if (LSsession::loadLSclass('LSsearch')) {
+			$search=new LSsearch(
+				LS_SUPANN_LSOBJECT_ENTITE_TYPE,
+				'SUPANN:supannSearchEntityByPattern',
+				array(
+					'pattern' => $pattern,
+					'attributes' => array('supannCodeEntite'),
+					'sizelimit' => 10,
+				)
+			);
+			$search -> run();
+		
+			foreach($search -> getSearchEntries() as $e) {
+				$code=$e->get('supannCodeEntite');
+				if (is_array($code)) $code=$code[0];
+				$retval[$code]=$e->displayName;
+			}
+		}
+		return $retval;
   }
 
 
-?>
+/***********************************************************************
+ * Fonctions relatives aux nomenclatures
+ **********************************************************************/
+
+ /**
+  * Vérifie si une valeur et son étiquette sont valide pour une table donnée
+  *
+  * @param[in] $table La table de nomenclature
+  * @param[in] $label L'étiquette de la valeur
+  * @param[in] $value La valeur
+  *
+  * @retval booleab True si valide, False sinon
+  **/
+  function supannValidateNomenclatureValue($table,$label,$value) {
+	$label=strtoupper($label);
+    if (isset($GLOBALS['supannNomenclatures'][$label]) &&
+        isset($GLOBALS['supannNomenclatures'][$label][$table]) &&
+        isset($GLOBALS['supannNomenclatures'][$label][$table][$value])) {
+	  return true;
+	}
+	return false;
+  }
+
+ /**
+  * Retourne le label d'une valeur en fonction de la table de nomenclature
+  * et de l'étiquette de la valeur.
+  *
+  * @param[in] $table La table de nomenclature
+  * @param[in] $label L'étiquette de la valeur
+  * @param[in] $value La valeur
+  *
+  * @retval array Le label de la valeur. En cas de valeur nor-reconnue, retourne
+  *               la valeur en spécifiant qu'elle n'est pas reconnue.
+  **/
+  function supannGetNomenclatureLabel($table,$label,$value) {
+	if (supannValidateNomenclatureValue($table,$label,$value)) {
+      $label=strtoupper($label);
+	  return $GLOBALS['supannNomenclatures'][$label][$table][$value];
+	}
+	return getFData(__("%{value} (unrecognized value)"),$value);
+  }
+
+ /**
+  * Retourne les valeurs possibles d'une table de nomenclature
+  *
+  * @param[in] $table La table de nomenclature
+  *
+  * @retval array Tableau contenant les valeurs possibles de la table
+  *               de nomenclature
+  **/
+  function supannGetNomenclatureTable($table) {
+	  $retval=array();
+	  foreach($GLOBALS['supannNomenclatures'] as $label => $tables) {
+		  if (isset($GLOBALS['supannNomenclatures'][$label][$table])) {
+			  $retval[$label]=$GLOBALS['supannNomenclatures'][$label][$table];
+		  }
+	  }
+	  return $retval;
+  }
+

@@ -1,0 +1,41 @@
+ul.LSformElement_supannCompositeAttribute li {
+	border: 1px dotted #CCC;
+	padding: 2px;
+}
+
+ul.LSformElement_supannCompositeAttribute li.noValue {
+	border: none;
+}
+
+ul.LSformElement_supannCompositeAttribute p {
+	margin: 0;
+}
+
+ul.LSformElement_supannCompositeAttribute p label {
+	font-weight: bold;
+}
+
+input.LSformElement_supannCompositeAttribute_search {
+	border: 1px solid #CCC;
+	width: 200px;
+	background: url('../../images/default/find.png') no-repeat scroll 0% 0% #FFF !important;
+	padding-left: 18px;
+}
+
+div.supannCompositeAttribute_possibleValues ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	border: 1px solid #CCC;
+	border-collapse: collapse;
+}
+
+div.supannCompositeAttribute_possibleValues li {
+	border-bottom: 1px solid #CCC;
+	margin-bottom: 2px;
+}
+
+div.supannCompositeAttribute_possibleValues li:hover {
+	background-color: #CCC;
+	cursor: pointer;
+}

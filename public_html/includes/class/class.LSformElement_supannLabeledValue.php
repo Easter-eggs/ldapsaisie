@@ -36,6 +36,8 @@ class LSformElement_supannLabeledValue extends LSformElement {
 
   var $template = 'LSformElement_supannLabeledValue.tpl';
   var $fieldTemplate = 'LSformElement_supannLabeledValue_field.tpl';
+  
+  var $supannNomenclatureTable = null;
 
  /**
   * Retourne les infos d'affichage de l'élément
@@ -49,31 +51,33 @@ class LSformElement_supannLabeledValue extends LSformElement {
 
     $parseValues=array();
     foreach($this -> values as $val) {
-      $parseValue=array(
-        'value' => $val
-      );
-      $tr=$this -> translate($val);
-      if ($tr) {
-        if($tr['translated'])
-          $parseValue['translated']=$tr['translated'];
-        if($tr['label'])
-          $parseValue['label']=$tr['label'];
-      }
-      $parseValues[]=$parseValue;
+      $parseValues[]=$this -> parseValue($val);
     }
     $return['html'] = $this -> fetchTemplate(NULL,array('parseValues' => $parseValues));
     return $return;
   }
 
  /**
-  * Traduit une valeur
+  * Parse une valeur
   *
   * @param[in] $value La valeur
   *
-  * @retval array Un tableau cle->valeur contenant translated et label ou False
+  * @retval array Un tableau cle->valeur contenant value, translated et label
   **/
-  function translate($value) {
-    return supannTranslateLabeledValue($value);
+  function parseValue($value) {
+	$retval=array(
+		'value' => $value,
+	);
+	$pv=supannParseLabeledValue($value);
+	if ($pv) {
+		$retval['label'] = $pv['label'];
+		$retval['translated'] = supannGetNomenclatureLabel($this -> supannNomenclatureTable,$pv['label'],$pv['value']);
+	}
+	else {
+		$retval['label'] = 'no';
+		$retval['translated'] = getFData(__('%s (Unparsable value)'),$value);
+	}
+	return $retval;
   }
 
 }
