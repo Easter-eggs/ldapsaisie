@@ -1,8 +1,9 @@
 var LSformElement_field = new Class({
-    initialize: function(LSformElement,li,id){
+    initialize: function(LSformElement,li,id,field_name){
       this.id = id;
       this.LSformElement = LSformElement;
       this.li = li;
+      this.field_name = field_name;
       
       if (this.LSformElement.multiple) {
         this.addFieldBtn = new Element('img');
@@ -36,6 +37,7 @@ var LSformElement_field = new Class({
       if ($type(this.getFormField())) {
         this.getFormField().value='';
       }
+      varLSform.clearFieldValue(this.field_name);
     },
     
     remove: function() {

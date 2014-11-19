@@ -1,19 +1,20 @@
 var LSform = new Class({
     initialize: function(){
       this._modules=[];
+      this._fields=[];
       this._elements=[];
       this._tabBtns=[];
-      
+
       if ($type($('LSform_idform'))) {
         this.objecttype = $('LSform_objecttype').value;
         this.objectdn = $('LSform_objectdn').value;
         this.idform = $('LSform_idform').value;
       }
-      
+
       this.initializeLSform();
       this.initializeLSformLayout();
     },
-    
+
     initializeLSform: function(el) {
       this.params={};
       if (this.idform) {
@@ -51,19 +52,19 @@ var LSform = new Class({
           this.listAvailableDataEntryForm.addEvent('change',this.onListAvailableDataEntryFormChange.bind(this));
         }
       }
-      
+
       LSforms = $$('form.LSform');
       if ($type(LSforms[0])) {
         this.LSform = LSforms[0];
         this.LSform.addEvent('submit',this.ajaxSubmit.bindWithEvent(this));
       }
     },
-    
+
     initializeLSformLayout: function(el) {
       $$('.LSform_layout').each(function(el) {
         el.addClass('LSform_layout_active');
       },this);
-      
+
       var LIs = $$('li.LSform_layout');
       LIs.each(function(li) {
         var Layout = this.getLayout(li);
@@ -84,7 +85,7 @@ var LSform = new Class({
       $$('li.LSform_layout a').each(function(a) {
         this._tabBtns[a.href]=a;
       },this);
-     
+
       if (LIs.length != 0) {
         if ($type(this._tabBtns[window.location])) {
           this._currentTab = 'default_value';
@@ -106,7 +107,7 @@ var LSform = new Class({
       }
       return $('LSform_layout_btn_'+name[1]);
     },
-    
+
     getLayout: function(btn) {
       var getName = new RegExp('LSform_layout_btn_(.*)');
       var name = getName.exec(btn.id);
@@ -115,7 +116,7 @@ var LSform = new Class({
       }
       return $('LSform_layout_div_'+name[1]);
     },
-    
+
     onTabBtnClick: function(event,li) {
       if ($type(event)) {
         event = new Event(event);
@@ -124,7 +125,7 @@ var LSform = new Class({
           event.target.blur();
         }
       }
-      
+
       if (this._currentTab!=li) {
         if (this._currentTab!='default_value') {
           this._currentTab.removeClass('LSform_layout_current');
@@ -133,13 +134,13 @@ var LSform = new Class({
             oldDiv.removeClass('LSform_layout_current');
           }
         }
-        
+
         this._currentTab = li;
         li.addClass('LSform_layout_current');
         var div = this.getLayout(li);
         if ($type(div)) {
           div.addClass('LSform_layout_current');
-          
+
           // Focus
           var ul = div.getElement('ul.LSform');
           if ($type(ul)) {
@@ -158,13 +159,13 @@ var LSform = new Class({
           }
         }
       }
-      
+
     },
-    
+
     addModule: function(name,obj) {
       this._modules[name]=obj;
     },
-    
+
     initializeModule: function(fieldType,li) {
       if ($type(this._modules[fieldType])) {
         try {
@@ -175,7 +176,17 @@ var LSform = new Class({
         }
       }
     },
-    
+
+    addField: function(name,obj) {
+      this._fields[name]=obj;
+    },
+
+    clearFieldValue: function(name) {
+      if ($type(this._fields[name]) && $type(this._fields[name].clearValue)) {
+        this._fields[name].clearValue();
+      }
+    },
+
     getValue: function(fieldName) {
       var retVal = Array();
       var inputs = this.getInput(fieldName);
@@ -194,7 +205,7 @@ var LSform = new Class({
         var elements = ul.getElements('input');
         elements.combine(ul.getElements('textarea'));
         elements.combine(ul.getElements('select'));
-        
+
         var getName = new RegExp('([a-zA-Z0-9]*)(\[.*\])?');
         elements.each(function(el){
           var name = getName.exec(el.name);
@@ -208,14 +219,14 @@ var LSform = new Class({
       }
       return retVal;
     },
-    
+
     ajaxSubmit: function(event) {
       this.checkUploadFileDefined();
 
       if (this._ajaxSubmit) {
         event = new Event(event);
         event.stop();
-        
+
         this.LSformAjaxInput = new Element('input');
         this.LSformAjaxInput.setProperties ({
           type:   'hidden',
@@ -223,7 +234,7 @@ var LSform = new Class({
           value:  '1'
         });
         this.LSformAjaxInput.injectInside(this.LSform);
-        
+
         this.LSform.set('send',{
           data:         this.LSform,
           onSuccess:    this.onAjaxSubmitComplete.bind(this),
@@ -238,7 +249,7 @@ var LSform = new Class({
         }
       }
     },
-    
+
     checkUploadFileDefined: function() {
       this.LSform.getElements('input[type=file]').each(function(ipt) {
         if (ipt.files.length!=0) {
@@ -246,7 +257,7 @@ var LSform = new Class({
         }
       }, this);
     },
-    
+
     onAjaxSubmitComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
@@ -257,7 +268,7 @@ var LSform = new Class({
         }
       }
     },
-    
+
     resetErrors: function() {
       $$('dd.LSform-errors').each(function(dd) {
         dd.destroy();
@@ -268,9 +279,9 @@ var LSform = new Class({
       $$('li.LSform_layout_errors').each(function(li) {
         li.removeClass('LSform_layout_errors');
       });
-      
+
     },
-    
+
     addError: function(errors,name) {
       var ul = $(name);
       if ($type(ul)) {
@@ -282,12 +293,12 @@ var LSform = new Class({
           dd.set('html',txt);
           dd.injectAfter(this.getParent());
         },ul);
-        
+
         var dt = ul.getParent('dd.LSform').getPrevious('dt');
         if ($type(dt)) {
           dt.addClass('LSform-errors');
         }
-        
+
         var layout = ul.getParent('div.LSform_layout_active');
         if ($type(layout)) {
           var li = this.getLayoutBtn(layout);

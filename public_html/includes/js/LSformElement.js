@@ -17,7 +17,7 @@ var LSformElement = new Class({
       }
       elements.each(function(li) {
         var id='LSformElement_field_'+this.name+'_'+$random(1,1000);
-        this.fields[id] = new LSformElement_field(this,li,id);
+        this.fields[id] = new LSformElement_field(this,li,id,this.name);
       }, this);
     },
     
