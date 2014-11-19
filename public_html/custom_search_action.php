@@ -50,7 +50,7 @@ if(LSsession :: startLSsession()) {
                     LSsession :: addInfo(getFData(__($config['onSuccessMsgFormat']),$objectname));
                   }
                   else {
-                    LSsession :: addInfo(getFData(_('The custom action %{title} have been successfully execute this search.'),$title));
+                    LSsession :: addInfo(getFData(_('The custom action %{title} have been successfully execute on this search.'),$title));
                   }
                 }
                 if (!isset($config['redirectToObjectList']) || $config['redirectToObjectList']) {
