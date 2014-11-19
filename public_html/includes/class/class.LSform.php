@@ -272,6 +272,7 @@ class LSform {
       $msg_error=getFData(_("%{label} attribute data is not valid."),$attr->getLabel());
     }
     $this -> _elementsErrors[$attr->name][]=$msg_error;
+    $this -> can_validate=false;
   }
   
   /**
@@ -338,6 +339,9 @@ class LSform {
   function checkData() {
     $retval=true;
     foreach ($this -> _postData as $element => $values) {
+      if ($this -> definedError($element)) {
+        $retval=false;
+      }
       if(!is_array($values)) {
         $values=array($values);
       }
