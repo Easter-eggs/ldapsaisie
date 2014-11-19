@@ -287,7 +287,8 @@ class LSformElement {
           'values' => $this -> values,
           'attr_name' => $this -> name,
           'noValueTxt' => ( (isset($this -> params['no_value_label']))? __($this -> params['no_value_label']):_('No set value') ),
-          'fieldTemplate' => $this -> fieldTemplate
+          'fieldTemplate' => $this -> fieldTemplate,
+          'fieldType' => get_class($this)
         )
       )
     );
