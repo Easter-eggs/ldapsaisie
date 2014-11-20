@@ -168,7 +168,12 @@ function _getFData_extractAndModify($data,$ch) {
     $val=substr((string)$data,$s,$l);
   }
   else {
-    $val=(string)$data;
+    try {
+      $val=strval($data);
+    }
+    catch (Exception $e) {
+      $val=_('[not string value]');
+    }
   }
 
   # Without Accent
