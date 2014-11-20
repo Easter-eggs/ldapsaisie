@@ -191,6 +191,7 @@ class LSsession {
     if(!self :: loadLSclass('LSerror')) {
       return;
     }
+    set_error_handler(array('LSerror','errorHandler'),E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
     self :: defineLSerrors();
     return true;
   }
