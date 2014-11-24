@@ -1,21 +1,7 @@
-<ul class='LSform{if $multiple && !$freeze} LSformElement_multiple'{/if}' id='{$attr_name}'>
-  {if $parseValues}
-    {foreach from=$parseValues item=parseValue}
-      {if $parseValue.translated}{assign var=value value=$parseValue.translated}{else}{assign var=value value=$parseValue.value}{/if}
-      {if $parseValue.label!="no"}{assign var=label value=$parseValue.label}{else}{assign var=label value=""}{/if}
-      <li>{include file="ls:$fieldTemplate"}</li>
-    {foreachelse}
-      {assign var=value value=""}
-      {assign var=parseValue value=""}
-      <li>{include file="ls:$fieldTemplate"}</li>
-    {/foreach}
-  {else}
-    {foreach from=$values item=value}
-      <li>{include file="ls:$fieldTemplate"}</li>
-    {foreachelse}
-      {assign var=value value=""} 
-      {assign var=parseValue value=""}
-      <li>{include file="ls:$fieldTemplate"}</li>
-    {/foreach}
-  {/if}
+<ul class='LSform {if $multiple && !$freeze} LSformElement_multiple{/if} LSformElement_supannLabeledValue' id='{$attr_name}' data-fieldType="{$fieldType}">
+	{foreach from=$parseValues item=parseValue}
+	  <li>{include file="ls:$fieldTemplate"}</li>
+	{foreachelse}
+	  <li {if $freeze}class='noValue'{/if}>{include file="ls:$fieldTemplate"}</li>
+	{/foreach}
 </ul>

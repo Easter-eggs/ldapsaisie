@@ -1,17 +1,22 @@
 {if $freeze}
-  {if $value or $parseValue}
-    {if $parseValue}
-      <span class='LSformElement_supannLabeledValue'>{if $label}<img src='{img name="supann_label_$label"}' alt='[{$label}]' title='{$label}' /> {/if}<span title='{$parseValue.value}'>{$value}</span></span> 
-    {else}
-      <span class='LSformElement_supannLabeledValue_unparsed'>{$value}</span>
+  {if isset($parseValue)}
+    {if !empty($parseValue.label) and $parseValue.label!='no'}
+      {assign var=clabel value=$parseValue.label}
+      <img src='{img name="supann_label_$clabel"}' alt='[{$clabel}]' title='{$clabel}'/>
     {/if}
+    <span title="{$parseValue.value}">{$parseValue.translated}</span>
   {else}
     {$noValueTxt}
   {/if}
 {else}
-{if $parseValue}
-  <input type='text' name='{$attr_name}[]' class='LSformElement_text' value="{$parseValue.value}" autocomplete="off"/>
-{else}
-  <input type='text' name='{$attr_name}[]' class='LSformElement_text' value="{$value}" autocomplete="off"/>
-{/if}
+  <input type='hidden' name='{$attr_name}[]' value="{if $parseValue}{$parseValue.value}{/if}"/>
+  {if $parseValue and !empty($parseValue.label) and $parseValue.label!='no'}
+    {assign var=clabel value=$parseValue.label}
+    <img class='LSformElement_supannLabeledValue_label' src='{img name="supann_label_$clabel"}' alt='[{$clabel}]' title='{$clabel}'/>
+  {/if}
+  {if $parseValue}
+    <span title="{$parseValue.value}">{$parseValue.translated}</span>
+  {else}
+    <span>{$noValueTxt}</span>
+  {/if}
 {/if}

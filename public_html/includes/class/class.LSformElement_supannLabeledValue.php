@@ -54,6 +54,21 @@ class LSformElement_supannLabeledValue extends LSformElement {
       $parseValues[]=$this -> parseValue($val);
     }
     $return['html'] = $this -> fetchTemplate(NULL,array('parseValues' => $parseValues));
+    LSsession :: addCssFile('LSformElement_supannLabeledValue.css');
+    if (!$this -> isFreeze()) {
+      LSsession :: addJSconfigParam(
+        $this -> name,
+        array(
+          'searchBtn' => _('Modify'),
+          'noValueLabel' => _('No set value'),
+          'noResultLabel' => _('No result'),
+          'components' => $this->components
+        )
+      );
+      LSsession :: addJSscript('LSformElement_supannLabeledValue_field_value.js');
+      LSsession :: addJSscript('LSformElement_supannLabeledValue_field.js');
+      LSsession :: addJSscript('LSformElement_supannLabeledValue.js');
+    }
     return $return;
   }
 
@@ -65,19 +80,56 @@ class LSformElement_supannLabeledValue extends LSformElement {
   * @retval array Un tableau cle->valeur contenant value, translated et label
   **/
   function parseValue($value) {
-	$retval=array(
-		'value' => $value,
-	);
-	$pv=supannParseLabeledValue($value);
-	if ($pv) {
-		$retval['label'] = $pv['label'];
-		$retval['translated'] = supannGetNomenclatureLabel($this -> supannNomenclatureTable,$pv['label'],$pv['value']);
-	}
-	else {
-		$retval['label'] = 'no';
-		$retval['translated'] = getFData(__('%s (Unparsable value)'),$value);
-	}
-	return $retval;
+    $retval=array(
+      'value' => $value,
+    );
+    $pv=supannParseLabeledValue($value);
+    if ($pv) {
+      $retval['label'] = $pv['label'];
+      $retval['translated'] = supannGetNomenclatureLabel($this -> supannNomenclatureTable,$pv['label'],$pv['value']);
+    }
+    else {
+      $retval['label'] = 'no';
+      $retval['translated'] = getFData(__('%s (Unparsable value)'),$value);
+    }
+    return $retval;
+  }
+
+
+  /**
+   * This ajax method is used by the searchPossibleValues function of the form element.
+   *
+   * @param[in] $data The address to the array of data witch will be return by the ajax request
+   *
+   * @retval void
+   **/
+  public static function ajax_searchPossibleValues(&$data) {
+    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['pattern'])) && (isset($_REQUEST['idform'])) ) {
+      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
+        $object = new $_REQUEST['objecttype']();
+        $form = $object -> getForm($_REQUEST['idform']);
+        $field=$form -> getElement($_REQUEST['attribute']);
+        $data['possibleValues'] = $field -> searchPossibleValues($_REQUEST['pattern']);
+      }
+    }
+  }
+
+  private function searchPossibleValues($pattern) {
+    $pattern=strtolower($pattern);
+    $retval=array();
+    $table=supannGetNomenclatureTable($this -> supannNomenclatureTable);
+    foreach($table as $label => $values) {
+      foreach($values as $v => $txt) {
+        if (strpos(strtolower($txt),$pattern)!==false) {
+          $retval[]=array(
+            'label' => $label,
+            'value' => "{".$label."}".$v,
+            'translated' => $txt
+          );
+        }
+      }
+    }
+    return $retval;
   }
 
 }
