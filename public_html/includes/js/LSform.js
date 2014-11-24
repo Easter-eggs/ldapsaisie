@@ -97,6 +97,33 @@ var LSform = new Class({
           document.getElement('li.LSform_layout').getFirst('a').fireEvent('click');
         }
       }
+
+      var checkUrl = new RegExp('^(modify|create|view).php');
+      document.getElements('a.LSview-actions').each(function(a) {
+        if (checkUrl.exec(a.get('href'))) {
+          a.addEvent('click',this.onActionBtnClick.bindWithEvent(this,a));
+        }
+      },this);
+    },
+
+    onActionBtnClick: function(event,a) {
+      if (!location.hash) {
+        return true;
+      }
+      if ($type(event)) {
+        event = new Event(event);
+        event.stop();
+      }
+      var href=a.href;
+      var checkExistingHash=new RegExp('^([^#]+)#[^#]+$');
+      var cur = checkExistingHash.exec(href);
+      if (cur) {
+        href=cur[1]+location.hash;
+      }
+      else {
+        href=href+location.hash;
+      }
+      window.location=href;
     },
 
     getLayoutBtn: function(div) {
@@ -108,13 +135,21 @@ var LSform = new Class({
       return $('LSform_layout_btn_'+name[1]);
     },
 
-    getLayout: function(btn) {
+    getLayoutNameFromBtn: function(btn) {
       var getName = new RegExp('LSform_layout_btn_(.*)');
       var name = getName.exec(btn.id);
       if (!name) {
         return;
       }
-      return $('LSform_layout_div_'+name[1]);
+      return name[1];
+    },
+
+    getLayout: function(btn) {
+      var name = this.getLayoutNameFromBtn(btn);
+      if (!name) {
+        return;
+      }
+      return $('LSform_layout_div_'+name);
     },
 
     onTabBtnClick: function(event,li) {
@@ -137,6 +172,10 @@ var LSform = new Class({
 
         this._currentTab = li;
         li.addClass('LSform_layout_current');
+        var a=li.getElement('a');
+        if ($type(a)) {
+          location.hash='#'+this.getLayoutNameFromBtn(li);
+        }
         var div = this.getLayout(li);
         if ($type(div)) {
           div.addClass('LSform_layout_current');
