@@ -158,6 +158,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 			this.img.set('src',varLSdefault.imagePath('supann_label_'+li.get('data-label')));
 		}
 		this.span.set('html',li.get('data-translated'));
+		this.span.set('title',li.get('data-value'));
 		this.toogleInputSearch();
 	},
 	
