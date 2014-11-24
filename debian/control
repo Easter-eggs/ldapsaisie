@@ -7,7 +7,6 @@ Maintainer: Benjamin Renard <brenard@easter-eggs.com>
 Package: ldapsaisie
 Architecture: all
 Depends: apache2 | httpd, php5-ldap, libapache2-mod-php5 | php5-cli, smarty, php-net-ldap2, php-net-ftp, php-mail
-Maintainer: Benjamin Renard <brenard@easter-eggs.com>
 Description:  web based interface for managing LDAP servers content
  LdapSaisie is a Web application developed to manage LDAP directory.
  It has been written in PHP / JavaScript and is published under the
