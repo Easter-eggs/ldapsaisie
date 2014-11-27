@@ -1,3 +1,25 @@
+ldapsaisie (1.1-4) unstable; urgency=low
+
+  * LSaddons :: supann :
+    * Complet redesign and improve
+    * Redesign LSformElement : supannLabeledValue / supannRoleEntite
+    * Add LSformElement : supannEmpCorps / supannEtuInscription / supannCompositeAttribute
+  * LSsearch : fix bug in sort direction
+  * LSsession :
+    * Fix bug resolving user's LSprofiles
+    * Add useUserCredentials parameter
+  * LSform :
+    * block form validation if element's errors is defined
+    * preserve current tab between view, modify and create pages
+    * LSformElement :
+      * add no_value_label parameter
+      * JS : permit form element to provide custom clean value method
+      * provide class name of element in template variables
+  * LSerror : Add PHP error handler
+  * Function getFData() : try to catch error casting data to string
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Thu, 27 Nov 2014 10:35:22 +0100
+
 ldapsaisie (1.1-3) unstable; urgency=low
 
   * Doc :
