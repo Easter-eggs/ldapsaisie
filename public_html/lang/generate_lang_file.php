@@ -141,6 +141,7 @@ if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR))
       foreach($conf['attrs'] as $attr) {
         add($attr['label']);
         add($attr['help_info']);
+        add($attr['no_value_label']);
         add($attr['html_options']['mail']['subject']);
         add($attr['html_options']['mail']['msg']);
         
