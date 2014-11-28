@@ -87,7 +87,7 @@ $GLOBALS['LSlang'] = array (
   "M.",
 
 "Mrs" =>
-  "Mms",
+  "Mme",
 
 "Ms" =>
   "Mlle",
