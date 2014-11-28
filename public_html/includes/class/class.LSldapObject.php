@@ -458,19 +458,21 @@ class LSldapObject {
           if((isset($test['filter'])||isset($test['basedn']))&&(isset($test['result']))) {
             $sparams=(isset($test['scope']))?array('scope' => $test['scope']):array();
             $this -> other_values['val']=$val;
-            $sfilter_user=(isset($test['filter']))?getFData($test['filter'],$this,'getValue'):NULL;
-            if(isset($test['object_type'])) {
-              $test_obj = new $test['object_type']();
-              $sfilter=$test_obj->getObjectFilter();
-	      if ($sfilter_user) {
-                $sfilter='(&'.$sfilter;
-                if($sfilter_user[0]=='(') {
-                  $sfilter=$sfilter.$sfilter_user.')';
-                }
-                else {
-                  $sfilter=$sfilter.'('.$sfilter_user.'))';
-                }
-	      }
+            // Filter from test configuration
+            if (isset($test['filter']) && !empty($test['filter'])) {
+              $sfilter_user=getFData($test['filter'],$this,'getValue');
+              if ($sfilter_user[0]!='(') $sfilter_user="(".$sfilter_user.")";
+              $sfilter_user=Net_LDAP2_Filter::parse($sfilter_user);
+            }
+            else {
+              $sfilter_user=NULL;
+            }
+            if(isset($test['object_type']) && LSsession :: loadLSobject($test['object_type']) ) {
+              $sfilter=self :: getObjectFilter($test['object_type']);
+
+              if ($sfilter_user) {
+                $sfilter=LSldap::combineFilters('and',array($sfilter_user,$sfilter));
+              }
             }
             else {
               $sfilter=$sfilter_user;
@@ -659,7 +661,7 @@ class LSldapObject {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval string le filtre ldap correspondant au type de l'objet
+   * @retval Net_LDAP2_Filter le filtre ldap correspondant au type de l'objet
    */ 
   function getObjectFilter($type=null) {
     if (is_null($type)) {
@@ -674,10 +676,10 @@ class LSldapObject {
     
     $filter=LSconfig::get("LSobjects.$type.filter");
     if ($filter) {
-      $filters[]=$filter;
+      $filters[]=Net_LDAP2_Filter::parse($filter);
     }
 
-    $filter = LSldap::combineFilters('and',$filters,true);
+    $filter = LSldap::combineFilters('and',$filters);
     if ($filter)
       return $filter;
     LSerror :: addErrorCode('LSldapObject_30',$type);
