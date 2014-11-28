@@ -452,7 +452,12 @@ class LSldap {
   public static function combineFilters($op,$filters,$asStr=false) {
     if (is_array($filters) && !empty($filters)) {
       if (count($filters)==1) {
-        return $filters[0];
+        if ($asStr && $filters[0] instanceof Net_LDAP2_Filter) {
+          return $filters[0]->asString();
+        }
+        else {
+          return $filters[0];
+        }
       }
       $filter=Net_LDAP2_Filter::combine($op,$filters);
       if (!Net_LDAP2::isError($filter)) {
