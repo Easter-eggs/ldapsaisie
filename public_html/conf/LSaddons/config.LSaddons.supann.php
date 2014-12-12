@@ -27,23 +27,23 @@
  */
 
 // Nom de l'attribut LDAP nom
-define('LS_SUPANN_LASTNAME_ATTR','sn');
+$GLOBALS['LS_SUPANN_LASTNAME_ATTR'] = 'sn';
 
 // Nom de l'attribut LDAP prenom
-define('LS_SUPANN_FIRSTNAME_ATTR','givenName');
+$GLOBALS['LS_SUPANN_FIRSTNAME_ATTR'] = 'givenName';
 
 // Type de LSobject correspondant aux entites SUPANN
-define('LS_SUPANN_LSOBJECT_ENTITE_TYPE','LSsupannEntite');
+$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'] = 'LSsupannEntite';
 
 // Format d'affichage du nom courts d'une entites SUPANN
-define('LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME','%{ou}');
+$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME'] = '%{ou}';
 
 // DN de l'entite SUPANN correspondant à l'etablissement
-define('LS_SUPANN_ETABLISSEMENT_DN','supannCodeEntite=XXX,ou=structures,dc=univ,dc=fr');
+$GLOBALS['LS_SUPANN_ETABLISSEMENT_DN'] = 'supannCodeEntite=XXX,ou=structures,dc=univ,dc=fr';
 
 // Type de LSobject correspondant aux entites SUPANN
 // Exemple : 0753742K
-define('LS_SUPANN_ETABLISSEMENT_UAI','0753742K');
+$GLOBALS['LS_SUPANN_ETABLISSEMENT_UAI'] = '0753742K';
 
 /*
  * Nomenclatures SUPANN

@@ -51,7 +51,7 @@ LSerror :: defineError('SUPANN_02',
   function LSaddon_supann_support() {
     $retval = true;
 
-    $MUST_DEFINE_CONST= array(
+    $MUST_DEFINE_STRING= array(
       'LS_SUPANN_LASTNAME_ATTR',
       'LS_SUPANN_FIRSTNAME_ATTR',
       'LS_SUPANN_LSOBJECT_ENTITE_TYPE',
@@ -60,10 +60,16 @@ LSerror :: defineError('SUPANN_02',
       'LS_SUPANN_ETABLISSEMENT_DN'
     );
 
-    foreach($MUST_DEFINE_CONST as $const) {
-      if ( (!defined($const)) || (constant($const) == "")) {
-        LSerror :: addErrorCode('SUPANN_SUPPORT_01',$const);
-        $retval=false;
+    foreach($MUST_DEFINE_STRING as $string) {
+      if ( isset($GLOBALS[$string]) && is_string($GLOBALS[$string])) {
+        continue;
+      }
+      foreach(LSconfig :: get('ldap_servers') as $id => $infos) {
+        if ( !isset($infos['globals'][$string]) || !is_string($infos['globals'][$string])) {
+          LSerror :: addErrorCode('SUPANN_SUPPORT_01',$string);
+          $retval=false;
+          continue 2;
+        }
       }
     }
 
@@ -77,9 +83,9 @@ LSerror :: defineError('SUPANN_02',
       }
     }
 
-    if ( defined('LS_SUPANN_LSOBJECT_ENTITE_TYPE') ) {
-      if ( ! LSsession :: loadLSobject( LS_SUPANN_LSOBJECT_ENTITE_TYPE ) ) {
-        LSerror :: addErrorCode('SUPANN_SUPPORT_02', LS_SUPANN_LSOBJECT_ENTITE_TYPE);
+    if (isset($GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'])) {
+      if ( ! LSsession :: loadLSobject( $GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'] ) ) {
+        LSerror :: addErrorCode('SUPANN_SUPPORT_02', $GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE']);
       }
     }
 
@@ -100,17 +106,17 @@ LSerror :: defineError('SUPANN_02',
   * @retval string Le displayName ou false si il y a un problème durant la génération
   */
   function generate_displayName($ldapObject) {
-    if ( get_class($ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_LASTNAME_ATTR, 'attr' => 'cn'));
+    if ( get_class($ldapObject -> attrs[ $GLOBALS['LS_SUPANN_LASTNAME_ATTR'] ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('SUPANN_01',array('dependency' => $GLOBALS['LS_SUPANN_LASTNAME_ATTR'], 'attr' => 'cn'));
       return;
     }
-    if ( get_class($ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_FIRSTNAME_ATTR, 'attr' => 'cn'));
+    if ( get_class($ldapObject -> attrs[ $GLOBALS['LS_SUPANN_FIRSTNAME_ATTR'] ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('SUPANN_01',array('dependency' => $GLOBALS['LS_SUPANN_FIRSTNAME_ATTR'], 'attr' => 'cn'));
       return;
     }
 
-    $noms = $ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ] -> getValue();
-    $prenoms = $ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ] -> getValue();
+    $noms = $ldapObject -> attrs[ $GLOBALS['LS_SUPANN_LASTNAME_ATTR'] ] -> getValue();
+    $prenoms = $ldapObject -> attrs[ $GLOBALS['LS_SUPANN_FIRSTNAME_ATTR'] ] -> getValue();
 
     return ($prenoms[0].' '.$noms[0]);
   }
@@ -125,17 +131,17 @@ LSerror :: defineError('SUPANN_02',
   * @retval string Le CN ou false si il y a un problème durant la génération
   */
   function generate_cn($ldapObject) {
-    if ( get_class($ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_LASTNAME_ATTR, 'attr' => 'cn'));
+    if ( get_class($ldapObject -> attrs[ $GLOBALS['LS_SUPANN_LASTNAME_ATTR'] ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('SUPANN_01',array('dependency' => $GLOBALS['LS_SUPANN_LASTNAME_ATTR'], 'attr' => 'cn'));
       return;
     }
-    if ( get_class($ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SUPANN_01',array('dependency' => LS_SUPANN_FIRSTNAME_ATTR, 'attr' => 'cn'));
+    if ( get_class($ldapObject -> attrs[ $GLOBALS['LS_SUPANN_FIRSTNAME_ATTR'] ]) != 'LSattribute' ) {
+      LSerror :: addErrorCode('SUPANN_01',array('dependency' => $GLOBALS['LS_SUPANN_FIRSTNAME_ATTR'], 'attr' => 'cn'));
       return;
     }
 
-    $noms = $ldapObject -> attrs[ LS_SUPANN_LASTNAME_ATTR ] -> getValue();
-    $prenoms = $ldapObject -> attrs[ LS_SUPANN_FIRSTNAME_ATTR ] -> getValue();
+    $noms = $ldapObject -> attrs[ $GLOBALS['LS_SUPANN_LASTNAME_ATTR'] ] -> getValue();
+    $prenoms = $ldapObject -> attrs[ $GLOBALS['LS_SUPANN_FIRSTNAME_ATTR'] ] -> getValue();
 
     return (withoutAccents($noms[0]).' '.withoutAccents($prenoms[0]));
   }
@@ -159,7 +165,7 @@ LSerror :: defineError('SUPANN_02',
 
     $affectations = $ldapObject -> attrs[ 'supannEntiteAffectation' ] -> getUpdateData();
 
-    $basedn=LSconfig :: get('LSobjects.'.LS_SUPANN_LSOBJECT_ENTITE_TYPE.'.container_dn').','.LSsession::getTopDn();
+    $basedn=LSconfig :: get('LSobjects.'.$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'].'.container_dn').','.LSsession::getTopDn();
     if ($basedn=="") {
       LSerror :: addErrorCode('SUPANN_02','eduPersonOrgUnitDN');
       return;
@@ -192,7 +198,7 @@ LSerror :: defineError('SUPANN_02',
 
     $affectations = $ldapObject -> attrs[ 'supannEntiteAffectationPrincipale' ] -> getUpdateData();
 
-    $basedn=LSconfig :: get('LSobjects.'.LS_SUPANN_LSOBJECT_ENTITE_TYPE.'.container_dn').','.LSsession::getTopDn();
+    $basedn=LSconfig :: get('LSobjects.'.$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'].'.container_dn').','.LSsession::getTopDn();
     if ($basedn=="") {
       LSerror :: addErrorCode('SUPANN_02','eduPersonPrimaryOrgUnitDN');
       return;
@@ -210,8 +216,8 @@ LSerror :: defineError('SUPANN_02',
   * Generation de la valeur de l'attribut eduPersonOrgDN
   * à partir de la valeur de l'attribut supannEtablissement.
   *
-  * La valeur sera LS_SUPANN_ETABLISSEMENT_DN si l'attribut supannEtablissement
-  * vaut {UAI}LS_SUPANN_ETABLISSEMENT_UAI.
+  * La valeur sera $GLOBALS['LS_SUPANN_ETABLISSEMENT_DN'] si l'attribut supannEtablissement
+  * vaut {UAI}$GLOBALS['LS_SUPANN_ETABLISSEMENT_UAI'].
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
@@ -229,8 +235,8 @@ LSerror :: defineError('SUPANN_02',
     $eta = $ldapObject -> attrs[ 'supannEtablissement' ] -> getUpdateData();
 
     $retval=array();
-    if ($eta[0] == '{UAI}'.LS_SUPANN_ETABLISSEMENT_UAI) {
-    	$retval[] = LS_SUPANN_ETABLISSEMENT_DN;
+    if ($eta[0] == '{UAI}'.$GLOBALS['LS_SUPANN_ETABLISSEMENT_UAI']) {
+      $retval[] = $GLOBALS['LS_SUPANN_ETABLISSEMENT_DN'];
     }
 
     return $retval;
@@ -297,10 +303,9 @@ LSerror :: defineError('SUPANN_02',
   * @retval string Le nom de l'entite
   **/
   function supanGetEntiteNameById($id) {
-    if (LSsession::loadLSobject(LS_SUPANN_LSOBJECT_ENTITE_TYPE)) {
-      $type=LS_SUPANN_LSOBJECT_ENTITE_TYPE;
-      $e = new $type();
-      $list=$e -> listObjectsName("(supannCodeEntite=$id)",NULL,array(),LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME);
+    if (LSsession::loadLSobject($GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'])) {
+      $e = new $GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE']();
+      $list=$e -> listObjectsName("(supannCodeEntite=$id)",NULL,array(),$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME']);
       if (count($list)==1) {
         return array_pop($list);
       }
@@ -316,9 +321,8 @@ LSerror :: defineError('SUPANN_02',
   * @retval boolean True si une entité avec cet ID existe, False sinon
   **/
   function supannValidateEntityId($id) {
-	if (LSsession::loadLSobject(LS_SUPANN_LSOBJECT_ENTITE_TYPE)) {
-      $type=LS_SUPANN_LSOBJECT_ENTITE_TYPE;
-      $e = new $type();
+    if (LSsession::loadLSobject($GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'])) {
+      $e = new $GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE']();
       $list=$e -> listObjectsName("(supannCodeEntite=$id)");
       if (count($list)==1) {
         return true;
@@ -341,7 +345,7 @@ LSerror :: defineError('SUPANN_02',
 		$retval=array();
 		if (LSsession::loadLSclass('LSsearch')) {
 			$search=new LSsearch(
-				LS_SUPANN_LSOBJECT_ENTITE_TYPE,
+				$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'],
 				'SUPANN:supannSearchEntityByPattern',
 				array(
 					'pattern' => $pattern,
