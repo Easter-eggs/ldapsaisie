@@ -955,6 +955,7 @@ class LSsession {
       self :: $ldapServerId = $id;
       self :: $ldapServer = $conf;
       self :: setLocale();
+      self :: setGlobals();
       return true;
     }
     else {
@@ -2318,6 +2319,19 @@ class LSsession {
       $data=array('recoverPassword' => isset(self :: $ldapServer['recoverPassword']));
     }
   }
+
+	/**
+	 * Set globals from the ldap server
+	 *
+	 * @retval void
+	 */
+	public static function setGlobals() {
+		if ( isset(self :: $ldapServer['globals'])) {
+			foreach(self :: $ldapServer['globals'] as $key => $value) {
+				$GLOBALS[$key] = $value;
+			}
+		}
+	}
 }
 
 ?>
