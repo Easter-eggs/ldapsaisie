@@ -35,6 +35,20 @@
         'basedn' => [basedn de recherche],
         'params' => [configuration de la recherche]
       ),
+      [nom quelconque] => array (
+        'filters' => array(
+          array(
+            'LSobject' => [nom du LSobject],
+            'attr' => [nom de l'attribut clé],
+            'attr_value' => [format de la valeur de l'attribut clé],
+            // ou
+            'filter' => [format du filtre de recherche],
+
+            'basedn' => [basedn de recherche],
+            'params' => [configuration de la recherche]
+          ),
+        ),
+      ),
       ...
     )
   ),
@@ -151,6 +165,20 @@ objets pour lesquels l'utilisateur appartiendra au
         'basedn' => [basedn de recherche],
         'params' => [configuration de la recherche]
       ),
+      array (
+        'filters' => array(
+          array(
+            'LSobject' => [nom du LSobject],
+            'attr' => [nom de l'attribut clé],
+            'attr_value' => [format de la valeur de l'attribut clé],
+            // ou
+            'filter' => [format du filtre de recherche],
+
+            'basedn' => [basedn de recherche],
+            'params' => [configuration de la recherche]
+          ),
+        ),
+      ),
       ...
     )
   ),
@@ -159,17 +187,42 @@ objets pour lesquels l'utilisateur appartiendra au
 ...
 </programlisting> 
 <para>Explications&nbsp;: Dans la configuration d'un <emphasis>LSprofile</emphasis>,
-la valeur clé <emphasis>LSprofile</emphasis> signifie qu'on est dans un cas de la 
-délégation de droits sur des types d'LSobject. Dans ce tableau associatif, il 
+la valeur clé <emphasis>LSobjects</emphasis> signifie qu'on est dans un cas de la
+délégation de droits sur des types d'LSobject. Dans ce tableau associatif, il
 est possible de définir un ou plusieurs types de LSobject pour lesquels on délègue
-des droits. Dans ce tableau la valeur clé est le nom du LSobject et la valeur 
-associée est un tableau contenant la configuration permettant de dire quels sont
-les LSobjets de ce type concernés par la délégation.</para>
-<para>Cette configuration contient les paramètres d'une recherche dans l'annuaire
+des droits via des recherches simples ou enchaînées. Le fonctionnement simple
+consiste à partir de l'objet de l'utilisateur et à générer un filtre de
+recherche sur un type de LSobject. Le fonctionnement enchainée consiste à faire
+un première recherche à partir de l'objet de l'utilisateur puis à recommencer à
+partir des objets trouvés en construisant une liste de filtres de recherche
+pour chaque objet qui seront combinés via l'opérateur booléen
+<emphasis>ou</emphasis>.</para>
+
+<para>Pour configurer une délégation de type simple on mettra le nom du
+LSobject dans la clé du tableau et dans la valeur un tableau définissant la
+recherche. Il est possible de ne pas utiliser la clé du tableau comme nom du
+LSobject grâce à la clé de configuration
+<emphasis>LSobject</emphasis>.</para>
+
+<para>Pour configurer une délégation de type enchaîné on pourra utiliser
+n'importe quelle valeur unique pour la clé du tableau et pour la valeur un
+tableau contenant une unique clé <emphasis>filters</emphasis>. La valeur
+associée à cette clé est celle d'une délégation de type simple où la clé
+<emphasis>LSobject</emphasis> est devenue obligatoire.</para>
+
+<para>Cette configuration contient les paramètres d'une ou plusieurs recherches dans l'annuaire
 en considérant que l'utilisateur connecté aura les droits du LSprofile sur les
 objets retournés. Les paramètres de la recherche sont&nbsp;:
 
 <variablelist>
+
+<varlistentry>
+  <term>LSobject</term>
+  <listitem>
+    <simpara>C'est le nom du LSobject recherché.
+    <emphasis>(Paramètre facultatif pour une délégation de type simple)</emphasis></simpara>
+  </listitem>
+</varlistentry>
 
 <varlistentry>
   <term>attr</term>

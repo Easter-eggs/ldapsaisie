@@ -1485,6 +1485,111 @@ class LSsession {
   }
   
   /**
+   * Prend un tableau de LSobject et le réduit en utilisant un filtre de
+   * recherche sur un autre type de LSobject.
+   *
+   * Si une erreur est présente dans le tableau de définition du filtre, un
+   * tableau vide est renvoyé.
+   *
+   * @param[in] string $LSobject le type LSobject par défaut
+   * @param[in] array $set tableau de LSobject
+   * @param[in] array $filter_def définition du filtre de recherche pour la réduction
+   * @param[in] string $basend basedn pour la recherche, null par défaut
+   *
+   * @retval array le nouveau tableau de LSobject
+   */
+  private static function reduceLdapSet($LSobject, $set, $filter_def, $basedn=null) {
+    if (empty($set)) {
+      return array();
+    }
+
+    if (! isset($filter_def['filter']) &&
+          (! isset($filter_def['attr']) ||
+           ! isset($filter_def['attr_value']))) {
+      LSdebug("Filtre de profil LSobject invalide " . var_export($filter_def, true));
+      return array();
+    }
+
+    LSdebug('LSsession :: reducing set of');
+    foreach ($set as $object) {
+      LSdebug('LSsession :: -> ' . $object -> getDn());
+    }
+
+    $LSobject = isset($filter_def['LSObject']) ? $filter_def['LSobject'] : $LSobject;
+    LSdebug('LSobject :: ' . $LSobject);
+    $filters = array();
+    foreach ($set as $object) {
+      if (isset($filter_def['filter'])) {
+        $filters[] = $object -> getFData($filter_def['filter']);
+      }
+      else {
+        $value = $object -> getFData($filter_def['attr_value']);
+        $filters[] = Net_LDAP2_Filter::create($filter_def['attr'], 'equals', $value);
+      }
+    }
+    $filter = LSldap::combineFilters('or', $filters);
+    $params = array(
+      'basedn' => isset($filter_def['basedn']) ? $filter_def['basedn'] : $basedn,
+      'filter' => $filter,
+    );
+    if (isset($filter_def['params']) && is_array($filter_def['params'])) {
+      $params = array_merge($filter_def['params'],$params);
+    }
+    $LSsearch = new LSsearch($LSobject,'LSsession :: loadLSprofiles',$params,true);
+    $LSsearch -> run(false);
+
+    $set = $LSsearch -> listObjects();
+    LSdebug('LSsession :: reduced set to');
+    foreach ($set as $object) {
+      LSdebug('LSsession :: -> ' . $object -> getDn());
+    }
+    return $set;
+  }
+
+  /**
+   * Charge les droits LS de l'utilisateur : uniquement du type LSobjects
+   *
+   * @param[in] string $
+   *
+   * @retval void
+   */
+  private static function loadLSprofilesLSobjects($profile, $LSobject, $listInfos) {
+    if (! self :: loadLSclass('LSsearch')) {
+      LSdebug('Impossible de charger la classe LSsearch');
+      return;
+    }
+    # we are gonna grow a set of objects progressively, we start from the user
+    $set = array(self :: getLSuserObject());
+    $basedn = isset($listInfos['basedn']) ? $listInfos['basedn'] : null;
+    $LSobject = isset($listInfos['LSobject']) ? $listInfos['LSobject'] : $LSobject;
+
+    if (isset($listInfos['filters']) && is_array($listInfos['filters'])) {
+      foreach ($listInfos['filters'] as $filter_def) {
+        $set = self :: reduceLdapSet($LSobject, $set, $filter_def, $basedn);
+      }
+    }
+    if (isset($listInfos['filter']) || (isset($listInfos['attr']) && isset($listInfos['attr_value']))) {
+      # support legacy profile definition
+      $set = self :: reduceLdapSet($LSobject, $set, $listInfos, $basedn);
+    }
+
+    $DNs = [];
+    foreach ($set as $object) {
+      $DNs[] = $object -> getDn();
+    }
+    if (!is_array(self :: $LSprofiles[$profile])) {
+      self :: $LSprofiles[$profile]=$DNs;
+    }
+    else {
+      foreach($DNs as $dn) {
+        if (!in_array($dn,self :: $LSprofiles[$profile])) {
+          self :: $LSprofiles[$profile][] = $dn;
+        }
+      }
+    }
+  }
+
+  /**
    * Charge les droits LS de l'utilisateur
    * 
    * @retval boolean True si le chargement Ã  rÃ©ussi, false sinon.
@@ -1501,38 +1606,8 @@ class LSsession {
             if ($topDn == 'LSobjects') {
               if (is_array($rightsInfos)) {
                 foreach ($rightsInfos as $LSobject => $listInfos) {
-                  if (self :: loadLSclass('LSsearch')) {
-                    if (isset($listInfos['filter'])) {
-                      $filter = self :: getLSuserObject() -> getFData($listInfos['filter']);
-                    }
-                    else {
-                      $filter = '('.$listInfos['attr'].'='.self :: getLSuserObject() -> getFData($listInfos['attr_value']).')';
-                    }
-                    
-                    $params = array (
-                      'basedn' => (isset($listInfos['basedn'])?$listInfos['basedn']:null),
-                      'filter' => $filter
-                    );
-                    
-                    if (isset($listInfos['params']) && is_array($listInfos['params'])) {
-                      $params = array_merge($listInfos['params'],$params);
-                    }
-                    
-                    $LSsearch = new LSsearch($LSobject,'LSsession :: loadLSprofiles',$params,true);
-                    $LSsearch -> run(false);
-                    
-                    $DNs = $LSsearch -> listObjectsDn();
-                    if (!is_array(self :: $LSprofiles[$profile])) {
-                      self :: $LSprofiles[$profile]=$DNs;
-                    }
-                    else {
-                      foreach($DNs as $dn) {
-                        if (!in_array($dn,self :: $LSprofiles[$profile])) {
-                          self :: $LSprofiles[$profile][] = $dn;
-                        }
-                      }
-                    }
-                  }
+                  LSdebug('loading LSprofile ' . $profile . ' for LSobject ' . $LSobject . ' with params ' . var_export($listInfos, true));
+                  self :: loadLSprofilesLSobjects($profile, $LSobject, $listInfos);
                 }
               }
               else {
