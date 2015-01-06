@@ -1,3 +1,13 @@
+ldapsaisie (1.1-5) unstable; urgency=low
+
+  * Improove generate_lang_file.php script
+  * Add support of supannActivite attribute
+  * LSldap : fix combineFilters() method
+  * LSldapObject : fix getObjectFilter()
+  * Fix fr_FR.UTF8 translation
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 05 Jan 2015 16:58:18 +0100
+
 ldapsaisie (1.1-4) unstable; urgency=low
 
   * LSaddons :: supann :
