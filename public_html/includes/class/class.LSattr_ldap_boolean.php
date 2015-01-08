@@ -21,18 +21,17 @@
 ******************************************************************************/
 
 /**
- * Type d'attribut Ldap boolean
- *
- */
+ * Boolean LDAP attribute type
+ **/
 class LSattr_ldap_boolean extends LSattr_ldap {
 
   /**
-   * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
+   * Return display value of attribute after treatment related to LDAP type
    *
-   * @param[in] $data mixed La valeur de l'attribut
+   * @param[in] $data mixed Attribute data
    *
-   * @retval mixed La valeur d'affichage de l'attribut
-   */
+   * @retval mixed Attribute display value
+   **/
   function getDisplayValue($data) {
     if ($this -> isTrue($data))
       return 'yes';
@@ -42,54 +41,82 @@ class LSattr_ldap_boolean extends LSattr_ldap {
   }
 
   /**
-   * Retourne la valeur de l'attribut après traitement lié à son type ldap
+   * Return attribute value after treatment related to LDAP type
    *
-   * @param[in] $data mixed La valeur de l'attribut
+   * @param[in] $data mixed Attribute data
    *
-   * @retval mixed La valeur traitée de l'attribut
-   */
+   * @retval mixed Attribute data
+   **/
   function getUpdateData($data) {
     if ($data[0]=='yes') {
-      return array($this -> config['ldap_options']['true_value']);
+      return array($this -> getTrue());
     }
     if ($data[0]=='no') {
-      return array($this -> config['ldap_options']['false_value']);
+      return array($this -> getFalse());
     }
     return array();
   }
  
   /**
-   * Determine si la valeur passé en paramètre correspond a True ou non
+   * Check if a value corresponding to True
    *
-   * @param[in] $data La valeur de l'attribut
+   * @param[in] $data Attribute data
    *
-   * @retval boolean True ou False
-   */
+   * @retval boolean True or False
+   **/
   function isTrue($data) {
     if (!is_array($data)) {
       $data=array($data);
     }
-    if ($data[0] == $this -> config['ldap_options']['true_value']) {
+    if ($data[0] == $this -> getTrue()) {
       return true;
     }
     return;
   }
   
   /**
-   * Determine si la valeur passé en paramètre correspond a False ou non
+   * Check if a value corresponding to False
    *
-   * @param[in] $data La valeur de l'attribut
+   * @param[in] $data Attribute data
    *
-   * @retval boolean True ou False
-   */
+   * @retval boolean True or False
+   **/
   function isFalse($data) {
     if (!is_array($data)) {
       $data=array($data);
     }
-    if ($data[0] == $this -> config['ldap_options']['false_value']) {
+    if ($data[0] == $this -> getFalse()) {
       return true;
     }
     return;
+  }
+
+  /**
+   * Return True value
+   *
+   * @retval string The True value
+   **/
+  function getTrue() {
+    if (isset($this -> config['ldap_options']['true_value'])) {
+      return $this -> config['ldap_options']['true_value'];
+    }
+    else {
+      return 'TRUE';
+    }
+  }
+
+  /**
+   * Return False value
+   *
+   * @retval string The False value
+   **/
+  function getFalse() {
+    if (isset($this -> config['ldap_options']['false_value'])) {
+      return $this -> config['ldap_options']['false_value'];
+    }
+    else {
+      return 'FALSE';
+    }
   }
 }
 

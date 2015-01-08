@@ -20,14 +20,16 @@
 <varlistentry>
   <term>true_value</term>
   <listitem>
-    <simpara>La valeur de l'attribut correspondant à <emphasis>Vrai</emphasis>­.</simpara>
+    <simpara>La valeur de l'attribut correspondant à <emphasis>Vrai</emphasis>­.
+    (Par défaut : <literal>TRUE</literal>)</simpara>
   </listitem>
 </varlistentry>
 
 <varlistentry>
   <term>false_value</term>
   <listitem>
-    <simpara>La valeur de l'attribut correspondant à <emphasis>Faux</emphasis>­.</simpara>
+    <simpara>La valeur de l'attribut correspondant à <emphasis>Faux</emphasis>­.
+    (Par défaut : <literal>FALSE</literal>)</simpara>
   </listitem>
 </varlistentry>
 
