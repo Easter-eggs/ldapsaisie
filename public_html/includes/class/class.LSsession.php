@@ -1350,6 +1350,11 @@ class LSsession {
 
     // Css
     self :: addCssFile("LSdefault.css");
+    if (isset($GLOBALS['defaultCSSfiles']) && is_array($GLOBALS['defaultCSSfiles'])) {
+      foreach ($GLOBALS['defaultCSSfiles'] as $file) {
+        self :: addCssFile($file);
+      }
+    }
     $Css_txt='';
     foreach (self :: $CssFiles as $file) {
       $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file."' />\n";

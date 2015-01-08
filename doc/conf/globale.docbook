@@ -233,6 +233,14 @@ define('CONST2','val2')
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>$GLOBALS['defaultCSSfiles']</term>
+  <listitem>
+    <simpara>Tableau déterminant les fichiers CSS à charger sur toute les pages. Ces fichiers seront
+    chargés dans l'ordre et en dernier permettant de surcharger tous paramètres de style.</simpara>
+  </listitem>
+</varlistentry>
+
 </variablelist>
 
 </sect2>

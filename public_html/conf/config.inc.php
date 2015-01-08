@@ -203,4 +203,5 @@ $GLOBALS['defaultJSscipts']=array(
   'LSinfosBox.js'
 );
 
-?>
+// CSS
+$GLOBALS['defaultCSSfiles']=array();
