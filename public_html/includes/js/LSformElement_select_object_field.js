@@ -17,6 +17,7 @@ var LSformElement_select_object_field = new Class({
       
       // Delete btns
       this.ul.getElements('a.LSformElement_select_object').each(function(a){
+        this.addOrderedBtns(a);
         this.addDeleteBtn(a);
       },this);
       
@@ -62,6 +63,45 @@ var LSformElement_select_object_field = new Class({
       varLSdefault.addHelpInfo(btn,'LSformElement_select_object','delete');
     },
     
+    addOrderedBtns: function(a) {
+      if (!this.params.ordered) {
+        return true;
+      }
+      var btn_down = new Element('img');
+      btn_down.addClass('btn');
+      btn_down.setProperties({
+        src:    varLSdefault.imagePath('down'),
+        alt:    this.params.down_label
+      });
+      btn_down.addEvent('click',this.onDownBtnClick.bind(this,btn_down));
+      btn_down.injectAfter(a);
+
+      var btn_up = new Element('img');
+      btn_up.addClass('btn');
+      btn_up.setProperties({
+        src:    varLSdefault.imagePath('up'),
+        alt:    this.params.up_label
+      });
+      btn_up.addEvent('click',this.onUpBtnClick.bind(this,btn_up));
+      btn_up.injectAfter(a);
+    },
+
+    onUpBtnClick: function(btn) {
+      var li = btn.getParent();
+      var prev = li.getPrevious('li');
+      if ($type(prev) && !prev.hasClass('LSformElement_select_object_addBtn')) {
+        li.inject(prev,'before');
+      }
+    },
+
+    onDownBtnClick: function(btn) {
+      var li = btn.getParent();
+      var next = li.getNext('li');
+      if ($type(next)) {
+        li.inject(next,'after');
+      }
+    },
+
     addSingleAddBtn: function(insideEl) {
       this.addBtn = new Element('img');
       this.addBtn.setProperty('src',varLSdefault.imagePath('modify'));
@@ -190,6 +230,7 @@ var LSformElement_select_object_field = new Class({
         input.addClass('LSformElement_select_object');
         input.injectAfter(a);
         
+        this.addOrderedBtns(a);
         this.addDeleteBtn(a);
         
         li.injectInside(this.ul);

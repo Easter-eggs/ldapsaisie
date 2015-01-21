@@ -13,6 +13,7 @@
      'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
      'value_attribute' => '[Nom de l'attribut clé des LSobjects]'
    ),
+   'ordered' => [Booléen],
    'sort' => [Booléen],
    'sortDirection' => '[ASC|DESC]'
 ),]]>
@@ -63,6 +64,18 @@
   </varlistentry>
 </variablelist>
 
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>ordered</term>
+  <listitem>
+    <simpara>Booléen définissant si la liste des objets choisis doit être
+    ordonnable ou non (Faux par défaut). Cela aura pour effet d'activer une
+    fonctionnalité dynamique de l'interface permettant de remonter ou descendre
+    dans la liste les objets choisis.</simpara>
+    <note><simpara>Cette fonctionnalité désactive automatiquement le trie des
+    objets à l'affichage.</simpara></note>
   </listitem>
 </varlistentry>
 

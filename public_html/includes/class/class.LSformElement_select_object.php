@@ -67,6 +67,9 @@ class LSformElement_select_object extends LSformElement {
           'object_type' => $this -> selectableObject,
           'addBtn' => _('Modify'),
           'deleteBtns' => _('Delete'),
+          'up_label' => _('Move up'),
+          'down_label' => _('Move down'),
+          'ordered' => (($this -> params['html_options']['ordered'])?1:0),
           'multiple' => (($this -> params['multiple'])?1:0),
           'filter64' => (($this -> params['html_options']['selectable_object']['filter'])?base64_encode($this -> params['html_options']['selectable_object']['filter']):''),
           'noValueLabel' => _('No set value'),
@@ -90,7 +93,7 @@ class LSformElement_select_object extends LSformElement {
       }
     }
 
-    if (!isset($this -> params['html_options']['sort']) || $this -> params['html_options']['sort']) {
+    if ((!isset($this -> params['html_options']['sort']) || $this -> params['html_options']['sort']) && !$this -> params['html_options']['ordered']) {
       uasort($this -> values,array($this,'_sortTwoValues'));
     }
 
