@@ -165,6 +165,20 @@ class LSformElement_password extends LSformElement {
   }
   
   function generatePassword($params=NULL) {
+    if ($params['html_options']['use_pwgen']) {
+      $args=(isset($params['html_options']['pwgen_opts'])?$params['html_options']['pwgen_opts']:'');
+      $len=(isset($params['html_options']['lenght'])?$params['html_options']['lenght']:8);
+      $bin=(isset($params['html_options']['pwgen_path'])?$params['html_options']['pwgen_path']:'pwgen');
+      $cmd="$bin ".escapeshellcmd($args)." $len 1";
+      exec($cmd,$ret,$retcode);
+      LSdebug("Generate password using pwgen. Cmd : '$cmd' / Return code : $retcode / Return : ".print_r($ret,1));
+      if ($retcode==0 && count($ret)>0) {
+        return $ret[0];
+      }
+      else {
+        LSerror :: addErrorCode('LSformElement_password_03');
+      }
+    }
     return generatePassword($params['html_options']['chars'],$params['html_options']['lenght']);
   }
   
@@ -329,5 +343,6 @@ _("LSformElement_password : No contact mail available to send password.")
 LSerror :: defineError('LSformElement_password_02',
 _("LSformElement_password : Contact mail invalid (%{mail}). Can't send password.")
 );
-
-?>
+LSerror :: defineError('LSformElement_password_03',
+_("LSformElement_password : Fail to exec pwgen. Check it's correctly installed.")
+);
