@@ -1,3 +1,17 @@
+ldapsaisie (1.1-6) unstable; urgency=low
+
+  * Global :
+    * Allow a sequence of filters in LSobjects profile configurations (Thank B.Dauvergne)
+    * Redefine globals on per LDAP server basic (Thank B.Dauvergne)
+    * Add global parameter defaultCSSfiles
+  * LSsupann addon : Convert all defines to globals (Thank B.Dauvergne)
+  * LSattr_html :: password : Add possibility to generate password using pwgen command
+  * LSformElement :: select_object : Add ordered feature
+  * LSattr_ldap :: boolean : Add default TRUE/FALSE values
+  * view.tpl : use double quotes instead of simple in HTML
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 09 Feb 2015 11:26:00 +0100
+
 ldapsaisie (1.1-5) unstable; urgency=low
 
   * Improove generate_lang_file.php script
