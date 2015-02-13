@@ -865,7 +865,7 @@ class LSldapObject {
       return $this -> dn;
     }
     else if(($val=='rdn')||($val=='%{rdn}')) {
-      return $this -> attrs[ $this -> config['rdn'] ] -> getValue();
+      return $this -> rdn;
     }
     else if(($val=='subDn')||($val=='%{subDn}')) {
       return $this -> subDnValue;
@@ -1805,12 +1805,18 @@ class LSldapObject {
       $this -> cache['subDnValue'] = self :: getSubDnValue($this -> dn);
       return $this -> cache['subDnValue'];
     }
-    if ($key=='subDnName') {
+    elseif ($key=='subDnName') {
       if ($this -> cache['subDnName']) {
         return $this -> cache['subDnName'];
       }
       $this -> cache['subDnName'] = self :: getSubDnName($this -> dn);
       return $this -> cache['subDnName'];
+    }
+    elseif ($key=='rdn') {
+      if ($this -> config['rdn'] && isset($this -> attrs[ $this -> config['rdn'] ])) {
+        return $this -> attrs[ $this -> config['rdn'] ] -> getValue();
+      }
+      return false;
     }
   }
   
