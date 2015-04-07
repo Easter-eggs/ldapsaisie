@@ -10,7 +10,10 @@
       '[facteur1]' => '[label unit1]',
       '[facteur2]' => '[label unit2]',
       [...]
-    )
+    ),
+    'nb_decimals' => [number of decimals],
+    'dec_point' => '[decimals point]',
+    'thousands_sep' => '[thousands separator]'
   )
 ),]]>
 ...
@@ -23,6 +26,27 @@
   <term>units</term>
   <listitem>
     <simpara>Tableau associatif dont la clé est un entier correspondant au facteur et la valeur est le label de l'unité. (Par exemple : <literal>1 => Octet, 1024 => Kilo-octet, ...</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>nb_decimals</term>
+  <listitem>
+    <simpara>Le nombre de décimals à afficher en cas de nombre non-entier (Par defaut : <literal>2</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>dec_point</term>
+  <listitem>
+    <simpara>Le caractère à utiliser comme séparateur de décimal (Par defaut, une virgule).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>thousands_sep</term>
+  <listitem>
+    <simpara>Le caractère à utiliser comme séparateur de milliers (Par defaut, un espace).</simpara>
   </listitem>
 </varlistentry>
 

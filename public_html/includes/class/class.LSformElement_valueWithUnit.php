@@ -54,6 +54,25 @@ class LSformElement_valueWithUnit extends LSformElement {
   }
 
  /**
+  * Return formatted number
+  *
+  * This method return take a number as paremeter and
+  * return it after formatting.
+  *
+  * @param[in] int|float $number The number
+  *
+  * @retbal string Formatted number
+  */
+  function formatNumber($number) {
+    if ((int)$number==$number) return $number;
+    return number_format($number,
+      (isset($this -> params['html_options']['nb_decimals'])?$this -> params['html_options']['nb_decimals']:2),
+      (isset($this -> params['html_options']['dec_point'])?$this -> params['html_options']['dec_point']:","),
+      (isset($this -> params['html_options']['thousands_sep'])?$this -> params['html_options']['thousands_sep']:" ")
+    );
+  }
+
+ /**
   * Retourne les infos d'affichage de l'élément
   * 
   * Cette méthode retourne les informations d'affichage de l'élement
@@ -74,12 +93,10 @@ class LSformElement_valueWithUnit extends LSformElement {
           );
           foreach($units as $sill => $label) {
             if ($infos['value'] >= $sill) {
-              if ($infos['value'] % $sill == 0) {
-                $infos['valueWithUnit']=$infos['value']/$sill;
-                $infos['unitSill']=$sill;
-                $infos['unitLabel']=$label;
-                break;
-              }
+              $infos['valueWithUnit']=$this -> formatNumber($infos['value']/$sill);
+              $infos['unitSill']=$sill;
+              $infos['unitLabel']=$label;
+              break;
             }
           }
           $values_and_units[$value] = $infos;
