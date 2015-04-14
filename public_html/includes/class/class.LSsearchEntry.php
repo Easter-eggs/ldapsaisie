@@ -61,7 +61,7 @@ class LSsearchEntry {
     if (!LSsession :: loadLSobject($LSobject)) {
       return;
     }
-    $this -> LSsearch = $LSsearch;
+    $this -> LSsearch =& $LSsearch;
     $this -> LSobject = $LSobject;
     $this -> params = $params;
     $this -> id = $id;

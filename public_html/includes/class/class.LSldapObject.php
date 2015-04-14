@@ -1652,7 +1652,7 @@ class LSldapObject {
    */
   function addObjectEvent($event,&$obj,$meth,$param=NULL) {
     $this -> _objectEvents[$event][] = array(
-      'obj'  => $obj,
+      'obj'  => &$obj,
       'meth'  => $meth,
       'param'    => $param
     );

@@ -47,7 +47,7 @@ class LSattr_ldap {
   function LSattr_ldap ($name,$config,&$attribute) {
     $this -> name = $name;
     $this -> config = $config;
-    $this -> attribute = $attribute;
+    $this -> attribute =& $attribute;
     return true;
   }
 

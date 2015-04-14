@@ -48,7 +48,7 @@ class LSattr_html {
   function LSattr_html ($name,$config,&$attribute) {
     $this -> name = $name;
     $this -> config = $config;
-    $this -> attribute = $attribute;
+    $this -> attribute =& $attribute;
     return true;
   }
   

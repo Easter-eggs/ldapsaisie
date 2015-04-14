@@ -70,7 +70,7 @@ class LSform {
     else {
       $this -> submit = $submit;
     }
-    $this -> ldapObject = $ldapObject;
+    $this -> ldapObject =& $ldapObject;
     LSsession :: loadLSclass('LSformElement');
   }
   

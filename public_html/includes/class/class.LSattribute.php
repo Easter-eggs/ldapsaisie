@@ -63,7 +63,7 @@ class LSattribute {
   function LSattribute ($name,$config,&$ldapObject) {
     $this -> name = $name;
     $this -> config = $config;
-    $this -> ldapObject = $ldapObject;
+    $this -> ldapObject =& $ldapObject;
     $html_type = "LSattr_html_".$config['html_type'];
     $ldap_type = "LSattr_ldap_".$config['ldap_type'];
     LSsession :: loadLSclass($html_type);
@@ -625,7 +625,7 @@ class LSattribute {
    */
   function addObjectEvent($event,&$obj,$meth,$params=NULL) {
     $this -> _objectEvents[$event][] = array(
-      'obj'  => $obj,
+      'obj'  => &$obj,
       'meth'  => $meth,
       'params'    => $params
     );

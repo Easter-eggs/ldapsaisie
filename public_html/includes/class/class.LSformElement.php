@@ -60,8 +60,8 @@ class LSformElement {
     $this -> name = $name;
     $this -> label = $label;
     $this -> params = $params;
-    $this -> form = $form;
-    $this -> attr_html = $attr_html;
+    $this -> form =& $form;
+    $this -> attr_html =& $attr_html;
     return true;
   }
 
