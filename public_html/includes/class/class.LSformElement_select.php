@@ -36,9 +36,9 @@ class LSformElement_select extends LSformElement {
   var $fieldTemplate = 'LSformElement_select.tpl';
 
  /**
-  * Retourn les infos d'affichage de l'élément
+  * Return display data of this element
   * 
-  * Cette méthode retourne les informations d'affichage de l'élement
+  * This method return display data of this element
   *
   * @retval array
   */
@@ -60,6 +60,80 @@ class LSformElement_select extends LSformElement {
     return $return;
   }
 
+ /**
+  * Check if a value is valid
+  *
+  * This method check if a value is correct, that mean if it's one
+  * of the possible values.
+  *
+  * @param[in] $value The value to check
+  * @param[in] $possible_values (Optional) The possible values
+  *
+  * @retval string or False The value's label or False if this value is incorrect
+  */
+  public function isValidValue($value,$possible_values=False) {
+    if (!$possible_values)
+      $possible_values=$this -> params['text_possible_values'];
+
+    $ret=False;
+    if (is_array($possible_values) && isset($value)) {
+      foreach($possible_values as $key => $name) {
+        if (is_array($name)) {
+          if (!is_array($name['possible_values'])) continue;
+          foreach($name['possible_values'] as $k => $v) {
+            if ($k==$value) {
+              $ret=$v;
+              break;
+            }
+          }
+          if ($ret) break;
+        }
+        elseif ($key==$value) {
+          $ret=$name;
+          break;
+        }
+        if ($ret) break;
+      }
+    }
+    return $ret;
+  }
+
 }
 
-?>
+/**
+ * LSformElement_select_checkIsValidValue template function
+ *
+ * This function permit to check during template processing
+ * if a value is valid. This function get as parameters
+ * (in $params) :
+ * - $value : the value to check
+ * - $possible_values : the possible values of the element
+ * As return, this function assign two template variables :
+ * - LSformElement_select_isValidValue :
+ *     Boolean defining if the value is valid
+ * - LSformElement_select_isValidValue_label :
+ *     The value's label
+ *
+ * @param[in] $params The template function parameters
+ * @param[in] $template Smarty object
+ *
+ * @retval void
+ **/
+function LSformElement_select_checkIsValidValue($params,$template) {
+  extract($params);
+
+  $ret = LSformElement_select :: isValidValue($value,$possible_values);
+
+  if ($ret===False) {
+    $label='';
+    $ret=false;
+  }
+  else {
+    $label=$ret;
+    $ret=true;
+  }
+
+  $template -> assign('LSformElement_select_isValidValue',$ret);
+  $template -> assign('LSformElement_select_isValidValue_label',$label);
+}
+LStemplate :: registerFunction('LSformElement_select_checkIsValidValue','LSformElement_select_checkIsValidValue');

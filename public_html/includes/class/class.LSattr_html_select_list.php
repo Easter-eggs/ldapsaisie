@@ -60,7 +60,7 @@ class LSattr_html_select_list extends LSattr_html{
 
     if ($element) {
       // Mise en place de la regle de verification des donnees
-      $form -> addRule($this -> name, 'inarray', array('msg'=> 'Valeur incorrect','params' => array('possible_values' => array_keys($possible_values))) );
+      $form -> addRule($this -> name, 'LSformElement_select_validValue', array('msg'=> _('Invalid value'),'params' => array('possible_values' => $possible_values)) );
     }
     return $element;
   }
@@ -76,61 +76,128 @@ class LSattr_html_select_list extends LSattr_html{
   function getPossibleValues() {
     $retInfos = array();
     if (is_array($this -> config['html_options']['possible_values'])) {
-      foreach($this -> config['html_options']['possible_values'] as $val_name => $val) {
-        if($val_name==='OTHER_OBJECT') {
-          if ((!isset($val['object_type'])) || (!isset($val['value_attribute']))) {
-            LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
-            break;
-          }
-          if (!LSsession :: loadLSclass('LSsearch')) {
-            return;
-          }
-          
-          $param=array(
-            'filter' => (isset($val['filter'])?$val['filter']:null),
-            'basedn' => (isset($val['basedn'])?$val['basedn']:null),
-            'scope'  => (isset($val['scope'])?$val['scope']:null),
-            'displayFormat' => (isset($val['display_name_format'])?$val['display_name_format']:null),
-          );
-          
-          
-          
-          if ($val['value_attribute']!='dn') {
-            $param['attributes'][] = $val['value_attribute'];
-          }
-          
-          $LSsearch = new LSsearch($val['object_type'],'LSattr_html_select_list',$param,true);
-          $LSsearch -> run();
-          if(($val['value_attribute']=='dn')||($val['value_attribute']=='%{dn}')) {
-            $retInfos = $LSsearch -> listObjectsName();
-          }
-          else {
-            $list = $LSsearch -> getSearchEntries();
-            foreach($list as $entry) {
-              $key = $entry -> get($val['value_attribute']);
-              if(is_array($key)) {
-                $key = $key[0];
-              }
-              $retInfos[$key]=$entry -> displayName;
-            }
-          }
+      foreach($this -> config['html_options']['possible_values'] as $val_key => $val_label) {
+        if($val_key==='OTHER_OBJECT') {
+          $objInfos=$this -> getLSobjectPossibleValues($val_label);
+          $retInfos=self :: _array_merge($retInfos,$objInfos);
         }
+	elseif (is_array($val_label)) {
+		if (!isset($val_label['possible_values']) || !is_array($val_label['possible_values']) || !isset($val_label['label']))
+			continue;
+		$subRetInfos=array();
+		foreach($val_label['possible_values'] as $vk => $vl) {
+			if ($vk==='OTHER_OBJECT') {
+				$objInfos=$this -> getLSobjectPossibleValues($vl);
+				$subRetInfos=self :: _array_merge($subRetInfos,$objInfos);
+			}
+			else {
+				$vk=$this->attribute->ldapObject->getFData($vk);
+				$vl=$this->attribute->ldapObject->getFData(__($vl));
+				$subRetInfos[$vk]=$vl;
+			}
+		}
+		$this -> _sort($subRetInfos);
+		$retInfos[] = array (
+			'label' => $this->attribute->ldapObject->getFData(__($val_label['label'])),
+			'possible_values' => $subRetInfos
+		);
+	}
         else {
-          $val_name=$this->attribute->ldapObject->getFData($val_name);
-          $val=$this->attribute->ldapObject->getFData(__($val));
-          $retInfos[$val_name]=$val;
+          $val_key=$this->attribute->ldapObject->getFData($val_key);
+          $val_label=$this->attribute->ldapObject->getFData(__($val_label));
+          $retInfos[$val_key]=$val_label;
         }
       }
     }
 
-    if (!isset($this -> config['html_options']['sort']) || $this -> config['html_options']['sort']) {
-      uasort($retInfos,array($this,'_sortTwoValues'));
-    }
+    $this -> _sort($retInfos);
 
     return $retInfos;
   }
 
-   /**
+  /**
+   * Merge arrays preserving keys (string or numeric)
+   *
+   * As array_merge PHP function, this function merge arrays but
+   * this method permit to preverve key even if it's numeric key.
+   *
+   * @retval array Merged array
+   **/
+  private function _array_merge() {
+    $ret=array();
+    foreach(func_get_args() as $a) {
+      foreach($a as $k => $v) {
+        $ret[$k]=$v;
+      }
+    }
+    return $ret;
+  }
+
+  /**
+   * Apply sort feature on possible values if this feature is enabled
+   *
+   * @param[in] &$retInfos array Possible values array reference to sort
+   *
+   * @retval void
+   **/
+  private function _sort(&$retInfos) {
+    if (!isset($this -> config['html_options']['sort']) || $this -> config['html_options']['sort']) {
+      uasort($retInfos,array($this,'_sortTwoValues'));
+    }
+  }
+
+  /**
+   * Retourne un tableau des valeurs possibles d'un type d'objet
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
+   *               la valeur des balises option et en valeur ce qui sera affiché.
+   */
+  private function getLSobjectPossibleValues($conf) {
+    $retInfos = array();
+
+    if ((!isset($conf['object_type'])) || (!isset($conf['value_attribute']))) {
+      LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
+      break;
+    }
+    if (!LSsession :: loadLSclass('LSsearch')) {
+      return;
+    }
+
+    $param=array(
+      'filter' => (isset($conf['filter'])?$conf['filter']:null),
+      'basedn' => (isset($conf['basedn'])?$conf['basedn']:null),
+      'scope'  => (isset($conf['scope'])?$conf['scope']:null),
+      'displayFormat' => (isset($conf['display_name_format'])?$conf['display_name_format']:null),
+    );
+
+    if ($conf['value_attribute']!='dn') {
+      $param['attributes'][] = $conf['value_attribute'];
+    }
+
+    $LSsearch = new LSsearch($conf['object_type'],'LSattr_html_select_list',$param,true);
+    $LSsearch -> run();
+    if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
+      $retInfos = $LSsearch -> listObjectsName();
+    }
+    else {
+      $list = $LSsearch -> getSearchEntries();
+      foreach($list as $entry) {
+        $key = $entry -> get($conf['value_attribute']);
+        if(is_array($key)) {
+          $key = $key[0];
+        }
+        $retInfos[$key]=$entry -> displayName;
+      }
+    }
+
+    $this -> _sort($retInfos);
+
+    return $retInfos;
+  }
+
+  /**
    * Function use with uasort to sort two values
    *
    * @param[in] $va string One value
@@ -145,8 +212,25 @@ class LSattr_html_select_list extends LSattr_html{
     else {
       $dir=1;
     }
-    if ($va == $vb) return 0;
-    $val = strcoll(strtolower($va), strtolower($vb));
+
+    if (is_array($va)) {
+      $nva=$va['label'];
+    }
+    else {
+      $nva=$va;
+    }
+
+    if (is_array($vb)) {
+      $nvb=$vb['label'];
+    }
+    else {
+      $nvb=$vb;
+    }
+
+    if ($nva == $nvb) return 0;
+
+    $val = strcoll(strtolower($nva), strtolower($nvb));
+
     return $val*$dir;
   }
 
@@ -158,4 +242,3 @@ class LSattr_html_select_list extends LSattr_html{
 LSerror :: defineError('LSattr_html_select_list_01',
 _("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
 );
-?>

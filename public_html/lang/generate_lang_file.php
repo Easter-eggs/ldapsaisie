@@ -146,9 +146,18 @@ if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR))
         add($attr['html_options']['mail']['msg']);
         
         // LSattr_html_select_list
-        if ($attr['html_type']=='select_list' && is_array($attr['html_options']['possible_values']) && !$withoutselectlist) {
+        if (($attr['html_type']=='select_list' || $attr['html_type']=='select_box') && is_array($attr['html_options']['possible_values']) && !$withoutselectlist) {
           foreach($attr['html_options']['possible_values'] as $pkey => $pname) {
-            if ($pkey != 'OTHER_OBJECT') {
+            if (is_array($pname)) {
+              add($pname['label']);
+              if (is_array($pname['possible_values'])) {
+                foreach($pname['possible_values'] as $pk => $pn) {
+                  if ($pk == 'OTHER_OBJECT') continue;
+                  add($pn);
+                }
+              }
+            }
+            elseif ($pkey != 'OTHER_OBJECT') {
               add($pname);
             }
           }

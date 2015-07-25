@@ -306,21 +306,27 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_type' => 'select_list',
       'html_options' => array (
         'possible_values' => array(
-          'OTHER_OBJECT' => array(
-            'object_type' => 'LSgroup',                      // Nom de l'objet à lister
-            'display_name_format' => '%{cn} (%{gidNumber})',   // Spécifie le attributs à lister pour le choix,
-                                                               // si non définie => utilisation du 'display_name_format'
-                                                               // de la définition de l'objet
-                                                
-            'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par
-            /*'filter' =>                         // le formulaire spécifie les filtres de recherche pour
-              array (                           // l'établissement de la liste d'objets :
-                array(                          // Premier filtre
-                  'filter' => 'cn=*a*',
-                  //'basedn' => 'o=company',
-                  'scope' => 'sub',
-                )
-              )*/
+          '0' => 'No group',
+          array (
+            'label' => 'LDAP Groups',
+            'possible_values' => array (
+              'OTHER_OBJECT' => array (
+              'object_type' => 'LSgroup',                      // Nom de l'objet à lister
+              'display_name_format' => '%{cn} (%{gidNumber})',   // Spécifie le attributs à lister pour le choix,
+                                                                 // si non définie => utilisation du 'display_name_format'
+                                                                 // de la définition de l'objet
+
+              'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par
+              /*'filter' =>                         // le formulaire spécifie les filtres de recherche pour
+                array (                           // l'établissement de la liste d'objets :
+                  array(                          // Premier filtre
+                    'filter' => 'cn=*a*',
+                    //'basedn' => 'o=company',
+                    'scope' => 'sub',
+                  )
+                )*/
+              )
+            )
           )
         )
       ),

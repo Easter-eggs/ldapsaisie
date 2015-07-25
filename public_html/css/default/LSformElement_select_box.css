@@ -1,0 +1,10 @@
+span.LSformElement_selectbox_sub_values_label {
+  font-style: Italic;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+ul.LSformElement_selectbox_sub_values {
+  list-style-type: none;
+  padding-left: 1em;
+}

@@ -19,6 +19,16 @@
        'filter' => '[Filtre de recherche des LSobject]',
        'scope' => '[Scope de la recherche]',
        'basedn' => '[Basedn de la recherche]'
+     ),
+     array (
+       'label' => '[LSformat du nom du groupe de valeurs]',
+       'possible_values' => array (
+         '[LSformat de la valeur clé]' => '[LSformat du nom d'affichage]',
+         ...
+         'OTHER_OBJECT' => array (
+           ...
+         )
+       )
      )
    ),
    'sort' => [Booléen],
@@ -43,7 +53,14 @@
     associée est alors un tableau associatif dont les valeurs clés sont les noms 
     des paramètres de configuration de la recherche de ces &LSobjects; et les 
     valeurs associées, les valeurs des paramètres.</para>
-    
+
+    <para>Il est possible de regrouper des valeurs de l'attribut en plaçant leur
+    déclaration dans un sous-tableau. Ce sous-tableau devra contenir la clé
+    <literal>label</literal> dont la valeur associé sera le &LSformat; du nom du groupe
+    de valeurs. Ce &LSformat; est composé à partir des valeurs de l'objet courant
+    (attributs, dn, ...). Une seconde clé <literal>possible_values</literal> regroupera
+    les valeurs possibles du groupe. Comme pour le tableau principal, la clé <literal>
+    OTHER_OBJECT</literal> permet d'imcorporer une liste d'&LSobject;.</para>
 <variablelist>
   <varlistentry>
     <term>object_type</term>

@@ -20,34 +20,26 @@
 
 ******************************************************************************/
 
-LSsession :: loadLSclass('LSformElement_select');
-
 /**
- * Select box form element for LdapSaisie
- *
- * This class define select box form element.
- * It's an extention of LSformElement_select class.
+ * Rule to validate LSformRule_LSformElement_select valid values
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-
-class LSformElement_select_box extends LSformElement_select {
-
-  var $template = 'LSformElement_select_box.tpl';
-  var $fieldTemplate = 'LSformElement_select_box.tpl';
-
- /**
-  * Return display data of this element
-  *
-  * This method return display data of this element
-  *
-  * @retval array
-  */
-  function getDisplay(){
-    if (!$this -> isFreeze()) {
-      LSsession :: addCssFile('LSformElement_select_box.css');
-    }
-    return parent :: getDisplay();
+class LSformRule_LSformElement_select_validValue extends LSformRule {
+  
+  /**
+   * Validate value
+   *
+   * @param string $values The value to validate
+   * @param array $options Validation options
+   * @param object $formElement The related formElement object
+   *
+   * @return boolean true if the value is valide, false if not
+   */ 
+  function validate($value,$option,$formElement) {
+    $ret = $formElement -> isValidValue($value);
+    if ($ret===False) return False;
+    return True;
   }
 
 }
