@@ -444,19 +444,24 @@ class LSsession {
   * @retval boolean True si l'initialisation à réussi, false sinon.
   */
   public static function initialize() {
-    if (!self :: startLSconfig()) {
-      return;
+    try {
+      if (!self :: startLSconfig()) {
+        return;
+      }
+
+      self :: startLSerror();
+      self :: startLStemplate();
+
+      session_start();
+
+      self :: setLocale();
+
+      self :: loadLSaddons();
+      self :: loadLSauth();
     }
-    
-    self :: startLSerror();
-    self :: startLStemplate();
-    
-    session_start();
-    
-    self :: setLocale();
-    
-    self :: loadLSaddons();
-    self :: loadLSauth();
+    catch (Exception $e) {
+      die('LSsession : fail to initialize session. Error : '.$e->getMessage());
+    }
     return true;
   }
 
