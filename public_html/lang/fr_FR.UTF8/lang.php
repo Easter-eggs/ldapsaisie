@@ -35,6 +35,12 @@ $GLOBALS['LSlang'] = array (
 "E-mail address" =>
   "Adresse e-mail",
 
+"Errors" =>
+  "Erreurs",
+
+"File" =>
+  "Fichier",
+
 "File size is not valid." =>
   "La taille du fichier est invalide.",
 
@@ -43,6 +49,9 @@ $GLOBALS['LSlang'] = array (
 
 "First Name" =>
   "Prénom",
+
+"Format" =>
+  "Format",
 
 "Full Name" =>
   "Nom complet",
@@ -62,6 +71,12 @@ $GLOBALS['LSlang'] = array (
 "Identifier must contain alphanumeric values, dots (.) and dashes (-) only." =>
   "L'identifiant doit contenir uniquement des valeurs alpha-numériques, avec eventuellement des points (.) et des tirets (-).",
 
+"Imported objects" =>
+  "Objets importés",
+
+"LDAP Groups" =>
+  "Groupes LDAP",
+
 "LSexample" =>
   "LSexemple",
 
@@ -76,6 +91,9 @@ $GLOBALS['LSlang'] = array (
 
 "Last Name" =>
   "Nom",
+
+"Mail" =>
+  "Mail",
 
 "Main group" =>
   "Groupe principal",
@@ -98,6 +116,12 @@ $GLOBALS['LSlang'] = array (
 "Name must contain alphanumeric values only." =>
   "Le nom doit contenir uniquement des valeurs alpha-numériques.",
 
+"No imported object" =>
+  "Aucun objet importé",
+
+"No value" =>
+  "Aucune valeur",
+
 "Numeric identifier" =>
   "Identifiant numérique",
 
@@ -106,6 +130,9 @@ $GLOBALS['LSlang'] = array (
 
 "One or several users don't exist." =>
   "Un ou plusieurs utilisateurs n'existent pas.",
+
+"Only validate data" =>
+  "Validation des données uniquement",
 
 "Password" =>
   "Mot de passe",
@@ -121,6 +148,9 @@ $GLOBALS['LSlang'] = array (
 
 "Posix" =>
   "Posix",
+
+"Result" =>
+  "Résultat",
 
 "Samba" =>
   "Samba",
@@ -157,8 +187,17 @@ $GLOBALS['LSlang'] = array (
   "Pour poursuivre la procédure de récupération de mot de passe, merci de suivre ce lien :
 %{url}",
 
+"Update objects if exists" =>
+  "Mettre à jour les objets existant",
+
+"Updated objects" =>
+  "Objets mis à jour",
+
 "Users" =>
   "Utilisateurs",
+
+"Valid" =>
+  "Valide",
 
 "With photo" =>
   "Avec photo",
@@ -179,6 +218,10 @@ Nouveau mot de passe : %{password}",
 "Your password must contain from 8 to 10 characters." =>
   "Votre mot de passe doit contenir entre 8 et 10 caractères.",
 
-);
+"no" =>
+  "non",
 
-?>
+"yes" =>
+  "oui",
+
+);
