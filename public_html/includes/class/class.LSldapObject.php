@@ -276,15 +276,21 @@ class LSldapObject {
   }
   
   /**
-   * Met Ã  jour les donnÃ©es de l'objet Ã  partir d'un retour d'un formulaire.
+   * Update LDAP object data from one form specify by it's ID.
    *
-   * @param[in] $idForm Identifiant du formulaire d'origine
+   * This method just valid form ID, extract form data and call
+   * _updateData() private method.
+   *
+   * @param[in] $idForm Form ID
+   * @param[in] $justValidate Boolean to enable just validation mode
+   *
+   * @see _updateData()
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la mise Ã  jour a rÃ©ussi, false sinon
+   * @retval boolean true if object data was updated, false otherwise
    */ 
-  public function updateData($idForm=NULL) {
+  public function updateData($idForm=NULL,$justValidate=False) {
     if($idForm!=NULL) {
       if(isset($this -> forms[$idForm]))
         $LSform = $this -> forms[$idForm][0];
@@ -307,22 +313,28 @@ class LSldapObject {
       }
     }
     $new_data = $LSform -> exportValues();
-    return $this -> _updateData($new_data,$idForm);
+    return $this -> _updateData($new_data,$idForm,$justValidate);
   }
 
   /**
-   * Met Ã  jour les donnÃ©es de l'objet et de l'entrÃ© de l'annuaire
+   * Update LDAP object data from one form specify by it's ID.
+   *
+   * This method implement the continuation and the end of the object data
+   * udpate.
    * 
-   * @param[in] $new_data Tableau des données de modification de l'objet
+   * @param[in] $new_data Array of object data
+   * @param[in] $idForm Form ID
+   * @param[in] $justValidate Boolean to enable just validation mode
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si la mise Ã  jour a rÃ©ussi, false sinon
+   * @retval boolean true if object data was updated, false otherwise
    *
+   * @see updateData()
    * @see validateAttrsData()
    * @see submitChange()
    */ 
-  private function _updateData($new_data,$idForm=null) {
+  private function _updateData($new_data,$idForm=null,$justValidate=False) {
     if(!is_array($new_data)) {
       return;
     }
@@ -333,6 +345,10 @@ class LSldapObject {
     }
     if($this -> validateAttrsData($idForm)) {
       LSdebug("les données sont validées");
+      if ($justValidate) {
+        LSdebug('Just validate mode');
+        return True;
+      }
       
       if (!$this -> fireEvent('before_modify')) {
         return;
@@ -1818,6 +1834,35 @@ class LSldapObject {
       }
       return false;
     }
+  }
+
+  /**
+   * List IOformats of this object type
+   *
+   * @retval mixed Array of valid IOformats of this object type
+   **/
+  function listValidIOformats() {
+    $ret=array();
+    if (isset($this -> config['ioFormat']) && is_array($this -> config['ioFormat'])) {
+      foreach($this -> config['ioFormat'] as $name => $conf) {
+        $ret[$name]=_((isset($conf['label'])?$conf['label']:$name));
+      }
+    }
+    return $ret;
+  }
+
+  /**
+   * Check if an IOformat is valid for this object type
+   *
+   * @param[in] $f string The IOformat name to check
+   *
+   * @retval boolean True if it's a valid IOformat, false otherwise
+   **/
+  function isValidIOformat($f) {
+    if (isset($this -> config['ioFormat']) && is_array($this -> config['ioFormat']) && isset($this -> config['ioFormat'][$f])) {
+      return True;
+    }
+    return False;
   }
   
 }

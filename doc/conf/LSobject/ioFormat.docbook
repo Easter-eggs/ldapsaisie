@@ -1,0 +1,141 @@
+<sect2 id="config-LSobject-ioFormat">
+  <title>ioFormat</title>
+  <para>Cette section décrit la manière de paramétrer les formats d'import/export
+  pour un type d'&LSobject; donné.</para>
+
+<para>La configuration des <emphasis>ioFormats</emphasis> se situe dans la
+configuration des &LSobjects;, dans la variable <varname>ioFormat</varname>
+(<emphasis>$GLOBALS['LSobjects']['[nom du type d'LSobject]']['ioFormat']</emphasis>).
+Cette variable est un tableau associatif dont la clé est l'identifiant du format et
+dont la valeur associée est la configuration du format.
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['ioFormat'] = array (
+  '[ioFormat ID]' => array (
+    'label' => '[Label du type de fichier]',
+    'driver' => '[Pilote d'ioFormat utilisé]',
+    'driver_options' => array([Options du pilote d'ioFormat utilisé]),
+    'fields => array (
+      '[champ 1]' => '[attribut 1]',
+      '[champ 2]' => '[attribut 2]',
+      [...]
+    ),
+    'generated_fields' => array (
+      '[attribute 3]' => '[LSformat]',
+      '[attribute 4]' => '[LSformat]',
+      [...]
+    )
+  ),
+  [...]
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>label</term>
+  <listitem>
+    <simpara>Le label du format</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>driver</term>
+  <listitem>
+    <simpara>Le pilote a utilisé pour ce format. Le pilote permet de gérér la lecture
+    et l'écriture dans un type de fichier d'import/export. Pour plus d'information sur
+    les pilotes disponibles, <link linkend='config-LSobject-ioFormat-drivers'>Voir la
+    section concernée.</link></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>driver_options</term>
+  <listitem>
+    <simpara>Tableau associatif des options du pilote utilisé pour ce format. Pour
+    plus d'informations, consulter la documentation du pilote utilisé.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>fields</term>
+  <listitem>
+    <simpara>Tableau associatif permettant d'associer un champ du fichier source (la clé)
+    avec attribut de l'objet LDAP (la valeur).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>generated_fields</term>
+  <listitem>
+    <simpara>Tableau associatif permettant de définir des &LSformats; pour générer des valeurs
+    d'attributs automatiquement. Ce tableau contient en clé, le nom de l'attribut à généré,
+    et en valeur associée, le &LSformat; à utilisé. Ce &LSformat; est composé à l'aide des
+    valeurs des autres attributs de l'objet.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<sect3 id="config-LSobject-ioFormat-drivers">
+  <title>Pilote d'ioFormat</title>
+  <para>Cette section décrit la manière de configurer les pilotes d'ioFormat utilisés
+  lors des imports/exports d'&LSobjects;.</para>
+
+<sect4 id="config-LSobject-ioFormat-drivers-CSV">
+    <title>Pilote de fichiers CSV</title>
+    <para>Ce pilote permet de gérer l'import/export de &LSobject; à partir d'un fichier
+    <literal>CSV</literal>. Ce pilote utilise la classe PEAR <application>
+    <ulink url='http://pear.php.net/package/File_CSV_DataSource'>File_CSV_DataSource
+    </ulink></application>. Par défaut, les paramètres de lecture et d'écriture des
+    fichiers sont : la virgule sert de délimiteur, le caractère <literal>"</literal> peut
+    être utilisé pour encadrer les valeurs des champs et la longueur maximale d'une ligne
+    est 999999. Ces paramètres peuvent être modifiés en configurant les options du pilote.
+<programlisting>
+<citetitle>Structure</citetitle>
+<![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['ioFormat']['[ID ioFormat]']['driver_options'] = array (
+  'delimiter' => '[délimiteur]',
+  'length' => [longueur maximale d'une ligne],
+  'escape' => '[caratère d'encadrement]'
+);]]>
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>delimiter</term>
+  <listitem>
+    <simpara>Le caractère utilisé pour délimiter les champs (Par défault, une virgule).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>length</term>
+  <listitem>
+    <simpara>La longueur maximale d'une ligne du fichier. Si zéro est spécifié, la longueur d'une
+    ligne ne sera pas limité, mais la lecture du fichier sera ralenti. (Par défaut : <literal>999999
+    </literal>)
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>escape</term>
+  <listitem>
+    <simpara>Le caractère utilisé pour encadrer les valeurs des champs
+    (Par défault : <literal>"</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect4>
+
+</sect3>
+
+</sect2>

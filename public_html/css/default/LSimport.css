@@ -1,0 +1,28 @@
+h3.LSimport {
+  margin-left: 1.5em;
+  border-bottom: 1px solid;
+}
+
+div.LSimport_error {
+  padding: 0 2em;
+}
+
+ul.LSimport_global_errors {
+  background-color: #F56A6A;
+  list-style-type: none;
+  padding: 1em;
+  text-align: center;
+}
+
+ul.LSimport_data_errors {
+  font-style: italic;
+  font-size: 0.8em;
+}
+
+ul.LSimport_attr_errors {
+  padding-left: 1.5em;
+}
+
+ul.LSimport_attr_errors li {
+  color: #f00;
+}

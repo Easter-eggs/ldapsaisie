@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 18:16+0200\n"
+"POT-Creation-Date: 2015-07-28 17:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,169 +17,667 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: includes/addons/LSaddons.maildir.php:27
-msgid "MAILDIR Support : Unable to load LSaddon::FTP."
+#: import.php:59 view.php:56
+msgid "Import"
 msgstr ""
 
-#: includes/addons/LSaddons.maildir.php:30
-msgid "MAILDIR Support : The constant %{const} is not defined."
+#: includes/class/class.LSioFormat.php:61
+msgid "LSioFormat : IOformat driver %{driver} invalid or unavailable."
 msgstr ""
 
-#: includes/addons/LSaddons.maildir.php:35
-msgid "MAILDIR : Error creating maildir on the remote server."
+#: includes/class/class.LSformElement_mailQuota.php:80
+#: includes/class/class.LSformElement_quota.php:80
+#: includes/class/class.LSformElement_valueWithUnit.php:106
+msgid "Incorrect value"
 msgstr ""
 
-#: includes/addons/LSaddons.maildir.php:38
-msgid "MAILDIR : Error deleting the maildir on the remote server."
+#: includes/class/class.LSformElement_textarea.php:51
+msgid "Clear"
 msgstr ""
 
-#: includes/addons/LSaddons.maildir.php:41
-msgid "MAILDIR : Error renaming the maildir on the remote server."
+#: includes/class/class.LSerror.php:101
+msgid "Errors"
 msgstr ""
 
-#: includes/addons/LSaddons.maildir.php:44
-msgid "MAILDIR : Error retrieving remote path of the maildir."
+#: includes/class/class.LSerror.php:104
+msgid "Stop"
 msgstr ""
 
-#: includes/addons/LSaddons.samba.php:27
-msgid "SAMBA Support : Unable to load smbHash class."
+#: includes/class/class.LSerror.php:224
+msgid "Unknown error : %{error}"
 msgstr ""
 
-#: includes/addons/LSaddons.samba.php:30
-msgid "SAMBA Support : The constant %{const} is not defined."
+#: includes/class/class.LSerror.php:225
+msgid "PHP error : %{error}"
 msgstr ""
 
-#: includes/addons/LSaddons.samba.php:34
+#: includes/class/class.LSmail.php:61
+msgid "Email"
+msgstr ""
+
+#: includes/class/class.LSmail.php:62
+msgid "Title"
+msgstr ""
+
+#: includes/class/class.LSmail.php:63
+msgid "Message"
+msgstr ""
+
+#: includes/class/class.LSmail.php:75
+msgid "Your message has been sent successfully."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:267
+msgid "The value of field %{label} is invalid."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:731
 msgid ""
-"SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and "
-"LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's "
-"unicity."
+"LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} "
+"& HTML = %{html})."
 msgstr ""
 
-#: includes/addons/LSaddons.samba.php:39
+#: includes/class/class.LSattribute.php:734
 msgid ""
-"SAMBA Support : The attribute %{dependency} is missing. Unable to forge the "
+"LSattribute : The function %{func} to display the attribute %{attr} is "
+"unknow."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:737
+msgid ""
+"LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:740
+msgid ""
+"LSattribute : Configuration data to verify the attribute %{attr} are "
+"incorrect."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:743
+msgid ""
+"LSattribute : The function %{func} to save the attribute %{attr} is unknow."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:746
+msgid "LSattribute : The value of the attribute %{attr} can't be generated."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:749
+msgid "LSattribute : Generation of the attribute %{attr} failed."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:752
+msgid ""
+"LSattribute : Generation of the attribute %{attr} did not return a correct "
+"value."
+msgstr ""
+
+#: includes/class/class.LSattribute.php:755
+msgid ""
+"LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
+msgstr ""
+
+#: includes/class/class.LSformElement_select.php:52
+msgid "Reset selection."
+msgstr ""
+
+#: includes/class/class.LSformElement_select.php:58
+#: includes/class/class.LSformElement_select_object.php:103
+msgid "%{value} (unrecognized value)"
+msgstr ""
+
+#: includes/class/class.LSauthMethod_anonymous.php:68
+msgid ""
+"LSauthMethod_anonymous : You must define the LSAUTHMETHOD_ANONYMOUS_USER "
+"contant in the configuration file."
+msgstr ""
+
+#: includes/class/class.LSformRule_regex.php:65
+msgid "LSformRule_regex : Regex has not been configured to validate data."
+msgstr ""
+
+#: includes/class/class.LSattr_ldap_password.php:231
+msgid ""
+"LSattr_ldap_password : Encoding type %{type} is not supported. This password "
+"will be stored in clear text."
+msgstr ""
+
+#: includes/class/class.LSattr_ldap_password.php:234
+msgid ""
+"LSattr_ldap_password : Encoding function %{function} is not callable. This "
+"password will be stored in clear text."
+msgstr ""
+
+#: includes/class/class.LSattr_html_maildir.php:58
+msgid "The mailbox has been moved."
+msgstr ""
+
+#: includes/class/class.LSattr_html_maildir.php:65
+msgid "The mailbox has been created."
+msgstr ""
+
+#: includes/class/class.LSattr_html_maildir.php:84
+msgid "The mailbox has been archived successfully."
+msgstr ""
+
+#: includes/class/class.LSattr_html_maildir.php:95
+msgid "The mailbox has been deleted."
+msgstr ""
+
+#: includes/class/class.LSldap.php:503
+msgid "LSldap : Error during the LDAP server connection (%{msg})."
+msgstr ""
+
+#: includes/class/class.LSldap.php:506
+msgid "LSldap : Error during the LDAP search (%{msg})."
+msgstr ""
+
+#: includes/class/class.LSldap.php:509
+msgid "LSldap : Object type unknown."
+msgstr ""
+
+#: includes/class/class.LSldap.php:512
+msgid "LSldap : Error while fetching the LDAP entry."
+msgstr ""
+
+#: includes/class/class.LSldap.php:515
+msgid "LSldap : Error while changing the LDAP entry (DN : %{dn})."
+msgstr ""
+
+#: includes/class/class.LSldap.php:518
+msgid "LSldap : Error while deleting empty attributes."
+msgstr ""
+
+#: includes/class/class.LSldap.php:521
+msgid "LSldap : Error while changing the DN of the object."
+msgstr ""
+
+#: includes/class/class.LSformRule_callable.php:56
+msgid "LSformRule_callable : The given callable option is not callable"
+msgstr ""
+
+#: includes/class/class.LSformElement_postaladdress.php:59
+msgid "View on map"
+msgstr ""
+
+#: includes/class/class.LSform.php:68 includes/class/class.LSsmoothbox.php:39
+#: includes/class/class.LSsession.php:1223
+#: includes/class/class.LSconfirmBox.php:37 custom_action.php:83 remove.php:51
+#: custom_search_action.php:73
+msgid "Validate"
+msgstr ""
+
+#: includes/class/class.LSform.php:98
+msgid "Add a field to add another values."
+msgstr ""
+
+#: includes/class/class.LSform.php:99
+msgid "Delete this field."
+msgstr ""
+
+#: includes/class/class.LSform.php:121 includes/class/class.LSform.php:251
+msgid "No field."
+msgstr ""
+
+#: includes/class/class.LSform.php:205 custom_action.php:73
+msgid ""
+"Do you really want to execute custom action %{customAction} on "
+"%{objectname} ?"
+msgstr ""
+
+#: includes/class/class.LSform.php:216 includes/class/class.LSrelation.php:38
+#: remove.php:49
+msgid "Do you really want to delete"
+msgstr ""
+
+#: includes/class/class.LSform.php:217
+msgid "Caution"
+msgstr ""
+
+#: includes/class/class.LSform.php:218 includes/class/class.LSrelation.php:40
+#: includes/class/class.LSsearchEntry.php:161
+#: includes/class/class.LSformElement_select_object.php:69
+#: includes/class/class.LSformElement_select_object.php:85 modify.php:111
+#: view.php:64
+msgid "Delete"
+msgstr ""
+
+#: includes/class/class.LSform.php:272
+msgid "%{label} attribute data is not valid."
+msgstr ""
+
+#: includes/class/class.LSform.php:350
+msgid "Mandatory field"
+msgstr ""
+
+#: includes/class/class.LSform.php:742
+msgid "LSform : Error during the recovery of the values of the form."
+msgstr ""
+
+#: includes/class/class.LSform.php:745
+msgid ""
+"LSform : Error durring the recovery of the value of the field '%{element}'."
+msgstr ""
+
+#: includes/class/class.LSform.php:752
+msgid "LSform : The field %{element} doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSform.php:755
+msgid "LSfom : Field type unknow (%{type})."
+msgstr ""
+
+#: includes/class/class.LSform.php:758
+msgid "LSform : Error during the creation of the element '%{element}'."
+msgstr ""
+
+#: includes/class/class.LSform.php:761
+msgid "LSform : The data entry form %{name} doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSform.php:764
+msgid "LSform : The data entry form %{name} is not correctly configured."
+msgstr ""
+
+#: includes/class/class.LSform.php:767
+msgid ""
+"LSform : The element %{name}, listed as displayed in data entry form "
+"configuration, doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSformElement_boolean.php:52
+msgid "Reset the choice."
+msgstr ""
+
+#: includes/class/class.LSformElement_boolean.php:60
+msgid "Yes"
+msgstr ""
+
+#: includes/class/class.LSformElement_boolean.php:61
+msgid "No"
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:134
+msgid "Generate a password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:135
+msgid "Compare with stored password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:136
+msgid "Display password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:137
+msgid "Display hashed password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:138
+msgid "Hide password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:139
+msgid ""
+"The password will be sent by mail if changed. Click to disable automatic "
+"notification."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:140
+msgid ""
+"The password will not be sent if changed. Click to enable automatic "
+"notification."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:141
+msgid "Modify the mail sent to notice the user"
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:261
+msgid "Notice mail sent."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:341
+msgid "LSformElement_password : No contact mail available to send password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:344
+msgid ""
+"LSformElement_password : Contact mail invalid (%{mail}). Can't send password."
+msgstr ""
+
+#: includes/class/class.LSformElement_password.php:347
+msgid ""
+"LSformElement_password : Fail to exec pwgen. Check it's correctly installed."
+msgstr ""
+
+#: includes/class/class.LSformRule.php:57
+msgid "LSformRule_%{type} : Parameter %{param} is not found."
+msgstr ""
+
+#: includes/class/class.LSauth.php:168
+msgid "LSauth : Login or password incorrect."
+msgstr ""
+
+#: includes/class/class.LSauth.php:171
+msgid "LSauth : Impossible to identify you : Duplication of identities."
+msgstr ""
+
+#: includes/class/class.LSauth.php:174
+msgid "LSauth : Could not load type of identifiable objects."
+msgstr ""
+
+#: includes/class/class.LSauth.php:177
+msgid "LSauth : Can't load authentication method %{method}."
+msgstr ""
+
+#: includes/class/class.LSauth.php:180
+msgid "LSauth : Failed to build the authentication provider %{method}."
+msgstr ""
+
+#: includes/class/class.LSauth.php:183
+msgid "LSauth : Not correctly initialized."
+msgstr ""
+
+#: includes/class/class.LSauth.php:186
+msgid "LSauth : Failed to get authentication informations from provider."
+msgstr ""
+
+#: includes/class/class.LSrelation.php:39
+msgid "Warning"
+msgstr ""
+
+#: includes/class/class.LSrelation.php:67
+#: includes/class/class.LSrelation.php:216
+msgid "No object."
+msgstr ""
+
+#: includes/class/class.LSrelation.php:82
+#: includes/class/class.LSformElement_supannLabeledValue.php:62
+#: includes/class/class.LSsearchEntry.php:145
+#: includes/class/class.LSformElement_supannCompositeAttribute.php:106
+#: includes/class/class.LSformElement_select_object.php:68 modify.php:54
+#: view.php:43
+msgid "Modify"
+msgstr ""
+
+#: includes/class/class.LSrelation.php:328
+msgid ""
+"LSrelation : The listing function for the relation %{relation} is unknow."
+msgstr ""
+
+#: includes/class/class.LSrelation.php:331
+msgid "LSrelation : The update function of the relation %{relation} is unknow."
+msgstr ""
+
+#: includes/class/class.LSrelation.php:334
+msgid "LSrelation : Error during relation update of the relation %{relation}."
+msgstr ""
+
+#: includes/class/class.LSrelation.php:337
+msgid "LSrelation : Object type %{LSobject} unknow (Relation : %{relation})."
+msgstr ""
+
+#: includes/class/class.LSformElement_supannLabeledValue.php:63
+#: includes/class/class.LSformElement.php:289
+#: includes/class/class.LSformElement_supannCompositeAttribute.php:107
+#: includes/class/class.LSformElement_select_object.php:75
+msgid "No set value"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannLabeledValue.php:64
+#: includes/class/class.LSformElement_supannCompositeAttribute.php:108
+#: includes/class/class.LSformElement_select_object.php:76
+msgid "No result"
+msgstr ""
+
+#: includes/class/class.LSformElement_image.php:54
+msgid "Click to enlarge."
+msgstr ""
+
+#: includes/class/class.LSformElement_image.php:55
+msgid "Click to delete the picture."
+msgstr ""
+
+#: includes/class/class.LSauthMethod_CAS.php:112
+msgid "LSauthMethod_CAS : Failed to load phpCAS."
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:41
+msgid "Organism"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:47
+msgid "Registration year"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:52
+msgid "Registration year must be an integer"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:61
+msgid "Registration regime"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:67
+msgid "Discipline sector"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:73
+msgid "Diploma type"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:79
+msgid "Cursus & Year"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:91
+#: includes/class/class.LSformElement_supannRoleEntite.php:52
+msgid "Entity"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:96
+msgid "Diploma"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:102
+msgid "Step"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannEtuInscription.php:108
+msgid "Pedagogical element"
+msgstr ""
+
+#: includes/class/class.LSformElement_maildir.php:68
+msgid ""
+"Maildir creation/modification on user creation/modification is enabled. "
+"Click to disable."
+msgstr ""
+
+#: includes/class/class.LSformElement_maildir.php:69
+msgid ""
+"Click to enable maildir creation/modification on user creation/modification."
+msgstr ""
+
+#: includes/class/class.LSformElement_ssh_key.php:57
+msgid "Display the full key."
+msgstr ""
+
+#: includes/class/class.LSformElement_ssh_key.php:79
+msgid "Unknown type"
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_object.php:228
+msgid ""
+"LSattr_html_select_object : LSobject type is undefined (attribute : %{attr})."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_object.php:231
+msgid ""
+"LSattr_html_select_object : the value of the parameter value_attribute in "
+"the configuration of the attribute %{attrs} is incorrect. This attribute "
+"does not exists."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_object.php:234
+msgid ""
+"LSattr_html_select_object : more than one object returned corresponding to "
+"value %{val} of attribute %{attr}."
+msgstr ""
+
+#: includes/class/class.LSformElement_rss.php:50
+msgid "Display RSS stack."
+msgstr ""
+
+#: includes/class/class.LSsmoothbox.php:38
+msgid "Are you sure to want to close this window and lose all changes ?"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannRoleEntite.php:40
+msgid "Role"
+msgstr ""
+
+#: includes/class/class.LSformElement_supannRoleEntite.php:46
+msgid "Entity type"
+msgstr ""
+
+#: includes/class/class.LSformRule_inarray.php:56
+msgid ""
+"LSformRule_inarray : Possible values has not been configured to validate "
+"data."
+msgstr ""
+
+#: includes/class/class.LSimport.php:133
+msgid "Error creating object on LDAP server."
+msgstr ""
+
+#: includes/class/class.LSimport.php:159
+msgid "Error updating object on LDAP server."
+msgstr ""
+
+#: includes/class/class.LSimport.php:165
+msgid "Error validating update form."
+msgstr ""
+
+#: includes/class/class.LSimport.php:170
+msgid "Failed to set post data on update form."
+msgstr ""
+
+#: includes/class/class.LSimport.php:175
+msgid ""
+"Failed to load existing object %{dn} from LDAP server. Can't update object."
+msgstr ""
+
+#: includes/class/class.LSimport.php:180
+msgid "An object already exist on LDAP server with DN %{dn}."
+msgstr ""
+
+#: includes/class/class.LSimport.php:184
+msgid "Failed to generate DN for this object."
+msgstr ""
+
+#: includes/class/class.LSimport.php:188
+msgid "Failed to validate object data."
+msgstr ""
+
+#: includes/class/class.LSimport.php:194
+msgid "Error validating creation form."
+msgstr ""
+
+#: includes/class/class.LSimport.php:199
+msgid "Failed to set post data on creation form."
+msgstr ""
+
+#: includes/class/class.LSimport.php:243
+msgid "LSimport : Post data not found or not completed."
+msgstr ""
+
+#: includes/class/class.LSimport.php:246
+msgid "LSimport : object type invalid."
+msgstr ""
+
+#: includes/class/class.LSimport.php:249
+msgid "LSimport : input/output format %{format} invalid."
+msgstr ""
+
+#: includes/class/class.LSimport.php:252
+msgid "LSimport : Fail to initialize input/output driver"
+msgstr ""
+
+#: includes/class/class.LStemplate.php:88
+msgid "LStemplate : compile directory is not writable (dir : "
+msgstr ""
+
+#: includes/class/class.LStemplate.php:107
+msgid "LStemplate : Can't load Smarty 2 support file"
+msgstr ""
+
+#: includes/class/class.LStemplate.php:114
+msgid "LStemplate : Can't load Smarty 3 support file"
+msgstr ""
+
+#: includes/class/class.LStemplate.php:118
+msgid "LStemplate : Smarty version not recognized."
+msgstr ""
+
+#: includes/class/class.LStemplate.php:129
+msgid "LStemplate : Can't load Smarty."
+msgstr ""
+
+#: includes/class/class.LStemplate.php:302
+msgid "LStemplate : Template %{file} not found."
+msgstr ""
+
+#: includes/class/class.LSsearchEntry.php:137 modify.php:104
+msgid "View"
+msgstr ""
+
+#: includes/class/class.LSsearchEntry.php:153 view.php:51
+msgid "Copy"
+msgstr ""
+
+#: includes/class/class.LSformElement.php:194
+msgid "Attribute"
+msgstr ""
+
+#: includes/class/class.LSformElement_xmpp.php:50
+msgid "Chat with this person."
+msgstr ""
+
+#: includes/class/class.LSformElement_text.php:57
+msgid "Generate the value"
+msgstr ""
+
+#: includes/class/class.LSformElement_url.php:51
+msgid "Display this website."
+msgstr ""
+
+#: includes/class/class.LSformElement_url.php:52
+msgid "Add this website to my bookmarks."
+msgstr ""
+
+#: includes/class/class.LSformElement_valueWithUnit.php:190
+msgid ""
+"LSformElement_valueWithUnit : Units configuration data are missing for the "
 "attribute %{attr}."
 msgstr ""
 
-#: includes/addons/LSaddons.samba.php:42
-msgid "SAMBA Support : Can't get the sambaDomain object."
-msgstr ""
-
-#: includes/addons/LSaddons.samba.php:45
-msgid "SAMBA Support : Error modifying the sambaDomain object."
-msgstr ""
-
-#: includes/addons/LSaddons.samba.php:48
-msgid "SAMBA Support : The %{attr} of the sambaDomain object is incorrect."
-msgstr ""
-
-#: includes/addons/LSaddons.asterisk.php:27
-msgid "Asterisk Support : The constant %{const} is not defined."
-msgstr ""
-
-#: includes/addons/LSaddons.asterisk.php:30
-msgid "Asterisk : The function %{function} only work with %{objectName}."
-msgstr ""
-
-#: includes/addons/LSaddons.asterisk.php:33
+#: includes/class/class.LSformRule_password.php:98
 msgid ""
-"Asterisk : The attribute %{dependency} is missing. Unable to generate MD5 "
-"hashed password."
+"LSformRule_password : Invalid regex configured : %{regex}. You must use PCRE "
+"(begining by '/' caracter)."
 msgstr ""
 
-#: includes/addons/LSaddons.asterisk.php:36
+#: includes/class/class.LSattr_html.php:125
 msgid ""
-"Asterisk : Clear password not availlable. Unable to generate MD5 hashed "
-"password."
+"LSattr_html : The method addToForm() of the HTML type of the attribute "
+"%{attr} is not defined."
 msgstr ""
 
-#: includes/addons/LSaddons.supann.php:27
-msgid "SUPANN Support : The constant %{const} is not defined."
-msgstr ""
-
-#: includes/addons/LSaddons.supann.php:30
+#: includes/class/class.LSattr_html.php:129
 msgid ""
-"SUPANN Support : The LSobject type %{type} does not exist. Can't work with "
-"entities.."
-msgstr ""
-
-#: includes/addons/LSaddons.supann.php:33
-msgid "SUPANN Support : The global array %{array} is not defined."
-msgstr ""
-
-#: includes/addons/LSaddons.supann.php:38
-msgid ""
-"SUPANN Support : The attribute %{dependency} is missing. Unable to forge the "
-"attribute %{attr}."
-msgstr ""
-
-#: includes/addons/LSaddons.supann.php:41
-msgid ""
-"SUPANN Support : Can't get the basedn of entities. Unable to forge the "
-"attribute %{attr}."
-msgstr ""
-
-#: includes/addons/LSaddons.mail.php:27
-msgid "MAIL Support : Pear::MAIL is missing."
-msgstr ""
-
-#: includes/addons/LSaddons.mail.php:32
-msgid "MAIL Error : %{msg}"
-msgstr ""
-
-#: includes/addons/LSaddons.mail.php:36
-msgid "MAIL : Error sending your email"
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:27
-msgid "FTP Support : Pear::Net_FTP is missing."
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:31
-msgid "FTP Support : The constant %{const} is not defined."
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:37
-msgid "Net_FTP Error : %{msg}"
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:41
-msgid "FTP Support : Unable to connect to FTP Server (Step : %{step})."
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:44
-msgid "FTP Support : Unable to make directory %{dir} on the remote server."
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:47
-msgid "FTP Support : Unable to delete directory %{dir} on the remote server."
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:50
-msgid ""
-"FTP Support : Unable to modify rights on the directory %{dir} on the remote "
-"server."
-msgstr ""
-
-#: includes/addons/LSaddons.ftp.php:53
-msgid ""
-"FTP Support : Unable to rename folder from %{old} to %{new} on the remote "
-"server."
-msgstr ""
-
-#: includes/addons/LSaddons.posix.php:27
-msgid "POSIX Support : The constant %{const} is not defined."
-msgstr ""
-
-#: includes/addons/LSaddons.posix.php:31
-msgid "POSIX Support : Unable to load LSaddon::FTP."
-msgstr ""
-
-#: includes/addons/LSaddons.posix.php:36
-msgid ""
-"POSIX : The attribute %{dependency} is missing. Unable to forge the "
-"attribute %{attr}."
+"LSattr_html_%{type} : Multiple data are not supported for this field type."
 msgstr ""
 
 #: includes/class/class.LSsearch.php:1031
@@ -262,73 +760,210 @@ msgstr ""
 msgid "LSsearch : Error during execution of the custom action %{customAction}."
 msgstr ""
 
-#: includes/class/class.LSsearchEntry.php:137 modify.php:104
-msgid "View"
+#: includes/class/class.LSformElement_mail.php:51
+msgid "Send a mail from here."
 msgstr ""
 
-#: includes/class/class.LSsearchEntry.php:145
-#: includes/class/class.LSformElement_supannCompositeAttribute.php:106
-#: includes/class/class.LSrelation.php:82
-#: includes/class/class.LSformElement_select_object.php:68
-#: includes/class/class.LSformElement_supannLabeledValue.php:62 modify.php:54
-#: view.php:43
-msgid "Modify"
+#: includes/class/class.LSldapObject.php:458
+msgid "The attribute %{attr} is not valid."
 msgstr ""
 
-#: includes/class/class.LSsearchEntry.php:153 view.php:51
-msgid "Copy"
+#: includes/class/class.LSldapObject.php:1889
+msgid "LSldapObject : Object type unknown."
 msgstr ""
 
-#: includes/class/class.LSsearchEntry.php:161
-#: includes/class/class.LSform.php:218 includes/class/class.LSrelation.php:40
-#: includes/class/class.LSformElement_select_object.php:69
-#: includes/class/class.LSformElement_select_object.php:85 modify.php:111
-#: view.php:59
-msgid "Delete"
+#: includes/class/class.LSldapObject.php:1892
+msgid "LSldapObject : Update form is not defined for the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSformElement_postaladdress.php:59
-msgid "View on map"
+#: includes/class/class.LSldapObject.php:1895
+msgid "LSldapObject : No form exists for the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSformElement_maildir.php:68
+#: includes/class/class.LSldapObject.php:1898
 msgid ""
-"Maildir creation/modification on user creation/modification is enabled. "
-"Click to disable."
+"LSldapObject : The function %{func} to validate the attribute %{attr} the "
+"object %{obj} is unknow."
 msgstr ""
 
-#: includes/class/class.LSformElement_maildir.php:69
+#: includes/class/class.LSldapObject.php:1901
 msgid ""
-"Click to enable maildir creation/modification on user creation/modification."
+"LSldapObject : Configuration data are missing to validate the attribute "
+"%{attr} of the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSformRule.php:57
-msgid "LSformRule_%{type} : Parameter %{param} is not found."
+#: includes/class/class.LSldapObject.php:1905
+msgid ""
+"LSldapObject : The function %{func} to be executed on the object event "
+"%{event} doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSformElement_supannCompositeAttribute.php:107
-#: includes/class/class.LSformElement_select_object.php:75
-#: includes/class/class.LSformElement_supannLabeledValue.php:63
-#: includes/class/class.LSformElement.php:289
-msgid "No set value"
+#: includes/class/class.LSldapObject.php:1908
+msgid ""
+"LSldapObject : The %{func} execution on the object event %{event} failed."
 msgstr ""
 
-#: includes/class/class.LSformElement_supannCompositeAttribute.php:108
-#: includes/class/class.LSformElement_select_object.php:76
-#: includes/class/class.LSformElement_supannLabeledValue.php:64
-msgid "No result"
+#: includes/class/class.LSldapObject.php:1912
+msgid ""
+"LSldapObject : Class %{class}, which method %{meth} to be executed on the "
+"object event %{event}, doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSformRule_regex.php:65
-msgid "LSformRule_regex : Regex has not been configured to validate data."
+#: includes/class/class.LSldapObject.php:1915
+msgid ""
+"LSldapObject : Method %{meth} within %{class} class to be executed on object "
+"event %{event}, doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSformElement_rss.php:50
-msgid "Display RSS stack."
+#: includes/class/class.LSldapObject.php:1918
+msgid ""
+"LSldapObject : Error during execute %{meth} method within %{class} class, to "
+"be executed on object event %{event}."
 msgstr ""
 
-#: includes/class/class.LSformElement_xmpp.php:50
-msgid "Chat with this person."
+#: includes/class/class.LSldapObject.php:1922
+msgid ""
+"LSldapObject : Some configuration data of the object type %{obj} are missing "
+"to generate the DN of the new object."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1925
+msgid ""
+"LSldapObject : The attibute %{attr} of the object is not yet defined. Can't "
+"generate DN."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1928
+msgid "LSldapObject : Without DN, the object could not be changed."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1931
+msgid ""
+"LSldapObject : The attribute %{attr_depend} depending on the attribute "
+"%{attr} doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1934
+msgid "LSldapObject : Error during deleting the object %{objectname}."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1938
+msgid ""
+"LSldapObject : Error during actions to be executed before renaming the objet."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1941
+msgid ""
+"LSldapObject : Error during actions to be executed after renaming the objet."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1945
+msgid ""
+"LSldapObject : Error during actions to be executed before deleting the objet."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1948
+msgid ""
+"LSldapObject : Error during actions to be executed after deleting the objet."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1952
+msgid ""
+"LSldapObject : Error during the actions to be executed before creating the "
+"object."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1955
+msgid ""
+"LSldapObject : Error during the actions to be executed after creating the "
+"object. It was created anyway."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1959
+msgid ""
+"LSldapObject : The function %{func} to be executed before creating the "
+"object doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1962
+msgid ""
+"LSldapObject : Error executing the function %{func} to be execute after "
+"deleting the object."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1965
+msgid ""
+"LSldapObject : The function %{func} to be executed after deleting the object "
+"doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1968
+msgid ""
+"LSldapObject : Error executing the function %{func} to be execute after "
+"creating the object."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1972
+msgid ""
+"LSldapObject : %{func} function, to be executed on object event %{event}, "
+"doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1975
+msgid ""
+"LSldapObject : Error during the execution of %{func} function on object "
+"event %{event}."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1979
+msgid ""
+"LSldapObject : %{meth} method, to be executed on object event %{event}, "
+"doesn't exist."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1982
+msgid ""
+"LSldapObject : Error during execution of %{meth} method on object event "
+"%{event}."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1985
+msgid "LSldapObject : Error during generate LDAP filter for %{LSobject}."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1989
+msgid ""
+"LSldapObject : Error during execution of the custom action %{customAction} "
+"on %{objectname}."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1993
+msgid "LSldapObject : Fail to retrieve container DN."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1996
+msgid ""
+"LSldapObject : The function %{func} to generate container DN is not callable."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1999
+msgid "LSldapObject : Error during generating container DN : %{error}"
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:2004
+msgid ""
+"LSrelation : Some parameters are missing in the call of methods to handle "
+"standard relations (Method : %{meth})."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:63
+msgid "Invalid value"
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:243
+msgid ""
+"LSattr_html_select_list : Configuration data are missing to generate the "
+"select list of the attribute %{attr}."
 msgstr ""
 
 #: includes/class/class.LSformElement_date.php:159
@@ -337,628 +972,6 @@ msgstr ""
 
 #: includes/class/class.LSformElement_date.php:160
 msgid "Today."
-msgstr ""
-
-#: includes/class/class.LSformRule_inarray.php:56
-msgid ""
-"LSformRule_inarray : Possible values has not been configured to validate "
-"data."
-msgstr ""
-
-#: includes/class/class.LSattr_html_select_object.php:228
-msgid ""
-"LSattr_html_select_object : LSobject type is undefined (attribute : %{attr})."
-msgstr ""
-
-#: includes/class/class.LSattr_html_select_object.php:231
-msgid ""
-"LSattr_html_select_object : the value of the parameter value_attribute in "
-"the configuration of the attribute %{attrs} is incorrect. This attribute "
-"does not exists."
-msgstr ""
-
-#: includes/class/class.LSattr_html_select_object.php:234
-msgid ""
-"LSattr_html_select_object : more than one object returned corresponding to "
-"value %{val} of attribute %{attr}."
-msgstr ""
-
-#: includes/class/class.LSauth.php:168
-msgid "LSauth : Login or password incorrect."
-msgstr ""
-
-#: includes/class/class.LSauth.php:171
-msgid "LSauth : Impossible to identify you : Duplication of identities."
-msgstr ""
-
-#: includes/class/class.LSauth.php:174
-msgid "LSauth : Could not load type of identifiable objects."
-msgstr ""
-
-#: includes/class/class.LSauth.php:177
-msgid "LSauth : Can't load authentication method %{method}."
-msgstr ""
-
-#: includes/class/class.LSauth.php:180
-msgid "LSauth : Failed to build the authentication provider %{method}."
-msgstr ""
-
-#: includes/class/class.LSauth.php:183
-msgid "LSauth : Not correctly initialized."
-msgstr ""
-
-#: includes/class/class.LSauth.php:186
-msgid "LSauth : Failed to get authentication informations from provider."
-msgstr ""
-
-#: includes/class/class.LSformElement_textarea.php:51
-msgid "Clear"
-msgstr ""
-
-#: includes/class/class.LSformElement_quota.php:80
-#: includes/class/class.LSformElement_mailQuota.php:80
-#: includes/class/class.LSformElement_valueWithUnit.php:106
-msgid "Incorrect value"
-msgstr ""
-
-#: includes/class/class.LSattr_html_maildir.php:58
-msgid "The mailbox has been moved."
-msgstr ""
-
-#: includes/class/class.LSattr_html_maildir.php:65
-msgid "The mailbox has been created."
-msgstr ""
-
-#: includes/class/class.LSattr_html_maildir.php:84
-msgid "The mailbox has been archived successfully."
-msgstr ""
-
-#: includes/class/class.LSattr_html_maildir.php:95
-msgid "The mailbox has been deleted."
-msgstr ""
-
-#: includes/class/class.LSformElement_boolean.php:52
-msgid "Reset the choice."
-msgstr ""
-
-#: includes/class/class.LSformElement_boolean.php:60
-msgid "Yes"
-msgstr ""
-
-#: includes/class/class.LSformElement_boolean.php:61
-msgid "No"
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:454
-msgid "The attribute %{attr} is not valid."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1829
-msgid "LSldapObject : Object type unknown."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1832
-msgid "LSldapObject : Update form is not defined for the object %{obj}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1835
-msgid "LSldapObject : No form exists for the object %{obj}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1838
-msgid ""
-"LSldapObject : The function %{func} to validate the attribute %{attr} the "
-"object %{obj} is unknow."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1841
-msgid ""
-"LSldapObject : Configuration data are missing to validate the attribute "
-"%{attr} of the object %{obj}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1845
-msgid ""
-"LSldapObject : The function %{func} to be executed on the object event "
-"%{event} doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1848
-msgid ""
-"LSldapObject : The %{func} execution on the object event %{event} failed."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1852
-msgid ""
-"LSldapObject : Class %{class}, which method %{meth} to be executed on the "
-"object event %{event}, doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1855
-msgid ""
-"LSldapObject : Method %{meth} within %{class} class to be executed on object "
-"event %{event}, doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1858
-msgid ""
-"LSldapObject : Error during execute %{meth} method within %{class} class, to "
-"be executed on object event %{event}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1862
-msgid ""
-"LSldapObject : Some configuration data of the object type %{obj} are missing "
-"to generate the DN of the new object."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1865
-msgid ""
-"LSldapObject : The attibute %{attr} of the object is not yet defined. Can't "
-"generate DN."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1868
-msgid "LSldapObject : Without DN, the object could not be changed."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1871
-msgid ""
-"LSldapObject : The attribute %{attr_depend} depending on the attribute "
-"%{attr} doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1874
-msgid "LSldapObject : Error during deleting the object %{objectname}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1878
-msgid ""
-"LSldapObject : Error during actions to be executed before renaming the objet."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1881
-msgid ""
-"LSldapObject : Error during actions to be executed after renaming the objet."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1885
-msgid ""
-"LSldapObject : Error during actions to be executed before deleting the objet."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1888
-msgid ""
-"LSldapObject : Error during actions to be executed after deleting the objet."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1892
-msgid ""
-"LSldapObject : Error during the actions to be executed before creating the "
-"object."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1895
-msgid ""
-"LSldapObject : Error during the actions to be executed after creating the "
-"object. It was created anyway."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1899
-msgid ""
-"LSldapObject : The function %{func} to be executed before creating the "
-"object doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1902
-msgid ""
-"LSldapObject : Error executing the function %{func} to be execute after "
-"deleting the object."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1905
-msgid ""
-"LSldapObject : The function %{func} to be executed after deleting the object "
-"doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1908
-msgid ""
-"LSldapObject : Error executing the function %{func} to be execute after "
-"creating the object."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1912
-msgid ""
-"LSldapObject : %{func} function, to be executed on object event %{event}, "
-"doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1915
-msgid ""
-"LSldapObject : Error during the execution of %{func} function on object "
-"event %{event}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1919
-msgid ""
-"LSldapObject : %{meth} method, to be executed on object event %{event}, "
-"doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1922
-msgid ""
-"LSldapObject : Error during execution of %{meth} method on object event "
-"%{event}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1925
-msgid "LSldapObject : Error during generate LDAP filter for %{LSobject}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1929
-msgid ""
-"LSldapObject : Error during execution of the custom action %{customAction} "
-"on %{objectname}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1934
-msgid ""
-"LSrelation : Some parameters are missing in the call of methods to handle "
-"standard relations (Method : %{meth})."
-msgstr ""
-
-#: includes/class/class.LSformElement_supannRoleEntite.php:40
-msgid "Role"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannRoleEntite.php:46
-msgid "Entity type"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannRoleEntite.php:52
-#: includes/class/class.LSformElement_supannEtuInscription.php:91
-msgid "Entity"
-msgstr ""
-
-#: includes/class/class.LSauthMethod_anonymous.php:68
-msgid ""
-"LSauthMethod_anonymous : You must define the LSAUTHMETHOD_ANONYMOUS_USER "
-"contant in the configuration file."
-msgstr ""
-
-#: includes/class/class.LSauthMethod_CAS.php:112
-msgid "LSauthMethod_CAS : Failed to load phpCAS."
-msgstr ""
-
-#: includes/class/class.LSformElement_text.php:57
-msgid "Generate the value"
-msgstr ""
-
-#: includes/class/class.LSform.php:68 includes/class/class.LSsmoothbox.php:39
-#: includes/class/class.LSsession.php:1223
-#: includes/class/class.LSconfirmBox.php:37 remove.php:51 custom_action.php:83
-#: custom_search_action.php:73
-msgid "Validate"
-msgstr ""
-
-#: includes/class/class.LSform.php:98
-msgid "Add a field to add another values."
-msgstr ""
-
-#: includes/class/class.LSform.php:99
-msgid "Delete this field."
-msgstr ""
-
-#: includes/class/class.LSform.php:121 includes/class/class.LSform.php:251
-msgid "No field."
-msgstr ""
-
-#: includes/class/class.LSform.php:205 custom_action.php:73
-msgid ""
-"Do you really want to execute custom action %{customAction} on "
-"%{objectname} ?"
-msgstr ""
-
-#: includes/class/class.LSform.php:216 includes/class/class.LSrelation.php:38
-#: remove.php:49
-msgid "Do you really want to delete"
-msgstr ""
-
-#: includes/class/class.LSform.php:217
-msgid "Caution"
-msgstr ""
-
-#: includes/class/class.LSform.php:272
-msgid "%{label} attribute data is not valid."
-msgstr ""
-
-#: includes/class/class.LSform.php:350
-msgid "Mandatory field"
-msgstr ""
-
-#: includes/class/class.LSform.php:742
-msgid "LSform : Error during the recovery of the values of the form."
-msgstr ""
-
-#: includes/class/class.LSform.php:745
-msgid ""
-"LSform : Error durring the recovery of the value of the field '%{element}'."
-msgstr ""
-
-#: includes/class/class.LSform.php:752
-msgid "LSform : The field %{element} doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSform.php:755
-msgid "LSfom : Field type unknow (%{type})."
-msgstr ""
-
-#: includes/class/class.LSform.php:758
-msgid "LSform : Error during the creation of the element '%{element}'."
-msgstr ""
-
-#: includes/class/class.LSform.php:761
-msgid "LSform : The data entry form %{name} doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSform.php:764
-msgid "LSform : The data entry form %{name} is not correctly configured."
-msgstr ""
-
-#: includes/class/class.LSform.php:767
-msgid ""
-"LSform : The element %{name}, listed as displayed in data entry form "
-"configuration, doesn't exist."
-msgstr ""
-
-#: includes/class/class.LSrelation.php:39
-msgid "Warning"
-msgstr ""
-
-#: includes/class/class.LSrelation.php:67
-#: includes/class/class.LSrelation.php:216
-msgid "No object."
-msgstr ""
-
-#: includes/class/class.LSrelation.php:328
-msgid ""
-"LSrelation : The listing function for the relation %{relation} is unknow."
-msgstr ""
-
-#: includes/class/class.LSrelation.php:331
-msgid "LSrelation : The update function of the relation %{relation} is unknow."
-msgstr ""
-
-#: includes/class/class.LSrelation.php:334
-msgid "LSrelation : Error during relation update of the relation %{relation}."
-msgstr ""
-
-#: includes/class/class.LSrelation.php:337
-msgid "LSrelation : Object type %{LSobject} unknow (Relation : %{relation})."
-msgstr ""
-
-#: includes/class/class.LSsmoothbox.php:38
-msgid "Are you sure to want to close this window and lose all changes ?"
-msgstr ""
-
-#: includes/class/class.LSattribute.php:267
-msgid "The value of field %{label} is invalid."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:731
-msgid ""
-"LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} "
-"& HTML = %{html})."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:734
-msgid ""
-"LSattribute : The function %{func} to display the attribute %{attr} is "
-"unknow."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:737
-msgid ""
-"LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:740
-msgid ""
-"LSattribute : Configuration data to verify the attribute %{attr} are "
-"incorrect."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:743
-msgid ""
-"LSattribute : The function %{func} to save the attribute %{attr} is unknow."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:746
-msgid "LSattribute : The value of the attribute %{attr} can't be generated."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:749
-msgid "LSattribute : Generation of the attribute %{attr} failed."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:752
-msgid ""
-"LSattribute : Generation of the attribute %{attr} did not return a correct "
-"value."
-msgstr ""
-
-#: includes/class/class.LSattribute.php:755
-msgid ""
-"LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:134
-msgid "Generate a password."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:135
-msgid "Compare with stored password."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:136
-msgid "Display password."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:137
-msgid "Display hashed password."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:138
-msgid "Hide password."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:139
-msgid ""
-"The password will be sent by mail if changed. Click to disable automatic "
-"notification."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:140
-msgid ""
-"The password will not be sent if changed. Click to enable automatic "
-"notification."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:141
-msgid "Modify the mail sent to notice the user"
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:261
-msgid "Notice mail sent."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:341
-msgid "LSformElement_password : No contact mail available to send password."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:344
-msgid ""
-"LSformElement_password : Contact mail invalid (%{mail}). Can't send password."
-msgstr ""
-
-#: includes/class/class.LSformElement_password.php:347
-msgid ""
-"LSformElement_password : Fail to exec pwgen. Check it's correctly installed."
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:41
-msgid "Organism"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:47
-msgid "Registration year"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:52
-msgid "Registration year must be an integer"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:61
-msgid "Registration regime"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:67
-msgid "Discipline sector"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:73
-msgid "Diploma type"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:79
-msgid "Cursus & Year"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:96
-msgid "Diploma"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:102
-msgid "Step"
-msgstr ""
-
-#: includes/class/class.LSformElement_supannEtuInscription.php:108
-msgid "Pedagogical element"
-msgstr ""
-
-#: includes/class/class.LSldap.php:503
-msgid "LSldap : Error during the LDAP server connection (%{msg})."
-msgstr ""
-
-#: includes/class/class.LSldap.php:506
-msgid "LSldap : Error during the LDAP search (%{msg})."
-msgstr ""
-
-#: includes/class/class.LSldap.php:509
-msgid "LSldap : Object type unknown."
-msgstr ""
-
-#: includes/class/class.LSldap.php:512
-msgid "LSldap : Error while fetching the LDAP entry."
-msgstr ""
-
-#: includes/class/class.LSldap.php:515
-msgid "LSldap : Error while changing the LDAP entry (DN : %{dn})."
-msgstr ""
-
-#: includes/class/class.LSldap.php:518
-msgid "LSldap : Error while deleting empty attributes."
-msgstr ""
-
-#: includes/class/class.LSldap.php:521
-msgid "LSldap : Error while changing the DN of the object."
-msgstr ""
-
-#: includes/class/class.LStemplate.php:88
-msgid "LStemplate : compile directory is not writable (dir : "
-msgstr ""
-
-#: includes/class/class.LStemplate.php:107
-msgid "LStemplate : Can't load Smarty 2 support file"
-msgstr ""
-
-#: includes/class/class.LStemplate.php:114
-msgid "LStemplate : Can't load Smarty 3 support file"
-msgstr ""
-
-#: includes/class/class.LStemplate.php:118
-msgid "LStemplate : Smarty version not recognized."
-msgstr ""
-
-#: includes/class/class.LStemplate.php:129
-msgid "LStemplate : Can't load Smarty."
-msgstr ""
-
-#: includes/class/class.LStemplate.php:302
-msgid "LStemplate : Template %{file} not found."
-msgstr ""
-
-#: includes/class/class.LSformElement_image.php:54
-msgid "Click to enlarge."
-msgstr ""
-
-#: includes/class/class.LSformElement_image.php:55
-msgid "Click to delete the picture."
-msgstr ""
-
-#: includes/class/class.LSformElement_url.php:51
-msgid "Display this website."
-msgstr ""
-
-#: includes/class/class.LSformElement_url.php:52
-msgid "Add this website to my bookmarks."
-msgstr ""
-
-#: includes/class/class.LSformRule_password.php:98
-msgid ""
-"LSformRule_password : Invalid regex configured : %{regex}. You must use PCRE "
-"(begining by '/' caracter)."
 msgstr ""
 
 #: includes/class/class.LSsession.php:1163
@@ -971,7 +984,7 @@ msgid "LDAP server"
 msgstr ""
 
 #: includes/class/class.LSsession.php:1183
-#: includes/class/class.LSsession.php:2169 select.php:70
+#: includes/class/class.LSsession.php:2172 select.php:70
 msgid "Level"
 msgstr ""
 

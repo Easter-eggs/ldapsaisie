@@ -19,6 +19,7 @@
 <!ENTITY conf-LSobject-LSsearch SYSTEM "LSobject/LSsearch.docbook">
 <!ENTITY conf-LSobject-customActions SYSTEM "LSobject/customActions.docbook">
 <!ENTITY conf-LSobject-LSrelation SYSTEM "LSobject/LSrelation.docbook">
+<!ENTITY config-LSobject-ioFormat SYSTEM "LSobject/ioFormat.docbook">
 
 <!ENTITY conf-LSattribute SYSTEM "LSattribute.docbook">
 <!ENTITY conf-LSattribute-LSattr_html SYSTEM "LSattribute/LSattr_html.docbook">

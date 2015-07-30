@@ -39,6 +39,32 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'ou' => 'people'
     )
   ),
+
+  'ioFormat' => array (
+    'mycsv' => array (
+      'label' => 'Simple CSV',
+      'driver' => 'CSV',
+      'driver_options' => array (
+        'delimiter' => ';',
+        'escape' => '"',
+        'eol' => ';',
+        'length' => 2
+      ),
+      'fields' => array (
+        'login' => 'uid',
+        'civility' => 'personalTitle',
+        'firstname' => 'givenName',
+        'name' => 'sn',
+        'mail' => 'mail',
+        'password' => 'userPassword',
+        'gid' => 'gidNumber',
+        'shell' => 'loginShell',
+      ),
+      'generated_fields' => array (
+        'cn' => '%{personalTitle} %{givenName} %{sn}'
+      )
+    )
+  ),
   
   'before_modify' => 'valid',
   'after_modify' => 'valid',

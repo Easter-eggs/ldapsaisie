@@ -64,6 +64,11 @@
   'LSsearch' => array (
     // Configuration des recherches de l'objet
   ), // fin LSsearch
+
+  // ioFormat
+  'ioFormat' => array (
+    // Configuration des formats d'import/export de l'objet
+  ),
   
   // Attributs
   'attrs' => array (
@@ -238,6 +243,16 @@
 </varlistentry>
 
 <varlistentry>
+  <term>ioFormat</term>
+  <listitem>
+    <simpara>Tableau associatif contenant les paramètres de configuration
+    des formats de fichiers d'import/export de ce type d'&LSobject;.
+    <link linkend="config-LSobject-ioFormat">Voir la section concernée</link>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
   <term>filter</term>
   <listitem>
     <simpara>Filtre de recherche LDAP applicable à tout les objets de ce type et
@@ -264,5 +279,6 @@
   &conf-LSobject-LSrelation;
   &conf-LSobject-LSform;
   &conf-LSobject-LSsearch;
+  &config-LSobject-ioFormat;
 
 </sect1>

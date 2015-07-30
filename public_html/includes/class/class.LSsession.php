@@ -2338,7 +2338,9 @@ class LSsession {
     LSerror :: defineError('LSsession_15',
     _("LSsession : Fail to reconnect to LDAP server with user's LDAP credentials.")
     );
-    // 16 : not yet used
+    LSerror :: defineError('LSsession_16',
+    _("LSsession : No import/export format define for this object type.")
+    );
     LSerror :: defineError('LSsession_17',
     _("LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})")
     );
