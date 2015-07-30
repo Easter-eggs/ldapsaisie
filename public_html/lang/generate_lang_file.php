@@ -188,6 +188,40 @@ if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR))
   }
 }
 
+/*
+ * Manage template file
+ */
+
+function parse_template_file($file) {
+  foreach(file($file) as $line) {
+    if (preg_match_all('/\{ *tr +msg=["\']([^\}]+)["\'] *\}/',$line,$matches)) {
+      foreach($matches[1] as $t)
+        add($t);
+    }
+  }
+}
+
+function find_and_parse_template_file($dir) {
+  if (is_dir($dir)) {
+    if ($dh = opendir($dir)) {
+      while (($file = readdir($dh)) !== false) {
+        if ($file=='.' || $file=='..') continue;
+        if (is_dir($dir.'/'.$file)) {
+          find_and_parse_template_file($dir.'/'.$file);
+        }
+        elseif (is_file($dir."/".$file) && preg_match('/\.tpl$/',$file)) {
+          parse_template_file($dir.'/'.$file);
+        }
+      }
+      closedir($dh);
+    }
+  }
+}
+
+find_and_parse_template_file('../'.LS_TEMPLATES_DIR);
+find_and_parse_template_file('../'.LS_LOCAL_DIR.LS_TEMPLATES_DIR);
+
+
 ksort($data);
 
 echo "<?php\n\n";
