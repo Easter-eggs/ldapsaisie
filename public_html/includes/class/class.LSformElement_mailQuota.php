@@ -155,6 +155,11 @@ class LSformElement_mailQuota extends LSformElement {
       }
       return true;
     }
+    // Accept raw value to make import easier
+    elseif (isset($_POST[$this -> name])) {
+      $return[$this -> name]=$_POST[$this -> name];
+      return true;
+    }
     else {
       $return[$this -> name] = array();
       return true;
