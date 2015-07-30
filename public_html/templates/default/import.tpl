@@ -49,6 +49,18 @@
     {/if}
   </li>
 {/foreach}
+{foreach $error.errors.attrs as $a => $es}
+  {if !in_array($a,$error.data)}
+  <li>
+    <strong>{$a} :</strong>
+    <ul class='LSimport_attr_errors'>
+      {foreach $es as $e}
+        <li>{$e}</li>
+      {/foreach}
+    </ul>
+  </li>
+  {/if}
+{/foreach}
 </ul>
 </div>
 {/foreach}
