@@ -140,11 +140,13 @@ if(LSsession :: startLSsession()) {
               'url' => 'create.php?LSobject='.$LSobject,
               'action' => 'create'
             );
-            $LSview_actions['import'] = array (
-              'label' => 'Import',
-              'url' => 'import.php?LSobject='.$LSobject,
-              'action' => 'import'
-            );
+            if (!empty($object -> listValidIOformats())) {
+              $LSview_actions['import'] = array (
+                'label' => 'Import',
+                'url' => 'import.php?LSobject='.$LSobject,
+                'action' => 'import'
+              );
+            }
           }
           $LSview_actions['refresh'] = array (
             'label' => 'Refresh',
