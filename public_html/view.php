@@ -140,7 +140,7 @@ if(LSsession :: startLSsession()) {
               'url' => 'create.php?LSobject='.$LSobject,
               'action' => 'create'
             );
-            if (!empty($object -> listValidIOformats())) {
+            if ($object -> listValidIOformats()) {
               $LSview_actions['import'] = array (
                 'label' => 'Import',
                 'url' => 'import.php?LSobject='.$LSobject,
