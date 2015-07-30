@@ -1,3 +1,17 @@
+ldapsaisie (1.2-1) unstable; urgency=low
+
+ * Translation : manage message strings in templates files
+ * Add import feature
+ * Add LSformRule_callable
+ * LSsession : Catch initialization exceptions
+ * Fix Smarty default path to default smarty3 path of Debian package
+ * LSldapObject : Fix method to get rdn value
+ * LSformElement :
+  * valueWithUnit : improve floatint number display and add parameter for formatting control
+  * select_list / select_box : permit to put possible values in labelled group
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Thu, 30 Jul 2015 16:55:06 +0200
+
 ldapsaisie (1.1-6) unstable; urgency=low
 
   * Global :
