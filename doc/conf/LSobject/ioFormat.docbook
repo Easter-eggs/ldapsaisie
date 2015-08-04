@@ -9,20 +9,21 @@ configuration des &LSobjects;, dans la variable <varname>ioFormat</varname>
 Cette variable est un tableau associatif dont la clé est l'identifiant du format et
 dont la valeur associée est la configuration du format.
 
-<important><simpara>Le moteur d'importation simule la validation d'un formulaire de
+<important><para>Le moteur d'importation simule la validation d'un formulaire de
 création du type d'&LSobject;. En conséquence :
 <itemizedlist>
-  <listitem>seul les attributs présent dans le formulaire de création peuvent être
-  importés.</listitem>
-  <listitem>tous les attributs obligatoires présents dans le formulaire de création
-  doivent être fournis par le fichier source ou générer à partir des autres attributs.
-  </listitem>
-  <listitem>Les valeurs des attributs issus de l'importation seront vue comme des valeurs
-  retournées par le formulaire et non comme des valeurs des attribus LDAP eux-même. Ainsi
-  et par exemple, un attribut traité comme un booléen dans un formulaire pourra prendre
-  comme valeur par défaut <literal>yes</literal> ou <literal>no</literal>.</listitem>
+  <listitem><simpara>seul les attributs présent dans le formulaire de création peuvent
+  être importés.</simpara></listitem>
+  <listitem><simpara>tous les attributs obligatoires présents dans le formulaire de
+  création doivent être fournis par le fichier source ou générer à partir des autres
+  attributs.</simpara></listitem>
+  <listitem><simpara>Les valeurs des attributs issus de l'importation seront vue comme
+  des valeurs retournées par le formulaire et non comme des valeurs des attribus LDAP
+  eux-même. Ainsi et par exemple, un attribut traité comme un booléen dans un formulaire
+  pourra prendre comme valeur par défaut <literal>yes</literal> ou <literal>no</literal>.
+  </simpara></listitem>
 </itemizedlist>
-</simpara></important>
+</para></important>
 <programlisting>
 <citetitle>Structure</citetitle>
 <![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['ioFormat'] = array (
