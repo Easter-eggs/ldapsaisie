@@ -66,6 +66,12 @@ function add($msg) {
   }
 }
 
+// Change directory
+chdir('../');
+
+// Initialize session
+LSsession :: initialize();
+
 // LDAP Servers
 foreach($GLOBALS['LSconfig']['ldap_servers'] as $conf) {
   add($conf['name']);
@@ -85,7 +91,7 @@ foreach($GLOBALS['LSconfig']['ldap_servers'] as $conf) {
 
 
 // LSobject
-if (loadDir('../'.LS_OBJECTS_DIR) && loadDir('../'.LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
+if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
   foreach($GLOBALS['LSobjects'] as $name => $conf) {
     add($conf['label']);
     
@@ -218,8 +224,8 @@ function find_and_parse_template_file($dir) {
   }
 }
 
-find_and_parse_template_file('../'.LS_TEMPLATES_DIR);
-find_and_parse_template_file('../'.LS_LOCAL_DIR.LS_TEMPLATES_DIR);
+find_and_parse_template_file(LS_TEMPLATES_DIR);
+find_and_parse_template_file(LS_LOCAL_DIR.LS_TEMPLATES_DIR);
 
 
 ksort($data);
