@@ -23,7 +23,8 @@
     'object_type' => '[Type d'LSobject recherché]',
     'basedn' => '[BaseDn de la recherche]',
     'scope' => '[Scope de la recherche]',
-    'result' => '[Résultat positif de la recherche]'
+    'result' => '[Résultat positif de la recherche]',
+    'except_current_object' => '[Exclure l'objet courant]'
   ),
   ...
 ),]]>
@@ -83,6 +84,15 @@
     <simpara>Le résultat de la recherche : si <parameter>result</parameter> vaut
     zéro, la recherche ne devra retourner aucun objet pour que la validation soit
     réussie. Sinon, la recherche devra retourner au moins un objet.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>except_current_object</term>
+  <listitem>
+    <simpara>Booléen définissant si l'objet courrant doit être exclu du résultat
+    de la recherche. Ce paramètre n'est évalué quand cas de création (formulaire
+    <literal>create</literal>).</simpara>
   </listitem>
 </varlistentry>
 

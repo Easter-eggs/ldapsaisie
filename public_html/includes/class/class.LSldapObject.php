@@ -494,7 +494,18 @@ class LSldapObject {
               $sfilter=$sfilter_user;
             }
             $sbasedn=(isset($test['basedn']))?getFData($test['basedn'],$this,'getValue'):NULL;
-            $ret=LSldap :: getNumberResult ($sfilter,$sbasedn,$sparams);
+            if (isset($test['except_current_object']) && (bool)$test['except_current_object'] && !$LSform -> idForm!='create') {
+              $sret=LSldap :: search ($sfilter,$sbasedn,$sparams);
+              $dn=$this->getDn();
+              $ret=0;
+              foreach($sret as $obj) {
+                if ($obj['dn']!=$dn)
+                  $ret++;
+              }
+            }
+            else {
+              $ret=LSldap :: getNumberResult ($sfilter,$sbasedn,$sparams);
+            }
             if($test['result']==0) {
               if($ret!=0) {
                 if ($LSform) $LSform -> setElementError($attr,$msg_error);
