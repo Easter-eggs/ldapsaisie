@@ -50,7 +50,8 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
       'alternativeLSformats' => array (
         '[LSformat 1]',
         '[LSformat 2]'
-      )
+      ),
+      'formaterLSformat' => '[LSformat]',
     )
   ),
   'customActions' =>  array (
@@ -265,6 +266,19 @@ contexte dans lequel cette recherche est effectuée.</para>
           principal est vide. Les formats définis dans cette liste sont essayés les uns
           après les autres et le premier &LSformat; retournant une valeur non-vide est
           utilisé.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>formaterLSformat</term>
+        <listitem>
+          <simpara>&LSformat; optionnel permettant de mettre en forme le résultat obtenu des
+          &LSformats; précédents. Ce &LSformat; ne sera utilisé que si le résultat obtenu
+          précédement n'est pas vide. Il est ainsi possible d'utiliser les paramètres <literal>
+          LSformat</literal> et <literal>alternativeLSformats</literal> afin de récupérer la
+          valeur à afficher, puis de la mettre en forme grâce à ce &LSformat;. Ce format est
+          composé à partir des attributs des objets LDAP dans leur format brut et de la valeur
+          retournés précedement accessible via la variable <literal>val</literal>.</simpara>
         </listitem>
       </varlistentry>
 

@@ -47,6 +47,9 @@ class LSsearchEntry {
   
   // Cache
   private $cache=array();
+
+  // Other values
+  private $other_values=array();
   
   /**
    * Constructor
@@ -81,9 +84,24 @@ class LSsearchEntry {
     if (in_array($key,array_keys($this -> attrs))) {
       return $this -> attrs[$key];
     }
+    elseif (array_key_exists($key,$this->other_values)) {
+      return $this->other_values[$key];
+    }
     elseif ($key=='subDn' || $key=='subDnName') {
       return $this -> subDn;
     }
+  }
+
+  /**
+   * Add value in array $this -> other_values
+   *
+   * @param[in] $name string The value name
+   * @param[in] $value mixed The value
+   *
+   * @retval void
+   **/
+  function registerOtherValue($name,$value) {
+    $this -> other_values[$name]=$value;
   }
 
   /**
@@ -184,6 +202,10 @@ class LSsearchEntry {
           $ret=$this -> getFData($format);
           if (!empty($ret)) break;
         }
+      }
+      if (!empty($ret) && isset($this->LSsearch->extraDisplayedColumns[$key]['formaterLSformat'])) {
+        $this -> registerOtherValue('val',$ret);
+        $ret=$this -> getFData($this->LSsearch->extraDisplayedColumns[$key]['formaterLSformat']);
       }
       $this -> cache[$key] = $ret;
       return $ret;

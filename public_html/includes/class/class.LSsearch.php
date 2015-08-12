@@ -807,6 +807,12 @@ class LSsearch {
         else {
           $attrs=array_merge($attrs,getFieldInFormat($conf['alternativeLSformats']));
         }
+        if(isset($conf['formaterLSformat'])) {
+          $attrs=array_unique(array_merge($attrs,getFieldInFormat($conf['formaterLSformat'])));
+          if(($key = array_search('val', $attrs)) !== false) {
+            unset($attrs[$key]);
+          }
+        }
         if(is_array($retval['attributes'])) {
           $retval['attributes']=array_merge($attrs,$retval['attributes']);
         }
