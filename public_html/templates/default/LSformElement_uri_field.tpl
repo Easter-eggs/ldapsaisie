@@ -1,7 +1,7 @@
 {if $freeze}
   <span class='LSformElement_text'>
   {if $value}
-    <a class='{$uriClass}' href='{$uriPrefix}{$value}'{if $uriTarget} target='{$uriTarget}'{/if}>{$value}</a>
+    <a class='{$uriClass}' href='{$uriPrefix}{$value}'{if $uriLinkTitle} title='{$uriLinkTitle}'{/if}{if $uriTarget} target='{$uriTarget}'{/if}>{$value}</a>
   {else}
     {$noValueTxt}
   {/if}
