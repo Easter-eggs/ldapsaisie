@@ -2353,7 +2353,9 @@ class LSsession {
     LSerror :: defineError('LSsession_20',
     _("LSsession : Error during password recovery. Contact administrators.(Step : %{step})")
     );
-    // 21 : not yet used
+    LSerror :: defineError('LSsession_21',
+    _("LSsession : call function %{func} do not provided from LSaddon %{addon}.")
+    );
     LSerror :: defineError('LSsession_22',
     _("LSsession : problem during initialisation.")
     );
