@@ -72,7 +72,7 @@
       {/if}
       {if $LSsearch->extraDisplayedColumns}
         {foreach from=$LSsearch->extraDisplayedColumns item=conf key=cid}
-        <th class='LSobject-list'>
+        <th class='LSobject-list'{if $conf.cssStyle} style="{$conf.cssStyle}"{/if}>
         {if $LSsearch->sort}
           <a href='view.php?LSobject={$LSsearch->LSobject}&amp;sortBy={$cid}&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == $cid}
@@ -96,7 +96,7 @@
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn}</td>{/if}
         {if $LSsearch->extraDisplayedColumns}
           {foreach from=$LSsearch->extraDisplayedColumns item=conf key=cid}
-          <td class='LSobject-list'>{$object->$cid}</th>
+          <td class='LSobject-list'{if $conf.cssStyle} style="{$conf.cssStyle}"{/if}>{$object->$cid}</td>
           {/foreach}
         {/if}
         <td class='LSobject-list LSobject-list-actions'>

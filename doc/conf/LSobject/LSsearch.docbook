@@ -52,6 +52,7 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
         '[LSformat 2]'
       ),
       'formaterLSformat' => '[LSformat]',
+      'cssStyle' => '[CSS style]',
     )
   ),
   'customActions' =>  array (
@@ -279,6 +280,16 @@ contexte dans lequel cette recherche est effectuée.</para>
           valeur à afficher, puis de la mettre en forme grâce à ce &LSformat;. Ce format est
           composé à partir des attributs des objets LDAP dans leur format brut et de la valeur
           retournés précedement accessible via la variable <literal>val</literal>.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>cssStyle</term>
+        <listitem>
+          <simpara>Ce paramètre permet de définir un style CSS personnalisé pour la colonne.
+          S'il est défini, le contenu de ce paramètre sera ajouté en tant qu'attribut <literal>
+          style</literal> des balises <literal>th</literal> et <literal>td</literal> de la
+          colone.</simpara>
         </listitem>
       </varlistentry>
 
