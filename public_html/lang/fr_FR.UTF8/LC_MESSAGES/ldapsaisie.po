@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-21 15:07+0200\n"
-"PO-Revision-Date: 2015-08-21 15:09+0100\n"
+"POT-Creation-Date: 2015-08-21 17:52+0200\n"
+"PO-Revision-Date: 2015-08-21 17:53+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -229,7 +229,7 @@ msgid "View on map"
 msgstr "Voir sur une carte"
 
 #: includes/class/class.LSform.php:68 includes/class/class.LSsmoothbox.php:39
-#: includes/class/class.LSsession.php:1230
+#: includes/class/class.LSsession.php:1241
 #: includes/class/class.LSconfirmBox.php:37 custom_action.php:83 remove.php:51
 #: custom_search_action.php:73
 msgid "Validate"
@@ -1121,78 +1121,78 @@ msgstr "Maintenant."
 msgid "Today."
 msgstr "Aujourd'hui."
 
-#: includes/class/class.LSsession.php:1170
+#: includes/class/class.LSsession.php:1181
 msgid "Connection"
 msgstr "Connexion"
 
-#: includes/class/class.LSsession.php:1180
-#: includes/class/class.LSsession.php:1219
+#: includes/class/class.LSsession.php:1191
+#: includes/class/class.LSsession.php:1230
 msgid "LDAP server"
 msgstr "Serveur LDAP"
 
-#: includes/class/class.LSsession.php:1190
-#: includes/class/class.LSsession.php:2176 select.php:70
+#: includes/class/class.LSsession.php:1201
+#: includes/class/class.LSsession.php:2240 select.php:70
 msgid "Level"
 msgstr "Niveau"
 
-#: includes/class/class.LSsession.php:1191
-#: includes/class/class.LSsession.php:1229
+#: includes/class/class.LSsession.php:1202
+#: includes/class/class.LSsession.php:1240
 msgid "Identifier"
 msgstr "Identifiant"
 
-#: includes/class/class.LSsession.php:1192
+#: includes/class/class.LSsession.php:1203
 msgid "Password"
 msgstr "Mot de passe"
 
-#: includes/class/class.LSsession.php:1193
+#: includes/class/class.LSsession.php:1204
 msgid "Connect"
 msgstr "Se connecter"
 
-#: includes/class/class.LSsession.php:1194
+#: includes/class/class.LSsession.php:1205
 msgid "Forgot your password ?"
 msgstr "Mot de passe perdu ?"
 
-#: includes/class/class.LSsession.php:1212
+#: includes/class/class.LSsession.php:1223
 msgid "Recovery of your credentials"
 msgstr "Récupération de votre mot de passe"
 
-#: includes/class/class.LSsession.php:1231
+#: includes/class/class.LSsession.php:1242
 msgid "Back"
 msgstr "Retour"
 
-#: includes/class/class.LSsession.php:1233
+#: includes/class/class.LSsession.php:1244
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr ""
 "Merci d'entrer votre identifiant pour poursuivre la procédure de récupération"
 
-#: includes/class/class.LSsession.php:1237
+#: includes/class/class.LSsession.php:1248
 msgid ""
 "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr ""
 "Un e-mail vient de vous être envoyé à l'adresse %{mail}. Merci de suivre les "
 "indications qu'il contient."
 
-#: includes/class/class.LSsession.php:1245
+#: includes/class/class.LSsession.php:1256
 msgid "Your new password has been sent to %{mail}. "
 msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
 
-#: includes/class/class.LSsession.php:1386
+#: includes/class/class.LSsession.php:1398
 msgid "Refresh"
 msgstr "Rafraîchir"
 
-#: includes/class/class.LSsession.php:1402
+#: includes/class/class.LSsession.php:1414
 msgid "Language"
 msgstr "Langue"
 
-#: includes/class/class.LSsession.php:1429
+#: includes/class/class.LSsession.php:1441
 msgid "Connected as"
 msgstr "Connecté en tant que"
 
-#: includes/class/class.LSsession.php:2304
+#: includes/class/class.LSsession.php:2368
 msgid "LSsession : The constant %{const} is not defined."
 msgstr "LSsession : La constante %{const} n'est pas définie."
 
-#: includes/class/class.LSsession.php:2307
+#: includes/class/class.LSsession.php:2371
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
@@ -1200,52 +1200,52 @@ msgstr ""
 "LSsession : Le support %{addon} est incertain. Vérifiez la compatibilité du "
 "système et la configuration de l'add-on."
 
-#: includes/class/class.LSsession.php:2310
+#: includes/class/class.LSsession.php:2374
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 "LSsession : Les données de configuration du serveur LDAP sont invalide. "
 "Impossible de s'y connecter."
 
-#: includes/class/class.LSsession.php:2313
+#: includes/class/class.LSsession.php:2377
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 "LSsession : Impossible de charger le type d'LSobject %{type} : type inconnu."
 
-#: includes/class/class.LSsession.php:2316
+#: includes/class/class.LSsession.php:2380
 msgid "LSsession : Failed to load LSclass %{class}."
 msgstr "LSsession : Impossible de charger la LSclass %{class}."
 
-#: includes/class/class.LSsession.php:2319
+#: includes/class/class.LSsession.php:2383
 msgid "LSsession : Login or password incorrect."
 msgstr "LSsession : Identifiant ou mot de passe incorrects."
 
-#: includes/class/class.LSsession.php:2322
+#: includes/class/class.LSsession.php:2386
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr "LSsession : Impossible de vous identifier : Duplication d'identité."
 
-#: includes/class/class.LSsession.php:2325
+#: includes/class/class.LSsession.php:2389
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 "LSsession : Impossible de charger la classe d'authentification (%{class})."
 
-#: includes/class/class.LSsession.php:2328
+#: includes/class/class.LSsession.php:2392
 msgid "LSsession : Can't connect to LDAP server."
 msgstr "LSsession : Impossible de se connecter au serveur LDAP."
 
-#: includes/class/class.LSsession.php:2331
+#: includes/class/class.LSsession.php:2395
 msgid "LSsession : Impossible to authenticate you."
 msgstr "LSsession : Impossible de vous identifier."
 
-#: includes/class/class.LSsession.php:2334
+#: includes/class/class.LSsession.php:2398
 msgid "LSsession : Your are not authorized to do this action."
 msgstr "LSsession : Vous n'êtes pas autorisé à faire cette action."
 
-#: includes/class/class.LSsession.php:2337
+#: includes/class/class.LSsession.php:2401
 msgid "LSsession : Some informations are missing to display this page."
 msgstr "LSsession : Des informations sont manquant pour afficher cette page."
 
-#: includes/class/class.LSsession.php:2340
+#: includes/class/class.LSsession.php:2404
 msgid ""
 "LSsession : The function of the custom action %{name} does not exists or is "
 "not configured."
@@ -1253,24 +1253,24 @@ msgstr ""
 "LSsearch : La fonction de l'action personnalisée %{name} n'existe pas ou "
 "n'est pas configurée."
 
-#: includes/class/class.LSsession.php:2343
+#: includes/class/class.LSsession.php:2407
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 "LSsession : Erreur en récupérant les identifiants LDAP de l'utilisateur "
 "depuis LSauth."
 
-#: includes/class/class.LSsession.php:2346
+#: includes/class/class.LSsession.php:2410
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 "LSsession : Impossible de se reconnecter au serveur LDAP avec les "
 "identifiants de l'utilisateur."
 
-#: includes/class/class.LSsession.php:2349
+#: includes/class/class.LSsession.php:2413
 msgid "LSsession : No import/export format define for this object type."
 msgstr "LSsession : Aucun format d'entrée/sortie définie pour ce type d'objet."
 
-#: includes/class/class.LSsession.php:2352
+#: includes/class/class.LSsession.php:2416
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
@@ -1278,13 +1278,13 @@ msgstr ""
 "LSsession : Erreur durant la création de la liste des niveaux. Contacter les "
 "administrateurs. (Code : %{type})"
 
-#: includes/class/class.LSsession.php:2355
+#: includes/class/class.LSsession.php:2419
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 "LSsession : La récupération de mot de passe est désactivée pour ce serveur "
 "LDAP."
 
-#: includes/class/class.LSsession.php:2358
+#: includes/class/class.LSsession.php:2422
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
@@ -1292,7 +1292,7 @@ msgstr ""
 "LSsession : Des informations sont manques pour pouvoir récupérer votre mot "
 "de passe. Contacter les administrateurs."
 
-#: includes/class/class.LSsession.php:2361
+#: includes/class/class.LSsession.php:2425
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
@@ -1300,15 +1300,20 @@ msgstr ""
 "LSsession : Erreur durant la récupération de votre mot de passe. Contacter "
 "les administrateurs. (Etape : %{step})"
 
-#: includes/class/class.LSsession.php:2364
+#: includes/class/class.LSsession.php:2428
 msgid ""
 "LSsession : call function %{func} do not provided from LSaddon %{addon}."
 msgstr ""
 "LSsession : la fonction %{func} n'est pas fournie par le LSaddon %{addon}."
 
-#: includes/class/class.LSsession.php:2367
+#: includes/class/class.LSsession.php:2431
 msgid "LSsession : problem during initialisation."
 msgstr "LSsession : Problème durant l'initialisation."
+
+#: includes/class/class.LSsession.php:2434
+msgid "LSsession : view function %{func} for LSaddon %{addon} doet not exist."
+msgstr ""
+"LSsession : la fonction de vue %{func} du LSaddon %{addon} n'existe pas."
 
 #: includes/class/class.LSformElement_select_object.php:70
 msgid "Move up"
