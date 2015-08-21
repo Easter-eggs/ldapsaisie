@@ -2,6 +2,9 @@
 
 $GLOBALS['LSlang'] = array (
 
+"%{value} (unrecognized value)" =>
+  "%{value} (valeur non-reconnue)",
+
 "== All ==" =>
   "== Toutes ==",
 
@@ -34,6 +37,9 @@ $GLOBALS['LSlang'] = array (
 
 "E-mail address" =>
   "Adresse e-mail",
+
+"Entity %{id} (unrecognized)" =>
+  "Entité %{id} (non-reconnue)",
 
 "Errors" =>
   "Erreurs",
@@ -139,6 +145,9 @@ $GLOBALS['LSlang'] = array (
 
 "Password recovery hash" =>
   "Hash de récupération de mot de passe",
+
+"PhpLdapAdmin Support : The constant %{const} is not defined." =>
+  "Support PhpLdapAdmin : La constante %{const} n'est pas définie.",
 
 "Picture" =>
   "Image",
