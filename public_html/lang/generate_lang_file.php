@@ -256,7 +256,7 @@ find_and_parse_template_file(LS_LOCAL_DIR.LS_TEMPLATES_DIR);
 function parse_addon_file($file) {
   foreach(file($file) as $line) {
     $offset=0;
-    while ($pos = strpos($line,'_(',$offset)) {
+    while ($pos = strpos($line,'__(',$offset)) {
       $quote='';
       $res='';
       for ($i=$pos+2;$i<strlen($line);$i++) {
