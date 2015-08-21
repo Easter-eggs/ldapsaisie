@@ -450,7 +450,7 @@ class LSsession {
   *
   * @retval boolean True si l'initialisation à réussi, false sinon.
   */
-  public static function initialize($lang=false,$encoding=false) {
+  public static function initialize($lang=null,$encoding=null) {
     try {
       if (!self :: startLSconfig()) {
         return;
