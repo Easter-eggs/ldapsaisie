@@ -123,7 +123,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval array Merged array
    **/
-  private function _array_merge() {
+  protected function _array_merge() {
     $ret=array();
     foreach(func_get_args() as $a) {
       foreach($a as $k => $v) {
@@ -140,7 +140,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval void
    **/
-  private function _sort(&$retInfos) {
+  protected function _sort(&$retInfos) {
     if (!isset($this -> config['html_options']['sort']) || $this -> config['html_options']['sort']) {
       uasort($retInfos,array($this,'_sortTwoValues'));
     }
@@ -154,7 +154,7 @@ class LSattr_html_select_list extends LSattr_html{
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */
-  private function getLSobjectPossibleValues($conf) {
+  protected function getLSobjectPossibleValues($conf) {
     $retInfos = array();
 
     if ((!isset($conf['object_type'])) || (!isset($conf['value_attribute']))) {
@@ -205,7 +205,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval int Value for uasort
    **/
-  private function _sortTwoValues(&$va,&$vb) {
+  protected function _sortTwoValues(&$va,&$vb) {
     if (isset($this -> config['html_options']['sortDirection']) && $this -> config['html_options']['sortDirection']=='DESC') {
       $dir=-1;
     }
