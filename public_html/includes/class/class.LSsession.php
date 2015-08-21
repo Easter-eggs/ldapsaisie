@@ -2413,18 +2413,16 @@ class LSsession {
     }
   }
 
-	/**
-	 * Set globals from the ldap server
-	 *
-	 * @retval void
-	 */
-	public static function setGlobals() {
-		if ( isset(self :: $ldapServer['globals'])) {
-			foreach(self :: $ldapServer['globals'] as $key => $value) {
-				$GLOBALS[$key] = $value;
-			}
-		}
-	}
-}
+  /**
+   * Set globals from the ldap server
+   *
+   * @retval void
+   */
+  public static function setGlobals() {
+    if ( isset(self :: $ldapServer['globals'])) {
+      foreach(self :: $ldapServer['globals'] as $key => $value) {
+        $GLOBALS[$key] = $value;
+      }
+    }
+  }
 
-?>
