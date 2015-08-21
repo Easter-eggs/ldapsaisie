@@ -259,22 +259,28 @@ function parse_addon_file($file) {
     while ($pos = strpos($line,'__(',$offset)) {
       $quote='';
       $res='';
-      for ($i=$pos+2;$i<strlen($line);$i++) {
-        if ($line[$i]=='\\') {
-          $i++;
+      for ($i=$pos+3;$i<strlen($line);$i++) {
+        if (empty($quote)) {
+          if ($line[$i]=='\\') {
+            $i++;
+          }
+          elseif ($line[$i]=='"' || $line[$i]=="'") {
+            $quote=$line[$i];
+          }
         }
-        elseif (empty($quote) && ($line[$i]==' ' || $line[$i]=="\t"))  {
-          continue;
-        }
-        elseif (empty($quote) && ($line[$i]=='"' || $line[$i]=="'"))  {
-          $quote=$line[$i];
-        }
-        elseif (!empty($quote) && $line[$i]==$quote) {
-          $offset=$i;
-          break;
-        }
-        else {
-          $res.=$line[$i];
+        elseif (!empty($quote)) {
+          if ($line[$i]=='\\') {
+            $res.=$line[$i];
+            $i++;
+            $res.=$line[$i];
+          }
+          elseif ($line[$i]==$quote) {
+            $offset=$i;
+            break;
+          }
+          else {
+            $res.=$line[$i];
+          }
         }
       }
       if (!empty($res)) add($res);
