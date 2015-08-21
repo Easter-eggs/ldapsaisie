@@ -207,6 +207,16 @@ class LSsearchEntry {
         $this -> registerOtherValue('val',$ret);
         $ret=$this -> getFData($this->LSsearch->extraDisplayedColumns[$key]['formaterLSformat']);
       }
+      if (!empty($ret) && isset($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'])) {
+        if (is_callable($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'])) {
+          $ret=call_user_func($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'],$ret);
+        }
+        else {
+          $func=$this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'];
+          if(is_array($func)) $func=print_r($func,1);
+          LSerror::addErrorCode('LSsearchEntry_01',array('func' => $func, 'column' => $key));
+        }
+      }
       $this -> cache[$key] = $ret;
       return $ret;
     }
@@ -233,4 +243,9 @@ class LSsearchEntry {
 
 }
 
-?>
+/**
+ * Error Codes
+ **/
+LSerror :: defineError('LSsearchEntry_01',
+_("LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns %{column}.")
+);

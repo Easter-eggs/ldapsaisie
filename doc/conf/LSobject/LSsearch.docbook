@@ -52,6 +52,7 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
         '[LSformat 2]'
       ),
       'formaterLSformat' => '[LSformat]',
+      'formaterFunction' => '[fonction de formatage]',
       'cssStyle' => '[CSS style]',
     )
   ),
@@ -280,6 +281,16 @@ contexte dans lequel cette recherche est effectuée.</para>
           valeur à afficher, puis de la mettre en forme grâce à ce &LSformat;. Ce format est
           composé à partir des attributs des objets LDAP dans leur format brut et de la valeur
           retournés précedement accessible via la variable <literal>val</literal>.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>formaterFunction</term>
+        <listitem>
+          <simpara>Le nom d'une fonction optionnelle à exécuter pour mettre en forme le résultat
+          obtenu des &LSformats; précédents. Cette fonction ne sera appelée que si le résultat
+          obtenu précédement n'est pas vide. La fonction prendra en paramètre la valeur à mettre
+          en forme et retournera la valeur mise en forme.</simpara>
         </listitem>
       </varlistentry>
 
