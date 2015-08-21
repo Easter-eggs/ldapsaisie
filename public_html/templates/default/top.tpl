@@ -33,6 +33,9 @@
       {foreach from=$LSaccess item=label key=LSobject_type}
         <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{tr msg=$label}</a></li>
       {/foreach}
+      {foreach from=$LSaddonsViewsAccess item=access}
+        <li class='menu'><a href='addon_view.php?LSaddon={$access.LSaddon}&view={$access.id}' class='menu'>{tr msg=$access.label}</a></li>
+      {/foreach}
       </ul>
     </td>
     <td id='status'>

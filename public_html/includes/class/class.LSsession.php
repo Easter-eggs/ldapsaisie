@@ -49,6 +49,10 @@ class LSsession {
   
   // Les droits d'accès de l'utilisateur
   private static $LSaccess = array();
+
+  // LSaddons views
+  private static $LSaddonsViews = array();
+  private static $LSaddonsViewsAccess = array();
   
   // Les fichiers temporaires
   private static $tmp_file = array();
@@ -506,6 +510,7 @@ class LSsession {
         }
         self :: $LSprofiles   = $_SESSION['LSsession']['LSprofiles'];
         self :: $LSaccess   = $_SESSION['LSsession']['LSaccess'];
+        self :: $LSaddonsViewsAccess   = $_SESSION['LSsession']['LSaddonsViewsAccess'];
         if (!self :: LSldapConnect())
           return;
       }
@@ -545,6 +550,7 @@ class LSsession {
       if ( !self :: cacheLSprofiles() || isset($_REQUEST['LSsession_refresh']) ) {
         self :: loadLSprofiles();
         self :: loadLSaccess();
+        self :: loadLSaddonsViewsAccess();
         $_SESSION['LSsession']=self :: getContextInfos();
       }
       
@@ -617,6 +623,7 @@ class LSsession {
             }
             self :: loadLSprofiles();
             self :: loadLSaccess();
+            self :: loadLSaddonsViewsAccess();
             LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
             $_SESSION['LSsession']=self :: getContextInfos();
             return true;
@@ -886,7 +893,8 @@ class LSsession {
       'ldapServerId' => self :: $ldapServerId,
       'ldapServer' => self :: $ldapServer,
       'LSprofiles' => self :: $LSprofiles,
-      'LSaccess' => self :: $LSaccess
+      'LSaccess' => self :: $LSaccess,
+      'LSaddonsViewsAccess' => self :: $LSaddonsViewsAccess
     );
   }
   
@@ -946,6 +954,7 @@ class LSsession {
     
     if(self :: loadLSprofiles()) {
       self :: loadLSaccess();
+      self :: loadLSaddonsViewsAccess();
       $_SESSION['LSsession']=self :: getContextInfos();
       return true;
     }
@@ -1379,6 +1388,7 @@ class LSsession {
     if (isset(self :: $LSaccess[self :: $topDn])) {
       LStemplate :: assign('LSaccess',self :: $LSaccess[self :: $topDn]);
     }
+    LStemplate :: assign('LSaddonsViewsAccess',self :: $LSaddonsViewsAccess);
     
     // Niveau
     $listTopDn = self :: getSubDnLdapServer();
@@ -1758,7 +1768,30 @@ class LSsession {
     self :: $LSaccess = $LSaccess;
     $_SESSION['LSsession']['LSaccess'] = $LSaccess;
   }
-  
+
+  /**
+   * Load user access to LSaddons views
+   *
+   * @retval void
+   */
+  private static function loadLSaddonsViewsAccess() {
+    $LSaddonsViewsAccess=array();
+    foreach (self :: $LSaddonsViews as $addon => $conf) {
+      foreach ($conf as $viewId => $viewConf) {
+        if (self :: canAccessLSaddonView($addon,$viewId)) {
+          $LSaddonsViewsAccess[]=array (
+            'LSaddon' => $addon,
+            'id' => $viewId,
+            'label' => $viewConf['label']
+          );
+        }
+      }
+    }
+    self :: $LSaddonsViewsAccess = $LSaddonsViewsAccess;
+    $_SESSION['LSsession']['LSaddonsViewsAccess'] = $LSaddonsViewsAccess;
+  }
+
+
   /**
    * Dit si l'utilisateur est du profil pour le DN spécifié
    *
@@ -2052,6 +2085,35 @@ class LSsession {
 
     return;
   }
+
+  /**
+   * Return user right to access to a LSaddon view
+   *
+   * @param[in] string $LSaddon The LSaddon
+   * @param[in] string $viewId The LSaddon view ID
+   *
+   * @retval boolean True if user is allowed, false otherwise
+   */
+  public static function canAccessLSaddonView($LSaddon,$viewId) {
+    if (self :: loadLSaddon($LSaddon)) {
+      if (!isset(self :: $LSaddonsViews[$LSaddon]) || !isset(self :: $LSaddonsViews[$LSaddon][$viewId]))
+      return;
+      if (!is_array(self :: $LSaddonsViews[$LSaddon][$viewId]['allowedLSprofiles'])) {
+        return true;
+      }
+      $whoami = self :: whoami(self :: $topDn);
+
+      if (isset(self :: $LSaddonsViews[$LSaddon][$viewId]['allowedLSprofiles']) && is_array(self :: $LSaddonsViews[$LSaddon][$viewId]['allowedLSprofiles'])) {
+        foreach($whoami as $who) {
+          if (in_array($who,self :: $LSaddonsViews[$LSaddon][$viewId]['allowedLSprofiles'])) {
+            return True;
+          }
+        }
+      }
+    }
+    return;
+  }
+
 
   /**
    * Ajoute un fichier temporaire
@@ -2368,6 +2430,9 @@ class LSsession {
     LSerror :: defineError('LSsession_22',
     _("LSsession : problem during initialisation.")
     );
+    LSerror :: defineError('LSsession_23',
+    _("LSsession : view function %{func} for LSaddon %{addon} doet not exist.")
+    );
   }
 
   /**
@@ -2426,3 +2491,51 @@ class LSsession {
     }
   }
 
+  /**
+   * Register a LSaddon view
+   *
+   * @param[in] $LSaddon string The LSaddon
+   * @param[in] $viewId string The view ID
+   * @param[in] $label string The view's label
+   * @param[in] $viewFunction string The view's function name
+   * @param[in] $allowedLSprofiles array|null Array listing allowed profiles.
+   *                                          If null, no access control will
+   *                                          be done for this view.
+   * @retval bool True is the view have been registred, false otherwise
+   **/
+  public static function registerLSaddonView($LSaddon,$viewId,$label,$viewFunction,$allowedLSprofiles=null) {
+    if (function_exists($viewFunction)) {
+      $func = new ReflectionFunction($viewFunction);
+      if (basename($func->getFileName())=="LSaddons.$LSaddon.php") {
+        self :: $LSaddonsViews[$LSaddon][$viewId]=array (
+          'LSaddon' => $LSaddon,
+          'label' => $label,
+          'function' => $viewFunction,
+          'allowedLSprofiles' => $allowedLSprofiles
+        );
+        return True;
+      }
+      else {
+        LSerror :: addErrorCode('LSsession_21',array('func' => $func -> getName(),'addon' => $addon));
+      }
+    }
+    else {
+      LSerror :: addErrorCode('LSsession_23',array('func' => $viewFunction,'addon' => $LSaddon));
+    }
+    return False;
+  }
+
+  /**
+   * Show LSaddon view
+   *
+   * @param[in] $LSaddon string The LSaddon
+   * @param[in] $viewId string The view ID
+   *
+   * @retval void
+   **/
+  public static function showLSaddonView($LSaddon,$viewId) {
+    if (self :: canAccessLSaddonView($LSaddon,$viewId)) {
+      call_user_func(self :: $LSaddonsViews[$LSaddon][$viewId]['function']);
+    }
+  }
+}
