@@ -1,0 +1,10 @@
+<sect4 id="config-LSattr_html_tel">
+  <title>LSattr_html_tel</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  un numéro de téléphone. Lors de l'affichage, un lien hypertexte avec une URI
+  de type <literal>tel:~~</literal> est affiché.</para>
+  <important><simpara>Ce type d'attribut HTML est dérivé du type 
+  <link linkend='config-LSattr_html_text'>text</link>. Il profite donc de toutes
+  les fonctionnalités d'un champ de ce type (autogénération, ...).</simpara>
+  </important>
+</sect4>

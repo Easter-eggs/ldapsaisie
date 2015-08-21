@@ -15,6 +15,7 @@
   &conf-LSattr_html_select_list;
   &conf-LSattr_html_select_object;
   &conf-LSattr_html_ssh_key;
+  &conf-LSattr_html_tel;
   &conf-LSattr_html_text;
   &conf-LSattr_html_textarea;
   &conf-LSattr_html_valueWithUnit;

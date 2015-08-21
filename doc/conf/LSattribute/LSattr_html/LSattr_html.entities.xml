@@ -11,6 +11,7 @@
 <!ENTITY conf-LSattr_html_select_list SYSTEM "LSattr_html_select_list.docbook">
 <!ENTITY conf-LSattr_html_select_object SYSTEM "LSattr_html_select_object.docbook">
 <!ENTITY conf-LSattr_html_ssh_key SYSTEM "LSattr_html_ssh_key.docbook">
+<!ENTITY conf-LSattr_html_tel SYSTEM "LSattr_html_tel.docbook">
 <!ENTITY conf-LSattr_html_text SYSTEM "LSattr_html_text.docbook">
 <!ENTITY conf-LSattr_html_textarea SYSTEM "LSattr_html_textarea.docbook">
 <!ENTITY conf-LSattr_html_url SYSTEM "LSattr_html_url.docbook">
