@@ -323,31 +323,35 @@ class LSsession {
   * 
   * @retval void
   */
-  public static function setLocale() {
-    if (isset($_REQUEST['lang'])) {
-      $lang = $_REQUEST['lang'];
-    }
-    elseif (isset($_SESSION['LSlang'])) {
-      $lang = $_SESSION['LSlang'];
-    }
-    elseif (isset(self :: $ldapServer['lang'])) {
-      $lang = self :: $ldapServer['lang'];
-    }
-    else {
-      $lang = LSconfig :: get('lang');
+  public static function setLocale($lang=null,$encoding=null) {
+    if (is_null($lang)) {
+      if (isset($_REQUEST['lang'])) {
+        $lang = $_REQUEST['lang'];
+      }
+      elseif (isset($_SESSION['LSlang'])) {
+        $lang = $_SESSION['LSlang'];
+      }
+      elseif (isset(self :: $ldapServer['lang'])) {
+        $lang = self :: $ldapServer['lang'];
+      }
+      else {
+        $lang = LSconfig :: get('lang');
+      }
     }
     
-    if (isset($_REQUEST['encoding'])) {
-      $encoding = $_REQUEST['encoding'];
-    }
-    elseif (isset($_SESSION['LSencoding'])) {
-      $encoding = $_SESSION['LSencoding'];
-    }
-    elseif (isset(self :: $ldapServer['encoding'])) {
-      $encoding = self :: $ldapServer['encoding'];
-    }
-    else {
-      $encoding = LSconfig :: get('encoding');
+    if (is_null($enconding)) {
+      if (isset($_REQUEST['encoding'])) {
+        $encoding = $_REQUEST['encoding'];
+      }
+      elseif (isset($_SESSION['LSencoding'])) {
+        $encoding = $_SESSION['LSencoding'];
+      }
+      elseif (isset(self :: $ldapServer['encoding'])) {
+        $encoding = self :: $ldapServer['encoding'];
+      }
+      else {
+        $encoding = LSconfig :: get('encoding');
+      }
     }
     
     $_SESSION['LSlang']=$lang;
@@ -441,9 +445,12 @@ class LSsession {
  /**
   * Initialisation LdapSaisie
   *
+  * @param[in] $lang string La langue (Ex : fr_FR / Optionnel)
+  * @param[in] $encoding string L'encodage de caractère (Ex : UTF8 / Optionnel)
+  *
   * @retval boolean True si l'initialisation à réussi, false sinon.
   */
-  public static function initialize() {
+  public static function initialize($lang=false,$encoding=false) {
     try {
       if (!self :: startLSconfig()) {
         return;
@@ -454,7 +461,7 @@ class LSsession {
 
       session_start();
 
-      self :: setLocale();
+      self :: setLocale($lang,$encoding);
 
       self :: loadLSaddons();
       self :: loadLSauth();
