@@ -227,6 +227,55 @@ function find_and_parse_template_file($dir) {
 find_and_parse_template_file(LS_TEMPLATES_DIR);
 find_and_parse_template_file(LS_LOCAL_DIR.LS_TEMPLATES_DIR);
 
+/*
+ * Manage addons files
+ */
+
+function parse_addon_file($file) {
+  foreach(file($file) as $line) {
+    $offset=0;
+    while ($pos = strpos($line,'_(',$offset)) {
+      $quote='';
+      $res='';
+      for ($i=$pos+2;$i<strlen($line);$i++) {
+        if ($line[$i]=='\\') {
+          $i++;
+        }
+        elseif (empty($quote) && ($line[$i]==' ' || $line[$i]=="\t"))  {
+          continue;
+        }
+        elseif (empty($quote) && ($line[$i]=='"' || $line[$i]=="'"))  {
+          $quote=$line[$i];
+        }
+        elseif (!empty($quote) && $line[$i]==$quote) {
+          $offset=$i;
+          break;
+        }
+        else {
+          $res.=$line[$i];
+        }
+      }
+      if (!empty($res)) add($res);
+    }
+  }
+}
+
+function find_and_parse_addon_file($dir) {
+  if (is_dir($dir)) {
+    if ($dh = opendir($dir)) {
+      while (($file = readdir($dh)) !== false) {
+        if (preg_match('/^LSaddons\.(.+)\.php$/',$file)) {
+          parse_addon_file($dir.'/'.$file);
+        }
+      }
+      closedir($dh);
+    }
+  }
+}
+
+find_and_parse_addon_file(LS_ADDONS_DIR);
+find_and_parse_addon_file(LS_LOCAL_DIR.LS_ADDONS_DIR);
+
 
 ksort($data);
 
