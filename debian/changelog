@@ -1,3 +1,23 @@
+ldapsaisie (1.3-1) unstable; urgency=low
+
+ * LSaddon : Permit LSaddon to provide ajax function
+ * LSaddon : Permit LSaddon to provide a custom view
+ * LSsession : improve refresh
+ * LSsearch : add formaterFunction parameter for extraDisplayedColumns
+ * Translation :
+   + Improve generate_lang_file.php script :
+     + Initialize LSsession before parsing for messages permiting to
+       resolv some case of complex configurations
+     + Make it callable from anywhere
+     + Automatically imports existing langs files
+     + Add parsing of LSaddons
+    + Update french translation fixing some missing strings
+ * Automatically imports existing langs files
+ * Doc : Fix compatibility with old version of Docbook DTD
+ * Interface : Fix CSS vertical alignment of #status
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Fri, 21 Aug 2015 18:06:09 +0200
+
 ldapsaisie (1.2-1) unstable; urgency=low
 
  * Translation : manage message strings in templates files
