@@ -543,7 +543,9 @@ class LSsession {
       }
       
       if ( !self :: cacheLSprofiles() || isset($_REQUEST['LSsession_refresh']) ) {
+        self :: loadLSprofiles();
         self :: loadLSaccess();
+        $_SESSION['LSsession']=self :: getContextInfos();
       }
       
       LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
