@@ -23,8 +23,12 @@
 
 error_reporting(E_ERROR);
 
-require_once('../core.php');
-require_once('../conf/config.inc.php');
+// Change directory
+$curdir=getcwd();
+chdir(dirname(__FILE__).'/../');
+
+require_once('core.php');
+require_once('conf/config.inc.php');
 
 $withoutselectlist=False;
 $copyoriginalvalue=False;
@@ -32,8 +36,8 @@ $additionalfileformat=False;
 $translations=array();
 if ($argc > 1) {
   for ($i=1;$i<$argc;$i++) {
-    if (is_file($argv[$i])) {
-      @include($argv[$i]);
+    if (is_file($curdir.'/'.$argv[$i])) {
+      @include($curdir.'/'.$argv[$i]);
       foreach($GLOBALS['LSlang'] as $msg => $trans) {
         $translations[$msg]=$trans;
       }
@@ -65,9 +69,6 @@ function add($msg) {
     $data[$msg]=$translations[$msg];
   }
 }
-
-// Change directory
-chdir('../');
 
 // Initialize session
 LSsession :: initialize();
