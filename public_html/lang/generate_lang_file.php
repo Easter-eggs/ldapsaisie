@@ -33,6 +33,8 @@ require_once('conf/config.inc.php');
 $withoutselectlist=False;
 $copyoriginalvalue=False;
 $additionalfileformat=False;
+$lang=False;
+$encoding=False;
 $translations=array();
 if ($argc > 1) {
   for ($i=1;$i<$argc;$i++) {
@@ -51,11 +53,23 @@ if ($argc > 1) {
     elseif($argv[$i]=='--additional-file-format') {
       $additionalfileformat=True;
     }
+    elseif($argv[$i]=='--lang') {
+      $i++;
+      $parse_lang=explode('.',$argv[$i]);
+      if (count($parse_lang)==2) {
+        $lang=$parse_lang[0];
+        $encoding=$parse_lang[1];
+      }
+      else {
+        die("Invalid --lang parameter. Must be compose in format : [lang].[encoding]\n");
+      }
+    }
     elseif($argv[$i]=='-h') {
       echo "Usage : ".$argv[0]." [file1] [file2] [-h] [options]\n";
       echo "  --without-select-list    Don't add possibles values of select list\n";
       echo "  --copy-original-value    Copy original value as translated value when no translated value exists\n";
       echo "  --additional-file-format Additional file format output\n";
+      echo "  --lang                   Load this specify lang (format : [lang].[encoding])\n";
       exit(0);
     }
   }
@@ -71,7 +85,14 @@ function add($msg) {
 }
 
 // Initialize session
-LSsession :: initialize();
+LSsession :: initialize($lang,$encoding);
+
+// Load lang string if lang was specify
+if ($lang && $encoding) {
+  foreach($GLOBALS['LSlang'] as $msg => $trans) {
+    $translations[$msg]=$trans;
+  }
+}
 
 // LDAP Servers
 foreach($GLOBALS['LSconfig']['ldap_servers'] as $conf) {
