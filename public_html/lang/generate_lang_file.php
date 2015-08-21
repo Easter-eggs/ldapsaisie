@@ -37,9 +37,11 @@ $lang=False;
 $encoding=False;
 $translations=array();
 if ($argc > 1) {
+  // Change dir again to manage file input
+  chdir($curdir);
   for ($i=1;$i<$argc;$i++) {
-    if (is_file($curdir.'/'.$argv[$i])) {
-      @include($curdir.'/'.$argv[$i]);
+    if (is_file($argv[$i])) {
+      @include($argv[$i]);
       foreach($GLOBALS['LSlang'] as $msg => $trans) {
         $translations[$msg]=$trans;
       }
@@ -73,6 +75,7 @@ if ($argc > 1) {
       exit(0);
     }
   }
+  chdir(dirname(__FILE__).'/../');
 }
 
 $data=array();
