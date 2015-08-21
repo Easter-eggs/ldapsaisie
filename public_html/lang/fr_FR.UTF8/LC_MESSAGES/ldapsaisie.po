@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-30 16:43+0200\n"
-"PO-Revision-Date: 2015-07-30 16:45+0100\n"
+"POT-Creation-Date: 2015-08-21 15:07+0200\n"
+"PO-Revision-Date: 2015-08-21 15:09+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -229,7 +229,7 @@ msgid "View on map"
 msgstr "Voir sur une carte"
 
 #: includes/class/class.LSform.php:68 includes/class/class.LSsmoothbox.php:39
-#: includes/class/class.LSsession.php:1223
+#: includes/class/class.LSsession.php:1230
 #: includes/class/class.LSconfirmBox.php:37 custom_action.php:83 remove.php:51
 #: custom_search_action.php:73
 msgid "Validate"
@@ -265,7 +265,7 @@ msgid "Caution"
 msgstr "Attention"
 
 #: includes/class/class.LSform.php:218 includes/class/class.LSrelation.php:40
-#: includes/class/class.LSsearchEntry.php:161
+#: includes/class/class.LSsearchEntry.php:179
 #: includes/class/class.LSformElement_select_object.php:69
 #: includes/class/class.LSformElement_select_object.php:85 modify.php:111
 #: view.php:59
@@ -442,7 +442,7 @@ msgstr "Aucun objet."
 
 #: includes/class/class.LSrelation.php:82
 #: includes/class/class.LSformElement_supannLabeledValue.php:62
-#: includes/class/class.LSsearchEntry.php:145
+#: includes/class/class.LSsearchEntry.php:163
 #: includes/class/class.LSformElement_supannCompositeAttribute.php:106
 #: includes/class/class.LSformElement_select_object.php:68 modify.php:54
 #: view.php:43
@@ -701,13 +701,21 @@ msgstr ""
 msgid "LStemplate : Template %{file} not found."
 msgstr "LStemplate : le template %{file} est introuvable."
 
-#: includes/class/class.LSsearchEntry.php:137 modify.php:104
+#: includes/class/class.LSsearchEntry.php:155 modify.php:104
 msgid "View"
 msgstr "Voir"
 
-#: includes/class/class.LSsearchEntry.php:153 view.php:51
+#: includes/class/class.LSsearchEntry.php:171 view.php:51
 msgid "Copy"
 msgstr "Copier"
+
+#: includes/class/class.LSsearchEntry.php:250
+msgid ""
+"LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns "
+"%{column}."
+msgstr ""
+"LSsearchEntry : formaterFunction %{func} invalide utilisé pour "
+"l'extraDisplayedColumns %{column}."
 
 #: includes/class/class.LSformElement.php:194
 msgid "Attribute"
@@ -760,38 +768,38 @@ msgstr ""
 "LSattr_html_%{type} : Les données multiples ne sont pas supportées pour ce "
 "type de champ."
 
-#: includes/class/class.LSsearch.php:1031
+#: includes/class/class.LSsearch.php:1037
 msgid "Actions"
 msgstr "Actions"
 
-#: includes/class/class.LSsearch.php:1034
+#: includes/class/class.LSsearch.php:1040
 msgid "This search didn't get any result."
 msgstr "Cette recherche n'a retournée aucun résultat"
 
-#: includes/class/class.LSsearch.php:1274
+#: includes/class/class.LSsearch.php:1280
 msgid "LSsearch : Invalid filter : %{filter}."
 msgstr "LSsearch : Filtre invalide : %{filter}."
 
-#: includes/class/class.LSsearch.php:1277
+#: includes/class/class.LSsearch.php:1283
 msgid "LSsearch : Invalid basedn : %{basedn}."
 msgstr "LSsearch : Base DN invalide."
 
-#: includes/class/class.LSsearch.php:1280
+#: includes/class/class.LSsearch.php:1286
 msgid "LSsearch : Invalid value for %{param} parameter."
 msgstr "LSsearch : La valeur du paramètre %{param} est incorrecte."
 
-#: includes/class/class.LSsearch.php:1283
+#: includes/class/class.LSsearch.php:1289
 msgid ""
 "LSsearch : Invalid size limit. Must be an integer greater or equal to 0."
 msgstr ""
 "LSsearch : Limite de taille de recherche invalide. Elle doit être un entier "
 "supérieur ou égal à 0."
 
-#: includes/class/class.LSsearch.php:1286
+#: includes/class/class.LSsearch.php:1292
 msgid "LSsearch : Invalid parameter %{attr}. Must be an boolean."
 msgstr "LSsearch : Paramètre %{param} invalide. Il doit être un booléen."
 
-#: includes/class/class.LSsearch.php:1289
+#: includes/class/class.LSsearch.php:1295
 msgid ""
 "LSsearch : Invalid parameter attributes. Must be an string or an array of "
 "strings."
@@ -799,13 +807,13 @@ msgstr ""
 "LSsearch : Paramètre 'attributes' invalide. Il doit être une chaîne de "
 "caractères ou un tableau de chaînes de caractères."
 
-#: includes/class/class.LSsearch.php:1292
+#: includes/class/class.LSsearch.php:1298
 msgid "LSsearch : Can't build attributes list for make filter."
 msgstr ""
 "LSsearch : Impossible de construire la liste des attributs pour faire le "
 "filtre."
 
-#: includes/class/class.LSsearch.php:1295
+#: includes/class/class.LSsearch.php:1301
 msgid ""
 "LSsearch : Error building filter with attribute '%{attr}' and pattern "
 "'%{pattern}'"
@@ -813,34 +821,34 @@ msgstr ""
 "LSsearch : Problème en construisant le filtre avec l'attribut '%{attr}' et "
 "le mot clé '%{pattern}'"
 
-#: includes/class/class.LSsearch.php:1298
+#: includes/class/class.LSsearch.php:1304
 msgid "LSsearch : Error combining filters."
 msgstr "LSsearch : Problème en combinant les filtres."
 
-#: includes/class/class.LSsearch.php:1301
+#: includes/class/class.LSsearch.php:1307
 msgid "LSsearch : Invalid pattern."
 msgstr "LSsearch : Mot clé invalide."
 
-#: includes/class/class.LSsearch.php:1304
+#: includes/class/class.LSsearch.php:1310
 msgid "LSsearch : Invalid attribute %{attr} in parameters."
 msgstr "LSsearch : Attribut %{attr} incorrect dans les paramètres."
 
-#: includes/class/class.LSsearch.php:1307
+#: includes/class/class.LSsearch.php:1313
 msgid "LSsearch : Error during the search."
 msgstr "LSsearch : Erreur pendant la recherche."
 
-#: includes/class/class.LSsearch.php:1310
+#: includes/class/class.LSsearch.php:1316
 msgid "LSsearch : Error sorting the search."
 msgstr "LSsearch : Erreur pendant le trie de la recherche."
 
-#: includes/class/class.LSsearch.php:1313
+#: includes/class/class.LSsearch.php:1319
 msgid ""
 "LSsearch : The function of the custum information %{name} is not callable."
 msgstr ""
 "LSsearch : La fonction de l'information personnalisée %{name} n'est pas "
 "exécutable."
 
-#: includes/class/class.LSsearch.php:1316
+#: includes/class/class.LSsearch.php:1322
 msgid ""
 "LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} "
 "(filter : %{filter})."
@@ -848,7 +856,7 @@ msgstr ""
 "LSsearch : PredefinedFilter invalide pour le type d'LSobject %{type} : "
 "%{label} (filtre : %{filter})."
 
-#: includes/class/class.LSsearch.php:1319
+#: includes/class/class.LSsearch.php:1325
 msgid "LSsearch : Error during execution of the custom action %{customAction}."
 msgstr ""
 "LSldapObject : Erreur durant l'exécution de l'action personnalisée "
@@ -862,21 +870,21 @@ msgstr "Envoyer un mail depuis l'interface."
 msgid "The attribute %{attr} is not valid."
 msgstr "L'attribut %{attr} n'est pas valide."
 
-#: includes/class/class.LSldapObject.php:1874
+#: includes/class/class.LSldapObject.php:1885
 msgid "LSldapObject : Object type unknown."
 msgstr "LSldapObject : Type d'objet inconnu."
 
-#: includes/class/class.LSldapObject.php:1877
+#: includes/class/class.LSldapObject.php:1888
 msgid "LSldapObject : Update form is not defined for the object %{obj}."
 msgstr ""
 "LSldapObject : Le formulaire de mise à jour n'est pas défini pour l'objet "
 "%{obj}."
 
-#: includes/class/class.LSldapObject.php:1880
+#: includes/class/class.LSldapObject.php:1891
 msgid "LSldapObject : No form exists for the object %{obj}."
 msgstr "LSldapObject : Aucun formulaire n'existe pour l'objet %{obj}"
 
-#: includes/class/class.LSldapObject.php:1883
+#: includes/class/class.LSldapObject.php:1894
 msgid ""
 "LSldapObject : The function %{func} to validate the attribute %{attr} the "
 "object %{obj} is unknow."
@@ -884,7 +892,7 @@ msgstr ""
 "LSldapObject : La fonction %{func} pour valider l'attribut %{attr} de "
 "l'objet %{obj} est inconnu."
 
-#: includes/class/class.LSldapObject.php:1886
+#: includes/class/class.LSldapObject.php:1897
 msgid ""
 "LSldapObject : Configuration data are missing to validate the attribute "
 "%{attr} of the object %{obj}."
@@ -892,7 +900,7 @@ msgstr ""
 "LSldapObject : Des données de configurations sont manquant pour pouvoir "
 "valider l'attribut %{attr} de l'objet %{obj}."
 
-#: includes/class/class.LSldapObject.php:1890
+#: includes/class/class.LSldapObject.php:1901
 msgid ""
 "LSldapObject : The function %{func} to be executed on the object event "
 "%{event} doesn't exist."
@@ -900,14 +908,14 @@ msgstr ""
 "LSldapObject : La fonction %{func} devant être exécutée lors de l'évènement "
 "%{event} de l'objet n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1893
+#: includes/class/class.LSldapObject.php:1904
 msgid ""
 "LSldapObject : The %{func} execution on the object event %{event} failed."
 msgstr ""
 "LSldapObject : L'exécution de la fonction %{func} lors de l'évènement "
 "%{event} de l'objet a échouée."
 
-#: includes/class/class.LSldapObject.php:1897
+#: includes/class/class.LSldapObject.php:1908
 msgid ""
 "LSldapObject : Class %{class}, which method %{meth} to be executed on the "
 "object event %{event}, doesn't exist."
@@ -915,7 +923,7 @@ msgstr ""
 "La classe %{class}, contenant la méthode %{meth} devant être exécutée lors "
 "de l'évènement %{event} de l'objet, n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1900
+#: includes/class/class.LSldapObject.php:1911
 msgid ""
 "LSldapObject : Method %{meth} within %{class} class to be executed on object "
 "event %{event}, doesn't exist."
@@ -923,7 +931,7 @@ msgstr ""
 "LSldapObject : La méthode %{meth} de la classe %{class} devant être exécutée "
 "lors de l'évènement %{event} de l'objet n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1903
+#: includes/class/class.LSldapObject.php:1914
 msgid ""
 "LSldapObject : Error during execute %{meth} method within %{class} class, to "
 "be executed on object event %{event}."
@@ -931,7 +939,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la méthode %{meth} de la classe "
 "%{class} devant être exécutée lors de l'évènement %{event} de l'objet."
 
-#: includes/class/class.LSldapObject.php:1907
+#: includes/class/class.LSldapObject.php:1918
 msgid ""
 "LSldapObject : Some configuration data of the object type %{obj} are missing "
 "to generate the DN of the new object."
@@ -939,7 +947,7 @@ msgstr ""
 "LSldapObject : Des informations de configuration du type d'objet %{obj} sont "
 "manquantes pour la génération du DN du nouvel objet."
 
-#: includes/class/class.LSldapObject.php:1910
+#: includes/class/class.LSldapObject.php:1921
 msgid ""
 "LSldapObject : The attibute %{attr} of the object is not yet defined. Can't "
 "generate DN."
@@ -947,11 +955,11 @@ msgstr ""
 "LSldapObjet : L'attribut %{attr} de l'objet n'est pas encore défini. "
 "Impossible de générer le DN."
 
-#: includes/class/class.LSldapObject.php:1913
+#: includes/class/class.LSldapObject.php:1924
 msgid "LSldapObject : Without DN, the object could not be changed."
 msgstr "LSldapObject : Sans DN, l'objet ne peut pas être modifié."
 
-#: includes/class/class.LSldapObject.php:1916
+#: includes/class/class.LSldapObject.php:1927
 msgid ""
 "LSldapObject : The attribute %{attr_depend} depending on the attribute "
 "%{attr} doesn't exist."
@@ -959,39 +967,39 @@ msgstr ""
 "LSldapObject : L'attritbut %{attr_depend} dépendant de l'attribut %{attr} "
 "n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1919
+#: includes/class/class.LSldapObject.php:1930
 msgid "LSldapObject : Error during deleting the object %{objectname}."
 msgstr "LSldapObject : Erreur durant la suppression de l'objet %{objectname}"
 
-#: includes/class/class.LSldapObject.php:1923
+#: includes/class/class.LSldapObject.php:1934
 msgid ""
 "LSldapObject : Error during actions to be executed before renaming the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée avant de "
 "renommer l'objet."
 
-#: includes/class/class.LSldapObject.php:1926
+#: includes/class/class.LSldapObject.php:1937
 msgid ""
 "LSldapObject : Error during actions to be executed after renaming the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée après avoir "
 "renommé l'objet."
 
-#: includes/class/class.LSldapObject.php:1930
+#: includes/class/class.LSldapObject.php:1941
 msgid ""
 "LSldapObject : Error during actions to be executed before deleting the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée avant de "
 "supprimer l'objet."
 
-#: includes/class/class.LSldapObject.php:1933
+#: includes/class/class.LSldapObject.php:1944
 msgid ""
 "LSldapObject : Error during actions to be executed after deleting the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée après avoir "
 "supprimé l'objet."
 
-#: includes/class/class.LSldapObject.php:1937
+#: includes/class/class.LSldapObject.php:1948
 msgid ""
 "LSldapObject : Error during the actions to be executed before creating the "
 "object."
@@ -999,7 +1007,7 @@ msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée avant de créer "
 "l'objet."
 
-#: includes/class/class.LSldapObject.php:1940
+#: includes/class/class.LSldapObject.php:1951
 msgid ""
 "LSldapObject : Error during the actions to be executed after creating the "
 "object. It was created anyway."
@@ -1007,7 +1015,7 @@ msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutées après la "
 "création de l'objet. Il a tout de même été créé."
 
-#: includes/class/class.LSldapObject.php:1944
+#: includes/class/class.LSldapObject.php:1955
 msgid ""
 "LSldapObject : The function %{func} to be executed before creating the "
 "object doesn't exist."
@@ -1015,7 +1023,7 @@ msgstr ""
 "LSldapObject : La fonction %{func} devant être exécutée avant la création de "
 "l'objet n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1947
+#: includes/class/class.LSldapObject.php:1958
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "deleting the object."
@@ -1023,7 +1031,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la fonction %{func} devant être "
 "exécutée après la suppression de l'objet."
 
-#: includes/class/class.LSldapObject.php:1950
+#: includes/class/class.LSldapObject.php:1961
 msgid ""
 "LSldapObject : The function %{func} to be executed after deleting the object "
 "doesn't exist."
@@ -1031,7 +1039,7 @@ msgstr ""
 "LSldapObject : La fonction %{func} devant être exécutée après la suppression "
 "de l'objet n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1953
+#: includes/class/class.LSldapObject.php:1964
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "creating the object."
@@ -1039,7 +1047,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la fonction %{func} devant être "
 "exécutée après la création de l'objet."
 
-#: includes/class/class.LSldapObject.php:1957
+#: includes/class/class.LSldapObject.php:1968
 msgid ""
 "LSldapObject : %{func} function, to be executed on object event %{event}, "
 "doesn't exist."
@@ -1047,7 +1055,7 @@ msgstr ""
 "LSldapObject : La fonction %{func}, devant être exécutée lors de l'évènement "
 "%{event} de l'objet, n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1960
+#: includes/class/class.LSldapObject.php:1971
 msgid ""
 "LSldapObject : Error during the execution of %{func} function on object "
 "event %{event}."
@@ -1055,7 +1063,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la fonction %{func} lors de "
 "l'évènement %{event} de l'objet."
 
-#: includes/class/class.LSldapObject.php:1964
+#: includes/class/class.LSldapObject.php:1975
 msgid ""
 "LSldapObject : %{meth} method, to be executed on object event %{event}, "
 "doesn't exist."
@@ -1063,7 +1071,7 @@ msgstr ""
 "LSldapObject : La méthode %{meth}, devant être exécutée lors de l'évènement "
 "%{event} de l'objet, n'existe pas."
 
-#: includes/class/class.LSldapObject.php:1967
+#: includes/class/class.LSldapObject.php:1978
 msgid ""
 "LSldapObject : Error during execution of %{meth} method on object event "
 "%{event}."
@@ -1071,13 +1079,13 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la méthode %{meth} lors de "
 "l'évènement %{event} de l'objet."
 
-#: includes/class/class.LSldapObject.php:1970
+#: includes/class/class.LSldapObject.php:1981
 msgid "LSldapObject : Error during generate LDAP filter for %{LSobject}."
 msgstr ""
 "LSldapObject : Erreur durant la génération du filtre LDAP de l'objet "
 "%{LSobject}."
 
-#: includes/class/class.LSldapObject.php:1974
+#: includes/class/class.LSldapObject.php:1985
 msgid ""
 "LSldapObject : Error during execution of the custom action %{customAction} "
 "on %{objectname}."
@@ -1085,7 +1093,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de l'action personnalisée "
 "%{customAction} sur l'objet %{objectname}."
 
-#: includes/class/class.LSldapObject.php:1979
+#: includes/class/class.LSldapObject.php:1990
 msgid ""
 "LSrelation : Some parameters are missing in the call of methods to handle "
 "standard relations (Method : %{meth})."
@@ -1113,78 +1121,78 @@ msgstr "Maintenant."
 msgid "Today."
 msgstr "Aujourd'hui."
 
-#: includes/class/class.LSsession.php:1163
+#: includes/class/class.LSsession.php:1170
 msgid "Connection"
 msgstr "Connexion"
 
-#: includes/class/class.LSsession.php:1173
-#: includes/class/class.LSsession.php:1212
+#: includes/class/class.LSsession.php:1180
+#: includes/class/class.LSsession.php:1219
 msgid "LDAP server"
 msgstr "Serveur LDAP"
 
-#: includes/class/class.LSsession.php:1183
-#: includes/class/class.LSsession.php:2169 select.php:70
+#: includes/class/class.LSsession.php:1190
+#: includes/class/class.LSsession.php:2176 select.php:70
 msgid "Level"
 msgstr "Niveau"
 
-#: includes/class/class.LSsession.php:1184
-#: includes/class/class.LSsession.php:1222
+#: includes/class/class.LSsession.php:1191
+#: includes/class/class.LSsession.php:1229
 msgid "Identifier"
 msgstr "Identifiant"
 
-#: includes/class/class.LSsession.php:1185
+#: includes/class/class.LSsession.php:1192
 msgid "Password"
 msgstr "Mot de passe"
 
-#: includes/class/class.LSsession.php:1186
+#: includes/class/class.LSsession.php:1193
 msgid "Connect"
 msgstr "Se connecter"
 
-#: includes/class/class.LSsession.php:1187
+#: includes/class/class.LSsession.php:1194
 msgid "Forgot your password ?"
 msgstr "Mot de passe perdu ?"
 
-#: includes/class/class.LSsession.php:1205
+#: includes/class/class.LSsession.php:1212
 msgid "Recovery of your credentials"
 msgstr "Récupération de votre mot de passe"
 
-#: includes/class/class.LSsession.php:1224
+#: includes/class/class.LSsession.php:1231
 msgid "Back"
 msgstr "Retour"
 
-#: includes/class/class.LSsession.php:1226
+#: includes/class/class.LSsession.php:1233
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr ""
 "Merci d'entrer votre identifiant pour poursuivre la procédure de récupération"
 
-#: includes/class/class.LSsession.php:1230
+#: includes/class/class.LSsession.php:1237
 msgid ""
 "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr ""
 "Un e-mail vient de vous être envoyé à l'adresse %{mail}. Merci de suivre les "
 "indications qu'il contient."
 
-#: includes/class/class.LSsession.php:1238
+#: includes/class/class.LSsession.php:1245
 msgid "Your new password has been sent to %{mail}. "
 msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
 
-#: includes/class/class.LSsession.php:1379
+#: includes/class/class.LSsession.php:1386
 msgid "Refresh"
 msgstr "Rafraîchir"
 
-#: includes/class/class.LSsession.php:1395
+#: includes/class/class.LSsession.php:1402
 msgid "Language"
 msgstr "Langue"
 
-#: includes/class/class.LSsession.php:1422
+#: includes/class/class.LSsession.php:1429
 msgid "Connected as"
 msgstr "Connecté en tant que"
 
-#: includes/class/class.LSsession.php:2297
+#: includes/class/class.LSsession.php:2304
 msgid "LSsession : The constant %{const} is not defined."
 msgstr "LSsession : La constante %{const} n'est pas définie."
 
-#: includes/class/class.LSsession.php:2300
+#: includes/class/class.LSsession.php:2307
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
@@ -1192,52 +1200,52 @@ msgstr ""
 "LSsession : Le support %{addon} est incertain. Vérifiez la compatibilité du "
 "système et la configuration de l'add-on."
 
-#: includes/class/class.LSsession.php:2303
+#: includes/class/class.LSsession.php:2310
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 "LSsession : Les données de configuration du serveur LDAP sont invalide. "
 "Impossible de s'y connecter."
 
-#: includes/class/class.LSsession.php:2306
+#: includes/class/class.LSsession.php:2313
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 "LSsession : Impossible de charger le type d'LSobject %{type} : type inconnu."
 
-#: includes/class/class.LSsession.php:2309
+#: includes/class/class.LSsession.php:2316
 msgid "LSsession : Failed to load LSclass %{class}."
 msgstr "LSsession : Impossible de charger la LSclass %{class}."
 
-#: includes/class/class.LSsession.php:2312
+#: includes/class/class.LSsession.php:2319
 msgid "LSsession : Login or password incorrect."
 msgstr "LSsession : Identifiant ou mot de passe incorrects."
 
-#: includes/class/class.LSsession.php:2315
+#: includes/class/class.LSsession.php:2322
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr "LSsession : Impossible de vous identifier : Duplication d'identité."
 
-#: includes/class/class.LSsession.php:2318
+#: includes/class/class.LSsession.php:2325
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 "LSsession : Impossible de charger la classe d'authentification (%{class})."
 
-#: includes/class/class.LSsession.php:2321
+#: includes/class/class.LSsession.php:2328
 msgid "LSsession : Can't connect to LDAP server."
 msgstr "LSsession : Impossible de se connecter au serveur LDAP."
 
-#: includes/class/class.LSsession.php:2324
+#: includes/class/class.LSsession.php:2331
 msgid "LSsession : Impossible to authenticate you."
 msgstr "LSsession : Impossible de vous identifier."
 
-#: includes/class/class.LSsession.php:2327
+#: includes/class/class.LSsession.php:2334
 msgid "LSsession : Your are not authorized to do this action."
 msgstr "LSsession : Vous n'êtes pas autorisé à faire cette action."
 
-#: includes/class/class.LSsession.php:2330
+#: includes/class/class.LSsession.php:2337
 msgid "LSsession : Some informations are missing to display this page."
 msgstr "LSsession : Des informations sont manquant pour afficher cette page."
 
-#: includes/class/class.LSsession.php:2333
+#: includes/class/class.LSsession.php:2340
 msgid ""
 "LSsession : The function of the custom action %{name} does not exists or is "
 "not configured."
@@ -1245,24 +1253,24 @@ msgstr ""
 "LSsearch : La fonction de l'action personnalisée %{name} n'existe pas ou "
 "n'est pas configurée."
 
-#: includes/class/class.LSsession.php:2336
+#: includes/class/class.LSsession.php:2343
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 "LSsession : Erreur en récupérant les identifiants LDAP de l'utilisateur "
 "depuis LSauth."
 
-#: includes/class/class.LSsession.php:2339
+#: includes/class/class.LSsession.php:2346
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 "LSsession : Impossible de se reconnecter au serveur LDAP avec les "
 "identifiants de l'utilisateur."
 
-#: includes/class/class.LSsession.php:2342
+#: includes/class/class.LSsession.php:2349
 msgid "LSsession : No import/export format define for this object type."
 msgstr "LSsession : Aucun format d'entrée/sortie définie pour ce type d'objet."
 
-#: includes/class/class.LSsession.php:2345
+#: includes/class/class.LSsession.php:2352
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
@@ -1270,13 +1278,13 @@ msgstr ""
 "LSsession : Erreur durant la création de la liste des niveaux. Contacter les "
 "administrateurs. (Code : %{type})"
 
-#: includes/class/class.LSsession.php:2348
+#: includes/class/class.LSsession.php:2355
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 "LSsession : La récupération de mot de passe est désactivée pour ce serveur "
 "LDAP."
 
-#: includes/class/class.LSsession.php:2351
+#: includes/class/class.LSsession.php:2358
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
@@ -1284,7 +1292,7 @@ msgstr ""
 "LSsession : Des informations sont manques pour pouvoir récupérer votre mot "
 "de passe. Contacter les administrateurs."
 
-#: includes/class/class.LSsession.php:2354
+#: includes/class/class.LSsession.php:2361
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
@@ -1292,7 +1300,13 @@ msgstr ""
 "LSsession : Erreur durant la récupération de votre mot de passe. Contacter "
 "les administrateurs. (Etape : %{step})"
 
-#: includes/class/class.LSsession.php:2358
+#: includes/class/class.LSsession.php:2364
+msgid ""
+"LSsession : call function %{func} do not provided from LSaddon %{addon}."
+msgstr ""
+"LSsession : la fonction %{func} n'est pas fournie par le LSaddon %{addon}."
+
+#: includes/class/class.LSsession.php:2367
 msgid "LSsession : problem during initialisation."
 msgstr "LSsession : Problème durant l'initialisation."
 
