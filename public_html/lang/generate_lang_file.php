@@ -60,7 +60,7 @@ if ($argc > 1) {
 $data=array();
 
 function add($msg) {
-  if ($msg!='') {
+  if ($msg!='' && _($msg) == "$msg") {
     global $data, $translations;
     $data[$msg]=$translations[$msg];
   }
