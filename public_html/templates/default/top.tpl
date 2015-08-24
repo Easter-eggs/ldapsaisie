@@ -34,7 +34,9 @@
         <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{tr msg=$label}</a></li>
       {/foreach}
       {foreach from=$LSaddonsViewsAccess item=access}
+        {if $access.showInMenu}
         <li class='menu'><a href='addon_view.php?LSaddon={$access.LSaddon}&view={$access.id}' class='menu'>{tr msg=$access.label}</a></li>
+        {/if}
       {/foreach}
       </ul>
     </td>

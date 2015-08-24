@@ -1782,7 +1782,8 @@ class LSsession {
           $LSaddonsViewsAccess[]=array (
             'LSaddon' => $addon,
             'id' => $viewId,
-            'label' => $viewConf['label']
+            'label' => $viewConf['label'],
+            'showInMenu' => $viewConf['showInMenu']
           );
         }
       }
@@ -2501,9 +2502,11 @@ class LSsession {
    * @param[in] $allowedLSprofiles array|null Array listing allowed profiles.
    *                                          If null, no access control will
    *                                          be done for this view.
+   * @param[in] $showInMenu boolean Show (or not) this view in menu
+   *
    * @retval bool True is the view have been registred, false otherwise
    **/
-  public static function registerLSaddonView($LSaddon,$viewId,$label,$viewFunction,$allowedLSprofiles=null) {
+  public static function registerLSaddonView($LSaddon,$viewId,$label,$viewFunction,$allowedLSprofiles=null,$showInMenu=True) {
     if (function_exists($viewFunction)) {
       $func = new ReflectionFunction($viewFunction);
       if (basename($func->getFileName())=="LSaddons.$LSaddon.php") {
@@ -2511,7 +2514,8 @@ class LSsession {
           'LSaddon' => $LSaddon,
           'label' => $label,
           'function' => $viewFunction,
-          'allowedLSprofiles' => $allowedLSprofiles
+          'allowedLSprofiles' => $allowedLSprofiles,
+          'showInMenu' => (bool)$showInMenu
         );
         return True;
       }
