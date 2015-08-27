@@ -16,6 +16,7 @@
        'object_type' => '[Type d'LSobject]',
        'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
        'value_attribute' => '[Nom de l'attribut clé]',
+       'values_attribute' => '[Nom de l'attribut clé multi-valeur]',
        'filter' => '[Filtre de recherche des LSobject]',
        'scope' => '[Scope de la recherche]',
        'basedn' => '[Basedn de la recherche]'
@@ -82,6 +83,16 @@
       <simpara>Nom de l'attribut des &LSobjects; en référence servant de valeur
       clé et permettant de les identifier (Exemple : <emphasis>dn</emphasis> ou
       <emphasis>uid</emphasis>).</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>values_attribute</term>
+    <listitem>
+      <simpara>Nom de l'attribut des &LSobjects; en référence servant de catalogue de
+      valeurs. Dans ce mode, la valeur n'a pas de label et est affichée directement
+      dans l'interface. Ce paramètre peut-être utilisé en complément ou non du paramètre
+      <emphasis>value_attribute</emphasis>.</simpara>
     </listitem>
   </varlistentry>
 

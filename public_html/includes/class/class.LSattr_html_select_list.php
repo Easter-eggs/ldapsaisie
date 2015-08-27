@@ -157,7 +157,7 @@ class LSattr_html_select_list extends LSattr_html{
   protected function getLSobjectPossibleValues($conf) {
     $retInfos = array();
 
-    if ((!isset($conf['object_type'])) || (!isset($conf['value_attribute']))) {
+    if ((!isset($conf['object_type'])) || ((!isset($conf['value_attribute'])) && (!isset($conf['values_attribute'])))) {
       LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
       break;
     }
@@ -172,23 +172,38 @@ class LSattr_html_select_list extends LSattr_html{
       'displayFormat' => (isset($conf['display_name_format'])?$conf['display_name_format']:null),
     );
 
-    if ($conf['value_attribute']!='dn') {
+    if (isset($conf['value_attribute']) && $conf['value_attribute']!='dn') {
       $param['attributes'][] = $conf['value_attribute'];
+    }
+    if (isset($conf['values_attribute'])) {
+      $param['attributes'][] = $conf['values_attribute'];
     }
 
     $LSsearch = new LSsearch($conf['object_type'],'LSattr_html_select_list',$param,true);
     $LSsearch -> run();
-    if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
-      $retInfos = $LSsearch -> listObjectsName();
+    if (isset($val['value_attribute'])) {
+      if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
+        $retInfos = $LSsearch -> listObjectsName();
+      }
+      else {
+        $list = $LSsearch -> getSearchEntries();
+        foreach($list as $entry) {
+          $key = $entry -> get($conf['value_attribute']);
+          if(is_array($key)) {
+            $key = $key[0];
+          }
+          $retInfos[$key]=$entry -> displayName;
+        }
+      }
     }
-    else {
+    if (isset($conf['values_attribute'])) {
       $list = $LSsearch -> getSearchEntries();
       foreach($list as $entry) {
-        $key = $entry -> get($conf['value_attribute']);
-        if(is_array($key)) {
-          $key = $key[0];
+        $keys = $entry -> get($conf['values_attribute']);
+        if (!is_array($keys)) $keys=array($keys);
+        foreach ($keys as $key) {
+          $retInfos[$key]=$key;
         }
-        $retInfos[$key]=$entry -> displayName;
       }
     }
 
