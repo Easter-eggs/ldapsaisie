@@ -44,7 +44,7 @@ class LSformRule_date extends LSformRule {
     $date = strptime($value,$options['format']);
     if(is_array($date)) {
       $res = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900);
-      if ((is_int($res)) && ($res > -1)) {
+      if ((is_int($res)) && ($res != -1) && ($res !== False)) {
         return true;
       }
     }
