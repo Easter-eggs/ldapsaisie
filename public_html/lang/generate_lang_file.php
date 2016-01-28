@@ -318,6 +318,8 @@ foreach($data as $key => $val) {
   if ($copyoriginalvalue && $val=="") {
     $val=$key;
   }
+  $key=str_replace('"','\\"',$key);
+  $val=str_replace('"','\\"',$val);
   if ($additionalfileformat) {
     print "\$GLOBALS['LSlang'][\"$key\"] = \"$val\";\n";
   }
