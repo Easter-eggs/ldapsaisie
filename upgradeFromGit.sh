@@ -87,6 +87,16 @@ then
   fi
 fi
 
+msg "\t\t-> Clean template cache : " -en
+rm -f $ROOT_DIR/public_html/tmp/*.tpl.php
+if [ $? -gt 0 ]
+then
+	msg "Error"
+	exit 1
+else
+	msg "Ok"
+fi
+
 msg "-> Verification of git repos state : "
 git status >> $LOG_FILE 2>&1
 if [ "$ETAT" != "" ]
