@@ -1,6 +1,7 @@
-{include file='ls:top.tpl'}
+{extends file="ls:empty.tpl"}
+{block "content"}
+  <section class="content-header">
 <form action='{$searchForm.action}' method='post' class='LSview_search' id='LSsearch_form'>
-
 <div class='LSview_search'>
   {foreach from=$searchForm.hiddenFields item=value key=name}
     <input type='hidden' name='{$name}' value='{$value}' />
@@ -14,19 +15,19 @@
   </p>
 </div>
 
-<h1>
-  {$pagetitle}
-</h1>
+    <h1>{$pagetitle}</h1>
 
-{if $LSview_actions != ''}
-<ul class='LSview-actions'>
-  {foreach from=$LSview_actions item=item}
-    {if is_array($item)}
-      <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{img name=$item.action}' alt='{tr msg=$label}' title='{tr msg=$label}' /> {tr msg=$item.label}</a></li>
+    {if $LSview_actions != ''}
+    <div class="pull-right">
+    <ul class="nav nav-pills pull-right">
+      {foreach from=$LSview_actions item=item}
+        {if is_array($item)}
+        <li role="presentation"><a href="{$item.url}" class="{if $item.class} {$item.class}{/if}" ><img src="{img name=$item.action}" alt="{tr msg=$item.label}" title="{tr msg=$item.label}" />{if !isset($item.hideLabel) || !$item.hideLabel} {tr msg=$item.label}{/if}</a></li>
+        {/if}
+      {/foreach}
+    </ul>
+    </div>
     {/if}
-  {/foreach}
-</ul>
-{/if}
 
 {if count($LSsearch->predefinedFilters) != 0}
   <select id='LSview_search_predefinedFilter' name='predefinedFilter'>
@@ -38,8 +39,14 @@
 
 </form>
 
-<table class='LSobject-list'>
-    <tr class='LSobject-list'>
+
+  </section>
+
+  <section class="content">
+
+<table class='table table-striped LSobject-list'>
+  <thead>
+    <tr>
       <th class='LSobject-list'>
         {if $LSsearch->sort}
         <a href='view.php?LSobject={$LSsearch->LSobject}&amp;sortBy=displayName&amp;nocache={$smarty.now}'>
@@ -90,8 +97,10 @@
       {/if}
       <th class='LSobject-list'>{$LSsearch->label_actions}</th>
     </tr>
+  </thead>
+  <tbody>
     {foreach from=$page.list item=object}
-    <tr class='{cycle values="LSobject-list,LSobject-list LSobject-list-bis"}'>
+    <tr>
         <td class='LSobject-list LSobject-list-names'><a href='view.php?LSobject={$LSsearch->LSobject}&amp;dn={$object->dn|escape:'url'}'  class='LSobject-list'>{$object->displayName}</a> </td>
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn}</td>{/if}
         {if $LSsearch->extraDisplayedColumns}
@@ -112,6 +121,7 @@
         </td>
       </tr>   
     {/foreach}
+  </tbody>
 </table>
 <span id='LSobject_list_nbresult'>{$LSsearch->label_total}</span>
 {if $page.nbPages > 1}
@@ -147,4 +157,7 @@
   {/if}
   </p>
 {/if}
-{include file='ls:bottom.tpl'}
+<div style="clear: both;"></div>
+
+  </section>
+{/block}

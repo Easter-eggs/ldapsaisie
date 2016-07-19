@@ -74,7 +74,7 @@ var LSform = new Class({
             li.addClass('LSform_layout_errors');
           }
           else {
-            if (!$type(Layout.getElement('dt'))) {
+            if (!$type(Layout.getElement('div.LSform_attribute'))) {
               li.setStyle('display','none');
             }
           }
@@ -163,7 +163,7 @@ var LSform = new Class({
 
       if (this._currentTab!=li) {
         if (this._currentTab!='default_value') {
-          this._currentTab.removeClass('LSform_layout_current');
+          this._currentTab.removeClass('active');
           var oldDiv = this.getLayout(this._currentTab);
           if ($type(oldDiv)) {
             oldDiv.removeClass('LSform_layout_current');
@@ -171,7 +171,7 @@ var LSform = new Class({
         }
 
         this._currentTab = li;
-        li.addClass('LSform_layout_current');
+        li.addClass('active');
         var a=li.getElement('a');
         if ($type(a)) {
           location.hash='#'+this.getLayoutNameFromBtn(li);

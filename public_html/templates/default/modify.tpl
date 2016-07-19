@@ -1,13 +1,26 @@
-{include file='ls:top.tpl'}
-    {if $pagetitle != ''}<h1 id='LSform_title'>{$pagetitle}</h1>{/if}
+{extends file="ls:empty.tpl"}
+{block "content"}
+  {if $pagetitle != ''}
+  <section class="content-header">
+    <h1>{$pagetitle}</h1>
+
     {if $LSview_actions != ''}
-    <ul class='LSview-actions'>
+    <div class="pull-right">
+    <ul class="nav nav-pills pull-right">
       {foreach from=$LSview_actions item=item}
-        <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{img name=$item.action}' alt='{$item.label}' title='{$item.label}' /> {$item.label}</a></li>
+        {if is_array($item)}
+        <li role="presentation"><a href="{$item.url}" class="{if $item.class} {$item.class}{/if}" ><img src="{img name=$item.action}" alt="{$item.label}" title="{$item.label}" />{if !isset($item.hideLabel) || !$item.hideLabel} {$item.label}{/if}</a></li>
+        {/if}
       {/foreach}
     </ul>
+    </div>
     {/if}
-    
+
+  </section>
+  {/if}
+  <section class="content">
+
     {include file='ls:LSform.tpl'}
-    
-{include file='ls:bottom.tpl'}
+
+  </section>
+{/block}

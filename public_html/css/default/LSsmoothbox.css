@@ -3,6 +3,7 @@
   border:               1px solid #000;
   margin: 0;
   padding:  0;
+  z-index:              1000;
 }
 
 #win-LSsmoothbox {
@@ -12,7 +13,7 @@
   border-radius:        5px;
   margin:               auto;
   position:             absolute;
-  z-index:              3;
+  z-index:              1001;
   display:              none;
 }
 

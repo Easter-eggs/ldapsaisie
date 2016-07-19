@@ -2,9 +2,9 @@
 <input type='hidden' name='LSform_objectdn' id='LSform_objectdn'  value='{$LSform_object.dn}'/>
 {if $LSform_layout}
   <!-- Tabs - Start Title -->
-  <ul class='LSform_layout'>
+  <ul class="nav nav-tabs">
   {foreach from=$LSform_layout item=tab key=tab_key}
-    <li class='LSform_layout' id='LSform_layout_btn_{$tab_key}'><a href="#{$tab_key}">{tr msg=$tab.label}</a></li>
+    <li role="presentation" class='LSform_layout' id='LSform_layout_btn_{$tab_key}'><a href="#{$tab_key}">{tr msg=$tab.label}</a></li>
   {/foreach}
   </ul>
   <!-- Tabs - End Title -->

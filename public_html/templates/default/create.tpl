@@ -1,14 +1,26 @@
-{include file='ls:top.tpl'}
-    {if $pagetitle != ''}<h1 id='LSform_title'>{$pagetitle}</h1>{/if}
+{extends file="ls:empty.tpl"}
+{block "content"}
+  {if $pagetitle != '' || !empty($listAvailableDataEntryForm)} 
+  <section class="content-header">
+    <h1>{$pagetitle}</h1>
 
     {if !empty($listAvailableDataEntryForm)}
-      <p class='LSform_listAvailableDataEntryForm'><label>{$DataEntryFormLabel}
-      <select id='LSform_listAvailableDataEntryForm'>
-	<option value=''>--</option>
-        {html_options options=$listAvailableDataEntryForm selected=$LSform_dataEntryForm}
-      </select>
+    <p class='pull-right LSform_listAvailableDataEntryForm'>
+      <label>
+        {$DataEntryFormLabel}
+        <select id='LSform_listAvailableDataEntryForm'>
+	  <option value=''>--</option>
+          {html_options options=$listAvailableDataEntryForm selected=$LSform_dataEntryForm}
+        </select>
       </label>
+    </p>
     {/if}
-    
+
+  </section>
+  {/if}
+  <section class="content">
+
     {include file='ls:LSform.tpl'}
-{include file='ls:bottom.tpl'}
+
+  </section>
+{/block}

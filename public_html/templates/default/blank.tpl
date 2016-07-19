@@ -1,20 +1,22 @@
-<?xml version="1.0"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
- "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset={$LSencoding}">
+    <meta charset="{$LSencoding}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="icon" type="image/png" href="images/default/favicon.png" />
     <link rel="stylesheet" type="text/css" href="{css name='base.css'}" title="Normal" />
     <link rel="stylesheet" type="text/css" href="{css name='base_print.css'}" media='print' title="Normal" />
     {$LSsession_css}
   </head>
-<body>
+<body class="hold-transition fixed skin-blue sidebar-mini">
 
 {include file='ls:LSdefault.tpl'}
 
-{$LSsession_js}
+{block "body"}{/block}
 
+{$LSsession_js}
 </body>
 </html>

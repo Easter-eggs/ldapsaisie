@@ -1,5 +1,12 @@
-{include file='ls:top.tpl'}
-    {if $pagetitle != ''}<h1 id='LSview_title'>{$pagetitle}</h1>{/if}
+{extends file="ls:empty.tpl"}
+{block "content"}
+  {if $pagetitle != ''}
+  <section class="content-header">
+    <h1>{$pagetitle}</h1>
+  </section>
+  {/if}
+
+  <section class="content">
 
 <div class='LSform'>
 <form action='import.php?LSobject={$LSobject}' method='post' enctype="multipart/form-data">
@@ -85,4 +92,6 @@
 {/if}
 
 {/if}
-{include file='ls:bottom.tpl'}
+
+  </section>
+{/block}

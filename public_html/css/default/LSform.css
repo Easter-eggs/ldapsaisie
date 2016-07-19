@@ -14,31 +14,6 @@ ul.LSform_layout_active {
   margin-bottom:      0;
 }
 
-li.LSform_layout a {
-  text-decoration:    none;
-  color:              #0072B8;
-}
-
-li.LSform_layout_active a {
-  color:              #fff;
-}
-
-li.LSform_layout_active {
-  text-decoration:    none;
-  color:              #fff;
-  background-color:   #52BCE5;
-  -moz-border-radius: 3px 3px 0px 0px;
-  border-radius:      3px 3px 0px 0px;
-  padding:            4px;
-  display:            inline;
-  margin-right:       1px;
-}
-
-li.LSform_layout_current {
-  color:              #fff;
-  background-color:   #0072B8;
-}
-
 li.LSform_layout_errors {
   background-color:   #f59a67;
 }
@@ -48,7 +23,6 @@ h2.LSform_layout_active {
 }
 
 div.LSform_layout {
-  border:             1px solid #0072B8;
   margin:             1em;
   padding:            0.5em;
 }
@@ -137,6 +111,10 @@ dt.LSform-errors {
 /* Bouton JS */
 img.LSform-add-field-btn, img.LSform-remove-field-btn {
   cursor:                     pointer;
+}
+
+div.LSform_attribute img.btn {
+  padding: 2px;
 }
 
 /* -- LSformWarnBox -- */

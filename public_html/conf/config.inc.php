@@ -200,8 +200,15 @@ $GLOBALS['defaultJSscipts']=array(
   'mootools-more.js',
   'functions.js',
   'LSdefault.js',
-  'LSinfosBox.js'
+  'LSinfosBox.js',
+  '../libs/adminlte/plugins/jQuery/jquery-2.2.3.min.js',
+  'jquery-noconflict.js',
+  '../libs/adminlte/bootstrap/js/bootstrap.min.js',
 );
 
 // CSS
-$GLOBALS['defaultCSSfiles']=array();
+$GLOBALS['defaultCSSfiles']=array(
+  '../../includes/libs/adminlte/bootstrap/css/bootstrap.min.css',
+  '../../includes/libs/adminlte/dist/css/AdminLTE.min.css',
+  '../../includes/libs/adminlte/dist/css/skins/skin-blue.css',
+);

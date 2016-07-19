@@ -1404,6 +1404,7 @@ class LSsession {
       }
       LStemplate :: assign('LSsession_subDn_indexes',$LSsession_topDn_index);
       LStemplate :: assign('LSsession_subDn_names',$LSsession_topDn_name);
+      LStemplate :: assign('LSsession_subDns',$listTopDn);
       LStemplate :: assign('LSsession_subDn',self :: $topDn);
       LStemplate :: assign('LSsession_subDnName',self :: getSubDnName());
     }
