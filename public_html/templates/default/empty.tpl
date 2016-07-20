@@ -30,7 +30,7 @@
             <li><a href="index.php?LSsession_topDn={$index}"{if $index==$LSsession_subDn} class="LSsession_subDn_selected"{/if}>{$name}</a></li>
             {/foreach}
             <li role="separator" class="divider"></li>
-            <li><a href="index.php?LSsession_refresh">{$_refresh}</li>
+            <li><a href="index.php?LSsession_refresh">{$_refresh}</a></li>
           </ul>
         </li>
       {/if}

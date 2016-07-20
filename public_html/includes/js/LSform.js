@@ -69,7 +69,7 @@ var LSform = new Class({
       LIs.each(function(li) {
         var Layout = this.getLayout(li);
         if ($type(Layout)) {
-          if ($type(Layout.getElement('dt.LSform-errors'))) {
+          if ($type(Layout.getElement('div.LSform-errors'))) {
             LSdebug('add');
             li.addClass('LSform_layout_errors');
           }
@@ -278,7 +278,7 @@ var LSform = new Class({
           data:         this.LSform,
           onSuccess:    this.onAjaxSubmitComplete.bind(this),
           url:          this.LSform.get('action'),
-          imgload:      varLSdefault.loadingImgDisplay($('LSform_title'),'inside')
+          imgload:      varLSdefault.loadingImgDisplay($(event.target),'inside')
         });
         this.LSform.send();
       }
@@ -309,11 +309,12 @@ var LSform = new Class({
     },
 
     resetErrors: function() {
-      $$('dd.LSform-errors').each(function(dd) {
+      $$('div.LSform-errors').each(function(dd) {
         dd.destroy();
       });
-      $$('dt.LSform-errors').each(function(dt) {
-        dt.removeClass('LSform-errors');
+      $$('div.LSform_attribute').each(function(div) {
+        if (div.hasClass('has-error'))
+          div.removeClass('has-error');
       });
       $$('li.LSform_layout_errors').each(function(li) {
         li.removeClass('LSform_layout_errors');
@@ -326,16 +327,20 @@ var LSform = new Class({
       if ($type(ul)) {
         errors = new Array(errors);
         errors.each(function(txt){
-          var dd = new Element('dd');
-          dd.addClass('LSform');
-          dd.addClass('LSform-errors');
-          dd.set('html',txt);
-          dd.injectAfter(this.getParent());
-        },ul);
+          var div_group = new Element('div');
+          div_group.addClass('form-group');
+          div_group.addClass('LSform-errors');
+          var div_error = new Element('div');
+          div_error.addClass('col-md-offset-4');
+          div_error.addClass('col-md-8');
+          div_error.addClass('has-error');
+          div_error.set('html',txt);
+          div_error.injectInside(div_group);
+          div_group.injectAfter(this);
+        },div_attr);
 
-        var dt = ul.getParent('dd.LSform').getPrevious('dt');
-        if ($type(dt)) {
-          dt.addClass('LSform-errors');
+        if ($type(div_attr)) {
+          div_attr.addClass('has-error');
         }
 
         var layout = ul.getParent('div.LSform_layout_active');

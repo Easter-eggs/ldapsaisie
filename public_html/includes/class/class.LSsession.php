@@ -556,10 +556,10 @@ class LSsession {
       
       LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
       
-      if (isset ($_POST['LSsession_topDn']) && $_POST['LSsession_topDn']) {
-        if (self :: validSubDnLdapServer($_POST['LSsession_topDn'])) {
-          self :: $topDn = $_POST['LSsession_topDn'];
-          $_SESSION['LSsession']['topDn'] = $_POST['LSsession_topDn'];
+      if (isset ($_REQUEST['LSsession_topDn']) && $_REQUEST['LSsession_topDn']) {
+        if (self :: validSubDnLdapServer($_REQUEST['LSsession_topDn'])) {
+          self :: $topDn = $_REQUEST['LSsession_topDn'];
+          $_SESSION['LSsession']['topDn'] = $_REQUEST['LSsession_topDn'];
         } // end if
       } // end if
       
@@ -583,8 +583,8 @@ class LSsession {
       if (self :: LSldapConnect()) {
 
         // topDn
-        if (isset($_POST['LSsession_topDn']) && $_POST['LSsession_topDn'] != '' ){
-          self :: $topDn = $_POST['LSsession_topDn'];
+        if (isset($_REQUEST['LSsession_topDn']) && $_REQUEST['LSsession_topDn'] != '' ){
+          self :: $topDn = $_REQUEST['LSsession_topDn'];
         }
         else {
           self :: $topDn = self :: $ldapServer['ldap_config']['basedn'];

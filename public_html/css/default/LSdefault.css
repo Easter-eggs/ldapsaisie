@@ -7,7 +7,7 @@ div.LSinfosBox {
   border:                   1px solid #4096b8;
   visibility:               hidden;
   color:                    #4096b8;
-  z-index:                  100;
+  z-index:                  2000;
   top:                      10px;
   font-weight:              bold;
 }

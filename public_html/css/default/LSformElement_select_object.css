@@ -17,6 +17,7 @@ ul.LSformElement_select_object_edit {
   border:                     1px solid #b5e4f6;
   border-bottom:              none;
   width:                      200px;
+  padding-top:                0;
 }
 
 li.LSformElement_select_object {
