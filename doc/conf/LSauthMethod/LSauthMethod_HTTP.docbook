@@ -4,15 +4,47 @@
   via les variables d'environnements définies suite à une authentification
   gérée par le serveur HTTP. En &php;, ces informations sont consultables
   via les variables <literal>$_SERVER['PHP_AUTH_USER']</literal> et
-  <literal>$_SERVER['PHP_AUTH_PW']</literal>. Cette &LSauthMethod; n'utilise
-  ici que la variable <literal>$_SERVER['PHP_AUTH_USER']</literal>. Si
-  celle-ci est présente, une recherche dans l'annuaire est effectué pour
-  trouver l'utilisateur correspondant. L'authentification réussi uniquement
-  si un et un seul utilisateur est retourné par la recherche.</para>
+  <literal>$_SERVER['PHP_AUTH_PW']</literal>. Si la variable
+  <literal>$_SERVER['PHP_AUTH_USER']</literal> est présente, une recherche
+  dans l'annuaire est effectué pour trouver l'utilisateur correspondant.
+  L'authentification réussie uniquement si un et un seul utilisateur est
+  retourné par la recherche et si une authentification auprès de l'annuaire
+  LDAP réussie à l'aide du DN de l'objet LDAP trouvé et du mot de passe issu
+  de la variable <literal>$_SERVER['PHP_AUTH_PW']</literal>.</para>
   
-  <note><simpara>La recherche est effectuée sur une égalité
+  <note><simpara>La recherche de l'utisateur est effectuée sur une égalité
   parfaite du RDN ou en utilisant le &LSformat; de fitre de recherche 
   <literal>authObjectFilter</literal> défini dans la 
   <link linkend='config-srv-ldap'>configuration du serveur LDAP</link>
   </simpara></note>
+
+  <para>Cette librairie peut être configurée en éditant le fichier de
+  configiration
+  <literal>conf/LSauth/config.LSauthMethod_HTTP.php</literal>.</para>
+
+<programlisting linenumbering="unnumbered">
+  <citetitle>Structure du fichier</citetitle>/*
+ *****************************************************
+ * Configuration of the HTTP authentification support *
+ *****************************************************
+ */
+
+// Don't check HTTP server's login/password by LDAP authentication challenge
+//define('LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE',true);
+</programlisting>
+
+<!-- Début Paramètres Configuration -->
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE</term>
+  <listitem>
+    <simpara>Permet de désactiver le test d'authentification auprès de
+    l'annuaire LDAP. Pour cela, cette constante doit être définie et
+    valoir <literal>True</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
 </sect2>

@@ -53,6 +53,19 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
     return;
   }
 
-}
+  /**
+   * Check authentication
+   *
+   * @retval LSldapObject|false The LSldapObject of the user authificated or false
+   */
+  public function authenticate() {
+    if ( (defined('LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE')) && (constant('LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE') === True)) {
+      // Return authObject without checking login/password by LDAP auth challenge
+      return LSauthMethod :: authenticate();
+    }
+    else {
+      return parent :: authenticate();
+    }
+  }
 
-?>
+}
