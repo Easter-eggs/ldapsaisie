@@ -181,7 +181,7 @@ class LSattr_html_select_list extends LSattr_html{
 
     $LSsearch = new LSsearch($conf['object_type'],'LSattr_html_select_list',$param,true);
     $LSsearch -> run();
-    if (isset($val['value_attribute'])) {
+    if (isset($conf['value_attribute'])) {
       if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
         $retInfos = $LSsearch -> listObjectsName();
       }
