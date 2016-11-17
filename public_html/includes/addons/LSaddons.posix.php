@@ -35,18 +35,18 @@ LSerror :: defineError('POSIX_SUPPORT_02',
 LSerror :: defineError('POSIX_01',
   _("POSIX : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
-      
+
  /**
   * Verification du support POSIX par ldapSaisie
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true si POSIX est pleinement supporté, false sinon
   */
   function LSaddon_posix_support() {
-    
+
     $retval=true;
-    
+
     // Dependance de librairie
     if (!function_exists('createDirsByFTP')) {
       if(!LSsession :: loadLSaddon('ftp')) {
@@ -82,9 +82,9 @@ LSerror :: defineError('POSIX_01',
 
  /**
   * Generation de uidNumber
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval integer uidNumber ou false si il y a un problème durant la génération
@@ -117,9 +117,9 @@ LSerror :: defineError('POSIX_01',
 
  /**
   * Generation de gidNumber
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval integer gidNumber ou false si il y a un problème durant la génération
@@ -152,9 +152,9 @@ LSerror :: defineError('POSIX_01',
 
  /**
   * Generation de homeDirectory
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval string homeDirectory ou false si il y a un problème durant la génération
@@ -164,18 +164,18 @@ LSerror :: defineError('POSIX_01',
       LSerror :: addErrorCode('POSIX_01',array('dependency' => 'uid', 'attr' => 'homeDirectory'));
       return;
     }
-    
+
     $uid = $ldapObject -> attrs[ LS_POSIX_UID_ATTR ] -> getValue();
     $home = LS_POSIX_HOMEDIRECTORY . $uid[0];
     return $home;
 
   }
-  
+
  /**
   * Generation de homeDirectory
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval string homeDirectory ou false si il y a un problème durant la génération
@@ -189,7 +189,19 @@ LSerror :: defineError('POSIX_01',
     return true;
   }
 
-function generateMemberFromMemberUid($ldapObject) {
+ /**
+  * Generate member attribute value from memberUid
+  *
+  * IMPORTANT : The attribute memberUid must be define in configuration
+  * of the same object and must use HTML type select_object.
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $ldapObject The LSldapObject
+  *
+  * @retval array|null array of member attribute values or null in case of error
+  */
+  function generateMemberFromMemberUid($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'memberUid' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('POSIX_01',array('dependency' => 'memberUid', 'attr' => 'member'));
       return;
@@ -200,18 +212,34 @@ function generateMemberFromMemberUid($ldapObject) {
       return;
     }
 
+    $obj_type=LSconfig::get('LSobjects.'.get_class($ldapObject).'.attrs.memberUid.html_options.selectable_object.object_type');
+    if (empty($obj_type))
+        return;
+
     $uids = $ldapObject -> attrs[ 'memberUid' ] -> getValue();
     $member = array();
     if (is_array($uids)) {
       foreach ( $uids as $uid ) {
-        $member[]='uid='.$uid.','.LSconfig::get('LSobjets.LSehessPerson.container_dn').','.LSsession::getTopDn();
+        $member[]='uid='.$uid.','.LSconfig::get('LSobjects.'.$obj_type.'.container_dn').','.LSsession::getTopDn();
       }
     }
     return $member;
 
   }
 
-function generate_memberUidFromUniqueMember($ldapObject) {
+ /**
+  * Generate memberUid attribute value from uniqueMember
+  *
+  * IMPORTANT : The attribute uniqueMember must be define in configuration
+  * of the same object.
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $ldapObject The LSldapObject
+  *
+  * @retval array|null array of memberUid values or null in case of error
+  */
+  function generate_memberUidFromUniqueMember($ldapObject) {
     if ( get_class($ldapObject -> attrs[ 'memberUid' ]) != 'LSattribute' ) {
       LSerror :: addErrorCode('POSIX_01',array('dependency' => 'memberUid', 'attr' => 'memberUid'));
       return;
@@ -232,7 +260,5 @@ function generate_memberUidFromUniqueMember($ldapObject) {
       }
     }
     return $uids;
-}
+  }
 
-
-?>
