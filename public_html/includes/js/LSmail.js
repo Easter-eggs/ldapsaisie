@@ -6,6 +6,10 @@ var LSmail = new Class({
       this.setSubject(subject);
       this.object = {};
       this.opened = 0;
+      this.options = {
+        display_mail_field:     1,
+        display_subject_field:  1
+      };
       this.listeners = {
         close:    new Array(),
         valid:  new Array()
@@ -45,7 +49,23 @@ var LSmail = new Class({
         dn:     dn
       };
     },
-    
+
+    setOption: function(option,value) {
+      this.options[option]=value;
+    },
+
+    hideMailField: function() {
+      this.setOption('display_mail_field',0);
+    },
+
+    hideSubjectField: function() {
+      this.setOption('display_subject_field',0);
+    },
+
+    setClass: function(c) {
+      this.setOption('class',c);
+    },
+
     open: function(startElement) {
       if (this.opened==0) {
         var data = {
@@ -54,7 +74,8 @@ var LSmail = new Class({
           object:     this.object,
           mails:      this.mails,
           msg:        this.msg,
-          subject:    this.subject
+          subject:    this.subject,
+          options:    this.options
         };
         
         if ($type(startElement)) {

@@ -52,6 +52,8 @@ class LSmail {
 
     LStemplate :: assign('LSmail_msg',$msg);
     LStemplate :: assign('LSmail_subject',$subject);
+    LStemplate :: assign('LSmail_options',$_REQUEST['options']);
+
     if (is_array($_REQUEST['mails'])) {
       LStemplate :: assign('LSmail_mails',$_REQUEST['mails']);
     }
