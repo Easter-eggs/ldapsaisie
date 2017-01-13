@@ -24,6 +24,8 @@
     'objetclass2',
     ...
   ),
+  'filter' => '[filtre LDAP]',
+
   'rdn' => 'attr1',
 
   'LSaddons' => [LSaddon(s)],
@@ -85,6 +87,15 @@
   <term>objectclass</term>
   <listitem>
     <simpara>La liste des <emphasis>objectclass</emphasis> des objets.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>filter</term>
+  <listitem>
+    <simpara>Filtre de recherche LDAP applicable à tout les objets de ce type et
+    qui sera utilisé lors de chaque recherche de ce type d'objet.
+    </simpara>
   </listitem>
 </varlistentry>
 
@@ -248,15 +259,6 @@
     <simpara>Tableau associatif contenant les paramètres de configuration
     des formats de fichiers d'import/export de ce type d'&LSobject;.
     <link linkend="config-LSobject-ioFormat">Voir la section concernée</link>.
-    </simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>filter</term>
-  <listitem>
-    <simpara>Filtre de recherche LDAP applicable à tout les objets de ce type et
-    qui sera utilisé lors de chaque recherche de ce type d'objet.
     </simpara>
   </listitem>
 </varlistentry>
