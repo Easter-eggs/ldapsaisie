@@ -59,7 +59,7 @@ var LSdefault = new Class({
       }
       document.addEvent('keyup',this.onWantMoo.bindWithEvent(this));
       
-      this.LStips = new Tips('.LStips');
+      this.LStips = new Tips('.LStips', {'text': ""});
       
       if ($type(this.LSjsConfig['keepLSsessionActive'])) {
         this.LSjsConfig['keepLSsessionActive'] = (Math.round(this.LSjsConfig['keepLSsessionActive']*0.70)*1000);
@@ -228,7 +228,6 @@ var LSdefault = new Class({
             if ($type(this.LSjsConfig['helpInfos'][group][name])) {
               this.addTip(el);
               el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
-              el.store('tip:text',"");
             }
           }
         }
@@ -241,7 +240,6 @@ var LSdefault = new Class({
           if ($type(this.LSjsConfig['helpInfos'][group])) {
             if ($type(this.LSjsConfig['helpInfos'][group][name])) {
               el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
-              el.store('tip:text',"");
             }
           }
         }
