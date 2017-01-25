@@ -1679,7 +1679,7 @@ class LSsession {
           } // fin foreach($profileInfos)
         } // fin is_array($profileInfos)
       } // fin foreach LSprofiles
-      LSdebug(self :: $LSprofiles);
+      LSdebug("LSprofiles : ".print_r(self :: $LSprofiles,1));
       return true;
     }
     else {
