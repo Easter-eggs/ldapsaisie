@@ -1796,9 +1796,9 @@ class LSsession {
   /**
    * Dit si l'utilisateur est du profil pour le DN spécifié
    *
-   * @param[in] string $profile de l'objet
    * @param[in] string $dn DN de l'objet
-   * 
+   * @param[in] string $profile Profil
+   *
    * @retval boolean True si l'utilisateur est du profil sur l'objet, false sinon.
    */
   public static function isLSprofile($dn,$profile) {
@@ -1813,6 +1813,22 @@ class LSsession {
       }
     }
     return;
+  }
+
+  /**
+   * Dit si l'utilisateur est d'au moins un des profils pour le DN spécifié
+   *
+   * @param[in] string $dn DN de l'objet
+   * @param[in] string $profiles Profils
+   *
+   * @retval boolean True si l'utilisateur est d'au moins un profil sur l'objet, false sinon.
+   */
+  public static function isLSprofiles($dn,$profiles) {
+    foreach ($profiles as $profile) {
+      if (self :: isLSprofile($dn,$profile))
+        return true;
+    }
+    return false;
   }
   
   /**

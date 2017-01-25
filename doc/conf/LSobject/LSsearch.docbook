@@ -54,6 +54,10 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
       'formaterLSformat' => '[LSformat]',
       'formaterFunction' => '[fonction de formatage]',
       'cssStyle' => '[CSS style]',
+      'visibleTo' => array (
+        '[LSprofile 1]',
+        '[LSprofile 2]'
+      )
     )
   ),
   'customActions' =>  array (
@@ -301,6 +305,14 @@ contexte dans lequel cette recherche est effectuée.</para>
           S'il est défini, le contenu de ce paramètre sera ajouté en tant qu'attribut <literal>
           style</literal> des balises <literal>th</literal> et <literal>td</literal> de la
           colone.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>visibleTo</term>
+        <listitem>
+          <simpara>Ce paramètre permet de restreindre la visibilité de cette colonne aux seuls
+          &LSprofiles; spécifiés. S'il est omis, la colonne sera visible pour tous.</simpara>
         </listitem>
       </varlistentry>
 

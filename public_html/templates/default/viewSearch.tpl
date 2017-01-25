@@ -71,7 +71,7 @@
         </th>
       {/if}
       {if $LSsearch->extraDisplayedColumns}
-        {foreach from=$LSsearch->extraDisplayedColumns item=conf key=cid}
+        {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
         <th class='LSobject-list'{if $conf.cssStyle} style="{$conf.cssStyle}"{/if}>
         {if $LSsearch->sort}
           <a href='view.php?LSobject={$LSsearch->LSobject}&amp;sortBy={$cid}&amp;nocache={$smarty.now}'>
@@ -95,7 +95,7 @@
         <td class='LSobject-list LSobject-list-names'><a href='view.php?LSobject={$LSsearch->LSobject}&amp;dn={$object->dn|escape:'url'}'  class='LSobject-list'>{$object->displayName}</a> </td>
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn}</td>{/if}
         {if $LSsearch->extraDisplayedColumns}
-          {foreach from=$LSsearch->extraDisplayedColumns item=conf key=cid}
+          {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
           <td class='LSobject-list'{if $conf.cssStyle} style="{$conf.cssStyle}"{/if}>{$object->$cid}</td>
           {/foreach}
         {/if}
@@ -107,7 +107,7 @@
     </tr>
     {foreachelse}
       <tr class='LSobject-list'>
-        <td colspan='{if $LSsearch->extraDisplayedColumns}{count($LSsearch->extraDisplayedColumns)+3}{else}3{/if}' class='LSobject-list-without-result'>
+        <td colspan='{if $LSsearch->extraDisplayedColumns}{count($LSsearch->visibleExtraDisplayedColumns)+3}{else}3{/if}' class='LSobject-list-without-result'>
           {$LSsearch->label_no_result}
         </td>
       </tr>   

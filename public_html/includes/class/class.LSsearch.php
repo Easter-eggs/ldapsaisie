@@ -1088,6 +1088,18 @@ class LSsearch {
         return False;
       }
     }
+    elseif ($key=='visibleExtraDisplayedColumns') {
+      if ($this->params['extraDisplayedColumns'] && is_array($this -> config['extraDisplayedColumns'])) {
+        $ret=array();
+        foreach($this->config['extraDisplayedColumns'] as $col => $conf) {
+          if (isset($conf['visibleTo']) && !LSsession :: isLSprofiles($this -> basedn, $conf['visibleTo'])) {
+            continue;
+          }
+          $ret[$col]=$conf;
+        }
+        return $ret;
+      }
+    }
     else {
       throw new Exception('Incorrect property !');
     }
