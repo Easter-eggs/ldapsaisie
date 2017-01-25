@@ -70,6 +70,7 @@ if(LSsession :: startLSsession()) {
                   $LSview_actions[] = array (
                     'label' => ((isset($config['label']))?__($config['label']):__($name)),
                     'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
+                    'helpInfo' => ((isset($config['helpInfo']))?__($config['helpInfo']):False),
                     'url' => 'custom_action.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn).'&amp;customAction='.$name,
                     'action' => ((isset($config['icon']))?$config['icon']:'generate'),
                     'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
@@ -167,6 +168,7 @@ if(LSsession :: startLSsession()) {
                 $LSview_actions[] = array (
                   'label' => ((isset($config['label']))?__($config['label']):__($name)),
                   'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
+                  'helpInfo' => ((isset($config['helpInfo']))?__($config['helpInfo']):False),
                   'url' => 'custom_search_action.php?LSobject='.$LSobject.'&amp;customAction='.$name,
                   'action' => ((isset($config['icon']))?$config['icon']:'generate'),
                   'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')

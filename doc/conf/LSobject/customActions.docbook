@@ -9,6 +9,7 @@
   'action1' => array(
     'label' => '[label l'action]',
     'hideLabel' => '[booléen]',
+    'helpInfo' => '[label d'aide]',
     'icon' => '[nom de l'icône de l'action]',
     'function' => '[fonction à exécuter]',
     'question_format' => '[LSformat de la question de confirmation]',
@@ -39,6 +40,13 @@
   <term>hideLabel</term>
   <listitem>
     <simpara>Cache le label dans le bouton de l'action.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>helpInfo</term>
+  <listitem>
+    <simpara>Le label du message d'aide qui sera affiché au survole du bouton de l'action.</simpara>
   </listitem>
 </varlistentry>
 

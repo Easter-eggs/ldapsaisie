@@ -131,6 +131,7 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
     if (is_array($conf['customActions'])) {
       foreach($conf['customActions'] as $act) {
         add($act['label']);
+        add($act['helpInfo']);
         add($act['question_format']);
         add($act['onSuccessMsgFormat']);
       }
