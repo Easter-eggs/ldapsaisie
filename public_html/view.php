@@ -89,7 +89,7 @@ if(LSsession :: startLSsession()) {
               LStemplate :: assign('pagetitle',_('My account'));
             }
 
-            LStemplate :: assign('object',$object);
+            LStemplate :: assign('LSldapObject',$object);
             
             $view = $object -> getView();
             $view -> displayView();
