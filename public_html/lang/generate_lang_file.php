@@ -196,7 +196,7 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
         }
 
         // LSattr_html_valueWithUnit
-        if ($attr['html_type']=='valueWithUnit' && is_array($attr['html_options']['units'])) {
+        if (is_array($attr['html_options']['units'])) {
           foreach($attr['html_options']['units'] as $pname) {
             add($pname);
           }
