@@ -56,7 +56,7 @@ if(LSsession :: startLSsession()) {
                   if ($config['redirectToObjectList']) {
                     LSsession :: redirect('view.php?LSobject='.$LSobject.'&refresh');
                   }
-                  else {
+                  else if (!isset($config['noRedirect']) || !$config['noRedirect']) {
                     LSsession :: redirect('view.php?LSobject='.$LSobject.'&dn='.urlencode($dn));
                   }
                 }
@@ -81,8 +81,8 @@ if(LSsession :: startLSsession()) {
                 LStemplate :: assign('question',$question);
                 LStemplate :: assign('validation_url','custom_action.php?LSobject='.urlencode($LSobject).'&amp;dn='.urlencode($dn).'&amp;customAction='.urlencode($customAction).'&amp;valid');
                 LStemplate :: assign('validation_label',_('Validate'));
+                LSsession :: setTemplate('question.tpl');
               }
-              LSsession :: setTemplate('question.tpl');
             }
             else {
               LSerror :: addErrorCode('LSsession_13');
