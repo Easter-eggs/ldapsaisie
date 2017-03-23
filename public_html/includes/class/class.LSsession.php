@@ -670,13 +670,14 @@ class LSsession {
           'equals',
           $recoveryHash
         );
-        $result = $authobject -> listObjects($filter,self :: $topDn);
+        $result = $authobject -> listObjects($filter,self :: $topDn,array('onlyAccessible' => false));
       }
       elseif (!empty($username)) {
         $result = $authobject -> searchObject(
                     $username,
                     self :: $topDn,
-                    self :: $ldapServer['authObjectFilter']
+                    self :: $ldapServer['authObjectFilter'],
+                    array('onlyAccessible' => false)
                   );
       }
       else {
@@ -1704,7 +1705,7 @@ class LSsession {
             foreach($config as $objectType => $objectConf) {
               if (self :: loadLSobject($objectType)) {
                 if ($subdnobject = new $objectType()) {
-                  $tbl = $subdnobject -> getSelectArray(NULL,self::getRootDn(),NULL,NULL,false);
+                  $tbl = $subdnobject -> getSelectArray(NULL,self::getRootDn(),NULL,NULL,false,NULL,array('onlyAccessible' => False));
                   if (is_array($tbl)) {
                     // Définition des accès
                     $access=array();

@@ -305,7 +305,7 @@ LSerror :: defineError('SUPANN_02',
   function supanGetEntiteNameById($id) {
     if (LSsession::loadLSobject($GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'])) {
       $e = new $GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE']();
-      $list=$e -> listObjectsName("(supannCodeEntite=$id)",NULL,array(),$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME']);
+      $list=$e -> listObjectsName("(supannCodeEntite=$id)",NULL,array('onlyAccessible' => false),$GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME']);
       if (count($list)==1) {
         return array_pop($list);
       }
@@ -323,7 +323,7 @@ LSerror :: defineError('SUPANN_02',
   function supannValidateEntityId($id) {
     if (LSsession::loadLSobject($GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'])) {
       $e = new $GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE']();
-      $list=$e -> listObjectsName("(supannCodeEntite=$id)");
+      $list=$e -> listObjectsName("(supannCodeEntite=$id)",NULL,array('onlyAccessible' => False));
       if (count($list)==1) {
         return true;
       }
@@ -351,6 +351,7 @@ LSerror :: defineError('SUPANN_02',
 					'pattern' => $pattern,
 					'attributes' => array('supannCodeEntite'),
 					'sizelimit' => 10,
+					'onlyAccessible' => false
 				)
 			);
 			$search -> run();

@@ -472,7 +472,9 @@ class LSldapObject {
         foreach($data as $val) {
           // validation par check LDAP
           if((isset($test['filter'])||isset($test['basedn']))&&(isset($test['result']))) {
-            $sparams=(isset($test['scope']))?array('scope' => $test['scope']):array();
+            $sparams=array('onlyAccessible' => False);
+            if (isset($test['scope']))
+              $sparams['scope'] = $test['scope'];
             $this -> other_values['val']=$val;
             // Filter from test configuration
             if (isset($test['filter']) && !empty($test['filter'])) {
@@ -954,8 +956,9 @@ class LSldapObject {
    *
    * @retval array('dn' => 'display')
    */
-  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false,$cache=true,$filter=NULL) {
-    return $this -> listObjectsName($filter,$topDn,array('pattern' => $pattern),$displayFormat,$cache);
+  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false,$cache=true,$filter=NULL,$sparams=array()) {
+    $sparams['pattern']=$pattern;
+    return $this -> listObjectsName($filter,$topDn,$sparams,$displayFormat,$cache);
   }
 
   /**
@@ -1382,7 +1385,7 @@ class LSldapObject {
     }
     if ($val) {
       $filter = Net_LDAP2_Filter::create($attr,'equals',$val);
-      return $this -> listObjects($filter,LSsession :: getRootDn(),array('scope' => 'sub','recursive' => true,'withoutCache'=>true));
+      return $this -> listObjects($filter,LSsession :: getRootDn(),array('scope' => 'sub','recursive' => true,'withoutCache'=>true, 'onlyAccessible' => false));
     }
     return;
   }

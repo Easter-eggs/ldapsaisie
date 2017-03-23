@@ -61,7 +61,7 @@ class LSauthMethod {
 				$this -> authData['username'],
 				LSsession :: getTopDn(),
 				(isset(LSsession :: $ldapServer['authObjectFilter'])?LSsession :: $ldapServer['authObjectFilter']:NULL),
-				array('withoutCache' => true)
+				array('withoutCache' => true, 'onlyAccessible' => false)
 			);
 			$nbresult=count($result);
 			
