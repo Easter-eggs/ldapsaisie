@@ -83,6 +83,7 @@ l'annuaire.
       'basedn' => '[basedn]', // Le basedn de la recherche
       'displayValue' => '[format]', // Format du nom des sous-niveaux
       'nologin' => true, // Désactive la connection dans ces subDn
+      'onlyAccessible' => True, // Pour que seul les LSobjet accessible à l'utilisateur soit listé
       'LSobjects' => array( // Liste des types d'LSobjets présents dans les sous-niveaux
         [LSobject1],
         [LSobject2],

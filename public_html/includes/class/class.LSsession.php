@@ -1063,9 +1063,11 @@ class LSsession {
             else {
               $displayName = NULL;
             }
+            $sparams = array();
+            $sparams['onlyAccessible'] = (isset($LSoject_config['onlyAccessible'])?$LSoject_config['onlyAccessible']:False);
             if( self :: loadLSobject($LSobject_name) ) {
               if ($subdnobject = new $LSobject_name()) {
-                $tbl_return = $subdnobject -> getSelectArray(NULL,$basedn,$displayName);
+                $tbl_return = $subdnobject -> getSelectArray(NULL,$basedn,$displayName,false,false,NULL,$sparams);
                 if (is_array($tbl_return)) {
                   $return=array_merge($return,$tbl_return);
                 }
