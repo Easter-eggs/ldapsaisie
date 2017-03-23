@@ -158,6 +158,9 @@ $GLOBALS['LSlang'] = array (
 "Posix" =>
   "Posix",
 
+"Refresh my access rights" =>
+  "Rafraîchir mes droits d'accès",
+
 "Result" =>
   "Résultat",
 

@@ -49,7 +49,9 @@
       </select>
       <input type='submit' value='->'/>
     </form>
-    {if $displaySelfAccess}{$connected_as} <span id='user_name'>{$LSsession_username}</span>{/if}{if $displayLogoutBtn} <a href='index.php?LSsession_logout'><img src='{img name='logout'}' alt='Logout' title='Logout' /></a>{/if}
+    {if $displaySelfAccess}{$connected_as} <span id='user_name'>{$LSsession_username}</span>{/if}
+    <a href='index.php?LSsession_refresh=1'><img src='{img name='refresh'}' alt="{tr msg="Refresh my access rights"}" title="{tr msg="Refresh my access rights"}" /></a>
+    {if $displayLogoutBtn} <a href='index.php?LSsession_logout'><img src='{img name='logout'}' alt='Logout' title='Logout' /></a>{/if}
     </td>
   </tr>
   <tr>
