@@ -25,15 +25,16 @@ require_once 'core.php';
 if(LSsession :: startLSsession()) {
   if (isset($_REQUEST['LSobject'])) {
     $LSobject = $_REQUEST['LSobject'];
-    $dn = isset($_REQUEST['dn'])?urldecode($_REQUEST['dn']):null;
+    if ( $LSobject == 'SELF' ) {
+      $LSobject = LSsession :: getLSuserObject() -> getType();
+      $dn = LSsession :: getLSuserObjectDn();
+    }
+    else {
+      $dn = isset($_REQUEST['dn'])?urldecode($_REQUEST['dn']):null;
+    }
     
-    if (LSsession :: in_menu($LSobject)) {
+    if (LSsession :: in_menu($LSobject) || LSsession :: canAccess($LSobject,$dn)) {
     
-      if ( $LSobject == 'SELF' ) {
-        $LSobject = LSsession :: getLSuserObject() -> getType();
-        $dn = LSsession :: getLSuserObjectDn();
-      }
-      
       if ( LSsession :: loadLSobject($LSobject) ) {
         // Affichage d'un objet
         if ( $dn!='' ) {
