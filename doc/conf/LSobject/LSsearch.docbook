@@ -26,6 +26,7 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     'recursive' => [boolean],
     'approx' => [boolean],
     'withoutCache' => [boolean],
+    'onlyAccessible' => [boolean],
     // Paramètres de tri
     'sortBy' => [displayName|subDn],
     'sortDirection' => [ASC|DESC],
@@ -176,6 +177,13 @@ contexte dans lequel cette recherche est effectuée.</para>
   <term>withoutCache</term>
   <listitem>
     <simpara>Booléen déterminant si le cache de recherche doit être utilisé.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>onlyAccessible</term>
+  <listitem>
+    <simpara>Booléen déterminant si seul les objets accessibles à l'utilisateur connecté doivent être retournés par la recherche.</simpara>
   </listitem>
 </varlistentry>
 

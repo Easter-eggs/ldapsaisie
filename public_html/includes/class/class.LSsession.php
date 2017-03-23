@@ -1555,6 +1555,7 @@ class LSsession {
     $params = array(
       'basedn' => isset($filter_def['basedn']) ? $filter_def['basedn'] : $basedn,
       'filter' => $filter,
+      'onlyAccessible' => False
     );
     if (isset($filter_def['params']) && is_array($filter_def['params'])) {
       $params = array_merge($filter_def['params'],$params);
