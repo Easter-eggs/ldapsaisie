@@ -12,6 +12,7 @@
      'object_type' => '[Type d'LSobject selectionnable]',
      'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
      'value_attribute' => '[Nom de l'attribut clé des LSobjects]',
+     'filter' => '[Filtre de recherche]',
      'onlyAccessible' => '[Booléen]'
    ),
    'ordered' => [Booléen],
