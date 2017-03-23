@@ -170,6 +170,7 @@ class LSattr_html_select_list extends LSattr_html{
       'basedn' => (isset($conf['basedn'])?$conf['basedn']:null),
       'scope'  => (isset($conf['scope'])?$conf['scope']:null),
       'displayFormat' => (isset($conf['display_name_format'])?$conf['display_name_format']:null),
+      'onlyAccessible' => (isset($conf['onlyAccessible'])?$conf['onlyAccessible']:False),
     );
 
     if (isset($conf['value_attribute']) && $conf['value_attribute']!='dn') {

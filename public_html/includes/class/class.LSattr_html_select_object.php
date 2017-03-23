@@ -165,7 +165,9 @@ class LSattr_html_select_object extends LSattr_html{
           foreach($values as $val) {
             if (!empty($val)) {
               $filter=Net_LDAP2_Filter::create($conf['value_attribute'],'equals',$val);
-              $listobj = $obj -> listObjectsName($filter,NULL,array(),$conf['display_name_format']);
+              $sparams=array();
+              $sparams['onlyAccessible'] = (isset($conf['onlyAccessible'])?$conf['onlyAccessible']:False);
+              $listobj = $obj -> listObjectsName($filter,NULL,$sparams,$conf['display_name_format']);
               if (count($listobj)==1) {
 		foreach($listobj as $dn => $name) {
                   $DNs[]=$dn;

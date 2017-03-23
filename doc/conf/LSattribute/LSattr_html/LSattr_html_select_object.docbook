@@ -11,7 +11,8 @@
    selectable_object => array (
      'object_type' => '[Type d'LSobject selectionnable]',
      'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
-     'value_attribute' => '[Nom de l'attribut clé des LSobjects]'
+     'value_attribute' => '[Nom de l'attribut clé des LSobjects]',
+     'onlyAccessible' => '[Booléen]'
    ),
    'ordered' => [Booléen],
    'sort' => [Booléen],
@@ -60,6 +61,13 @@
     <listitem>
       <simpara>Filtre de recherche (facultatif) qui sera ajouter au filtre par défaut
       lors de la sélection des objets.</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>onlyAccessible</term>
+    <listitem>
+      <simpara>Booléen falcultatif définissant si seul les LSobjets auxquels l'utilisateur connecté à accès doivent être considérés comme sélectionnables (Faux par défault).</simpara>
     </listitem>
   </varlistentry>
 </variablelist>

@@ -19,7 +19,8 @@
        'values_attribute' => '[Nom de l'attribut clé multi-valeur]',
        'filter' => '[Filtre de recherche des LSobject]',
        'scope' => '[Scope de la recherche]',
-       'basedn' => '[Basedn de la recherche]'
+       'basedn' => '[Basedn de la recherche]',
+       'onlyAccessible' => '[Booléen]'
      ),
      array (
        'label' => '[LSformat du nom du groupe de valeurs]',
@@ -116,6 +117,13 @@
     <term>basedn</term>
     <listitem>
       <simpara>Basedn falcultatif de la recherche des LSobjets.</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>onlyAccessible</term>
+    <listitem>
+      <simpara>Booléen falcultatif définissant si seul les LSobjets auxquels l'utilisateur connecté à accès doivent être considérés comme sélectionnables (Faux par défault).</simpara>
     </listitem>
   </varlistentry>
 </variablelist>

@@ -179,7 +179,9 @@ class LSformElement_select_object extends LSformElement {
     if (is_array($this -> params['html_options']['selectable_object'])) {
       if (LSsession :: loadLSobject($this -> params['html_options']['selectable_object']['object_type'])) {
         $obj = new $this -> params['html_options']['selectable_object']['object_type']();
-        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_name_format'],false,true,$this -> params['html_options']['selectable_object']['filter']);
+        $sparams = array();
+        $sparams['onlyAccessible'] = (isset($this -> params['html_options']['selectable_object']['onlyAccessible'])?$this -> params['html_options']['selectable_object']['onlyAccessible']:FALSE);
+        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_name_format'],false,true,(isset($this -> params['html_options']['selectable_object']['filter'])?$this -> params['html_options']['selectable_object']['filter']:NULL),$sparams);
         if (is_array($ret)) {
           return $ret;
         }
