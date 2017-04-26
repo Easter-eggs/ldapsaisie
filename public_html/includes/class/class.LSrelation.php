@@ -92,7 +92,7 @@ class LSrelation {
           if(LSsession :: loadLSobject($relationConf['LSobject'])) {
             if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
               $objRel = new $relationConf['LSobject']();
-              $list = $objRel -> $relationConf['list_function']($object);
+              $list = call_user_func(array($objRel, $relationConf['list_function']), $object);
               if (is_array($list)) {
                 foreach($list as $o) {
                   $o_infos = array(
@@ -100,7 +100,7 @@ class LSrelation {
                     'dn' => $o -> getDn()
                   );
                   if (isset($relationConf['canEdit_function'])) {
-                    $o_infos['canEdit']= $o -> $relationConf['canEdit_function']();
+                    $o_infos['canEdit']= call_user_func(array($o, $relationConf['canEdit_function']));
                   }
                   else {
                     $o_infos['canEdit']=true;
@@ -140,7 +140,7 @@ class LSrelation {
               if (LSsession :: relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                 if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
                   $objRel = new $relationConf['LSobject']();
-                  $list = $objRel -> $relationConf['list_function']($object);
+                  $list = call_user_func(array($objRel, $relationConf['list_function']), $object);
                   $_SESSION['LSselect'][$relationConf['LSobject']]=array();
                   if (is_array($list)) {
                     foreach($list as $o) {
@@ -188,14 +188,14 @@ class LSrelation {
                 if (is_array($_SESSION['LSselect'][$relationConf['LSobject']])) {
                   if (method_exists($relationConf['LSobject'],$relationConf['update_function'])) {
                     $objRel = new $relationConf['LSobject']();
-                    if($objRel -> $relationConf['update_function']($object,$_SESSION['LSselect'][$relationConf['LSobject']])) {
+                    if(call_user_func(array($objRel, $relationConf['update_function']), $object,$_SESSION['LSselect'][$relationConf['LSobject']])) {
                       if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
-                        $list = $objRel -> $relationConf['list_function']($object);
+                        $list = call_user_func(array($objRel, $relationConf['list_function']), $object);
                         if (is_array($list)&&(!empty($list))) {
                           $data['html']="";
                           foreach($list as $o) {
                             if (isset($relationConf['canEdit_function'])) {
-                              if ($o -> $relationConf['canEdit_function']()) {
+                              if (call_user_func(array($o, $relationConf['canEdit_function']))) {
                                 $class=' LSrelation_editable';
                               }
                               else {
@@ -262,18 +262,18 @@ class LSrelation {
               if (LSsession :: relationCanEdit($object -> getValue('dn'),$object -> getType(),$conf['relationName'])) {
                 if (method_exists($relationConf['LSobject'],$relationConf['list_function'])) {
                   $objRel = new $relationConf['LSobject']();
-                  $list = $objRel -> $relationConf['list_function']($object);
+                  $list = call_user_func(array($objRel, $relationConf['list_function']), $object);
                   if (is_array($list)) {
                     $ok=false;
                     foreach($list as $o) {
                       if($o -> getDn() == $_REQUEST['dn']) {
                         if (isset($relationConf['canEdit_function'])) {
-                          if (!$o -> $relationConf['canEdit_function']()) {
+                          if (!call_user_func(array($o, $relationConf['canEdit_function']))) {
                             LSerror :: addErrorCode('LSsession_11');
                             break;
                           }
                         }
-                        if (!$o -> $relationConf['remove_function']($object)) {
+                        if (!call_user_func(array($o, $relationConf['remove_function']), $object)) {
                           LSerror :: addErrorCode('LSrelations_03',$conf['relationName']);
                         }
                         else {

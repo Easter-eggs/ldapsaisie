@@ -524,7 +524,7 @@ class LSldapObject {
           // Validation par fonction externe
           else if(isset($test['function'])) {
             if (function_exists($test['function'])) {
-              if(!$test['function']($this)) {
+              if(!call_user_func($test['function'],$this)) {
                 if ($LSform) $LSform -> setElementError($attr,$msg_error);
                 $retval = false;
               }
@@ -1115,10 +1115,10 @@ class LSldapObject {
           if (LSsession :: loadLSobject($relation_conf['LSobject'])) {
             $obj = new $relation_conf['LSobject']();
             if ((method_exists($obj,$relation_conf['list_function']))&&(method_exists($obj,$relation_conf['getkeyvalue_function']))) {
-              $list = $obj -> $relation_conf['list_function']($me);
+              $list = call_user_func(array($obj, $relation_conf['list_function']), $me);
               if (is_array($list)) {
                 // Key Value
-                $key = $obj -> $relation_conf['getkeyvalue_function']($me);
+                $key = call_user_func(array($obj, $relation_conf['getkeyvalue_function']), $me);
                 
                 $this -> _LSrelationsCache[$relation_name] = array(
                   'list' => $list,
@@ -1181,7 +1181,7 @@ class LSldapObject {
         foreach($objInfos['list'] as $obj) {
           $meth = $this->config['LSrelation'][$relation_name]['rename_function'];
           if (method_exists($obj,$meth)) {
-            if (!($obj -> $meth($this,$objInfos['keyvalue']))) {
+            if (!(call_user_func(array($obj, $meth), $this, $objInfos['keyvalue']))) {
               $error=1;
             }
           }
@@ -1233,7 +1233,7 @@ class LSldapObject {
         foreach($objInfos['list'] as $obj) {
           $meth = $this->config['LSrelation'][$relation_name]['remove_function'];
           if (method_exists($obj,$meth)) {
-            if (!($obj -> $meth($this))) {
+            if (!(call_user_func(array($obj, $meth), $this))) {
               $error=1;
             }
           }
@@ -1710,7 +1710,7 @@ class LSldapObject {
       }
       foreach($funcs as $func) {
         if(function_exists($func)) {
-          if(!$func($this)) {
+          if(!call_user_func($func,$this)) {
             $return = false;
             LSerror :: addErrorCode('LSldapObject_07',array('func' => $func,'event' => $event));
           }
@@ -1730,7 +1730,7 @@ class LSldapObject {
             $obj = new $e['class']();
             if (method_exists($obj,$e['fct'])) {
               try {
-                $obj -> $e['fct']($e['param']);
+                call_user_func(array($obj,$e['fct']),$e['param']);
               }
               catch(Exception $er) {
                 LSerror :: addErrorCode('LSldapObject_10',array('class' => $e['class'],'meth' => $e['fct'],'event' => $event));
@@ -1750,7 +1750,7 @@ class LSldapObject {
         else {
           if (function_exists($e['fct'])) {
             try {
-              $e['fct']($e['param']);
+              call_user_func($e['fct'],$e['param']);
             }
             catch(Exception $er) {
               LSerror :: addErrorCode('LSldapObject_27',array('func' => $e['fct'],'event' => $event));
@@ -1770,7 +1770,7 @@ class LSldapObject {
       foreach ($this -> _objectEvents[$event] as $e) {
         if (method_exists($e['obj'],$e['meth'])) {
           try {
-            $e['obj'] -> $e['meth']($e['param']);
+            call_user_func(array($e['obj'], $e['meth']),$e['param']);
           }
           catch(Exception $er) {
             LSerror :: addErrorCode('LSldapObject_29',array('meth' => $e['meth'],'event' => $event));

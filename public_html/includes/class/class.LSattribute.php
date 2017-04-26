@@ -184,7 +184,7 @@ class LSattribute {
         $result=$data;
         foreach($this -> config['onDisplay'] as $func) {
           if (function_exists($func)) {
-            $result=$func($result);
+            $result=call_user_func($func, $result);
           }
           else {
             LSerror :: addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $func));
@@ -539,7 +539,7 @@ class LSattribute {
         $result=$data;
         foreach($this -> config['onSave'] as $func) {
           if (function_exists($func)) {
-            $result=$func($result);
+            $result=call_user_func($func, $result);
           }
           else {
             LSerror :: addErrorCode('LSattribute_05',array('attr' => $this->name,'func' => $func));
@@ -649,7 +649,7 @@ class LSattribute {
       }
       foreach($funcs as $func) {
         if(function_exists($func)) {
-          if(!$func($this -> ldapObject)) {
+          if(!call_user_func($func, $this -> ldapObject)) {
             $return = false;
           }
         }
@@ -666,7 +666,7 @@ class LSattribute {
             $obj = new $e['class']();
             if (method_exists($obj,$e['fct'])) {
               try {
-                $obj -> $e['fct']($e['params']);
+                call_user_func(array($obj, $e['fct']), $e['params']);
               }
               catch(Exception $er) {
                 $return = false;
@@ -686,7 +686,7 @@ class LSattribute {
         else {
           if (function_exists($e['fct'])) {
             try {
-              $e['fct']($e['params']);
+              call_user_func($e['fct'], $e['params']);
             }
             catch(Exception $er) {
               LSdebug("Event ".$event." : Erreur durant l'execution de la function ".$e['fct']);
@@ -705,7 +705,7 @@ class LSattribute {
       foreach ($this -> _objectEvents[$event] as $e) {
         if (method_exists($e['obj'],$e['meth'])) {
           try {
-            $e['obj'] -> $e['meth']($e['params']);
+            call_user_func(array($e['obj'], $e['meth']),$e['params']);
           }
           catch(Exception $er) {
             $return = false;

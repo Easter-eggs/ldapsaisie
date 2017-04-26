@@ -44,7 +44,7 @@ if(LSsession :: startLSsession()) {
             }
             if (isset($_GET['valid']) || $config['noConfirmation']) {
               LStemplate :: assign('pagetitle',$title);
-              if ($config['function']($LSsearch)) {
+              if (call_user_func($config['function'],$LSsearch)) {
                 if ($config['disableOnSuccessMsg']!=true) {
                   if ($config['onSuccessMsgFormat']) {
                     LSsession :: addInfo(getFData(__($config['onSuccessMsgFormat']),$objectname));
