@@ -159,7 +159,7 @@ class LSattr_html_select_list extends LSattr_html{
 
     if ((!isset($conf['object_type'])) || ((!isset($conf['value_attribute'])) && (!isset($conf['values_attribute'])))) {
       LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
-      break;
+      return;
     }
     if (!LSsession :: loadLSclass('LSsearch')) {
       return;
