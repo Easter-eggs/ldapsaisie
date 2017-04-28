@@ -190,7 +190,7 @@ class LSattr_ldap_password extends LSattr_ldap {
         return $clearPassword;
         break;
       case 'function':
-        return call_user_func($this -> config['ldap_options']['encode_function'], $this -> attribute -> ldapObject, $clearPassword);
+        return call_user_func_array($this -> config['ldap_options']['encode_function'], array(&$this -> attribute -> ldapObject, $clearPassword));
         break;
     }
     LSerror :: addErrorCode('LSattr_ldap_password_01',$this -> config['ldap_options']['encode']);

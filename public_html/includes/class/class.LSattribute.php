@@ -495,7 +495,7 @@ class LSattribute {
   function generateValue() {
     $value=false;
     if (function_exists($this -> config['generate_function'])) {
-      $value=call_user_func($this -> config['generate_function'],$this -> ldapObject);
+      $value=call_user_func_array($this -> config['generate_function'],array(&$this -> ldapObject));
     }
     else if (isset($this -> config['generate_value_format'])) {
       $value = $this -> ldapObject -> getFData($this -> config['generate_value_format']);
@@ -649,7 +649,7 @@ class LSattribute {
       }
       foreach($funcs as $func) {
         if(function_exists($func)) {
-          if(!call_user_func($func, $this -> ldapObject)) {
+          if(!call_user_func_array($func, array(&$this -> ldapObject))) {
             $return = false;
           }
         }
@@ -666,7 +666,7 @@ class LSattribute {
             $obj = new $e['class']();
             if (method_exists($obj,$e['fct'])) {
               try {
-                call_user_func(array($obj, $e['fct']), $e['params']);
+                call_user_func_array(array($obj, $e['fct']), array(&$e['params']));
               }
               catch(Exception $er) {
                 $return = false;
@@ -686,7 +686,7 @@ class LSattribute {
         else {
           if (function_exists($e['fct'])) {
             try {
-              call_user_func($e['fct'], $e['params']);
+              call_user_func_array($e['fct'], array(&$e['params']));
             }
             catch(Exception $er) {
               LSdebug("Event ".$event." : Erreur durant l'execution de la function ".$e['fct']);
@@ -705,7 +705,7 @@ class LSattribute {
       foreach ($this -> _objectEvents[$event] as $e) {
         if (method_exists($e['obj'],$e['meth'])) {
           try {
-            call_user_func(array($e['obj'], $e['meth']),$e['params']);
+            call_user_func_array(array($e['obj'], $e['meth']),array(&$e['params']));
           }
           catch(Exception $er) {
             $return = false;

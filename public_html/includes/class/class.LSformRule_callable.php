@@ -43,7 +43,7 @@ class LSformRule_callable extends LSformRule {
    */ 
   function validate($value,$option,$formElement) {
     if (is_callable($option['callable'])) {
-      return call_user_func($option['callable'],$value,$option,$formElement);
+      return call_user_func_array($option['callable'],array($value,$option,&$formElement));
     }
     else {
       LSerror :: addErrorCode('LSformRule_callable_01');

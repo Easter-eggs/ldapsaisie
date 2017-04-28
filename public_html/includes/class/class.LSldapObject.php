@@ -524,7 +524,7 @@ class LSldapObject {
           // Validation par fonction externe
           else if(isset($test['function'])) {
             if (function_exists($test['function'])) {
-              if(!call_user_func($test['function'],$this)) {
+              if(!call_user_func_array($test['function'],array(&$this))) {
                 if ($LSform) $LSform -> setElementError($attr,$msg_error);
                 $retval = false;
               }
@@ -1693,7 +1693,7 @@ class LSldapObject {
       }
       foreach($funcs as $func) {
         if(function_exists($func)) {
-          if(!call_user_func($func,$this)) {
+          if(!call_user_func_array($func,array(&$this))) {
             $return = false;
             LSerror :: addErrorCode('LSldapObject_07',array('func' => $func,'event' => $event));
           }
@@ -1713,7 +1713,7 @@ class LSldapObject {
             $obj = new $e['class']();
             if (method_exists($obj,$e['fct'])) {
               try {
-                call_user_func(array($obj,$e['fct']),$e['param']);
+                call_user_func_array(array($obj,$e['fct']),array(&$e['param']));
               }
               catch(Exception $er) {
                 LSerror :: addErrorCode('LSldapObject_10',array('class' => $e['class'],'meth' => $e['fct'],'event' => $event));
@@ -1733,7 +1733,7 @@ class LSldapObject {
         else {
           if (function_exists($e['fct'])) {
             try {
-              call_user_func($e['fct'],$e['param']);
+              call_user_func_array($e['fct'],array(&$e['param']));
             }
             catch(Exception $er) {
               LSerror :: addErrorCode('LSldapObject_27',array('func' => $e['fct'],'event' => $event));
@@ -1753,7 +1753,7 @@ class LSldapObject {
       foreach ($this -> _objectEvents[$event] as $e) {
         if (method_exists($e['obj'],$e['meth'])) {
           try {
-            call_user_func(array($e['obj'], $e['meth']),$e['param']);
+            call_user_func_array(array($e['obj'], $e['meth']),array(&$e['param']));
           }
           catch(Exception $er) {
             LSerror :: addErrorCode('LSldapObject_29',array('meth' => $e['meth'],'event' => $event));

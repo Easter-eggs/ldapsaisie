@@ -46,7 +46,7 @@ class LSrelation {
       $objRel = new $this -> config['LSobject']();
       if (isset($this -> config['list_function'])) {
         if (method_exists($this -> config['LSobject'],$this -> config['list_function'])) {
-          return call_user_func(array($objRel, $this -> config['list_function']), $this -> obj);
+          return call_user_func_array(array($objRel, $this -> config['list_function']), array(&$this -> obj));
         }
         LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['list_function'], 'action' =>  _('listing related objects'), 'relation' => $this -> relationName));
         return False;
@@ -69,7 +69,7 @@ class LSrelation {
       $objRel = new $this -> config['LSobject']();
       if (isset($this -> config['getkeyvalue_function'])) {
         if (method_exists($this -> config['LSobject'],$this -> config['getkeyvalue_function'])) {
-          return call_user_func(array($objRel, $this -> config['getkeyvalue_function']), $this -> obj);
+          return call_user_func_array(array($objRel, $this -> config['getkeyvalue_function']), array(&$this -> obj));
         }
         LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['getkeyvalue_function'], 'action' =>  _('getting key value'), 'relation' => $this -> relationName));
       }
@@ -115,7 +115,7 @@ class LSrelation {
   public function removeRelationWithObject($objRel) {
     if (isset($this -> config['remove_function'])) {
       if (method_exists($this -> config['LSobject'],$this -> config['remove_function'])) {
-        return call_user_func(array($objRel, $this -> config['remove_function']),$this -> obj);
+        return call_user_func_array(array($objRel, $this -> config['remove_function']),array(&$this -> obj));
       }
       LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['remove_function'], 'action' =>  _('deleting'), 'relation' => $this -> relationName));
       return False;
@@ -132,7 +132,7 @@ class LSrelation {
   public function renameRelationWithObject($objRel,$oldKeyValue) {
     if (isset($this -> config['rename_function'])) {
       if (method_exists($objRel,$this -> config['rename_function'])) {
-        return call_user_func(array($objRel, $this -> config['rename_function']), $this -> obj, $oldKeyValue);
+        return call_user_func_array(array($objRel, $this -> config['rename_function']), array(&$this -> obj, $oldKeyValue));
       }
       LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['rename_function'], 'action' =>  _('renaming'), 'relation' => $this -> relationName));
       return False;
@@ -151,7 +151,7 @@ class LSrelation {
       $objRel = new $this -> config['LSobject']();
       if (isset($this -> config['update_function'])) {
         if (method_exists($objRel,$this -> config['update_function'])) {
-          return call_user_func(array($objRel, $this -> config['update_function']), $this -> obj, $listDns);
+          return call_user_func_array(array($objRel, $this -> config['update_function']), array(&$this -> obj, $listDns));
         }
         LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['update_function'], 'action' =>  _('updating'), 'relation' => $this -> relationName));
       }
