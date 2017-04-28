@@ -2,9 +2,6 @@
 
 $GLOBALS['LSlang'] = array (
 
-"%{value} (unrecognized value)" =>
-  "%{value} (valeur non-reconnue)",
-
 "== All ==" =>
   "== Toutes ==",
 
@@ -35,14 +32,14 @@ $GLOBALS['LSlang'] = array (
 "Doesn't belong to any group." =>
   "N'appartient à aucun groupe.",
 
+"Doesn't sponsor any user." =>
+  "Ne parraine aucun utilisateur.",
+
 "E-mail address" =>
   "Adresse e-mail",
 
 "Entity %{id} (unrecognized)" =>
   "Entité %{id} (non-reconnue)",
-
-"Errors" =>
-  "Erreurs",
 
 "File" =>
   "Fichier",
@@ -65,14 +62,14 @@ $GLOBALS['LSlang'] = array (
 "Given email address is invalid." =>
   "L'adresse mail saisie est invalide.",
 
+"Godfather of ..." =>
+  "Parrain de ...",
+
 "Groups" =>
   "Groupes",
 
 "Home Directory" =>
   "Dossier personnel",
-
-"Identifier" =>
-  "Identifiant",
 
 "Identifier must contain alphanumeric values, dots (.) and dashes (-) only." =>
   "L'identifiant doit contenir uniquement des valeurs alpha-numériques, avec eventuellement des points (.) et des tirets (-).",
@@ -139,9 +136,6 @@ $GLOBALS['LSlang'] = array (
 
 "Only validate data" =>
   "Validation des données uniquement",
-
-"Password" =>
-  "Mot de passe",
 
 "Password recovery hash" =>
   "Hash de récupération de mot de passe",

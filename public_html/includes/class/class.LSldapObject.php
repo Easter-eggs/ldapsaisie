@@ -1106,38 +1106,22 @@ class LSldapObject {
    */
   function updateLSrelationsCache() {
     $this -> _LSrelationsCache=array();
-    if (is_array($this->config['LSrelation'])) {
+    if (is_array($this->config['LSrelation']) && LSsession :: loadLSclass('LSrelation')) {
       $type = $this -> getType();
       $me = new $type();
       $me -> loadData($this -> getDn());
       foreach($this->config['LSrelation'] as $relation_name => $relation_conf) {
-        if ( isset($relation_conf['list_function']) ) {
-          if (LSsession :: loadLSobject($relation_conf['LSobject'])) {
-            $obj = new $relation_conf['LSobject']();
-            if ((method_exists($obj,$relation_conf['list_function']))&&(method_exists($obj,$relation_conf['getkeyvalue_function']))) {
-              $list = call_user_func(array($obj, $relation_conf['list_function']), $me);
-              if (is_array($list)) {
-                // Key Value
-                $key = call_user_func(array($obj, $relation_conf['getkeyvalue_function']), $me);
-                
-                $this -> _LSrelationsCache[$relation_name] = array(
-                  'list' => $list,
-                  'keyvalue' => $key
-                );
-              }
-              else {
-                LSdebug('Problème durant la mise en cache de la relation '.$relation_name);
-                return;
-              }
-            }
-            else {
-              LSdebug('Les méthodes de mise en cache de la relation '.$relation_name. ' ne sont pas toutes disponibles.');
-              return;
-            }
-          }
-          else {
-            return;
-          }
+        $relation = new LSrelation($me, $relation_name);
+        $list = $relation -> listRelatedObjects();
+        if (is_array($list)) {
+          $this -> _LSrelationsCache[$relation_name] = array(
+            'list' => $list,
+            'keyvalue' => $relation -> getRelatedKeyValue()
+          );
+        }
+        else {
+          LSdebug('Problème durant la mise en cache de la relation '.$relation_name);
+          return;
         }
       }
     }
@@ -1177,15 +1161,10 @@ class LSldapObject {
     
     // LSrelations
     foreach($this -> _LSrelationsCache as $relation_name => $objInfos) {
-      if ((isset($this->config['LSrelation'][$relation_name]['rename_function']))&&(is_array($objInfos['list']))) {
+      $relation = new LSrelation($this, $relation_name);
+      if (is_array($objInfos['list'])) {
         foreach($objInfos['list'] as $obj) {
-          $meth = $this->config['LSrelation'][$relation_name]['rename_function'];
-          if (method_exists($obj,$meth)) {
-            if (!(call_user_func(array($obj, $meth), $this, $objInfos['keyvalue']))) {
-              $error=1;
-            }
-          }
-          else {
+          if (!$relation -> renameRelationWithObject($obj, $objInfos['keyvalue'])) {
             $error=1;
           }
         }
@@ -1229,17 +1208,13 @@ class LSldapObject {
     
     // LSrelations
     foreach($this -> _LSrelationsCache as $relation_name => $objInfos) {
-      if ((isset($this->config['LSrelation'][$relation_name]['remove_function']))&&(is_array($objInfos['list']))) {
+      $relation = new LSrelation($this, $relation_name);
+      if (is_array($objInfos['list'])) {
         foreach($objInfos['list'] as $obj) {
-          $meth = $this->config['LSrelation'][$relation_name]['remove_function'];
-          if (method_exists($obj,$meth)) {
-            if (!(call_user_func(array($obj, $meth), $this))) {
-              $error=1;
-            }
+          if (!$relation -> canEditRelationWithObject($obj)) {
+            LSerror :: addErrorCode('LSsession_11');
           }
-          else {
-            $error=1;
-          }
+          elseif (!$relation -> removeRelationWithObject($obj)) $error=1;
         }
       }
     }
@@ -1416,6 +1391,10 @@ class LSldapObject {
           return;
         }
       }
+      elseif (!LSsession::canEdit($this -> getType(), $this -> getDn(), $attr)) {
+        LSerror :: addErrorCode('LSsession_11');
+        return;
+      }
       if ($this -> attrs[$attr] instanceof LSattribute) {
         if ($attrValue=='dn') {
           $val = $object -> getDn();
@@ -1473,6 +1452,10 @@ class LSldapObject {
           LSerror :: addErrorCode('LSsession_11');
           return;
         }
+      }
+      elseif (!LSsession::canEdit($this -> getType(), $this -> getDn(), $attr)) {
+        LSerror :: addErrorCode('LSsession_11');
+        return;
       }
       if ($this -> attrs[$attr] instanceof LSattribute) {
         if ($attrValue=='dn') {

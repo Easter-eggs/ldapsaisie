@@ -2,6 +2,13 @@
   <title>LSrelation</title>
   <para>Cette section décrit la manière de configurer les relations entre les
   &LSobjects; appelées &LSrelation;.</para>
+  <para>Dans le cadre d'une liaison dîte <emphasis>simple</emphasis>, c'est à
+  dire une liaison au travers la valeur d'un attribut qui fera directement
+  référence à un autre objet (<emphasis>DN</emphasis> ou la première valeur
+  d'un attribut de référence), pourra être configurée simplement en spécifiant
+  l'attribut de liaison et le type de valeur qu'il contient. Dans le cas d'une
+  liaison plus complexe, il sera possible de développer vous même des méthodes
+  de mise en relation.</para>
   
 <programlisting>
 <citetitle>Structure</citetitle>
@@ -11,6 +18,12 @@
     'emptyText' => "[texte affiché si aucune relation avec d'autres objets 
                      n'existe pour l'objet courant]",
     'LSobject' => '[le type d'LSobjet en relation]',
+
+    // Liaison simple
+    'linkAttribute' => '[attribut de liaison]',
+    'linkAttributeValue' => '[value de l'attribut de liaison]',
+
+    // Liaison complexe
     'list_function' => '[méthode1]',
     'getkeyvalue_function' => '[methode2]',
     'update_function' => '[methode3]',
@@ -18,6 +31,7 @@
     'rename_function' => '[methode5]',
     'canEdit_function' => '[methode6]',
     'canEdit_attribute' => '[nom d'attribut]',
+
     'rights' => array(
       'LSprofile1' => 'r',
       'LSprofile2' => 'w',
@@ -49,7 +63,30 @@
 <varlistentry>
   <term>LSobject</term>
   <listitem>
-    <simpara>Le type d'&LSobject; en relation avec le type courant.</simpara>
+    <simpara>Le type d'&LSobject; en relation avec le type courant.
+    <emphasis>(Facultatif en cas de liaison complexe)</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>linkAttribute</term>
+  <listitem>
+    <simpara>Dans le cadre d'une relation simple, il s'agit de l'attribut de
+    liaison du type d'&LSobject; en relation avec le type courant, c'est à dire
+    l'attribut dans lequel on retrouve une valeur en relation avec l'objet
+    courant. <emphasis>(Facultatif en cas de liaison complexe)</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>linkAttributeValue</term>
+  <listitem>
+    <simpara>Dans le cadre d'une relation simple, il s'agit du type de valeur pris
+    par l'attribut de liaison du type d'&LSobject; en relation avec le type courant.
+    Il peut s'agir du mot clé <literal>dn</literal> si l'attribut de liaison contient
+    le <emphasis>DN</emphasis> de l'objet courant ou bien le nom d'un attribut du type
+    d'objet courant dont la première valeur sera stockée par l'attribut de liaison.
+    <emphasis>(Facultatif en cas de liaison simple)</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -57,7 +94,8 @@
   <term>list_function</term>
   <listitem>
     <simpara>La méthode de la classe du type d'&LSobject; en relation, permettant
-    de lister les objets de ce type en relation avec l'objet courant.</simpara>
+    de lister les objets de ce type en relation avec l'objet courant.
+    <emphasis>(Facultatif en cas de liaison simple)</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -66,7 +104,8 @@
   <listitem>
     <simpara>La méthode de la classe du type d'&LSobject; en relation, permettant
     d'obtenir la valeur clé à stocker pour établir la relation entre l'objet
-    courant et d'autres objets du type concerné.</simpara>
+    courant et d'autres objets du type concerné. <emphasis>(Facultatif en cas de
+    liaison simple)</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -76,7 +115,8 @@
     <simpara>La méthode de la classe du type d'&LSobject; en relation, permettant
     de mettre à jour les relations existantes entre l'objet courant et les objets
     du type concerné. Cette liste d'objets en relation est établie par
-    l'utilisateur à travers l'interface.</simpara>
+    l'utilisateur à travers l'interface. <emphasis>(Facultatif en cas de liaison
+    simple)</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -85,7 +125,8 @@
   <listitem>
     <simpara>La méthode de la classe du type d'&LSobject; en relation permettant
     de supprimer une relation existante entre l'objet courant et un objet du 
-    type concerné.</simpara>
+    type concerné. <emphasis>(Facultatif en cas de liaison simple)</emphasis>
+    </simpara>
   </listitem>
 </varlistentry>
 
@@ -95,7 +136,8 @@
     <simpara>La méthode de la classe du type d'&LSobject; en relation permettant
     d'effectuer les actions nécessaires lorsque l'objet courant est renommé dans
     le but de maintenir les valeurs clés permettant d'établir les relations entre
-    l'objet courant et les objets en relation avec lui.</simpara>
+    l'objet courant et les objets en relation avec lui. <emphasis>(Facultatif en
+    cas de liaison simple)</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -104,7 +146,8 @@
   <listitem>
     <simpara>La méthode de la classe du type d'&LSobject; en relation permettant
     de vérifier que l'utilisateur à le droit de modifier la relation avec un objet
-    en particulier.</simpara>
+    en particulier. <emphasis>(Facultatif en cas de liaison simple)</emphasis>
+    </simpara>
   </listitem>
 </varlistentry>
 
@@ -113,7 +156,8 @@
   <listitem>
     <simpara>Le nom de l'attibut du type d'&LSobject; en relation devant être
     éditable par l'utilisateur pour que celui-ci puisse modifier la relation.
-    </simpara>
+    Dans le cadre d'une relation simple, celui-ci peut, si nécessaire, être
+    différent du paramètre <literal>linkAttribute</literal>.</simpara>
   </listitem>
 </varlistentry>
 

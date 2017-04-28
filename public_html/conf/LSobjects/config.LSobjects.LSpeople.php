@@ -91,6 +91,18 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'admin' => 'w',
         'admingroup' => 'w'
       )
+    ),
+    'godfather' => array(
+      'label' => 'Godfather of ...',
+      'emptyText' => "Doesn't sponsor any user.",
+      'LSobject' => "LSpeople",
+      'linkAttribute' => "lsGodfatherDn",
+      'linkAttributeValue' => "dn",
+      'rights' => array(
+        'self' => 'r',
+        'admin' => 'w',
+        'admingroup' => 'w'
+      )
     )
   ),
   
