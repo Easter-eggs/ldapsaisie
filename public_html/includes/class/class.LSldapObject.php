@@ -1307,25 +1307,31 @@ class LSldapObject {
    * 
    * @param[in] $object Un object de type $objectType
    * @param[in] $objectType Le type d'objet en relation
-   * @param[in] $value La valeur que doit avoir l'attribut :
-   *                      - soit le dn (par defaut)
-   *                      - soit la valeur [0] d'un attribut
+   * @param[in] $attrValues La/les valeur(s) que doit/peut avoir l'attribut :
+   *                        - soit le dn (par defaut)
+   *                        - soit une des valeurs d'un attribut
    * 
    * @retval Mixed La valeur clef d'un objet en relation
    **/
-  function getObjectKeyValueInRelation($object,$objectType,$attrValue='dn') {
+  function getObjectKeyValueInRelation($object,$objectType,$attrValues='dn') {
     if (!$objectType) {
       LSerror :: addErrorCode('LSrelations_05','getObjectKeyValueInRelation');
       return;
     }
-    if ($attrValue=='dn') {
-      $val = $object -> getDn();
+    if (!is_array($attrValues)) $attrValues=array($attrValues);
+    $keyValues=array();
+    foreach ($attrValues as $attrValue) {
+      if ($attrValue=='dn') {
+        $dn=$object -> getDn();
+        if (!in_array($dn,$keyValues))
+          $keyValues[] = $dn;
+      }
+      else {
+        foreach ($object -> getValue($attrValue) as $keyValue)
+          if (!in_array($keyValue,$keyValues)) $keyValues[]=$keyValue;
+      }
     }
-    else {
-      $val = $object -> getValue($attrValue);
-      $val = $val[0];
-    }
-    return $val;
+    return $keyValues;
   }
   
   /**
@@ -1340,29 +1346,29 @@ class LSldapObject {
    * @param[in] $object Un object de type $objectType
    * @param[in] $attr L'attribut dans lequel l'objet doit apparaitre
    * @param[in] $objectType Le type d'objet en relation
-   * @param[in] $value La valeur que doit avoir l'attribut :
+   * @param[in] $attrValues La/les valeur(s) que doit/peut avoir l'attribut :
    *                      - soit le dn (par defaut)
-   *                      - soit la valeur [0] d'un attribut
+   *                      - soit une des valeurs d'un attribut
    * 
    * @retval Array of $objectType Les objets en relations
    **/
-  function listObjectsInRelation($object,$attr,$objectType,$attrValue='dn') {
+  function listObjectsInRelation($object,$attr,$objectType,$attrValues='dn') {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','listObjectsInRelation');
       return;
     }
-    if ($attrValue=='dn') {
-      $val = $object -> getDn();
-    }
-    else {
-      $val = $object -> getValue($attrValue);
-      $val = $val[0];
-    }
-    if ($val) {
-      $filter = Net_LDAP2_Filter::create($attr,'equals',$val);
+    if (!is_array($attrValues)) $attrValues=array($attrValues);
+    $keyValues=self :: getObjectKeyValueInRelation($object,$objectType,$attrValues);
+    if (!empty($keyValues)) {
+      $keyValuesFilters=array();
+      foreach($keyValues as $keyValue) {
+        $keyValuesFilters[] = Net_LDAP2_Filter::create($attr,'equals',$keyValue);
+      }
+      $filter = LSldap::combineFilters('or', $keyValuesFilters);
       return $this -> listObjects($filter,LSsession :: getRootDn(),array('scope' => 'sub','recursive' => true,'withoutCache'=>true, 'onlyAccessible' => false));
     }
-    return;
+
+    return array();
   }
 
   /**
@@ -1438,10 +1444,13 @@ class LSldapObject {
    *                      - soit la valeur [0] d'un attribut
    * @param[in] $canEditFunction  Le nom de la fonction pour vérifier que la
    *                              relation avec l'objet est éditable par le user
+   * @param[in] $attrValues L'ensembe des valeurs que peut avoir l'attribut avant mise à jour :
+   *                        - soit le dn (par defaut)
+   *                        - soit une des valeurs d'un attribut
    * 
    * @retval boolean true si l'objet à été supprimé, False sinon
    **/  
-  function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
+  function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','deleteOneObjectInRelation');
       return;
@@ -1458,13 +1467,8 @@ class LSldapObject {
         return;
       }
       if ($this -> attrs[$attr] instanceof LSattribute) {
-        if ($attrValue=='dn') {
-          $val = $object -> getDn();
-        }
-        else {
-          $val = $object -> getValue($attrValue);
-          $val = $val[0];
-        }
+        if (!is_array($attrValues)) $attrValues=array($attrValue);
+        $keyValues=self :: getObjectKeyValueInRelation($object,$objectType,$attrValues);
         $values = $this -> attrs[$attr] -> getValue();
         if ((!is_array($values)) && (!empty($values))) {
           $values = array($values);
@@ -1472,7 +1476,7 @@ class LSldapObject {
         if (is_array($values)) {
           $updateData=array();
           foreach($values as $value) {
-            if ($value!=$val) {
+            if (!in_array($value,$keyValues)) {
               $updateData[]=$value;
             }
           }
@@ -1487,7 +1491,8 @@ class LSldapObject {
   * Renome un objet en relation dans l'attribut $attr de $this
   * 
   * @param[in] $object Un objet de type $objectType à renomer
-  * @param[in] $oldValue string L'ancienne valeur faisant référence à l'objet
+  * @param[in] $oldValues array|string Le(s) ancienne(s) valeur(s possible(s)
+  *                                    faisant référence à l'objet
   * @param[in] $attr L'attribut dans lequel l'objet doit être supprimé
   * @param[in] $objectType Le type d'objet en relation
   * @param[in] $attrValue La valeur que doit avoir l'attribut :
@@ -1496,11 +1501,12 @@ class LSldapObject {
   *  
   * @retval boolean True en cas de succès, False sinon
   */
-  function renameOneObjectInRelation($object,$oldValue,$attr,$objectType,$attrValue='dn') {
+  function renameOneObjectInRelation($object,$oldValues,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','renameOneObjectInRelation');
       return;
     }
+    if (!is_array($oldValues)) $oldValues=array($oldValues);
     if ($object instanceof $objectType) {
       if ($this -> attrs[$attr] instanceof LSattribute) {
         $values = $this -> attrs[$attr] -> getValue();
@@ -1510,7 +1516,7 @@ class LSldapObject {
         if (is_array($values)) {
           $updateData=array();
           foreach($values as $value) {
-            if ($value!=$oldValue) {
+            if (!in_array($value,$oldValues)) {
               $updateData[] = $value;
             }
             else {
@@ -1545,94 +1551,48 @@ class LSldapObject {
    *                      - soit la valeur [0] d'un attribut
    * @param[in] $canEditFunction  Le nom de la fonction pour vérifier que la
    *                              relation avec l'objet est éditable par le user
+   * @param[in] $attrValues L'ensembe des valeurs que peut avoir l'attribut avant mise à jour :
+   *                        - soit le dn (par defaut)
+   *                        - soit une des valeurs d'un attribut
    * 
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
-  function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
+  function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','updateObjectsInRelation');
       return;
     }
-    $currentObjects = $this -> listObjectsInRelation($object,$attr,$objectType,$attrValue);
-    $type=$this -> getType();
+    if (!is_array($attrValues)) $attrValues=array($attrValue);
+    $currentDns=array();
+    $currentObjects = $this -> listObjectsInRelation($object,$attr,$objectType,$attrValues);
     if(is_array($currentObjects)) {
-      if (is_array($listDns)) {
-        $values=array();
-        if ($attrValue!='dn') {
-          $obj=new $objectType();
-          foreach ($listDns as $dn) {
-            $obj -> loadData($dn);
-            $val = $obj -> getValue($attrValue);
-            $values[$dn] = $val[0];
-          }
-        }
-        else {
-          foreach($listDns as $dn) {
-            $values[$dn] = $dn;
-          }
-        }
-        $dontDelete=array();
-        $dontAdd=array();
-        for ($i=0;$i<count($currentObjects);$i++) {
-          if ($attrValue=='dn') {
-            $val = $currentObjects[$i] -> getDn();
-          }
-          else {
-            $val = $currentObjects[$i] -> getValue($attrValue);
-            $val = $val[0];
-          }
-          if (in_array($val, $listDns)) {
-            $dontDelete[$i]=true;
-            $dontAdd[]=$val;
-          }
-        }
-        
-        for($i=0;$i<count($currentObjects);$i++) {
-          if ($dontDelete[$i]) {
-            continue;
-          }
-          else {
-            if (!$currentObjects[$i] -> deleteOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
-              return;
-            }
-          }
-        }
-        
-        foreach($values as $dn => $val) {
-          if (in_array($val,$dontAdd)) {
-            continue;
-          }
-          else {
-            $obj = new $type();
-            if ($obj -> loadData($dn)) {
-              if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
-                return;
-              }
-            }
-            else {
-              return;
-            }
-          }
-        }
-        return true;
+      for ($i=0;$i<count($currentObjects);$i++) {
+        $currentDns[]=$currentObjects[$i] -> getDn();
       }
     }
-    else {
-      if(!is_array($listDns)) {
-        return true;
+    $dontTouch=array_intersect($listDns,$currentDns);
+
+    for($i=0;$i<count($currentObjects);$i++) {
+      if (in_array($currentObjects[$i] -> getDn(),$dontTouch)) continue;
+      if (!$currentObjects[$i] -> deleteOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction,$attrValues)) {
+        return;
       }
-      foreach($listDns as $dn) {
-        $obj = new $type();
-        if ($obj -> loadData($dn)) {
-          if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
-            return;
-          }
-        }
-        else {
+    }
+
+    $type=$this -> getType();
+    foreach($listDns as $dn) {
+      if (in_array($dn,$dontTouch)) continue;
+      $obj = new $type();
+      if ($obj -> loadData($dn)) {
+        if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
           return;
         }
       }
+      else {
+        return;
+      }
     }
+    return true;
   }
   
   /**

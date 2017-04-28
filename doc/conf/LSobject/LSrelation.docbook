@@ -21,7 +21,8 @@
 
     // Liaison simple
     'linkAttribute' => '[attribut de liaison]',
-    'linkAttributeValue' => '[value de l'attribut de liaison]',
+    'linkAttributeValue' => '[valeur de l'attribut de liaison]',
+    'linkAttributeOtherValues' => array('[autres valeurs possible de l'attribut de liaison]', [...]),
 
     // Liaison complexe
     'list_function' => '[méthode1]',
@@ -81,12 +82,25 @@
 <varlistentry>
   <term>linkAttributeValue</term>
   <listitem>
-    <simpara>Dans le cadre d'une relation simple, il s'agit du type de valeur pris
+    <simpara>Dans le cadre d'une relation simple, il s'agit du type de valeur prisent
     par l'attribut de liaison du type d'&LSobject; en relation avec le type courant.
     Il peut s'agir du mot clé <literal>dn</literal> si l'attribut de liaison contient
     le <emphasis>DN</emphasis> de l'objet courant ou bien le nom d'un attribut du type
     d'objet courant dont la première valeur sera stockée par l'attribut de liaison.
-    <emphasis>(Facultatif en cas de liaison simple)</emphasis></simpara>
+    <emphasis>(Facultatif en cas de liaison complexe)</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>linkAttributeOtherValues</term>
+  <listitem>
+    <simpara>Dans le cadre d'une relation simple, il s'agit d'autres types de valeur
+    possiblement prisent par l'attribut en plus de celui défini par le paramètre
+    <literal>linkAttributeValue</literal>. Ce paramètre ne sert qu'a détecter des
+    liaisons établies à l'aide de valeurs autres que celle relative au paramètre
+    <literal>linkAttributeValue</literal> : en cas de nouvelle liaison, c'est la
+    valeur associée à ce dernier qui sera utilisée pour établir la liaison.
+    <emphasis>(Facultatif en cas de liaison complexe)</emphasis></simpara>
   </listitem>
 </varlistentry>
 

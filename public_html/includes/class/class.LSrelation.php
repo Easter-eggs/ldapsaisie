@@ -52,7 +52,7 @@ class LSrelation {
         return False;
       }
       elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-        return $objRel -> listObjectsInRelation($this -> obj, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue']);
+        return $objRel -> listObjectsInRelation($this -> obj, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> getLinkAttributeValues());
       }
       else {
         LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('listing related objects')));
@@ -62,6 +62,17 @@ class LSrelation {
       LSerror :: addErrorCode('LSrelations_04',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject']));
     }
     return;
+  }
+
+  public function getLinkAttributeValues() {
+    if (isset($this -> config['linkAttributeOtherValues'])) {
+      $linkAttributeValues=$this -> config['linkAttributeOtherValues'];
+      $linkAttributeValues[]=$this -> config['linkAttributeValue'];
+      return $linkAttributeValues;
+    }
+    else {
+      return $this -> config['linkAttributeValue'];
+    }
   }
 
   public function getRelatedKeyValue() {
@@ -121,7 +132,7 @@ class LSrelation {
       return False;
     }
     elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-      return $objRel -> deleteOneObjectInRelation($this -> obj, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue']);
+      return $objRel -> deleteOneObjectInRelation($this -> obj, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue'], null, $this -> getLinkAttributeValues());
     }
     else {
       LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('removing relation with specific object')));
@@ -156,7 +167,7 @@ class LSrelation {
         LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['update_function'], 'action' =>  _('updating'), 'relation' => $this -> relationName));
       }
       elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-        return $objRel -> updateObjectsInRelation($this -> obj, $listDns, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue'],null);
+        return $objRel -> updateObjectsInRelation($this -> obj, $listDns, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue'],null,$this -> getLinkAttributeValues());
       }
       else {
         LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('updating relations')));
