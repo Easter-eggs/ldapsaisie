@@ -44,7 +44,7 @@ if(LSsession :: startLSsession()) {
               if (isset($_GET['valid']) || $config['noConfirmation']) {
                 $objectname=$object -> getDisplayName();
                 LStemplate :: assign('pagetitle',$title.' : '.$objectname);
-                if (call_user_func($config['function'],$object)) {
+                if (call_user_func_array($config['function'],array(&$object))) {
                   if ($config['disableOnSuccessMsg']!=true) {
                     if ($config['onSuccessMsgFormat']) {
                       LSsession :: addInfo(getFData(__($config['onSuccessMsgFormat']),$objectname));
