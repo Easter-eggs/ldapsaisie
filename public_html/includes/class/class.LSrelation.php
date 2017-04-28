@@ -108,6 +108,7 @@ class LSrelation {
   }
 
   public function canEditRelationWithObject($objRel) {
+    if (!$this -> canEdit()) return;
     if (isset($this -> config['canEdit_function'])) {
       if (method_exists($objRel,$this -> config['canEdit_function'])) {
         return call_user_func(array($objRel, $this -> config['canEdit_function']));
