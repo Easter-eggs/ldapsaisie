@@ -68,17 +68,24 @@ class LSattr_html_select_list extends LSattr_html{
   /**
    * Retourne un tableau des valeurs possibles de la liste
    *
+   * @param[in] $options Attribute options (optinal)
+   * @param[in] $name Attribute name (optional)
+   * @param[in] &$ldapObject Related LSldapObject (optinal)
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */ 
-  function getPossibleValues() {
+  function getPossibleValues($options=false,$name=false,&$ldapObject=false) {
+    if (!$options) $options=$this -> config['html_options'];
+    if (!$name) $name=$this -> name;
+    if (!$ldapObject) $ldapObject=$this->attribute->ldapObject;
     $retInfos = array();
-    if (is_array($this -> config['html_options']['possible_values'])) {
-      foreach($this -> config['html_options']['possible_values'] as $val_key => $val_label) {
+    if (is_array($options['possible_values'])) {
+      foreach($options['possible_values'] as $val_key => $val_label) {
         if($val_key==='OTHER_OBJECT') {
-          $objInfos=$this -> getLSobjectPossibleValues($val_label);
+          $objInfos=self :: getLSobjectPossibleValues($val_label,$options,$name);
           $retInfos=self :: _array_merge($retInfos,$objInfos);
         }
 	elseif (is_array($val_label)) {
@@ -87,30 +94,30 @@ class LSattr_html_select_list extends LSattr_html{
 		$subRetInfos=array();
 		foreach($val_label['possible_values'] as $vk => $vl) {
 			if ($vk==='OTHER_OBJECT') {
-				$objInfos=$this -> getLSobjectPossibleValues($vl);
+				$objInfos=self :: getLSobjectPossibleValues($vl,$options,$name);
 				$subRetInfos=self :: _array_merge($subRetInfos,$objInfos);
 			}
 			else {
-				$vk=$this->attribute->ldapObject->getFData($vk);
-				$vl=$this->attribute->ldapObject->getFData(__($vl));
+				$vk=$ldapObject->getFData($vk);
+				$vl=$ldapObject->getFData(__($vl));
 				$subRetInfos[$vk]=$vl;
 			}
 		}
-		$this -> _sort($subRetInfos);
+		self :: _sort($subRetInfos,$options);
 		$retInfos[] = array (
-			'label' => $this->attribute->ldapObject->getFData(__($val_label['label'])),
+			'label' => $ldapObject->getFData(__($val_label['label'])),
 			'possible_values' => $subRetInfos
 		);
 	}
         else {
-          $val_key=$this->attribute->ldapObject->getFData($val_key);
-          $val_label=$this->attribute->ldapObject->getFData(__($val_label));
+          $val_key=$ldapObject->getFData($val_key);
+          $val_label=$ldapObject->getFData(__($val_label));
           $retInfos[$val_key]=$val_label;
         }
       }
     }
 
-    $this -> _sort($retInfos);
+    self :: _sort($retInfos,$options);
 
     return $retInfos;
   }
@@ -137,28 +144,82 @@ class LSattr_html_select_list extends LSattr_html{
    * Apply sort feature on possible values if this feature is enabled
    *
    * @param[in] &$retInfos array Possible values array reference to sort
+   * @param[in] $options array|false Attribute options (optional)
    *
    * @retval void
    **/
-  protected function _sort(&$retInfos) {
-    if (!isset($this -> config['html_options']['sort']) || $this -> config['html_options']['sort']) {
-      uasort($retInfos,array($this,'_sortTwoValues'));
+  protected function _sort(&$retInfos,$options=false) {
+    if (!$options) $options=$this -> config['html_options'];
+    if (!isset($options['sort']) || $options['sort']) {
+      if (isset($options['sortDirection']) && $options['sortDirection']=='DESC') {
+        uasort($retInfos,array('LSattr_html_select_list','_sortTwoValuesDesc'));
+      }
+      else {
+        uasort($retInfos,array('LSattr_html_select_list','_sortTwoValuesAsc'));
+      }
     }
   }
 
   /**
+   * Function use with uasort to sort two values in ASC order
+   *
+   * @param[in] $va string One value
+   * @param[in] $vb string One value
+   *
+   * @retval int Value for uasort
+   **/
+  protected function _sortTwoValuesAsc(&$va,&$vb) {
+    if (is_array($va)) {
+      $nva=$va['label'];
+    }
+    else {
+      $nva=$va;
+    }
+
+    if (is_array($vb)) {
+      $nvb=$vb['label'];
+    }
+    else {
+      $nvb=$vb;
+    }
+
+    if ($nva == $nvb) return 0;
+
+    return strcoll(strtolower($nva), strtolower($nvb));
+  }
+
+  /**
+   * Function use with uasort to sort two values in DESC order
+   *
+   * @param[in] $va string One value
+   * @param[in] $vb string One value
+   *
+   * @retval int Value for uasort
+   **/
+  function _sortTwoValuesDesc(&$va,&$vb) {
+    return (-1 * self :: _sortTwoValuesAsc($va,$vb));
+  }
+
+
+  /**
    * Retourne un tableau des valeurs possibles d'un type d'objet
+   *
+   * @param[in] $conf OTHER_OBJECT configuration array
+   * @param[in] $options array|false Attribute options (optional)
+   * @param[in] $name Attribute name (optional)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */
-  protected function getLSobjectPossibleValues($conf) {
+  protected function getLSobjectPossibleValues($conf,$options=false,$name=false) {
+    if (!$options) $options=$this -> config['html_options'];
+    if (!$name) $name=$this -> name;
     $retInfos = array();
 
     if ((!isset($conf['object_type'])) || ((!isset($conf['value_attribute'])) && (!isset($conf['values_attribute'])))) {
-      LSerror :: addErrorCode('LSattr_html_select_list_01',$this -> name);
+      LSerror :: addErrorCode('LSattr_html_select_list_01',$name);
       return;
     }
     if (!LSsession :: loadLSclass('LSsearch')) {
@@ -208,48 +269,10 @@ class LSattr_html_select_list extends LSattr_html{
       }
     }
 
-    $this -> _sort($retInfos);
+    self :: _sort($retInfos,$options);
 
     return $retInfos;
   }
-
-  /**
-   * Function use with uasort to sort two values
-   *
-   * @param[in] $va string One value
-   * @param[in] $vb string One value
-   *
-   * @retval int Value for uasort
-   **/
-  protected function _sortTwoValues(&$va,&$vb) {
-    if (isset($this -> config['html_options']['sortDirection']) && $this -> config['html_options']['sortDirection']=='DESC') {
-      $dir=-1;
-    }
-    else {
-      $dir=1;
-    }
-
-    if (is_array($va)) {
-      $nva=$va['label'];
-    }
-    else {
-      $nva=$va;
-    }
-
-    if (is_array($vb)) {
-      $nvb=$vb['label'];
-    }
-    else {
-      $nvb=$vb;
-    }
-
-    if ($nva == $nvb) return 0;
-
-    $val = strcoll(strtolower($nva), strtolower($nvb));
-
-    return $val*$dir;
-  }
-
 }
 
 /*
