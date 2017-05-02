@@ -1,0 +1,34 @@
+ul.LSformElement_jsonCompositeAttribute li {
+	border: 1px dotted #CCC;
+	padding: 2px;
+}
+
+ul.LSformElement_jsonCompositeAttribute li.noValue {
+	border: none;
+}
+
+ul.LSformElement_jsonCompositeAttribute p {
+	margin: 0;
+}
+
+ul.LSformElement_jsonCompositeAttribute p label {
+	font-weight: bold;
+}
+
+div.jsonCompositeAttribute_possibleValues ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	border: 1px solid #CCC;
+	border-collapse: collapse;
+}
+
+div.jsonCompositeAttribute_possibleValues li {
+	border-bottom: 1px solid #CCC;
+	margin-bottom: 2px;
+}
+
+div.jsonCompositeAttribute_possibleValues li:hover {
+	background-color: #CCC;
+	cursor: pointer;
+}
