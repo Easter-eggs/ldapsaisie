@@ -23,10 +23,9 @@
 LSsession :: loadLSclass('LSformElement');
 
 /**
- * Element jsonCompositeAttribute d'un formulaire pour LdapSaisie
+ * Element jsonCompositeAttribute for LSform
  *
- * Cette classe permet de gérer les attributs composite encodé en JSON.
- * Elle étant la classe basic LSformElement.
+ * This classe permit to handle compostie attributes encoded with JSON.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
@@ -42,18 +41,19 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
       $this -> components = $this -> params['html_options']['components'];
     }
   }
-  
+
   /*
-   * Composants des valeurs composites : 
-   * 
+   * Value components :
+   *
    * Format :
    *   array (
-   *     '[clé composant1]' => array (
-   *       'label' => '[label composant]',
-   *       'type' => '[type de composant]',
-   *       'required' => '[booléen obligatoire]'
+   *     '[component1_key]' => array (
+   *       'label' => '[component label]',
+   *       'type' => '[component type]',
+   *       'required' => '[booléen]',
+   *       'check_data' =>  array([config LSform_rule])
    *     ),
-   *     '[clé composant 2]' => array (
+   *     '[component2_key]' => array (
    *       'label' => 'label2',
    *       'type'  => 'select_list',
    *       'options' => array([config as LSattr_html_select_list html_options]),
@@ -61,16 +61,16 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
    *     [...]
    *   )
    * Types :
-   *   - 'select_list' => Composant alimenté à partir d'une liste de valeur configurable
-   *                      de la même manière qu'un LSattr_html :: select_list.
-   *   - 'text'        => saisie manuelle
-   * 
+   *   - 'select_list' => Component feed by a list of valeur configured like an
+   *                      atribute LSattr_html :: select_list.
+   *   - 'text'        => manual entry
+   *
    */
   var $components = array();
-  
+
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -110,44 +110,50 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
     LSsession :: addCssFile('LSformElement_jsonCompositeAttribute.css');
     return $return;
   }
-  
-    
+
+
  /**
-  * Retourne le code HTML d'un champ vide
+  * Return HTML code of an empty field
   *
-  * @retval string Code HTML d'un champ vide.
+  * @retval string HTML code of an empty field.
   */
   function getEmptyField() {
     return $this -> fetchTemplate($this -> fieldTemplate,array('components' => $this -> components));
   }
-  
+
   /**
-   * Traduit la valeur d'un composant
-   * 
-   * Retourne un array contenant :
-   *  - label : l'étiquette de la valeur ou 'no' sinon
-   *  - value : la valeur brute
-   *  - translated : la valeur traduite ou la valeur elle même
-   * 
-   * @param[in] $c string Le nom du composant 
-   * @param[in] $val string La valeur
-   * 
+   * Translate componant value
+   *
+   * Return an array containing :
+   *  - value : untranslated value
+   *  - translated : translated value
+   *
+   * @param[in] $c string The component name
+   * @param[in] $value string The value
+   *
    * @retval array
    **/
-  function translateComponentValue($c,$val) {
+  function translateComponentValue($c,$value) {
     $retval = array (
-      'translated' => $val,
-      'value' => $val,
+      'translated' => $value,
+      'value' => $value,
     );
     if (isset($this -> components[$c])) {
       if ($this -> components[$c]['type']=='select_list') {
-        $retval['translated'] = $this -> getSelectListComponentValueLabel($c,$val);
+        $retval['translated'] = $this -> getSelectListComponentValueLabel($c,$value);
       }
-      //elseif type == 'text' => aucune transformation
+      //elseif type == 'text' => no transformation
     }
     return $retval;
   }
 
+  /**
+   * Retreive possible values of an select_list component
+   *
+   * @param[in] $c string The component name
+   *
+   * @retval array
+   **/
   protected $_cache_getSelectListComponentPossibleValues=array();
   protected function getSelectListComponentPossibleValues($c) {
     if (!isset($this -> _cache_getSelectListComponentPossibleValues[$c])) {
@@ -157,6 +163,14 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
     return $this -> _cache_getSelectListComponentPossibleValues[$c];
   }
 
+  /**
+   * Retreive value's label of an select_list component
+   *
+   * @param[in] $c string The component name
+   * @param[in] $value string The value
+   *
+   * @retval array
+   **/
   protected function getSelectListComponentValueLabel($c,$value) {
     if ($this -> getSelectListComponentPossibleValues($c)) {
       foreach ($this -> _cache_getSelectListComponentPossibleValues[$c] as $v => $label) {
@@ -170,22 +184,22 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
     }
     return;
   }
-  
+
   /**
-   * Recupère la valeur de l'élement passée en POST
+   * Retreive LSformElement value from POST data
    *
-   * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
-   * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+   * This method check present of this element's value in POST data and retreive
+   * it to feed the array passed in paramater.
    *
-   * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
+   * @param[] array Reference of the array for retreived values
    *
-   * @retval boolean true si la valeur est présente en POST, false sinon
+   * @retval boolean true if value is in POST data, false instead
    */
   function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }
-   
+
     $count=0;
     $end=false;
     $return[$this -> name]=array();
@@ -236,7 +250,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
           $end=true;
           break;
         }
-        
+
       }
       if (!$end) {
         if (!empty($unemptyComponents)) {
@@ -250,5 +264,5 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
     }
     return true;
   }
-    
+
 }
