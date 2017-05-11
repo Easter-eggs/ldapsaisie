@@ -1,3 +1,13 @@
+ldapsaisie (1.4-2) unstable; urgency=medium
+
+  * Add new type of HTML attribut : jsonCompositeAttribute
+  * LSrelation : 
+   + improve and make it easy to configure simple relation
+   + add possibilty to handle relation with multiple key values
+  * Fix some PHP 7 compatibility errors
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Thu, 11 May 2017 15:32:16 +0200
+
 ldapsaisie (1.4-1) unstable; urgency=medium
 
   * LSobject / customAction : add noRedirect parameter
