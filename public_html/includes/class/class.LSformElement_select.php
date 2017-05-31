@@ -72,8 +72,14 @@ class LSformElement_select extends LSformElement {
   * @retval string or False The value's label or False if this value is incorrect
   */
   public function isValidValue($value,$possible_values=False) {
-    if (!$possible_values)
-      $possible_values=$this -> params['text_possible_values'];
+    if (!is_array($possible_values)) {
+      if (isset($this) && get_class($this) == __CLASS__ && is_array($this -> params['text_possible_values'])) {
+        $possible_values=$this -> params['text_possible_values'];
+      }
+      else {
+        return False;
+      }
+    }
 
     $ret=False;
     if (is_array($possible_values) && isset($value)) {
