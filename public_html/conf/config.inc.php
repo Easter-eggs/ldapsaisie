@@ -204,4 +204,4 @@ $GLOBALS['defaultJSscipts']=array(
 );
 
 // CSS
-$GLOBALS['defaultCSSfiles']=array();
+$GLOBALS['defaultCSSfiles']=array('../light-blue.css');

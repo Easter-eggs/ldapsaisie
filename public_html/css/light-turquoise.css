@@ -1,0 +1,164 @@
+/* ---- Main interface elements ---- */
+#main {
+	width:			98%;
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	border: none;
+}
+
+#left {
+	width: 165px;
+	background-color: transparent;
+}
+
+#logo {
+	padding: 32px 5px 15px 5px;
+	border: none;
+	margin-top: 6px;
+	margin-left: 3px;
+}
+
+#status {
+	background-color: transparent;
+	vertical-align: baseline;
+}
+
+/* ---- Login form ---- */
+
+div.loginform {
+	border: none;
+	background: none;
+}
+
+/* ---- Menu ---- */
+ul.menu {
+	padding: 0;
+	list-style-type: none;
+	border-top: 1px dotted #999;
+}
+
+li.menu {
+	font-weight: bold;
+	font-size: 0.9em;
+}
+
+li.menu {
+	border-bottom: 1px dotted #999;
+	line-height: 20px;
+	padding: 2px 0 3px 0;
+}
+
+li.menu a {
+	transition: all 0.15s linear;
+}
+
+/* ---- Objects list ---- */
+
+table.LSobject-list {
+	width: 98%;
+	border: none;
+	margin-top: 1.8em;
+}
+
+
+th.LSobject-list {
+	font-weight: bold;
+	font-size: 0.9em;
+	border: none;
+}
+
+td.LSobject-list, tr.LSobject-list {
+	border: none;
+	transition: all 0.25s linear;
+}
+
+/* ---- LSsmoothbox ---- */
+#frame-LSsmoothbox .LSform dt {
+	width: 11em;
+}
+
+#frame-LSsmoothbox .LSform dd {
+	margin-left: 11em;
+}
+
+p.LSobject-list-page {
+	clear:			both;
+}
+
+/* ---- LSform ---- */
+
+.LSform dt {
+	width:			24em;
+}
+
+dd.LSform {
+	margin-left:		24em;
+}
+
+li.LSform_layout_current {
+	color: #fff;
+	background-color: #ccc;
+}
+
+li.LSform_layout_active {
+	border-radius: 0px;
+	border: none;
+}
+
+
+/*
+ * Colors
+ */
+
+/*  ---- Gris ---- */
+li.LSform_layout_active, input[type='submit'].LSview_search, tr.LSobject-list:hover, div.LSformElement_image {
+	background-color:	#61c3cc;
+}
+
+li.LSview-actions, div.LSform_layout, h1, input[type='submit'].LSview_search, input[type='text'].LSview_search {
+	border-color:		#61c3cc;
+}
+
+h1, li.LSview-actions, li.menu a:hover {
+	color: #61c3cc;
+}
+
+/* ---- Gris clair ---- */
+ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobject-list, td.LSobject-list, div.LSinfosBox {
+	border-color:		#bee1e2;
+}
+
+tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=file], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox {
+	background-color:	#bee1e2;
+}
+
+/* ---- Noir ---- */
+li.LSform_layout_current {
+	background-color:	#00939f;
+}
+
+li.menu a, a.menu, h1 {
+	color:				#00939f;
+}
+
+#status, input[type='submit'].LSview_search, input[type='text'].LSview_search, th.LSobject-list, th.LSobject-list a, .LSform dt, a, div.LSinfosBox, strong.LSobject-list-page, a.LSobject-list-page:hover {
+	color:			#4d4d4d;
+}
+
+/* ---- Gris clair ---- */
+a.LSsession_recoverPassword, a.LSobject-list-page, h2 {
+	color:			#999;
+}
+
+/* ---- Blanc ---- */
+tr.LSobject-list:hover {
+	color: #fff;
+}
+
+th.LSobject-list {
+	background-color: transparent;
+}
+
+/* ---- Autre ---- */
+li.LSform_layout_errors {
+	background-color:	#f59a67;
+}

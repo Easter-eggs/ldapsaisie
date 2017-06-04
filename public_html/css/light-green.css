@@ -1,0 +1,102 @@
+#left {
+	width: 165px;
+	background-color: transparent;
+}
+
+#status {
+	background-color: transparent;
+}
+
+#logo {
+	padding: 32px 5px 15px 5px;
+	border: none;
+	margin-top: 6px;
+	margin-left: 3px;
+}
+
+#main {
+	border: none;
+}
+
+li.menu, th.LSobject-list {
+	font-weight: bold;
+	font-size: 0.9em;
+}
+
+li.menu {
+	border-bottom: 1px dotted #999;
+	line-height: 20px;
+	padding: 2px 0 3px 0;
+}
+
+li.menu a {
+	color: #4d4d4d;
+	transition: all 0.15s linear;
+}
+
+li.menu a:hover {
+	color: #61c3cc;
+}
+
+ul.menu {
+	padding: 0;
+	list-style-type: none;
+	border-top: 1px dotted #999;
+}
+
+th.LSobject-list {
+	background-color: #ccc;
+	border: none;
+	color: #fff;
+}
+
+th.LSobject-list a {
+	color: #fff;
+}
+
+table.LSobject-list {
+	border: none;
+	margin-top: 1.8em;
+}
+
+
+td.LSobject-list, tr.LSobject-list {
+	border: none;
+	transition: all 0.25s linear;
+}
+
+h1, li.LSview-actions {
+	color: #61c3cc;
+	border-color: #61c3cc;
+}
+
+#status {
+	vertical-align: baseline;
+}
+
+div.loginform {
+	border: none;
+	background: none;
+}
+
+a.LSsession_recoverPassword {
+	color: #999;
+}
+
+#frame-LSsmoothbox .LSform dt {
+	width: 11em;
+}
+
+#frame-LSsmoothbox .LSform dd {
+	margin-left: 11em;
+}
+
+li.LSform_layout_current, tr.LSobject-list:hover {
+	color: #fff;
+	background-color: #61c3cc;
+}
+
+li.LSform_layout_active {
+	border-radius: 0px;
+	border: none;
+}
