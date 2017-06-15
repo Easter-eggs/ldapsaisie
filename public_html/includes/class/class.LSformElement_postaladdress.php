@@ -42,15 +42,27 @@ class LSformElement_postaladdress extends LSformElement_textarea {
   function getDisplay(){
     $return = parent :: getDisplay();
     if ($this -> isFreeze()) {
-      if (isset($this -> params['html_options']['map_url_format']) && !empty($this->values)) {
-	if (isset($this -> params['html_options']['map_url_pattern_format'])) {
-		$pattern=$this -> attr_html -> attribute -> ldapObject -> getFData($this -> params['html_options']['map_url_pattern_format']);
-		$pattern=str_replace("\n"," ",$pattern);
-		$pattern=urlencode($pattern);
-		$this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',$pattern);
+      if (!empty($this->values)) {
+        $map_url_format=(isset($this -> params['html_options']['map_url_format'])?$this -> params['html_options']['map_url_format']:'http://nominatim.openstreetmap.org/search.php?q=%{pattern}');
+        if (isset($this -> params['html_options']['map_url_pattern_generate_function'])) {
+          if (is_callable($this -> params['html_options']['map_url_pattern_generate_function'])) {
+            $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',call_user_func($this -> params['html_options']['map_url_pattern_generate_function'],$this));
+          }
+          else {
+            LSerror::addErrorCode('LSformElement_postaladdress_01', $this -> params['html_options']['map_url_pattern_generate_function']);
+          }
 	}
+	elseif (isset($this -> params['html_options']['map_url_pattern_format'])) {
+          $pattern=$this -> attr_html -> attribute -> ldapObject -> getFData($this -> params['html_options']['map_url_pattern_format']);
+          $pattern=str_replace("\n"," ",$pattern);
+          $pattern=urlencode($pattern);
+          $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',$pattern);
+	}
+        else {
+          $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',LSformElement_postaladdress__generate_pattern($this));
+        }
         LSsession :: addJSconfigParam('LSformElement_postaladdress_'.$this -> name, array (
-            'map_url' => $this -> attr_html -> attribute -> ldapObject -> getFData($this -> params['html_options']['map_url_format']) 
+            'map_url' => $this -> attr_html -> attribute -> ldapObject -> getFData($map_url_format)
           )
         );
         LSsession :: addHelpInfos(
@@ -66,4 +78,10 @@ class LSformElement_postaladdress extends LSformElement_textarea {
   }
 }
 
-?>
+function LSformElement_postaladdress__generate_pattern($LSformElement) {
+  return str_replace("\n"," ",$LSformElement->attr_html->attribute->getDisplayValue());
+}
+
+LSerror :: defineError('LSformElement_postaladdress_01',
+_("LSformElement_postaladdress : Map URL pattern generate function is not callabled (%{function}).")
+);

@@ -5,10 +5,22 @@
   en plus de l'adresse, un lien composé à partir d'informations de l'objet permettant
   par exemple d'afficher un lien vers une carte géocalisant l'adresse postale.</para>
 
+  <para>Par défaut, le lien ajouté sera un lien de recherche de l'adresse postale
+  générée à partir de la valeur de l'attribut (en remplaçant les retours à la ligne
+  (<literal>\n</literal>) par des espaces) via le service
+  <ulink url='http://nominatim.openstreetmap.org/'>Nominatim d'OpenStreetMap</ulink>.
+  </para>
+
+  <note><simpara>Dans le cadre du fonctionnement par défaut et pour maîtriser les
+  valeurs stockées dans l'annuaire, il faut coupler ce type d'attribut HTML avec le
+  type d'attribut LDAP
+  <link linkend='config-LSattr_ldap_postaladdress'>postaladdress</link></simpara></note>
+
 <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['html_options' => array(
   'map_url_pattern_format' => '[LSformat]',
+  'map_url_pattern_generate_function' => '[callable]',
   'map_url_format' => '[LSformat]',
 ),]]>
 ...
@@ -26,11 +38,28 @@
 </varlistentry>
 
 <varlistentry>
+  <term>map_url_pattern_generate_function</term>
+  <listitem>
+    <simpara>Ce paramètre permet de définir une fonction qui sera utilisée à la place
+    du paramètre <literal>map_url_pattern_format</literal> pour générer la valeur de
+    l'adresse postale qui sera insérée dans l'URL du lien ajouté dans l'interface.
+    Cette fonction prendra en paramètre l'objet <emphasis>LSformElement</emphasis>
+    courant et devra retourner une chaîne de caractères correspondant à l'adresse
+    postale à insérer dans le lien de l'interface. Par défaut, la fonction
+    <literal>LSformElement_postaladdress__generate_pattern</literal> est utilisée.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
   <term>map_url_format</term>
   <listitem>
     <simpara>Ce &LSformat; doit permettre de générer l'URL du lien ajouté dans
-    l'interface à partir de la valeur de l'adresse postale générée via le paramètre
-    <literal>map_url_pattern_format</literal>.</simpara>
+    l'interface. Il sera composé avec les informations de l'objet LDAP, y compris
+    le mot clé <emphasis>%{pattern}</emphasis> correspondant à la valeur de l'adresse
+    postale générée à l'aide des paramètres précédents. Par défaut, la format suivant
+    sera utilisé :
+    <literal>http://nominatim.openstreetmap.org/search.php?q=%{pattern}</literal></simpara>
   </listitem>
 </varlistentry>
 
