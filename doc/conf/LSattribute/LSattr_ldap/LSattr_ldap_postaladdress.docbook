@@ -1,0 +1,14 @@
+<sect4 id="config-LSattr_ldap_postaladdress">
+  <title>LSattr_ldap_postaladdress</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est construite
+  sur le modèle de l'attribut standard <emphasis>postalAddress</emphasis>, c'est à dire
+  dont les lignes sont séparées à l'aide du caractère de délimiteur <literal>$</literal>.
+  </para>
+
+  <para>Lors de la lecture des valeurs de ce type d'attribut dans l'annuaire, les
+  caractères <literal>$</literal> seront remplacés par des caractères <literal>\n</literal>
+  et, à l'inverse, lors de l'écriture des valeurs de ce type d'attribut dans l'annuaire,
+  les caractères <literal>\n</literal> seront remplacés par des caractères
+  <literal>$</literal>.</para>
+  
+</sect4>

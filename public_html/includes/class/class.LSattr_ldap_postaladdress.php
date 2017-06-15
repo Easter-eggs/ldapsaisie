@@ -21,10 +21,10 @@
 ******************************************************************************/
 
 /**
- * Type d'attribut Ldap postalAddress
+ * Type d'attribut Ldap postaladdress
  * RFC4519 : les retours a la ligne sont remplace par des '$'
  */
-class LSattr_ldap_postalAddress extends LSattr_ldap {
+class LSattr_ldap_postaladdress extends LSattr_ldap {
 
   /**
    * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap

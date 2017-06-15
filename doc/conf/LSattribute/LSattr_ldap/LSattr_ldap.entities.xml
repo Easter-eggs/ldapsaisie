@@ -5,3 +5,4 @@
 <!ENTITY conf-LSattr_ldap_image SYSTEM "LSattr_ldap_image.docbook">
 <!ENTITY conf-LSattr_ldap_numeric SYSTEM "LSattr_ldap_numeric.docbook">
 <!ENTITY conf-LSattr_ldap_password SYSTEM "LSattr_ldap_password.docbook">
+<!ENTITY conf-LSattr_ldap_postaladdress SYSTEM "LSattr_ldap_postaladdress.docbook">

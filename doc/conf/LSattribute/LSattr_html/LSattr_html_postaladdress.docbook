@@ -1,0 +1,39 @@
+<sect4 id="config-LSattr_html_postaladdress">
+  <title>LSattr_html_postaladdress</title>
+  <para>Ce type est utilisé pour la gestion des attributs du type de l'attribut
+  standard <emphasis>postalAddress</emphasis>. Ce type d'attribut permet d'afficher,
+  en plus de l'adresse, un lien composé à partir d'informations de l'objet permettant
+  par exemple d'afficher un lien vers une carte géocalisant l'adresse postale.</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array(
+  'map_url_pattern_format' => '[LSformat]',
+  'map_url_format' => '[LSformat]',
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>map_url_pattern_format</term>
+  <listitem>
+    <simpara>Ce &LSformat; doit permettre de générer la valeur de l'adresse postale
+    qui sera insérée dans l'URL du lien ajouté dans l'interface.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>map_url_format</term>
+  <listitem>
+    <simpara>Ce &LSformat; doit permettre de générer l'URL du lien ajouté dans
+    l'interface à partir de la valeur de l'adresse postale générée via le paramètre
+    <literal>map_url_pattern_format</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
