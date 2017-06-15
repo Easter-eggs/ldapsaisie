@@ -6,7 +6,7 @@
   à <emphasis>Non</emphasis></para>
   
   <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA['ldap_options' => array (
   'true_value' => '[valeur correspondant à Vrai]',
   'false_value' => '[valeur correspondant à Faux]'

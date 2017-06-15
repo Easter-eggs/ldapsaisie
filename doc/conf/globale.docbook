@@ -7,7 +7,7 @@
   </para>
   
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>
+<citetitle>Structure</citetitle>
 <![CDATA[// Variables globales
 $GLOBALS['LSconfig'] = array(
   // Variables globales

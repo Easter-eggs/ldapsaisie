@@ -23,7 +23,7 @@
   <literal>conf/LSauth/config.LSauthMethod_HTTP.php</literal>.</para>
 
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure du fichier</citetitle>/*
+<citetitle>Structure du fichier</citetitle>/*
  *****************************************************
  * Configuration of the HTTP authentification support *
  *****************************************************

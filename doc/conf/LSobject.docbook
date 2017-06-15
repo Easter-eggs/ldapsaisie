@@ -17,7 +17,7 @@
   </para>
   
   <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]'] = array (
   'objectclass' => array(
     'objetclass1',

@@ -5,7 +5,7 @@
   fichier de configuration <literal>config.LSaddons.mail.php</literal>.</para>
   
   <programlisting linenumbering="unnumbered">
-  <citetitle>Structure du fichier</citetitle>/*
+<citetitle>Structure du fichier</citetitle>/*
  ***********************************************
  * Configuration du support de l'envoi de mail *
  ***********************************************

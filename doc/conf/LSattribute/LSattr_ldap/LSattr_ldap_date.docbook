@@ -4,7 +4,7 @@
   une date.</para>
   
   <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA['ldap_options' => array (
   'timestamp' => [Booléen], // Si la date est stockée au format timestamp
   'format' => '[Format de stockage]' // Default : "%Y%m%d%H%M%SZ"

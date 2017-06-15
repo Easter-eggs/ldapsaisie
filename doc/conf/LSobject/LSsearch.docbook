@@ -103,7 +103,7 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     <para>Ce &LSformat; est composé à l'aide des éléments <emphasis>name</emphasis>, le nom de
     l'attribut et <emphasis>pattern</emphasis>, le motif de recherche.
     <programlisting>
-    <citetitle>Exemple</citetitle>
+<citetitle>Exemple</citetitle>
 <![CDATA[(%{name}=%{pattern})]]>
     </programlisting></para>
     <important><simpara>Le filtre déduit doit obligatoirement commencer par <emphasis>(</emphasis> et
@@ -120,7 +120,7 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     <para>Ce &LSformat; est composé à l'aide des éléments <emphasis>name</emphasis>, le nom de
     l'attribut et <emphasis>pattern</emphasis>, le motif de recherche.
     <programlisting>
-    <citetitle>Exemple</citetitle>
+<citetitle>Exemple</citetitle>
 <![CDATA[(%{name}=~%{pattern})]]>
     </programlisting></para>
     <important><simpara>Le filtre déduit doit obligatoirement commencer par <emphasis>(</emphasis> et

@@ -12,8 +12,8 @@
   chacune des organisations.</para>
   
 <programlisting linenumbering="unnumbered">
-  <citetitle>Exemple d'arborescence d'annuaire utilisant le concept de 
-  sous-niveaux correspondant à des sociétés</citetitle>
+<citetitle>Exemple d'arborescence d'annuaire utilisant le concept de 
+sous-niveaux correspondant à des sociétés</citetitle>
 |- o=ls
 | |- ou=companies
 | | |- ou=company1
@@ -65,7 +65,7 @@ l'annuaire.
 </para>
 
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA['subDn' => array(
   // Déclaration manuelle
   '[Nom du sous-niveau]' => array(

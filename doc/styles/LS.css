@@ -57,6 +57,7 @@ pre.programlisting {
   padding:                0.5em;
   width:                  90%;
   margin:                 auto;
+  margin-top:             2em;
   color:                  #111;
 }
 
@@ -74,6 +75,10 @@ em.citetitle {
   width:                  50%;
   -moz-border-radius:     6px;
   border-radius:          6px;
+}
+
+pre.programlisting:has(> em.citetitle) {
+  margin-top:             2em;
 }
 
 /*

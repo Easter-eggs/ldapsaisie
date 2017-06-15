@@ -28,7 +28,7 @@
 </variablelist>
 
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure du fichier includes/addons/LSaddons.[addon name].php</citetitle>
+<citetitle>Structure du fichier includes/addons/LSaddons.[addon name].php</citetitle>
 <![CDATA[<?php
 
 // Messages d'erreur

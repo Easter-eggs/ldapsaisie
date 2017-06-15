@@ -13,7 +13,7 @@
   l'utilisateur qui se connecte appartient à ce profil.</para>
   
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA['LSprofile' => array (
   [nom d'un LSprofile] => array (
     [basedn] => [dn utilisateur],
@@ -87,7 +87,7 @@ groupe).</para>
 <listitem>
 <simpara>Liste des DNs d'utilisateurs&nbsp;:</simpara>
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA['LSprofile' => array (
   [nom du LSprofile] => array (
     [basedn] => [dn utilisateur],
@@ -115,7 +115,7 @@ associées sont toutes <emphasis>NULL</emphasis>.</simpara>
 <listitem>
 <simpara>Liste d'utilisateurs stockée dans l'annuaire&nbsp;:</simpara>
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA['LSprofile' => array (
   [nom du LSprofile] => array (
     [basedn] => array (
@@ -151,7 +151,7 @@ possible, à travers une recherche paramétrable dans l'annuaire, de lister les
 objets pour lesquels l'utilisateur appartiendra au 
 <emphasis>LSprofile</emphasis>.</simpara>
 <programlisting linenumbering="unnumbered">
-  <citetitle>Structure</citetitle>...
+<citetitle>Structure</citetitle>...
 <![CDATA['LSprofile' => array (
   [nom d'un LSprofile] => array (
     'LSobjects' => array ( // via un liste d'objet pour lequel l'utilisateur
