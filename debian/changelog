@@ -1,3 +1,17 @@
+ldapsaisie (1.5-1) unstable; urgency=medium
+
+  * IMPORTANT : Rename LSattr_ldap :: postalAddress to LSattr_ldap :: postaladdress
+  * Add some basic CSS theme files
+  * Use light blue CSS theme file as default
+  * LSattr_html :: postaladdress : improve it and add default configuration value
+  * LSformElement_select : fix bug when possible_values params is unset or empty
+  * Add cron file to purge old temporary files
+  * Doc :
+   + Improve doc on postalAddress attribute type
+   + Fix <citetitle> HTML element style
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 26 Jun 2017 18:37:39 +0200
+
 ldapsaisie (1.4-2) unstable; urgency=medium
 
   * Add new type of HTML attribut : jsonCompositeAttribute
