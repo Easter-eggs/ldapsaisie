@@ -73,7 +73,7 @@ class LSformElement_select extends LSformElement {
   */
   public function isValidValue($value,$possible_values=False) {
     if (!is_array($possible_values)) {
-      if (isset($this) && get_class($this) == __CLASS__ && is_array($this -> params['text_possible_values'])) {
+      if (isset($this) && is_a($this, __CLASS__) && is_array($this -> params['text_possible_values'])) {
         $possible_values=$this -> params['text_possible_values'];
       }
       else {
