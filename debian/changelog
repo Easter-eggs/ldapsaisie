@@ -1,3 +1,9 @@
+ldapsaisie (1.5-2) unstable; urgency=medium
+
+  * LSformElement :: select_box : fix isValidValue() method in inherited context
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 27 Jun 2017 15:12:54 +0200
+
 ldapsaisie (1.5-1) unstable; urgency=medium
 
   * IMPORTANT : Rename LSattr_ldap :: postalAddress to LSattr_ldap :: postaladdress
