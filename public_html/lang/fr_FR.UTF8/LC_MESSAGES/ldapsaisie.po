@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-15 18:19+0200\n"
-"PO-Revision-Date: 2017-06-15 18:21+0100\n"
+"POT-Creation-Date: 2017-08-02 11:53+0200\n"
+"PO-Revision-Date: 2017-08-02 11:56+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: view.php:44 modify.php:54
 #: includes/class/class.LSformElement_supannCompositeAttribute.php:106
-#: includes/class/class.LSrelation.php:241
+#: includes/class/class.LSrelation.php:259
 #: includes/class/class.LSformElement_select_object.php:68
 #: includes/class/class.LSformElement_supannLabeledValue.php:62
 #: includes/class/class.LSsearchEntry.php:163
@@ -33,7 +33,7 @@ msgstr "Modifier"
 msgid "Copy"
 msgstr "Copier"
 
-#: view.php:60 modify.php:111 includes/class/class.LSrelation.php:198
+#: view.php:60 modify.php:111 includes/class/class.LSrelation.php:216
 #: includes/class/class.LSform.php:218
 #: includes/class/class.LSformElement_select_object.php:69
 #: includes/class/class.LSformElement_select_object.php:85
@@ -78,15 +78,15 @@ msgstr "Voir"
 msgid "Import"
 msgstr "Importer"
 
-#: create.php:53
+#: create.php:75
 msgid "Data entry form"
 msgstr "Masque de saisie"
 
-#: create.php:59
+#: create.php:81
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
-#: create.php:98
+#: create.php:120 includes/class/class.LSrelation.php:265
 msgid "New"
 msgstr "Nouveau"
 
@@ -813,6 +813,10 @@ msgid "LSsession : view function %{func} for LSaddon %{addon} doet not exist."
 msgstr ""
 "LSsession : la fonction de vue %{func} du LSaddon %{addon} n'existe pas."
 
+#: includes/class/class.LSsession.php:2458
+msgid "LSsession : invalid related object's DN pass in parameter."
+msgstr "LSsession : DN d'objet en relation incorrect dans les paramètres."
+
 #: includes/class/class.LSldapObject.php:470
 msgid "The attribute %{attr} is not valid."
 msgstr "L'attribut %{attr} n'est pas valide."
@@ -1084,87 +1088,95 @@ msgstr "LSldap : Erreur durant la suppression des attributs vides."
 msgid "LSldap : Error while changing the DN of the object."
 msgstr "LSldap : Erreur pendant la modification du DN de l'objet."
 
-#: includes/class/class.LSrelation.php:51
-#: includes/class/class.LSrelation.php:58
+#: includes/class/class.LSrelation.php:69
+#: includes/class/class.LSrelation.php:76
 msgid "listing related objects"
 msgstr "énumaration des objets liés"
 
-#: includes/class/class.LSrelation.php:85
-#: includes/class/class.LSrelation.php:91
+#: includes/class/class.LSrelation.php:103
+#: includes/class/class.LSrelation.php:109
 msgid "getting key value"
 msgstr "récupération de la valeur clé"
 
-#: includes/class/class.LSrelation.php:116
-#: includes/class/class.LSrelation.php:123
-#: includes/class/class.LSrelation.php:156
+#: includes/class/class.LSrelation.php:134
+#: includes/class/class.LSrelation.php:141
+#: includes/class/class.LSrelation.php:174
 msgid "checking right on relation with specific object"
 msgstr "vérification des droits sur la relation avec un objet en particulier"
 
-#: includes/class/class.LSrelation.php:132
+#: includes/class/class.LSrelation.php:150
 msgid "deleting"
 msgstr "suppression"
 
-#: includes/class/class.LSrelation.php:139
+#: includes/class/class.LSrelation.php:157
 msgid "removing relation with specific object"
 msgstr "suppression de la relation avec un object en particulier"
 
-#: includes/class/class.LSrelation.php:149
+#: includes/class/class.LSrelation.php:167
 msgid "renaming"
 msgstr "renommage"
 
-#: includes/class/class.LSrelation.php:168
+#: includes/class/class.LSrelation.php:186
 msgid "updating"
 msgstr "mise à jour"
 
-#: includes/class/class.LSrelation.php:174
+#: includes/class/class.LSrelation.php:192
 msgid "updating relations"
 msgstr "mise à jour des relations"
 
-#: includes/class/class.LSrelation.php:196 includes/class/class.LSform.php:216
+#: includes/class/class.LSrelation.php:214 includes/class/class.LSform.php:216
 #: remove.php:49
 msgid "Do you really want to delete"
 msgstr "Voulez-vous vraiment supprimer"
 
-#: includes/class/class.LSrelation.php:197
+#: includes/class/class.LSrelation.php:215
 msgid "Warning"
 msgstr "Attention"
 
-#: includes/class/class.LSrelation.php:225
-#: includes/class/class.LSrelation.php:339
+#: includes/class/class.LSrelation.php:243
+#: includes/class/class.LSrelation.php:364
 msgid "No object."
 msgstr "Aucun objet."
 
-#: includes/class/class.LSrelation.php:427
+#: includes/class/class.LSrelation.php:452
 msgid ""
 "LSrelation : The function %{function} for action '%{action}' on the relation "
-"%{relation} is unknow."
+"%{relation} is unknown."
 msgstr ""
 "LSrelation : La fonction %{function} pour l'action '%{action}' sur la "
 "relation %{relation} est inconnue."
 
-#: includes/class/class.LSrelation.php:430
-msgid "LSrelation : Relation %{relation} of object type %{LSobject} unknow."
+#: includes/class/class.LSrelation.php:455
+msgid "LSrelation : Relation %{relation} of object type %{LSobject} unknown."
 msgstr ""
 "LSrelation : La relation %{relation} du type d'objet %{LSobject} est "
 "inconnue."
 
-#: includes/class/class.LSrelation.php:433
+#: includes/class/class.LSrelation.php:458
 msgid "LSrelation : Error during relation update of the relation %{relation}."
 msgstr "LSsession : Erreur durant la mise à jour de la relation %{relation}"
 
-#: includes/class/class.LSrelation.php:436
-msgid "LSrelation : Object type %{LSobject} unknow (Relation : %{relation})."
+#: includes/class/class.LSrelation.php:461
+msgid "LSrelation : Object type %{LSobject} unknown (Relation : %{relation})."
 msgstr ""
 "LSsession : La fonction de mise à jour de la relation %{relation} est "
 "inconnue."
 
-#: includes/class/class.LSrelation.php:439
+#: includes/class/class.LSrelation.php:464
 msgid ""
 "LSrelation : Incomplete configuration for LSrelation %{relation} of object "
 "type %{LSobject} for action : %{action}."
 msgstr ""
 "LSrelation : Configuration incomplète de la LSrelation %{relation} du type "
 "d'objet %{LSobject} pour l'action : %{action}."
+
+#: includes/class/class.LSrelation.php:467
+msgid ""
+"LSrelation : Invalid editable attribute for LSrelation %{relation} with "
+"LSobject %{LSobject}."
+msgstr ""
+"LSrelation : Attribut éditable invalide pour la LSrelation %{relation} du "
+"type d'objet %{LSobject}."
 
 #: includes/class/class.LSformElement_password.php:134
 msgid "Generate a password."

@@ -41,6 +41,28 @@ if(LSsession :: startLSsession()) {
           $form = $object -> getForm('create',urldecode($_GET['load']));
         }
         else {
+          if (isset($_GET['LSrelation']) && isset($_GET['relatedLSobject']) && isset($_GET['relatedLSobjectDN'])) {
+            if (LSsession :: loadLSobject($_GET['relatedLSobject']) && LSsession :: loadLSclass('LSrelation')) {
+              $obj = new $_GET['relatedLSobject']();
+              if ($obj -> loadData(urldecode($_GET['relatedLSobjectDN']))) {
+                $relation = new LSrelation($obj, $_GET['LSrelation']);
+                if ($relation -> exists()) {
+                  $attr = $relation -> getRelatedEditableAttribute();
+                  if (isset($object -> attrs[$attr])) {
+                    $value = $relation -> getRelatedKeyValue();
+                    if (is_array($value)) $value=$value[0];
+                    $object -> attrs[$attr] -> data = array($value);
+                  }
+                  else {
+                    LSerror :: addErrorCode('LSrelations_06',array('relation' => $relation -> getName(),'LSobject' => $obj -> getType()));
+                  }
+                }
+              }
+              else {
+                LSerror :: addErrorCode('LSsession_24');
+              }
+            }
+          }
           $form = $object -> getForm('create');
         }
 
@@ -116,5 +138,3 @@ else {
   LSsession :: setTemplate('login.tpl');
 }
 LSsession :: displayTemplate();
-
-?>

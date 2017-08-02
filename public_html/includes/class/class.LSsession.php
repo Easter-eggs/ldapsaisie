@@ -2454,6 +2454,9 @@ class LSsession {
     LSerror :: defineError('LSsession_23',
     _("LSsession : view function %{func} for LSaddon %{addon} doet not exist.")
     );
+    LSerror :: defineError('LSsession_24',
+    _("LSsession : invalid related object's DN pass in parameter.")
+    );
   }
 
   /**

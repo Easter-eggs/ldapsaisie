@@ -37,9 +37,27 @@ class LSrelation {
     }
   }
 
+  public function exists(&$obj=null,$relationName=null) {
+    if ($obj && $relationName) {
+      return (isset($obj->config['LSrelation'][$relationName]) && is_array($obj->config['LSrelation'][$relationName]));
+    }
+    else {
+      return is_array($this -> config);
+    }
+  }
+
+  public function getName() {
+    return $this -> relationName;
+  }
+
   public function canEdit() {
     return LSsession :: relationCanEdit($this -> obj -> getValue('dn'),$this -> obj -> getType(),$this -> relationName);
   }
+
+  public function canCreate() {
+    return LSsession :: canCreate($this -> config['LSobject']);
+  }
+
 
   public function listRelatedObjects() {
     if (LSsession :: loadLSobject($this -> config['LSobject'])) {
@@ -242,6 +260,13 @@ class LSrelation {
               'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1'.($relation -> getRelatedEditableAttribute()?'&amp;editableAttr='.$relation -> getRelatedEditableAttribute():''),
               'action' => 'modify'
             );
+            if ($relation -> canCreate()) {
+               $return['actions'][] = array(
+                'label' => _('New'),
+                'url' => 'create.php?LSobject='.$relationConf['LSobject'].'&amp;LSrelation='.$relationName.'&amp;relatedLSobject='.$object->getType().'&amp;relatedLSobjectDN='.urlencode($object -> getValue('dn')),
+                'action' => 'create'
+              );
+            }
           }
           
           $list = $relation -> listRelatedObjects();
@@ -424,17 +449,20 @@ class LSrelation {
  * Error Codes
  **/
 LSerror :: defineError('LSrelations_01',
-_("LSrelation : The function %{function} for action '%{action}' on the relation %{relation} is unknow.")
+_("LSrelation : The function %{function} for action '%{action}' on the relation %{relation} is unknown.")
 );
 LSerror :: defineError('LSrelations_02',
-_("LSrelation : Relation %{relation} of object type %{LSobject} unknow.")
+_("LSrelation : Relation %{relation} of object type %{LSobject} unknown.")
 );
 LSerror :: defineError('LSrelations_03',
 _("LSrelation : Error during relation update of the relation %{relation}.")
 );
 LSerror :: defineError('LSrelations_04',
-_("LSrelation : Object type %{LSobject} unknow (Relation : %{relation}).")
+_("LSrelation : Object type %{LSobject} unknown (Relation : %{relation}).")
 );
 LSerror :: defineError('LSrelations_05',
 _("LSrelation : Incomplete configuration for LSrelation %{relation} of object type %{LSobject} for action : %{action}.")
+);
+LSerror :: defineError('LSrelations_06',
+_("LSrelation : Invalid editable attribute for LSrelation %{relation} with LSobject %{LSobject}.")
 );
