@@ -1327,8 +1327,11 @@ class LSldapObject {
           $keyValues[] = $dn;
       }
       else {
-        foreach ($object -> getValue($attrValue) as $keyValue)
-          if (!in_array($keyValue,$keyValues)) $keyValues[]=$keyValue;
+        $values=$object -> getValue($attrValue);
+        if (is_array($values))
+          foreach ($values as $keyValue)
+            if (!in_array($keyValue,$keyValues))
+              $keyValues[]=$keyValue;
       }
     }
     return $keyValues;
