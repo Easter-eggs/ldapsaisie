@@ -45,6 +45,7 @@ règles.</para>
 </variablelist>
 
 &conf-LSattribute-check-data-alphanumeric;
+&conf-LSattribute-check-data-callable;
 &conf-LSattribute-check-data-date;
 &conf-LSattribute-check-data-email;
 &conf-LSattribute-check-data-filesize;

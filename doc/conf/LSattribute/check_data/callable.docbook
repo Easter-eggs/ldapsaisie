@@ -1,0 +1,24 @@
+<sect4 id="config-LSattribute-check-data-callable">
+  <title>callable</title>
+  <para>Cette règle vérifie que la valeur saisie est correcte en utilisant une
+  fonction personnalisée. Cette fonction devra prendre en paramètres la valeur à
+  valider, le tableau des paramètres de la règle ainsi qu'un pointeur sur l'objet
+  <emphasis>LSformElement</emphasis>. Sur la base de ses informations, elle devra
+  valider la valeur et retourner <literal>True</literal> si la valeur est valide
+  et <literal>False</literal> sinon.</para>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>callable</term>
+  <listitem>
+    <simpara>Le nom de la fonction (ou tout autre <literal>callable</literal> au sens PHP)
+    de validation.</simpara>
+  </listitem>
+</varlistentry>
+
+
+</variablelist>
+
+</sect4>
