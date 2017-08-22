@@ -1,3 +1,13 @@
+ldapsaisie (1.6-1) unstable; urgency=medium
+
+  * LSrelation :
+   + Add create action button
+   + Add create button even if user can't edit the relation
+  * LSldapObject : fix foreach error in getObjectKeyValueInRelation() if attribute is empty
+  * Review LSformRules parameters usage and documentation
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 22 Aug 2017 15:45:44 +0200
+
 ldapsaisie (1.5-2) unstable; urgency=medium
 
   * LSformElement :: select_box : fix isValidValue() method in inherited context
