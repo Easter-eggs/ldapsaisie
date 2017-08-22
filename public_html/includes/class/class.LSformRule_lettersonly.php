@@ -43,5 +43,3 @@ class LSformRule_lettersonly extends LSformRule {
   }
   
 }
-
-?>

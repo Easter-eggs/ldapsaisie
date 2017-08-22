@@ -32,15 +32,15 @@ class LSformRule_regex extends LSformRule {
    *
    * @param string $values Valeur à vérifier
    * @param array $options Options de validation : 
-   *                              - Regex : $option['params']['regex'] ou $option
+   *                              - Regex : $options['params']['regex'] ou $options
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
    */ 
-  function validate($value,$option,$formElement) {
-    if (is_array($option)) {
-      if (isset($option['params']['regex'])) {
-        $regex=$option['params']['regex'];
+  function validate($value,$options,$formElement) {
+    if (is_array($options)) {
+      if (isset($options['params']['regex'])) {
+        $regex=$options['params']['regex'];
       }
       else {
         LSerror :: addErrorCode('LSformRule_regex_01');
@@ -48,7 +48,7 @@ class LSformRule_regex extends LSformRule {
       }
     }
     else {
-      $regex=$option;
+      $regex=$options;
     }
     if (!preg_match($regex, $value)) {
       return false;
@@ -64,5 +64,3 @@ class LSformRule_regex extends LSformRule {
 LSerror :: defineError('LSformRule_regex_01',
 _("LSformRule_regex : Regex has not been configured to validate data.")
 );
-
-?>

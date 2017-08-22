@@ -70,4 +70,3 @@ class LSformRule_imagesize extends LSformRule {
   
 }
 
-?>

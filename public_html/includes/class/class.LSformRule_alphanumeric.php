@@ -31,7 +31,8 @@ class LSformRule_alphanumeric extends LSformRule {
    * Vérification de la valeur.
    *
    * @param string $value  Value à vérifier
-   * @param array $options Options de validation (inutile ici)
+   * @param array $options Options de validation :
+   *                          - $options['params']['withAccents'] : set if accents is allowed
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
@@ -51,5 +52,3 @@ class LSformRule_alphanumeric extends LSformRule {
   }
   
 }
-
-?>

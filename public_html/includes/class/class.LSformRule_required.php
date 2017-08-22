@@ -36,10 +36,8 @@ class LSformRule_required extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */ 
-  function validate ($value,$option=NULL,$formElement) {
+  function validate ($value,$options=NULL,$formElement) {
     return ((string)$value != '');
   }
   
 }
-
-?>

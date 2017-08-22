@@ -60,4 +60,3 @@ class LSformRule_filesize extends LSformRule {
   
 }
 
-?>

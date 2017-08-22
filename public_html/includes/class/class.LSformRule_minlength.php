@@ -46,5 +46,3 @@ class LSformRule_minlength extends LSformRule {
   }
   
 }
-
-?>

@@ -32,6 +32,10 @@ class LSformRule_integer extends LSformRule{
    *
    * @param string $values The value
    * @param array $options Validation options
+   *                              - Maximum value : $options['params']['max']
+   *                              - Minimum value : $options['params']['min']
+   *                              - Allow only negative value : $options['params']['negative']
+   *                              - Allow only positive value : $options['params']['positive']
    * @param object $formElement The formElement object
    *
    * @return boolean true if the value is valided, false otherwise
@@ -58,4 +62,3 @@ class LSformRule_integer extends LSformRule{
   
 }
 
-?>

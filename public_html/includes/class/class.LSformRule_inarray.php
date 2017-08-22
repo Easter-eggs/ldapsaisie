@@ -56,4 +56,3 @@ LSerror :: defineError('LSformRule_inarray_01',
 _("LSformRule_inarray : Possible values has not been configured to validate data.")
 );
 
-?>

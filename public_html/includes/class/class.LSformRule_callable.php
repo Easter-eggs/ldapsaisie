@@ -32,7 +32,7 @@ class LSformRule_callable extends LSformRule {
    *
    * @param mixed $value The value to check
    * @param array $options Validation option
-   *                              - callable : the function use to check the value
+   *                              - $options['params']['callable'] : the function use to check the value
    *
    * The callable object will be run to check the value. The given parameters are the
    * same of this method.
@@ -41,9 +41,9 @@ class LSformRule_callable extends LSformRule {
    *
    * @return boolean true if the value is valid, false otherwise
    */ 
-  function validate($value,$option,$formElement) {
-    if (is_callable($option['callable'])) {
-      return call_user_func_array($option['callable'],array($value,$option,&$formElement));
+  function validate($value,$options,$formElement) {
+    if (is_callable($options['params']['callable'])) {
+      return call_user_func_array($options['params']['callable'],array($value,$options['params'],&$formElement));
     }
     else {
       LSerror :: addErrorCode('LSformRule_callable_01');
@@ -59,5 +59,3 @@ class LSformRule_callable extends LSformRule {
 LSerror :: defineError('LSformRule_callable_01',
 _("LSformRule_callable : The given callable option is not callable")
 );
-
-?>

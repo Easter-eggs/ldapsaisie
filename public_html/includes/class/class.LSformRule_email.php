@@ -32,15 +32,13 @@ class LSformRule_email extends LSformRule {
    *
    * @param string $value Valeur à vérifier
    * @param array $options Options de validation : 
-   *                                  - Check domain : $option['params']['checkDomain']
+   *                                  - Check domain : $options['params']['checkDomain']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  function validate($value,$option=array(),$formElement) {
-    return checkEmail($value,$option['params']['domain'],$option['params']['checkDomain']);
+  function validate($value,$options=array(),$formElement) {
+    return checkEmail($value,$options['params']['domain'],$options['params']['checkDomain']);
   }
 
 }
-
-?>

@@ -32,16 +32,16 @@ class LSformRule_date extends LSformRule {
   *
   * @param  mixed $value Données à valider
   * @param array $options Options de validation
-  *                         format: le format de la date
+  *                         $options['params']['format']: le format de la date
   * @param object $formElement L'objet formElement attaché
   *
   * @return boolean True si les données sont valide, False sinon.
   */
   function validate($value,$options=NULL,$formElement) {
-    if (!isset($options['format'])) {
+    if (!isset($options['params']['format'])) {
       return;
     }
-    $date = strptime($value,$options['format']);
+    $date = strptime($value,$options['params']['format']);
     if(is_array($date)) {
       $res = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900);
       if ((is_int($res)) && ($res != -1) && ($res !== False)) {
@@ -51,5 +51,3 @@ class LSformRule_date extends LSformRule {
     return;
   }
 }
-
-?>
