@@ -13,7 +13,12 @@ var LSformElement_date_field = new Class({
       if (!$type(this.params.manual)) {
         this.params.manual = true;
       }
-
+      if (!$type(this.params.showNowButton)) {
+        this.params.showNowButton = true;
+      }
+      if (!$type(this.params.showTodayButton)) {
+        this.params.showNowButton = true;
+      }
       if (!$type(this.params.style)) {
         this.params.style = 'dashboard';
       }
@@ -37,19 +42,28 @@ var LSformElement_date_field = new Class({
         }
       );
 
-      this.nowBtn = new Element('img');
-      this.nowBtn.src = varLSdefault.imagePath('now');
-      this.nowBtn.addClass('btn');
-      this.nowBtn.addEvent('click',this.onNowBtnClick.bind(this));
-      this.nowBtn.injectAfter(this.input);
-      varLSdefault.addHelpInfo(this.nowBtn,'LSformElement_date','now');
+      if (this.params.showNowButton) {
+        this.nowBtn = new Element('img');
+        this.nowBtn.src = varLSdefault.imagePath('now');
+        this.nowBtn.addClass('btn');
+        this.nowBtn.addEvent('click',this.onNowBtnClick.bind(this));
+        this.nowBtn.injectAfter(this.input);
+        varLSdefault.addHelpInfo(this.nowBtn,'LSformElement_date','now');
+      }
 
-      this.todayBtn = new Element('img');
-      this.todayBtn.src = varLSdefault.imagePath('calendar');
-      this.todayBtn.addClass('btn');
-      this.todayBtn.addEvent('click',this.onTodayBtnClick.bind(this));
-      this.todayBtn.injectAfter(this.nowBtn);
-      varLSdefault.addHelpInfo(this.todayBtn,'LSformElement_date','today');
+      if (this.params.showTodayButton) {
+        this.todayBtn = new Element('img');
+        this.todayBtn.src = varLSdefault.imagePath('calendar');
+        this.todayBtn.addClass('btn');
+        this.todayBtn.addEvent('click',this.onTodayBtnClick.bind(this));
+        if (!$type(this.nowBtn)) {
+          this.todayBtn.injectAfter(this.input);
+        }
+        else {
+          this.todayBtn.injectAfter(this.nowBtn);
+        }
+        varLSdefault.addHelpInfo(this.todayBtn,'LSformElement_date','today');
+      }
     },
     
     onNowBtnClick: function() {

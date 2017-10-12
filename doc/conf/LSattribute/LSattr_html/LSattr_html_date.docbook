@@ -12,6 +12,8 @@
   'format' => '[Format d'affichage de la date]',
   'time' => '[Booleen pour le choix ou non de l heure]',
   'manual' => '[Booleen pour l edition manuelle ou non]',
+  'showNowButton' => '[Booleen]',
+  'showTodayButton' => '[Booleen]',
   'style' => '[Nom du style utilise]'
 ),]]>
 ...
@@ -173,6 +175,22 @@
     <simpara>Booléen autorisant ou non l'édition manuelle du champs. Si ce paramètre
     vaut <literal>False</literal>, la sélection se fera uniquement à l'aide de l'outil
     graphique</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>showNowButton</term>
+  <listitem>
+    <simpara>Booléen définissant si le bouton <emphasis>Maintenant</emphasis> est
+    affiché ou non. Par défaut, il est affiché.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>showTodayButton</term>
+  <listitem>
+    <simpara>Booléen définissant si le bouton <emphasis>Aujourd'hui</emphasis> est
+    affiché ou non. Par défaut, il est affiché.</simpara>
   </listitem>
 </varlistentry>
 

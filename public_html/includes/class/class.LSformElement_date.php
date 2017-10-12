@@ -165,7 +165,9 @@ class LSformElement_date extends LSformElement {
         'format' => $this -> php2js_format($this -> getFormat()),
         'style' => $this -> getStyle(),
         'time' => (isset($this -> params['html_options']['time'])?$this -> params['html_options']['time']:true),
-        'manual' => (isset($this -> params['html_options']['manual'])?$this -> params['html_options']['manual']:true)
+        'manual' => (isset($this -> params['html_options']['manual'])?$this -> params['html_options']['manual']:true),
+        'showNowButton' => (isset($this -> params['html_options']['showNowButton'])?$this -> params['html_options']['showNowButton']:true),
+        'showTodayButton' => (isset($this -> params['html_options']['showTodayButton'])?$this -> params['html_options']['showTodayButton']:true),
       );
       LSsession :: addJSconfigParam($this -> name,$params);
       
