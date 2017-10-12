@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-02 11:53+0200\n"
+"POT-Creation-Date: 2017-10-12 14:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: view.php:44 modify.php:54
 #: includes/class/class.LSformElement_supannCompositeAttribute.php:106
-#: includes/class/class.LSrelation.php:259
+#: includes/class/class.LSrelation.php:260
 #: includes/class/class.LSformElement_select_object.php:68
 #: includes/class/class.LSformElement_supannLabeledValue.php:62
 #: includes/class/class.LSsearchEntry.php:163
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Object has been added."
 msgstr ""
 
-#: create.php:120 includes/class/class.LSrelation.php:265
+#: create.php:120 includes/class/class.LSrelation.php:267
 msgid "New"
 msgstr ""
 
@@ -715,176 +715,176 @@ msgstr ""
 msgid "The attribute %{attr} is not valid."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1831
+#: includes/class/class.LSldapObject.php:1834
 msgid "LSldapObject : Object type unknown."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1834
+#: includes/class/class.LSldapObject.php:1837
 msgid "LSldapObject : Update form is not defined for the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1837
+#: includes/class/class.LSldapObject.php:1840
 msgid "LSldapObject : No form exists for the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1840
+#: includes/class/class.LSldapObject.php:1843
 msgid ""
 "LSldapObject : The function %{func} to validate the attribute %{attr} the "
 "object %{obj} is unknow."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1843
+#: includes/class/class.LSldapObject.php:1846
 msgid ""
 "LSldapObject : Configuration data are missing to validate the attribute "
 "%{attr} of the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1847
+#: includes/class/class.LSldapObject.php:1850
 msgid ""
 "LSldapObject : The function %{func} to be executed on the object event "
 "%{event} doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1850
+#: includes/class/class.LSldapObject.php:1853
 msgid ""
 "LSldapObject : The %{func} execution on the object event %{event} failed."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1854
+#: includes/class/class.LSldapObject.php:1857
 msgid ""
 "LSldapObject : Class %{class}, which method %{meth} to be executed on the "
 "object event %{event}, doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1857
+#: includes/class/class.LSldapObject.php:1860
 msgid ""
 "LSldapObject : Method %{meth} within %{class} class to be executed on object "
 "event %{event}, doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1860
+#: includes/class/class.LSldapObject.php:1863
 msgid ""
 "LSldapObject : Error during execute %{meth} method within %{class} class, to "
 "be executed on object event %{event}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1864
+#: includes/class/class.LSldapObject.php:1867
 msgid ""
 "LSldapObject : Some configuration data of the object type %{obj} are missing "
 "to generate the DN of the new object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1867
+#: includes/class/class.LSldapObject.php:1870
 msgid ""
 "LSldapObject : The attibute %{attr} of the object is not yet defined. Can't "
 "generate DN."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1870
+#: includes/class/class.LSldapObject.php:1873
 msgid "LSldapObject : Without DN, the object could not be changed."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1873
+#: includes/class/class.LSldapObject.php:1876
 msgid ""
 "LSldapObject : The attribute %{attr_depend} depending on the attribute "
 "%{attr} doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1876
+#: includes/class/class.LSldapObject.php:1879
 msgid "LSldapObject : Error during deleting the object %{objectname}."
-msgstr ""
-
-#: includes/class/class.LSldapObject.php:1880
-msgid ""
-"LSldapObject : Error during actions to be executed before renaming the objet."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1883
 msgid ""
-"LSldapObject : Error during actions to be executed after renaming the objet."
+"LSldapObject : Error during actions to be executed before renaming the objet."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1887
+#: includes/class/class.LSldapObject.php:1886
 msgid ""
-"LSldapObject : Error during actions to be executed before deleting the objet."
+"LSldapObject : Error during actions to be executed after renaming the objet."
 msgstr ""
 
 #: includes/class/class.LSldapObject.php:1890
 msgid ""
+"LSldapObject : Error during actions to be executed before deleting the objet."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1893
+msgid ""
 "LSldapObject : Error during actions to be executed after deleting the objet."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1894
+#: includes/class/class.LSldapObject.php:1897
 msgid ""
 "LSldapObject : Error during the actions to be executed before creating the "
 "object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1897
+#: includes/class/class.LSldapObject.php:1900
 msgid ""
 "LSldapObject : Error during the actions to be executed after creating the "
 "object. It was created anyway."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1901
+#: includes/class/class.LSldapObject.php:1904
 msgid ""
 "LSldapObject : The function %{func} to be executed before creating the "
 "object doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1904
+#: includes/class/class.LSldapObject.php:1907
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "deleting the object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1907
+#: includes/class/class.LSldapObject.php:1910
 msgid ""
 "LSldapObject : The function %{func} to be executed after deleting the object "
 "doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1910
+#: includes/class/class.LSldapObject.php:1913
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "creating the object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1914
+#: includes/class/class.LSldapObject.php:1917
 msgid ""
 "LSldapObject : %{func} function, to be executed on object event %{event}, "
 "doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1917
+#: includes/class/class.LSldapObject.php:1920
 msgid ""
 "LSldapObject : Error during the execution of %{func} function on object "
 "event %{event}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1921
+#: includes/class/class.LSldapObject.php:1924
 msgid ""
 "LSldapObject : %{meth} method, to be executed on object event %{event}, "
 "doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1924
+#: includes/class/class.LSldapObject.php:1927
 msgid ""
 "LSldapObject : Error during execution of %{meth} method on object event "
 "%{event}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1927
+#: includes/class/class.LSldapObject.php:1930
 msgid "LSldapObject : Error during generate LDAP filter for %{LSobject}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1931
+#: includes/class/class.LSldapObject.php:1934
 msgid ""
 "LSldapObject : Error during execution of the custom action %{customAction} "
 "on %{objectname}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1936
+#: includes/class/class.LSldapObject.php:1939
 msgid ""
 "LSrelation : Some parameters are missing in the call of methods to handle "
 "standard relations (Method : %{meth})."
@@ -970,35 +970,35 @@ msgid "Warning"
 msgstr ""
 
 #: includes/class/class.LSrelation.php:243
-#: includes/class/class.LSrelation.php:364
+#: includes/class/class.LSrelation.php:365
 msgid "No object."
 msgstr ""
 
-#: includes/class/class.LSrelation.php:452
+#: includes/class/class.LSrelation.php:453
 msgid ""
 "LSrelation : The function %{function} for action '%{action}' on the relation "
 "%{relation} is unknown."
 msgstr ""
 
-#: includes/class/class.LSrelation.php:455
+#: includes/class/class.LSrelation.php:456
 msgid "LSrelation : Relation %{relation} of object type %{LSobject} unknown."
 msgstr ""
 
-#: includes/class/class.LSrelation.php:458
+#: includes/class/class.LSrelation.php:459
 msgid "LSrelation : Error during relation update of the relation %{relation}."
 msgstr ""
 
-#: includes/class/class.LSrelation.php:461
+#: includes/class/class.LSrelation.php:462
 msgid "LSrelation : Object type %{LSobject} unknown (Relation : %{relation})."
 msgstr ""
 
-#: includes/class/class.LSrelation.php:464
+#: includes/class/class.LSrelation.php:465
 msgid ""
 "LSrelation : Incomplete configuration for LSrelation %{relation} of object "
 "type %{LSobject} for action : %{action}."
 msgstr ""
 
-#: includes/class/class.LSrelation.php:467
+#: includes/class/class.LSrelation.php:468
 msgid ""
 "LSrelation : Invalid editable attribute for LSrelation %{relation} with "
 "LSobject %{LSobject}."
@@ -1168,6 +1168,11 @@ msgstr ""
 
 #: includes/class/class.LSformElement_select_object.php:84
 msgid "Display advanced search and selection panel."
+msgstr ""
+
+#: includes/class/class.LSattr_html_date.php:43
+#: includes/class/class.LSattr_html_select_list.php:63
+msgid "Invalid value"
 msgstr ""
 
 #: includes/class/class.LSformElement_mail.php:51
@@ -1367,10 +1372,6 @@ msgstr ""
 msgid "Chat with this person."
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:63
-msgid "Invalid value"
-msgstr ""
-
 #: includes/class/class.LSattr_html_select_list.php:282
 msgid ""
 "LSattr_html_select_list : Configuration data are missing to generate the "
@@ -1381,6 +1382,10 @@ msgstr ""
 msgid ""
 "LSformRule_inarray : Possible values has not been configured to validate "
 "data."
+msgstr ""
+
+#: includes/class/class.LSformRule_date.php:59
+msgid "LSformRule_date : No date format specify."
 msgstr ""
 
 #: includes/class/class.LSattr_html_maildir.php:58
