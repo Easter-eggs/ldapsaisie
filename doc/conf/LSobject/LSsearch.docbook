@@ -47,6 +47,11 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     ),
     'col2' => array(
       'label' => 'label column 2',
+      'generateFunction' => '[fonction de génération]',
+      'additionalAttrs' => array('[attr1]', '[attr2]', ...)
+    ),
+    'col3' => array(
+      'label' => 'label column 3',
       'LSformat' => '[LSformat]',
       'alternativeLSformats' => array (
         '[LSformat 1]',
@@ -59,7 +64,7 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
         '[LSprofile 1]',
         '[LSprofile 2]'
       )
-    )
+    ),
   ),
   'customActions' =>  array (
     // Configuration des customActions pour les recherches de ce type d'objet
@@ -303,6 +308,24 @@ contexte dans lequel cette recherche est effectuée.</para>
           obtenu des &LSformats; précédents. Cette fonction ne sera appelée que si le résultat
           obtenu précédement n'est pas vide. La fonction prendra en paramètre la valeur à mettre
           en forme et retournera la valeur mise en forme.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>generateFunction</term>
+        <listitem>
+          <simpara>Le nom d'une fonction qui sera utilisée pour générer la valeur d'affichage de
+          cette colonne. La fonction prendra en paramètre une référence de l'objet <literal>
+          LSsearchEntry</literal> et retournera la valeur de la colonne.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>additionalAttrs</term>
+        <listitem>
+          <simpara>Un tableau de nom d'attributs à inclure dans le resultat de la recherche LDAP.
+          Ce tableau permet notamment d'inclure les attributs nécessaires au bon fonctionnement
+          de la fonction <literal>generateFunction</literal>.</simpara>
         </listitem>
       </varlistentry>
 

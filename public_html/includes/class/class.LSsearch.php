@@ -798,20 +798,26 @@ class LSsearch {
     // Extra Columns
     if ($this -> params['extraDisplayedColumns'] && is_array($this -> config['extraDisplayedColumns'])) {
       foreach ($this -> config['extraDisplayedColumns'] as $id => $conf) {
-        $attrs=getFieldInFormat($conf['LSformat']);
-        if(is_array($conf['alternativeLSformats'])) {
-          foreach ($conf['alternativeLSformats'] as $format) {
-            $attrs=array_merge($attrs,getFieldInFormat($format));
+        $attrs=array();
+        if (isset($conf['LSformat'])) {
+          $attrs=getFieldInFormat($conf['LSformat']);
+          if(is_array($conf['alternativeLSformats'])) {
+            foreach ($conf['alternativeLSformats'] as $format) {
+              $attrs=array_merge($attrs,getFieldInFormat($format));
+            }
+          }
+          else {
+            $attrs=array_merge($attrs,getFieldInFormat($conf['alternativeLSformats']));
+          }
+          if(isset($conf['formaterLSformat'])) {
+            $attrs=array_unique(array_merge($attrs,getFieldInFormat($conf['formaterLSformat'])));
+            if(($key = array_search('val', $attrs)) !== false) {
+              unset($attrs[$key]);
+            }
           }
         }
-        else {
-          $attrs=array_merge($attrs,getFieldInFormat($conf['alternativeLSformats']));
-        }
-        if(isset($conf['formaterLSformat'])) {
-          $attrs=array_unique(array_merge($attrs,getFieldInFormat($conf['formaterLSformat'])));
-          if(($key = array_search('val', $attrs)) !== false) {
-            unset($attrs[$key]);
-          }
+        if(isset($conf['additionalAttrs'])) {
+          $attrs=array_unique(array_merge($attrs,(is_array($conf['additionalAttrs'])?$conf['additionalAttrs']:array($conf['additionalAttrs']))));
         }
         if(is_array($retval['attributes'])) {
           $retval['attributes']=array_merge($attrs,$retval['attributes']);

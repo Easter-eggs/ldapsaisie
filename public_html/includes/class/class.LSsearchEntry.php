@@ -196,25 +196,32 @@ class LSsearchEntry {
       if(isset($this -> cache[$key])) {
         return $this -> cache[$key];
       }
-      $ret=$this -> getFData($this->LSsearch->extraDisplayedColumns[$key]['LSformat']);
-      if (empty($ret) && is_array($this->LSsearch->extraDisplayedColumns[$key]['alternativeLSformats'])) {
-        foreach($this->LSsearch->extraDisplayedColumns[$key]['alternativeLSformats'] as $format) {
-          $ret=$this -> getFData($format);
-          if (!empty($ret)) break;
-        }
+      if (isset($this->LSsearch->extraDisplayedColumns[$key]['generateFunction'])) {
+        if (!is_callable($this->LSsearch->extraDisplayedColumns[$key]['generateFunction']))
+          return False;
+        $ret=call_user_func_array($this->LSsearch->extraDisplayedColumns[$key]['generateFunction'],array(&$this));
       }
-      if (!empty($ret) && isset($this->LSsearch->extraDisplayedColumns[$key]['formaterLSformat'])) {
-        $this -> registerOtherValue('val',$ret);
-        $ret=$this -> getFData($this->LSsearch->extraDisplayedColumns[$key]['formaterLSformat']);
-      }
-      if (!empty($ret) && isset($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'])) {
-        if (is_callable($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'])) {
-          $ret=call_user_func($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'],$ret);
+      else {
+        $ret=$this -> getFData($this->LSsearch->extraDisplayedColumns[$key]['LSformat']);
+        if (empty($ret) && is_array($this->LSsearch->extraDisplayedColumns[$key]['alternativeLSformats'])) {
+          foreach($this->LSsearch->extraDisplayedColumns[$key]['alternativeLSformats'] as $format) {
+            $ret=$this -> getFData($format);
+            if (!empty($ret)) break;
+          }
         }
-        else {
-          $func=$this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'];
-          if(is_array($func)) $func=print_r($func,1);
-          LSerror::addErrorCode('LSsearchEntry_01',array('func' => $func, 'column' => $key));
+        if (!empty($ret) && isset($this->LSsearch->extraDisplayedColumns[$key]['formaterLSformat'])) {
+          $this -> registerOtherValue('val',$ret);
+          $ret=$this -> getFData($this->LSsearch->extraDisplayedColumns[$key]['formaterLSformat']);
+        }
+        if (!empty($ret) && isset($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'])) {
+          if (is_callable($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'])) {
+            $ret=call_user_func($this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'],$ret);
+          }
+          else {
+            $func=$this->LSsearch->extraDisplayedColumns[$key]['formaterFunction'];
+            if(is_array($func)) $func=print_r($func,1);
+            LSerror::addErrorCode('LSsearchEntry_01',array('func' => $func, 'column' => $key));
+          }
         }
       }
       $this -> cache[$key] = $ret;
