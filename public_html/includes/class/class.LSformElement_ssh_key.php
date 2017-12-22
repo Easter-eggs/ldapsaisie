@@ -60,7 +60,7 @@ class LSformElement_ssh_key extends LSformElement {
       
       $values_txt = array();
       foreach ($this -> values as $value) {
-        if (ereg('^ssh-([a-z]+) (.*)== (.*)$',$value,$regs)) {
+        if (preg_match('/^ssh-([a-z0-9]+) +([^ ]+) +(.*)$/',$value,$regs)) {
           $values_txt[] = array(
             'type' => $regs[1],
             'shortTxt' => substr($regs[2],0,10),
