@@ -39,7 +39,7 @@ class LSformRule_ssh_pub_key extends LSformRule {
   function validate($value,$options,$formElement) {
     if (preg_match('/^(ssh-[a-z0-9]+) +([^ ]+) +(.*)$/', $value, $m)) {
       $data=@base64_decode($m[2]);
-      if (is_string($data) && strpos($data, $m[1]))
+      if (is_string($data))
         return true;
     }
     return false;
