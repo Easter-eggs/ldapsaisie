@@ -1,0 +1,10 @@
+<sect4 id="config-LSattribute-check-data-ssh_pub_key">
+  <title>ssh_pub_key</title>
+  <para>Cette règle vérifie que la valeur est une clé publique SSH.</para>
+  <para>Cette vérification utilise tout d'abord une expression régulière
+  pour valider la forme syntaxique de la clé publique
+  (<literal>ssh-[type] [clé au format base64] [commentaire]</literal>) puis
+  tente de décoder la partie en base64 de la clé pour vérifier qu'il s'agit
+  bien d'une chaine de caractères dans laquelle on retrouve bien le type de
+  la clé (<literal>ssh-[type]</literal>).</para>
+</sect4>

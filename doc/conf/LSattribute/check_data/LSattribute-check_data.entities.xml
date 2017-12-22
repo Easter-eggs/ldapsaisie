@@ -19,4 +19,5 @@
 <!ENTITY conf-LSattribute-check-data-rangelength SYSTEM "rangelength.docbook">
 <!ENTITY conf-LSattribute-check-data-regex SYSTEM "regex.docbook">
 <!ENTITY conf-LSattribute-check-data-required SYSTEM "required.docbook">
+<!ENTITY conf-LSattribute-check-data-ssh_pub_key SYSTEM "ssh_pub_key.docbook">
 <!ENTITY conf-LSattribute-check-data-telephonenumber SYSTEM "telephonenumber.docbook">
