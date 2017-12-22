@@ -94,31 +94,33 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
       }
     }
 
-    $components = $this -> components;
-    foreach($components as $c => $cconf) {
-      if ($cconf['type']=='select_list') {
-        $components[$c]['possible_values']=$this -> getSelectListComponentPossibleValues($c);
-      }
-    }
-
     $return['html'] = $this -> fetchTemplate(NULL,
       array(
         'parseValues' => $parseValues,
-        'components' => $components
       )
     );
     LSsession :: addCssFile('LSformElement_jsonCompositeAttribute.css');
     return $return;
   }
 
-
  /**
-  * Return HTML code of an empty field
+  * Retournne un template Smarty compilé dans le contexte d'un LSformElement
   *
-  * @retval string HTML code of an empty field.
+  * @param[in] string $template Le template à retourner
+  * @param[in] array $variables Variables Smarty à assigner avant l'affichage
+  *
+  * @retval string Le HTML compilé du template
   */
-  function getEmptyField() {
-    return $this -> fetchTemplate($this -> fieldTemplate,array('components' => $this -> components));
+  function fetchTemplate($template=NULL,$variables=array()) {
+    $components = $this -> components;
+    foreach($components as $c => $cconf) {
+      if ($cconf['type']=='select_list') {
+        $components[$c]['possible_values']=$this -> getSelectListComponentPossibleValues($c);
+      }
+    }
+    $variables['components'] = $components;
+
+    return parent::fetchTemplate($template, $variables);
   }
 
   /**
