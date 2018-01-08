@@ -2,3 +2,4 @@ files
 ldapsaisie.debhelper.log
 ldapsaisie.substvars
 ldapsaisie
+debhelper-build-stamp
