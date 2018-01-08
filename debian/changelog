@@ -1,3 +1,19 @@
+ldapsaisie (1.7-1) unstable; urgency=medium
+
+  * LSattr_html :: date :
+    + Fix default form rule parameters
+    + Add showNowButton and showTodayButton parameters
+  * LSformRule_date : add error if no date format specified
+  * Add generateFunction and additionalAttrs parameters for
+    extraDisplayedColumns
+  * LSatt_html :: jsonCompositeAttributeFix : fix possible values ajax loading
+  * generate_lang_file.php : handle LSattr_html::jsonCompositeAttribute config
+  * LSattr_html :: ssh_key : fix regex
+  * Add LSformRule :: ssh_pub_key
+  * Replace all ereg() function call by preg_match()
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 08 Jan 2018 20:27:15 +0100
+
 ldapsaisie (1.6-1) unstable; urgency=medium
 
   * LSrelation :

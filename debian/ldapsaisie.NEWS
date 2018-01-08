@@ -1,0 +1,16 @@
+ldapsaisie (1.7-1) unstable; urgency=medium
+
+    This release introduce some modifications for PHP7 and Debian Strech
+    compatibility, especialy :
+      - The /var/tmp/ldapsaisie moved to /var/cache/ldapsaisie (to be
+        compatible with PrivateTmp=True directive of Apache systemd unit file)
+      - ereg() function calls are replaced by preg_match() function. All
+        internal regex have been consequently modified but you should have to
+        modify your own regex in your configuration files. This concerns the
+        following components :
+          + LSattr_html :: maildir (remoteRootPathRegex parameter)
+          + LSaddon :: maildir (LS_MAILDIR_FTP_MAILDIR_PATH_REGEX parameter)
+          + helper function loadDir() ($regexpr parameter)
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 08 Jan 2018 20:27:15 +0100
+
