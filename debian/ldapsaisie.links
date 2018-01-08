@@ -1,4 +1,4 @@
-var/tmp/ldapsaisie usr/share/ldapsaisie/tmp
+var/cache/ldapsaisie usr/share/ldapsaisie/tmp
 usr/local/share/ldapsaisie usr/share/ldapsaisie/local
 usr/local/share/ldapsaisie etc/ldapsaisie/local
 usr/share/ldapsaisie/lang/generate_lang_file.php usr/bin/ldapsaisie-generate-lang-file

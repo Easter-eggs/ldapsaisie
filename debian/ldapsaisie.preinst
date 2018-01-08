@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$1" in
+	install|upgrade)
+		if [ -d /var/tmp/ldapsaisie -a -n "$( ls /var/tmp/ldapsaisie 2>/dev/null )" ]
+		then
+			[ ! -d /var/cache/ldapsaisie/ ] && mkdir /var/cache/ldapsaisie/
+			mv /var/tmp/ldapsaisie/* /var/cache/ldapsaisie/
+		fi
+	;;
+esac

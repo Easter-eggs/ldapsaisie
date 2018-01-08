@@ -5,5 +5,5 @@ usr/share
 usr/share/doc/ldapsaisie
 usr/local/share/ldapsaisie/conf
 usr/share/ldapsaisie/local
-var/tmp/ldapsaisie
+var/cache/ldapsaisie
 var/log/ldapsaisie
