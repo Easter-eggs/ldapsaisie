@@ -54,7 +54,7 @@ class LSformElement_quota extends LSformElement {
     $quotas=array();
     
     foreach ($this -> values as $value) {
-      if (ereg('^([0-9]*)$',$value,$regs)) {
+      if (preg_match('/^([0-9]*)$/',$value,$regs)) {
         $infos = array(
           'size' => ceil($regs[1]/$this -> getFactor())
         );

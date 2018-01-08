@@ -114,7 +114,7 @@ class LSattr_html_maildir extends LSattr_html {
     }
     if ($this -> config['html_options']['remoteRootPathRegex']) {
       if (
-        ereg($this -> config['html_options']['remoteRootPathRegex'],$val,$r)
+        preg_match($this -> config['html_options']['remoteRootPathRegex'],$val,$r)
         ||
         empty($val)
       )

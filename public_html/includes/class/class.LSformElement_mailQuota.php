@@ -54,7 +54,7 @@ class LSformElement_mailQuota extends LSformElement {
     $quotas=array();
     
     foreach ($this -> values as $value) {
-      if (ereg('([0-9]*)'.$this -> getSuffix(),$value,$regs)) {
+      if (preg_match('/([0-9]*)/'.$this -> getSuffix(),$value,$regs)) {
         $infos = array(
           'size' => $regs[1]
         );

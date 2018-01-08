@@ -146,7 +146,7 @@ $retval=true;
     $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
     
     if (LS_MAILDIR_FTP_MAILDIR_PATH_REGEX != "") {
-      if (ereg(LS_MAILDIR_FTP_MAILDIR_PATH_REGEX,$dir,$regs)) {
+      if (preg_match(LS_MAILDIR_FTP_MAILDIR_PATH_REGEX,$dir,$regs)) {
         $dir = $regs[1];
       }
       else {

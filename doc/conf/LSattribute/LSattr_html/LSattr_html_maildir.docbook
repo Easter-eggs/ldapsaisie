@@ -43,7 +43,7 @@
 <varlistentry>
   <term>remoteRootPathRegex</term>
   <listitem>
-    <simpara>Expression régulière facultative dont le but est de 
+    <simpara>Expression régulière (compatible Perl) facultative dont le but est de
     <emphasis>matcher</emphasis> dans la valeur complète du chemin distant de la
     <emphasis>maildir</emphasis>, le chemin de la <emphasis>maildir</emphasis>
     à créer une fois connecté sur le serveur.</simpara>
@@ -52,7 +52,7 @@
     se connecte arrive directement dans <emphasis>/home/vmail</emphasis>, et faut
     définir le paramètre <parameter>remoteRootPathRegex</parameter> de la manière
     suivante :
-    <programlisting linenumbering="unnumbered">^\/home\/vmail\/([^\/]*)\/+$</programlisting>
+    <programlisting linenumbering="unnumbered">/^\/home\/vmail\/([^\/]*)\/+$/</programlisting>
     </para>
   </listitem>
 </varlistentry>

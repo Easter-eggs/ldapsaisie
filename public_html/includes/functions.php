@@ -52,7 +52,7 @@ function getFData($format,$data,$meth=NULL) {
    * - 7 : ! or _
    * - 8 : ~
    */
-  $expr="%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]";
+  $expr="/%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]/";
   if(!is_array($format)) {
     $format=array($format);
     $unique=true;
@@ -60,7 +60,7 @@ function getFData($format,$data,$meth=NULL) {
   for($i=0;$i<count($format);$i++) {
     if(is_array($data)) {
       if ($meth==NULL) {
-        while (ereg($expr,$format[$i],$ch)) {
+        while (preg_match($expr,$format[$i],$ch)) {
           if (is_array($data[$ch[1]])) {
             $val = $data[$ch[1]][0];
           }
@@ -72,7 +72,7 @@ function getFData($format,$data,$meth=NULL) {
         }
       }
       else {
-        while (ereg($expr,$format[$i],$ch)) {
+        while (preg_match($expr,$format[$i],$ch)) {
           if (method_exists($data[$ch[1]],$meth)) {
             $value = $data[$ch[1]] -> $meth();
             if (is_array($value)) {
@@ -90,7 +90,7 @@ function getFData($format,$data,$meth=NULL) {
     }
     elseif (is_object($data)) {
       if ($meth==NULL) {
-        while (ereg($expr,$format[$i],$ch)) {
+        while (preg_match($expr,$format[$i],$ch)) {
           $value = $data -> $ch[1];
           if (is_array($value)) {
             $value = $value[0];
@@ -100,7 +100,7 @@ function getFData($format,$data,$meth=NULL) {
         }
       }
       else {
-        while (ereg($expr,$format[$i],$ch)) {
+        while (preg_match($expr,$format[$i],$ch)) {
           if (method_exists($data,$meth)) {
             $value = $data -> $meth($ch[1]);
             if (is_array($value)) {
@@ -117,7 +117,7 @@ function getFData($format,$data,$meth=NULL) {
       }
     }
     else {
-      while (ereg($expr,$format[$i],$ch)) {
+      while (preg_match($expr,$format[$i],$ch)) {
 	$val=_getFData_extractAndModify($data,$ch);
         $format[$i]=str_replace($ch[0],$val,$format[$i]);
       }
@@ -194,18 +194,18 @@ function _getFData_extractAndModify($data,$ch) {
 
 function getFieldInFormat($format) {
   $fields=array();
-  $expr="%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]";
-  while (ereg($expr,$format,$ch)) {
+  $expr='/%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]/';
+  while (preg_match($expr,$format,$ch)) {
     $fields[]=$ch[1];
     $format=str_replace($ch[0],'',$format);
   }
   return $fields;
 }
 
-function loadDir($dir,$regexpr='^.*\.php$') {
+function loadDir($dir,$regexpr='/^.*\.php$/') {
   if ($handle = opendir($dir)) {
     while (false !== ($file = readdir($handle))) {
-      if (ereg($regexpr,$file)) {
+      if (preg_match($regexpr,$file)) {
         require_once($dir.'/'.$file);
       }
     }

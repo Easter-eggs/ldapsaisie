@@ -394,15 +394,15 @@ class LSsession {
   public static function getLangList() {
     $list=array('en_US');
     if (self :: $encoding) {
-      $regex = '^([a-zA-Z_]*)\.'.self :: $encoding.'$';
+      $regex = '/^([a-zA-Z_]*)\.'.self :: $encoding.'$/';
     }
     else {
-      $regex = '^([a-zA-Z_]*)$';
+      $regex = '/^([a-zA-Z_]*)$/';
     }
     if ($handle = opendir(LS_I18N_DIR)) {
       while (false !== ($file = readdir($handle))) {
         if(is_dir(LS_I18N_DIR.'/'.$file)) {
-          if (ereg($regex,$file,$regs)) {
+          if (preg_match($regex,$file,$regs)) {
             if (!in_array($regs[1],$list)) {
               $list[]=$regs[1];
             }

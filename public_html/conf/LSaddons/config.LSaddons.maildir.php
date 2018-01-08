@@ -41,10 +41,8 @@ define('LS_MAILDIR_FTP_PWD','password');
 // Serveur FTP - Maildir Path
 define('LS_MAILDIR_FTP_MAILDIR_PATH','%{mailbox}');
 
-// Serveur FTP - Maildir Path Regex
-define('LS_MAILDIR_FTP_MAILDIR_PATH_REGEX','^\/home\/vmail\/([^\/]+)\/$');
+// Serveur FTP - Maildir Path Regex (Perl compatible)
+define('LS_MAILDIR_FTP_MAILDIR_PATH_REGEX','/^\/home\/vmail\/([^\/]+)\/$/');
 
 // Serveur FTP - Maildir CHMOD
 define('LS_MAILDIR_FTP_MAILDIR_CHMOD','700');
-
-?>

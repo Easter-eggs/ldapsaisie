@@ -87,7 +87,7 @@ class LSformElement_valueWithUnit extends LSformElement {
     
     if ($units) {
       foreach ($this -> values as $value) {
-        if (ereg('^([0-9]*)$',$value,$regs)) {
+        if (preg_match('/^([0-9]*)$/',$value,$regs)) {
           $infos = array(
             'value' => $regs[1]
           );
