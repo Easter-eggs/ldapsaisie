@@ -1,9 +1,17 @@
 #!/bin/sh
 
-chown www-data:adm /var/tmp/ldapsaisie /var/log/ldapsaisie
-chmod 750 /var/tmp/ldapsaisie /var/log/ldapsaisie
+case "$1" in
+	configure)
+		if test "$(stat --format %u:%g /var/cache/ldapsaisie)" = "0:0"
+		then
+			chown www-data:adm /var/cache/ldapsaisie /var/log/ldapsaisie
+			chmod 750 /var/cache/ldapsaisie /var/log/ldapsaisie
+		fi
+		break
 
-if [ -f /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move ]
-then
-	mv /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move /usr/local/share/ldapsaisie/conf/config.inc.php
-fi
+		if [ -f /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move ]
+		then
+			mv /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move /usr/local/share/ldapsaisie/conf/config.inc.php
+		fi
+	;;
+esac
