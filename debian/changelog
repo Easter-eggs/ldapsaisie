@@ -1,3 +1,9 @@
+ldapsaisie (1.7-2) unstable; urgency=medium
+
+  * Fix cron and doc about new tmp dir path
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 09 Jan 2018 03:16:01 +0100
+
 ldapsaisie (1.7-1) unstable; urgency=medium
 
   * LSattr_html :: date :
