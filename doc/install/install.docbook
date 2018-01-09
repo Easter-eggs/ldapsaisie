@@ -12,7 +12,7 @@
     <listitem><simpara>Le support <application>json</application> dans &php; (<command>pear install pecl/json</command> sur <application>RedHat</application>, intégré au paquet <literal>php5-common</literal> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara>&netldap; (paquet <application>php-net-ldap2</application> dans <application>Debian</application> ou <command>pear install net_ldap2</command>)</simpara></listitem>
     <listitem><simpara>&smarty; (paquet <application>smarty</application> dans <application>Debian</application>)</simpara></listitem>
-    <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'. En cas d'installation à partir du paquet Debian, ce dossier est remplacé par un lien symbolique vers le dossier <emphasis>/var/tmp/ldapsaisie/</emphasis>.</simpara></listitem>
+    <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'. En cas d'installation à partir du paquet Debian, ce dossier est remplacé par un lien symbolique vers le dossier <emphasis>/var/cache/ldapsaisie/</emphasis>.</simpara></listitem>
   </itemizedlist>
   <warning><simpara>La librairie &netldap; oblige le fait que la racine DSE de
   l'annuaire soit lisible en anonyme sinon la connexion à l'annuaire échouera
