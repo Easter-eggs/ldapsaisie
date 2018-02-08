@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-12 14:50+0200\n"
-"PO-Revision-Date: 2017-10-12 14:50+0100\n"
+"POT-Creation-Date: 2018-02-08 18:12+0100\n"
+"PO-Revision-Date: 2018-02-08 18:13+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /var/www/ldapsaisie/trunk\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: view.php:44 modify.php:54
 #: includes/class/class.LSformElement_supannCompositeAttribute.php:106
@@ -1218,29 +1218,48 @@ msgstr ""
 msgid "Modify the mail sent to notice the user"
 msgstr "Modifier mail de notification de l'utilisateur"
 
-#: includes/class/class.LSformElement_password.php:261
+#: includes/class/class.LSformElement_password.php:284
 msgid "Notice mail sent."
 msgstr "Le mail de notification a été envoyé."
 
-#: includes/class/class.LSformElement_password.php:341
+#: includes/class/class.LSformElement_password.php:364
 msgid "LSformElement_password : No contact mail available to send password."
 msgstr ""
 "LSformElement_password : Aucun mail de contact disponible pour envoyer le "
 "mot de passe."
 
-#: includes/class/class.LSformElement_password.php:344
+#: includes/class/class.LSformElement_password.php:367
 msgid ""
 "LSformElement_password : Contact mail invalid (%{mail}). Can't send password."
 msgstr ""
 "LSformElement_password : Mail de contact invalide (%{mail}). Impossible "
 "d'envoyer le mot de passe."
 
-#: includes/class/class.LSformElement_password.php:347
+#: includes/class/class.LSformElement_password.php:370
 msgid ""
 "LSformElement_password : Fail to exec pwgen. Check it's correctly installed."
 msgstr ""
 "LSformElement_password : Impossible d'exécuter pwgen. Vérifier qu'il est "
 "bien installé."
+
+#: includes/class/class.LSformElement_password.php:373
+msgid ""
+"LSformElement_password : Fail to determine witch e-mail attribute to use to "
+"send new password : get_mail_attr_function parameter not refer to a valid "
+"function."
+msgstr ""
+"LSformElement_password : Impossible de déterminer quel attribut e-mail doit "
+"être utilisé pour l'envoi du mot de passe : le paramètre "
+"get_mail_attr_function ne fait pas référence à une fonction valide."
+
+#: includes/class/class.LSformElement_password.php:376
+msgid ""
+"LSformElement_password : Fail to determine witch e-mail attribute to use to "
+"send new password : get_mail_attr_function throwed an exception : %{msg}"
+msgstr ""
+"LSformElement_password : Impossible de déterminer quel attribut e-mail doit "
+"être utilisé pour l'envoi du mot de passe : le fonction "
+"get_mail_attr_function a déclenchée une exception : %{msg}."
 
 #: includes/class/class.LSformElement_url.php:51
 msgid "Display this website."
@@ -1484,38 +1503,38 @@ msgstr "Étape"
 msgid "Pedagogical element"
 msgstr "Élement pédagogique"
 
-#: includes/class/class.LSsearch.php:1037
+#: includes/class/class.LSsearch.php:1043
 msgid "Actions"
 msgstr "Actions"
 
-#: includes/class/class.LSsearch.php:1040
+#: includes/class/class.LSsearch.php:1046
 msgid "This search didn't get any result."
 msgstr "Cette recherche n'a retournée aucun résultat"
 
-#: includes/class/class.LSsearch.php:1292
+#: includes/class/class.LSsearch.php:1298
 msgid "LSsearch : Invalid filter : %{filter}."
 msgstr "LSsearch : Filtre invalide : %{filter}."
 
-#: includes/class/class.LSsearch.php:1295
+#: includes/class/class.LSsearch.php:1301
 msgid "LSsearch : Invalid basedn : %{basedn}."
 msgstr "LSsearch : Base DN invalide."
 
-#: includes/class/class.LSsearch.php:1298
+#: includes/class/class.LSsearch.php:1304
 msgid "LSsearch : Invalid value for %{param} parameter."
 msgstr "LSsearch : La valeur du paramètre %{param} est incorrecte."
 
-#: includes/class/class.LSsearch.php:1301
+#: includes/class/class.LSsearch.php:1307
 msgid ""
 "LSsearch : Invalid size limit. Must be an integer greater or equal to 0."
 msgstr ""
 "LSsearch : Limite de taille de recherche invalide. Elle doit être un entier "
 "supérieur ou égal à 0."
 
-#: includes/class/class.LSsearch.php:1304
+#: includes/class/class.LSsearch.php:1310
 msgid "LSsearch : Invalid parameter %{attr}. Must be an boolean."
 msgstr "LSsearch : Paramètre %{param} invalide. Il doit être un booléen."
 
-#: includes/class/class.LSsearch.php:1307
+#: includes/class/class.LSsearch.php:1313
 msgid ""
 "LSsearch : Invalid parameter attributes. Must be an string or an array of "
 "strings."
@@ -1523,13 +1542,13 @@ msgstr ""
 "LSsearch : Paramètre 'attributes' invalide. Il doit être une chaîne de "
 "caractères ou un tableau de chaînes de caractères."
 
-#: includes/class/class.LSsearch.php:1310
+#: includes/class/class.LSsearch.php:1316
 msgid "LSsearch : Can't build attributes list for make filter."
 msgstr ""
 "LSsearch : Impossible de construire la liste des attributs pour faire le "
 "filtre."
 
-#: includes/class/class.LSsearch.php:1313
+#: includes/class/class.LSsearch.php:1319
 msgid ""
 "LSsearch : Error building filter with attribute '%{attr}' and pattern "
 "'%{pattern}'"
@@ -1537,34 +1556,34 @@ msgstr ""
 "LSsearch : Problème en construisant le filtre avec l'attribut '%{attr}' et "
 "le mot clé '%{pattern}'"
 
-#: includes/class/class.LSsearch.php:1316
+#: includes/class/class.LSsearch.php:1322
 msgid "LSsearch : Error combining filters."
 msgstr "LSsearch : Problème en combinant les filtres."
 
-#: includes/class/class.LSsearch.php:1319
+#: includes/class/class.LSsearch.php:1325
 msgid "LSsearch : Invalid pattern."
 msgstr "LSsearch : Mot clé invalide."
 
-#: includes/class/class.LSsearch.php:1322
+#: includes/class/class.LSsearch.php:1328
 msgid "LSsearch : Invalid attribute %{attr} in parameters."
 msgstr "LSsearch : Attribut %{attr} incorrect dans les paramètres."
 
-#: includes/class/class.LSsearch.php:1325
+#: includes/class/class.LSsearch.php:1331
 msgid "LSsearch : Error during the search."
 msgstr "LSsearch : Erreur pendant la recherche."
 
-#: includes/class/class.LSsearch.php:1328
+#: includes/class/class.LSsearch.php:1334
 msgid "LSsearch : Error sorting the search."
 msgstr "LSsearch : Erreur pendant le trie de la recherche."
 
-#: includes/class/class.LSsearch.php:1331
+#: includes/class/class.LSsearch.php:1337
 msgid ""
 "LSsearch : The function of the custum information %{name} is not callable."
 msgstr ""
 "LSsearch : La fonction de l'information personnalisée %{name} n'est pas "
 "exécutable."
 
-#: includes/class/class.LSsearch.php:1334
+#: includes/class/class.LSsearch.php:1340
 msgid ""
 "LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} "
 "(filter : %{filter})."
@@ -1572,7 +1591,7 @@ msgstr ""
 "LSsearch : PredefinedFilter invalide pour le type d'LSobject %{type} : "
 "%{label} (filtre : %{filter})."
 
-#: includes/class/class.LSsearch.php:1337
+#: includes/class/class.LSsearch.php:1343
 msgid "LSsearch : Error during execution of the custom action %{customAction}."
 msgstr ""
 "LSldapObject : Erreur durant l'exécution de l'action personnalisée "
@@ -1650,7 +1669,7 @@ msgstr "Erreur inconnu : %{error}"
 msgid "PHP error : %{error}"
 msgstr "Erreur PHP : %{error}"
 
-#: includes/class/class.LSsearchEntry.php:250
+#: includes/class/class.LSsearchEntry.php:257
 msgid ""
 "LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns "
 "%{column}."

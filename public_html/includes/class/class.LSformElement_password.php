@@ -154,6 +154,7 @@ class LSformElement_password extends LSformElement {
       );
       if (isset($this -> params['html_options']['mail'])) {
         $params['mail'] = $this -> params['html_options']['mail'];
+        $params['mail']['mail_attr'] = $this -> getMailAttrs();
       }
       LSsession :: addJSconfigParam($this -> name,$params);
       
@@ -208,13 +209,35 @@ class LSformElement_password extends LSformElement {
       return $find;
     }
   }
-  
+
+  function getMailAttrs() {
+    if (!isset($this -> params['html_options']['mail']) || !is_array($this -> params['html_options']['mail']))
+      return False;
+    if (isset($this -> params['html_options']['mail']['get_mail_attr_function'])) {
+      if (is_callable($this -> params['html_options']['mail']['get_mail_attr_function'])) {
+        try {
+          return call_user_func_array($this -> params['html_options']['mail']['get_mail_attr_function'], array(&$this));
+        }
+        catch(Exception $e) {
+          LSerror :: addErrorCode('LSformElement_password_05', $e->getMessage());
+        }
+      }
+      else {
+        LSerror :: addErrorCode('LSformElement_password_04');
+        return False;
+      }
+    }
+    elseif (isset($this -> params['html_options']['mail']['mail_attr'])) {
+      return $this -> params['html_options']['mail']['mail_attr'];
+    }
+  }
+
   function send($params) {
     if (is_array($this -> sendMail)) {
       $mail = (String)$this -> sendMail['mail'];
       Lsdebug($mail);
       if ($mail=="") {
-        $mail_attrs = $this -> params['html_options']['mail']['mail_attr'];
+        $mail_attrs = $this -> getMailAttrs();
         if (!is_array($mail_attrs)) {
           $mail_attrs=array($mail_attrs);
         }
@@ -345,4 +368,10 @@ _("LSformElement_password : Contact mail invalid (%{mail}). Can't send password.
 );
 LSerror :: defineError('LSformElement_password_03',
 _("LSformElement_password : Fail to exec pwgen. Check it's correctly installed.")
+);
+LSerror :: defineError('LSformElement_password_04',
+_("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function parameter not refer to a valid function.")
+);
+LSerror :: defineError('LSformElement_password_05',
+_("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function throwed an exception : %{msg}")
 );
