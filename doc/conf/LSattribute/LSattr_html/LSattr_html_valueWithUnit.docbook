@@ -11,9 +11,12 @@
       '[facteur2]' => '[label unit2]',
       [...]
     ),
+    'translate_labels' => [booléen],
     'nb_decimals' => [number of decimals],
     'dec_point' => '[decimals point]',
-    'thousands_sep' => '[thousands separator]'
+    'thousands_sep' => '[thousands separator]',
+    'store_integer' => [booléen],
+    'round_down' => [booléen],
   )
 ),]]>
 ...
@@ -26,6 +29,13 @@
   <term>units</term>
   <listitem>
     <simpara>Tableau associatif dont la clé est un entier correspondant au facteur et la valeur est le label de l'unité. (Par exemple : <literal>1 => Octet, 1024 => Kilo-octet, ...</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>translate_labels</term>
+  <listitem>
+    <simpara>Booléen permettant d'activer/désactiver la traduction des labels (Par defaut : <literal>Vrai</literal>).</simpara>
   </listitem>
 </varlistentry>
 
@@ -47,6 +57,22 @@
   <term>thousands_sep</term>
   <listitem>
     <simpara>Le caractère à utiliser comme séparateur de milliers (Par defaut, un espace).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>store_integer</term>
+  <listitem>
+    <simpara>Booléen permettant d'activer/désactiver le stockage de valeurs entières (Par defaut :
+    <literal>Vrai</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>round_down</term>
+  <listitem>
+    <simpara>Booléen permettant d'arrondir à l'entier inférieur (et non à l'entier supérieur
+    par défaut) en cas de stockage de valeurs entières.</simpara>
   </listitem>
 </varlistentry>
 
