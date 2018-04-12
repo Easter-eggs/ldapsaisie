@@ -44,7 +44,7 @@ class LSformElement_valueWithUnit extends LSformElement {
     if (isset($this -> params['html_options']['units']) && is_array($this -> params['html_options']['units'])) {
       $units=array();
       foreach($this -> params['html_options']['units'] as $sill => $label) {
-        $units[$sill]=__($label);
+        $units[$sill]=((!isset($this -> params['html_options']['translate_labels']) || $this -> params['html_options']['translate_labels'])?__($label):$label);
       }
       krsort($units);
       return $units;
@@ -162,8 +162,18 @@ class LSformElement_valueWithUnit extends LSformElement {
           $f = 1;
           if (isset($_POST[$this -> name.'_unitFact'][$key]) && ($_POST[$this -> name.'_unitFact'][$key]!=1)) {
             $f = $_POST[$this -> name.'_unitFact'][$key];
-          }
-          $return[$this -> name][$key] = ($val*$f);
+	  }
+	  if (isset($this -> params['html_options']['store_integer']) && $this -> params['html_options']['store_integer']) {
+           if (isset($this -> params['html_options']['round_down']) && $this -> params['html_options']['round_down']) {
+              $return[$this -> name][$key] = floor($val*$f);
+	    }
+	    else {
+              $return[$this -> name][$key] = ceil($val*$f);
+	    }
+	  }
+	  else {
+            $return[$this -> name][$key] = ($val*$f);
+	  }
         }
       }
     }
