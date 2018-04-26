@@ -24,7 +24,7 @@ var LSdefault = new Class({
       // LSjsConfig
       this.LSjsConfigEl = $('LSjsConfig');
       if ($type(this.LSjsConfigEl)) {
-        this.LSjsConfig = JSON.decode(this.LSjsConfigEl.innerHTML);
+        this.LSjsConfig = JSON.decode(atob(this.LSjsConfigEl.innerHTML));
       }
       else {
         this.LSjsConfig = [];

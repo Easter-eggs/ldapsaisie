@@ -1,6 +1,4 @@
-<div id='LSjsConfig'>
-{$LSjsConfig}
-</div>
+<div id='LSjsConfig'>{$LSjsConfig}</div>
 
 <div id='LSinfos_txt'>{$LSinfos}</div>
 
