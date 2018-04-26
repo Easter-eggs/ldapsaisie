@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-26 11:34+0200\n"
-"PO-Revision-Date: 2018-04-26 11:35+0200\n"
+"POT-Creation-Date: 2018-04-26 11:40+0200\n"
+"PO-Revision-Date: 2018-04-26 11:44+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -1609,13 +1609,45 @@ msgstr "Cliquer pour supprimer cette photo."
 msgid "Chat with this person."
 msgstr "Discuter avec cette personne."
 
-#: includes/class/class.LSattr_html_select_list.php:282
+#: includes/class/class.LSattr_html_select_list.php:366
 msgid ""
 "LSattr_html_select_list : Configuration data are missing to generate the "
 "select list of the attribute %{attr}."
 msgstr ""
 "LSattr_html_select_list : Des données de configuration sont manquantes pour "
 "générer la liste de sélection de l'attribut %{attr}."
+
+#: includes/class/class.LSattr_html_select_list.php:369
+msgid ""
+"LSattr_html_select_list : Invalid attribute %{attr} reference as "
+"OTHER_ATTRIBUTE possible values."
+msgstr ""
+"LSattr_html_select_list : Référence invalide à l'attribut %{attr} comme "
+"valeurs possibles (OTHER_ATTRIBUTE)."
+
+#: includes/class/class.LSattr_html_select_list.php:372
+msgid ""
+"LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE "
+"possible values is not a jsonCompositeAttribute."
+msgstr ""
+"LSattr_html_select_list : L'attribute %{attr} référencé comme valeurs "
+"possibles (OTHER_ATTRIBUTE) n'est pas du type jsonCompositeAttribute."
+
+#: includes/class/class.LSattr_html_select_list.php:375
+msgid ""
+"LSattr_html_select_list : Fail to decode the following attribute %{attr} "
+"value as JSON : %{value}"
+msgstr ""
+"LSattr_html_select_list : Impossible de décodé la valeur JSON suivante de "
+"l'attribut %{attr} : %{value}"
+
+#: includes/class/class.LSattr_html_select_list.php:378
+msgid ""
+"LSattr_html_select_list : No component %{component} found in the following "
+"attribute %{attr} JSON value : %{value}"
+msgstr ""
+"LSattr_html_select_list : Le composant %{component} n'a pas été trouvé dans "
+"la valeur JSON de l'attribut %{attr} : %{value}"
 
 #: includes/class/class.LSformRule_inarray.php:56
 msgid ""

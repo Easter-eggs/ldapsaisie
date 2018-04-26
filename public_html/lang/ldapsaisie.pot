@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-26 11:33+0200\n"
+"POT-Creation-Date: 2018-04-26 11:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1385,10 +1385,34 @@ msgstr ""
 msgid "Chat with this person."
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:282
+#: includes/class/class.LSattr_html_select_list.php:366
 msgid ""
 "LSattr_html_select_list : Configuration data are missing to generate the "
 "select list of the attribute %{attr}."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:369
+msgid ""
+"LSattr_html_select_list : Invalid attribute %{attr} reference as "
+"OTHER_ATTRIBUTE possible values."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:372
+msgid ""
+"LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE "
+"possible values is not a jsonCompositeAttribute."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:375
+msgid ""
+"LSattr_html_select_list : Fail to decode the following attribute %{attr} "
+"value as JSON : %{value}"
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:378
+msgid ""
+"LSattr_html_select_list : No component %{component} found in the following "
+"attribute %{attr} JSON value : %{value}"
 msgstr ""
 
 #: includes/class/class.LSformRule_inarray.php:56

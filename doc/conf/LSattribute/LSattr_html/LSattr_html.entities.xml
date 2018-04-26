@@ -20,4 +20,5 @@
 <!ENTITY conf-LSattr_html_valueWithUnit SYSTEM "LSattr_html_valueWithUnit.docbook">
 <!ENTITY conf-LSattr_html_xmpp SYSTEM "LSattr_html_xmpp.docbook">
 
+<!ENTITY LSattr_html_jsonCompositeAttribute "<link linkend='config-LSattr_html_jsonCompositeAttribute'>LSattr_html_jsonCompositeAttribute</link>">
 <!ENTITY LSattr_html_select_list "<link linkend='config-LSattr_html_select_list'>LSattr_html_select_list</link>">

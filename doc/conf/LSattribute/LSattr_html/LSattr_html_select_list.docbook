@@ -22,6 +22,19 @@
        'basedn' => '[Basedn de la recherche]',
        'onlyAccessible' => '[Booléen]'
      ),
+     'OTHER_ATTRIBUTE' => '[attr]',
+     // Or :
+     'OTHER_ATTRIBUTE' => array(
+       '[attr1]' => '[label1]',
+       '[attr2]' => '[label2]',
+       [...]
+     ),
+     // Or :
+     'OTHER_ATTRIBUTE' => array(
+       'attr' => [attr],
+       'json_component_key' => '[Composant JSON clé]',
+       'json_component_label' => '[Composant JSON label]',
+     ),
      array (
        'label' => '[LSformat du nom du groupe de valeurs]',
        'possible_values' => array (
@@ -127,6 +140,37 @@
     </listitem>
   </varlistentry>
 </variablelist>
+
+    <para>Si la valeur clé est égale à <literal>OTHER_ATTRIBTE</literal>, une liste
+    de valeur possible sera composée à l'aide des valeurs d'un (ou plusieurs) autre
+    attribut de l'objet courant. La valeur associée peut être alors&nbsp;:
+
+<itemizedlist>
+  <listitem>
+    <simpara>soit le nom d'un attribut dont les valeurs seront utilisées comme valeurs
+    possibles (la valeur affichée est égale à la valeur stockée).</simpara>
+  </listitem>
+
+  <listitem>
+    <simpara>soit un tableau associatif dont les valeurs clés sont les noms des attributs
+    dont les valeurs seront utilisés comme valeurs possibles et dont les valeurs associés
+    seront les labels sous lesquels ces valeurs seront regroupées (la valeur
+    affichée est égale à la valeur stockée).</simpara>
+  </listitem>
+
+  <listitem>
+    <simpara>soit un tableau associatif référençant un attribut sous la clé <emphasis>attr
+    </emphasis> dont les valeurs seront utilisées comme valeurs possibles. Cet attribut
+    peut-être du type &LSattr_html_jsonCompositeAttribute;. Il sera alors possible d'utiliser
+    les valeurs d'un composant en particulier en le référençant à l'aide de la clé <emphasis>
+    json_component_key</emphasis>. Il est également possible de référencer un autre composant
+    à l'aide de la clé <emphasis>json_component_label</emphasis> et dont les valeurs seront
+    utilisées comme valeurs affichées lors de la sélection. À défaut, les valeurs affichées
+    seront identiques à celles stockées.</simpara>
+  </listitem>
+</itemizedlist>
+
+   </para>
 
   </listitem>
 </varlistentry>
