@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-08 18:12+0100\n"
+"POT-Creation-Date: 2018-04-26 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -388,7 +388,7 @@ msgstr ""
 msgid "Unknown type"
 msgstr ""
 
-#: includes/class/class.LSformElement_valueWithUnit.php:190
+#: includes/class/class.LSformElement_valueWithUnit.php:200
 msgid ""
 "LSformElement_valueWithUnit : Units configuration data are missing for the "
 "attribute %{attr}."
@@ -435,11 +435,11 @@ msgstr ""
 msgid "LStemplate : Smarty version not recognized."
 msgstr ""
 
-#: includes/class/class.LStemplate.php:129
+#: includes/class/class.LStemplate.php:130
 msgid "LStemplate : Can't load Smarty."
 msgstr ""
 
-#: includes/class/class.LStemplate.php:302
+#: includes/class/class.LStemplate.php:309
 msgid "LStemplate : Template %{file} not found."
 msgstr ""
 
@@ -1395,6 +1395,19 @@ msgstr ""
 msgid ""
 "LSformRule_inarray : Possible values has not been configured to validate "
 "data."
+msgstr ""
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:249
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:262
+msgid "Invalid value \"%{value}\" for component %{component}."
+msgstr ""
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:267
+msgid "Can't validate value of component %{c}."
+msgstr ""
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:281
+msgid "Component %{c} must be defined"
 msgstr ""
 
 #: includes/class/class.LSformRule_date.php:59

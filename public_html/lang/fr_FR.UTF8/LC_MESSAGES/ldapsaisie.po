@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-08 18:12+0100\n"
-"PO-Revision-Date: 2018-02-08 18:13+0100\n"
+"POT-Creation-Date: 2018-04-26 11:34+0200\n"
+"PO-Revision-Date: 2018-04-26 11:35+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -435,7 +435,7 @@ msgstr "Affichier la clé en entier."
 msgid "Unknown type"
 msgstr "Type inconnu"
 
-#: includes/class/class.LSformElement_valueWithUnit.php:190
+#: includes/class/class.LSformElement_valueWithUnit.php:200
 msgid ""
 "LSformElement_valueWithUnit : Units configuration data are missing for the "
 "attribute %{attr}."
@@ -490,12 +490,12 @@ msgstr "LStemplate : Impossible de charger le fichier de support de Smarty 3."
 msgid "LStemplate : Smarty version not recognized."
 msgstr "LStemplate : Version de Smarty non reconnue."
 
-#: includes/class/class.LStemplate.php:129
+#: includes/class/class.LStemplate.php:130
 msgid "LStemplate : Can't load Smarty."
 msgstr ""
 "LStemplate : Impossible de charger le moteur de gestion de template Smarty."
 
-#: includes/class/class.LStemplate.php:302
+#: includes/class/class.LStemplate.php:309
 msgid "LStemplate : Template %{file} not found."
 msgstr "LStemplate : le template %{file} est introuvable."
 
@@ -1624,6 +1624,19 @@ msgid ""
 msgstr ""
 "LSformRule_inarray : Les valeurs possibles n'ont pas été configurées pour "
 "valider les données."
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:249
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:262
+msgid "Invalid value \"%{value}\" for component %{component}."
+msgstr "Valeur invalide pour le composant %{component} : \"%{value}\""
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:267
+msgid "Can't validate value of component %{c}."
+msgstr "Impossible de valider la valeur du composant %{c}."
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:281
+msgid "Component %{c} must be defined"
+msgstr "Le composant %{c} est obligatoire."
 
 #: includes/class/class.LSformRule_date.php:59
 msgid "LSformRule_date : No date format specify."

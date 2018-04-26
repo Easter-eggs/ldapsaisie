@@ -246,6 +246,18 @@ function urlAddVar(url,name,value) {
 }
 
 /*
+ * Generate UUID
+ */
+function generate_uuid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+/*
  * Base64 compatibility
  *
  * Source : http://ntt.cc/2008/01/19/base64-encoder-decoder-with-javascript.html
