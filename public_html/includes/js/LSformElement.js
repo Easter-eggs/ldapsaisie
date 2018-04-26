@@ -10,7 +10,7 @@ var LSformElement = new Class({
     
     initializeLSformElement: function(li) {
       if (typeof(li) == 'undefined') {
-        var elements = this.ul.getElements('li');
+        var elements = this.ul.getChildren('li');
       }
       else {
         var elements = [li];
