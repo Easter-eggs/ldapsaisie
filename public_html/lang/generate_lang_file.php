@@ -185,8 +185,20 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
               if (is_array($pname['possible_values'])) {
                 foreach($pname['possible_values'] as $pk => $pn) {
                   if ($pk == 'OTHER_OBJECT') continue;
-                  add($pn);
+                  elseif ($pk == 'OTHER_ATTRIBUTE') {
+                    if (is_array($pn) && ! isset($pn['attr'])) {
+                      foreach($pn as $pattr => $plabel)
+                        add($plabel);
+                    }
+                  }
+                  else add($pn);
                 }
+              }
+            }
+            elseif ($pkey == 'OTHER_ATTRIBUTE') {
+              if (is_array($pname) && ! isset($pname['attr'])) {
+                foreach($pname as $pattr => $plabel)
+                  add($plabel);
               }
             }
             elseif ($pkey != 'OTHER_OBJECT') {
@@ -206,6 +218,7 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
         if (is_array($attr['html_options']['components'])) {
           foreach($attr['html_options']['components'] as $c => $cconfig) {
             add($cconfig['label']);
+            add($cconfig['help_info']);
 
             // Component type select_list
             if (is_array($cconfig['options']['possible_values'])) {
@@ -215,8 +228,20 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
                   if (is_array($pname['possible_values'])) {
                     foreach($pname['possible_values'] as $pk => $pn) {
                       if ($pk == 'OTHER_OBJECT') continue;
-                      add($pn);
+                      elseif ($pk == 'OTHER_ATTRIBUTE') {
+                        if (is_array($pn) && ! isset($pn['attr'])) {
+                          foreach($pn as $pattr => $plabel)
+                            add($plabel);
+                        }
+                      }
+                      else add($pn);
                     }
+                  }
+                }
+                elseif ($pkey == 'OTHER_ATTRIBUTE') {
+                  if (is_array($pname) && ! isset($pname['attr'])) {
+                    foreach($pname as $pattr => $plabel)
+                      add($plabel);
                   }
                 }
                 elseif ($pkey != 'OTHER_OBJECT') {
