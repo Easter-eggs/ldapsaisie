@@ -296,7 +296,9 @@ class LSattr_html_select_list extends LSattr_html{
     if (is_string($attr)) {
       if (isset($ldapObject->attrs[$attr]) && $ldapObject->attrs[$attr] instanceof LSattribute) {
         $attr_values = $ldapObject->attrs[$attr]->getValue();
-        if (!is_array($attr_values))
+        if (!$attr_values)
+          $attr_values = array();
+        elseif (!is_array($attr_values))
           $attr_values = array($attr_values);
         foreach($attr_values as $attr_value)
           $retInfos[$attr_value] = __($attr_value);
