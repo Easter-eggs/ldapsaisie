@@ -473,6 +473,7 @@ function LSdebugDefined() {
   }
   
   function __($msg) {
+    if (empty($msg)) return $msg;
     if (isset($GLOBALS['LSlang'][$msg])) {
       return $GLOBALS['LSlang'][$msg];
     }
