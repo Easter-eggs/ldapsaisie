@@ -50,7 +50,7 @@ var LSformElement = new Class({
     },
 
     onRemoveFieldBtnClick: function(field) {
-      if (this.ul.getElements('li').length == 1) {
+      if (this.ul.getChildren('li').length == 1) {
         field.clearValue.bind(field)();
       }
       else {
