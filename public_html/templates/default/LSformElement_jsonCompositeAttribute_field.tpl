@@ -6,7 +6,7 @@
 		<label>{tr msg=$cconf.label} : </label>
 		<ul>
 		{if $cconf.multiple && is_array($parseValue[$c])}
-			{foreach from=$parseValue[$c] item=$cval}
+			{foreach from=$parseValue[$c] item=cval}
 				<li><span title="{$cval.value}">{$cval.translated}</span></li>
 			{/foreach}
 		{else}
@@ -21,7 +21,7 @@
 {else}
   {uniqid var="uuid"}
   <input type='hidden' name="{$attr_name}__values_uuid[]" value="{$uuid}" />
-  {foreach from=$components key=$c item=$cconf name=components}
+  {foreach from=$components key=c item=cconf name=components}
     <div data-component="{$c}" data-uuid="{$uuid}">
 		<label>
 			{tr msg=$cconf.label}{if $cconf.required}*{/if}
@@ -59,7 +59,7 @@
 		{else}
 			<ul>
 			{if $cconf.multiple && is_array($parseValue[$c])}
-				{foreach from=$parseValue[$c] item=$cval}
+				{foreach from=$parseValue[$c] item=cval}
 				<li><input type='text' name='{$attr_name}__{$c}__{$uuid}[]' value='{$cval.value|escape:"quotes"}'/></li>
 				{foreachelse}
 				<li><input type='text' name='{$attr_name}__{$c}__{$uuid}[]' value=''/></li>
