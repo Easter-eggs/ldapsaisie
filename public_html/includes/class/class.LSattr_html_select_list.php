@@ -310,7 +310,9 @@ class LSattr_html_select_list extends LSattr_html{
           if (isset($attr['json_component_key'])) {
             if (get_class($ldapObject->attrs[$attr['attr']]->html) == 'LSattr_html_jsonCompositeAttribute') {
               $attr_values = $ldapObject->attrs[$attr['attr']]->getValue();
-              if (!is_array($attr_values))
+              if (!$attr_values)
+                $attr_values = array();
+              elseif (!is_array($attr_values))
                 $attr_values = array($attr_values);
               foreach($attr_values as $attr_value) {
                 $value_data = @json_decode($attr_value, true);
