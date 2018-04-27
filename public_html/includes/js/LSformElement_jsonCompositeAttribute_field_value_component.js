@@ -54,7 +54,7 @@ var LSformElement_jsonCompositeAttribute_field_value_component = new Class({
         this.select.selectedIndex=-1;
       }
       else {
-        this.values.each(function(value) {
+        Object.each(this.values, function(value) {
           value.clear();
         }, this);
       }
