@@ -33,6 +33,7 @@ require_once('conf/config.inc.php');
 $withoutselectlist=False;
 $copyoriginalvalue=False;
 $interactive=False;
+$output=False;
 $additionalfileformat=False;
 $lang=False;
 $encoding=False;
@@ -70,6 +71,10 @@ if ($argc > 1) {
         die("Invalid --lang parameter. Must be compose in format : [lang].[encoding]\n");
       }
     }
+    elseif($argv[$i]=='--output' || $argv[$i]=='-o') {
+      $i++;
+      $output = $argv[$i];
+    }
     elseif($argv[$i]=='-h') {
       echo "Usage : ".$argv[0]." [file1] [file2] [-h] [options]\n";
       echo "  --without-select-list    Don't add possibles values of select list\n";
@@ -77,6 +82,7 @@ if ($argc > 1) {
       echo "  -i/--interactive         Interactive mode : ask user to enter translated on each translation needed\n";
       echo "  --additional-file-format Additional file format output\n";
       echo "  --lang                   Load this specify lang (format : [lang].[encoding])\n";
+      echo "  -o/--output              Output file (default : stdout)\n";
       exit(0);
     }
   }
@@ -401,9 +407,25 @@ find_and_parse_addon_file(LS_LOCAL_DIR.LS_ADDONS_DIR);
 
 ksort($data);
 
-echo "<?php\n\n";
+if ($output) {
+  try {
+    $fd = fopen($output, 'w');
+  }
+  catch(Exception $e) {
+    fwrite(STDERR, 'Error occured opening output file : '.$e->getMessage(), "\n");
+  }
+  if (!$fd) {
+    fwrite(STDERR, "Use stdout out instead.\n");
+    $fd = STDOUT;
+    $output = false;
+  }
+}
+else
+  $fd = STDOUT;
 
-if (!$additionalfileformat) print "\$GLOBALS['LSlang'] = array (\n";
+fwrite($fd, "<?php\n\n");
+
+if (!$additionalfileformat) fwrite($fd, "\$GLOBALS['LSlang'] = array (\n");
 
 foreach($data as $key => $val) {
   if ($copyoriginalvalue && $val=="") {
@@ -412,13 +434,14 @@ foreach($data as $key => $val) {
   $key=str_replace('"','\\"',$key);
   $val=str_replace('"','\\"',$val);
   if ($additionalfileformat) {
-    print "\$GLOBALS['LSlang'][\"$key\"] = \"$val\";\n";
+    fwrite($fd, "\$GLOBALS['LSlang'][\"$key\"] = \"$val\";\n");
   }
   else {
-    print "\n\"$key\" =>\n  \"$val\",\n";
+    fwrite($fd, "\n\"$key\" =>\n  \"$val\",\n");
   }
 }
 
-if (!$additionalfileformat) echo "\n);\n";
+if (!$additionalfileformat) fwrite($fd, "\n);\n");
 
-?>
+if ($output)
+  fclose($fd);
