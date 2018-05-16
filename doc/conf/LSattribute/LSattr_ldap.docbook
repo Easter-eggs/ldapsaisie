@@ -5,6 +5,7 @@
   
   &conf-LSattr_ldap_ascii;
   &conf-LSattr_ldap_boolean;
+  &conf-LSattr_ldap_compositeValueToJSON;
   &conf-LSattr_ldap_date;
   &conf-LSattr_ldap_image;
   &conf-LSattr_ldap_numeric;

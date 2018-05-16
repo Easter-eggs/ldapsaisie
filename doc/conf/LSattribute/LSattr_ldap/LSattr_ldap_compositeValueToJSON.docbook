@@ -1,0 +1,9 @@
+<sect4 id="config-LSattr_ldap_compositeValueToJSON">
+  <title>LSattr_ldap_compositeValueToJSON</title>
+  <para>Ce type est utilisé pour la gestion des attributs composites dont les
+  valeurs respectent le format suivant :
+  <literal>[key1=value1][key2=value2][...]</literal></para>
+  <para>Ce type d'attribut LDAP sera utilisé pour convertir la valeur en son
+  équivalent <literal>JSON</literal> pour pouvoir être traité à l'aide du type d'
+  attribut HTML &LSattr_html_jsonCompositeAttribute;.</para>
+</sect4>
