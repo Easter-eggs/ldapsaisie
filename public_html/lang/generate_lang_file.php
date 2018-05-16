@@ -32,6 +32,7 @@ require_once('conf/config.inc.php');
 
 $withoutselectlist=False;
 $copyoriginalvalue=False;
+$interactive=False;
 $additionalfileformat=False;
 $lang=False;
 $encoding=False;
@@ -52,6 +53,9 @@ if ($argc > 1) {
     elseif($argv[$i]=='--copy-original-value') {
       $copyoriginalvalue=True;
     }
+    elseif($argv[$i]=='--interactive' || $argv[$i]=='-i') {
+      $interactive=True;
+    }
     elseif($argv[$i]=='--additional-file-format') {
       $additionalfileformat=True;
     }
@@ -70,6 +74,7 @@ if ($argc > 1) {
       echo "Usage : ".$argv[0]." [file1] [file2] [-h] [options]\n";
       echo "  --without-select-list    Don't add possibles values of select list\n";
       echo "  --copy-original-value    Copy original value as translated value when no translated value exists\n";
+      echo "  -i/--interactive         Interactive mode : ask user to enter translated on each translation needed\n";
       echo "  --additional-file-format Additional file format output\n";
       echo "  --lang                   Load this specify lang (format : [lang].[encoding])\n";
       exit(0);
@@ -82,8 +87,36 @@ $data=array();
 
 function add($msg) {
   if ($msg!='' && _($msg) == "$msg") {
-    global $data, $translations;
-    $data[$msg]=$translations[$msg];
+    global $data, $translations, $interactive, $copyoriginalvalue;
+    if (array_key_exists($msg, $data)) {
+      return True;
+    }
+    elseif (array_key_exists($msg, $translations)) {
+      $data[$msg]=$translations[$msg];
+    }
+    elseif ($interactive) {
+      if ($copyoriginalvalue) {
+        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or leave empty to copy original string) : ");
+        $in = trim(fgets(STDIN));
+        if ($in)
+          $data[$msg]=$in;
+        else
+          $data[$msg]=$msg;
+      }
+      else {
+        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or 'c' to copy original message, leave empty to pass) : ");
+        $in = trim(fgets(STDIN));
+        if ($in) {
+          if ($in=="c")
+            $data[$msg]=$msg;
+          else
+            $data[$msg]=$in;
+        }
+      }
+    }
+    else {
+      $data[$msg]="";
+    }
   }
 }
 
