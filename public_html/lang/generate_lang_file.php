@@ -48,19 +48,19 @@ if ($argc > 1) {
         $translations[$msg]=$trans;
       }
     }
-    elseif($argv[$i]=='--without-select-list') {
+    elseif($argv[$i]=='--without-select-list' || $argv[$i]=='-W') {
       $withoutselectlist=True;
     }
-    elseif($argv[$i]=='--copy-original-value') {
+    elseif($argv[$i]=='--copy-original-value' || $argv[$i]=='-c') {
       $copyoriginalvalue=True;
     }
     elseif($argv[$i]=='--interactive' || $argv[$i]=='-i') {
       $interactive=True;
     }
-    elseif($argv[$i]=='--additional-file-format') {
+    elseif($argv[$i]=='--additional-file-format' || $argv[$i]=='-a') {
       $additionalfileformat=True;
     }
-    elseif($argv[$i]=='--lang') {
+    elseif($argv[$i]=='--lang' || $argv[$i]=='-l') {
       $i++;
       $parse_lang=explode('.',$argv[$i]);
       if (count($parse_lang)==2) {
@@ -77,12 +77,12 @@ if ($argc > 1) {
     }
     elseif($argv[$i]=='-h') {
       echo "Usage : ".$argv[0]." [file1] [file2] [-h] [options]\n";
-      echo "  --without-select-list    Don't add possibles values of select list\n";
-      echo "  --copy-original-value    Copy original value as translated value when no translated value exists\n";
-      echo "  -i/--interactive         Interactive mode : ask user to enter translated on each translation needed\n";
-      echo "  --additional-file-format Additional file format output\n";
-      echo "  --lang                   Load this specify lang (format : [lang].[encoding])\n";
-      echo "  -o/--output              Output file (default : stdout)\n";
+      echo "  -W/--without-select-list    Don't add possibles values of select list\n";
+      echo "  -c/--copy-original-value    Copy original value as translated value when no translated value exists\n";
+      echo "  -i/--interactive            Interactive mode : ask user to enter translated on each translation needed\n";
+      echo "  -a/--additional-file-format Additional file format output\n";
+      echo "  -l/--lang                   Load this specify lang (format : [lang].[encoding])\n";
+      echo "  -o/--output                 Output file (default : stdout)\n";
       exit(0);
     }
   }
