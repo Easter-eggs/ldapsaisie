@@ -3,6 +3,7 @@
 <!ENTITY conf-LSattr_html_date SYSTEM "LSattr_html_date.docbook">
 <!ENTITY conf-LSattr_html_image SYSTEM "LSattr_html_image.docbook">
 <!ENTITY conf-LSattr_html_jsonCompositeAttribute SYSTEM "LSattr_html_jsonCompositeAttribute.docbook">
+<!ENTITY conf-LSattr_html_labeledValue SYSTEM "LSattr_html_labeledValue.docbook">
 <!ENTITY conf-LSattr_html_mail SYSTEM "LSattr_html_mail.docbook">
 <!ENTITY conf-LSattr_html_maildir SYSTEM "LSattr_html_maildir.docbook">
 <!ENTITY conf-LSattr_html_mailQuota SYSTEM "LSattr_html_mailQuota.docbook">

@@ -253,6 +253,13 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
           }
         }
 
+        // LSattr_html_labeledValue
+        if (is_array($attr['html_options']['labels'])) {
+          foreach($attr['html_options']['labels'] as $klabel => $plabel) {
+            add($plabel);
+          }
+        }
+
 	// LSattr_html_jsonCompositeAttribute
         if (is_array($attr['html_options']['components'])) {
           foreach($attr['html_options']['components'] as $c => $cconfig) {
