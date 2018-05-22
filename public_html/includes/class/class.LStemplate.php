@@ -138,32 +138,39 @@ class LStemplate {
   * @param[in] string $name The file name (eg: mail.png)
   * @param[in] string $root_dir The root directory (eg: images)
   * @param[in] string $default_dir The default directory (eg: default)
+  * @param[in] bool $with_nocache If true, include nocache URL param (default: false)
   *
   * @retval string The path of the file
   **/
-  public static function getFilePath($file,$root_dir,$default_dir='default') {
+  public static function getFilePath($file, $root_dir, $default_dir=null, $with_nocache=false) {
+    if ($default_dir === null)
+      $default_dir = 'default';
     foreach(self :: $directories as $dir) {
       if (file_exists($root_dir.'/'.$dir.'/'.$file)) {
-        return $root_dir.'/'.$dir.'/'.$file;
+        $path = $root_dir.'/'.$dir.'/'.$file;
       }
     }
     if (!$default_dir) {
       return;
     }
-    return $root_dir.'/'.$default_dir.'/'.$file;
+    $path = $root_dir.'/'.$default_dir.'/'.$file;
+    if ($with_nocache)
+      $path .= "?nocache=".self::getNoCacheFileValue($path);
+    return $path;
   }
 
  /**
   * Return the path of the image file to use
   *
   * @param[in] string $image The image name (eg: mail)
+  * @param[in] bool $with_nocache If true, include nocache URL param (default: false)
   *
   * @retval string The path of the image file
   **/
-  public static function getImagePath($image) {
+  public static function getImagePath($image, $with_nocache=false) {
     $exts=array('png','gif','jpg');
     foreach($exts as $ext) {
-      $path=self :: getFilePath("$image.$ext",self :: $config['image_dir'],False);
+      $path = self :: getFilePath("$image.$ext", self :: $config['image_dir'], False, $with_nocache);
       if ($path) return $path;
     }
     return self :: $config['image_dir']."/default/$image.png";
@@ -173,22 +180,38 @@ class LStemplate {
   * Return the path of the CSS file to use
   *
   * @param[in] string $css The CSS name (eg: main.css)
+  * @param[in] bool $with_nocache If true, include nocache URL param (default: false)
   *
   * @retval string The path of the CSS file
   **/
-  public static function getCSSPath($css) {
-    return self :: getFilePath($css,self :: $config['css_dir']);
+  public static function getCSSPath($css, $with_nocache=false) {
+    return self :: getFilePath($css, self :: $config['css_dir'], Null, $with_nocache);
   }
 
  /**
   * Return the path of the Smarty template file to use
   *
   * @param[in] string $template The template name (eg: top.tpl)
+  * @param[in] bool $with_nocache If true, include nocache URL param (default: false)
   *
   * @retval string The path of the Smarty template file
   **/
-  public static function getTemplatePath($template) {
-    return self :: getFilePath($template,self :: $config['template_dir']);
+  public static function getTemplatePath($template, $with_nocache=false) {
+    return self :: getFilePath($template, self :: $config['template_dir'], null, $with_nocache);
+  }
+
+ /**
+  * Return the nocache value of the specify file
+  *
+  * @param[in] string $file The file path
+  *
+  * @retval string The specified file's nocache value
+  **/
+  public static function getNoCacheFileValue($file) {
+    $stat = @stat($file);
+    if (is_array($stat) && isset($stat['mtime']))
+      return md5($stat['mtime']);
+    return md5(time());
   }
 
  /**
@@ -295,7 +318,7 @@ function LStemplate_smarty_img($params) {
 
 function LStemplate_smarty_css($params) {
   extract($params);
-  echo LStemplate :: getCSSPath($name);
+  echo LStemplate :: getCSSPath($name, true);
 }
 
 function LStemplate_smarty_uniqid($params, &$smarty) {

@@ -1338,7 +1338,8 @@ class LSsession {
     // JS
     $JSscript_txt='';
     foreach ($GLOBALS['defaultJSscipts'] as $script) {
-      $JSscript_txt.="<script src='".LS_JS_DIR.$script."' type='text/javascript'></script>\n";
+      $nocache = LStemplate :: getNoCacheFileValue(LS_JS_DIR.$script);
+      $JSscript_txt.="<script src='".LS_JS_DIR.$script."?nocache=$nocache' type='text/javascript'></script>\n";
     }
 
     foreach (self :: $JSscripts as $script) {
@@ -1348,7 +1349,8 @@ class LSsession {
       else {
         $script['path'].='/';
       }
-      $JSscript_txt.="<script src='".$script['path'].$script['file']."' type='text/javascript'></script>\n";
+      $nocache = LStemplate :: getNoCacheFileValue($script['path'].$script['file']);
+      $JSscript_txt.="<script src='".$script['path'].$script['file']."?nocache=$nocache' type='text/javascript'></script>\n";
     }
 
     $KAconf = LSconfig :: get('keepLSsessionActive');
@@ -1384,7 +1386,8 @@ class LSsession {
     }
     $Css_txt='';
     foreach (self :: $CssFiles as $file) {
-      $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file."' />\n";
+      $nocache = LStemplate :: getNoCacheFileValue($file);
+      $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file."?nocache=$nocache' />\n";
     }
     LStemplate :: assign('LSsession_css',$Css_txt);
   
