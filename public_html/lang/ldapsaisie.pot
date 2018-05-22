@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-08 18:12+0100\n"
+"POT-Creation-Date: 2018-04-26 11:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -388,7 +388,7 @@ msgstr ""
 msgid "Unknown type"
 msgstr ""
 
-#: includes/class/class.LSformElement_valueWithUnit.php:190
+#: includes/class/class.LSformElement_valueWithUnit.php:200
 msgid ""
 "LSformElement_valueWithUnit : Units configuration data are missing for the "
 "attribute %{attr}."
@@ -435,11 +435,11 @@ msgstr ""
 msgid "LStemplate : Smarty version not recognized."
 msgstr ""
 
-#: includes/class/class.LStemplate.php:129
+#: includes/class/class.LStemplate.php:130
 msgid "LStemplate : Can't load Smarty."
 msgstr ""
 
-#: includes/class/class.LStemplate.php:302
+#: includes/class/class.LStemplate.php:309
 msgid "LStemplate : Template %{file} not found."
 msgstr ""
 
@@ -1385,16 +1385,53 @@ msgstr ""
 msgid "Chat with this person."
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:282
+#: includes/class/class.LSattr_html_select_list.php:366
 msgid ""
 "LSattr_html_select_list : Configuration data are missing to generate the "
 "select list of the attribute %{attr}."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:369
+msgid ""
+"LSattr_html_select_list : Invalid attribute %{attr} reference as "
+"OTHER_ATTRIBUTE possible values."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:372
+msgid ""
+"LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE "
+"possible values is not a jsonCompositeAttribute."
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:375
+msgid ""
+"LSattr_html_select_list : Fail to decode the following attribute %{attr} "
+"value as JSON : %{value}"
+msgstr ""
+
+#: includes/class/class.LSattr_html_select_list.php:378
+msgid ""
+"LSattr_html_select_list : No component %{component} found in the following "
+"attribute %{attr} JSON value : %{value}"
 msgstr ""
 
 #: includes/class/class.LSformRule_inarray.php:56
 msgid ""
 "LSformRule_inarray : Possible values has not been configured to validate "
 "data."
+msgstr ""
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:249
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:262
+msgid "Invalid value \"%{value}\" for component %{component}."
+msgstr ""
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:267
+msgid "Can't validate value of component %{c}."
+msgstr ""
+
+#: includes/class/class.LSformElement_jsonCompositeAttribute.php:281
+msgid "Component %{c} must be defined"
 msgstr ""
 
 #: includes/class/class.LSformRule_date.php:59

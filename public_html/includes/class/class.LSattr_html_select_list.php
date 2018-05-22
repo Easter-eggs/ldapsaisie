@@ -88,6 +88,10 @@ class LSattr_html_select_list extends LSattr_html{
           $objInfos=self :: getLSobjectPossibleValues($val_label,$options,$name);
           $retInfos=self :: _array_merge($retInfos,$objInfos);
         }
+        elseif($val_key==='OTHER_ATTRIBUTE') {
+          $attrInfos=self :: getLSattributePossibleValues($val_label, $options, $name, $ldapObject);
+          $retInfos=self :: _array_merge($retInfos,$attrInfos);
+        }
 	elseif (is_array($val_label)) {
 		if (!isset($val_label['possible_values']) || !is_array($val_label['possible_values']) || !isset($val_label['label']))
 			continue;
@@ -273,6 +277,90 @@ class LSattr_html_select_list extends LSattr_html{
 
     return $retInfos;
   }
+
+  /**
+   * Retourne un tableau des valeurs possibles d'un autre attribut
+   *
+   * @param[in] $attr OTHER_ATTRIBUTE configuration value
+   * @param[in] $options array|false Attribute options
+   * @param[in] $name Attribute name
+   * @param[in] $LSldapObject LSldapObject reference
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
+   *               la valeur des balises option et en valeur ce qui sera affiché.
+   */
+  protected function getLSattributePossibleValues($attr, $options ,$name ,&$ldapObject) {
+    $retInfos=array();
+    if (is_string($attr)) {
+      if (isset($ldapObject->attrs[$attr]) && $ldapObject->attrs[$attr] instanceof LSattribute) {
+        $attr_values = $ldapObject->attrs[$attr]->getValue();
+        if (!$attr_values)
+          $attr_values = array();
+        elseif (!is_array($attr_values))
+          $attr_values = array($attr_values);
+        foreach($attr_values as $attr_value)
+          $retInfos[$attr_value] = __($attr_value);
+      }
+      else
+        LSerror :: addErrorCode('LSattr_html_select_list_02',$attr);
+    }
+    elseif (is_array($attr)) {
+      if (isset($attr['attr'])) {
+        if (isset($ldapObject->attrs[$attr['attr']]) && $ldapObject->attrs[$attr['attr']] instanceof LSattribute) {
+          if (isset($attr['json_component_key'])) {
+            if (get_class($ldapObject->attrs[$attr['attr']]->html) == 'LSattr_html_jsonCompositeAttribute') {
+              $attr_values = $ldapObject->attrs[$attr['attr']]->getValue();
+              if (!$attr_values)
+                $attr_values = array();
+              elseif (!is_array($attr_values))
+                $attr_values = array($attr_values);
+              foreach($attr_values as $attr_value) {
+                $value_data = @json_decode($attr_value, true);
+                if (!isset($value_data[$attr['json_component_key']])) {
+                  LSerror :: addErrorCode('LSattr_html_select_list_05', array('attr' => $attr['attr'], 'value' => $attr_value, 'component' => $attr['json_component_key']));
+                  return $retInfos;
+                }
+                $key = $value_data[$attr['json_component_key']];
+
+                if (isset($attr['json_component_label'])) {
+                  if (!isset($value_data[$attr['json_component_label']])) {
+                    LSerror :: addErrorCode('LSattr_html_select_list_05', array('attr' => $attr['attr'], 'value' => $attr_value, 'component' => $attr['json_component_label']));
+                    return $retInfos;
+                  }
+                  $label = $value_data[$attr['json_component_label']];
+                }
+                else
+                  $label = $key;
+
+                $retInfos[$key] = $label;
+              }
+            }
+            else
+              LSerror :: addErrorCode('LSattr_html_select_list_03',$attr['attr']);
+          }
+          else
+            $retInfos = self :: getLSattributePossibleValues($attr['attr'], $options ,$name ,$ldapObject);
+        }
+        else
+          LSerror :: addErrorCode('LSattr_html_select_list_02',$attr['attr']);
+      }
+      else {
+        foreach($attr as $sub_attr => $sub_label) {
+          $subRetInfos = self :: getLSattributePossibleValues($sub_attr, $options ,$name ,$ldapObject);
+          self :: _sort($subRetInfos,$options);
+          $retInfos[] = array (
+            'label' => $sub_label,
+            'possible_values' => $subRetInfos
+          );
+        }
+      }
+    }
+    self :: _sort($retInfos,$options);
+    return $retInfos;
+  }
+
 }
 
 /*
@@ -280,4 +368,16 @@ class LSattr_html_select_list extends LSattr_html{
  */
 LSerror :: defineError('LSattr_html_select_list_01',
 _("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
+);
+LSerror :: defineError('LSattr_html_select_list_02',
+_("LSattr_html_select_list : Invalid attribute %{attr} reference as OTHER_ATTRIBUTE possible values.")
+);
+LSerror :: defineError('LSattr_html_select_list_03',
+_("LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE possible values is not a jsonCompositeAttribute.")
+);
+LSerror :: defineError('LSattr_html_select_list_04',
+_("LSattr_html_select_list : Fail to decode the following attribute %{attr} value as JSON : %{value}")
+);
+LSerror :: defineError('LSattr_html_select_list_05',
+_("LSattr_html_select_list : No component %{component} found in the following attribute %{attr} JSON value : %{value}")
 );

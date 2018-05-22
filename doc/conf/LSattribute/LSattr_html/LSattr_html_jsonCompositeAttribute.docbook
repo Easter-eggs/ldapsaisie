@@ -19,8 +19,10 @@
    'components' => array (
      '[clé composant 1]' => array (
        'label' => '[Label du composant]',
+       'help_info' => '[Message d'aide sur le composant]',
        'type' => '[Type de la valeur stocké]',
        'required' => [Booléen],
+       'multiple' => [Booléen],
        'check_data' => => array (
          // Régle de vérification syntaxique des données saisies
        ),
@@ -58,6 +60,14 @@
   </varlistentry>
 
   <varlistentry>
+    <term>help_info</term>
+    <listitem>
+      <simpara>Message d'aide sur le composant (affiché uniquement en mode édition).
+      </simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
     <term>type</term>
     <listitem>
       <simpara>Le type de valeur du composant. Les types possibles sont
@@ -74,6 +84,22 @@
       correspond à la configuration de la liste déroulante. Cette configuration utilise la
       même syntaxe de configuration que celle du type d'attribut &LSattr_html_select_list;
       et son paramètre <literal>html_options</literal>.</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>multiple</term>
+    <listitem>
+      <simpara>Booléen définissant si ce composant peut stocker plusieurs valeurs (Défaut :
+      <emphasis>Faux</emphasis>).</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>required</term>
+    <listitem>
+      <simpara>Booléen définissant si ce composant doit obligatoirement être défini (Défaut :
+      <emphasis>Faux</emphasis>).</simpara>
     </listitem>
   </varlistentry>
 

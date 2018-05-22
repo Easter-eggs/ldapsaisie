@@ -7,6 +7,7 @@
   &conf-LSattr_html_date;
   &conf-LSattr_html_image;
   &conf-LSattr_html_jsonCompositeAttribute;
+  &conf-LSattr_html_labeledValue;
   &conf-LSattr_html_mail;
   &conf-LSattr_html_maildir;
   &conf-LSattr_html_mailQuota;

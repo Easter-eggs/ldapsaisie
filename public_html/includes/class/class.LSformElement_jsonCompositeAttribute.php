@@ -100,6 +100,20 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
       )
     );
     LSsession :: addCssFile('LSformElement_jsonCompositeAttribute.css');
+    if (!$this -> isFreeze()) {
+        LSsession :: addJSconfigParam(
+            $this -> name,
+            array (
+                'components' => $this -> components,
+            )
+        );
+        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field_value_component_text_value.js');
+        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field_value_component.js');
+        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field_value.js');
+        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field.js');
+        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute.js');
+    }
+
     return $return;
   }
 
@@ -132,19 +146,29 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
    *
    * @param[in] $c string The component name
    * @param[in] $value string The value
+   * @param[in] $inLoop boolean Internal param to control recursion
    *
    * @retval array
    **/
-  function translateComponentValue($c,$value) {
-    $retval = array (
-      'translated' => $value,
-      'value' => $value,
-    );
-    if (isset($this -> components[$c])) {
-      if ($this -> components[$c]['type']=='select_list') {
-        $retval['translated'] = $this -> getSelectListComponentValueLabel($c,$value);
+  function translateComponentValue($c,$value,$inLoop=false) {
+    if (!$inLoop && isset($this -> components[$c]['multiple']) && $this -> components[$c]['multiple']) {
+      $retval = array();
+      if (!is_array($value))
+        $value = array($value);
+      foreach($value as $val)
+        $retval[] = $this -> translateComponentValue($c, $val, true);
+    }
+    else {
+      $retval = array (
+        'translated' => $value,
+        'value' => $value,
+      );
+      if (isset($this -> components[$c])) {
+        if ($this -> components[$c]['type']=='select_list') {
+          $retval['translated'] = $this -> getSelectListComponentValueLabel($c,$value);
+        }
+        //elseif type == 'text' => no transformation
       }
-      //elseif type == 'text' => no transformation
     }
     return $retval;
   }
@@ -202,66 +226,73 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
       return true;
     }
 
-    $count=0;
-    $end=false;
     $return[$this -> name]=array();
-    while ($end==false) {
-      $value=array();
-      $parseValue=array();
-      $errors=array();
-      $unemptyComponents=array();
-      foreach ($this -> components as $c => $cconf) {
-        if (isset($_POST[$this -> name.'__'.$c][$count])) {
-          $parseValue[$c]=$_POST[$this -> name.'__'.$c][$count];
-          if ($cconf['required'] && empty($parseValue[$c])) {
-            $errors[]=getFData(__('Component %{c} must be defined'),__($cconf['label']));
-            continue;
-          }
-          if (empty($parseValue[$c])) {
-            continue;
-          }
-          $unemptyComponents[]=$c;
-          if ($cconf['type']=='select_list') {
-            if (!$this -> getSelectListComponentValueLabel($c, $parseValue[$c])) {
-              $errors[]=getFData(__('Invalid value for component %{c}.'),__($cconf['label']));
-            }
-          }
-          if (is_array($cconf['check_data'])) {
-            foreach($cconf['check_data'] as $ruleType => $rconf) {
-              $className='LSformRule_'.$ruleType;
-              if (LSsession::loadLSclass($className)) {
-                $r=new $className();
-                if (!$r -> validate($parseValue[$c],$rconf,$this)) {
-                  if (isset($rconf['msg'])) {
-                    $errors[]=getFData(__($rconf['msg']),__($cconf['label']));
+    if (is_array($_POST[$this -> name.'__values_uuid'])) {
+      foreach ($_POST[$this -> name.'__values_uuid'] as $uuid) {
+        $value=array();
+        $parseValue=array();
+        $errors=array();
+        $unemptyComponents=array();
+
+        foreach ($this -> components as $c => $cconf) {
+          if (isset($_POST[$this -> name.'__'.$c.'__'.$uuid])) {
+            if (!is_array($_POST[$this -> name.'__'.$c.'__'.$uuid]))
+              $_POST[$this -> name.'__'.$c.'__'.$uuid] = array($_POST[$this -> name.'__'.$c.'__'.$uuid]);
+
+            $parseValue[$c]=array();
+            foreach($_POST[$this -> name.'__'.$c.'__'.$uuid] as $val) {
+              if (empty($val))
+                continue;
+              $parseValue[$c][] = $val;
+              if ($cconf['type']=='select_list') {
+                if (!$this -> getSelectListComponentValueLabel($c, $val)) {
+                  $errors[]=getFData(_('Invalid value "%{value}" for component %{component}.'),array('value' => $val, 'component' => __($cconf['label'])));
+                }
+              }
+              if (is_array($cconf['check_data'])) {
+                foreach($cconf['check_data'] as $ruleType => $rconf) {
+                  $className='LSformRule_'.$ruleType;
+                  if (LSsession::loadLSclass($className)) {
+                    $r=new $className();
+                    if (!$r -> validate($val,$rconf,$this)) {
+                      if (isset($rconf['msg'])) {
+                        $errors[]=getFData(__($rconf['msg']),__($cconf['label']));
+                      }
+                      else {
+                        $errors[]=getFData(_('Invalid value "%{value}" for component %{component}.'),array('value' => $val, 'component' => __($cconf['label'])));
+                      }
+                    }
                   }
                   else {
-                    $errors[]=getFData(__('Invalid value for component %{c}.'),__($cconf['label']));
+                    $errors[]=getFData(_("Can't validate value of component %{c}."),__($cconf['label']));
                   }
                 }
               }
-              else {
-                $errors[]=getFData(__("Can't validate value of component %{c}."),__($cconf['label']));
-              }
             }
+
+            if (!isset($cconf['multiple']) || !$cconf['multiple']) {
+              if (count($parseValue[$c])>=1)
+                $parseValue[$c] = $parseValue[$c][0];
+              else
+                $parseValue[$c] = '';
+            }
+
+            if ($cconf['required'] && empty($parseValue[$c])) {
+              $errors[]=getFData(_('Component %{c} must be defined'),__($cconf['label']));
+              continue;
+            }
+            $unemptyComponents[]=$c;
+
+            $value[$c]=$parseValue[$c];
           }
-          $value[$c]=$parseValue[$c];
-        }
-        else {
-          // end of value break
-          $end=true;
-          break;
         }
 
-      }
-      if (!$end) {
         if (!empty($unemptyComponents)) {
           foreach($errors as $e) {
             $this -> form -> setElementError($this -> attr_html,$e);
           }
           $return[$this -> name][]=json_encode($value);
         }
-        $count++;
       }
     }
     return true;

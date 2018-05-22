@@ -10,7 +10,7 @@ var LSformElement = new Class({
     
     initializeLSformElement: function(li) {
       if (typeof(li) == 'undefined') {
-        var elements = this.ul.getElements('li');
+        var elements = this.ul.getChildren('li');
       }
       else {
         var elements = [li];
@@ -50,7 +50,7 @@ var LSformElement = new Class({
     },
 
     onRemoveFieldBtnClick: function(field) {
-      if (this.ul.getElements('li').length == 1) {
+      if (this.ul.getChildren('li').length == 1) {
         field.clearValue.bind(field)();
       }
       else {

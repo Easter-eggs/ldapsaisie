@@ -3,6 +3,7 @@
 <!ENTITY conf-LSattr_html_date SYSTEM "LSattr_html_date.docbook">
 <!ENTITY conf-LSattr_html_image SYSTEM "LSattr_html_image.docbook">
 <!ENTITY conf-LSattr_html_jsonCompositeAttribute SYSTEM "LSattr_html_jsonCompositeAttribute.docbook">
+<!ENTITY conf-LSattr_html_labeledValue SYSTEM "LSattr_html_labeledValue.docbook">
 <!ENTITY conf-LSattr_html_mail SYSTEM "LSattr_html_mail.docbook">
 <!ENTITY conf-LSattr_html_maildir SYSTEM "LSattr_html_maildir.docbook">
 <!ENTITY conf-LSattr_html_mailQuota SYSTEM "LSattr_html_mailQuota.docbook">
@@ -20,4 +21,5 @@
 <!ENTITY conf-LSattr_html_valueWithUnit SYSTEM "LSattr_html_valueWithUnit.docbook">
 <!ENTITY conf-LSattr_html_xmpp SYSTEM "LSattr_html_xmpp.docbook">
 
+<!ENTITY LSattr_html_jsonCompositeAttribute "<link linkend='config-LSattr_html_jsonCompositeAttribute'>LSattr_html_jsonCompositeAttribute</link>">
 <!ENTITY LSattr_html_select_list "<link linkend='config-LSattr_html_select_list'>LSattr_html_select_list</link>">

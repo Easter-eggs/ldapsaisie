@@ -1364,7 +1364,7 @@ class LSsession {
       self :: addJSconfigParam('keepLSsessionActive',ini_get('session.gc_maxlifetime'));
     }
 
-    LStemplate :: assign('LSjsConfig',json_encode(self :: $_JSconfigParams));
+    LStemplate :: assign('LSjsConfig',base64_encode(json_encode(self :: $_JSconfigParams)));
     
     if (LSdebug) {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";

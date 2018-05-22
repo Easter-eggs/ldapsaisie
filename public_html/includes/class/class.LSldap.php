@@ -194,12 +194,7 @@ class LSldap {
     $infos = ldap_explode_dn($dn,0);
     if((!$infos)||($infos['count']==0))
       return;
-    $basedn='';
-    for ($i=1;$i<$infos['count'];$i++) {
-      $sep=($basedn=='')?'':',';
-      $basedn.=$sep.$infos[$i];
-    }
-    $return=self :: search($infos[0],$basedn);
+    $return=self :: search('(objectClass=*)',$dn);
     return $return[0]['attrs'];
   }
   

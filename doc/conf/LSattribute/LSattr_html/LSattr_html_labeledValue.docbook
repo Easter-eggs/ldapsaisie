@@ -1,0 +1,33 @@
+<sect4 id="config-LSattr_html_labeledValue">
+  <title>LSattr_html_labeledValue</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  prefixé d'un <literal>label</literal> et qui respecte le format suivant :
+  <literal>[label]valeur</literal>.</para>
+
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array(
+  'labels' => array ( // Liste des labels possible
+    'label1' => 'Libellé label1',
+    'label2' => 'Libellé label2',
+    [...]
+  ),
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>labels</term>
+  <listitem>
+    <simpara>Tableau associatif obligatoire contenant en valeur clé, le
+    <literal>label</literal> utilisé dans la valeur stockée et en valeur
+    associée, le valeur d'affichage du <literal>label</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

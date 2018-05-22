@@ -1,3 +1,28 @@
+ldapsaisie (1.8-1) unstable; urgency=medium
+
+  * LSdefault : encode LSjsConfig data in Base64
+  * LSattr_html :
+    + password : add get_mail_attr_function parameter
+    + valueWithUnit : add translate_labels, store_integer and round_down parameters
+    + jsonCompositeAttribute :
+      + Add help_info and multiple parameters on components
+      + Fix foreach syntax for retro-compat with old Smarty versions
+      + fix JS clear value method
+    + select_list :
+      + add possiblity to use values of other attribute as possible values
+      + fix warning on empty jsonCompositeAttribute possible values
+      + fix invalid possible values on empty other attribute value
+  * LSldap : fix/improve getAttr() method
+  * LSformElement.js : do not handle sub li elements during initialization
+  * Translation : fix error when trying to translate empty string
+  * ldapsaisie-generate-lang-file (generate_lang_file.php) :
+    + improve to handle new config parameters
+    + add interactive mode
+    + add output file feature
+    + add short parameters
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 16 May 2018 17:42:02 +0200
+
 ldapsaisie (1.7-2) unstable; urgency=medium
 
   * Fix cron and doc about new tmp dir path

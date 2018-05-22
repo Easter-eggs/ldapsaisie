@@ -122,6 +122,7 @@ class LStemplate {
       self :: registerFunction("tr", "LStemplate_smarty_tr");
       self :: registerFunction("img", "LStemplate_smarty_img");
       self :: registerFunction("css", "LStemplate_smarty_css");
+      self :: registerFunction("uniqid", "LStemplate_smarty_uniqid");
 
       return True;
     }
@@ -295,6 +296,12 @@ function LStemplate_smarty_img($params) {
 function LStemplate_smarty_css($params) {
   extract($params);
   echo LStemplate :: getCSSPath($name);
+}
+
+function LStemplate_smarty_uniqid($params, &$smarty) {
+  if (!isset($params['var']))
+    $params['var'] = 'uniqid';
+  $smarty -> assign($params['var'], uniqid());
 }
 
 // Errors

@@ -32,6 +32,8 @@ require_once('conf/config.inc.php');
 
 $withoutselectlist=False;
 $copyoriginalvalue=False;
+$interactive=False;
+$output=False;
 $additionalfileformat=False;
 $lang=False;
 $encoding=False;
@@ -46,16 +48,19 @@ if ($argc > 1) {
         $translations[$msg]=$trans;
       }
     }
-    elseif($argv[$i]=='--without-select-list') {
+    elseif($argv[$i]=='--without-select-list' || $argv[$i]=='-W') {
       $withoutselectlist=True;
     }
-    elseif($argv[$i]=='--copy-original-value') {
+    elseif($argv[$i]=='--copy-original-value' || $argv[$i]=='-c') {
       $copyoriginalvalue=True;
     }
-    elseif($argv[$i]=='--additional-file-format') {
+    elseif($argv[$i]=='--interactive' || $argv[$i]=='-i') {
+      $interactive=True;
+    }
+    elseif($argv[$i]=='--additional-file-format' || $argv[$i]=='-a') {
       $additionalfileformat=True;
     }
-    elseif($argv[$i]=='--lang') {
+    elseif($argv[$i]=='--lang' || $argv[$i]=='-l') {
       $i++;
       $parse_lang=explode('.',$argv[$i]);
       if (count($parse_lang)==2) {
@@ -66,12 +71,18 @@ if ($argc > 1) {
         die("Invalid --lang parameter. Must be compose in format : [lang].[encoding]\n");
       }
     }
+    elseif($argv[$i]=='--output' || $argv[$i]=='-o') {
+      $i++;
+      $output = $argv[$i];
+    }
     elseif($argv[$i]=='-h') {
       echo "Usage : ".$argv[0]." [file1] [file2] [-h] [options]\n";
-      echo "  --without-select-list    Don't add possibles values of select list\n";
-      echo "  --copy-original-value    Copy original value as translated value when no translated value exists\n";
-      echo "  --additional-file-format Additional file format output\n";
-      echo "  --lang                   Load this specify lang (format : [lang].[encoding])\n";
+      echo "  -W/--without-select-list    Don't add possibles values of select list\n";
+      echo "  -c/--copy-original-value    Copy original value as translated value when no translated value exists\n";
+      echo "  -i/--interactive            Interactive mode : ask user to enter translated on each translation needed\n";
+      echo "  -a/--additional-file-format Additional file format output\n";
+      echo "  -l/--lang                   Load this specify lang (format : [lang].[encoding])\n";
+      echo "  -o/--output                 Output file (default : stdout)\n";
       exit(0);
     }
   }
@@ -82,8 +93,36 @@ $data=array();
 
 function add($msg) {
   if ($msg!='' && _($msg) == "$msg") {
-    global $data, $translations;
-    $data[$msg]=$translations[$msg];
+    global $data, $translations, $interactive, $copyoriginalvalue;
+    if (array_key_exists($msg, $data)) {
+      return True;
+    }
+    elseif (array_key_exists($msg, $translations)) {
+      $data[$msg]=$translations[$msg];
+    }
+    elseif ($interactive) {
+      if ($copyoriginalvalue) {
+        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or leave empty to copy original string) : ");
+        $in = trim(fgets(STDIN));
+        if ($in)
+          $data[$msg]=$in;
+        else
+          $data[$msg]=$msg;
+      }
+      else {
+        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or 'c' to copy original message, leave empty to pass) : ");
+        $in = trim(fgets(STDIN));
+        if ($in) {
+          if ($in=="c")
+            $data[$msg]=$msg;
+          else
+            $data[$msg]=$in;
+        }
+      }
+    }
+    else {
+      $data[$msg]="";
+    }
   }
 }
 
@@ -185,8 +224,20 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
               if (is_array($pname['possible_values'])) {
                 foreach($pname['possible_values'] as $pk => $pn) {
                   if ($pk == 'OTHER_OBJECT') continue;
-                  add($pn);
+                  elseif ($pk == 'OTHER_ATTRIBUTE') {
+                    if (is_array($pn) && ! isset($pn['attr'])) {
+                      foreach($pn as $pattr => $plabel)
+                        add($plabel);
+                    }
+                  }
+                  else add($pn);
                 }
+              }
+            }
+            elseif ($pkey == 'OTHER_ATTRIBUTE') {
+              if (is_array($pname) && ! isset($pname['attr'])) {
+                foreach($pname as $pattr => $plabel)
+                  add($plabel);
               }
             }
             elseif ($pkey != 'OTHER_OBJECT') {
@@ -202,10 +253,18 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
           }
         }
 
+        // LSattr_html_labeledValue
+        if (is_array($attr['html_options']['labels'])) {
+          foreach($attr['html_options']['labels'] as $klabel => $plabel) {
+            add($plabel);
+          }
+        }
+
 	// LSattr_html_jsonCompositeAttribute
         if (is_array($attr['html_options']['components'])) {
           foreach($attr['html_options']['components'] as $c => $cconfig) {
             add($cconfig['label']);
+            add($cconfig['help_info']);
 
             // Component type select_list
             if (is_array($cconfig['options']['possible_values'])) {
@@ -215,8 +274,20 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
                   if (is_array($pname['possible_values'])) {
                     foreach($pname['possible_values'] as $pk => $pn) {
                       if ($pk == 'OTHER_OBJECT') continue;
-                      add($pn);
+                      elseif ($pk == 'OTHER_ATTRIBUTE') {
+                        if (is_array($pn) && ! isset($pn['attr'])) {
+                          foreach($pn as $pattr => $plabel)
+                            add($plabel);
+                        }
+                      }
+                      else add($pn);
                     }
+                  }
+                }
+                elseif ($pkey == 'OTHER_ATTRIBUTE') {
+                  if (is_array($pname) && ! isset($pname['attr'])) {
+                    foreach($pname as $pattr => $plabel)
+                      add($plabel);
                   }
                 }
                 elseif ($pkey != 'OTHER_OBJECT') {
@@ -343,9 +414,25 @@ find_and_parse_addon_file(LS_LOCAL_DIR.LS_ADDONS_DIR);
 
 ksort($data);
 
-echo "<?php\n\n";
+if ($output) {
+  try {
+    $fd = fopen($output, 'w');
+  }
+  catch(Exception $e) {
+    fwrite(STDERR, 'Error occured opening output file : '.$e->getMessage(), "\n");
+  }
+  if (!$fd) {
+    fwrite(STDERR, "Use stdout out instead.\n");
+    $fd = STDOUT;
+    $output = false;
+  }
+}
+else
+  $fd = STDOUT;
 
-if (!$additionalfileformat) print "\$GLOBALS['LSlang'] = array (\n";
+fwrite($fd, "<?php\n\n");
+
+if (!$additionalfileformat) fwrite($fd, "\$GLOBALS['LSlang'] = array (\n");
 
 foreach($data as $key => $val) {
   if ($copyoriginalvalue && $val=="") {
@@ -354,13 +441,14 @@ foreach($data as $key => $val) {
   $key=str_replace('"','\\"',$key);
   $val=str_replace('"','\\"',$val);
   if ($additionalfileformat) {
-    print "\$GLOBALS['LSlang'][\"$key\"] = \"$val\";\n";
+    fwrite($fd, "\$GLOBALS['LSlang'][\"$key\"] = \"$val\";\n");
   }
   else {
-    print "\n\"$key\" =>\n  \"$val\",\n";
+    fwrite($fd, "\n\"$key\" =>\n  \"$val\",\n");
   }
 }
 
-if (!$additionalfileformat) echo "\n);\n";
+if (!$additionalfileformat) fwrite($fd, "\n);\n");
 
-?>
+if ($output)
+  fclose($fd);
