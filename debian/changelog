@@ -1,3 +1,10 @@
+ldapsaisie (1.8-2) unstable; urgency=medium
+
+  * Add missing patch of 1.7-2 Debian package version missing on last version
+  * Add nocache param on JS/CSS URL to avoid cache problems
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 22 May 2018 18:52:32 +0200
+
 ldapsaisie (1.8-1) unstable; urgency=medium
 
   * LSdefault : encode LSjsConfig data in Base64
