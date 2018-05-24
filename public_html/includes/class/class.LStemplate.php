@@ -133,6 +133,20 @@ class LStemplate {
   }
 
  /**
+  * Return the default directory path of files
+  *
+  * Return LS_THEME contanst value or 'default' if not defined
+  *
+  * @retval string The default directory path of files
+  **/
+  public static function getDefaultDir() {
+    if (defined('LS_THEME'))
+      return LS_THEME;
+    else
+      return 'default';
+  }
+
+ /**
   * Return the path of the file to use
   *
   * @param[in] string $name The file name (eg: mail.png)
@@ -144,7 +158,7 @@ class LStemplate {
   **/
   public static function getFilePath($file, $root_dir, $default_dir=null, $with_nocache=false) {
     if ($default_dir === null)
-      $default_dir = 'default';
+      $default_dir = self :: getDefaultDir();
     foreach(self :: $directories as $dir) {
       if (file_exists($root_dir.'/'.$dir.'/'.$file)) {
         $path = $root_dir.'/'.$dir.'/'.$file;
@@ -173,7 +187,7 @@ class LStemplate {
       $path = self :: getFilePath("$image.$ext", self :: $config['image_dir'], False, $with_nocache);
       if ($path) return $path;
     }
-    return self :: $config['image_dir']."/default/$image.png";
+    return self :: $config['image_dir']."/".self :: getDefaultDir()."/$image.png";
   }
 
  /**
