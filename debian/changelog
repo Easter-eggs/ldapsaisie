@@ -1,3 +1,9 @@
+ldapsaisie (1.8-3) unstable; urgency=medium
+
+  * Fix local file and custom theme handling
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Fri, 01 Jun 2018 13:59:17 +0200
+
 ldapsaisie (1.8-2) unstable; urgency=medium
 
   * Add missing patch of 1.7-2 Debian package version missing on last version
