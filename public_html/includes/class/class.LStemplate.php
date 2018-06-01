@@ -159,15 +159,19 @@ class LStemplate {
   public static function getFilePath($file, $root_dir, $default_dir=null, $with_nocache=false) {
     if ($default_dir === null)
       $default_dir = self :: getDefaultDir();
+    $path = false;
     foreach(self :: $directories as $dir) {
-      if (file_exists($root_dir.'/'.$dir.'/'.$file)) {
-        $path = $root_dir.'/'.$dir.'/'.$file;
+      $path = $root_dir.'/'.$dir.'/'.$file;
+      if (file_exists($path)) {
+        break;
       }
+      $path = false;
     }
-    if (!$default_dir) {
-      return;
+    if (!$path) {
+      if (!$default_dir)
+        return;
+      $path = $root_dir.'/'.$default_dir.'/'.$file;
     }
-    $path = $root_dir.'/'.$default_dir.'/'.$file;
     if ($with_nocache)
       $path .= "?nocache=".self::getNoCacheFileValue($path);
     return $path;
