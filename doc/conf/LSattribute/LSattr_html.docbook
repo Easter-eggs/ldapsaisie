@@ -13,6 +13,7 @@
   &conf-LSattr_html_mailQuota;
   &conf-LSattr_html_password;
   &conf-LSattr_html_postaladdress;
+  &conf-LSattr_html_pre;
   &conf-LSattr_html_rss;
   &conf-LSattr_html_select_box;
   &conf-LSattr_html_select_list;

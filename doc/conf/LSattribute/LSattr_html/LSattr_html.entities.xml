@@ -9,6 +9,7 @@
 <!ENTITY conf-LSattr_html_mailQuota SYSTEM "LSattr_html_mailQuota.docbook">
 <!ENTITY conf-LSattr_html_password SYSTEM "LSattr_html_password.docbook">
 <!ENTITY conf-LSattr_html_postaladdress SYSTEM "LSattr_html_postaladdress.docbook">
+<!ENTITY conf-LSattr_html_pre SYSTEM "LSattr_html_pre.docbook">
 <!ENTITY conf-LSattr_html_rss SYSTEM "LSattr_html_rss.docbook">
 <!ENTITY conf-LSattr_html_select_box SYSTEM "LSattr_html_select_box.docbook">
 <!ENTITY conf-LSattr_html_select_list SYSTEM "LSattr_html_select_list.docbook">
@@ -23,3 +24,4 @@
 
 <!ENTITY LSattr_html_jsonCompositeAttribute "<link linkend='config-LSattr_html_jsonCompositeAttribute'>LSattr_html_jsonCompositeAttribute</link>">
 <!ENTITY LSattr_html_select_list "<link linkend='config-LSattr_html_select_list'>LSattr_html_select_list</link>">
+<!ENTITY LSattr_html_textarea "<link linkend='config-LSattr_html_textarea'>LSattr_html_textarea</link>">

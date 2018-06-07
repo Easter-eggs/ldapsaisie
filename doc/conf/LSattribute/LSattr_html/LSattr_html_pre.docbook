@@ -1,0 +1,8 @@
+<sect4 id="config-LSattr_html_pre">
+  <title>LSattr_html_pre</title>
+  <para>Ce type est dérivé du type &LSattr_html_textarea; et permet
+  simplement que lors de l'affichage de la valeur, celle-ci soit
+  affichée en respectant les retours à la ligne et en utilisant une
+  police de caractères <literal>monospace</literal>. Cela reproduit
+  l'affichage d'une balise HTML <literal>pre</literal>.</para>
+</sect4>
