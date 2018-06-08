@@ -1424,12 +1424,7 @@ class LSsession {
 
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
-      $txt_infos="<ul>\n";
-      foreach($_SESSION['LSsession_infos'] as $info) {
-        $txt_infos.="<li>$info</li>\n";
-      }
-      $txt_infos.="</ul>\n";
-      LStemplate :: assign('LSinfos',$txt_infos);
+      LStemplate :: assign('LSinfos',$_SESSION['LSsession_infos']);
       $_SESSION['LSsession_infos']=array();
     }
     

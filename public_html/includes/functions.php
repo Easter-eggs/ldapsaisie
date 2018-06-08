@@ -257,10 +257,10 @@ function LSdebug_print($return=false,$ul=true) {
     if ($ul) $txt='<ul>'; else $txt="";
     foreach($GLOBALS['LSdebug_fields'] as $debug) {
       if (is_array($debug)||is_object($debug)) {
-        $txt.='<li><pre>'.print_r($debug,true).'</pre></li>';
+        $txt.='<li><pre>'.htmlentities(print_r($debug,true)).'</pre></li>';
       }
       else {
-        $txt.='<li><pre>'.$debug.'</pre></li>';
+        $txt.='<li><pre>'.htmlentities(strval($debug)).'</pre></li>';
       }
     }
     if ($ul) $txt.='</ul>';

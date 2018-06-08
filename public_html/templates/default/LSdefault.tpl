@@ -1,6 +1,12 @@
 <div id='LSjsConfig'>{$LSjsConfig}</div>
 
-<div id='LSinfos_txt'>{$LSinfos}</div>
+<div id='LSinfos_txt'>{if is_array($LSinfos) && !empty($LSinfos)}
+<ul>
+{foreach $LSinfos as $info}
+<li>{$info|escape:"htmlall"}</li>
+{/foreach}
+</ul>
+{/if}</div>
 
 <div id='LSerror_txt'>{$LSerrors}</div>
 
