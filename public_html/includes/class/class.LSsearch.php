@@ -286,7 +286,7 @@ class LSsearch {
         $this -> params['pattern'] = NULL;
         $this -> params['filter'] = NULL;
       }
-      elseif (self :: isValidPattern($params['pattern'])) {
+      elseif ($this -> isValidPattern($params['pattern'])) {
         $this -> params['pattern'] = $params['pattern'];
         if (!is_string($params['filter'])) {
           $this -> params['filter']=NULL;
@@ -579,7 +579,7 @@ class LSsearch {
     if ($pattern==NULL) {
       $pattern=$this -> params['pattern'];
     }
-    if (self :: isValidPattern($pattern)) {
+    if ($this -> isValidPattern($pattern)) {
       $attrsConfig=LSconfig::get("LSobjects.".$this -> LSobject.".LSsearch.attrs");
       $attrsList=array();
       if (!is_array($attrsConfig)) {
@@ -653,8 +653,14 @@ class LSsearch {
    * 
    * @retval boolean True if pattern is valid or False
    **/
-  static function isValidPattern($pattern) {
-    return (is_string($pattern) && $pattern!= "" && $pattern!="*");
+  public function isValidPattern($pattern) {
+    if (is_string($pattern) && $pattern!= "") {
+      $regex = (isset($this -> config['validPatternRegex'])?$this -> config['validPatternRegex']:'/^[\w \-\_\\\'\"^\[\]\(\)\{\}\=\+\£\%\$\€\.\:\;\,\?\/\@]+$/iu');
+      if (preg_match($regex, $pattern))
+        return True;
+    }
+    LSerror :: addErrorCode('LSsearch_17');
+    return False;
   }
   
   /**
@@ -1288,7 +1294,7 @@ class LSsearch {
     
     return $retval;
   }
-  
+
 }
 
 /**
@@ -1341,4 +1347,7 @@ _("LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} (fil
 );
 LSerror :: defineError('LSsearch_16',
 _("LSsearch : Error during execution of the custom action %{customAction}.")
+);
+LSerror :: defineError('LSsearch_17',
+_("LSsearch : Invalid search pattern.")
 );

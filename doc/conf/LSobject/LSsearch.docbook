@@ -34,7 +34,8 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     // Paramètre d'affichage
     'displayFormat' => [LSformat],
     'nbObjectsByPage' => [integer],
-    'nbPageLinkByPage' => [integer]
+    'nbPageLinkByPage' => [integer],
+    'validPatternRegex' => '[regex]'
   ),
   'predefinedFilters' => array(
     'filter1' => 'label filter1',
@@ -238,6 +239,17 @@ contexte dans lequel cette recherche est effectuée.</para>
     <simpara>Entier déterminant le nombre maximum de liens vers d'autres pages
     affichés sous le résultat de la recherche.</simpara>
     <simpara>Par défaut : <literal>10</literal></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>validPatternRegex</term>
+  <listitem>
+    <simpara>Expression régulière de validation des mots clés de recherche pour
+    ce type d'&LSobject;.</simpara>
+    <simpara>(Par défaut :
+    <literal>/^[\w \-\_\\\'\"^\[\]\(\)\{\}\=\+\£\%\$\€\.\:\;\,\?\/\@]+$/iu</literal>)
+    </simpara>
   </listitem>
 </varlistentry>
 
