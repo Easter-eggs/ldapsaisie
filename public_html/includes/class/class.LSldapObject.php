@@ -726,48 +726,14 @@ class LSldapObject {
    * @retval string le filtre ldap correspondant
    */ 
   function getPatternFilter($pattern=null,$approx=null) {
-    if ($pattern!=NULL) {
-      $attrs=array();
-      if (is_array($this -> config['LSsearch']['attrs'])) {
-        foreach ($this -> config['LSsearch']['attrs'] as $key => $val) {
-          if (is_int($key)) {
-            $attrs[$val]=array();
-          }
-          else {
-            $attrs[$key]=$val;
-          }
-        }
+    if ($pattern) {
+      $search = new LSsearch($this -> type_name, 'LSldapObject', array('approx' => (bool)$approx));
+      $filter = $search -> getFilterFromPattern($pattern);
+      if ($filter instanceof Net_LDAP2_Filter) {
+        return $filter -> asString();
       }
-      else {
-        $attrs=array($this -> config['rdn'] => array());
-      }
-      $pfilter='(|';
-      if ($approx) {
-        foreach ($attrs as $attr_name => $attr_opts) {
-          if (isset($attr_opts['approxLSformat'])) {
-            $pfilter.=getFData($attr_opts['approxLSformat'],array('name' => $attr_name, 'pattern' => $pattern));
-          }
-          else {
-            $pfilter.='('.$attr_name.'~='.$pattern.')';
-          }
-        }
-      }
-      else {
-        foreach ($attrs as $attr_name => $attr_opts) {
-          if (isset($attr_opts['searchLSformat'])) {
-            $pfilter.=getFData($attr_opts['searchLSformat'],array('name' => $attr_name, 'pattern' => $pattern));
-          }
-          else {
-            $pfilter.='('.$attr_name.'=*'.$pattern.'*)';
-          }
-        }
-      }
-      $pfilter.=')';
-      return $pfilter;
     }
-    else {
-      return NULL;
-    }
+    return NULL;
   }
   
   /**
