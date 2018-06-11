@@ -1141,7 +1141,7 @@ class LSsearch {
     
     if ($va == $vb) return 0;
     
-    $val = strcoll(strtolower($va), strtolower($vb));
+    $val = strnatcmp(strtolower($va), strtolower($vb));
     return $val*$dir;
   }
   
