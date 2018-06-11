@@ -270,24 +270,26 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
               }
             }
 
-            if (!isset($cconf['multiple']) || !$cconf['multiple']) {
-              if (count($parseValue[$c])>=1)
-                $parseValue[$c] = $parseValue[$c][0];
-              else
-                $parseValue[$c] = '';
-            }
-
-            if ($cconf['required'] && empty($parseValue[$c])) {
-              $errors[]=getFData(_('Component %{c} must be defined'),__($cconf['label']));
+            if (empty($parseValue[$c]))
               continue;
-            }
-            $unemptyComponents[]=$c;
 
+            if (!isset($cconf['multiple']) || !$cconf['multiple']) {
+              $parseValue[$c] = $parseValue[$c][0];
+            }
+
+            $unemptyComponents[]=$c;
             $value[$c]=$parseValue[$c];
           }
         }
 
         if (!empty($unemptyComponents)) {
+          // Check required components
+          foreach ($this -> components as $c => $cconf) {
+            if ($cconf['required'] && !isset($value[$c])) {
+              $errors[]=getFData(_('Component %{c} must be defined'),__($cconf['label']));
+              continue;
+            }
+          }
           foreach($errors as $e) {
             $this -> form -> setElementError($this -> attr_html,$e);
           }
