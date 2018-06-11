@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset={$LSencoding}">
-    <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle}{/if}</title>
+    <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle|escape:"htmlall"}{/if}</title>
     <link rel="icon" type="image/png" href="images/default/favicon.png" />
     <link rel="stylesheet" type="text/css" href="{css name='base.css'}" title="Normal" />
     <link rel="stylesheet" type="text/css" href="{css name='base_print.css'}" media='print' title="Normal" />
@@ -20,8 +20,8 @@
       
       {if $LSsession_subDn!=""}
         <form action="index.php" method='post' id='LSsession_topDn_form'>
-          <label>{$label_level}
-            <a href="index.php?LSsession_refresh"><img src='{img name='refresh'}' alt='{$_refresh}' title='{$_refresh}' /></a>
+          <label>{$label_level|escape:"htmlall"}
+            <a href="index.php?LSsession_refresh"><img src='{img name='refresh'}' alt='{$_refresh|escape:"htmlall"}' title='{$_refresh|escape:"htmlall"}' /></a>
             <select name='LSsession_topDn' id='LSsession_topDn'>
               {html_options values=$LSsession_subDn_indexes output=$LSsession_subDn_names selected=$LSsession_subDn}
             </select>
@@ -30,26 +30,26 @@
       {/if}
       <ul class='menu'>
       {foreach from=$LSaccess item=label key=LSobject_type}
-        <li class='menu'><a href='view.php?LSobject={$LSobject_type}' class='menu'>{tr msg=$label}</a></li>
+        <li class='menu'><a href='view.php?LSobject={$LSobject_type|escape:"url"}' class='menu'>{tr msg=$label}</a></li>
       {/foreach}
       {foreach from=$LSaddonsViewsAccess item=access}
         {if $access.showInMenu}
-        <li class='menu'><a href='addon_view.php?LSaddon={$access.LSaddon}&view={$access.id}' class='menu'>{tr msg=$access.label}</a></li>
+        <li class='menu'><a href='addon_view.php?LSaddon={$access.LSaddon|escape:"url"}&view={$access.id|escape:"url"}' class='menu'>{tr msg=$access.label}</a></li>
         {/if}
       {/foreach}
       </ul>
     </td>
     <td id='status'>
-    <span>{$lang_label} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang}' title='{$LSlang}'/></span>
+    <span>{$lang_label|escape:"htmlall"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
     <form action='' methode='post' style='display: none' class='LSlang_hidden'>
       <select name='lang'>
       {foreach from=$LSlanguages item=lang}
-        <option value='{$lang}'>{$lang}</option>
+        <option value='{$lang|escape:"quotes"}'>{$lang|escape:"htmlall"}</option>
       {/foreach}
       </select>
       <input type='submit' value='->'/>
     </form>
-    {if $displaySelfAccess}{$connected_as} <span id='user_name'>{$LSsession_username}</span>{/if}
+    {if $displaySelfAccess}{$connected_as|escape:"htmlall"} <span id='user_name'>{$LSsession_username|escape:"htmlall"}</span>{/if}
     <a href='index.php?LSsession_refresh=1'><img src='{img name='refresh'}' alt="{tr msg="Refresh my access rights"}" title="{tr msg="Refresh my access rights"}" /></a>
     {if $displayLogoutBtn} <a href='index.php?LSsession_logout'><img src='{img name='logout'}' alt='Logout' title='Logout' /></a>{/if}
     </td>

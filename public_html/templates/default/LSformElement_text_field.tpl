@@ -1,5 +1,5 @@
 {if $freeze}
-<span class='LSformElement_text'>{if $value}{$value}{else}{$noValueTxt}{/if}</span><input type='hidden' name='{$attr_name}[]' class='LSformElement_text' value="{$value}"/>
+<span class='LSformElement_text'>{if $value}{$value|escape:"htmlall"}{else}{$noValueTxt|escape:"htmlall"}{/if}</span><input type='hidden' name='{$attr_name|escape:"quotes"}[]' class='LSformElement_text' value='{$value|escape:"quotes"}'/>
 {else}
-<input type='text' name='{$attr_name}[]' class='LSformElement_text' value="{$value}" autocomplete="off"/>
+<input type='text' name='{$attr_name|escape:"quotes"}[]' class='LSformElement_text' value='{$value|escape:"quotes"}' autocomplete="off"/>
 {/if}

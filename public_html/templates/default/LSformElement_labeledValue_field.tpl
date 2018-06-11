@@ -2,20 +2,20 @@
   {if isset($parseValue)}
     {if $parseValue.label}
       {if $parseValue.translated_label}
-        <span title='[{$parseValue.label|escape:'quotes'}]'>{$parseValue.translated_label}</span>
+        <span title='[{$parseValue.label|escape:'htmlall'}]'>{$parseValue.translated_label|escape:"htmlall"}</span>
       {else}
-        <span>{$parseValue.label} {$unrecognizedLabelTxt}</span>
+        <span>{$parseValue.label|escape:"htmlall"} {$unrecognizedLabelTxt|escape:"htmlall"}</span>
       {/if}
-      : <span>{$parseValue.value}</span>
+      : <span>{$parseValue.value|escape:"htmlall"}</span>
     {else}
-      <span>{$parseValue.raw_value}</span> {$unrecognizedValueTxt}
+      <span>{$parseValue.raw_value|escape:"htmlall"}</span> {$unrecognizedValueTxt|escape:"htmlall"}
     {/if}
   {else}
-    {$noValueTxt}
+    {$noValueTxt|escape:"htmlall"}
   {/if}
 {else}
-  <select name='{$attr_name}_labels[]' class='LSformElement_labeledValue'>
+  <select name='{$attr_name|escape:"quotes"}_labels[]' class='LSformElement_labeledValue'>
     {html_options options=$labels selected=$parseValue.label}
   </select>
-  <input type="text" name='{$attr_name}_values[]' class='LSformElement_labeledValue' value='{if $parseValue.value}{$parseValue.value|escape:'quotes'}{else}{$parseValue.raw_value|escape:'quotes'}{/if}'/>
+  <input type="text" name='{$attr_name|escape:"quotes"}_values[]' class='LSformElement_labeledValue' value='{if $parseValue.value}{$parseValue.value|escape:'quotes'}{else}{$parseValue.raw_value|escape:'quotes'}{/if}'/>
 {/if}

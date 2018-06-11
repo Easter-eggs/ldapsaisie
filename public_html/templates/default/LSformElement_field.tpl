@@ -1,5 +1,5 @@
 {if $freeze}
-{if $value}{$value}{else}{$noValueTxt}{/if}
+{if $value}{$value|escape:"htmlall"}{else}{$noValueTxt|escape:"htmlall"}{/if}
 {else}
-<input type='text' name='{$attr_name}[]' value="{$value}" autocomplete="off"/>
+<input type='text' name='{$attr_name|escape:"quotes"}[]' value='{$value|escape:"quotes"}' autocomplete="off"/>
 {/if}

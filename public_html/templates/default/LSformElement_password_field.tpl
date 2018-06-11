@@ -1,13 +1,13 @@
 {if $freeze}
 {if $clearView}
-{$pwd}
+{$pwd|escape:"htmlall"}
 {else}
 ********
 {/if}
 {else}
 {if $clearEdit}
-<input type='text' name='{$attr_name}[]' value="{$pwd}" class='LSformElement_password' autocomplete="off"/>
+<input type='text' name='{$attr_name|escape:"quotes"}[]' value='{$pwd|escape:"quotes"}' class='LSformElement_password' autocomplete="off"/>
 {else}
-<input type='password' name='{$attr_name}[]' value="{$pwd}" class='LSformElement_password' autocomplete="off"/>
+<input type='password' name='{$attr_name|escape:"quotes"}[]' value='{$pwd|escape:"quotes"}' class='LSformElement_password' autocomplete="off"/>
 {/if}
 {/if}

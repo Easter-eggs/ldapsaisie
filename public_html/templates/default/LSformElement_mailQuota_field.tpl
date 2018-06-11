@@ -3,17 +3,17 @@
     {if $quotas[$value].unknown}
       <span class='LSformElement_mailQuota_unknown'>Valeur incorrecte</span>
     {else}
-      {$quotas[$value].valueTxt}
+      {$quotas[$value].valueTxt|escape:"htmlall"}
     {/if}
   {else}
-    {$noValueTxt}
+    {$noValueTxt|escape:"htmlall"}
   {/if}
 {else}
-  <input name='{$attr_name}_size[]' type=text class='LSformElement_mailQuota' value="{$quotas[$value].valueSize}"/>
-  <select name='{$attr_name}_sizeFact[]' class='LSform LSformElement_mailQuota'>
+  <input name='{$attr_name|escape:"quotes"}_size[]' type=text class='LSformElement_mailQuota' value='{$quotas[$value].valueSize|escape:"quotes"}'/>
+  <select name='{$attr_name|escape:"quotes"}_sizeFact[]' class='LSform LSformElement_mailQuota'>
     {html_options options=$sizeFacts selected=$quotas[$value].valueSizeFact}
   </select>
   {if $quotas[$value].unknown}
-    <span class='LSformElement_mailQuota_unknown'>Valeur incorrecte</span>
+    <span class='LSformElement_mailQuota_unknown'>{tr msg="Incorrect value"}</span>
   {/if}
 {/if}

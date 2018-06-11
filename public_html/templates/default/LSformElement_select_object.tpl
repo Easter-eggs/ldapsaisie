@@ -3,7 +3,7 @@
   <tr class='LSformElement_select_object_searchAdd'>
     <td class='LSformElement_select_object_searchAdd'>
 {/if}
-      <ul class='LSform LSformElement_select_object' id='{$attr_name}'>
+      <ul class='LSform LSformElement_select_object' id='{$attr_name|escape:"quotes"}'>
         {foreach from=$values item=txt key=dn}
           <li>{include file="ls:$fieldTemplate"}</li>
         {foreachelse}

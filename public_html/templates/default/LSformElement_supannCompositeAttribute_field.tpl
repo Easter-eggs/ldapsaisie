@@ -6,31 +6,31 @@
 		<label>{tr msg=$cconf.label} : </label>
 		{if !empty($parseValue[$c].label) and $parseValue[$c].label!='no'}
 			{assign var=clabel value=$parseValue[$c].label}
-			<img src='{img name="supann_label_$clabel"}' alt='[{$clabel}]' title='{$clabel}'/>
+			<img src='{img name="supann_label_$clabel"}' alt='[{$clabel|escape:"htmlall"}]' title='{$clabel|escape:"htmlall"}'/>
 		{/if}
-		<span title="{$parseValue[$c].value}">{$parseValue[$c].translated}</span>
+		<span title='{$parseValue[$c].value|escape:"htmlall"}'>{$parseValue[$c].translated|escape:"htmlall"}</span>
     </p>
   {/foreach}
   {else}
-  {$noValueTxt}
+  {$noValueTxt|escape:"htmlall"}
   {/if}
 {else}
   {foreach $components as $c => $cconf}
-    <p data-component="{$c}">
+    <p data-component='{$c|escape:"quotes"}'>
 		<label>{tr msg=$cconf.label}{if $cconf.required}*{/if}  :</label>
 		{if $cconf.type=='table' or $cconf.type=='codeEntite'}
-			<input type='hidden' name='{$attr_name}__{$c}[]' value="{if $parseValue and $parseValue[$c]}{$parseValue[$c].value}{/if}"/>
+			<input type='hidden' name='{$attr_name|escape:"quotes"}__{$c|escape:"quotes"}[]' value='{if $parseValue and $parseValue[$c]}{$parseValue[$c].value|escape:"quotes"}{/if}'/>
 			{if $parseValue and !empty($parseValue[$c].label) and $parseValue[$c].label!='no'}
 				{assign var=clabel value=$parseValue[$c].label}
-				<img src='{img name="supann_label_$clabel"}' alt='[{$clabel}]' title='{$clabel}'/>
+				<img src='{img name="supann_label_$clabel"}' alt='[{$clabel|escape:"htmlall"}]' title='{$clabel|escape:"htmlall"}'/>
 			{/if}
 			{if $parseValue}
-				<span title="{$parseValue[$c].value}">{$parseValue[$c].translated}</span>
+				<span title='{$parseValue[$c].value|escape:"htmlall"}'>{$parseValue[$c].translated|escape:"htmlall"}</span>
 			{else}
-				<span>{$noValueTxt}</span>
+				<span>{$noValueTxt|escape:"htmlall"}</span>
 			{/if}
 		{else}
-			<input type='text' name='{$attr_name}__{$c}[]' value="{if $parseValue and $parseValue[$c]}{$parseValue[$c].value}{/if}"/>
+			<input type='text' name='{$attr_name|escape:"quotes"}__{$c|escape:"quotes"}[]' value='{if $parseValue and $parseValue[$c]}{$parseValue[$c].value|escape:"htmlall"}{/if}'/>
 		{/if}
     </p>
   {/foreach}

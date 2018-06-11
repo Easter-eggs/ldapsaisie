@@ -1,27 +1,27 @@
 {if $freeze}
   {if $value}
     {if $values_and_units[$value].unknown}
-      <span class='LSformElement_valueWithUnit_unknown'>{$values_and_units[$value].unknown}</span>
+      <span class='LSformElement_valueWithUnit_unknown'>{$values_and_units[$value].unknown|escape:"htmlall"}</span>
     {else}
       {if $values_and_units[$value].valueWithUnit}
-        {$values_and_units[$value].valueWithUnit}{$values_and_units[$value].unitLabel}
+        {$values_and_units[$value].valueWithUnit|escape:"htmlall"}{$values_and_units[$value].unitLabel|escape:"htmlall"}
       {else}
-        {$values_and_units[$value].value}
+        {$values_and_units[$value].value|escape:"htmlall"}
       {/if}
     {/if}
   {else}
-    {$noValueTxt}
+    {$noValueTxt|escape:"htmlall"}
   {/if}
 {else}
   {if $values_and_units[$value].valueWithUnit || !$values_and_units[$value]}
-    <input name='{$attr_name}_valueWithUnit[]' type=text class='LSformElement_valueWithUnit' value="{$values_and_units[$value].valueWithUnit}"/>
-    <select name='{$attr_name}_unitFact[]' class='LSform LSformElement_valueWithUnit'>
+    <input name='{$attr_name|escape:"quotes"}_valueWithUnit[]' type=text class='LSformElement_valueWithUnit' value='{$values_and_units[$value].valueWithUnit|escape:"quotes"}'/>
+    <select name='{$attr_name|escape:"quotes"}_unitFact[]' class='LSform LSformElement_valueWithUnit'>
       {html_options options=$units selected=$values_and_units[$value].unitSill}
     </select>
   {else}
-    <input name='{$attr_name}_value[]' type=text class='LSformElement_valueWithUnit' value="{$values_and_units[$value].value}" autocomplete="off"/>
+    <input name='{$attr_name|escape:"quotes"}_value[]' type=text class='LSformElement_valueWithUnit' value='{$values_and_units[$value].value|escape:"quotes"}' autocomplete="off"/>
   {/if}
   {if $values_and_units[$value].unknown}
-    <span class='LSformElement_valueWithUnit_unknown'>{$values_and_units[$value].unknown}</span>
+    <span class='LSformElement_valueWithUnit_unknown'>{$values_and_units[$value].unknown|escape:"htmlall"}</span>
   {/if}
 {/if}

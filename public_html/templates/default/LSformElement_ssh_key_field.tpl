@@ -1,11 +1,11 @@
 {if $freeze}
   {if $value.type}
-    <span class='LSformElement_ssh_key_short_display' title='{$span_title}'>{$value.shortTxt}...</span> (Type : {$value.type}) <a href='mailto:{$value.mail}'>{$value.mail}</a><p class='LSformElement_ssh_key_value'>{$value.value}</p>
+    <span class='LSformElement_ssh_key_short_display' title='{$span_title|escape:"htmlall"}'>{$value.shortTxt|escape:"htmlall"}...</span> (Type : {$value.type|escape:"htmlall"}) <a href='mailto:{$value.mail|escape:"quotes"}'>{$value.mail|escape:"htmlall"}</a><p class='LSformElement_ssh_key_value'>{$value.value|escape:"htmlall"}</p>
   {elseif $value.shortTxt}
-    <span class='LSformElement_ssh_key_short_display'>{$value.shortTxt}...</span> ({$unknowTypeTxt})<p class='LSformElement_ssh_key_value'>{$value.value}</p>
+    <span class='LSformElement_ssh_key_short_display'>{$value.shortTxt|escape:"htmlall"}...</span> ({$unknowTypeTxt|escape:"htmlall"})<p class='LSformElement_ssh_key_value'>{$value.value|escape:"htmlall"}</p>
   {else}
-    {$noValueTxt}
+    {$noValueTxt|escape:"htmlall"}
   {/if}
 {else}
-  <textarea name='{$attr_name}[]' class='LSform LSformElement_ssh_key'>{$value}</textarea>
+  <textarea name='{$attr_name|escape:"quotes"}[]' class='LSform LSformElement_ssh_key'>{$value|escape:"htmlall"}</textarea>
 {/if}

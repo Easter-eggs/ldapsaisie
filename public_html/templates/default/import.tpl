@@ -1,8 +1,8 @@
 {include file='ls:top.tpl'}
-    {if $pagetitle != ''}<h1 id='LSview_title'>{$pagetitle}</h1>{/if}
+    {if $pagetitle != ''}<h1 id='LSview_title'>{$pagetitle|escape:"htmlall"}</h1>{/if}
 
 <div class='LSform'>
-<form action='import.php?LSobject={$LSobject}' method='post' enctype="multipart/form-data">
+<form action='import.php?LSobject={$LSobject|escape:"url"}' method='post' enctype="multipart/form-data">
 <input type='hidden' name='validate' value='LSimport'/>
 <dl class='LSform'>
   <dt class='LSform'><label for='importfile'>{tr msg='File'}</label></dt>
@@ -38,12 +38,12 @@
 <ul class='LSimport_data_errors'>
 {foreach $error.data as $key => $val}
   <li>
-    <strong>{$key} :</strong>
+    <strong>{$key|escape:"htmlall"} :</strong>
     {if empty($val)}{tr msg='No value'}{else}{LSimport_implodeValues values=$val}{/if}
     {if isset($error.errors.attrs[$key])}
     <ul class='LSimport_attr_errors'>
       {foreach $error.errors.attrs.$key as $e}
-      <li>{$e}</li>
+      <li>{$e|escape:"htmlall"}</li>
       {/foreach}
     </ul>
     {/if}
@@ -52,10 +52,10 @@
 {foreach $error.errors.attrs as $a => $es}
   {if !in_array($a,$error.data)}
   <li>
-    <strong>{$a} :</strong>
+    <strong>{$a|escape:"htmlall"} :</strong>
     <ul class='LSimport_attr_errors'>
       {foreach $es as $e}
-        <li>{$e}</li>
+        <li>{$e|escape:"htmlall"}</li>
       {/foreach}
     </ul>
   </li>
@@ -69,7 +69,7 @@
 <h2 class='LSimport_imported_objects'>{tr msg='Imported objects'} ({count($result.imported)})</h2>
 <ul class='LSimport_imported_objects'>
 {foreach $result.imported as $dn => $name}
-  <li><a href='view.php?LSobject={$LSobject}&dn={$dn}'>{$name}</a></li>
+  <li><a href='view.php?LSobject={$LSobject|escape:"url"}&dn={$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
 {foreachelse}
   <li>{tr msg='No imported object'}</li>
 {/foreach}
@@ -79,7 +79,7 @@
 <h2 class='LSimport_updated_objects'>{tr msg='Updated objects'} ({count($result.updated)})</h2>
 <ul class='LSimport_updated_objects'>
 {foreach $result.updated as $dn => $name}
-  <li><a href='view.php?LSobject={$LSobject}&dn={$dn}'>{$name}</a></li>
+  <li><a href='view.php?LSobject={$LSobject|escape:"url"}&dn={$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
 {/foreach}
 </ul>
 {/if}
