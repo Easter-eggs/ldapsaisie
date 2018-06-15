@@ -22,8 +22,9 @@
   &conf-LSattr_html_tel;
   &conf-LSattr_html_text;
   &conf-LSattr_html_textarea;
-  &conf-LSattr_html_valueWithUnit;
   &conf-LSattr_html_url;
+  &conf-LSattr_html_valueWithUnit;
+  &conf-LSattr_html_wywiwyg;
   &conf-LSattr_html_xmpp;
   
 </sect3>

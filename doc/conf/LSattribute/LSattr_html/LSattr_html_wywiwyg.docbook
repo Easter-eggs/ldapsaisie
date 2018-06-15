@@ -1,0 +1,33 @@
+<sect4 id="config-LSattr_html_wysiwyg">
+  <title>LSattr_html_wysiwyg</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est du
+  code HTML et dont l'édition doit être fait à l'aide d'un éditeur <literal>WYSIWYG
+  </literal>. La librairie &TinyMCE; est utilisée pour cela.</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array(
+  'extra_options' => array (
+    [Options à passer à TinyMCE]
+  ),
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>extra_options</term>
+  <listitem>
+    <simpara>Ce paramètre permet de passer des options à &TinyMCE; pour
+    personnaliser son comportement. Par exemple, il est possible d'utiliser
+    le paramètre <literal>valid_styles</literal> pour définir quels styles
+    CSS sont autorisés. Pour plus d'informations, consultez la documentation
+    de &TinyMCE;.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>
