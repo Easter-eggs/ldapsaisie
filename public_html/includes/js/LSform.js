@@ -4,6 +4,10 @@ var LSform = new Class({
       this._fields=[];
       this._elements=[];
       this._tabBtns=[];
+      this.listeners = {
+        init:    new Array(),
+        submit:  new Array()
+      };
 
       if ($type($('LSform_idform'))) {
         this.objecttype = $('LSform_objecttype').value;
@@ -58,6 +62,8 @@ var LSform = new Class({
         this.LSform = LSforms[0];
         this.LSform.addEvent('submit',this.ajaxSubmit.bindWithEvent(this));
       }
+
+      this.fireEvent.bind(this)('init');
     },
 
     initializeLSformLayout: function(el) {
@@ -266,6 +272,8 @@ var LSform = new Class({
         event = new Event(event);
         event.stop();
 
+        this.fireEvent.bind(this)('submit');
+
         this.LSformAjaxInput = new Element('input');
         this.LSformAjaxInput.setProperties ({
           type:   'hidden',
@@ -363,7 +371,30 @@ var LSform = new Class({
         url+="&LSform_dataEntryForm="+this.listAvailableDataEntryForm.value;
       }
       document.location=url;
+    },
+
+    addEvent: function(event,fnct) {
+      if ($type(this.listeners[event])) {
+        if ($type(fnct)=="function") {
+          this.listeners[event].include(fnct);
+        }
+      }
+    },
+
+    fireEvent: function(event) {
+      LSdebug('LSform :: fireEvent('+event+')');
+      if ($type(this.listeners[event])) {
+        this.listeners[event].each(function(fnct) {
+          try {
+            fnct(this);
+          }
+          catch(e) {
+            LSdebug('LSform :: '+event+'() -> rater');
+          }
+        },this);
+      }
     }
+
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
   varLSform = new LSform();
