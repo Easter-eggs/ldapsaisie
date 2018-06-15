@@ -103,6 +103,13 @@ var LSdefault = new Class({
         this.LSlang_open = 0;
       }
     },
+
+    getCurrentLang: function() {
+      if ($type(this.LSlang)) {
+        return this.LSlang.get('alt');
+      }
+      return false;
+    },
     
     onSelectLSlangImgClick: function(img) {
       window.location='index.php?lang='+img.alt;
