@@ -177,10 +177,7 @@ class LSform {
     }
 
     LSsession :: addJSconfigParam('LSform_'.$this -> idForm,$JSconfig);
-
-    if($this -> can_validate) {
-      LStemplate :: assign('LSform_submittxt',$this -> submit);
-    }
+    LStemplate :: assign('LSform_submittxt',$this -> submit);
   }
   
  /*
