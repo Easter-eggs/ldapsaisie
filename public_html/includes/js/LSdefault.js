@@ -110,7 +110,7 @@ var LSdefault = new Class({
 
     onWantMoo: function(event) {
       event=new Event(event);
-      if ((event.shift) && (event.key=='m')) {
+      if ((event.alt) && (event.control) && (event.key=='m')) {
         this.moo.run(null,this);
       }
     },
