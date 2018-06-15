@@ -14,8 +14,8 @@
     {$noValueTxt|escape:"htmlall"}
   {/if}
 {else}
-  <select name='{$attr_name|escape:"quotes"}_labels[]' class='LSformElement_labeledValue'>
+  <select name='{$attr_name|escape:"htmlall"}_labels[]' class='LSformElement_labeledValue'>
     {html_options options=$labels selected=$parseValue.label}
   </select>
-  <input type="text" name='{$attr_name|escape:"quotes"}_values[]' class='LSformElement_labeledValue' value='{if $parseValue.value}{$parseValue.value|escape:'quotes'}{else}{$parseValue.raw_value|escape:'quotes'}{/if}'/>
+  <input type="text" name='{$attr_name|escape:"htmlall"}_values[]' class='LSformElement_labeledValue' value='{if $parseValue.value}{$parseValue.value|escape:'htmlall'}{else}{$parseValue.raw_value|escape:'htmlall'}{/if}'/>
 {/if}

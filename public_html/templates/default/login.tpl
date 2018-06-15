@@ -36,7 +36,7 @@
   {/foreach}
   </select>
   </dd>
-  <dd><input type='submit' value='{$loginform_label_submit|escape:"quotes"}' /></dd>
+  <dd><input type='submit' value='{$loginform_label_submit|escape:"htmlall"}' /></dd>
 </dl>
 </form>
 <span>{$lang_label} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>

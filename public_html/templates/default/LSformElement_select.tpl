@@ -1,4 +1,4 @@
-<ul class='LSform' id='{$attr_name|escape:"quotes"}'>
+<ul class='LSform' id='{$attr_name|escape:"htmlall"}'>
 {if $freeze}
   {foreach from=$values item=value}
     {LSformElement_select_checkIsValidValue value=$value possible_values=$possible_values}
@@ -12,16 +12,16 @@
   {/foreach}
 {else}
   <li>
-    <select name='{$attr_name|escape:"quotes"}[]' {if $multiple}multiple{/if} class='LSformElement_select'>
+    <select name='{$attr_name|escape:"htmlall"}[]' {if $multiple}multiple{/if} class='LSformElement_select'>
       {foreach from=$possible_values key=key item=label}
         {if is_array($label)}
           {if count($label.possible_values)>0}
-          <optgroup label='{$label.label|escape:"quotes"}'>
+          <optgroup label='{$label.label|escape:"htmlall"}'>
             {html_options options=$label.possible_values selected=$values}
           </optgroup>
           {/if}
         {else}
-          <option value='{$key|escape:"quotes"}' {if in_array($key,$values)}selected{/if}>{$label|escape:"htmlall"}</option>
+          <option value='{$key|escape:"htmlall"}' {if in_array($key,$values)}selected{/if}>{$label|escape:"htmlall"}</option>
         {/if}
       {/foreach}
     </select>

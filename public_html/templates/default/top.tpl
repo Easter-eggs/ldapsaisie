@@ -44,7 +44,7 @@
     <form action='' methode='post' style='display: none' class='LSlang_hidden'>
       <select name='lang'>
       {foreach from=$LSlanguages item=lang}
-        <option value='{$lang|escape:"quotes"}'>{$lang|escape:"htmlall"}</option>
+        <option value='{$lang|escape:"htmlall"}'>{$lang|escape:"htmlall"}</option>
       {/foreach}
       </select>
       <input type='submit' value='->'/>

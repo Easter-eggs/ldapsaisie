@@ -1,23 +1,23 @@
-<input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='{$LSform_object.type|escape:"quotes"}'/>
-<input type='hidden' name='LSform_objectdn' id='LSform_objectdn'  value='{$LSform_object.dn|escape:"quotes"}'/>
+<input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='{$LSform_object.type|escape:"htmlall"}'/>
+<input type='hidden' name='LSform_objectdn' id='LSform_objectdn'  value='{$LSform_object.dn|escape:"htmlall"}'/>
 {if $LSform_layout}
   <!-- Tabs - Start Title -->
   <ul class='LSform_layout'>
   {foreach from=$LSform_layout item=tab key=tab_key}
-    <li class='LSform_layout' id='LSform_layout_btn_{$tab_key|escape:"quotes"}'><a href='#{$tab_key|escape:"quotes"}'>{tr msg=$tab.label}</a></li>
+    <li class='LSform_layout' id='LSform_layout_btn_{$tab_key|escape:"htmlall"}'><a href='#{$tab_key|escape:"htmlall"}'>{tr msg=$tab.label}</a></li>
   {/foreach}
   </ul>
   <!-- Tabs - End Title -->
 
   <!-- Tabs - Start Content -->
   {foreach from=$LSform_layout item=tab key=tab_key}
-    <a name='{$tab_key|escape:"quotes"}'></a>
+    <a name='{$tab_key|escape:"htmlall"}'></a>
     <h2 class='LSform_layout'>{$tab.label|escape:"htmlall"}</h2>
-    <div class='LSform LSform_layout' id='LSform_layout_div_{$tab_key|escape:"quotes"}'>
+    <div class='LSform LSform_layout' id='LSform_layout_div_{$tab_key|escape:"htmlall"}'>
     
       {if $LSformElement_image!='' && $tab.img==1}
         <div class='LSformElement_image'>
-          <a href='{$LSformElement_image.img|escape:"quotes"}' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img|escape:"quotes"}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id|escape:"quotes"}' /></a>
+          <a href='{$LSformElement_image.img|escape:"htmlall"}' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img|escape:"htmlall"}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id|escape:"htmlall"}' /></a>
         </div>
       {/if}
       
@@ -42,7 +42,7 @@
 
   {if $LSformElement_image!=''}
   <div class='LSformElement_image'>
-    <a href='{$LSformElement_image.img|escape:"quotes"}' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img|escape:"quotes"}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id|escape:"quotes"}' /></a>
+    <a href='{$LSformElement_image.img|escape:"htmlall"}' rel='rien ici' title='comment' class='mb'><img src='{$LSformElement_image.img|escape:"htmlall"}' class='LSformElement_image LSsmoothbox' id='LSformElement_image_{$LSformElement_image.id|escape:"htmlall"}' /></a>
   </div>
   {/if}
 

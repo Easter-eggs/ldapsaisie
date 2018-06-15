@@ -1,4 +1,4 @@
-<table class='LSobject-list' id='LSselect-object' caption='{$LSsearch->LSobject|escape:"quotes"}'>
+<table class='LSobject-list' id='LSselect-object' caption='{$LSsearch->LSobject|escape:"htmlall"}'>
   <tr class='LSobject-list'>
     <th class='LSobject-list LSobject-select-check'></th>
     <th class='LSobject-list{if $LSsearch->sort} sortBy_displayName{/if}'>
@@ -14,7 +14,7 @@
         {if $LSsearch->sort}
           {if $LSsearch->sortBy == 'subDn'}
             <strong>{$LSsearch->label_level|escape:"htmlall"}</strong>
-            <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection|escape:"quotes"}'/>
+            <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection|escape:"htmlall"}'/>
           {else}
             {$LSsearch->label_level|escape:"htmlall"}
           {/if}
@@ -26,7 +26,7 @@
   </tr>
 {foreach from=$page.list item=object}
     <tr class='{cycle values="LSobject-list,LSobject-list LSobject-list-bis"}'>
-        <td class='LSobject-list LSobject-select-check'><input type='{if $searchForm.multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object->dn|escape:"quotes"}' {if $object->LSselect}checked="true"{/if}{if $searchForm.selectablly}{if !$object->selectablly} disabled="disabled"{/if}{/if} class='LSobject-select' /></td>
+        <td class='LSobject-list LSobject-select-check'><input type='{if $searchForm.multiple}checkbox{else}radio{/if}' name='LSobjects_selected[]' value='{$object->dn|escape:"htmlall"}' {if $object->LSselect}checked="true"{/if}{if $searchForm.selectablly}{if !$object->selectablly} disabled="disabled"{/if}{/if} class='LSobject-select' /></td>
         <td class='LSobject-list LSobject-select-names'>{$object->displayName|escape:"htmlall"}</td>
         {if $LSsearch->displaySubDn}
           <td class='LSobject-list LSobject-select-level'>{$object->subDn|escape:"htmlall"}</td>

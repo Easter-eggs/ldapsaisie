@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <META http-equiv="refresh" content='0; URL={$url|escape:"quotes"}'>
+    <META http-equiv="refresh" content='0; URL={$url}'>
     <title>LdapSaisie - Redirection</title>
   </head>
 <body>

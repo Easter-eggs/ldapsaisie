@@ -14,12 +14,12 @@
   {/if}
 {else}
   {if $values_and_units[$value].valueWithUnit || !$values_and_units[$value]}
-    <input name='{$attr_name|escape:"quotes"}_valueWithUnit[]' type=text class='LSformElement_valueWithUnit' value='{$values_and_units[$value].valueWithUnit|escape:"quotes"}'/>
-    <select name='{$attr_name|escape:"quotes"}_unitFact[]' class='LSform LSformElement_valueWithUnit'>
+    <input name='{$attr_name|escape:"htmlall"}_valueWithUnit[]' type=text class='LSformElement_valueWithUnit' value='{$values_and_units[$value].valueWithUnit|escape:"htmlall"}'/>
+    <select name='{$attr_name|escape:"htmlall"}_unitFact[]' class='LSform LSformElement_valueWithUnit'>
       {html_options options=$units selected=$values_and_units[$value].unitSill}
     </select>
   {else}
-    <input name='{$attr_name|escape:"quotes"}_value[]' type=text class='LSformElement_valueWithUnit' value='{$values_and_units[$value].value|escape:"quotes"}' autocomplete="off"/>
+    <input name='{$attr_name|escape:"htmlall"}_value[]' type=text class='LSformElement_valueWithUnit' value='{$values_and_units[$value].value|escape:"htmlall"}' autocomplete="off"/>
   {/if}
   {if $values_and_units[$value].unknown}
     <span class='LSformElement_valueWithUnit_unknown'>{$values_and_units[$value].unknown|escape:"htmlall"}</span>

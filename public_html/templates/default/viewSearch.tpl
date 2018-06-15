@@ -1,13 +1,13 @@
 {include file='ls:top.tpl'}
-<form action='{$searchForm.action|escape:"quotes"}' method='post' class='LSview_search' id='LSsearch_form'>
+<form action='{$searchForm.action}' method='post' class='LSview_search' id='LSsearch_form'>
 
 <div class='LSview_search'>
   {foreach from=$searchForm.hiddenFields item=value key=name}
-    <input type='hidden' name='{$name|escape:"quotes"}' value='{$value|escape:"quotes"}' />
+    <input type='hidden' name='{$name|escape:"htmlall"}' value='{$value|escape:"htmlall"}' />
   {/foreach}
   
-  <input type='text' name='pattern' class='LSview_search' value='{$searchForm.values.pattern|escape:"quotes"}'/>
-  <input type='submit' value='{$searchForm.labels.submit|escape:"quotes"}' name='{$searchForm.names.submit|escape:"quotes"}' class='LSview_search' />
+  <input type='text' name='pattern' class='LSview_search' value='{$searchForm.values.pattern|escape:"htmlall"}'/>
+  <input type='submit' value='{$searchForm.labels.submit|escape:"htmlall"}' name='{$searchForm.names.submit|escape:"htmlall"}' class='LSview_search' />
   <p id='LSview_search_param'>
     <label class='LSview_search'>{$searchForm.labels.approx|escape:"htmlall"} : <input type='checkbox' name='approx' class='LSview_search' {if $searchForm.values.approx!=''}checked="true"{/if} /></label>
     {if $searchForm.recursive}<label class='LSview_search'>{$searchForm.labels.recursive|escape:"htmlall"} : <input type='checkbox' name='recursive' class='LSview_search' {if $searchForm.values.recursive!=''}checked="true"{/if}/></label>{/if}
@@ -22,7 +22,7 @@
 <ul class='LSview-actions'>
   {foreach from=$LSview_actions item=item}
     {if is_array($item)}
-      <li class='LSview-actions'><a href='{$item.url|escape:"quotes"}' class='LSview-actions'><img src='{img name=$item.action}' alt='{tr msg=$label}' title='{tr msg=$label}' /> {tr msg=$item.label}</a></li>
+      <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{img name=$item.action}' alt='{tr msg=$label}' title='{tr msg=$label}' /> {tr msg=$item.label}</a></li>
     {/if}
   {/foreach}
 </ul>
@@ -72,7 +72,7 @@
       {/if}
       {if $LSsearch->extraDisplayedColumns}
         {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
-        <th class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"quotes"}'{/if}>
+        <th class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>
         {if $LSsearch->sort}
           <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;sortBy={$cid|escape:"url"}&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == $cid}
@@ -96,12 +96,12 @@
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn|escape:"htmlall"}</td>{/if}
         {if $LSsearch->extraDisplayedColumns}
           {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
-          <td class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"quotes"}'{/if}>{$object->$cid|escape:"htmlall"}</td>
+          <td class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>{$object->$cid|escape:"htmlall"}</td>
           {/foreach}
         {/if}
         <td class='LSobject-list LSobject-list-actions'>
         {foreach from=$object->actions item=item}
-          <a href='{$item.url|escape:"quotes"}'  class='LSobject-list-actions'><img src='{img name=$item.action}' alt='{$item.label|escape:"quotes"}' title='{$item.label|escape:"quotes"}'/></a>
+          <a href='{$item.url}'  class='LSobject-list-actions'><img src='{img name=$item.action}' alt='{$item.label|escape:"htmlall"}' title='{$item.label|escape:"htmlall"}'/></a>
         {/foreach}
         </td>
     </tr>

@@ -15,7 +15,7 @@
 <div class='recoverpasswordform'>
 <img src='{img name='logo'}' alt='Logo' id='recoverpasswordform_logo' />
 <div id='loading_zone'></div>
-<form action='{$recoverpasswordform_action|escape:"quotes"}' method='post'>
+<form action='{$recoverpasswordform_action}' method='post'>
 <dl class='recoverpasswordform'>
   <dt {$recoverpasswordform_ldapserver_style}>{$recoverpasswordform_label_ldapserver|escape:"htmlall"}</dt>
   <dd {$recoverpasswordform_ldapserver_style}>
@@ -23,7 +23,7 @@
   </dd>
   <dt>{$recoverpasswordform_label_user|escape:"htmlall"}</dt>
   <dd><input type='text' name='LSsession_user' /></dd>
-  <dd><input type='submit' value='{$recoverpasswordform_label_submit|escape:"quotes"}' /></dd>
+  <dd><input type='submit' value='{$recoverpasswordform_label_submit|escape:"htmlall"}' /></dd>
 </dl>
 </form>
 
