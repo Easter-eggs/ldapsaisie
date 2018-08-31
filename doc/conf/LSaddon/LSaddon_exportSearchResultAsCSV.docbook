@@ -1,0 +1,50 @@
+<sect2 id="config-LSaddon_exportSearchResultAsCSV">
+  <title>LSaddon_exportSearchResultAsCSV</title>
+  <para>Cet &LSaddon; fournie une fonction du même nom pouvant être utilisée
+  comme &customSearchActions; et permettant de télécharger le résultat d'une
+  recherche au format CSV. L'export généré reprend exactement le contenu des
+  colonnes du tableau du résultat de la recherche. Le DN de l'objet LDAP
+  correspondant est également fournis dans une colonne.</para>
+
+  <para>Des paramètres de configuration sont disponibles dans le fichier de
+  configuration <literal>config.LSaddons.exportSearchResultAsCSV.php</literal>.
+  Ils permettent notamment de contrôller le format du fichier CSV généré.</para>
+
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure du fichier</citetitle>
+<![CDATA[// CSV file delimiter
+define('LS_EXPORTSEARCHRESULTASCSV_DELIMITER',',');
+  
+// CSV file enclosure
+define('LS_EXPORTSEARCHRESULTASCSV_ENCLOSURE','"');
+  
+// CSV file escape character (available since PHP 5.5.4)
+define('LS_EXPORTSEARCHRESULTASCSV_ESCAPE_CHAR','\\');]]>
+</programlisting>
+
+<para>Ci-dessous, vous trouverez un exemple de configuration de la fonction
+<literal>exportSearchResultAsCSV()</literal> comme &customSearchActions;</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Exemple d'utilisation</citetitle><![CDATA[$GLOBALS['LSobjects']['LSpeople']['LSsearch'] = array (
+        [...]
+        'customActions' => array (
+                'exportSearchResultAsCSV' => array (
+                        'label' => 'Export result as CSV',
+                        'icon' => 'export_csv',
+                        'function' => 'exportSearchResultAsCSV',
+                        'noConfirmation' => true,
+                        'disableOnSuccessMsg' => true,
+                        'rights' => array (
+                                'admin'
+                        )
+                ),
+        ),
+        [...]
+);]]>
+</programlisting>
+
+<note><simpara>Le label et l'icône fournis dans cet exemple sont traduits
+et délivrés avec &LdapSaisie;</simpara></note>
+
+</sect2>
