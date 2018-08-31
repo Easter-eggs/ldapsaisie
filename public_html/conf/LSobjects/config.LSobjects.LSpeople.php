@@ -187,7 +187,19 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'label' => 'Mail',
         'LSformat' => '%{mail}'
       ),
-    )
+    ),
+    'customActions' => array (
+      'exportSearchResultAsCSV' => array (
+        'label' => 'Export result as CSV',
+        'icon' => 'export_csv',
+        'function' => 'exportSearchResultAsCSV',
+        'noConfirmation' => true,
+        'disableOnSuccessMsg' => true,
+        'rights' => array (
+          'admin'
+        )
+      ),
+    ),
   ),
   
   // Attributes

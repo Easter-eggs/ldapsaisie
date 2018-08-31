@@ -2,6 +2,9 @@
 
 $GLOBALS['LSlang'] = array (
 
+"%{value} (unrecognized value)" =>
+  "%{value} (valeur non-reconnue)",
+
 "== All ==" =>
   "== Toutes ==",
 
@@ -41,6 +44,12 @@ $GLOBALS['LSlang'] = array (
 "Entity %{id} (unrecognized)" =>
   "Entité %{id} (non-reconnue)",
 
+"Errors" =>
+  "Erreurs",
+
+"Export result as CSV" =>
+  "Exporter le résultat au format CSV",
+
 "File" =>
   "Fichier",
 
@@ -71,11 +80,17 @@ $GLOBALS['LSlang'] = array (
 "Home Directory" =>
   "Dossier personnel",
 
+"Identifier" =>
+  "Identifiant",
+
 "Identifier must contain alphanumeric values, dots (.) and dashes (-) only." =>
   "L'identifiant doit contenir uniquement des valeurs alpha-numériques, avec eventuellement des points (.) et des tirets (-).",
 
 "Imported objects" =>
   "Objets importés",
+
+"Incorrect value" =>
+  "Valeur incorrecte",
 
 "LDAP Groups" =>
   "Groupes LDAP",
@@ -136,6 +151,9 @@ $GLOBALS['LSlang'] = array (
 
 "Only validate data" =>
   "Validation des données uniquement",
+
+"Password" =>
+  "Mot de passe",
 
 "Password recovery hash" =>
   "Hash de récupération de mot de passe",
@@ -223,6 +241,9 @@ Nouveau mot de passe : %{password}",
 
 "Your password must contain from 8 to 10 characters." =>
   "Votre mot de passe doit contenir entre 8 et 10 caractères.",
+
+"label" =>
+  "label",
 
 "no" =>
   "non",
