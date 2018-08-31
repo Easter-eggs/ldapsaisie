@@ -40,6 +40,10 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     )
   ),
 
+  'LSaddons' => array (
+    'exportSearchResultAsCSV',
+  ),
+
   'ioFormat' => array (
     'mycsv' => array (
       'label' => 'Simple CSV',
