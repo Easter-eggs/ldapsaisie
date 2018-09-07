@@ -40,62 +40,62 @@
 <varlistentry>
   <term>LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE</term>
   <listitem>
-    <simpara>Permet de désactiver le test d'authentification auprès de
+    <para>Permet de désactiver le test d'authentification auprès de
     l'annuaire LDAP. Pour cela, cette constante doit être définie et
-    valoir <literal>True</literal>.</simpara>
+    valoir <literal>True</literal>.</para>
   </listitem>
 </varlistentry>
 
 <varlistentry>
   <term>LSAUTHMETHOD_HTTP_METHOD</term>
   <listitem>
-    <simpara>Permet de définir la méthode utilisée par le serveur HTTP pour
-    passer à PHP l'identifiant de l'utilisateur connecté et son mot de passe.
-    Cette constance peut pendre les valeurs suivantes :
+    <para>Permet de définir la méthode utilisée par le serveur HTTP pour passer
+    à PHP l'identifiant de l'utilisateur connecté et son mot de passe.</para>
+    <para>Cette constance peut pendre les valeurs suivantes :
     <variablelist>
 
 <varlistentry>
   <term>PHP_PASS</term>
   <listitem>
-    <simpara>Dans cette méthode, le serveur HTTP défini les variables
+    <para>Dans cette méthode, le serveur HTTP défini les variables
     d'environnement <literal>PHP_AUTH_USER</literal> et <literal>
     PHP_AUTH_PW</literal>. Cette méthode est la méthode par défaut et
-    convient en cas d'utilisation de <literal>mod_php</literal>.</simpara>
+    convient en cas d'utilisation de <literal>mod_php</literal>.</para>
   </listitem>
 </varlistentry>
 
 <varlistentry>
   <term>REMOTE_USER</term>
   <listitem>
-    <simpara>Dans cette méthode, le serveur HTTP défini la variable
+    <para>Dans cette méthode, le serveur HTTP défini la variable
     d'environnement <literal>REMOTE_USER</literal>. Cette variable ne contient
     que l'identifiant de l'utilisateur connecté. Cette méthode ne peut donc
     être utilisée que conjointement avec l'activation du paramètre
     <literal>LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE</literal>.
-    </simpara>
+    </para>
   </listitem>
 </varlistentry>
 
 <varlistentry>
   <term>AUTHORIZATION</term>
   <listitem>
-    <simpara>Dans cette méthode, le serveur HTTP passe le contenu de l'entête
+    <para>Dans cette méthode, le serveur HTTP passe le contenu de l'entête
     HTTP <literal>Authorization</literal> dans la variable d'environnement
     <literal>HTTP_AUTHORIZATION</literal>. Cette méthode convient en cas d'
-    utilisation de PHP en mode CGI ou encore via PHP-FPM. Pour utiliser cette
-    méthode, il faudra adapter la configuration du serveur HTTP. Par exemple,
-    pour Apache HTTPd, vous pouvez utiliser le module <literal>rewrite</literal>
-    et la règle de réécriture suivante :
+    utilisation de PHP en mode CGI ou encore via PHP-FPM.</para>
+    <para>Pour utiliser cette méthode, il faudra adapter la configuration du
+    serveur HTTP. Par exemple, pour Apache HTTPd, vous pouvez utiliser le
+    module <literal>rewrite</literal> et la règle de réécriture suivante :
     <programlisting linenumbering="unnumbered">
 <![CDATA[RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]]]>
     </programlisting>
-    </simpara>
+    </para>
   </listitem>
 </varlistentry>
 
     </variablelist>
+    </para>
 
-    </simpara>
   </listitem>
 </varlistentry>
 
