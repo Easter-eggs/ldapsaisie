@@ -43,12 +43,46 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
-    if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER'])) {
-      $this -> authData = array(
-        'username' => $_SERVER['PHP_AUTH_USER'],
-        'password' => $_SERVER['PHP_AUTH_PW']
-      );
-      return $this -> authData;
+    if (!defined('LSAUTHMETHOD_HTTP_METHOD'))
+      define('LSAUTHMETHOD_HTTP_METHOD', 'PHP_AUTH');
+
+    switch(constant('LSAUTHMETHOD_HTTP_METHOD')) {
+      case 'AUTHORIZATION':
+        if (isset($_SERVER['HTTP_AUTHORIZATION']) && !empty($_SERVER['HTTP_AUTHORIZATION'])) {
+          $authData = explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
+          if (is_array($authData) && count($authData) == 2) {
+            $this -> authData = array(
+              'username' => $authData[0],
+              'password' => $authData[1],
+            );
+          }
+          return $this -> authData;
+        }
+        else
+          LSerror :: addErrorCode('LSauthMethod_HTTP_01', 'HTTP_AUTHORIZATION');
+        break;
+      case 'REMOTE_USER':
+        if (isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
+          $this -> authData = array(
+            'username' => $_SERVER['REMOTE_USER'],
+            'password' => false,
+          );
+          return $this -> authData;
+        }
+        else
+          LSerror :: addErrorCode('LSauthMethod_HTTP_01', 'REMOTE_USER');
+        break;
+      case 'PHP_AUTH':
+      default:
+        if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER'])) {
+          $this -> authData = array(
+            'username' => $_SERVER['PHP_AUTH_USER'],
+            'password' => $_SERVER['PHP_AUTH_PW'],
+          );
+          return $this -> authData;
+        }
+        else
+          LSerror :: addErrorCode('LSauthMethod_HTTP_01', 'PHP_AUTH_USER');
     }
     return;
   }
@@ -69,3 +103,10 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
   }
 
 }
+
+/*
+ * Error Codes
+ */
+LSerror :: defineError('LSauthMethod_HTTP_01',
+_("LSauthMethod_HTTP : the %{var} environnement variable is missing.")
+);

@@ -28,3 +28,21 @@
 
 // Don't check HTTP server's login/password by LDAP authentication challenge
 //define('LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE',true);
+
+/*
+ * Set the HTTP server's method to pass authentifcated user/password informations
+ * to PHP :
+ *  - PHP_PASS : server define the PHP_AUTH_USER and PHP_AUTH_PW environnement
+ *               variables. This is the default way using mod_php.
+ *  - REMOTE_USER : server define the REMOTE_USER environnement variable. By using
+ *               this method, only the user is pass by HTTP server to PHP and it
+ *               could be only used if you enable the "don't check HTTP server's
+ *               login/password by LDAP authentication challenge" option.
+ *  - AUTHORIZATION : server pass HTTP Authorization header value to PHP by setting
+ *               the HTTP_AUTHORIZATION environnement variable. This way could
+ *               be use when using PHP in CGI-mode or with PHP-FPM. When using
+ *               Apache, you could pass this information by using the rewrite module
+ *               and setting the following rewrite rule :
+ *               RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+ */
+//define('LSAUTHMETHOD_HTTP_METHOD', 'PHP_PASS');

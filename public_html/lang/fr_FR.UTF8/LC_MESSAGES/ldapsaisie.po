@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-31 17:08+0200\n"
-"PO-Revision-Date: 2018-08-31 17:10+0200\n"
+"POT-Creation-Date: 2018-09-07 18:40+0200\n"
+"PO-Revision-Date: 2018-09-07 18:41+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -1425,6 +1425,10 @@ msgstr "Afficher la fenêtre de recherche et de sélection étendue."
 #: includes/class/class.LSattr_html_select_list.php:63
 msgid "Invalid value"
 msgstr "Valeur invalide"
+
+#: includes/class/class.LSauthMethod_HTTP.php:111
+msgid "LSauthMethod_HTTP : the %{var} environnement variable is missing."
+msgstr "LSauthMethod_HTTP : la variable d'environnement %{var} est manquante."
 
 #: includes/class/class.LSformElement_mail.php:51
 msgid "Send a mail from here."
