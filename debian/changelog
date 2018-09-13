@@ -1,3 +1,31 @@
+ldapsaisie (1.8-4) unstable; urgency=medium
+
+  * LSldapObject : Change getPatternFilter() method to use common LSsearch lib
+  * Security fixes :
+    + Fix XSS problem using LSdebug/LSerror/LSinfos
+    + Fix search pattern validation
+    + Use escape smarty modifier to enforce security
+  * LSsearch : Use strnatcmp instead of strcoll in sorting method
+  * LSattr_html :: jsonCompositeAttribute : fix check required method
+  * LSform :
+    + fix empty submit button problem in some specific cases
+    + add possibility to trigger on init/submit events
+  * Fix moo keybinding
+  * LSdefault : add getCurrentLang() method
+  * Add LSattr_html :: wysiwyg
+  * Add LSaddon exportSearchResultAsCSV
+  * Fix default LSpeople configuration
+  * LSauthMethod::HTTP : support multiple methods to retreive user and
+    password from HTTP server
+  * Documentation :
+    + Improve doc on LSattr_html::pre
+    + Fix PDF doc export generation
+  * Improve LSsession :: loadLSobject() error debugging
+  * LSformElement::boolean : add true_label and false_label parameters
+  * Add parameter to specify default view
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Thu, 13 Sep 2018 16:27:24 +0200
+
 ldapsaisie (1.8-3) unstable; urgency=medium
 
   * Fix local file and custom theme handling
