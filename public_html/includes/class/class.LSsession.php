@@ -1786,7 +1786,7 @@ class LSsession {
     foreach (self :: $LSaddonsViews as $addon => $conf) {
       foreach ($conf as $viewId => $viewConf) {
         if (self :: canAccessLSaddonView($addon,$viewId)) {
-          $LSaddonsViewsAccess[]=array (
+          $LSaddonsViewsAccess["$addon::$viewId"]=array (
             'LSaddon' => $addon,
             'id' => $viewId,
             'label' => $viewConf['label'],
@@ -2357,6 +2357,25 @@ class LSsession {
    */
   public static function getEmailSender() {
     return self :: $ldapServer['emailSender'];  
+  }
+
+  /**
+   * Redirect to default view (if defined)
+   *
+   * @retval void
+   */
+  public static function redirectToDefaultView($force=false) {
+    if (isset(self :: $ldapServer['defaultView'])) {
+      if (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaccess[self :: $topDn])) {
+        self :: redirect('view.php?LSobject='.self :: $ldapServer['defaultView']);
+      }
+      elseif (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaddonsViewsAccess)) {
+        $addon = self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']];
+        self :: redirect('addon_view.php?LSaddon='.urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['LSaddon'])."&view=".urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['id']));
+      }
+    }
+    if ($force)
+     self :: redirect('index.php');
   }
   
   /**

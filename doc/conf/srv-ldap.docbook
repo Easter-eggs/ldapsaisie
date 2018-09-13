@@ -40,6 +40,7 @@ serveur LDAP.</para>
       'recoverPassword' => array(
         // Définition des paramètres de configuration de la récupération de mot de passe
       ),
+      'defaultView' => [view],
       'emailSender' => [email],
       'keepLSsessionActive' => [booléen]
     )
@@ -200,6 +201,28 @@ serveur LDAP.</para>
   </listitem>
 </varlistentry>
 
+
+<varlistentry>
+  <term>defaultView</term>
+  <listitem>
+    <simpara>Définition de la vue par défault de l'application. Par défaut, une page
+    blanche est affichée et il est possible de définir à l'aide de ce paramètre la
+    vue qui s'affichera. Ce paramètre peut prendre comme valeur :
+    <itemizedlist>
+      <listitem>
+        <simpara><literal>SELF</literal> pour la vue <emphasis>Mon compte</emphasis></simpara>
+      </listitem>
+      <listitem>
+        <simpara>Le nom d'un &LSobject; pour afficher la liste de ce type d'objet</simpara>
+      </listitem>
+      <listitem>
+        <simpara>Le nom d'une vue d'un &LSaddon; au format <literal>[addon]::[viewId]</literal>
+        pour afficher cette vue</simpara>
+      </listitem>
+    </itemizedlist>
+    </simpara>
+  </listitem>
+</varlistentry>
 
 <varlistentry>
   <term>emailSender</term>

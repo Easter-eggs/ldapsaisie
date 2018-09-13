@@ -24,13 +24,15 @@ require_once 'core.php';
 
 if(LSsession :: startLSsession()) {
 
-  // Définition du Titre de la page
+  // Redirect to default view (if defined)
+  LSsession :: redirectToDefaultView();
+
+  // Define page title
   LStemplate :: assign('pagetitle',_('Home'));
 
   // Template
   LSsession :: setTemplate('accueil.tpl');
 }
 
-// Affichage des retours d'erreurs
+// Display template
 LSsession :: displayTemplate();
-?>
