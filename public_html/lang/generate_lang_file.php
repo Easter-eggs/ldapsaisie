@@ -260,6 +260,14 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
           }
         }
 
+        // LSattr_html_boolean
+        if (isset($attr['html_options']['true_label'])) {
+          add($attr['html_options']['true_label']);
+        }
+        if (isset($attr['html_options']['false_label'])) {
+          add($attr['html_options']['false_label']);
+        }
+
 	// LSattr_html_jsonCompositeAttribute
         if (is_array($attr['html_options']['components'])) {
           foreach($attr['html_options']['components'] as $c => $cconfig) {
