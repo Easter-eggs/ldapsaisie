@@ -232,25 +232,30 @@ class LSsession {
     $error = 0;
     self :: loadLSclass('LSldapObject');
     if (!self :: loadLSclass($object,'LSobjects')) {
+      LSdebug("LSsession :: loadLSobject($object) : Fail to load LSldapObject class");
       $error = 1;
     }
     if (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
+      LSdebug("LSsession :: loadLSobject($object) : Fail to include 'config.LSobjects.$object.php' file");
       $error = 1;
     }
     else {
       if (!LSconfig :: set("LSobjects.$object",$GLOBALS['LSobjects'][$object])) {
+        LSdebug("LSsession :: loadLSobject($object) : Fail to LSconfig :: set('LSobjects.$object', \$GLOBALS['LSobjects'][$object])");
         $error = 1;
       }
       else if (isset($GLOBALS['LSobjects'][$object]['LSaddons'])){
         if (is_array($GLOBALS['LSobjects'][$object]['LSaddons'])) {
           foreach ($GLOBALS['LSobjects'][$object]['LSaddons'] as $addon) {
             if (!self :: loadLSaddon($addon)) {
+              LSdebug("LSsession :: loadLSobject($object) : Fail to load LSaddon '$addon'");
               $error = 1;
             }
           }
         }
         else {
           if (!self :: loadLSaddon($GLOBALS['LSobjects'][$object]['LSaddons'])) {
+            LSdebug("LSsession :: loadLSobject($object) : Fail to load LSaddon '".$GLOBALS['LSobjects'][$object]['LSaddons']."'");
             $error = 1;
           }
         } 
