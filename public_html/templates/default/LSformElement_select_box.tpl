@@ -19,7 +19,7 @@
           <ul class='LSformElement_selectbox_sub_values'>
             {foreach from=$label.possible_values item=l key=v name=LSformElement_selectbox_sub_values}
               <li>
-                <input type='{if $multiple}checkbox{else}radio{/if}' name='{$attr_name|escape:"htmlall"}[]' class='LSformElement_selectbox' id='LSformElement_selectbox_{$attr_name|escape:"htmlall"}_{$smarty.foreach.LSformElement_selectbox.index}_{$smarty.foreach.LSformElement_selectbox_sub_values.index}' value='{$v|escape:"htmlall"}' {if in_array($v,$values)}checked{/if}/> <label for='LSformElement_selectbox_{$attr_name|escape:"htmlall"}_{$smarty.foreach.LSformElement_selectbox.index}_{$smarty.foreach.LSformElement_selectbox_sub_values.index}'>{tr msg=$l}</label>
+                <input type='{if $multiple}checkbox{else}radio{/if}' name='{$attr_name|escape:"htmlall"}[]' class='LSformElement_selectbox' id='LSformElement_selectbox_{$attr_name|escape:"htmlall"}_{$smarty.foreach.LSformElement_selectbox.index}_{$smarty.foreach.LSformElement_selectbox_sub_values.index}' value='{$v|escape:"htmlall"}' {if in_array($v,$values)}checked{/if}/> <label for='LSformElement_selectbox_{$attr_name|escape:"htmlall"}_{$smarty.foreach.LSformElement_selectbox.index}_{$smarty.foreach.LSformElement_selectbox_sub_values.index}'>{if $translate_labels}{tr msg=$l}{else}{$l}{/if}</label>
               </li>
             {/foreach}
           </ul>

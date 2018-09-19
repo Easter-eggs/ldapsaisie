@@ -46,6 +46,7 @@
        )
      )
    ),
+   'translate_labels' => [booléen],
    'sort' => [Booléen],
    'sortDirection' => '[ASC|DESC]'
 ),]]>
@@ -175,6 +176,12 @@
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>translate_labels</term>
+  <listitem>
+    <simpara>Booléen permettant d'activer/désactiver la traduction des labels (Par defaut : <literal>Vrai</literal>).</simpara>
+  </listitem>
+</varlistentry>
 
 <varlistentry>
   <term>sort</term>

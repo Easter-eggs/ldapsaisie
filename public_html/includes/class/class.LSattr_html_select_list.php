@@ -103,19 +103,35 @@ class LSattr_html_select_list extends LSattr_html{
 			}
 			else {
 				$vk=$ldapObject->getFData($vk);
-				$vl=$ldapObject->getFData(__($vl));
+				if (isset($options['translate_labels']) && !$options['translate_labels']) {
+					$vl=$ldapObject->getFData($vl);
+				}
+				else {
+					$vl=$ldapObject->getFData(__($vl));
+				}
 				$subRetInfos[$vk]=$vl;
 			}
 		}
 		self :: _sort($subRetInfos,$options);
+		if (isset($options['translate_labels']) && !$options['translate_labels']) {
+			$subRetLabel = $ldapObject->getFData($val_label['label']);
+		}
+		else {
+			$subRetLabel = $ldapObject->getFData(__($val_label['label']));
+		}
 		$retInfos[] = array (
-			'label' => $ldapObject->getFData(__($val_label['label'])),
+			'label' => $subRetLabel,
 			'possible_values' => $subRetInfos
 		);
 	}
         else {
           $val_key=$ldapObject->getFData($val_key);
-          $val_label=$ldapObject->getFData(__($val_label));
+          if (isset($options['translate_labels']) && !$options['translate_labels']) {
+            $val_label=$ldapObject->getFData($val_label);
+          }
+          else {
+            $val_label=$ldapObject->getFData(__($val_label));
+          }
           $retInfos[$val_key]=$val_label;
         }
       }
@@ -300,8 +316,14 @@ class LSattr_html_select_list extends LSattr_html{
           $attr_values = array();
         elseif (!is_array($attr_values))
           $attr_values = array($attr_values);
-        foreach($attr_values as $attr_value)
-          $retInfos[$attr_value] = __($attr_value);
+        if (isset($options['translate_labels']) && !$options['translate_labels']) {
+          foreach($attr_values as $attr_value)
+            $retInfos[$attr_value] = $attr_value;
+        }
+        else {
+          foreach($attr_values as $attr_value)
+            $retInfos[$attr_value] = __($attr_value);
+        }
       }
       else
         LSerror :: addErrorCode('LSattr_html_select_list_02',$attr);
