@@ -40,19 +40,18 @@
 function getFData($format,$data,$meth=NULL) {
   $unique=false;
   /*
-   * Format : %{[key name][:A][:B][! ou _][~]}
+   * Format : %{[key name][:A][:B][! ou _][~][%}}
    *
    * Extracted fields
+   * - 0 : full string '%{...}'
    * - 1 : key name
    * - 2 : :A
    * - 3 : A
    * - 4 : :B
    * - 5 : B
-   * - 6 : "-"
-   * - 7 : ! or _
-   * - 8 : ~
+   * - 6 : "!" / "_" / "~" / "%"
    */
-  $expr="/%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]/";
+  $expr="/%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?([\!\_~%]*)[})]/";
   if(!is_array($format)) {
     $format=array($format);
     $unique=true;
@@ -130,42 +129,73 @@ function getFData($format,$data,$meth=NULL) {
 }
 
 function _getFData_extractAndModify($data,$ch) {
-  if($ch[3]) {
-    if ($ch[5]) {
-      if ($ch[6]) {
-	if ($ch[3]<0) {
-          $s=strlen((string)$data)-(-1*$ch[3])-$ch[5];
-          $l=$ch[5];
+  /*
+   * Format : %{[key name][:A][:B][-][! ou _][~][%}}
+   *
+   * Extracted fields
+   * - 0 : full string '%{...}'
+   * - 1 : key name
+   * - 2 : :A
+   * - 3 : A
+   * - 4 : :B
+   * - 5 : B
+   * - 6 : "!" / "_" / "~" / "%"
+   */
+  // If A
+  if($ch[3]!="") {
+    // If A and B
+    if ($ch[5]!="") {
+      // If A and B=0
+      if ($ch[5]==0) {
+        // If A<0 and B=0
+        if ($ch[3]<0) {
+          $s=strlen((string)$data)-(-1*$ch[3]);
+          $l=strlen((string)$data);
         }
+        // If A >= 0 and B
         else {
-          $s=$ch[3]-$ch[5];
-          $l=$ch[5];
-          if ($s<0) {
-            $l=$l-(-1*$s);
-	    $s=0;
-          }
+          $s=$ch[3];
+          $l=strlen((string)$data);
         }
       }
-      else {
+      // If A and B > 0
+      elseif ($ch[5]>0) {
+        // If A < 0 and B > 0 or A >= 0 and B > 0
         $s=$ch[3];
         $l=$ch[5];
       }
+      // If A and B < 0
+      else {
+        // If A < 0 and B < 0
+        if ($ch[3]<0) {
+          $s=$ch[5];
+          $l=false;
+        }
+        // If A >= 0 and B < 0
+        else {
+          $s=$ch[3]+$ch[5];
+          $l=abs($ch[5]);
+        }
+      }
     }
-    else if ($ch[5]==0) {
+    // If only A
+    else {
       if ($ch[3]<0) {
-        $s=strlen((string)$data)-(-1*$ch[3]);
-        $l=strlen((string)$data);
+        $s=$ch[3];
+        $l=false;
       }
       else {
-        $s=$ch[3];
-	$l=strlen((string)$data);
+        $s=0;
+        $l=$ch[3];
       }
     }
-    else {
-      $s=0;
-      $l=$ch[3];
+
+    if ($l==false) {
+      $val=mb_substr((string)$data,$s);
     }
-    $val=substr((string)$data,$s,$l);
+    else {
+      $val=mb_substr((string)$data,$s, abs($l));
+    }
   }
   else {
     try {
@@ -176,17 +206,24 @@ function _getFData_extractAndModify($data,$ch) {
     }
   }
 
-  # Without Accent
-  if ($ch[8]) {
-    $val = withoutAccents($val);
-  }
+  if ($ch[6]) {
+    # Without Accent
+    if (strpos($ch[6], '~')!==false) {
+      $val = withoutAccents($val);
+    }
  
-  # Upper / Lower case
-  if ($ch[7]=="!") {
-    $val=strtoupper($val);
-  }
-  elseif ($ch[7]=='_') {
-    $val=strtolower($val);
+    # Upper / Lower case
+    if (strpos($ch[6], '!')!==false) {
+      $val=mb_strtoupper($val);
+    }
+    elseif (strpos($ch[6], '_')!==false) {
+      $val=mb_strtolower($val);
+    }
+
+    # Escape HTML entities
+    if (strpos($ch[6], '%')!==false) {
+      $val = htmlentities($val);
+    }
   }
 
   return $val;
@@ -194,7 +231,7 @@ function _getFData_extractAndModify($data,$ch) {
 
 function getFieldInFormat($format) {
   $fields=array();
-  $expr='/%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?[})]/';
+  $expr='/%[{(]([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9]+))?(-)?(\!|\_)?(~)?(%)?[})]/';
   while (preg_match($expr,$format,$ch)) {
     $fields[]=$ch[1];
     $format=str_replace($ch[0],'',$format);

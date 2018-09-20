@@ -44,7 +44,7 @@ function LSdebug(arguments) {
  */
 function getFData(format,data,meth) {
   /*
-   * Format : %{[key name][:A][:B][! ou _][~]}
+   * Format : %{[key name][:A][:B][! ou _][~][%]}
    *
    * Extracted fields
    * - 1 : full string in %{}
@@ -53,11 +53,9 @@ function getFData(format,data,meth) {
    * - 4 : A
    * - 5 : :B
    * - 6 : B
-   * - 7 : "-"
-   * - 8 : ! or _
-   * - 9 : ~
+   * - 7 : "!" / "_" / "~" / "%"
    */
-  var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)(-)?(\!|\_)?(~)?\}');
+  var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)([\!\_\~\%]*)?\}');
   var find=1;  
   var val="";
   if(($type(data)=='object') || ($type(data)=='array')) {
@@ -95,7 +93,7 @@ function getFData(format,data,meth) {
           
           val=_getFData_extractAndModify(val,ch);
           
-          format=format.replace(new RegExp('%\{'+ch[1]+'[\:0-9\!\_\~\-]*\}'),val);
+          format=format.replace(new RegExp('%\{'+ch[1]+'[\:0-9\!\_\%\~]*\}'),val);
         }
         else {
           find=0;
@@ -108,7 +106,7 @@ function getFData(format,data,meth) {
       var ch = getMotif.exec(format);
       if ($type(ch)) {
         val=_getFData_extractAndModify(data,ch)
-        format=format.replace(new RegExp('%\{'+ch[1]+'[\:0-9\!\_\~\-]*\}'),val);
+        format=format.replace(new RegExp('%\{'+ch[1]+'[\:0-9\!\_\%\~]*\}'),val);
       }
       else {
         find=0;
@@ -119,64 +117,94 @@ function getFData(format,data,meth) {
 }
 
 function _getFData_extractAndModify(data,ch) {
-  console.log(ch);
-  var val=data;
+  /*
+   * Extracted fields
+   * - 1 : full string in %{}
+   * - 2 : key name
+   * - 3 : :A
+   * - 4 : A
+   * - 5 : :B
+   * - 6 : B
+   * - 7 : "!" / "_" / "~" / "%"
+   */
+  var val=(' ' + data).slice(1);
   // If A
   if($type(ch[4])) {
     ch[4]=parseInt(ch[4]);
-    var s=0;
-    var l=data.length;
+    // If A and B
     if ($type(ch[6])) {
       ch[6]=parseInt(ch[6]);
-      // With A and B
+      // If A and B=0
       if (ch[6]==0) {
-        // If B == 0
-        ch[6]=data.length;
+        // If A<0 and B=0
+        if (ch[4]<0) {
+          s=val.length-(-1*ch[4]);
+          l=val.length;
+        }
+        // If A >= 0 and B
+        else {
+          s=ch[4];
+          l=val.length;
+        }
       }
-      if (ch[4]>0) {
-        // A > 0
+      // If A and B > 0
+      else if (ch[6]>0) {
+        // If A < 0 and B > 0 or A >= 0 and B > 0
         s=ch[4];
         l=ch[6];
       }
+      // If A and B < 0
       else {
-        // A < 0
-        s=data.length+ch[4];
-        if (ch[6]<0) {
-          // B < 0
-          l=data.length-s+ch[6];
+        // If A < 0 and B < 0
+        if (ch[4]<0) {
+          s=ch[6];
+          l=false;
         }
+        // If A >= 0 and B < 0
         else {
-          // B > 0
-          l=ch[6];
+          s=ch[4]+ch[6];
+          l=Math.abs(ch[6]);
         }
       }
     }
+    // If only A
     else {
-      // Only A
-      if (ch[4]>0) {
-        // A > 0
+      if (ch[4]<0) {
+        s=ch[4];
+        l=false;
+      }
+      else {
         s=0;
         l=ch[4];
       }
-      else {
-        // A < 0
-        s=data.length+ch[4];
-        l=data.length;
-      }
     }
-    console.log("s = " + s + " / l = " + l);
-    val=data.substr(s,l);
+
+    if (l==false) {
+      val=val.substr(s);
+    }
+    else {
+      val=val.substr(s, Math.abs(l));
+    }
   }
-  // Upper or Lower case
-  if (ch[8]=='!') {
-    val=val.toUpperCase();
-  }
-  else if (ch[8]=='_') {
-    val=val.toLowerCase();
-  }
-  // Strip accents
-  if (ch[9]=='~') {
-    val=replaceAccents(val);
+
+  if (ch[7] != undefined) {
+    // Upper or Lower case
+    if (ch[7].indexOf('!')>=0) {
+      val=val.toUpperCase();
+    }
+    else if (ch[7].indexOf('_')>=0) {
+      val=val.toLowerCase();
+    }
+    // Strip accents
+    if (ch[7].indexOf('~')>=0) {
+      val=new String(replaceAccents(val));
+    }
+    // Escape HTML entities
+    if (ch[7].indexOf('%')>=0) {
+      val=val.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+        return '&#'+i.charCodeAt(0)+';';
+      });
+    }
   }
   return val;
 }
@@ -189,18 +217,17 @@ function _getFData_extractAndModify(data,ch) {
 * @retval string de-accentuated string
 */
 function replaceAccents(str) {
-  var new_str = String(str);
-  var accent = 
-    new Array("à","á","â","ã","ä","ç","è","é","ê","ë","ì","í","î","ï","ñ","ò","ó","ô","õ","ö","ù","ú","û","ü","ý","ÿ","À","Á","Â","Ã","Ä","Ç","È","É","Ê","Ë","Ì","Í","Î","Ï","Ñ","Ò","Ó","Ô","Õ","Ö","Ù","Ú","Û","Ü","Ý");
-  var sans_accent = 
-    new Array("a","a","a","a","a","c","e","e","e","e","i","i","i","i","n","o","o","o","o","o","u","u","u","u","y","y","A","A","A","A","A","C","E","E","E","E","I","I","I","I","N","O","O","O","O","O","U","U","U","U","Y");
-  if (str && str!= "") {
-    for (i=0; i<accent.length; i++) {
-      var reg_exp= RegExp(accent[i], "gi");
-      new_str = new_str.replace (reg_exp, sans_accent[i]);
+  let accent = "àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ";
+  let sans_accent ="aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY";
+
+  str = str.split('');
+  str.forEach((letter, index) => {
+    let i = accent.indexOf(letter);
+    if (i != -1) {
+      str[index] = sans_accent[i];
     }
-  }
-  return new_str;
+  })
+  return str.join('');
 }
 
 /**
