@@ -96,7 +96,7 @@
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn|escape:"htmlall"}</td>{/if}
         {if $LSsearch->extraDisplayedColumns}
           {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
-          <td class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>{$object->$cid|escape:"htmlall"}</td>
+          <td class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>{if !isset($conf.escape) || $conf.escape}{$object->$cid|escape:"htmlall"}{else}{$object->$cid}{/if}</td>
           {/foreach}
         {/if}
         <td class='LSobject-list LSobject-list-actions'>

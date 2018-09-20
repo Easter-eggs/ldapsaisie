@@ -49,7 +49,8 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     'col2' => array(
       'label' => 'label column 2',
       'generateFunction' => '[fonction de génération]',
-      'additionalAttrs' => array('[attr1]', '[attr2]', ...)
+      'additionalAttrs' => array('[attr1]', '[attr2]', ...),
+      'escape' => [booléen],
     ),
     'col3' => array(
       'label' => 'label column 3',
@@ -338,6 +339,18 @@ contexte dans lequel cette recherche est effectuée.</para>
           <simpara>Un tableau de nom d'attributs à inclure dans le resultat de la recherche LDAP.
           Ce tableau permet notamment d'inclure les attributs nécessaires au bon fonctionnement
           de la fonction <literal>generateFunction</literal>.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>escape</term>
+        <listitem>
+          <simpara>Ce paramètre booléen permet de définir si, lors de l'affichage, le contenu de
+          la colonne doit être transformé pour protéger les caractères éligibles en entités HTML.
+          Par défaut, ce paramètre est <literal>Vrai</literal>.</simpara>
+          <warning><simpara>Cette fonctionnalité existe pour des raisons de sécurité et notamment
+          en protection des failles <literal>XSS</literal>. Si vous désactivez cette fonctionnalité,
+          il est important de gérer la problématique de sécurité par ailleurs.</simpara></warning>
         </listitem>
       </varlistentry>
 
