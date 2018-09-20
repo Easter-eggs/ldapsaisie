@@ -376,24 +376,40 @@ function parse_addon_file($file) {
       $res='';
       for ($i=$pos+3;$i<strlen($line);$i++) {
         if (empty($quote)) {
-          if ($line[$i]=='\\') {
+          // Quote char not detected : try to detect it
+          if ($line[$i]=='\\' || $line[$i]==" " || $line[$i]=="\t") {
+            // Space or escape char : pass
             $i++;
           }
           elseif ($line[$i]=='"' || $line[$i]=="'") {
+            // Quote detected
             $quote=$line[$i];
+          }
+          elseif ($line[$i]=='$' || $line[$i]==')') {
+            // Variable translation not possible or end function call detected
+            $offset=$i;
+            break;
+          }
+          else {
+            // Unknown case : continue
+            $i++;
           }
         }
         elseif (!empty($quote)) {
+          // Quote char already detected : try to detect end quote char
           if ($line[$i]=='\\') {
+            // Escape char detected : pass this char and the following one
             $res.=$line[$i];
             $i++;
             $res.=$line[$i];
           }
           elseif ($line[$i]==$quote) {
+            // End quote char detected : set offset for next detection and break this one
             $offset=$i;
             break;
           }
           else {
+            // End quote char not detected : append current char to result
             $res.=$line[$i];
           }
         }
