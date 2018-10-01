@@ -21,7 +21,7 @@ var LSformElement_textarea = new Class({
     },
     
     onClearBtnClick: function(btn) {
-      btn.getPrevious().value='';
+      btn.getPrevious('textarea').value='';
     },
     
     reinitialize: function(el) {
