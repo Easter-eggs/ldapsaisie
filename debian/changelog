@@ -1,3 +1,17 @@
+ldapsaisie (1.8-5) unstable; urgency=medium
+
+  * LSattr_html :: select_list : add translate_labels option
+  * generate_lang_file.php : fix infinity loop case in parse_addon_file()
+    function
+  * LSsearch :: extraDisplayedColumns : add escape parameter
+  * Fix and improve LSformat PHP and JS implementations
+  * Debian packaging : Add php-mbstring as Recommends (need since Debian 9)
+  * LStemplate : Add triggers feature
+  * LSformElement_textarea : fix clear btn/Grammalecte compatibility
+  * Doc : Fix PDF export
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 01 Oct 2018 13:31:37 +0200
+
 ldapsaisie (1.8-4) unstable; urgency=medium
 
   * LSldapObject : Change getPatternFilter() method to use common LSsearch lib
