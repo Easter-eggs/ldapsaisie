@@ -632,4 +632,25 @@ function LSdebugDefined() {
     return date ('YmdHis').'Z';
   }
 
-?>
+
+ /**
+  * Format callable name
+  *
+  * @param[in] $callable The callable
+  *
+  * @retval string The formated callable name
+  **/
+  function getCallableName($callable) {
+    if (is_string($callable)) {
+      return $callable;
+    }
+    elseif(is_array($callable) && count($callable)==2) {
+      if (is_string($callable[0])) {
+        return $callable[0].'::'.$callable[1].'()';
+      }
+      elseif(is_object($callable[0])) {
+        return "object ".get_class($callable[0])."->".$callable[1].'()';
+      }
+    }
+    return "unknown : ".(string)$callable;
+  }

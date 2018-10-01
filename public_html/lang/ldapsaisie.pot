@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-07 18:40+0200\n"
+"POT-Creation-Date: 2018-10-01 12:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,8 +54,8 @@ msgstr ""
 msgid "Recursive search"
 msgstr ""
 
-#: select.php:70 includes/class/class.LSsession.php:1204
-#: includes/class/class.LSsession.php:2259
+#: select.php:70 includes/class/class.LSsession.php:1209
+#: includes/class/class.LSsession.php:2264
 msgid "Level"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgstr ""
 
 #: custom_search_action.php:73 includes/class/class.LSconfirmBox.php:37
 #: includes/class/class.LSsmoothbox.php:39
-#: includes/class/class.LSsession.php:1244 includes/class/class.LSform.php:68
+#: includes/class/class.LSsession.php:1249 includes/class/class.LSform.php:68
 #: custom_action.php:83 remove.php:51
 msgid "Validate"
 msgstr ""
@@ -446,28 +446,40 @@ msgstr ""
 msgid "Today."
 msgstr ""
 
-#: includes/class/class.LStemplate.php:88
+#: includes/class/class.LStemplate.php:94
 msgid "LStemplate : compile directory is not writable (dir : "
 msgstr ""
 
-#: includes/class/class.LStemplate.php:107
+#: includes/class/class.LStemplate.php:113
 msgid "LStemplate : Can't load Smarty 2 support file"
 msgstr ""
 
-#: includes/class/class.LStemplate.php:114
+#: includes/class/class.LStemplate.php:120
 msgid "LStemplate : Can't load Smarty 3 support file"
 msgstr ""
 
-#: includes/class/class.LStemplate.php:118
+#: includes/class/class.LStemplate.php:124
 msgid "LStemplate : Smarty version not recognized."
 msgstr ""
 
-#: includes/class/class.LStemplate.php:130
+#: includes/class/class.LStemplate.php:139
 msgid "LStemplate : Can't load Smarty."
 msgstr ""
 
-#: includes/class/class.LStemplate.php:350
+#: includes/class/class.LStemplate.php:413
 msgid "LStemplate : Template %{file} not found."
+msgstr ""
+
+#: includes/class/class.LStemplate.php:416
+msgid ""
+"LStemplate : Fail to execute trigger %{callable} on event %{event} : is not "
+"callable."
+msgstr ""
+
+#: includes/class/class.LStemplate.php:419
+msgid ""
+"LStemplate : Error during the execution of the trigger %{callable} on event "
+"%{event}."
 msgstr ""
 
 #: includes/class/class.LSattr_html_select_object.php:231
@@ -570,171 +582,171 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1184
+#: includes/class/class.LSsession.php:1189
 msgid "Connection"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1194
-#: includes/class/class.LSsession.php:1233
+#: includes/class/class.LSsession.php:1199
+#: includes/class/class.LSsession.php:1238
 msgid "LDAP server"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1205
-#: includes/class/class.LSsession.php:1243
+#: includes/class/class.LSsession.php:1210
+#: includes/class/class.LSsession.php:1248
 msgid "Identifier"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1206
+#: includes/class/class.LSsession.php:1211
 msgid "Password"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1207
+#: includes/class/class.LSsession.php:1212
 msgid "Connect"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1208
+#: includes/class/class.LSsession.php:1213
 msgid "Forgot your password ?"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1226
+#: includes/class/class.LSsession.php:1231
 msgid "Recovery of your credentials"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1245
+#: includes/class/class.LSsession.php:1250
 msgid "Back"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1247
+#: includes/class/class.LSsession.php:1252
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1251
+#: includes/class/class.LSsession.php:1256
 msgid ""
 "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr ""
 
-#: includes/class/class.LSsession.php:1259
+#: includes/class/class.LSsession.php:1264
 msgid "Your new password has been sent to %{mail}. "
 msgstr ""
 
-#: includes/class/class.LSsession.php:1404
+#: includes/class/class.LSsession.php:1409
 msgid "Refresh"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1420
+#: includes/class/class.LSsession.php:1425
 msgid "Language"
 msgstr ""
 
-#: includes/class/class.LSsession.php:1442
+#: includes/class/class.LSsession.php:1447
 msgid "Connected as"
 msgstr ""
 
-#: includes/class/class.LSsession.php:2387
+#: includes/class/class.LSsession.php:2411
 msgid "LSsession : The constant %{const} is not defined."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2390
+#: includes/class/class.LSsession.php:2414
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2393
+#: includes/class/class.LSsession.php:2417
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2396
+#: includes/class/class.LSsession.php:2420
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2399
+#: includes/class/class.LSsession.php:2423
 msgid "LSsession : Failed to load LSclass %{class}."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2402
+#: includes/class/class.LSsession.php:2426
 msgid "LSsession : Login or password incorrect."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2405
+#: includes/class/class.LSsession.php:2429
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2408
+#: includes/class/class.LSsession.php:2432
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2411
+#: includes/class/class.LSsession.php:2435
 msgid "LSsession : Can't connect to LDAP server."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2414
+#: includes/class/class.LSsession.php:2438
 msgid "LSsession : Impossible to authenticate you."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2417
+#: includes/class/class.LSsession.php:2441
 msgid "LSsession : Your are not authorized to do this action."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2420
+#: includes/class/class.LSsession.php:2444
 msgid "LSsession : Some informations are missing to display this page."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2423
+#: includes/class/class.LSsession.php:2447
 msgid ""
 "LSsession : The function of the custom action %{name} does not exists or is "
 "not configured."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2426
+#: includes/class/class.LSsession.php:2450
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2429
+#: includes/class/class.LSsession.php:2453
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2432
+#: includes/class/class.LSsession.php:2456
 msgid "LSsession : No import/export format define for this object type."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2435
+#: includes/class/class.LSsession.php:2459
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
 msgstr ""
 
-#: includes/class/class.LSsession.php:2438
+#: includes/class/class.LSsession.php:2462
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2441
+#: includes/class/class.LSsession.php:2465
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2444
+#: includes/class/class.LSsession.php:2468
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
 msgstr ""
 
-#: includes/class/class.LSsession.php:2447
+#: includes/class/class.LSsession.php:2471
 msgid ""
 "LSsession : call function %{func} do not provided from LSaddon %{addon}."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2450
+#: includes/class/class.LSsession.php:2474
 msgid "LSsession : problem during initialisation."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2453
+#: includes/class/class.LSsession.php:2477
 msgid "LSsession : view function %{func} for LSaddon %{addon} doet not exist."
 msgstr ""
 
-#: includes/class/class.LSsession.php:2456
+#: includes/class/class.LSsession.php:2480
 msgid "LSsession : invalid related object's DN pass in parameter."
 msgstr ""
 
@@ -1420,31 +1432,31 @@ msgstr ""
 msgid "Chat with this person."
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:370
+#: includes/class/class.LSattr_html_select_list.php:392
 msgid ""
 "LSattr_html_select_list : Configuration data are missing to generate the "
 "select list of the attribute %{attr}."
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:373
+#: includes/class/class.LSattr_html_select_list.php:395
 msgid ""
 "LSattr_html_select_list : Invalid attribute %{attr} reference as "
 "OTHER_ATTRIBUTE possible values."
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:376
+#: includes/class/class.LSattr_html_select_list.php:398
 msgid ""
 "LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE "
 "possible values is not a jsonCompositeAttribute."
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:379
+#: includes/class/class.LSattr_html_select_list.php:401
 msgid ""
 "LSattr_html_select_list : Fail to decode the following attribute %{attr} "
 "value as JSON : %{value}"
 msgstr ""
 
-#: includes/class/class.LSattr_html_select_list.php:382
+#: includes/class/class.LSattr_html_select_list.php:404
 msgid ""
 "LSattr_html_select_list : No component %{component} found in the following "
 "attribute %{attr} JSON value : %{value}"
@@ -1523,16 +1535,16 @@ msgstr ""
 msgid "LSioFormat : IOformat driver %{driver} invalid or unavailable."
 msgstr ""
 
-#: includes/functions.php:113
+#: includes/functions.php:112
 msgid ""
 "Function 'getFData' : The method %{meth} of the object %{obj} doesn't exist."
 msgstr ""
 
-#: includes/functions.php:175
+#: includes/functions.php:205
 msgid "[not string value]"
 msgstr ""
 
-#: includes/functions.php:214
+#: includes/functions.php:251
 msgid "Folder not found"
 msgstr ""
 
@@ -1546,7 +1558,7 @@ msgstr ""
 msgid "Missing parameter"
 msgstr ""
 
-#: index.php:28
+#: index.php:31
 msgid "Home"
 msgstr ""
 

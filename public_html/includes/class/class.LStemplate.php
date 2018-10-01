@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Manage template
  *
  * This class is use to manage template in LdapSaisie.
@@ -40,7 +40,7 @@ class LStemplate {
    *   'compile_dir' => '/path/to/compile/directory',
    *   'debug' => True,
    *   'debug_smarty' => True
-   * ) 
+   * )
    *
    **/
   private static $config = array (
@@ -55,7 +55,7 @@ class LStemplate {
 
   // Smarty object
   public static $_smarty = NULL;
-  
+
   // Smarty version
   private static $_smarty_version = NULL;
 
@@ -64,6 +64,9 @@ class LStemplate {
                                   'local',
                                   LS_THEME
                                 );
+
+  // Registered events
+  private static $_events = array();
 
  /**
   * Start LStemplate
@@ -76,6 +79,9 @@ class LStemplate {
   * @retval boolean True on success, False instead
   **/
   public static function start($config) {
+    // Trigger starting event
+    self :: fireEvent('starting');
+
     foreach ($config as $key => $value) {
       self :: $config[$key] = $value;
     }
@@ -123,6 +129,9 @@ class LStemplate {
       self :: registerFunction("img", "LStemplate_smarty_img");
       self :: registerFunction("css", "LStemplate_smarty_css");
       self :: registerFunction("uniqid", "LStemplate_smarty_uniqid");
+
+      // Trigger started event
+      self :: fireEvent('started');
 
       return True;
     }
@@ -291,7 +300,13 @@ class LStemplate {
   * @retval void
   **/
   public static function display($template) {
-    return self :: $_smarty -> display("ls:$template");
+    // Trigger displaying event
+    self :: fireEvent('displaying');
+
+    self :: $_smarty -> display("ls:$template");
+
+    // Trigger displayed event
+    self :: fireEvent('displayed');
   }
 
  /**
@@ -315,6 +330,54 @@ class LStemplate {
   */
   public static function registerFunction($name,$function_name) {
     LStemplate_register_function($name,$function_name);
+  }
+
+  /**
+   * Registered an action on a specific event
+   *
+   * @param[in] $event string The event name
+   * @param[in] $callable callable The callable to run on event
+   * @param[in] $param mixed Paremeters that will be pass to the callable
+   *
+   * @retval void
+   */
+  function addEvent($event,$callable,$param=NULL) {
+    self :: $_events[$event][] = array(
+      'callable' => $callable,
+      'param'    => $param,
+    );
+  }
+
+  /**
+   * Run triggered actions on specific event
+   *
+   * @param[in] $event string Event name
+   *
+   * @retval boolean True if all triggered actions succefully runned, false otherwise
+   */
+  function fireEvent($event) {
+    $return = true;
+
+    // Binding via addEvent
+    if (isset(self :: $_events[$event]) && is_array(self :: $_events[$event])) {
+      foreach (self :: $_events[$event] as $e) {
+        if (is_callable($e['callable'])) {
+          try {
+            call_user_func_array($e['callable'],array(&$e['param']));
+          }
+          catch(Exception $er) {
+            LSerror :: addErrorCode('LStemplate_03',array('callable' => getCallableName($e['callable']),'event' => $event));
+            $return = false;
+          }
+        }
+        else {
+          LSerror :: addErrorCode('LStemplate_02',array('callable' => getCallableName($e['callable']),'event' => $event));
+          $return = false;
+        }
+      }
+    }
+
+    return $return;
   }
 
 }
@@ -348,4 +411,10 @@ function LStemplate_smarty_uniqid($params, &$smarty) {
 // Errors
 LSerror :: defineError('LStemplate_01',
 _("LStemplate : Template %{file} not found.")
+);
+LSerror :: defineError('LStemplate_02',
+_("LStemplate : Fail to execute trigger %{callable} on event %{event} : is not callable.")
+);
+LSerror :: defineError('LStemplate_03',
+_("LStemplate : Error during the execution of the trigger %{callable} on event %{event}.")
 );
