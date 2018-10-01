@@ -942,23 +942,61 @@ class LSldapObject {
       return $this -> dn;
     }
     else {
-      $rdn_attr=$this -> config['rdn'];
-      $topDn = LSsession :: getTopDn();
-      if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) && (isset($this -> config['container_dn'])) && ($topDn) ) {
-        $rdn_val=$this -> attrs[$rdn_attr] -> getUpdateData();
-        if (!empty($rdn_val)) {
-          return $rdn_attr.'='.$rdn_val[0].','.$this -> config['container_dn'].','.$topDn;
+      $container_dn=$this -> getContainerDn();
+      if ($container_dn) {
+        $rdn_attr=$this -> config['rdn'];
+        if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) ) {
+          $rdn_val=$this -> attrs[$rdn_attr] -> getUpdateData();
+          if (!empty($rdn_val)) {
+            return $rdn_attr.'='.$rdn_val[0].','.$container_dn;
+          }
+          else {
+            LSerror :: addErrorCode('LSldapObject_12',$this -> config['rdn']);
+            return;
+          }
         }
         else {
-          LSerror :: addErrorCode('LSldapObject_12',$this -> config['rdn']);
+          LSerror :: addErrorCode('LSldapObject_11',$this -> getType());
           return;
         }
       }
+      return;
+    }
+  }
+
+  /**
+   * Retourne le container DN de l'objet
+   *
+   * Cette methode retourne le container DN de l'objet.
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval string Le container DN de l'objet
+   */
+  function getContainerDn() {
+    $topDn = LSsession :: getTopDn();
+    if (isset($this -> config['generate_container_dn'])) {
+      if (is_callable($this -> config['generate_container_dn'])) {
+        try {
+          $container_dn=$this -> config['generate_container_dn']($this);
+          return $container_dn.','.$topDn;
+        }
+        catch (Exception $e) {
+          LSerror :: addErrorCode('LSldapObject_34',$e);
+        }
+      }
       else {
-        LSerror :: addErrorCode('LSldapObject_11',$this -> getType());
-        return;
+        LSerror :: addErrorCode('LSldapObject_33',$this -> config['generate_container_dn']);
       }
     }
+    else if ((isset($this -> config['container_dn'])) && ($topDn)) {
+      return $this -> config['container_dn'].','.$topDn;
+    }
+    else {
+      LSerror :: addErrorCode('LSldapObject_11',$this -> getType());
+    }
+    LSerror :: addErrorCode('LSldapObject_32');
+    return;
   }
 
   /**
@@ -1900,9 +1938,17 @@ LSerror :: defineError('LSldapObject_31',
 _("LSldapObject : Error during execution of the custom action %{customAction} on %{objectname}.")
 );
 
+LSerror :: defineError('LSldapObject_32',
+_("LSldapObject : Fail to retrieve container DN.")
+);
+LSerror :: defineError('LSldapObject_33',
+_("LSldapObject : The function %{func} to generate container DN is not callable.")
+);
+LSerror :: defineError('LSldapObject_34',
+_("LSldapObject : Error during generating container DN : %{error}")
+);
+
 // LSrelation
 LSerror :: defineError('LSrelations_05',
 _("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
 );
-
-?>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-01 12:17+0200\n"
+"POT-Creation-Date: 2018-10-01 12:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -754,176 +754,189 @@ msgstr ""
 msgid "The attribute %{attr} is not valid."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1800
+#: includes/class/class.LSldapObject.php:1838
 msgid "LSldapObject : Object type unknown."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1803
+#: includes/class/class.LSldapObject.php:1841
 msgid "LSldapObject : Update form is not defined for the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1806
+#: includes/class/class.LSldapObject.php:1844
 msgid "LSldapObject : No form exists for the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1809
+#: includes/class/class.LSldapObject.php:1847
 msgid ""
 "LSldapObject : The function %{func} to validate the attribute %{attr} the "
 "object %{obj} is unknow."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1812
+#: includes/class/class.LSldapObject.php:1850
 msgid ""
 "LSldapObject : Configuration data are missing to validate the attribute "
 "%{attr} of the object %{obj}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1816
+#: includes/class/class.LSldapObject.php:1854
 msgid ""
 "LSldapObject : The function %{func} to be executed on the object event "
 "%{event} doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1819
+#: includes/class/class.LSldapObject.php:1857
 msgid ""
 "LSldapObject : The %{func} execution on the object event %{event} failed."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1823
+#: includes/class/class.LSldapObject.php:1861
 msgid ""
 "LSldapObject : Class %{class}, which method %{meth} to be executed on the "
 "object event %{event}, doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1826
+#: includes/class/class.LSldapObject.php:1864
 msgid ""
 "LSldapObject : Method %{meth} within %{class} class to be executed on object "
 "event %{event}, doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1829
+#: includes/class/class.LSldapObject.php:1867
 msgid ""
 "LSldapObject : Error during execute %{meth} method within %{class} class, to "
 "be executed on object event %{event}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1833
+#: includes/class/class.LSldapObject.php:1871
 msgid ""
 "LSldapObject : Some configuration data of the object type %{obj} are missing "
 "to generate the DN of the new object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1836
+#: includes/class/class.LSldapObject.php:1874
 msgid ""
 "LSldapObject : The attibute %{attr} of the object is not yet defined. Can't "
 "generate DN."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1839
+#: includes/class/class.LSldapObject.php:1877
 msgid "LSldapObject : Without DN, the object could not be changed."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1842
+#: includes/class/class.LSldapObject.php:1880
 msgid ""
 "LSldapObject : The attribute %{attr_depend} depending on the attribute "
 "%{attr} doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1845
+#: includes/class/class.LSldapObject.php:1883
 msgid "LSldapObject : Error during deleting the object %{objectname}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1849
+#: includes/class/class.LSldapObject.php:1887
 msgid ""
 "LSldapObject : Error during actions to be executed before renaming the objet."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1852
+#: includes/class/class.LSldapObject.php:1890
 msgid ""
 "LSldapObject : Error during actions to be executed after renaming the objet."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1856
+#: includes/class/class.LSldapObject.php:1894
 msgid ""
 "LSldapObject : Error during actions to be executed before deleting the objet."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1859
+#: includes/class/class.LSldapObject.php:1897
 msgid ""
 "LSldapObject : Error during actions to be executed after deleting the objet."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1863
+#: includes/class/class.LSldapObject.php:1901
 msgid ""
 "LSldapObject : Error during the actions to be executed before creating the "
 "object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1866
+#: includes/class/class.LSldapObject.php:1904
 msgid ""
 "LSldapObject : Error during the actions to be executed after creating the "
 "object. It was created anyway."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1870
+#: includes/class/class.LSldapObject.php:1908
 msgid ""
 "LSldapObject : The function %{func} to be executed before creating the "
 "object doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1873
+#: includes/class/class.LSldapObject.php:1911
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "deleting the object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1876
+#: includes/class/class.LSldapObject.php:1914
 msgid ""
 "LSldapObject : The function %{func} to be executed after deleting the object "
 "doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1879
+#: includes/class/class.LSldapObject.php:1917
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "creating the object."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1883
+#: includes/class/class.LSldapObject.php:1921
 msgid ""
 "LSldapObject : %{func} function, to be executed on object event %{event}, "
 "doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1886
+#: includes/class/class.LSldapObject.php:1924
 msgid ""
 "LSldapObject : Error during the execution of %{func} function on object "
 "event %{event}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1890
+#: includes/class/class.LSldapObject.php:1928
 msgid ""
 "LSldapObject : %{meth} method, to be executed on object event %{event}, "
 "doesn't exist."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1893
+#: includes/class/class.LSldapObject.php:1931
 msgid ""
 "LSldapObject : Error during execution of %{meth} method on object event "
 "%{event}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1896
+#: includes/class/class.LSldapObject.php:1934
 msgid "LSldapObject : Error during generate LDAP filter for %{LSobject}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1900
+#: includes/class/class.LSldapObject.php:1938
 msgid ""
 "LSldapObject : Error during execution of the custom action %{customAction} "
 "on %{objectname}."
 msgstr ""
 
-#: includes/class/class.LSldapObject.php:1905
+#: includes/class/class.LSldapObject.php:1942
+msgid "LSldapObject : Fail to retrieve container DN."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1945
+msgid ""
+"LSldapObject : The function %{func} to generate container DN is not callable."
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1948
+msgid "LSldapObject : Error during generating container DN : %{error}"
+msgstr ""
+
+#: includes/class/class.LSldapObject.php:1953
 msgid ""
 "LSrelation : Some parameters are missing in the call of methods to handle "
 "standard relations (Method : %{meth})."

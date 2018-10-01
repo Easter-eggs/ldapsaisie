@@ -31,6 +31,7 @@
   'LSaddons' => [LSaddon(s)],
   
   'container_dn' => 'ou=people',
+  'generate_container_dn' => '[callable]',
   'container_auto_create' => array(
     // Information des configurations pour la création du conteneur du type d'LSobjet
     // lors de la création nouveau subDn
@@ -129,6 +130,16 @@
     dans le <emphasis>basedn</emphasis> résultant de la concaténation du paramètre
     <parameter>container_dn</parameter>, d'une virgule et du 
     <emphasis>basedn</emphasis> correspondant au &subDn; courant.</remark>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>generate_container_dn</term>
+  <listitem>
+    <simpara><emphasis>Callable</emphasis> (au sens PHP), utilisé pour générer la
+    valeur du paramètre <literal>container_dn</literal> dynamiquement. Ce <emphasis>
+    callable</emphasis> prend en paramètre l'objet &LSobject; à créer et retourne
+    la valeur du paramètre <literal>container_dn</literal>.</simpara>
   </listitem>
 </varlistentry>
 
