@@ -155,14 +155,43 @@ class LSattr_ldap_password extends LSattr_ldap {
           LSerror :: addErrorCode('LSattr_ldap_password_01','sha');
         }
         break;
+      case 'sha256':
+      case 'sha512':
+        switch($this -> config['ldap_options']['encode']) {
+          case 'sha256':
+            $mhash_type = MHASH_SHA256;
+            break;
+          case 'sha512':
+            $mhash_type = MHASH_SHA512;
+            break;
+        }
+        if( function_exists( 'mhash' ) ) {
+          return '{'.strtoupper($this -> config['ldap_options']['encode']).'}' . base64_encode( mhash( $mhash_type, $clearPassword ) );
+        } else {
+          LSerror :: addErrorCode('LSattr_ldap_password_01', $this -> config['ldap_options']['encode']);
+        }
+        break;
       case 'ssha':
+      case 'ssha256':
+      case 'ssha512':
+        switch($this -> config['ldap_options']['encode']) {
+          case 'ssha':
+            $mhash_type = MHASH_SHA1;
+            break;
+          case 'ssha256':
+            $mhash_type = MHASH_SHA256;
+            break;
+          case 'ssha512':
+            $mhash_type = MHASH_SHA512;
+            break;
+        }
         if( function_exists( 'mhash' ) && function_exists( 'mhash_keygen_s2k' ) ) {
           mt_srand( (double) microtime() * 1000000 );
-          $salt = mhash_keygen_s2k( MHASH_SHA1, $clearPassword, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
-          return "{SSHA}".base64_encode( mhash( MHASH_SHA1, $clearPassword.$salt ).$salt );
+          $salt = mhash_keygen_s2k( $mhash_type, $clearPassword, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
+          return "{".strtoupper($this -> config['ldap_options']['encode'])."}".base64_encode( mhash( $mhash_type, $clearPassword.$salt ).$salt );
         }
         else {
-          LSerror :: addErrorCode('LSattr_ldap_password_01','ssha');
+          LSerror :: addErrorCode('LSattr_ldap_password_01', $this -> config['ldap_options']['encode']);
         }
         break;
       case 'smd5':
