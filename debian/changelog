@@ -1,3 +1,11 @@
+ldapsaisie (1.8-6) unstable; urgency=medium
+
+  * Fix bug on LSformElement :: text -> getDependsFields() when using modifiers
+    characters
+  * LSattr_ldap :: password : Add SHA256/SHA512 & SSHA256/SSHA512 support
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 04 Feb 2019 18:33:15 +0100
+
 ldapsaisie (1.8-5) unstable; urgency=medium
 
   * LSattr_html :: select_list : add translate_labels option
