@@ -81,7 +81,8 @@ var LSform = new Class({
           }
           else {
             if (!$type(Layout.getElement('dt'))) {
-              li.setStyle('display','none');
+              li.destroy();
+              Layout.destroy();
             }
           }
         }
