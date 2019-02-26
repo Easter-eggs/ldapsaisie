@@ -603,6 +603,10 @@ class LSldapObject {
             }
             $this -> dn = $newDn;
             $this -> oldDn = $oldDn;
+
+            // PHP Net_LDAP2 does not remove old RDN value : replace RDN value
+            $submitData[$attr -> name] = $attr -> getUpdateData();
+
             if (!$this -> fireEvent('after_rename')) {
               LSerror :: addErrorCode('LSldapObject_17');
               return;
