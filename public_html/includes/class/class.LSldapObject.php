@@ -403,7 +403,9 @@ class LSldapObject {
     else {
       $LSform=false;
     }
-    foreach($this -> attrs as $attr) {
+    foreach($this -> attrs as $attr_name => $attr) {
+      if ($LSform && (!$LSform -> hasElement($attr_name) || $LSform -> isFreeze($attr_name)))
+        continue;
       $attr_values = $attr -> getValue();
       if (!$attr -> isValidate()) {
         if($attr -> isUpdate()) {

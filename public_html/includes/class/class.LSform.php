@@ -500,6 +500,28 @@ class LSform {
   }
 
   /**
+   * Check if form has a specified element (by attr name)
+   *
+   * @param[in] $attr string The element/attribute name
+   *
+   * @retval boolean
+   **/
+  public function hasElement($name) {
+    return isset($this -> elements[$name]);
+  }
+
+  /**
+   * Check if a specified element (by attr name) is freezed
+   *
+   * @param[in] $attr string The element/attribute name
+   *
+   * @retval boolean
+   **/
+  public function isFreeze($name) {
+    return isset($this -> elements[$name]) && $this -> elements[$name] -> isFreeze($name);
+  }
+
+  /**
    * Ajoute une règle sur un élément du formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
