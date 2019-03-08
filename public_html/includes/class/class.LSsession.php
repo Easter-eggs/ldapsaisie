@@ -1249,9 +1249,11 @@ class LSsession {
     LStemplate :: assign('recoverpasswordform_label_submit',_('Validate'));
     LStemplate :: assign('recoverpasswordform_label_back',_('Back'));
     
+    $recoverpassword_step = 'start';
     $recoverpassword_msg = _('Please fill the identifier field to proceed recovery procedure');
     
     if (isset($recoveryPasswordInfos['recoveryHashMail'])) {
+      $recoverpassword_step = 'token_sent';
       $recoverpassword_msg = getFData(
         _("An email has been sent to  %{mail}. " .
         "Please follow the instructions on it."),
@@ -1260,12 +1262,14 @@ class LSsession {
     }
     
     if (isset($recoveryPasswordInfos['newPasswordMail'])) {
+      $recoverpassword_step = 'new_password_sent';
       $recoverpassword_msg = getFData(
         _("Your new password has been sent to %{mail}. "),
         $recoveryPasswordInfos['newPasswordMail']
       );
     }
     
+    LStemplate :: assign('recoverpassword_step',$recoverpassword_step);
     LStemplate :: assign('recoverpassword_msg',$recoverpassword_msg);
     
     self :: setTemplate('recoverpassword.tpl');
