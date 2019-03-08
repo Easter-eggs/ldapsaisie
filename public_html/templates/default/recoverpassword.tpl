@@ -15,6 +15,7 @@
 <div class='recoverpasswordform'>
 <img src='{img name='logo'}' alt='Logo' id='recoverpasswordform_logo' />
 <div id='loading_zone'></div>
+{if !isset($recoverpassword_msg)}
 <form action='{$recoverpasswordform_action}' method='post'>
 <dl class='recoverpasswordform'>
   <dt {$recoverpasswordform_ldapserver_style}>{$recoverpasswordform_label_ldapserver|escape:"htmlall"}</dt>
@@ -26,8 +27,9 @@
   <dd><input type='submit' value='{$recoverpasswordform_label_submit|escape:"htmlall"}' /></dd>
 </dl>
 </form>
-
+{else}
 <p id='recoverpassword_msg'>{$recoverpassword_msg|escape:"htmlall"}</p>
+{/if}
 <span>{$lang_label|escape:"htmlall"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
 <a href='index.php' id='recoverpassword_back'>{$recoverpasswordform_label_back|escape:"htmlall"}</a>
 </div>
