@@ -59,3 +59,4 @@ class LSformRule_callable extends LSformRule {
 LSerror :: defineError('LSformRule_callable_01',
 _("LSformRule_callable : The given callable option is not callable")
 );
+

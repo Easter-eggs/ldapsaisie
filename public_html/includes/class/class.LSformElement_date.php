@@ -210,4 +210,3 @@ class LSformElement_date extends LSformElement {
   }
 }
 
-?>

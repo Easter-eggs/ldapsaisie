@@ -81,4 +81,3 @@ class LSattr_ldap_date extends LSattr_ldap {
 
 }
 
-?>

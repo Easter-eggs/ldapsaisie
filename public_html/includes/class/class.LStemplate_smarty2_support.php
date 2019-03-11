@@ -112,3 +112,4 @@ LStemplate :: $_smarty -> register_resource('ls', array(
 function LStemplate_register_function($name,$function_name) {
   LStemplate :: $_smarty -> register_function($name,$function_name);
 }
+

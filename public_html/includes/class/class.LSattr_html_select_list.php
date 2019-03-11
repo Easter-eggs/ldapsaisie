@@ -403,3 +403,4 @@ _("LSattr_html_select_list : Fail to decode the following attribute %{attr} valu
 LSerror :: defineError('LSattr_html_select_list_05',
 _("LSattr_html_select_list : No component %{component} found in the following attribute %{attr} JSON value : %{value}")
 );
+

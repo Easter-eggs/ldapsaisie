@@ -64,3 +64,4 @@ function redirectToPhpLdapAdmin(&$ldapObject) {
    LSsession::redirect($url);
    return true;
 }
+

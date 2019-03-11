@@ -135,4 +135,4 @@ LSsession :: displayTemplate();
 if (isset($LSsearch)) {
   $LSsearch->afterUsingResult();
 }
-?>
+

@@ -105,10 +105,11 @@ class LSauthMethod_CAS extends LSauthMethod {
 	}
 
 }
+
 /*
  * Error Codes
  */
 LSerror :: defineError('LSauthMethod_CAS_01',
 _("LSauthMethod_CAS : Failed to load phpCAS.")
 );
-?>
+

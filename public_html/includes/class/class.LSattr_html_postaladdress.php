@@ -33,4 +33,3 @@ class LSattr_html_postaladdress extends LSattr_html_textarea {
   
 }
 
-?>

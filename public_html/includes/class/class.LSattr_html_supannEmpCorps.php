@@ -31,4 +31,3 @@ class LSattr_html_supannEmpCorps extends LSattr_html {
   
 }
 
-?>

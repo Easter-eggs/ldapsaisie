@@ -738,4 +738,3 @@ LSerror :: defineError('LSattribute_09',
   _("LSattribute : The attr_%{type} of the attribute %{name} is not yet defined.")
 );
 
-?>

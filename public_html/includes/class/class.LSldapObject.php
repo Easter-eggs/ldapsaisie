@@ -1972,3 +1972,4 @@ _("LSldapObject : Error during generating container DN : %{error}")
 LSerror :: defineError('LSrelations_05',
 _("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
 );
+

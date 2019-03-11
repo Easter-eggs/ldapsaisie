@@ -289,6 +289,7 @@ class LSimport {
     }
     return False;
   }
+
 }
 
 
@@ -328,6 +329,3 @@ LSerror :: defineError('LSimport_04',
 _("LSimport : Fail to initialize input/output driver")
 );
 
-
-
-?>

@@ -256,3 +256,4 @@ class LSsearchEntry {
 LSerror :: defineError('LSsearchEntry_01',
 _("LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns %{column}.")
 );
+

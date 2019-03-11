@@ -47,6 +47,6 @@ class LSattr_ldap_postaladdress extends LSattr_ldap {
   function getUpdateData($data) {
     return str_replace("\n","$",$data);
   }
+
 }
 
-?>

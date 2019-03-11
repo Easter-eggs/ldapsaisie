@@ -81,4 +81,3 @@ class LSauthMethod_basic extends LSauthMethod {
   
 }
 
-?>

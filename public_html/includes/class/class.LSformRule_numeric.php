@@ -43,3 +43,4 @@ class LSformRule_numeric extends LSformRule{
   }
   
 }
+

@@ -52,3 +52,4 @@ class LSformElement_select_box extends LSformElement_select {
   }
 
 }
+

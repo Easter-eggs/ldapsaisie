@@ -240,6 +240,6 @@ class LSformElement_select_object extends LSformElement {
       }
     }
   }
+
 }
 
-?>

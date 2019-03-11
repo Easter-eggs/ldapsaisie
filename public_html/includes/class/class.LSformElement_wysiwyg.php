@@ -59,3 +59,4 @@ class LSformElement_wysiwyg extends LSformElement {
   }
 
 }
+

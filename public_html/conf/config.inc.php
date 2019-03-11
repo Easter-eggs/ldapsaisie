@@ -205,3 +205,4 @@ $GLOBALS['defaultJSscipts']=array(
 
 // CSS
 $GLOBALS['defaultCSSfiles']=array('../light-blue.css');
+

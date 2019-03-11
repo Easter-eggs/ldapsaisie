@@ -31,4 +31,3 @@ class LSattr_html_url extends LSattr_html {
   
 }
 
-?>

@@ -63,6 +63,6 @@ class LSformElement_mail extends LSformElement_text {
     }
     return  parent :: fetchTemplate($template,$variables);
   }
+
 }
 
-?>

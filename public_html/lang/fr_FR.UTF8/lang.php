@@ -252,3 +252,4 @@ Nouveau mot de passe : %{password}",
   "oui",
 
 );
+

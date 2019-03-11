@@ -299,3 +299,4 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   }
 
 }
+

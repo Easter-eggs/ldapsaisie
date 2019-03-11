@@ -410,4 +410,4 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
   function generate_sambaKickoffTime_from_shadowExpire($ldapObject) {
     return generate_timestamp_from_shadowExpire($ldapObject);
   }
-?>
+

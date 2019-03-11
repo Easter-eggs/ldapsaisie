@@ -31,4 +31,3 @@ class LSattr_html_rss extends LSattr_html {
   
 }
 
-?>

@@ -81,4 +81,3 @@ $MAIL_HEARDERS = array(
   "format"        =>  "flowed"
 );
 
-?>

@@ -31,4 +31,3 @@ class LSattr_html_mailQuota extends LSattr_html {
   
 }
 
-?>

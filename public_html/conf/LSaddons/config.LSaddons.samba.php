@@ -61,4 +61,3 @@ define('LS_SAMBA_HOME_PATH_FORMAT','\\SERVER\%{uid}');
 // Format du chemin du profile
 define('LS_SAMBA_PROFILE_PATH_FORMAT','\\SERVER\profiles\%{uid}');
 
-?>

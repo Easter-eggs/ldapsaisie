@@ -132,4 +132,3 @@ class LSattr_html_maildir extends LSattr_html {
   
 }
 
-?>

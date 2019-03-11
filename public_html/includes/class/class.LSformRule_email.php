@@ -42,3 +42,4 @@ class LSformRule_email extends LSformRule {
   }
 
 }
+

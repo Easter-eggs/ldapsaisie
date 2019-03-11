@@ -36,3 +36,4 @@ class LSattr_html_select_box extends LSattr_html_select_list {
   var $LSformElement_type = 'select_box';
   
 }
+

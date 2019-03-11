@@ -30,3 +30,4 @@ class LSattr_html_labeledValue extends LSattr_html {
   var $LSformElement_type = 'labeledValue';
   
 }
+

@@ -151,13 +151,12 @@ class LSauth {
    * For compatibillity until loginForm is migrated in LSauth
    */
   public function disableLoginForm() {
-		self :: $params['displayLoginForm'] = false;
-	}
+    self :: $params['displayLoginForm'] = false;
+  }
 	
-	public function displayLoginForm() {
-		return self :: $params['displayLoginForm'];
-	}
-	
+  public function displayLoginForm() {
+    return self :: $params['displayLoginForm'];
+  }
 
 }
 
@@ -186,4 +185,3 @@ LSerror :: defineError('LSauth_07',
 _("LSauth : Failed to get authentication informations from provider.")
 );
 
-?>

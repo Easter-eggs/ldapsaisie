@@ -138,3 +138,4 @@ else {
   LSsession :: setTemplate('login.tpl');
 }
 LSsession :: displayTemplate();
+

@@ -373,3 +373,4 @@ _("LSformElement_password : Fail to determine witch e-mail attribute to use to s
 LSerror :: defineError('LSformElement_password_05',
 _("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function throwed an exception : %{msg}")
 );
+

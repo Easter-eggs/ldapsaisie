@@ -143,3 +143,4 @@ function LSformElement_select_checkIsValidValue($params,$template) {
   $template -> assign('LSformElement_select_isValidValue_label',$label);
 }
 LStemplate :: registerFunction('LSformElement_select_checkIsValidValue','LSformElement_select_checkIsValidValue');
+

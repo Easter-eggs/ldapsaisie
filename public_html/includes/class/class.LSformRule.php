@@ -48,6 +48,7 @@ class LSformRule {
   function validate($value,$options=NULL,$formElement) {
     return true;
   }
+
 }
 
 /**
@@ -56,4 +57,4 @@ class LSformRule {
 LSerror :: defineError('LSformRule_01',
 _("LSformRule_%{type} : Parameter %{param} is not found.")
 );
-?>
+

@@ -243,4 +243,3 @@ LSerror :: defineError('LSattr_html_select_object_03',
 _("LSattr_html_select_object : more than one object returned corresponding to value %{val} of attribute %{attr}.")
 );
 
-?>

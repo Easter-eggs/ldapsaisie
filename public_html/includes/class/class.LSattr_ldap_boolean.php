@@ -111,4 +111,3 @@ class LSattr_ldap_boolean extends LSattr_ldap {
 
 }
 
-?>

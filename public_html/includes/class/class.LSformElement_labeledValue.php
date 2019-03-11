@@ -126,3 +126,4 @@ class LSformElement_labeledValue extends LSformElement {
   }
 
 }
+

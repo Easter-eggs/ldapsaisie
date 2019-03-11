@@ -36,4 +36,3 @@ class LSformElement_supannActivite extends LSformElement_supannLabeledValue {
   var $supannNomenclatureTable = 'supannActivite';
 }
 
-?>

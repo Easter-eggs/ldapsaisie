@@ -134,4 +134,3 @@ class LSformElement_supannLabeledValue extends LSformElement {
 
 }
 
-?>

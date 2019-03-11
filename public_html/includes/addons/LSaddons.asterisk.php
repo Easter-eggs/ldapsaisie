@@ -111,5 +111,4 @@ LSerror :: defineError('ASTERISK_03',
     }
     return hashAsteriskPassword($ldapObject,(string)$password);
   }
-  
-  
+

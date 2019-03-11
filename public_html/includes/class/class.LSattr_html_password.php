@@ -60,4 +60,3 @@ class LSattr_html_password extends LSattr_html {
   
 }
 
-?>

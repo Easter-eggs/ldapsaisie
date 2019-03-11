@@ -30,3 +30,4 @@ class LSattr_html_supannEtuInscription extends LSattr_html {
   var $LSformElement_type = 'supannEtuInscription';
   
 }
+

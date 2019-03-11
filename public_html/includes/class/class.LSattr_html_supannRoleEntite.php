@@ -30,3 +30,4 @@ class LSattr_html_supannRoleEntite extends LSattr_html {
   var $LSformElement_type = 'supannRoleEntite';
   
 }
+

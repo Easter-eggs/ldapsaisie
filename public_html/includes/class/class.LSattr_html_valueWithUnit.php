@@ -31,4 +31,3 @@ class LSattr_html_valueWithUnit extends LSattr_html {
   
 }
 
-?>

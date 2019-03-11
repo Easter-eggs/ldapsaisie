@@ -46,3 +46,4 @@ class LSformRule_maxlength extends LSformRule {
   }
   
 }
+

@@ -32,3 +32,4 @@ class LSattr_html_wysiwyg extends LSattr_html_textarea {
   var $LSformElement_type = 'wysiwyg';
   
 }
+

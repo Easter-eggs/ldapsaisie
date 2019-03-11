@@ -31,4 +31,3 @@ class LSattr_html_textarea extends LSattr_html {
   
 }
 
-?>

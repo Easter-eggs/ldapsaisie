@@ -476,3 +476,4 @@ if (!$additionalfileformat) fwrite($fd, "\n);\n");
 
 if ($output)
   fclose($fd);
+

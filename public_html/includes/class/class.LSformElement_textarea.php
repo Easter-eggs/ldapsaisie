@@ -62,6 +62,6 @@ class LSformElement_textarea extends LSformElement {
     );
     return $return;
   }
+
 }
 
-?>

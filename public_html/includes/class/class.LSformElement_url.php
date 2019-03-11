@@ -57,4 +57,3 @@ class LSformElement_url extends LSformElement_text {
   
 }
 
-?>

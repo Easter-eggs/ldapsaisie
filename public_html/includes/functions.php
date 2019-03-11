@@ -654,3 +654,4 @@ function LSdebugDefined() {
     }
     return "unknown : ".(string)$callable;
   }
+

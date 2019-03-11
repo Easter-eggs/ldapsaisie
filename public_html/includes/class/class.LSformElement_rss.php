@@ -55,4 +55,3 @@ class LSformElement_rss extends LSformElement_text {
   
 }
 
-?>

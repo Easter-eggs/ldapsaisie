@@ -103,4 +103,4 @@ $GLOBALS['LSobjects']['LScompany'] = array (
     /* ----------- end -----------*/
   )
 );
-?>
+

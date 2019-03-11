@@ -61,4 +61,3 @@ define('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION',false);
 // error on ticket validation. Possibles values : 2 or 3
 //define('LSAUTH_CAS_CURL_SSLVERION',3);
 
-?>

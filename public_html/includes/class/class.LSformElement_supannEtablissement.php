@@ -38,4 +38,3 @@ class LSformElement_supannEtablissement extends LSformElement_supannLabeledValue
 
 }
 
-?>

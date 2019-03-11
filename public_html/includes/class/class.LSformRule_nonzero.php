@@ -43,3 +43,4 @@ class LSformRule_nonzero extends LSformRule {
   }
   
 }
+

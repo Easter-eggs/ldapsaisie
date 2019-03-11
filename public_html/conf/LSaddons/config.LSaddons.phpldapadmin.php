@@ -22,3 +22,4 @@
 
 // PhpLdapAdmin View Object URL format
 define('LS_PHPLDAPADMIN_VIEW_OBJECT_URL_FORMAT','//'.$_SERVER['SERVER_NAME'].'/phpldapadmin/cmd.php?cmd=template_engine&server_id=0&dn=%{dn}');
+

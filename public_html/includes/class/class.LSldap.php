@@ -515,4 +515,4 @@ LSerror :: defineError('LSldap_06',
 LSerror :: defineError('LSldap_07',
   _("LSldap : Error while changing the DN of the object.")
 );
-?>
+

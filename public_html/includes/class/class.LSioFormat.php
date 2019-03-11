@@ -91,3 +91,4 @@ class LSioFormat {
 LSerror :: defineError('LSioFormat_01',
 _("LSioFormat : IOformat driver %{driver} invalid or unavailable.")
 );
+

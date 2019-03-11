@@ -115,4 +115,3 @@ class LSformElement_image extends LSformElement {
   }
 }
 
-?>

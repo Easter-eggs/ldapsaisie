@@ -137,4 +137,3 @@ LSerror :: defineError('LSattr_html_03',
 _("LSattr_html_%{type} : Multiple data are not supported for this field type.")
 );
 
-?>

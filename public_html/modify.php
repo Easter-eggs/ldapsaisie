@@ -139,5 +139,3 @@ else {
   LSsession :: displayTemplate();
 }
 
-
-?>

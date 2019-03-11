@@ -34,3 +34,4 @@ define('LS_EXPORTSEARCHRESULTASCSV_ENCLOSURE','"');
   
 // CSV file escape character (available since PHP 5.5.4)
 define('LS_EXPORTSEARCHRESULTASCSV_ESCAPE_CHAR','\\');
+

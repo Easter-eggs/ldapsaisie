@@ -31,4 +31,3 @@ class LSattr_html_supannLabeledValue extends LSattr_html {
   
 }
 
-?>

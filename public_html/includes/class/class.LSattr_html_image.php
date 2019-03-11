@@ -60,4 +60,3 @@ class LSattr_html_image extends LSattr_html {
   
 }
 
-?>

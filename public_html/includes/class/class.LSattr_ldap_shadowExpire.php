@@ -57,6 +57,6 @@ class LSattr_ldap_shadowExpire extends LSattr_ldap {
     }
     return $ret;
   }
+
 }
 
-?>

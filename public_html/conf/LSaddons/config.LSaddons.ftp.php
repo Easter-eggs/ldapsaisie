@@ -29,4 +29,3 @@
 // Pear :: NET_FTP
 define('NET_FTP','/usr/share/php/Net/FTP.php');
 
-?>

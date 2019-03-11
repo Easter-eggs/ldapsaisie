@@ -86,6 +86,6 @@ class LSselect {
   public static function selectablly($obj,$args) {
     return (LSsession::canEdit($obj->type,$obj->dn,$args))?1:0;
   }
+
 }
 
-?>

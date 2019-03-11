@@ -87,4 +87,6 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
     }
     return False;
   }
+
 }
+

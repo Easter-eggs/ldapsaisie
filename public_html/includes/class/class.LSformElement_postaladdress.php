@@ -78,6 +78,7 @@ class LSformElement_postaladdress extends LSformElement_textarea {
     }
     return $return;
   }
+
 }
 
 function LSformElement_postaladdress__generate_pattern($LSformElement) {
@@ -87,3 +88,4 @@ function LSformElement_postaladdress__generate_pattern($LSformElement) {
 LSerror :: defineError('LSformElement_postaladdress_01',
 _("LSformElement_postaladdress : Map URL pattern generate function is not callabled (%{function}).")
 );
+

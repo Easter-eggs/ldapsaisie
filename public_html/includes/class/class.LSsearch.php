@@ -1351,3 +1351,4 @@ _("LSsearch : Error during execution of the custom action %{customAction}.")
 LSerror :: defineError('LSsearch_17',
 _("LSsearch : Invalid search pattern.")
 );
+

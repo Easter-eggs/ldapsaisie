@@ -48,4 +48,3 @@ require_once LS_INCLUDE_DIR.'functions.php';
 
 require_once LS_CLASS_DIR.'class.LSsession.php';
 
-?>

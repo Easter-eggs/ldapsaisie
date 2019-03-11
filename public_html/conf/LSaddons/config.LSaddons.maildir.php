@@ -46,3 +46,4 @@ define('LS_MAILDIR_FTP_MAILDIR_PATH_REGEX','/^\/home\/vmail\/([^\/]+)\/$/');
 
 // Serveur FTP - Maildir CHMOD
 define('LS_MAILDIR_FTP_MAILDIR_CHMOD','700');
+

@@ -69,6 +69,6 @@ class LSformElement_text extends LSformElement {
     $return['html'] = $this -> fetchTemplate();
     return $return;
   }
+
 }
 
-?>

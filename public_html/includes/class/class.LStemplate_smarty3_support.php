@@ -71,3 +71,4 @@ LStemplate :: $_smarty -> registerResource('ls', new Smarty_Resource_LdapSaisie(
 function LStemplate_register_function($name,$function_name) {
   LStemplate :: $_smarty -> registerPlugin("function",$name,$function_name);
 }
+

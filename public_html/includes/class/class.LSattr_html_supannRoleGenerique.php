@@ -31,4 +31,3 @@ class LSattr_html_supannRoleGenerique extends LSattr_html {
   
 }
 
-?>

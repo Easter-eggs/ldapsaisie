@@ -31,4 +31,3 @@ class LSattr_html_supannEtablissement extends LSattr_html {
   
 }
 
-?>

@@ -64,3 +64,4 @@ class LSformRule_regex extends LSformRule {
 LSerror :: defineError('LSformRule_regex_01',
 _("LSformRule_regex : Regex has not been configured to validate data.")
 );
+

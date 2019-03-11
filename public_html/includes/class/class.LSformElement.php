@@ -309,6 +309,6 @@ class LSformElement {
   public function getParam($param, $default=null, $cast=null) {
     return LSconfig :: get($param, $default, $cast, $this -> params);
   }
+
 }
 
-?>

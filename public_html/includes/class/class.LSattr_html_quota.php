@@ -31,4 +31,3 @@ class LSattr_html_quota extends LSattr_html {
   
 }
 
-?>

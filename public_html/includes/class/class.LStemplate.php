@@ -418,3 +418,4 @@ _("LStemplate : Fail to execute trigger %{callable} on event %{event} : is not c
 LSerror :: defineError('LStemplate_03',
 _("LStemplate : Error during the execution of the trigger %{callable} on event %{event}.")
 );
+

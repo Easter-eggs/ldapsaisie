@@ -27,4 +27,3 @@ $GLOBALS['LSaddons']['loads'] = array (
   'maildir'
 );
 
-?>

@@ -309,4 +309,3 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 
 }
 
-?>

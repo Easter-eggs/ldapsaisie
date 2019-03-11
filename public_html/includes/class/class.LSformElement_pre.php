@@ -47,4 +47,3 @@ class LSformElement_pre extends LSformElement_textarea {
 
 }
 
-?>

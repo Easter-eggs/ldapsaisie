@@ -38,4 +38,3 @@ class LSformElement_supannRoleGenerique extends LSformElement_supannLabeledValue
 
 }
 
-?>

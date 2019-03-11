@@ -467,3 +467,4 @@ _("LSrelation : Incomplete configuration for LSrelation %{relation} of object ty
 LSerror :: defineError('LSrelations_06',
 _("LSrelation : Invalid editable attribute for LSrelation %{relation} with LSobject %{LSobject}.")
 );
+

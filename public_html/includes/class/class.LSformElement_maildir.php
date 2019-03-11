@@ -116,4 +116,3 @@ class LSformElement_maildir extends LSformElement_text {
 
 }
 
-?>

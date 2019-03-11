@@ -66,3 +66,4 @@ class LSformRule_mimetype extends LSformRule {
   }
   
 }
+

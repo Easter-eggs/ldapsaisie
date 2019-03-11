@@ -216,6 +216,7 @@ class LSerror {
       return "UNKNOWN_ERROR";
     }
   }
+
 }
 
 /*
@@ -223,3 +224,4 @@ class LSerror {
  */
 LSerror :: defineError(-1,_("Unknown error : %{error}"));
 LSerror :: defineError(-2,_("PHP error : %{error}"));
+

@@ -220,4 +220,3 @@ if (isset($LSsearch)) {
   $LSsearch->afterUsingResult();
 }
 
-?>

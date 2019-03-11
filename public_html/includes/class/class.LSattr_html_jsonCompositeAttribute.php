@@ -30,3 +30,4 @@ class LSattr_html_jsonCompositeAttribute extends LSattr_html {
   var $LSformElement_type = 'jsonCompositeAttribute';
 
 }
+

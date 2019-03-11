@@ -114,6 +114,6 @@ class LSgroup extends LSldapObject {
     }
     return LSsession :: canEdit($this -> type_name,$this -> dn,$this -> memberAttr);
   }
+
 }
 
-?>

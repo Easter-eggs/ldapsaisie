@@ -193,6 +193,7 @@ class LSformElement_valueWithUnit extends LSformElement {
     }
     return true;
   }
+
 }
 
 /*
@@ -201,4 +202,4 @@ class LSformElement_valueWithUnit extends LSformElement {
 LSerror :: defineError('LSformElement_valueWithUnit_01',
 _("LSformElement_valueWithUnit : Units configuration data are missing for the attribute %{attr}.")
 );
-?>
+

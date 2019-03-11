@@ -2585,4 +2585,6 @@ class LSsession {
       call_user_func(self :: $LSaddonsViews[$LSaddon][$viewId]['function']);
     }
   }
+
 }
+

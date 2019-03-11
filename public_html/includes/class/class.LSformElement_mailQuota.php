@@ -160,6 +160,6 @@ class LSformElement_mailQuota extends LSformElement {
       return true;
     }
   }
+
 }
 
-?>

@@ -52,6 +52,7 @@ class LSformElement_xmpp extends LSformElement_text {
     );
     return parent :: getDisplay($return);
   }
+
 }
 
-?>
+

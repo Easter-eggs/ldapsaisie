@@ -752,6 +752,7 @@ class LSform {
       }
     }
   }
+
 }
 
 /**
@@ -785,4 +786,4 @@ _("LSform : The data entry form %{name} is not correctly configured.")
 LSerror :: defineError('LSform_09',
 _("LSform : The element %{name}, listed as displayed in data entry form configuration, doesn't exist.")
 );
-?>
+

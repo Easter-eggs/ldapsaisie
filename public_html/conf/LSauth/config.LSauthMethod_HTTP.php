@@ -46,3 +46,4 @@
  *               RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
  */
 //define('LSAUTHMETHOD_HTTP_METHOD', 'PHP_PASS');
+
