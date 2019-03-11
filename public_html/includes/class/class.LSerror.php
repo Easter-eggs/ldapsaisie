@@ -164,7 +164,7 @@ class LSerror {
    * 
    * @retval boolean True if it's an error or False
    **/
-  public function isLdapError($data) {
+  public static function isLdapError($data) {
     if (Net_LDAP2::isError($data)) {
       LSerror :: addErrorCode(0,$data -> getMessage());
       return true;
@@ -175,7 +175,7 @@ class LSerror {
   /**
    * PHP error handler (see set_error_handler() function doc)
    **/
-  public function errorHandler($errno, $errstr, $errfile, $errline) {
+  public static function errorHandler($errno, $errstr, $errfile, $errline) {
     self :: addErrorCode(-2,"Error ".self :: convertPHPErrorNo($errno)." occured in file $errfile (line : $errline) : $errstr");
     if ( E_RECOVERABLE_ERROR===$errno ) {
       throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
@@ -190,7 +190,7 @@ class LSerror {
    * 
    * @retval string Corresponding error name
    **/
-  public function convertPHPErrorNo($errno) {
+  public static function convertPHPErrorNo($errno) {
     $error_levels=array (
       1       => "ERROR",
       2       => "WARNING",
@@ -223,5 +223,3 @@ class LSerror {
  */
 LSerror :: defineError(-1,_("Unknown error : %{error}"));
 LSerror :: defineError(-2,_("PHP error : %{error}"));
-
-?>
