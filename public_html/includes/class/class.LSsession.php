@@ -105,13 +105,7 @@ class LSsession {
     elseif (!file_exists($file)) {
       return;
     }
-    if (defined('LSdebug') && constant('LSdebug')) {
-      return include_once($file);
-    }
-    else {
-      return @include_once($file);
-    }
-    return;
+    return include_once($file);
   }
 
  /**
