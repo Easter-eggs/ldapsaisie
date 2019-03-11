@@ -348,7 +348,7 @@ class LSsession {
       }
     }
     
-    if (is_null($enconding)) {
+    if (is_null($encoding)) {
       if (isset($_REQUEST['encoding'])) {
         $encoding = $_REQUEST['encoding'];
       }
