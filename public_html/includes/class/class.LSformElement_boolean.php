@@ -57,13 +57,11 @@ class LSformElement_boolean extends LSformElement {
     $return['html'] = $this -> fetchTemplate(
       NULL,
       array(
-        'yesTxt' => (isset($this -> params['html_options']['true_label']) && !empty($this -> params['html_options']['true_label']))?__($this -> params['html_options']['true_label']):_('Yes'),
-        'noTxt' => (isset($this -> params['html_options']['false_label']) && !empty($this -> params['html_options']['false_label']))?__($this -> params['html_options']['false_label']):_('No'),
+        'yesTxt' => __($this -> getParam('html_options.true_label', 'Yes')),
+        'noTxt' => __($this -> getParam('html_options.false_label', 'No')),
       )
     );
     return $return;
   }
 
 }
-
-?>

@@ -189,16 +189,15 @@ class LSformElement {
         $return['required']=true;
     }
     $return['label'] = $this -> getLabel();
-    $help_info = "";
-    if ( (isset($this -> params['displayAttrName']) && $this -> params['displayAttrName']) || (isset($this -> attr_html -> attribute -> ldapObject -> config['displayAttrName']) && $this -> attr_html -> attribute -> ldapObject -> config['displayAttrName']) ) {
-      $help_info=_("Attribute")." : ".$this -> name."\n";
+    $help_infos = array();
+    if ( $this -> getParam('displayAttrName', $this -> attr_html -> attribute -> ldapObject -> getConfig('displayAttrName', false, 'bool'), 'bool') ) {
+      $help_infos[] = _("Attribute")." : ".$this -> name."\n";
     }
-    if (isset($this -> params['help_info'])) {
-      if (!empty($help_info)) $help_info .= " - ";
-      $help_info.=__($this -> params['help_info']);
+    if ($this -> getParam('help_info')) {
+      $help_infos[] = __($this -> getParam('help_info'));
     }
-    if (!empty($help_info))
-      $return['help_info'] = $help_info;
+    if (!empty($help_infos))
+      $return['help_info'] = implode(' - ', $help_infos);
 
     return $return;
   }
@@ -246,12 +245,7 @@ class LSformElement {
     if ($this -> label != "") {
       return __($this -> label);
     }
-    else if ($this -> params['label']) {
-      return __($this -> params['label']);
-    }
-    else {
-      return __($this -> name);
-    }
+    return __($this -> getParam('label', $this -> name));
   }
 
   /**
@@ -260,7 +254,7 @@ class LSformElement {
    * @retval boolean True si le champ est à valeur multiple, False sinon
    */
   function isMultiple() {
-    return ( (isset($this -> params['multiple']))?($this -> params['multiple'] == true):false );
+    return $this -> getParam('multiple', false, 'bool');
   }
   
  /**
@@ -286,7 +280,7 @@ class LSformElement {
           'value' => '',
           'values' => $this -> values,
           'attr_name' => $this -> name,
-          'noValueTxt' => ( (isset($this -> params['no_value_label']))? __($this -> params['no_value_label']):_('No set value') ),
+          'noValueTxt' => __($this -> getParam('no_value_label', 'No set value', 'string')),
           'fieldTemplate' => $this -> fieldTemplate,
           'fieldType' => get_class($this)
         )
@@ -301,6 +295,19 @@ class LSformElement {
   */
   function getEmptyField() {
     return $this -> fetchTemplate($this -> fieldTemplate);
+  }
+
+ /**
+  * Return a parameter (or default value)
+  *
+  * @param[] $param	The parameter
+  * @param[] $default	The default value (default : null)
+  * @param[] $cast	Cast resulting value in specific type (default : disabled)
+  *
+  * @retval mixed The parameter value or default value if not set
+  **/
+  public function getParam($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> params);
   }
 }
 

@@ -114,12 +114,7 @@ class LSformElement_mailQuota extends LSformElement {
   * @retval string Suffix value
   **/
   function getSuffix() {
-    if(isset($this -> params['html_options']['suffix'])){
-      return strval($this -> params['html_options']['suffix']);
-    }
-    else {
-      return "S";
-    }
+    return $this -> getParam('html_options.suffix', 'S', 'string');
   }
 
   /**

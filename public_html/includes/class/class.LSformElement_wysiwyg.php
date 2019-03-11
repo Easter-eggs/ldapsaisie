@@ -47,7 +47,7 @@ class LSformElement_wysiwyg extends LSformElement {
       LSsession :: addJSconfigParam(
         $this -> name,
         array(
-          'extra_options' => (isset($this -> params['html_options']['extra_options'])?$this -> params['html_options']['extra_options']:array()),
+          'extra_options' => $this -> getParam('html_options.extra_options', array()),
         )
       );
     }

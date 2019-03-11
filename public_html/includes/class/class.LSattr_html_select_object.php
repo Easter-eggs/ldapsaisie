@@ -40,7 +40,7 @@ class LSattr_html_select_object extends LSattr_html{
    */
   function addToForm (&$form,$idForm,$data=NULL) {
     $this -> config['attrObject'] = $this;
-    $element=$form -> addElement('select_object', $this -> name, $this -> config['label'],$this -> config,$this);
+    $element=$form -> addElement('select_object', $this -> name, $this -> getLabel(), $this -> config, $this);
     if(!$element) {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
@@ -54,7 +54,7 @@ class LSattr_html_select_object extends LSattr_html{
         $element -> setValue($values);
       }
     }
-    $element -> setSelectableObject($this -> config['html_options']['selectable_object']['object_type']);
+    $element -> setSelectableObject($this -> getConfig('html_options.selectable_object.object_type'));
     return $element;
   }
 
@@ -82,41 +82,45 @@ class LSattr_html_select_object extends LSattr_html{
    * @retval array  Tableau des valeurs de l'attribut
    */ 
   function getValuesFromFormValues($values=NULL) {
-    $retValues = array();
-    if (isset($this -> config['html_options']['selectable_object'])) {
-      $conf=$this -> config['html_options']['selectable_object'];
+    $conf = $this -> getConfig('html_options.selectable_object');
+    if (is_array($conf) && is_array($values)) {
+      $retValues = array();
       if (!isset($conf['object_type'])) {
         LSerror :: addErrorCode('LSattr_html_select_object_01',$this -> name);
+        return;
+      }
+
+      if (!isset($conf['value_attribute'])) {
+        LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
         return;
       }
       
       if (!LSsession :: loadLSobject($conf['object_type'])) {
         return;
       }
-      
-      if (is_array($values)) {
-        $obj=new $conf['object_type']();
-        foreach($values as $dn => $name) {
-          if ($obj -> loadData($dn)) {
-            if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
-              $val = $dn;
-            }
-            elseif (!isset($obj->attrs[$conf['value_attribute']])) {
+
+      $obj=new $conf['object_type']();
+      foreach($values as $dn => $name) {
+        if ($obj -> loadData($dn)) {
+          $val = '';
+          if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')) {
+            $val = $dn;
+          }
+          else {
+            if (!isset($obj->attrs[$conf['value_attribute']])) {
               LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
               return;
             }
-            else {
-              $val = $obj -> getValue($conf['value_attribute']);
-              $val = $val[0];
-            }
-            if (empty($val)) {
-              continue;
-            }
-            $retValues[]=$val;
+            $val = $obj -> getValue($conf['value_attribute']);
+            $val = $val[0];
           }
+          if (empty($val)) {
+            continue;
+          }
+          $retValues[] = $val;
         }
-        return $retValues;
       }
+      return $retValues;
     }
     return;
   }
@@ -132,13 +136,16 @@ class LSattr_html_select_object extends LSattr_html{
    * @retval array Tableau associatif des objects selectionés avec en clé
    *               le DN et en valeur ce qui sera affiché.
    */ 
-  function getFormValues($values=NULL,$fromDNs=false) {
-    $retInfos = array();
-    $DNs=array();
-    if (isset($this -> config['html_options']['selectable_object'])) {
-      $conf=$this -> config['html_options']['selectable_object'];
+  function getFormValues($values=NULL, $fromDNs=false) {
+    $conf = $this -> getConfig('html_options.selectable_object');
+    if (is_array($conf) && is_array($values)) {
       if (!isset($conf['object_type'])) {
         LSerror :: addErrorCode('LSattr_html_select_object_01',$this -> name);
+        return;
+      }
+
+      if (!isset($conf['value_attribute'])) {
+        LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
         return;
       }
       
@@ -146,50 +153,48 @@ class LSattr_html_select_object extends LSattr_html{
         return;
       }
       
-      if (is_array($values)) {
-        $obj = new $conf['object_type']();
-        if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')||$fromDNs) {
-          $DNs=$values;
-          foreach($DNs as $dn) {
-            if($obj -> loadData($dn)) {
-              $retInfos[$dn] = $obj -> getDisplayName($conf['display_name_format']);
-            }
+      $retInfos = array();
+      $DNs=array();
+
+      $obj = new $conf['object_type']();
+      if(($conf['value_attribute']=='dn')||($conf['value_attribute']=='%{dn}')||$fromDNs) {
+        $DNs=$values;
+        foreach($DNs as $dn) {
+          if($obj -> loadData($dn)) {
+            $retInfos[$dn] = $obj -> getDisplayName($conf['display_name_format']);
           }
-        }
-        else {
-          if (!isset($conf['value_attribute']) || (!is_array(LSconfig::get('LSobjects.'.$conf['object_type'].'.attrs.'.$conf['value_attribute'])))) {
-            LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
-            return;
-          }
-          $unrecognizedValues=array();
-          foreach($values as $val) {
-            if (!empty($val)) {
-              $filter=Net_LDAP2_Filter::create($conf['value_attribute'],'equals',$val);
-              if (isset($conf['filter'])) $filter = LSldap::combineFilters('and',array($filter,$conf['filter']));
-              $sparams=array();
-              $sparams['onlyAccessible'] = (isset($conf['onlyAccessible'])?$conf['onlyAccessible']:False);
-              $listobj = $obj -> listObjectsName($filter,NULL,$sparams,$conf['display_name_format']);
-              if (count($listobj)==1) {
-		foreach($listobj as $dn => $name) {
-                  $DNs[]=$dn;
-                  $retInfos[$dn] = $name;
-                }
-              }
-              else {
-                $unrecognizedValues[]=$val;
-                if(count($listobj)>1) {
-                  LSerror :: addErrorCode('LSattr_html_select_object_03',array('val' => $val, 'attribute' => $this -> name));
-                }
-              }
-            }
-          }
-          $this -> unrecognizedValues=$unrecognizedValues;
         }
       }
       else {
-        return false;
+        if (!is_array(LSconfig::get('LSobjects.'.$conf['object_type'].'.attrs.'.$conf['value_attribute']))) {
+          LSerror :: addErrorCode('LSattr_html_select_object_02', $this -> name);
+          return;
+        }
+        $unrecognizedValues=array();
+        foreach($values as $val) {
+          if (!empty($val)) {
+            $filter=Net_LDAP2_Filter::create($conf['value_attribute'],'equals',$val);
+            if (isset($conf['filter'])) $filter = LSldap::combineFilters('and',array($filter,$conf['filter']));
+            $sparams=array();
+            $sparams['onlyAccessible'] = (isset($conf['onlyAccessible'])?$conf['onlyAccessible']:False);
+            $listobj = $obj -> listObjectsName($filter, NULL, $sparams, (isset($conf['display_name_format'])?$conf['display_name_format']:false));
+            if (count($listobj)==1) {
+              foreach($listobj as $dn => $name) {
+                $DNs[]=$dn;
+                $retInfos[$dn] = $name;
+              }
+            }
+            else {
+              $unrecognizedValues[]=$val;
+              if(count($listobj)>1) {
+                LSerror :: addErrorCode('LSattr_html_select_object_03',array('val' => $val, 'attribute' => $this -> name));
+              }
+            }
+          }
+        }
+        $this -> unrecognizedValues=$unrecognizedValues;
       }
-      $_SESSION['LSselect'][$conf['object_type']]=$DNs;
+      $_SESSION['LSselect'][$conf['object_type']] = $DNs;
       return $retInfos;
     }
     return false;
@@ -205,8 +210,9 @@ class LSattr_html_select_object extends LSattr_html{
    *               le DN et en valeur ce qui sera affiché.
    */
   function getValuesFromSession() {
-    if(is_array($_SESSION['LSselect'][$this -> config['html_options']['selectable_object']['object_type']])) {
-      return $this -> getFormValues($_SESSION['LSselect'][$this -> config['html_options']['selectable_object']['object_type']],true);
+    $obj_type = $this -> getConfig('html_options.selectable_object.object_type');
+    if ( $obj_type && is_array($_SESSION['LSselect'][$obj_type]) ) {
+      return $this -> getFormValues($_SESSION['LSselect'][$obj_type], true);
     }
     return false;
   }

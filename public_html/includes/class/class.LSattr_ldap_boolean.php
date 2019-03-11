@@ -97,12 +97,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    * @retval string The True value
    **/
   function getTrue() {
-    if (isset($this -> config['ldap_options']['true_value'])) {
-      return $this -> config['ldap_options']['true_value'];
-    }
-    else {
-      return 'TRUE';
-    }
+    return $this -> getConfig('ldap_options.true_value', 'TRUE', 'string');
   }
 
   /**
@@ -111,13 +106,9 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    * @retval string The False value
    **/
   function getFalse() {
-    if (isset($this -> config['ldap_options']['false_value'])) {
-      return $this -> config['ldap_options']['false_value'];
-    }
-    else {
-      return 'FALSE';
-    }
+    return $this -> getConfig('ldap_options.false_value', 'FALSE', 'string');
   }
+
 }
 
 ?>

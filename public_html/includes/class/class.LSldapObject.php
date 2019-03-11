@@ -68,7 +68,7 @@ class LSldapObject {
       return;
     }
     
-    foreach($this -> config['attrs'] as $attr_name => $attr_config) {
+    foreach($this -> getConfig('attrs', array()) as $attr_name => $attr_config) {
       if(!$this -> attrs[$attr_name]=new LSattribute($attr_name,$attr_config,$this)) {
         return;
       }
@@ -127,7 +127,7 @@ class LSldapObject {
    * @retval string Format d'affichage de l'objet.
    */ 
   function getDisplayNameFormat() {
-    return $this -> config['display_name_format'];
+    return $this -> getConfig('display_name_format');
   }
   
   /**
@@ -589,7 +589,7 @@ class LSldapObject {
     $new = $this -> isNew();
     foreach($this -> attrs as $attr) {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
-        if(($attr -> name == $this -> config['rdn'])&&(!$new)) {
+        if(($attr -> name == $this -> getConfig('rdn')) && (!$new)) {
           $new = true;
           LSdebug('Rename');
           if (!$this -> fireEvent('before_rename')) {
@@ -838,7 +838,7 @@ class LSldapObject {
    */
   function searchObject($name,$basedn=NULL,$filter=NULL,$params=NULL) {
     if (!$filter) {
-      $filter = '('.$this -> config['rdn'].'='.$name.')';
+      $filter = '('.$this -> getConfig('rdn').'='.$name.')';
     }
     else {
       $filter = getFData($filter,$name);
@@ -952,14 +952,14 @@ class LSldapObject {
     else {
       $container_dn=$this -> getContainerDn();
       if ($container_dn) {
-        $rdn_attr=$this -> config['rdn'];
-        if( (isset($this -> config['rdn'])) && (isset($this -> attrs[$rdn_attr])) ) {
+        $rdn_attr = $this -> getConfig('rdn');
+        if( $rdn_attr && isset($this -> attrs[$rdn_attr]) ) {
           $rdn_val=$this -> attrs[$rdn_attr] -> getUpdateData();
           if (!empty($rdn_val)) {
             return $rdn_attr.'='.$rdn_val[0].','.$container_dn;
           }
           else {
-            LSerror :: addErrorCode('LSldapObject_12',$this -> config['rdn']);
+            LSerror :: addErrorCode('LSldapObject_12', $rdn_attr);
             return;
           }
         }
@@ -983,10 +983,12 @@ class LSldapObject {
    */
   function getContainerDn() {
     $topDn = LSsession :: getTopDn();
-    if (isset($this -> config['generate_container_dn'])) {
-      if (is_callable($this -> config['generate_container_dn'])) {
+    $generate_container_dn = $this -> getConfig('generate_container_dn');
+    $container_dn = $this -> getConfig('container_dn');
+    if ($generate_container_dn) {
+      if (is_callable($generate_container_dn)) {
         try {
-          $container_dn=$this -> config['generate_container_dn']($this);
+          $container_dn = call_user_func_array($generate_container_dn, array(&$this));
           return $container_dn.','.$topDn;
         }
         catch (Exception $e) {
@@ -994,11 +996,11 @@ class LSldapObject {
         }
       }
       else {
-        LSerror :: addErrorCode('LSldapObject_33',$this -> config['generate_container_dn']);
+        LSerror :: addErrorCode('LSldapObject_33', $generate_container_dn);
       }
     }
-    else if ((isset($this -> config['container_dn'])) && ($topDn)) {
-      return $this -> config['container_dn'].','.$topDn;
+    else if ($container_dn && $topDn) {
+      return $container_dn.','.$topDn;
     }
     else {
       LSerror :: addErrorCode('LSldapObject_11',$this -> getType());
@@ -1118,11 +1120,12 @@ class LSldapObject {
    */
   function updateLSrelationsCache() {
     $this -> _LSrelationsCache=array();
-    if (is_array($this->config['LSrelation']) && LSsession :: loadLSclass('LSrelation')) {
+    $LSrelations = $this -> getConfig('LSrelation');
+    if (is_array($LSrelations) && LSsession :: loadLSclass('LSrelation')) {
       $type = $this -> getType();
       $me = new $type();
       $me -> loadData($this -> getDn());
-      foreach($this->config['LSrelation'] as $relation_name => $relation_conf) {
+      foreach($LSrelations as $relation_name => $relation_conf) {
         $relation = new LSrelation($me, $relation_name);
         $list = $relation -> listRelatedObjects();
         if (is_array($list)) {
@@ -1659,16 +1662,13 @@ class LSldapObject {
     $return = $this -> fireObjectEvent($event);
     
     // Config
-    if(isset($this -> config[$event])) {
-      if (!is_array($this -> config[$event])) {
+    $funcs = $this -> getConfig($event);
+    if($funcs) {
+      if (!is_array($funcs))
         $funcs = array($this -> config[$event]);
-      }
-      else {
-        $funcs = $this -> config[$event];
-      }
       foreach($funcs as $func) {
         if(function_exists($func)) {
-          if(!call_user_func_array($func,array(&$this))) {
+          if(!call_user_func_array($func, array(&$this))) {
             $return = false;
             LSerror :: addErrorCode('LSldapObject_07',array('func' => $func,'event' => $event));
           }
@@ -1801,8 +1801,9 @@ class LSldapObject {
       return $this -> cache['subDnName'];
     }
     elseif ($key=='rdn') {
-      if ($this -> config['rdn'] && isset($this -> attrs[ $this -> config['rdn'] ])) {
-        return $this -> attrs[ $this -> config['rdn'] ] -> getValue();
+      $rdn_attr = $this -> getConfig('rdn');
+      if ($rdn_attr && isset($this -> attrs[ $rdn_attr ])) {
+        return $this -> attrs[ $rdn_attr ] -> getValue();
       }
       return false;
     }
@@ -1815,9 +1816,10 @@ class LSldapObject {
    **/
   function listValidIOformats() {
     $ret=array();
-    if (isset($this -> config['ioFormat']) && is_array($this -> config['ioFormat'])) {
-      foreach($this -> config['ioFormat'] as $name => $conf) {
-        $ret[$name]=_((isset($conf['label'])?$conf['label']:$name));
+    $ioFormats = $this -> getConfig('ioFormat');
+    if (is_array($ioFormats)) {
+      foreach($ioFormats as $name => $conf) {
+        $ret[$name] = _((isset($conf['label'])?$conf['label']:$name));
       }
     }
     return $ret;
@@ -1831,12 +1833,22 @@ class LSldapObject {
    * @retval boolean True if it's a valid IOformat, false otherwise
    **/
   function isValidIOformat($f) {
-    if (isset($this -> config['ioFormat']) && is_array($this -> config['ioFormat']) && isset($this -> config['ioFormat'][$f])) {
-      return True;
-    }
-    return False;
+    return is_array($this -> getConfig("ioFormat.$f"));
   }
-  
+
+  /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  public function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> config);
+  }
+
 }
 
 /**

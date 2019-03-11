@@ -123,7 +123,7 @@ class LSsearch {
    */
   private function loadConfig() {
     $this -> config = LSconfig::get("LSobjects.".$this -> LSobject.".LSsearch");
-    if (is_array($this -> config['predefinedFilters'])) {
+    if (isset($this -> config['predefinedFilters']) && is_array($this -> config['predefinedFilters'])) {
       foreach($this -> config['predefinedFilters'] as $filter => $label) {
         if(!LSldap::isValidFilter($filter)) {
           LSerror::addErrorCode('LSsearch_15',array('label' => $label, 'filter' => $filter, 'type' => $this -> LSobject));
@@ -179,7 +179,7 @@ class LSsearch {
     
     foreach ($params as $param => $value) {
       if ( !isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]) || $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]!=$value) {
-        LSdebug("S: $param => $value");
+        LSdebug("S: $param => ".varDump($value));
         $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]=$value;
       }
     }
@@ -372,8 +372,8 @@ class LSsearch {
         }
         else {
           $this -> params['sortBy'] = $params['sortBy'];
-          if (!is_string($params['sortDirection'])) {
-            $this -> params['sortDirection']='ASC';
+          if (!isset($params['sortDirection']) || !is_string($params['sortDirection'])) {
+            $this -> params['sortDirection'] = 'ASC';
           }
         }
       }

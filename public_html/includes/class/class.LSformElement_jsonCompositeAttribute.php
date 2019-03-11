@@ -37,9 +37,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
 
   function LSformElement_jsonCompositeAttribute (&$form, $name, $label, $params,&$attr_html){
     parent :: LSformElement($form, $name, $label, $params,$attr_html);
-    if (is_array($this -> params['html_options']['components'])) {
-      $this -> components = $this -> params['html_options']['components'];
-    }
+    $this -> components = $this -> getParam('html_options.components', array());
   }
 
   /*

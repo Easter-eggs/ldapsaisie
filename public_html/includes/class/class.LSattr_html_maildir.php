@@ -76,9 +76,10 @@ class LSattr_html_maildir extends LSattr_html {
   }
   
   public function deleteMaildirByFTP() {
-    if ($this -> config['html_options']['archiveNameFormat']) {
+    $archiveNameFormat = $this -> getConfig('html_options.archiveNameFormat');
+    if ($archiveNameFormat) {
       LSdebug('LSformElement_maildir : archive');
-      $newname=getFData($this -> config['html_options']['archiveNameFormat'],$this -> _toDo['old']);
+      $newname = getFData($archiveNameFormat, $this -> _toDo['old']);
       if ($newname) {
         if (renameMaildirByFTP($this -> _toDo['old'],$newname)) {
           LSsession :: addInfo(_("The mailbox has been archived successfully."));
@@ -112,9 +113,10 @@ class LSattr_html_maildir extends LSattr_html {
       $val = $this -> attribute -> getValue();
       $val=$val[0];
     }
-    if ($this -> config['html_options']['remoteRootPathRegex']) {
+    $remoteRootPathRegex = $this -> getConfig('html_options.remoteRootPathRegex');
+    if ($remoteRootPathRegex) {
       if (
-        preg_match($this -> config['html_options']['remoteRootPathRegex'],$val,$r)
+        preg_match($remoteRootPathRegex, $val, $r)
         ||
         empty($val)
       )

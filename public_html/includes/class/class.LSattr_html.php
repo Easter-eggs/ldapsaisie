@@ -61,12 +61,7 @@ class LSattr_html {
    * @retval string Le label de l'attribut.
    */
   function getLabel() {
-    if ( $this -> config['label'] != '' ) {
-      return __($this -> config['label']);
-    }
-    else {
-      return __($this -> name);
-    }
+    return __($this -> getConfig('label', $this -> name));
   }
   
   /**
@@ -83,7 +78,7 @@ class LSattr_html {
       LSerror :: addErrorCode('LSattr_html_01',$this -> name);
       return;
     }
-    $element=$form -> addElement($this -> LSformElement_type, $this -> name, $this -> config['label'],$this -> config, $this);
+    $element=$form -> addElement($this -> LSformElement_type, $this -> name, $this -> getLabel(), $this -> config, $this);
     if(!$element) {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
@@ -114,6 +109,19 @@ class LSattr_html {
    **/
   function getFormVal($data) {
     return $this -> attribute -> getDisplayValue();
+  }
+
+  /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  public function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> config);
   }
 
 }

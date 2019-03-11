@@ -115,15 +115,7 @@ class LSformElement_date extends LSformElement {
   * @retval string Le format de la date
   **/
   function getFormat() {
-    if (isset($this -> params['html_options']['format'])) {
-      return $this -> params['html_options']['format'];
-    }
-    else {
-      if (isset($this -> params['html_options']['time']) && !$this -> params['html_options']['time']) {
-        return '%d/%m/%Y';
-      }
-      return "%d/%m/%Y, %T";
-    }
+    return $this -> getParam('html_options.format', ($this -> getParam('html_options.time', true)?'%d/%m/%Y, %T':'%d/%m/%Y'));
   }
 
  /**
@@ -132,11 +124,12 @@ class LSformElement_date extends LSformElement {
   * @retval string The date picker style
   **/
   function getStyle() {
-    if (isset($this -> params['html_options']['style'])) {
-      if (is_dir(LS_LIB_DIR.'arian-mootools-datepicker/datepicker_'.strval($this -> params['html_options']['style']))) {
-        return $this -> params['html_options']['style'];
+    $style = $this -> getParam('html_options.style', $this -> default_style, 'string');
+    if ($style) {
+      if (is_dir(LS_LIB_DIR.'arian-mootools-datepicker/datepicker_'.$style)) {
+        return $style;
       }
-      LSdebug('LSformElement :: Date => unknown style parameter value '.strval($this -> params['html_options']['style']));
+      LSdebug('LSformElement :: Date => unknown style parameter value '.$style);
     }
     return $this -> default_style;
   }
@@ -164,12 +157,12 @@ class LSformElement_date extends LSformElement {
       $params = array(
         'format' => $this -> php2js_format($this -> getFormat()),
         'style' => $this -> getStyle(),
-        'time' => (isset($this -> params['html_options']['time'])?$this -> params['html_options']['time']:true),
-        'manual' => (isset($this -> params['html_options']['manual'])?$this -> params['html_options']['manual']:true),
-        'showNowButton' => (isset($this -> params['html_options']['showNowButton'])?$this -> params['html_options']['showNowButton']:true),
-        'showTodayButton' => (isset($this -> params['html_options']['showTodayButton'])?$this -> params['html_options']['showTodayButton']:true),
+        'time' => $this -> getParam('html_options.time', true, 'bool'),
+        'manual' => $this -> getParam('html_options.manual', true, 'bool'),
+        'showNowButton' => $this -> getParam('html_options.showNowButton', true, 'bool'),
+        'showTodayButton' => $this -> getParam('html_options.showTodayButton', true, 'bool'),
       );
-      LSsession :: addJSconfigParam($this -> name,$params);
+      LSsession :: addJSconfigParam($this -> name, $params);
       
       $codeLang = str_replace('_','-',preg_replace('/\..*$/','',LSsession :: getLang()));
 

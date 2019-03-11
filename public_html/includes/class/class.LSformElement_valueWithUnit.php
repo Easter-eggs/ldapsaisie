@@ -41,15 +41,17 @@ class LSformElement_valueWithUnit extends LSformElement {
   *                     Si le parametre units n'est pas defini, cette fonction retournera False
   **/
   function getUnits() {
-    if (isset($this -> params['html_options']['units']) && is_array($this -> params['html_options']['units'])) {
-      $units=array();
-      foreach($this -> params['html_options']['units'] as $sill => $label) {
-        $units[$sill]=((!isset($this -> params['html_options']['translate_labels']) || $this -> params['html_options']['translate_labels'])?__($label):$label);
+    $units = $this -> getParam('html_options.units');
+    if (is_array($units)) {
+      if ($this -> getParam('html_options.translate_labels', true)) {
+        foreach($units as $sill => $label) {
+          $units[$sill] = __($label);
+        }
       }
       krsort($units);
       return $units;
     }
-    LSerror :: addErrorCode('LSformElement_valueWithUnit_01',$this -> name);
+    LSerror :: addErrorCode('LSformElement_valueWithUnit_01', $this -> name);
     return;
   }
 
@@ -66,9 +68,9 @@ class LSformElement_valueWithUnit extends LSformElement {
   function formatNumber($number) {
     if ((int)$number==$number) return $number;
     return number_format($number,
-      (isset($this -> params['html_options']['nb_decimals'])?$this -> params['html_options']['nb_decimals']:2),
-      (isset($this -> params['html_options']['dec_point'])?$this -> params['html_options']['dec_point']:","),
-      (isset($this -> params['html_options']['thousands_sep'])?$this -> params['html_options']['thousands_sep']:" ")
+      $this -> getParam('html_options.nb_decimals', 2, 'int'),
+      $this -> getParam('html_options.dec_point', ',', 'string'),
+      $this -> getParam('html_options.thousands_sep', ' ', 'string')
     );
   }
 
@@ -163,8 +165,8 @@ class LSformElement_valueWithUnit extends LSformElement {
           if (isset($_POST[$this -> name.'_unitFact'][$key]) && ($_POST[$this -> name.'_unitFact'][$key]!=1)) {
             $f = $_POST[$this -> name.'_unitFact'][$key];
 	  }
-	  if (isset($this -> params['html_options']['store_integer']) && $this -> params['html_options']['store_integer']) {
-           if (isset($this -> params['html_options']['round_down']) && $this -> params['html_options']['round_down']) {
+	  if ($this -> getParam('html_options.store_integer'])) {
+           if ($this -> getParam('html_options.round_down')) {
               $return[$this -> name][$key] = floor($val*$f);
 	    }
 	    else {

@@ -48,8 +48,8 @@ class LSformElement_text extends LSformElement {
     $return = $this -> getLabelInfos();
     // value
     if (!$this -> isFreeze()) {
-      if (isset($this -> params['html_options'])) {
-        LSsession :: addJSconfigParam($this -> name,$this -> params['html_options']);
+      if ($this -> getParam('html_options')) {
+        LSsession :: addJSconfigParam($this -> name, $this -> getParam('html_options'));
       }
       LSsession :: addHelpInfos(
         'LSformElement_text',

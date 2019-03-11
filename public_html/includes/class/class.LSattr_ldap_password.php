@@ -36,11 +36,13 @@ class LSattr_ldap_password extends LSattr_ldap {
    * @retval mixed The display value of this attribute
    */
   function getDisplayValue($data) {
-    if ($this -> config['ldap_options']['displayClearValue']) {
+    if ($this -> getConfig('ldap_options.displayClearValue', false, 'bool')) {
       if (is_array($data)) {
         $ret=array();
+        $wildcardPassword = $this -> getConfig('ldap_options.wildcardPassword');
+        $encodedWildcardPassword = $this -> getConfig('ldap_options.encodedWildcardPassword');
         foreach($data as $p) {
-          if ($p==$this -> config['ldap_options']['wildcardPassword'] || $p==$this -> config['ldap_options']['encodedWildcardPassword']) {
+          if ($p == $wildcardPassword || $p == $encodedWildcardPassword) {
             continue;
           }
           $ret[]=$p;
@@ -73,24 +75,26 @@ class LSattr_ldap_password extends LSattr_ldap {
     $data[]=$this -> encodePassword($this -> clearPassword);
 
     // Wildcard Password
-    if (isset($this -> config['ldap_options']['wildcardPassword'])) {
-      if(!is_array($this -> config['ldap_options']['wildcardPassword'])) {
-        $data[]=$this -> encodePassword($this -> config['ldap_options']['wildcardPassword']);
+    $wildcardPassword = $this -> getConfig('ldap_options.wildcardPassword');
+    if ($wildcardPassword) {
+      if (!is_array($wildcardPassword)) {
+        $data[] = $this -> encodePassword($wildcardPassword);
       }
       else {
-        foreach($this -> config['ldap_options']['wildcardPassword'] as $pwd) {
-          $data[]=$this -> encodePassword($pwd);
+        foreach($wildcardPassword as $pwd) {
+          $data[] = $this -> encodePassword($pwd);
         }
       }
     }
 
     // Wildcard Password already encoded
-    if (isset($this -> config['ldap_options']['encodedWildcardPassword'])) {
-      if(!is_array($this -> config['ldap_options']['encodedWildcardPassword'])) {
-        $data[]=$this -> config['ldap_options']['encodedWildcardPassword'];
+    $encodedWildcardPassword = $this -> getConfig('ldap_options.encodedWildcardPassword');
+    if ($encodedWildcardPassword) {
+      if (!is_array($encodedWildcardPassword)) {
+        $data[] = $encodedWildcardPassword;
       }
       else {
-        $data=array_merge($data,$this -> config['ldap_options']['encodedWildcardPassword']);
+        $data = array_merge($data, $encodedWildcardPassword);
       }
     }
 
@@ -108,21 +112,21 @@ class LSattr_ldap_password extends LSattr_ldap {
    * @retval strinf The encode password
    */
   function encodePassword($clearPassword) {
-    if (isset($this -> config['ldap_options']['encode_function']) || $this -> config['ldap_options']['encode']=='function') {
-      if (!is_callable($this -> config['ldap_options']['encode_function'])) {
-        $this -> config['ldap_options']['encode'] = 'clear';
-        LSerror :: addErrorCode('LSattr_ldap_password_02',$this -> config['ldap_options']['encode_function']);
+    $encode = $this -> getConfig('ldap_options.encode', 'md5crypt', 'string');
+    $encode_function = $this -> getConfig('ldap_options.encode_function');
+    if ($encode_function || $encode == 'function') {
+      if ( (!$encode_function) || (!is_callable($encode_function)) ) {
+        $encode = 'clear';
+        $encode_function = null;
+        LSerror :: addErrorCode('LSattr_ldap_password_02', ($encode_function?$encode_function:__('undefined')));
       }
       else {
-        $this -> config['ldap_options']['encode'] = 'function';
+        $encode = 'function';
       }
     }
-    elseif (!$this -> config['ldap_options']['encode']) {
-      $this -> config['ldap_options']['encode'] = 'md5crypt';
-    }
-    switch($this -> config['ldap_options']['encode']) {
+    switch($encode) {
       case 'crypt':
-        if ($this -> config['ldap_options']['no_random_crypt_salt']) {
+        if ($this -> getConfig('ldap_options.no_random_crypt_salt')) {
           return '{CRYPT}' . crypt($clearPassword,substr($clearPassword,0,2));
         }
         else {
@@ -157,7 +161,7 @@ class LSattr_ldap_password extends LSattr_ldap {
         break;
       case 'sha256':
       case 'sha512':
-        switch($this -> config['ldap_options']['encode']) {
+        switch($encode) {
           case 'sha256':
             $mhash_type = MHASH_SHA256;
             break;
@@ -166,15 +170,15 @@ class LSattr_ldap_password extends LSattr_ldap {
             break;
         }
         if( function_exists( 'mhash' ) ) {
-          return '{'.strtoupper($this -> config['ldap_options']['encode']).'}' . base64_encode( mhash( $mhash_type, $clearPassword ) );
+          return '{'.strtoupper($encode).'}' . base64_encode( mhash( $mhash_type, $clearPassword ) );
         } else {
-          LSerror :: addErrorCode('LSattr_ldap_password_01', $this -> config['ldap_options']['encode']);
+          LSerror :: addErrorCode('LSattr_ldap_password_01', $encode);
         }
         break;
       case 'ssha':
       case 'ssha256':
       case 'ssha512':
-        switch($this -> config['ldap_options']['encode']) {
+        switch($encode) {
           case 'ssha':
             $mhash_type = MHASH_SHA1;
             break;
@@ -188,10 +192,10 @@ class LSattr_ldap_password extends LSattr_ldap {
         if( function_exists( 'mhash' ) && function_exists( 'mhash_keygen_s2k' ) ) {
           mt_srand( (double) microtime() * 1000000 );
           $salt = mhash_keygen_s2k( $mhash_type, $clearPassword, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
-          return "{".strtoupper($this -> config['ldap_options']['encode'])."}".base64_encode( mhash( $mhash_type, $clearPassword.$salt ).$salt );
+          return "{".strtoupper($encode)."}".base64_encode( mhash( $mhash_type, $clearPassword.$salt ).$salt );
         }
         else {
-          LSerror :: addErrorCode('LSattr_ldap_password_01', $this -> config['ldap_options']['encode']);
+          LSerror :: addErrorCode('LSattr_ldap_password_01', $encode);
         }
         break;
       case 'smd5':
@@ -219,10 +223,10 @@ class LSattr_ldap_password extends LSattr_ldap {
         return $clearPassword;
         break;
       case 'function':
-        return call_user_func_array($this -> config['ldap_options']['encode_function'], array(&$this -> attribute -> ldapObject, $clearPassword));
+        return call_user_func_array($encode_function, array(&$this -> attribute -> ldapObject, $clearPassword));
         break;
     }
-    LSerror :: addErrorCode('LSattr_ldap_password_01',$this -> config['ldap_options']['encode']);
+    LSerror :: addErrorCode('LSattr_ldap_password_01', $encode);
     return $clearPassword;
   }
  

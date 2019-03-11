@@ -179,29 +179,21 @@ class LSattribute {
       $data = $this -> ldap -> getDisplayValue($this -> data);
     }
 
-    if (isset($this -> config['onDisplay'])) {
-      if (is_array($this -> config['onDisplay'])) {
-        $result=$data;
-        foreach($this -> config['onDisplay'] as $func) {
-          if (function_exists($func)) {
-            $result=call_user_func($func, $result);
-          }
-          else {
-            LSerror :: addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $func));
-            return;
-          }
-        }
-        return $result;
-      }
-      else {
-        if (function_exists($this -> config['onDisplay'])) {
-          return $this -> config['onDisplay']($data);
+    $onDisplay = $this -> getConfig('onDisplay');
+    if ($onDisplay) {
+      if (!is_array($onDisplay))
+        $onDisplay = array($onDisplay);
+      $result = $data;
+      foreach($onDisplay as $func) {
+        if (function_exists($func)) {
+          $result = call_user_func($func, $result);
         }
         else {
-          LSerror :: addErrorCode('LSattribute_02',array('attr' => $this->name,'func' => $this -> config['onDisplay']));
+          LSerror :: addErrorCode('LSattribute_02', array('attr' => $this->name, 'func' => $func));
           return;
         }
       }
+      return $result;
     }
     return $data;
   }
@@ -222,7 +214,7 @@ class LSattribute {
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
   function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
-    if(isset($this -> config['form'][$idForm])) {
+    if($this -> getConfig("form.$idForm")) {
       if (!$this -> html) {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
@@ -234,13 +226,13 @@ class LSattribute {
         $data = $value;
       }
       else if($this -> data !='') {
-        $data=$this -> getFormVal();
+        $data = $this -> getFormVal();
       }
-      else if (isset($this -> config['default_value'])) {
-        $data=$obj -> getFData($this -> config['default_value']);
+      else if ($this -> getConfig('default_value')) {
+        $data = $obj -> getFData($this -> getConfig('default_value'));
       }
       else {
-        $data=NULL;
+        $data = NULL;
       }
       
       $element = $this -> html -> addToForm($form,$idForm,$data);
@@ -248,35 +240,34 @@ class LSattribute {
         LSerror :: addErrorCode('LSform_06',$this -> name);
       }
 
-      if(isset($this -> config['required']) && $this -> config['required']==1) {
+      if($this -> getConfig('required')) {
         $form -> setRequired($this -> name);
       }
 
-      if (($this -> config['form'][$idForm]==0) || ($this -> myRights() == 'r')) {
+      if ( ($this -> getConfig("form.$idForm")==0) || ($this -> myRights() == 'r') ) {
         $element -> freeze();
       }
       else {
-        if(isset($this -> config['check_data'])) {
-          if(is_array($this -> config['check_data'])) {
-            foreach ($this -> config['check_data'] as $rule => $rule_infos) {
-              if((!$form -> isRuleRegistered($rule))&&($rule!='')) {
-                LSerror :: addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
-                return;
-              }
-              if(!isset($rule_infos['msg'])) {
-                $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> getLabel());
-              }
-              else {
-                $rule_infos['msg']=__($rule_infos['msg']);
-              }
-              if(!isset($rule_infos['params']))
-                $rule_infos['params']=NULL;
-              $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'params' => $rule_infos['params']));
+        $check_data = $this -> getConfig('check_data', array());
+        if(is_array($check_data)) {
+          foreach ($check_data as $rule => $rule_infos) {
+            if((!$form -> isRuleRegistered($rule))&&($rule!='')) {
+              LSerror :: addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
+              return;
             }
+            if(!isset($rule_infos['msg'])) {
+              $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> getLabel());
+            }
+            else {
+              $rule_infos['msg']=__($rule_infos['msg']);
+            }
+            if(!isset($rule_infos['params']))
+              $rule_infos['params']=NULL;
+            $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'params' => $rule_infos['params']));
           }
-          else {
-            LSerror :: addErrorCode('LSattribute_04',$this->name);
-          }
+        }
+        else {
+          LSerror :: addErrorCode('LSattribute_04',$this->name);
         }
       } 
     }
@@ -296,29 +287,10 @@ class LSattribute {
     $return='n';
     $whoami = $this -> ldapObject -> whoami();
     foreach($whoami as $who) {
-      switch ($who) {
-        case 'admin':
-          if($this -> config['rights']['admin']=='w') {
-            $return='w';
-            break;
-          }
-          else {
-            $return='r';
-          }
-          break;
-        default:
-          if (!isset($this -> config['rights'][$who])) break;
-          if ($this -> config['rights'][$who] == 'w') {
-            $return='w';
-            break;
-          }
-          else if($this -> config['rights'][$who] == 'r') {
-            $return='r';
-          }
-          break;
-      }
-      if ($return=='w') {
-        break;
+      $right = $this -> getConfig("rights.$who", ($who=='admin'?'r':null));
+      if (in_array($right, array('r', 'w'))) {
+        $return = $right;
+        if ($return == 'w') break;
       }
     }
     $this -> _myRights = $return;
@@ -337,7 +309,7 @@ class LSattribute {
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
   function addToView(&$form) {
-    if((isset($this -> config['view'])) && ($this -> config['view']) && ($this -> myRights() != 'n') ) {
+    if ($this -> getConfig('view', false, 'bool') && ($this -> myRights() != 'n') ) {
       if (!$this -> html) {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
@@ -370,7 +342,7 @@ class LSattribute {
    * @retval boolean true si la valeur a été rafraichie ou que ce n'est pas nécessaire, false sinon
    */
   function refreshForm(&$form,$idForm) {
-    if(isset($this -> config['form'][$idForm])&&($this -> myRights()!='n')) {
+    if ($this -> getConfig("form.$idForm") && ($this -> myRights() != 'n')) {
       if (!$this -> html) {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
@@ -461,7 +433,7 @@ class LSattribute {
    * @retval boolean true si l'attribut est obligatoire, false sinon
    */
   function isRequired() {
-    return (isset($this -> config['required'])?(bool)$this -> config['required']:false);
+    return $this -> getConfig('required', false, 'bool');
   }
   
   /**
@@ -472,15 +444,14 @@ class LSattribute {
    * @retval boolean true si la valeur de l'attribut peut être générée, false sinon
    */
   function canBeGenerated() {
+    $format = $this -> getConfig('generate_value_format', $this -> getConfig('default_value'));
     return (
-              (function_exists($this -> config['generate_function']))
-              ||
-              (isset($this -> config['generate_value_format']))
+              (function_exists($this -> getConfig('generate_function')))
               ||
               (
-                (is_string($this -> config['default_value']))
+                (is_string($format))
                 &&
-                (strlen($this -> config['default_value'])>0)
+                (strlen($format) > 0)
               )
            );
   }
@@ -493,17 +464,16 @@ class LSattribute {
    * @retval boolean true si la valeur à put être générée, false sinon
    */
   function generateValue() {
-    $value=false;
-    if (function_exists($this -> config['generate_function'])) {
-      $value=call_user_func_array($this -> config['generate_function'],array(&$this -> ldapObject));
+    $value = false;
+    $generate_function = $this -> getConfig('generate_function');
+    $format = $this -> getConfig('generate_value_format', $this -> getConfig('default_value'));
+    if ($generate_function && function_exists($generate_function)) {
+      $value = call_user_func_array($generate_function, array(&$this -> ldapObject));
     }
-    else if (isset($this -> config['generate_value_format'])) {
-      $value = $this -> ldapObject -> getFData($this -> config['generate_value_format']);
+    else if ($format) {
+      $value = $this -> ldapObject -> getFData($format);
     }
-    else if (is_string($this -> config['default_value']) && strlen($this -> config['default_value'])>0) {
-      $value = $this -> ldapObject -> getFData($this -> config['default_value']);
-    }
-    if ($value!==false) {
+    if ($value !== false) {
       if (!empty($value)) {
         if (!is_array($value)) {
           $value=array($value);
@@ -720,6 +690,19 @@ class LSattribute {
     }
     
     return $return;
+  }
+
+  /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  public function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> config);
   }
   
 }

@@ -80,13 +80,13 @@ class LSformElement_password extends LSformElement {
           LSdebug ('send by form');
         }
       }
-      else if (isset($this -> params['html_options']['mail']['isset']) && $this -> params['html_options']['mail']['send']==1) {
+      else if ($this -> getParam('html_options.mail.send')) {
         $this -> sendMail = true;
         LSdebug ('send by config');
       }
       if ($this -> sendMail && LSsession :: loadLSaddon('mail')) {
-        $msg = $this -> params['html_options']['mail']['msg'];
-        $subject = $this -> params['html_options']['mail']['subject'];
+        $msg = $this -> getParam('html_options.mail.msg');
+        $subject = $this -> getParam('html_options.mail.subject');
         if (isset($_POST['LSformElement_password_'.$this -> name.'_msg'])) {
           $msgInfos = json_decode($_POST['LSformElement_password_'.$this -> name.'_msg']);
           if ($msgInfos -> subject) {
@@ -122,7 +122,7 @@ class LSformElement_password extends LSformElement {
     LSsession :: addCssFile('LSformElement_password.css');
     $return = $this -> getLabelInfos();
     $pwd = "";
-    if ($this -> params['html_options']['clearView'] or $this -> params['html_options']['clearEdit']) {
+    if ($this -> getParam('html_options.clearView') or $this -> getParam('html_options.clearEdit')) {
       $pwd = $this -> values[0];
     }
     if (!$this -> isFreeze()) {
@@ -142,35 +142,43 @@ class LSformElement_password extends LSformElement {
         )
       );
       
-      if (($this -> params['html_options']['generationTool'])&&($this -> params['html_options']['autoGenerate'])&&(empty($this -> values))) {
+      if ($this -> getParam('html_options.generationTool') && $this -> getParam('html_options.autoGenerate') && empty($this -> values)) {
         $pwd=$this->generatePassword($this -> params);
       }
       
       $params = array(
-        'generate' => ($this -> params['html_options']['generationTool']==True),
-        'clearEdit' => ($this -> params['html_options']['clearEdit']==True),
-        'viewHash' => ($this -> params['html_options']['viewHash']==True),
-        'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && ( (isset($this -> params['html_options']['verify']) && $this -> params['html_options']['verify']) || (!isset($this -> params['html_options']['verify'])) ) )
+        'generate' => $this -> getParam('html_options.generationTool', true, 'bool'),
+        'clearEdit' => $this -> getParam('html_options.clearEdit', false, 'bool'),
+        'viewHash' => $this -> getParam('html_options.viewHash', false, 'bool'),
+        'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && $this -> getParam('html_options.verify', True, 'bool') )
       );
-      if (isset($this -> params['html_options']['mail'])) {
-        $params['mail'] = $this -> params['html_options']['mail'];
+
+      if ($this -> getParam('html_options.mail')) {
+        $params['mail'] = $this -> getParam('html_options.mail');
         $params['mail']['mail_attr'] = $this -> getMailAttrs();
       }
-      LSsession :: addJSconfigParam($this -> name,$params);
+      LSsession :: addJSconfigParam($this -> name, $params);
       
       LSsession :: addJSscript('LSformElement_password_field.js');
       LSsession :: addJSscript('LSformElement_password.js');
     }
-    $return['html'] = $this -> fetchTemplate(NULL,array('pwd' => $pwd,'clearView' => $this -> params['html_options']['clearView'],'clearEdit' => $this -> params['html_options']['clearEdit']));
+    $return['html'] = $this -> fetchTemplate (
+      NULL,
+      array(
+        'pwd' => $pwd,
+        'clearView' => $this -> getParam('html_options.clearView'),
+        'clearEdit' => $this -> getParam('html_options.clearEdit'),
+      )
+    );
     return $return;
   }
   
   function generatePassword($params=NULL) {
-    if ($params['html_options']['use_pwgen']) {
-      $args=(isset($params['html_options']['pwgen_opts'])?$params['html_options']['pwgen_opts']:'');
-      $len=(isset($params['html_options']['lenght'])?$params['html_options']['lenght']:8);
-      $bin=(isset($params['html_options']['pwgen_path'])?$params['html_options']['pwgen_path']:'pwgen');
-      $cmd="$bin ".escapeshellcmd($args)." $len 1";
+    if (LSconfig :: get('html_options.use_pwgen', false, null, $params)) {
+      $args = LSconfig :: get('html_options.pwgen_opts', '', 'string', $params);
+      $len = LSconfig :: get('html_options.lenght', 8, 'int', $params);
+      $bin = LSconfig :: get('html_options.pwgen_path', 'pwgen', 'string', $params);
+      $cmd = "$bin ".escapeshellcmd($args)." $len 1";
       exec($cmd,$ret,$retcode);
       LSdebug("Generate password using pwgen. Cmd : '$cmd' / Return code : $retcode / Return : ".print_r($ret,1));
       if ($retcode==0 && count($ret)>0) {
@@ -180,7 +188,7 @@ class LSformElement_password extends LSformElement {
         LSerror :: addErrorCode('LSformElement_password_03');
       }
     }
-    return generatePassword($params['html_options']['chars'],$params['html_options']['lenght']);
+    return generatePassword(LSconfig :: get('html_options.chars', null, null, $params), LSconfig :: get('html_options.lenght', 8, 'int', $params));
   }
   
   function verifyPassword($pwd) {
@@ -211,12 +219,13 @@ class LSformElement_password extends LSformElement {
   }
 
   function getMailAttrs() {
-    if (!isset($this -> params['html_options']['mail']) || !is_array($this -> params['html_options']['mail']))
+    if (!$this -> getParam('html_options.mail'))
       return False;
-    if (isset($this -> params['html_options']['mail']['get_mail_attr_function'])) {
-      if (is_callable($this -> params['html_options']['mail']['get_mail_attr_function'])) {
+    if ($this -> getParam('html_options.mail.get_mail_attr_function')) {
+      $func = $this -> getParam('html_options.mail.get_mail_attr_function');
+      if (is_callable($func)) {
         try {
-          return call_user_func_array($this -> params['html_options']['mail']['get_mail_attr_function'], array(&$this));
+          return call_user_func_array($func, array(&$this));
         }
         catch(Exception $e) {
           LSerror :: addErrorCode('LSformElement_password_05', $e->getMessage());
@@ -227,9 +236,7 @@ class LSformElement_password extends LSformElement {
         return False;
       }
     }
-    elseif (isset($this -> params['html_options']['mail']['mail_attr'])) {
-      return $this -> params['html_options']['mail']['mail_attr'];
-    }
+    return $this -> getParam('html_options.mail.mail_attr');
   }
 
   function send($params) {
@@ -266,15 +273,9 @@ class LSformElement_password extends LSformElement {
       if (checkEmail($mail,NULL,true)) {
         $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password',$this -> sendMail['pwd']);
         $msg = $this -> attr_html -> attribute -> ldapObject -> getFData($this -> sendMail['msg']);
-        if (isset($this -> params['html_options']['mail']['headers'])) {
-          $headers = $this -> params['html_options']['mail']['headers'];
-        }
-        else {
-          $headers = array();
-        }
-	if ($this -> params['html_options']['mail']['bcc']) {
-		$headers['Bcc']=$this -> params['html_options']['mail']['bcc'];
-	}
+        $headers = $this -> getParam('html_options.mail.headers', array());
+        $bcc = $this -> getParam('html_options.mail.bcc');
+        if ($bcc) $headers['Bcc'] = $bcc;
         if (sendMail(
           $mail,
           $this -> sendMail['subject'],
@@ -349,10 +350,7 @@ class LSformElement_password extends LSformElement {
   }
 
   public function isLoginPassword() {
-    if (!isset($this -> params['html_options']['isLoginPassword']) || $this -> params['html_options']['isLoginPassword']) {
-      return true;
-    }
-    return false;
+    return $this -> getParam('html_options.isLoginPassword', true);
   }
 
 }

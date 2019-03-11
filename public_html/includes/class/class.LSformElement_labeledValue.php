@@ -51,7 +51,7 @@ class LSformElement_labeledValue extends LSformElement {
       $parseValues[]=$this -> parseValue($val);
     }
     $return['html'] = $this -> fetchTemplate(NULL,array(
-      'labels' => $this -> params['html_options']['labels'],
+      'labels' => $this -> getParam('html_options.labels'),
       'parseValues' => $parseValues,
       'unrecognizedValueTxt' => __('(unrecognized value)'),
       'unrecognizedLabelTxt' => __('(unrecognized label)'),
@@ -66,10 +66,9 @@ class LSformElement_labeledValue extends LSformElement {
   */
   function getEmptyField() {
     return $this -> fetchTemplate($this -> fieldTemplate,array(
-      'labels' => $this -> params['html_options']['labels'],
+      'labels' => $this -> getParam('html_options.labels'),
     ));
   }
-
 
  /**
   * Parse une valeur
@@ -82,8 +81,9 @@ class LSformElement_labeledValue extends LSformElement {
     $ret=array('raw_value' => $value);
     if (preg_match('/^\[([^\]]*)\](.*)$/',$value,$m)) {
       $ret['label'] = $m[1];
-      if (isset($this -> params['html_options']['labels'][$ret['label']]))
-	      $ret['translated_label'] = $this -> params['html_options']['labels'][$ret['label']];
+      $label = $this -> getParam('html_options.labels.'.$ret['label']);
+      if ($label)
+	      $ret['translated_label'] = $label;
       $ret['value'] = $m[2];
     }
     return $ret;

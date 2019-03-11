@@ -47,7 +47,7 @@ class LSformElement_select_box extends LSformElement_select {
     if (!$this -> isFreeze()) {
       LSsession :: addCssFile('LSformElement_select_box.css');
     }
-    $this -> fetchVariables['translate_labels'] = ((isset($this -> params['translate_labels']) && !$this -> params['translate_labels'])?false:true);
+    $this -> fetchVariables['translate_labels'] = $this -> getParam('translate_labels', true);
     return parent :: getDisplay();
   }
 

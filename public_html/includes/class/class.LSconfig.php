@@ -60,17 +60,31 @@ class LSconfig {
   * 
   * @retval mixed La valeur de la variable, ou false si son nom n'est parsable
   **/
-  public static function get($var) {
-    $vars=explode('.',$var);
-    if(is_array($vars)) {
-      $data=self :: $data;
+  public static function get($var, $default=null, $cast=null, $data=null) {
+    $vars = explode('.', $var);
+    $value = $default;
+    if (is_array($vars)) {
+      $value = (is_array($data)?$data:self :: $data);
       foreach ($vars as $v) {
-        if (!isset($data[$v])) return;
-        $data=$data[$v];
+        if (!is_array($value) || !isset($value[$v])) {
+          $value = $default;
+          break;
+        }
+        $value = $value[$v];
       }
-      return $data;
     }
-    return;
+    switch($cast) {
+      case 'bool':
+        return boolval($value);
+      case 'int':
+        return intval($value);
+      case 'float':
+        return floatval($value);
+      case 'string':
+        return strval($value);
+      default:
+        return $value;
+    }
   }
 
  /**

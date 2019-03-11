@@ -149,10 +149,7 @@ class LSformElement_quota extends LSformElement {
   }
 
   private function getFactor() {
-    if (isset($this -> params['html_options']['factor'])) {
-	return $this -> params['html_options']['factor'];
-    }
-    return 1;
+    return $this -> getParam('html_options.factor', 1);
   }
 }
 

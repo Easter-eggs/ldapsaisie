@@ -43,23 +43,25 @@ class LSformElement_postaladdress extends LSformElement_textarea {
     $return = parent :: getDisplay();
     if ($this -> isFreeze()) {
       if (!empty($this->values)) {
-        $map_url_format=(isset($this -> params['html_options']['map_url_format'])?$this -> params['html_options']['map_url_format']:'http://nominatim.openstreetmap.org/search.php?q=%{pattern}');
-        if (isset($this -> params['html_options']['map_url_pattern_generate_function'])) {
-          if (is_callable($this -> params['html_options']['map_url_pattern_generate_function'])) {
-            $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',call_user_func($this -> params['html_options']['map_url_pattern_generate_function'],$this));
+        $map_url_format = $this -> getParam('html_options.map_url_format', 'http://nominatim.openstreetmap.org/search.php?q=%{pattern}', 'string');
+        $map_url_pattern_generate_function = $this -> getParam('html_options.map_url_pattern_generate_function');
+        $map_url_pattern_format = $this -> getParam('html_options.map_url_pattern_format');
+        if ($map_url_pattern_generate_function) {
+          if (is_callable($map_url_pattern_generate_function)) {
+            $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern', call_user_func($map_url_pattern_generate_function, $this));
           }
           else {
-            LSerror::addErrorCode('LSformElement_postaladdress_01', $this -> params['html_options']['map_url_pattern_generate_function']);
+            LSerror::addErrorCode('LSformElement_postaladdress_01', $map_url_pattern_generate_function);
           }
 	}
-	elseif (isset($this -> params['html_options']['map_url_pattern_format'])) {
-          $pattern=$this -> attr_html -> attribute -> ldapObject -> getFData($this -> params['html_options']['map_url_pattern_format']);
-          $pattern=str_replace("\n"," ",$pattern);
-          $pattern=urlencode($pattern);
-          $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',$pattern);
+	elseif ($map_url_pattern_format) {
+          $pattern = $this -> attr_html -> attribute -> ldapObject -> getFData($map_url_pattern_format);
+          $pattern = str_replace("\n"," ",$pattern);
+          $pattern = urlencode($pattern);
+          $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern', $pattern);
 	}
         else {
-          $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern',LSformElement_postaladdress__generate_pattern($this));
+          $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern', LSformElement_postaladdress__generate_pattern($this));
         }
         LSsession :: addJSconfigParam('LSformElement_postaladdress_'.$this -> name, array (
             'map_url' => $this -> attr_html -> attribute -> ldapObject -> getFData($map_url_format)

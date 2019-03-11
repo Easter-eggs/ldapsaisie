@@ -82,7 +82,7 @@ class LSattr_html_select_list extends LSattr_html{
     if (!$name) $name=$this -> name;
     if (!$ldapObject) $ldapObject=$this->attribute->ldapObject;
     $retInfos = array();
-    if (is_array($options['possible_values'])) {
+    if (isset($options['possible_values']) && is_array($options['possible_values'])) {
       foreach($options['possible_values'] as $val_key => $val_label) {
         if($val_key==='OTHER_OBJECT') {
           $objInfos=self :: getLSobjectPossibleValues($val_label,$options,$name);

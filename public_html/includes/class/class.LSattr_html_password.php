@@ -37,7 +37,7 @@ class LSattr_html_password extends LSattr_html {
    * @retval LSformElement L'element du formulaire ajouté
    */ 
   function addToForm (&$form,$idForm,$data=NULL) {
-    $element=$form -> addElement('password', $this -> name, $this -> config['label'], $this -> config, $this);
+    $element=$form -> addElement('password', $this -> name, $this -> getLabel(), $this -> config, $this);
     if(!$element) {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;

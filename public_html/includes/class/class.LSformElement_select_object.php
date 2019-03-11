@@ -69,9 +69,9 @@ class LSformElement_select_object extends LSformElement {
           'deleteBtns' => _('Delete'),
           'up_label' => _('Move up'),
           'down_label' => _('Move down'),
-          'ordered' => (($this -> params['html_options']['ordered'])?1:0),
-          'multiple' => (($this -> params['multiple'])?1:0),
-          'filter64' => (($this -> params['html_options']['selectable_object']['filter'])?base64_encode($this -> params['html_options']['selectable_object']['filter']):''),
+          'ordered' => $this -> getParam('html_options.ordered', 0, 'int'),
+          'multiple' => $this -> getParam('multiple', 0, 'int'),
+          'filter64' => base64_encode($this -> getParam('html_options.selectable_object.filter', '', 'string')),
           'noValueLabel' => _('No set value'),
           'noResultLabel' => _('No result')
         )
@@ -93,7 +93,7 @@ class LSformElement_select_object extends LSformElement {
       }
     }
 
-    if ((!isset($this -> params['html_options']['sort']) || $this -> params['html_options']['sort']) && !$this -> params['html_options']['ordered']) {
+    if ($this -> getParam('html_options.sort', true) && !$this -> getParam('html_options.ordered', false, 'bool')) {
       uasort($this -> values,array($this,'_sortTwoValues'));
     }
 
@@ -114,7 +114,7 @@ class LSformElement_select_object extends LSformElement {
    * @retval int Value for uasort
    **/
   private function _sortTwoValues(&$va,&$vb) {
-    if (isset($this -> params['html_options']['sortDirection']) && $this -> params['html_options']['sortDirection']=='DESC') {
+    if ($this -> getParam('html_options.sortDirection') == 'DESC') {
       $dir=-1;
     }
     else {
@@ -176,12 +176,21 @@ class LSformElement_select_object extends LSformElement {
    * @retval array(dn -> displayName) Found objects
    */
   function searchAdd ($pattern) {
-    if (is_array($this -> params['html_options']['selectable_object'])) {
-      if (LSsession :: loadLSobject($this -> params['html_options']['selectable_object']['object_type'])) {
-        $obj = new $this -> params['html_options']['selectable_object']['object_type']();
+    if ($this -> getParam('html_options.selectable_object')) {
+      $obj_type = $this -> getParam('html_options.selectable_object.object_type');
+      if (LSsession :: loadLSobject($obj_type)) {
+        $obj = new $obj_type();
         $sparams = array();
-        $sparams['onlyAccessible'] = (isset($this -> params['html_options']['selectable_object']['onlyAccessible'])?$this -> params['html_options']['selectable_object']['onlyAccessible']:FALSE);
-        $ret = $obj -> getSelectArray($pattern,NULL,$this -> params['html_options']['selectable_object']['display_name_format'],false,true,(isset($this -> params['html_options']['selectable_object']['filter'])?$this -> params['html_options']['selectable_object']['filter']:NULL),$sparams);
+        $sparams['onlyAccessible'] = $this -> getParam('html_options.selectable_object.onlyAccessible', false, 'bool');
+        $ret = $obj -> getSelectArray(
+          $pattern,
+          NULL,
+          $this -> getParam('html_options.selectable_object.display_name_format'),
+          false,
+          true,
+          $this -> getParam('html_options.selectable_object.filter'),
+          $sparams
+        );
         if (is_array($ret)) {
           return $ret;
         }
