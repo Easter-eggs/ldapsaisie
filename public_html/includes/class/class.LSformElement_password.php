@@ -56,7 +56,7 @@ class LSformElement_password extends LSformElement {
       $val = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue(); 
       if( (empty($return[$this -> name][0]) ) && ( ! empty( $val ) ) ) {
         unset($return[$this -> name]);
-        $this -> form -> _notUpdate[$this -> name] == true;
+        $this -> form -> _notUpdate[$this -> name] = true;
         return true;
       }
       
