@@ -165,7 +165,7 @@ class LSformElement_valueWithUnit extends LSformElement {
           if (isset($_POST[$this -> name.'_unitFact'][$key]) && ($_POST[$this -> name.'_unitFact'][$key]!=1)) {
             $f = $_POST[$this -> name.'_unitFact'][$key];
 	  }
-	  if ($this -> getParam('html_options.store_integer'])) {
+	  if ($this -> getParam('html_options.store_integer')) {
            if ($this -> getParam('html_options.round_down')) {
               $return[$this -> name][$key] = floor($val*$f);
 	    }

@@ -69,7 +69,7 @@ class LSformRule_compare extends LSformRule {
    */
   public static function validate ($values,$options=array(),$formElement) {
     if (!isset($options['params']['operator'])) {
-      LSerror :: addErrorCode('LSformRule_01',array('type' => 'compare', 'param' => 'operator');
+      LSerror :: addErrorCode('LSformRule_01',array('type' => 'compare', 'param' => 'operator'));
       return;
     }
     $operator = self :: _findOperator($options['params']['operator']);
