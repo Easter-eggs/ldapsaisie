@@ -24,7 +24,10 @@
 ini_set( 'magic_quotes_gpc', 'off' );
 ini_set( 'magic_quotes_sybase', 'off' );
 ini_set( 'magic_quotes_runtime', 'off' );
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+if (isset($_REQUEST['LSdebug']) || preg_match('/^127\.[0-9]+\.[0-9]+\.[0-9]+$/', $_SERVER['HTTP_HOST']))
+	error_reporting(E_ALL);
+else
+	error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 
 // Définitions des dossiers d'inclusions
 define('LS_CONF_DIR','conf/');
