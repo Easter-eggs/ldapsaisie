@@ -163,7 +163,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval array Merged array
    **/
-  protected function _array_merge() {
+  protected static function _array_merge() {
     $ret=array();
     foreach(func_get_args() as $a) {
       foreach($a as $k => $v) {
