@@ -61,24 +61,33 @@ class LSformElement_select extends LSformElement {
   }
 
  /**
-  * Check if a value is valid
+  * Check if a value is valid for the current form element
   *
   * This method check if a value is correct, that mean if it's one
   * of the possible values.
   *
   * @param[in] $value The value to check
-  * @param[in] $possible_values (Optional) The possible values
   *
   * @retval string or False The value's label or False if this value is incorrect
   */
-  public static function isValidValue($value,$possible_values=False) {
+  public function isValidValue($value) {
+    return self :: _isValidValue($value, $this -> getParam('text_possible_values'));
+  }
+
+ /**
+  * Check if a value is valid against specified possible values
+  *
+  * This method check if a value is correct, that mean if it's one
+  * of the possible values.
+  *
+  * @param[in] $value The value to check
+  * @param[in] $possible_values The possible values
+  *
+  * @retval string or False The value's label or False if this value is incorrect
+  */
+  public static function _isValidValue($value, $possible_values) {
     if (!is_array($possible_values)) {
-      if (isset($this) && is_a($this, __CLASS__) && $this -> getParam('text_possible_values')) {
-        $possible_values = $this -> getParam('text_possible_values');
-      }
-      else {
-        return False;
-      }
+      return False;
     }
 
     $ret=False;
@@ -128,7 +137,7 @@ class LSformElement_select extends LSformElement {
 function LSformElement_select_checkIsValidValue($params,$template) {
   extract($params);
 
-  $ret = LSformElement_select :: isValidValue($value,$possible_values);
+  $ret = LSformElement_select :: _isValidValue($value, $possible_values);
 
   if ($ret===False) {
     $label='';
