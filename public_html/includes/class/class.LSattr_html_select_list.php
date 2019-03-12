@@ -177,12 +177,11 @@ class LSattr_html_select_list extends LSattr_html{
    * Apply sort feature on possible values if this feature is enabled
    *
    * @param[in] &$retInfos array Possible values array reference to sort
-   * @param[in] $options array|false Attribute options (optional)
+   * @param[in] $options array|false Attribute options
    *
    * @retval void
    **/
-  protected function _sort(&$retInfos,$options=false) {
-    if (!$options) $options=$this -> config['html_options'];
+  protected static function _sort(&$retInfos, $options) {
     if (!isset($options['sort']) || $options['sort']) {
       if (isset($options['sortDirection']) && $options['sortDirection']=='DESC') {
         uasort($retInfos,array('LSattr_html_select_list','_sortTwoValuesDesc'));
