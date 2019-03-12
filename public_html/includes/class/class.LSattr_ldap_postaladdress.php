@@ -33,7 +33,7 @@ class LSattr_ldap_postaladdress extends LSattr_ldap {
    *
    * @retval mixed La valeur d'affichage de l'attribut
    */
-  public static function getDisplayValue($data) {
+  public function getDisplayValue($data) {
     return str_replace("$","\n",$data);
   }
 
@@ -44,7 +44,7 @@ class LSattr_ldap_postaladdress extends LSattr_ldap {
    *
    * @retval mixed La valeur traitée de l'attribut
    */
-  public static function getUpdateData($data) {
+  public function getUpdateData($data) {
     return str_replace("\n","$",$data);
   }
 
