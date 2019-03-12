@@ -238,17 +238,15 @@ class LSattr_html_select_list extends LSattr_html{
    * Retourne un tableau des valeurs possibles d'un type d'objet
    *
    * @param[in] $conf OTHER_OBJECT configuration array
-   * @param[in] $options array|false Attribute options (optional)
-   * @param[in] $name Attribute name (optional)
+   * @param[in] $options array|false Attribute options
+   * @param[in] $name Attribute name
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */
-  protected static function getLSobjectPossibleValues($conf,$options=false,$name=false) {
-    if (!$options) $options=$this -> config['html_options'];
-    if (!$name) $name=$this -> name;
+  protected static function getLSobjectPossibleValues($conf, $options, $name) {
     $retInfos = array();
 
     if ((!isset($conf['object_type'])) || ((!isset($conf['value_attribute'])) && (!isset($conf['values_attribute'])))) {
