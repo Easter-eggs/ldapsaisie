@@ -752,7 +752,7 @@ class LSsearch {
     }
     
     // Filter
-    $objFilter=LSldapObject::getObjectFilter($this -> LSobject);
+    $objFilter=LSldapObject::_getObjectFilter($this -> LSobject);
     if ($objFilter) {
       if (!is_null($retval['filter'])) {
         $filter=LSldap::combineFilters('and',array($objFilter,$retval['filter']));

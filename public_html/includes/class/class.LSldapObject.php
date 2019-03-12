@@ -490,7 +490,7 @@ class LSldapObject {
               $sfilter_user=NULL;
             }
             if(isset($test['object_type']) && LSsession :: loadLSobject($test['object_type']) ) {
-              $sfilter=self :: getObjectFilter($test['object_type']);
+              $sfilter=self :: _getObjectFilter($test['object_type']);
 
               if ($sfilter_user) {
                 $sfilter=LSldap::combineFilters('and',array($sfilter_user,$sfilter));
@@ -692,6 +692,17 @@ class LSldapObject {
         $basedn.=','.$infos[$i];
     return array($infos[0],$basedn);
   }
+
+  /**
+   * Retourne le filtre correpondants aux objetcClass de l'objet courant
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval Net_LDAP2_Filter le filtre ldap correspondant au type de l'objet
+   */
+  public function getObjectFilter() {
+    return self :: getObjectFilter($this -> type_name);
+  }
   
   /**
    * Retourne le filtre correpondants aux objetcClass de l'objet
@@ -700,10 +711,7 @@ class LSldapObject {
    *
    * @retval Net_LDAP2_Filter le filtre ldap correspondant au type de l'objet
    */ 
-  public static function getObjectFilter($type=null) {
-    if (is_null($type)) {
-        $type = $this -> type_name;
-    }
+  public static function _getObjectFilter($type) {
     $oc=LSconfig::get("LSobjects.$type.objectclass");
     if(!is_array($oc)) return;
     $filters=array();
