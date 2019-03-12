@@ -106,7 +106,7 @@ class LSsearch {
       }
     }
     else {
-      $this -> purgeParams();
+      $this -> purgeParams($LSobject);
       $this -> loadDefaultParameters();
     }
     
@@ -192,10 +192,7 @@ class LSsearch {
    * 
    * @retval void
    */
-  public function purgeParams($LSobject=NULL) {
-    if (is_null($LSobject)) {
-      $LSobject = $this -> LSobject;
-    }
+  public static function purgeParams($LSobject) {
     unset($_SESSION['LSsession']['LSsearch'][$LSobject]['params']);
   }
   
@@ -204,9 +201,7 @@ class LSsearch {
    * 
    * @retval void
    */
-  public function purgeCache($LSobject=NULL) {
-    if (is_null($LSobject))
-      $LSobject = $this -> LSobject;
+  public static function purgeCache($LSobject) {
     unset($_SESSION['LSsession']['LSsearch'][$LSobject]);
   }
   
