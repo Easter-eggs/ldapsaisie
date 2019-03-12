@@ -53,7 +53,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval LSformElement L'element du formulaire ajouté
    */
-  function addToForm (&$form,$idForm,$data=NULL) {
+  public function addToForm (&$form,$idForm,$data=NULL) {
     $possible_values=$this -> getPossibleValues();
     $this -> config['text_possible_values'] = $possible_values;
     $element=parent::addToForm($form,$idForm,$data);
@@ -77,7 +77,7 @@ class LSattr_html_select_list extends LSattr_html{
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */ 
-  function getPossibleValues($options=false,$name=false,&$ldapObject=false) {
+  public static function getPossibleValues($options=false,$name=false,&$ldapObject=false) {
     if (!$options) $options=$this -> config['html_options'];
     if (!$name) $name=$this -> name;
     if (!$ldapObject) $ldapObject=$this->attribute->ldapObject;
@@ -188,7 +188,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval int Value for uasort
    **/
-  protected function _sortTwoValuesAsc(&$va,&$vb) {
+  protected static function _sortTwoValuesAsc(&$va,&$vb) {
     if (is_array($va)) {
       $nva=$va['label'];
     }
@@ -216,7 +216,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval int Value for uasort
    **/
-  function _sortTwoValuesDesc(&$va,&$vb) {
+  protected static function _sortTwoValuesDesc(&$va,&$vb) {
     return (-1 * self :: _sortTwoValuesAsc($va,$vb));
   }
 
@@ -233,7 +233,7 @@ class LSattr_html_select_list extends LSattr_html{
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */
-  protected function getLSobjectPossibleValues($conf,$options=false,$name=false) {
+  protected static function getLSobjectPossibleValues($conf,$options=false,$name=false) {
     if (!$options) $options=$this -> config['html_options'];
     if (!$name) $name=$this -> name;
     $retInfos = array();

@@ -61,7 +61,7 @@ class LSformElement_maildir extends LSformElement_text {
   
   var $fieldTemplate = 'LSformElement_maildir_field.tpl';
   
-  function getDisplay() {
+  public function getDisplay() {
     LSsession :: addHelpInfos (
       'LSformElement_maildir',
       array(
@@ -82,7 +82,7 @@ class LSformElement_maildir extends LSformElement_text {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     // Récupère la valeur dans _POST, et les vérifie avec la fonction générale
     $retval = parent :: getPostData($return);
     

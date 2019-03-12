@@ -32,7 +32,7 @@ class LSattr_html_maildir extends LSattr_html {
   var $LSformElement_type = 'maildir';
   var $_toDo = array();
   
-  function LSattr_html_maildir ($name,$config,&$attribute) {
+  public function __construct($name, $config, &$attribute) {
     $attribute -> addObjectEvent('before_delete',$this,'beforeDelete');
     $attribute -> addObjectEvent('after_delete',$this,'deleteMaildirByFTP');
     return parent :: LSattr_html($name, $config, $attribute);
@@ -47,7 +47,7 @@ class LSattr_html_maildir extends LSattr_html {
     $this -> attribute -> addObjectEvent('after_modify',$this,'toDo');
   }
   
-  function toDo() {
+  public function toDo() {
     if (is_array($this -> _toDo)) {
       switch($this -> _toDo['action']) {
         case 'delete':

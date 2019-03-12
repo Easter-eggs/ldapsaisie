@@ -42,7 +42,7 @@ class LSformElement_select extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
     $params = array();
     if (!$this -> isFreeze()) {
@@ -71,7 +71,7 @@ class LSformElement_select extends LSformElement {
   *
   * @retval string or False The value's label or False if this value is incorrect
   */
-  public function isValidValue($value,$possible_values=False) {
+  public static function isValidValue($value,$possible_values=False) {
     if (!is_array($possible_values)) {
       if (isset($this) && is_a($this, __CLASS__) && $this -> getParam('text_possible_values')) {
         $possible_values = $this -> getParam('text_possible_values');

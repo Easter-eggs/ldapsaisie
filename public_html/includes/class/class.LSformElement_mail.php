@@ -44,7 +44,7 @@ class LSformElement_mail extends LSformElement_text {
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
   
-  function getDisplay() {
+  public function getDisplay() {
     LSsession :: addHelpInfos (
       'LSformElement_mail',
       array(
@@ -57,7 +57,7 @@ class LSformElement_mail extends LSformElement_text {
     return parent :: getDisplay();
   }
 
-  function fetchTemplate($template=NULL,$variables=array()) {
+  public function fetchTemplate($template=NULL,$variables=array()) {
     if ($this -> getParam('html_options.disableMailSending', false, 'bool')) {
       $this -> fetchVariables['uriClass'] .= " LSformElement_mail_disableMailSending";
     }

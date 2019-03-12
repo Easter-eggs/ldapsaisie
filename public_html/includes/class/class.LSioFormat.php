@@ -38,7 +38,7 @@ class LSioFormat {
    *
    * @retval void
    **/
-  function LSioFormat($LSobject,$ioFormat) {
+  public function __construct($LSobject, $ioFormat) {
     $conf=LSconfig::get('LSobjects.'.$LSobject.".ioFormat.".$ioFormat);
     if(is_array($conf)) {
       $this -> config=$conf;
@@ -59,7 +59,7 @@ class LSioFormat {
    *
    * @retval boolean True if ioFormat driver is ready, false otherwise
    **/
-  function ready() {
+  public function ready() {
     return (is_array($this -> config) && $this -> driver !== False);
   }
 
@@ -70,7 +70,7 @@ class LSioFormat {
    *
    * @retval boolean True if file is loaded and valid, false otherwise
    **/
-  function loadFile($file) {
+  public function loadFile($file) {
     if ($this -> driver -> loadFile($file)) {
       return $this -> driver -> isValid();
     }
@@ -82,7 +82,7 @@ class LSioFormat {
    *
    * @retval array The objects contained by the loaded file
    **/
-  function getAll() {
+  public function getAll() {
     return $this -> driver -> getAllFormated($this -> config['fields'],$this -> config['generated_fields']);
   }
 

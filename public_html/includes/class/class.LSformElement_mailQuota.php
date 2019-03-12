@@ -48,7 +48,7 @@ class LSformElement_mailQuota extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
 
     $quotas=array();
@@ -99,7 +99,7 @@ class LSformElement_mailQuota extends LSformElement {
   *
   * @retval string Code HTML d'un champ vide.
   */
-  function getEmptyField() {
+  public function getEmptyField() {
     return $this -> fetchTemplate(
       $this -> fieldTemplate,
       array(
@@ -113,7 +113,7 @@ class LSformElement_mailQuota extends LSformElement {
   *
   * @retval string Suffix value
   **/
-  function getSuffix() {
+  public function getSuffix() {
     return $this -> getParam('html_options.suffix', 'S', 'string');
   }
 
@@ -127,7 +127,7 @@ class LSformElement_mailQuota extends LSformElement {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }

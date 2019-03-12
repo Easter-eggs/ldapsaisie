@@ -38,7 +38,7 @@ class LSattr_html_select_object extends LSattr_html{
    *
    * @retval LSformElement L'element du formulaire ajouté
    */
-  function addToForm (&$form,$idForm,$data=NULL) {
+  public function addToForm (&$form,$idForm,$data=NULL) {
     $this -> config['attrObject'] = $this;
     $element=$form -> addElement('select_object', $this -> name, $this -> getLabel(), $this -> config, $this);
     if(!$element) {
@@ -68,7 +68,7 @@ class LSattr_html_select_object extends LSattr_html{
    * 
    * @retval mixed La valeur formatée de l'attribut (array('DNs' => 'displayName'))
    **/
-  function refreshForm($data,$fromDNs=false) {
+  public function refreshForm($data,$fromDNs=false) {
     return $this -> getFormValues($data,$fromDNs);
   }
 
@@ -81,7 +81,7 @@ class LSattr_html_select_object extends LSattr_html{
    *
    * @retval array  Tableau des valeurs de l'attribut
    */ 
-  function getValuesFromFormValues($values=NULL) {
+  public function getValuesFromFormValues($values=NULL) {
     $conf = $this -> getConfig('html_options.selectable_object');
     if (is_array($conf) && is_array($values)) {
       $retValues = array();
@@ -136,7 +136,7 @@ class LSattr_html_select_object extends LSattr_html{
    * @retval array Tableau associatif des objects selectionés avec en clé
    *               le DN et en valeur ce qui sera affiché.
    */ 
-  function getFormValues($values=NULL, $fromDNs=false) {
+  public function getFormValues($values=NULL, $fromDNs=false) {
     $conf = $this -> getConfig('html_options.selectable_object');
     if (is_array($conf) && is_array($values)) {
       if (!isset($conf['object_type'])) {
@@ -209,7 +209,7 @@ class LSattr_html_select_object extends LSattr_html{
    * @retval array Tableau associatif des objects selectionnés avec en clé
    *               le DN et en valeur ce qui sera affiché.
    */
-  function getValuesFromSession() {
+  public function getValuesFromSession() {
     $obj_type = $this -> getConfig('html_options.selectable_object.object_type');
     if ( $obj_type && is_array($_SESSION['LSselect'][$obj_type]) ) {
       return $this -> getFormValues($_SESSION['LSselect'][$obj_type], true);
@@ -224,7 +224,7 @@ class LSattr_html_select_object extends LSattr_html{
    *
    * @retval array The values to be displayed in the LSform
    **/
-  function getFormVal($data) {
+  public function getFormVal($data) {
     return $data;
   }
 

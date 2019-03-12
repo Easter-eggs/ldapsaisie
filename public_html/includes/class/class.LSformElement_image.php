@@ -43,7 +43,7 @@ class LSformElement_image extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     LSsession :: addCssFile('LSformElement_image.css');
     $return = true;
     $id=$this -> name.'_'.rand();
@@ -91,7 +91,7 @@ class LSformElement_image extends LSformElement {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }

@@ -40,16 +40,16 @@ class LSauth {
     'displaySelfAccess' => true
   );
 
-  function start() {
-		LSdebug('LSauth :: start()');
+  public static function start() {
+    LSdebug('LSauth :: start()');
     // Load Config
     if (isset(LSsession :: $ldapServer['LSauth']) && is_array(LSsession :: $ldapServer['LSauth'])) {
       self :: $config = LSsession :: $ldapServer['LSauth'];
     }
     if (!LSsession :: loadLSclass('LSauthMethod')) {
-			LSdebug('LSauth :: Failed to load LSauthMethod');
-			return;
-		}
+      LSdebug('LSauth :: Failed to load LSauthMethod');
+      return;
+    }
     if (!isset(self :: $config['method'])) {
       self :: $config['method']='basic';
     }
@@ -69,21 +69,21 @@ class LSauth {
     }
   }
   
-  function forceAuthentication() {
-		LSdebug('LSauth :: forceAuthentication()');
-		if (!is_null(self :: $provider)) {
-			self :: $authData = self :: $provider -> getAuthData();
-			if (self :: $authData) {
-				self :: $authObject = self :: $provider -> authenticate();
-				return self :: $authObject;
-			}
-			// No data : user has not filled the login form
-			LSdebug('LSauth : No data -> user has not filled the login form');
-			return;
-		}
-		LSerror :: addErrorCode('LSauth_06');
-		return;
-	}
+  public static function forceAuthentication() {
+    LSdebug('LSauth :: forceAuthentication()');
+    if (!is_null(self :: $provider)) {
+      self :: $authData = self :: $provider -> getAuthData();
+      if (self :: $authData) {
+        self :: $authObject = self :: $provider -> authenticate();
+        return self :: $authObject;
+      }
+      // No data : user has not filled the login form
+      LSdebug('LSauth : No data -> user has not filled the login form');
+      return;
+    }
+    LSerror :: addErrorCode('LSauth_06');
+    return;
+  }
 
   /**
    * Get LDAP credentials
@@ -94,7 +94,7 @@ class LSauth {
    *
    * @retval Array|false Array of LDAP credentials array('dn','pwd') or False
    **/
-  public function getLDAPcredentials($user) {
+  public static function getLDAPcredentials($user) {
     return self :: $provider -> getLDAPcredentials($user);
   }
 
@@ -103,12 +103,12 @@ class LSauth {
   * 
   * @retval void
   **/
-  public function logout() {
+  public static function logout() {
      if (!is_null(self :: $provider)) {
-			return self :: $provider -> logout();
-		}
-		LSerror :: addErrorCode('LSauth_06');
-		return;
+      return self :: $provider -> logout();
+    }
+    LSerror :: addErrorCode('LSauth_06');
+    return;
   }
 
  /**
@@ -116,45 +116,45 @@ class LSauth {
   * 
   * @retval void
   **/
-  public function disableLogoutBtn() {
-		self :: $params['displayLogoutBtn'] = false;
-	}
+  public static function disableLogoutBtn() {
+    self :: $params['displayLogoutBtn'] = false;
+  }
 
  /**
   * Can display or not logout button in LSauth parameters
   * 
   * @retval boolean
-  **/	
-	public function displayLogoutBtn() {
-		return self :: $params['displayLogoutBtn'];
-	}
+  **/
+  public static function displayLogoutBtn() {
+    return self :: $params['displayLogoutBtn'];
+  }
   
  /**
   * Disable self access
   *
   * @retval void
   **/
-  public function disableSelfAccess() {
-		self :: $params['displaySelfAccess'] = false;
-	}
+  public static function disableSelfAccess() {
+    self :: $params['displaySelfAccess'] = false;
+  }
 
  /**
   * Can display or not self access
   *
   * @retval boolean
   **/
-  public function displaySelfAccess() {
+  public static function displaySelfAccess() {
     return self :: $params['displaySelfAccess'];
   }
 
   /*
    * For compatibillity until loginForm is migrated in LSauth
    */
-  public function disableLoginForm() {
+  public static function disableLoginForm() {
     self :: $params['displayLoginForm'] = false;
   }
-	
-  public function displayLoginForm() {
+
+  public static function displayLoginForm() {
     return self :: $params['displayLoginForm'];
   }
 

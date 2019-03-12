@@ -39,7 +39,7 @@ class LSgroup extends LSldapObject {
    * 
    * @retval Mixed La valeur clef d'un membre
    **/
-  function getMemberKeyValue($object) {
+  public function getMemberKeyValue($object) {
     return $this -> getObjectKeyValueInRelation($object,$this -> userObjectType,$this -> memberAttrValue);
   }
   
@@ -53,7 +53,7 @@ class LSgroup extends LSldapObject {
    * 
    * @retval Array of LSgroup Les groupes de l'utilisateur
    **/
-  function listUserGroups($userObject) {
+  public function listUserGroups($userObject) {
     return $this -> listObjectsInRelation($userObject,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue);
   }
 
@@ -64,7 +64,7 @@ class LSgroup extends LSldapObject {
    * 
    * @retval boolean true si l'utilisateur à été ajouté, False sinon
    **/  
-  function addOneMember($object) {
+  public function addOneMember($object) {
     return $this -> addOneObjectInRelation($object,$this -> memberAttr, $this -> userObjectType,$this -> memberAttrValue,'canEditGroupRelation');
   }
   
@@ -75,7 +75,7 @@ class LSgroup extends LSldapObject {
    * 
    * @retval boolean true si l'utilisateur à été supprimé, False sinon
    **/  
-  function deleteOneMember($object) {
+  public function deleteOneMember($object) {
     return $this -> deleteOneObjectInRelation($object,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue,'canEditGroupRelation');
   }
   
@@ -87,7 +87,7 @@ class LSgroup extends LSldapObject {
   * 
   * @retval boolean True en cas de succès, False sinon
   */
-  function renameOneMember($object,$oldDn) {
+  public function renameOneMember($object,$oldDn) {
     return $this -> renameOneObjectInRelation($object,$oldDn,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue);
   }
   
@@ -99,7 +99,7 @@ class LSgroup extends LSldapObject {
    * 
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
-  function updateUserGroups($object,$listDns) {
+  public function updateUserGroups($object,$listDns) {
     return $this -> updateObjectsInRelation($object,$listDns,$this -> memberAttr,$this -> userObjectType,$this -> memberAttrValue,'canEditGroupRelation');
   }
 
@@ -108,7 +108,7 @@ class LSgroup extends LSldapObject {
    * 
    * @retval boolean true si tout l'utilisateur peut éditer la relation, False sinon
    **/  
-  function canEditGroupRelation($dn=NULL) {
+  public function canEditGroupRelation($dn=NULL) {
     if (!$dn) {
       $dn=$this -> dn;
     }

@@ -29,11 +29,11 @@ LSsession :: loadLSclass('LSauthMethod_basic');
  */
 class LSauthMethod_HTTP extends LSauthMethod_basic {
 
-  function LSauthMethod_HTTP() {
-		LSauth :: disableLoginForm();
-		LSauth :: disableLogoutBtn();
-		return parent :: LSauthMethod_basic();
-	}
+  public function LSauthMethod_HTTP() {
+    LSauth :: disableLoginForm();
+    LSauth :: disableLogoutBtn();
+    return parent :: LSauthMethod_basic();
+  }
 
   /**
    * Check Auth Data

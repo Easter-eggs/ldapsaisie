@@ -34,7 +34,7 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannRoleEntite extends LSformElement_supannCompositeAttribute {
 
-  function LSformElement_supannRoleEntite (&$form, $name, $label, $params,&$attr_html){
+  public function __construct(&$form, $name, $label, $params, &$attr_html){
 	  $this -> components = array (
 		  'role' => array (
 			'label' => _('Role'),

@@ -44,7 +44,7 @@ class LSattr_ldap {
    *
    * @retval boolean Retourne true.
    */
-  function LSattr_ldap ($name,$config,&$attribute) {
+  public function __construct($name, $config, &$attribute) {
     $this -> name = $name;
     $this -> config = $config;
     $this -> attribute =& $attribute;
@@ -58,7 +58,7 @@ class LSattr_ldap {
    *
    * @retval mixed La valeur traitée de l'attribut
    */
-  function getUpdateData($data) {
+  public function getUpdateData($data) {
     return $data;
   }
  
@@ -69,7 +69,7 @@ class LSattr_ldap {
    *
    * @retval mixed La valeur d'affichage de l'attribut
    */
-  function getDisplayValue($data) {
+  public function getDisplayValue($data) {
     return $data;
   }
  
@@ -81,7 +81,7 @@ class LSattr_ldap {
    *
    * @retval boolean True uniquement si la valeur passer en paramètre différe de l'actuelle
    */
-  function isUpdated($data) {
+  public function isUpdated($data) {
     $data=$this -> getUpdateData($data);
     if ($this -> attribute -> data != $data) {
       return true;

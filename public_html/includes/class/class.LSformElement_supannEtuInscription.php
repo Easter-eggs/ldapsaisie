@@ -35,7 +35,7 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannEtuInscription extends LSformElement_supannCompositeAttribute {
 
-	function LSformElement_supannEtuInscription (&$form, $name, $label, $params,&$attr_html){
+	public function __construct(&$form, $name, $label, $params, &$attr_html){
 		$this -> components = array (
 			'etab' => array (
 				'label' => _('Organism'),

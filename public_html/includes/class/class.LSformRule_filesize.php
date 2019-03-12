@@ -38,7 +38,7 @@ class LSformRule_filesize extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  function validate ($value,$options,$formElement) {
+  public static function validate ($value,$options,$formElement) {
     $file = LSsession :: getTmpFile($value);
     
     $size = filesize($file);

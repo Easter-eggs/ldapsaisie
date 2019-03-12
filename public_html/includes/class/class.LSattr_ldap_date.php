@@ -33,7 +33,7 @@ class LSattr_ldap_date extends LSattr_ldap {
    *
    * @retval mixed La valeur d'affichage de l'attribut
    */
-  function getDisplayValue($data) {
+  public function getDisplayValue($data) {
     if(!is_array($data)) {
       $data=array($data);
     }
@@ -57,7 +57,7 @@ class LSattr_ldap_date extends LSattr_ldap {
    *
    * @retval mixed La valeur traitée de l'attribut
    */
-  function getUpdateData($data) {
+  public function getUpdateData($data) {
     if ($this -> getConfig('ldap_options.timestamp', false, 'bool')) {
       return $data;
     }
@@ -75,7 +75,7 @@ class LSattr_ldap_date extends LSattr_ldap {
   * 
   * @retval string Le format de la date
   **/
-  function getFormat() {
+  public function getFormat() {
     return $this -> getConfig('ldap_options.format', '%Y%m%d%H%M%SZ');
   }
 

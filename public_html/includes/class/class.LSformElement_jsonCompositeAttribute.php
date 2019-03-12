@@ -35,7 +35,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   var $template = 'LSformElement_jsonCompositeAttribute.tpl';
   var $fieldTemplate = 'LSformElement_jsonCompositeAttribute_field.tpl';
 
-  function LSformElement_jsonCompositeAttribute (&$form, $name, $label, $params,&$attr_html){
+  public function __construct(&$form, $name, $label, $params, &$attr_html){
     parent :: LSformElement($form, $name, $label, $params,$attr_html);
     $this -> components = $this -> getParam('html_options.components', array());
   }
@@ -73,7 +73,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
 
     $parseValues=array();
@@ -123,7 +123,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   *
   * @retval string Le HTML compilé du template
   */
-  function fetchTemplate($template=NULL,$variables=array()) {
+  public function fetchTemplate($template=NULL,$variables=array()) {
     $components = $this -> components;
     foreach($components as $c => $cconf) {
       if ($cconf['type']=='select_list') {
@@ -148,7 +148,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
    *
    * @retval array
    **/
-  function translateComponentValue($c,$value,$inLoop=false) {
+  protected function translateComponentValue($c,$value,$inLoop=false) {
     if (!$inLoop && isset($this -> components[$c]['multiple']) && $this -> components[$c]['multiple']) {
       $retval = array();
       if (!is_array($value))
@@ -219,7 +219,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
    *
    * @retval boolean true if value is in POST data, false instead
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }

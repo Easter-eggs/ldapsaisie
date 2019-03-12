@@ -35,7 +35,7 @@ class LSattr_ldap_password extends LSattr_ldap {
    *
    * @retval mixed The display value of this attribute
    */
-  function getDisplayValue($data) {
+  public function getDisplayValue($data) {
     if ($this -> getConfig('ldap_options.displayClearValue', false, 'bool')) {
       if (is_array($data)) {
         $ret=array();
@@ -68,7 +68,7 @@ class LSattr_ldap_password extends LSattr_ldap {
    *
    * @retval mixed The value of this attribute to be stocked
    */
-  function getUpdateData($data) {
+  public function getUpdateData($data) {
     $this -> clearPassword = $data[0];
     $data=array();
 
@@ -111,7 +111,7 @@ class LSattr_ldap_password extends LSattr_ldap {
    *
    * @retval strinf The encode password
    */
-  function encodePassword($clearPassword) {
+  public function encodePassword($clearPassword) {
     $encode = $this -> getConfig('ldap_options.encode', 'md5crypt', 'string');
     $encode_function = $this -> getConfig('ldap_options.encode_function');
     if ($encode_function || $encode == 'function') {
@@ -237,7 +237,7 @@ class LSattr_ldap_password extends LSattr_ldap {
    *
    * @retval string A salt
    */
-  function getSalt($length=8) {
+  public static function getSalt($length=8) {
     $pattern = "1234567890abcdefghijklmnopqrstuvwxyz";
     $key  = $pattern{rand(0,35)};
     for($i=1;$i<$length;$i++)
@@ -252,7 +252,7 @@ class LSattr_ldap_password extends LSattr_ldap {
    *
    * @retval string The password in clear text
    */
-  function getClearPassword() {
+  public function getClearPassword() {
     return $this -> clearPassword;
   }
 

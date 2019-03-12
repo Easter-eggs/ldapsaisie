@@ -46,7 +46,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
 
     $parseValues=array();
@@ -79,7 +79,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
   *
   * @retval array Un tableau cle->valeur contenant value, translated et label
   **/
-  function parseValue($value) {
+  public function parseValue($value) {
     $retval=array(
       'value' => $value,
     );

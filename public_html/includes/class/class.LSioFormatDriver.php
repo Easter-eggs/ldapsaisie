@@ -36,7 +36,7 @@ class LSioFormatDriver {
    *
    * @retval void
    **/
-  function __construct($options) {
+  public function __construct($options) {
     $this -> options = $options;
   }
 
@@ -47,7 +47,7 @@ class LSioFormatDriver {
    *
    * @retval boolean True if file is loaded, false otherwise
    **/
-  function loadFile($path) {
+  public function loadFile($path) {
     return False;
   }
 
@@ -56,7 +56,7 @@ class LSioFormatDriver {
    *
    * @retval boolean True if loaded file data are valid, false otherwise
    **/
-  function isValid() {
+  public function isValid() {
     return False;
   }
 
@@ -80,7 +80,7 @@ class LSioFormatDriver {
    *
    * @retval array The objects contained by the loaded file
    **/
-  function getAll() {
+  public function getAll() {
     return array();
   }
 
@@ -97,7 +97,7 @@ class LSioFormatDriver {
    *
    * @retval array The fields names of the loaded file
    **/
-  function getFieldNames() {
+  public function getFieldNames() {
     return array();
   }
 
@@ -112,7 +112,7 @@ class LSioFormatDriver {
    *
    * @retval array All objects data of the loaded file formated
    **/
-  function getAllFormated($fields,$generated_fields) {
+  public function getAllFormated($fields,$generated_fields) {
     if (!is_array($fields)) return False;
     if (!is_array($generated_fields)) $generated_fields=array();
     $all=$this -> getAll();

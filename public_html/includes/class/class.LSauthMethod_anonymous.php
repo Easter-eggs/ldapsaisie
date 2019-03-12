@@ -27,7 +27,7 @@
  */
 class LSauthMethod_anonymous extends LSauthMethod {
 
-  function LSauthMethod_anonymous() {
+  public function __construct() {
 		LSauth :: disableLoginForm();
 		LSauth :: disableSelfAccess();
 

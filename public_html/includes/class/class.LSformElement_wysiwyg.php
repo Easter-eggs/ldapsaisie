@@ -40,7 +40,7 @@ class LSformElement_wysiwyg extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
       LSsession :: addJSscript('tinymce.min.js', 'includes/libs/tinymce/js/tinymce');

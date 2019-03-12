@@ -73,7 +73,7 @@ class LSformElement_date extends LSformElement {
    *
    * @retval boolean Retourne True
    */
-  function setValue($data) {
+  public function setValue($data) {
     if (!is_array($data)) {
       $data=array($data);
     }
@@ -96,7 +96,7 @@ class LSformElement_date extends LSformElement {
    * 
    * @retval Array Les valeurs de l'élement
    */
-  function exportValues(){
+  public function exportValues(){
     $retval=array();
     if (is_array($this -> values)) {
       foreach($this -> values as $val) {
@@ -114,7 +114,7 @@ class LSformElement_date extends LSformElement {
   * 
   * @retval string Le format de la date
   **/
-  function getFormat() {
+  public function getFormat() {
     return $this -> getParam('html_options.format', ($this -> getParam('html_options.time', true)?'%d/%m/%Y, %T':'%d/%m/%Y'));
   }
 
@@ -123,7 +123,7 @@ class LSformElement_date extends LSformElement {
   *
   * @retval string The date picker style
   **/
-  function getStyle() {
+  public function getStyle() {
     $style = $this -> getParam('html_options.style', $this -> default_style, 'string');
     if ($style) {
       if (is_dir(LS_LIB_DIR.'arian-mootools-datepicker/datepicker_'.$style)) {
@@ -141,7 +141,7 @@ class LSformElement_date extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
     // value
     if (!$this -> isFreeze()) {
@@ -185,7 +185,7 @@ class LSformElement_date extends LSformElement {
   * @retval mixed Format de date jscalendar (string) ou False si la convertion
   *               n'a pas réussi.
   */
-  function php2js_format($format) {
+  public function php2js_format($format) {
     if (isset($this -> _cache_php2js_format[$format])) {
       return $this -> _cache_php2js_format[$format];
     }

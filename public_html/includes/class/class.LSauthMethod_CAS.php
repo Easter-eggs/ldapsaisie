@@ -27,7 +27,7 @@
  */
 class LSauthMethod_CAS extends LSauthMethod {
 
-  function LSauthMethod_CAS() {
+  public function __construct() {
 		LSauth :: disableLoginForm();
 		
 		if (!parent :: LSauthMethod())

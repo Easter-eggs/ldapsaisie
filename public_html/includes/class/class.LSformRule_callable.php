@@ -41,7 +41,7 @@ class LSformRule_callable extends LSformRule {
    *
    * @return boolean true if the value is valid, false otherwise
    */ 
-  function validate($value,$options,$formElement) {
+  public static function validate($value,$options,$formElement) {
     if (is_callable($options['params']['callable'])) {
       return call_user_func_array($options['params']['callable'],array($value,$options['params'],&$formElement));
     }

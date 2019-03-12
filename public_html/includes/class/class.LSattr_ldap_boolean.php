@@ -32,7 +32,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    *
    * @retval mixed Attribute display value
    **/
-  function getDisplayValue($data) {
+  public function getDisplayValue($data) {
     if ($this -> isTrue($data))
       return 'yes';
     if ($this -> isFalse($data))
@@ -47,7 +47,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    *
    * @retval mixed Attribute data
    **/
-  function getUpdateData($data) {
+  public function getUpdateData($data) {
     if ($data[0]=='yes') {
       return array($this -> getTrue());
     }
@@ -64,7 +64,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    *
    * @retval boolean True or False
    **/
-  function isTrue($data) {
+  public function isTrue($data) {
     if (!is_array($data)) {
       $data=array($data);
     }
@@ -81,7 +81,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    *
    * @retval boolean True or False
    **/
-  function isFalse($data) {
+  public function isFalse($data) {
     if (!is_array($data)) {
       $data=array($data);
     }
@@ -96,7 +96,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    *
    * @retval string The True value
    **/
-  function getTrue() {
+  public function getTrue() {
     return $this -> getConfig('ldap_options.true_value', 'TRUE', 'string');
   }
 
@@ -105,7 +105,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    *
    * @retval string The False value
    **/
-  function getFalse() {
+  public function getFalse() {
     return $this -> getConfig('ldap_options.false_value', 'FALSE', 'string');
   }
 

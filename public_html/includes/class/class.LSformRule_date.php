@@ -37,7 +37,7 @@ class LSformRule_date extends LSformRule {
   *
   * @return boolean True si les données sont valide, False sinon.
   */
-  function validate($value,$options=NULL,$formElement) {
+  public static function validate($value,$options=NULL,$formElement) {
     if (!isset($options['params']['format'])) {
       LSerror :: addErrorCode('LSformRule_date_01');
       return;

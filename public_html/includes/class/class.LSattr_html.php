@@ -45,7 +45,7 @@ class LSattr_html {
    *
    * @retval boolean Retourne true.
    */   
-  function LSattr_html ($name,$config,&$attribute) {
+  public function __construct($name, $config, &$attribute) {
     $this -> name = $name;
     $this -> config = $config;
     $this -> attribute =& $attribute;
@@ -60,7 +60,7 @@ class LSattr_html {
    *
    * @retval string Le label de l'attribut.
    */
-  function getLabel() {
+  public function getLabel() {
     return __($this -> getConfig('label', $this -> name));
   }
   
@@ -73,7 +73,7 @@ class LSattr_html {
    *
    * @retval LSformElement L'element du formulaire ajouté
    */
-  function addToForm (&$form,$idForm,$data=NULL) {
+  public function addToForm (&$form,$idForm,$data=NULL) {
     if (!$this -> LSformElement_type) {
       LSerror :: addErrorCode('LSattr_html_01',$this -> name);
       return;
@@ -96,7 +96,7 @@ class LSattr_html {
    * 
    * @retval mixed La valeur formatée de l'attribut
    **/
-  function refreshForm($data) {
+  public function refreshForm($data) {
     return $data;
   }
 
@@ -107,7 +107,7 @@ class LSattr_html {
    *
    * @retval array The values to be displayed in the LSform
    **/
-  function getFormVal($data) {
+  public function getFormVal($data) {
     return $this -> attribute -> getDisplayValue();
   }
 

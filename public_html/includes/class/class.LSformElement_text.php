@@ -44,7 +44,7 @@ class LSformElement_text extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
     // value
     if (!$this -> isFreeze()) {

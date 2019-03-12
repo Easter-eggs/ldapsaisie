@@ -28,15 +28,6 @@
 class LSformRule {
   
   /**
-   * Constructeur
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>*
-  */
-  function LSformRule () {
-    return true;
-  }
-  
-  /**
    * Validation de données
   *
   * @param  mixed $value Données à valider
@@ -45,7 +36,7 @@ class LSformRule {
   *
   * @return boolean True si les données sont valide, False sinon.
   */
-  function validate($value,$options=NULL,$formElement) {
+  public static function validate($value,$options=NULL,$formElement) {
     return true;
   }
 

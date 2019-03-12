@@ -39,7 +39,7 @@ class LSformElement_pre extends LSformElement_textarea {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = parent :: getDisplay();
     LSsession :: addCssFile('LSformElement_pre.css');
     return $return;

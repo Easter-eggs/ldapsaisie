@@ -48,7 +48,7 @@ class LSformElement_password extends LSformElement {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     // Récupère la valeur dans _POST, et les vérifie avec la fonction générale
     $retval = parent :: getPostData($return);
     // Si une valeur est recupérée
@@ -118,7 +118,7 @@ class LSformElement_password extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     LSsession :: addCssFile('LSformElement_password.css');
     $return = $this -> getLabelInfos();
     $pwd = "";
@@ -173,7 +173,7 @@ class LSformElement_password extends LSformElement {
     return $return;
   }
   
-  function generatePassword($params=NULL) {
+  public static function generatePassword($params=NULL) {
     if (LSconfig :: get('html_options.use_pwgen', false, null, $params)) {
       $args = LSconfig :: get('html_options.pwgen_opts', '', 'string', $params);
       $len = LSconfig :: get('html_options.lenght', 8, 'int', $params);
@@ -191,7 +191,7 @@ class LSformElement_password extends LSformElement {
     return generatePassword(LSconfig :: get('html_options.chars', null, null, $params), LSconfig :: get('html_options.lenght', 8, 'int', $params));
   }
   
-  function verifyPassword($pwd) {
+  public function verifyPassword($pwd) {
     if ($this -> attr_html -> attribute -> ldapObject -> isNew()) {
       return false;
     }
@@ -218,7 +218,7 @@ class LSformElement_password extends LSformElement {
     }
   }
 
-  function getMailAttrs() {
+  public function getMailAttrs() {
     if (!$this -> getParam('html_options.mail'))
       return False;
     if ($this -> getParam('html_options.mail.get_mail_attr_function')) {
@@ -239,7 +239,7 @@ class LSformElement_password extends LSformElement {
     return $this -> getParam('html_options.mail.mail_attr');
   }
 
-  function send($params) {
+  public function send($params) {
     if (is_array($this -> sendMail)) {
       $mail = (String)$this -> sendMail['mail'];
       Lsdebug($mail);

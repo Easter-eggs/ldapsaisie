@@ -39,7 +39,7 @@ class LSformElement_postaladdress extends LSformElement_textarea {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = parent :: getDisplay();
     if ($this -> isFreeze()) {
       if (!empty($this->values)) {

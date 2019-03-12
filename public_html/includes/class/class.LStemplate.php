@@ -341,7 +341,7 @@ class LStemplate {
    *
    * @retval void
    */
-  function addEvent($event,$callable,$param=NULL) {
+  public static function addEvent($event,$callable,$param=NULL) {
     self :: $_events[$event][] = array(
       'callable' => $callable,
       'param'    => $param,
@@ -355,7 +355,7 @@ class LStemplate {
    *
    * @retval boolean True if all triggered actions succefully runned, false otherwise
    */
-  function fireEvent($event) {
+  public static function fireEvent($event) {
     $return = true;
 
     // Binding via addEvent

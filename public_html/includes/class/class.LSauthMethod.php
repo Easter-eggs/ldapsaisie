@@ -29,12 +29,12 @@ class LSauthMethod {
 
   var $authData = array();
   
-  function LSauthMethod() {
-		// Load config
-		LSsession :: includeFile(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
-		LSdebug(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
-		return true;
-	}
+  public function __construct() {
+    // Load config
+    LSsession :: includeFile(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
+    LSdebug(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
+    return true;
+  }
 
   /**
    * Check Auth Data
@@ -57,26 +57,26 @@ class LSauthMethod {
   public function authenticate() {
     if (LSsession :: loadLSobject(LSsession :: $ldapServer['authObjectType'])) {
       $authobject = new LSsession :: $ldapServer['authObjectType']();
-			$result = $authobject -> searchObject(
-				$this -> authData['username'],
-				LSsession :: getTopDn(),
-				(isset(LSsession :: $ldapServer['authObjectFilter'])?LSsession :: $ldapServer['authObjectFilter']:NULL),
-				array('withoutCache' => true, 'onlyAccessible' => false)
-			);
-			$nbresult=count($result);
-			
-			if ($nbresult==0) {
-				// incorrect login
-				LSdebug('identifiant incorrect');
-				LSerror :: addErrorCode('LSauth_01');
-			}
-			else if ($nbresult>1) {
-				// duplication of identity
-				LSerror :: addErrorCode('LSauth_02');
-			}
-			else {
-				return $result[0];
-			}
+      $result = $authobject -> searchObject(
+        $this -> authData['username'],
+        LSsession :: getTopDn(),
+        (isset(LSsession :: $ldapServer['authObjectFilter'])?LSsession :: $ldapServer['authObjectFilter']:NULL),
+        array('withoutCache' => true, 'onlyAccessible' => false)
+      );
+      $nbresult=count($result);
+
+      if ($nbresult==0) {
+        // incorrect login
+        LSdebug('identifiant incorrect');
+        LSerror :: addErrorCode('LSauth_01');
+      }
+      else if ($nbresult>1) {
+        // duplication of identity
+        LSerror :: addErrorCode('LSauth_02');
+      }
+      else {
+        return $result[0];
+      }
     }
     else {
       LSerror :: addErrorCode('LSauth_03');
@@ -104,12 +104,12 @@ class LSauthMethod {
    * @retval Array|false Array of LDAP credentials array('dn','pwd') or False
    **/
   public function getLDAPcredentials($user) {
-	if (isset($this -> authData['password'])) {
-	  return array(
-	    'dn' => $user -> getDn(),
-	    'pwd' => $this -> authData['password']
-	  );
-	}
+    if (isset($this -> authData['password'])) {
+      return array(
+        'dn' => $user -> getDn(),
+        'pwd' => $this -> authData['password']
+      );
+    }
     return false;
   }
 

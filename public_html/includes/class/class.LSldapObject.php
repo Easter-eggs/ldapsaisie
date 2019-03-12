@@ -57,7 +57,7 @@ class LSldapObject {
    *
    * @retval boolean true si l'objet a Ã©tÃ© construit, false sinon.
    */ 
-  function LSldapObject() {
+  public function __construct() {
     $this -> type_name = get_class($this);
     $config = LSconfig :: get('LSobjects.'.$this -> type_name);
     if(is_array($config)) {
@@ -89,7 +89,7 @@ class LSldapObject {
    *
    * @retval boolean true si la chargement a rÃ©ussi, false sinon.
    */ 
-  function loadData($dn) {
+  public function loadData($dn) {
     $this -> dn = $dn;
     $data = LSldap :: getAttrs($dn);
     if(!empty($data)) {
@@ -110,7 +110,7 @@ class LSldapObject {
    *
    * @retval boolean true si la rechargement a rÃ©ussi, false sinon.
    */ 
-  function reloadData() {
+  public function reloadData() {
     $data = LSldap :: getAttrs($this -> dn);
     foreach($this -> attrs as $attr_name => $attr) {
       if(!$this -> attrs[$attr_name] -> reloadData( (isset($data[$attr_name])?$data[$attr_name]:NULL) ))
@@ -126,7 +126,7 @@ class LSldapObject {
    *
    * @retval string Format d'affichage de l'objet.
    */ 
-  function getDisplayNameFormat() {
+  public function getDisplayNameFormat() {
     return $this -> getConfig('display_name_format');
   }
   
@@ -144,7 +144,7 @@ class LSldapObject {
    *
    * @retval string Valeur descriptive d'affichage de l'objet
    */ 
-  function getDisplayName($spe='',$full=false) {
+  public function getDisplayName($spe='',$full=false) {
     if ($spe=='') {
       $spe = $this -> getDisplayNameFormat();
     }
@@ -167,7 +167,7 @@ class LSldapObject {
    *
    * @retval string Valeur d'une chaine formatÃ©e
    */ 
-  function getFData($format) {
+  public function getFData($format) {
     $format=getFData($format,$this,'getValue');
     return $format;
   }
@@ -184,7 +184,7 @@ class LSldapObject {
    *
    * @retval string Valeur d'une chaine formatee
    */
-  function getDisplayFData($format) {
+  public function getDisplayFData($format) {
     return getFData($format,$this,'getDisplayValue');
   }
   
@@ -201,7 +201,7 @@ class LSldapObject {
    *
    * @retval LSform Le formulaire crÃ©e
    */ 
-  function getForm($idForm,$load=NULL) {
+  public function getForm($idForm,$load=NULL) {
     LSsession :: loadLSclass('LSform');
     $LSform = new LSform($this,$idForm);
     $this -> forms[$idForm] = array($LSform,$load);
@@ -244,7 +244,7 @@ class LSldapObject {
    *
    * @retval LSform Le formulaire crÃ©e
    */ 
-  function getView() {
+  public function getView() {
     LSsession :: loadLSclass('LSform');
     $this -> view = new LSform($this,'view');
     foreach($this -> attrs as $attr_name => $attr) {
@@ -265,7 +265,7 @@ class LSldapObject {
    *
    * @retval boolean true sile formulaire a Ã©tÃ© rafraichis, false sinon
    */ 
-  function refreshForm($idForm) {
+  public function refreshForm($idForm) {
     $LSform = $this -> forms[$idForm][0];
     foreach($this -> attrs as $attr_name => $attr) {
       if(!$this -> attrs[$attr_name] -> refreshForm($LSform,$idForm)) {
@@ -395,7 +395,7 @@ class LSldapObject {
    *
    * @retval boolean true si les donnÃ©es sont valides, false sinon
    */ 
-  function validateAttrsData($idForm=null) {
+  public function validateAttrsData($idForm=null) {
     $retval = true;
     if ($idForm) {
       $LSform=$this -> forms[$idForm][0];
@@ -448,7 +448,7 @@ class LSldapObject {
    *
    * @retval boolean true si les donnÃ©es sont valides, false sinon
    */
-  function validateAttrData(&$LSform,&$attr) {
+  public function validateAttrData(&$LSform,&$attr) {
     $retval = true;
     
     $vconfig=$attr -> getValidateConfig();
@@ -584,7 +584,7 @@ class LSldapObject {
    *
    * @retval boolean true si la mise Ã  jour a rÃ©ussi, false sinon
    */ 
-  function submitChange($idForm) {
+  public function submitChange($idForm) {
     $submitData=array();
     $new = $this -> isNew();
     foreach($this -> attrs as $attr) {
@@ -678,7 +678,7 @@ class LSldapObject {
    *                  - [0] : le premier paramÃ¨tre
    *                  - [1] : les paramÃ¨tres suivants
    */ 
-  function getDnInfos($dn) {
+  public static function getDnInfos($dn) {
     $infos=ldap_explode_dn($dn,0);
     if(!$infos)
       return;
@@ -700,9 +700,9 @@ class LSldapObject {
    *
    * @retval Net_LDAP2_Filter le filtre ldap correspondant au type de l'objet
    */ 
-  function getObjectFilter($type=null) {
+  public static function getObjectFilter($type=null) {
     if (is_null($type)) {
-      $type = $this -> type_name;
+        $type = $this -> type_name;
     }
     $oc=LSconfig::get("LSobjects.$type.objectclass");
     if(!is_array($oc)) return;
@@ -733,7 +733,7 @@ class LSldapObject {
    *
    * @retval string le filtre ldap correspondant
    */ 
-  function getPatternFilter($pattern=null,$approx=null) {
+  public function getPatternFilter($pattern=null,$approx=null) {
     if ($pattern) {
       $search = new LSsearch($this -> type_name, 'LSldapObject', array('approx' => (bool)$approx));
       $filter = $search -> getFilterFromPattern($pattern);
@@ -758,7 +758,7 @@ class LSldapObject {
    *
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */ 
-  function listObjects($filter=NULL,$basedn=NULL,$params=array()) {
+  public function listObjects($filter=NULL,$basedn=NULL,$params=array()) {
     if (!LSsession :: loadLSclass('LSsearch')) {
       LSerror::addErrorCode('LSsession_05','LSsearch');
       return;
@@ -794,7 +794,7 @@ class LSldapObject {
    *
    * @retval array Tableau dn => name correspondant au resultat de la recherche
    */ 
-  function listObjectsName($filter=NULL,$sbasedn=NULL,$sparams=array(),$displayFormat=false,$cache=true) {
+  public function listObjectsName($filter=NULL,$sbasedn=NULL,$sparams=array(),$displayFormat=false,$cache=true) {
     if (!LSsession :: loadLSclass('LSsearch')) {
       LSerror::addErrorCode('LSsession_05','LSsearch');
       return;
@@ -836,7 +836,7 @@ class LSldapObject {
    * 
    * @retval array Tableau d'objets correspondant au resultat de la recherche
    */
-  function searchObject($name,$basedn=NULL,$filter=NULL,$params=NULL) {
+  public function searchObject($name,$basedn=NULL,$filter=NULL,$params=NULL) {
     if (!$filter) {
       $filter = '('.$this -> getConfig('rdn').'='.$name.')';
     }
@@ -863,7 +863,7 @@ class LSldapObject {
    *
    * @retval mixed la valeur demandÃ© ou ' ' si celle-ci est inconnue.
    */ 
-  function getValue($val) {
+  public function getValue($val) {
     if(($val=='dn')||($val=='%{dn}')) {
       return $this -> dn;
     }
@@ -899,7 +899,7 @@ class LSldapObject {
    *
    * @retval mixed la valeur demandee ou ' ' si celle-ci est inconnue.
    */
-  function getDisplayValue($val) {
+  public function getDisplayValue($val) {
     if(isset($this ->  attrs[$val])){
       if (method_exists($this ->  attrs[$val],'getDisplayValue'))
         return $this -> attrs[$val] -> getDisplayValue();
@@ -919,7 +919,7 @@ class LSldapObject {
    *
    * @retval void
    **/
-  function registerOtherValue($name,$value) {
+  public function registerOtherValue($name,$value) {
     $this -> other_values[$name]=$value;
   }
 
@@ -930,7 +930,7 @@ class LSldapObject {
    *
    * @retval array('dn' => 'display')
    */
-  function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false,$cache=true,$filter=NULL,$sparams=array()) {
+  public function getSelectArray($pattern=NULL,$topDn=NULL,$displayFormat=NULL,$approx=false,$cache=true,$filter=NULL,$sparams=array()) {
     $sparams['pattern']=$pattern;
     return $this -> listObjectsName($filter,$topDn,$sparams,$displayFormat,$cache);
   }
@@ -945,7 +945,7 @@ class LSldapObject {
    *
    * @retval string Le DN de l'objet
    */   
-  function getDn() {
+  public function getDn() {
     if($this -> dn) {
       return $this -> dn;
     }
@@ -981,7 +981,7 @@ class LSldapObject {
    *
    * @retval string Le container DN de l'objet
    */
-  function getContainerDn() {
+  public function getContainerDn() {
     $topDn = LSsession :: getTopDn();
     $generate_container_dn = $this -> getConfig('generate_container_dn');
     $container_dn = $this -> getConfig('container_dn');
@@ -1016,7 +1016,7 @@ class LSldapObject {
    * 
    * @retval string Le type de l'objet ($this -> type_name)
    */
-  function getType() {
+  public function getType() {
     return $this -> type_name;
   }
   
@@ -1027,7 +1027,7 @@ class LSldapObject {
    * 
    * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
    */
-  function whoami() {
+  public function whoami() {
     if (!$this -> _whoami)
       $this -> _whoami = LSsession :: whoami($this -> dn);
     return $this -> _whoami;
@@ -1040,7 +1040,7 @@ class LSldapObject {
    * 
    * @retval string Le label de l'objet ($this -> config['label'])
    */
-  function getLabel($type=null) {
+  public function getLabel($type=null) {
     if (is_null($type)) {
       $type = $this -> type_name;
     }
@@ -1055,7 +1055,7 @@ class LSldapObject {
    * 
    * @retval boolean True si l'objet Ã  Ã©tÃ© supprimÃ©, false sinon
    */
-  function remove() {
+  public function remove() {
     if ($this -> fireEvent('before_delete')) {
       if (LSldap :: remove($this -> getDn())) {
         if ($this -> fireEvent('after_delete')) {
@@ -1077,7 +1077,7 @@ class LSldapObject {
    * 
    * @retval boolean True si l'objet est nouveau, false sinon
    */
-  function isNew() {
+  public function isNew() {
     return (!$this -> dn);
   }
 
@@ -1118,7 +1118,7 @@ class LSldapObject {
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function updateLSrelationsCache() {
+  private function updateLSrelationsCache() {
     $this -> _LSrelationsCache=array();
     $LSrelations = $this -> getConfig('LSrelation');
     if (is_array($LSrelations) && LSsession :: loadLSclass('LSrelation')) {
@@ -1152,7 +1152,7 @@ class LSldapObject {
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function beforeRename() {
+  private function beforeRename() {
     // LSrelations
     return $this -> updateLSrelationsCache();
   }
@@ -1166,7 +1166,7 @@ class LSldapObject {
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function afterRename() {
+  private function afterRename() {
     $error = 0;
     
     // Change LSsession -> userObject Dn
@@ -1197,7 +1197,7 @@ class LSldapObject {
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function beforeDelete() {
+  private function beforeDelete() {
     $return = $this -> updateLSrelationsCache();
     
     foreach(array_keys($this -> attrs) as $attr_name) {
@@ -1218,7 +1218,7 @@ class LSldapObject {
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function afterDelete() {
+  private function afterDelete() {
     $error = 0;
     
     // LSrelations
@@ -1258,7 +1258,7 @@ class LSldapObject {
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function afterCreate() {
+  private function afterCreate() {
     LSdebug('after');
     $error = 0;
     
@@ -1306,7 +1306,7 @@ class LSldapObject {
    * 
    * @retval True en cas de cas ce succès, False sinon.
    */
-  function afterModify() {
+  private function afterModify() {
     $error = 0;
     
     // LSsearch : Purge LSobject cache
@@ -1328,7 +1328,7 @@ class LSldapObject {
    * 
    * @retval Mixed La valeur clef d'un objet en relation
    **/
-  function getObjectKeyValueInRelation($object,$objectType,$attrValues='dn') {
+  public static function getObjectKeyValueInRelation($object,$objectType,$attrValues='dn') {
     if (!$objectType) {
       LSerror :: addErrorCode('LSrelations_05','getObjectKeyValueInRelation');
       return;
@@ -1370,7 +1370,7 @@ class LSldapObject {
    * 
    * @retval Array of $objectType Les objets en relations
    **/
-  function listObjectsInRelation($object,$attr,$objectType,$attrValues='dn') {
+  public function listObjectsInRelation($object,$attr,$objectType,$attrValues='dn') {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','listObjectsInRelation');
       return;
@@ -1403,7 +1403,7 @@ class LSldapObject {
    * 
    * @retval boolean true si l'objet à été ajouté, False sinon
    **/  
-  function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
+  public function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','addOneObjectInRelation');
       return;
@@ -1468,7 +1468,7 @@ class LSldapObject {
    * 
    * @retval boolean true si l'objet à été supprimé, False sinon
    **/  
-  function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
+  public function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','deleteOneObjectInRelation');
       return;
@@ -1519,7 +1519,7 @@ class LSldapObject {
   *  
   * @retval boolean True en cas de succès, False sinon
   */
-  function renameOneObjectInRelation($object,$oldValues,$attr,$objectType,$attrValue='dn') {
+  public function renameOneObjectInRelation($object,$oldValues,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','renameOneObjectInRelation');
       return;
@@ -1575,7 +1575,7 @@ class LSldapObject {
    * 
    * @retval boolean true si tout c'est bien passé, False sinon
    **/  
-  function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
+  public function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelations_05','updateObjectsInRelation');
       return;
@@ -1623,7 +1623,7 @@ class LSldapObject {
    * 
    * @retval void
    */
-  function addEvent($event,$fct,$param=NULL,$class=NULL) {
+  public function addEvent($event,$fct,$param=NULL,$class=NULL) {
     $this -> _events[$event][] = array(
       'function'  => $fct,
       'param'    => $param,
@@ -1641,7 +1641,7 @@ class LSldapObject {
    * 
    * @retval void
    */
-  function addObjectEvent($event,&$obj,$meth,$param=NULL) {
+  public function addObjectEvent($event,&$obj,$meth,$param=NULL) {
     $this -> _objectEvents[$event][] = array(
       'obj'  => &$obj,
       'meth'  => $meth,
@@ -1656,7 +1656,7 @@ class LSldapObject {
    * 
    * @retval boolean True si tout c'est bien passé, false sinon
    */
-  function fireEvent($event) {
+  public function fireEvent($event) {
     
     // Object event
     $return = $this -> fireObjectEvent($event);
@@ -1752,7 +1752,7 @@ class LSldapObject {
    * 
    * @retval boolean True si tout c'est bien passé, false sinon
    **/
-  function fireObjectEvent($event) {
+  public function fireObjectEvent($event) {
     switch($event) {
       case 'after_create':
         return $this -> afterCreate();
@@ -1785,7 +1785,7 @@ class LSldapObject {
    * 
    * @retval mixed The value
    **/
-  function __get($key) {
+  public function __get($key) {
     if ($key=='subDnValue') {
       if (isset($this -> cache['subDnValue'])) {
         return $this -> cache['subDnValue'];
@@ -1814,7 +1814,7 @@ class LSldapObject {
    *
    * @retval mixed Array of valid IOformats of this object type
    **/
-  function listValidIOformats() {
+  public function listValidIOformats() {
     $ret=array();
     $ioFormats = $this -> getConfig('ioFormat');
     if (is_array($ioFormats)) {
@@ -1832,7 +1832,7 @@ class LSldapObject {
    *
    * @retval boolean True if it's a valid IOformat, false otherwise
    **/
-  function isValidIOformat($f) {
+  public function isValidIOformat($f) {
     return is_array($this -> getConfig("ioFormat.$f"));
   }
 

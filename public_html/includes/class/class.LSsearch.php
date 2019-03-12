@@ -85,7 +85,7 @@ class LSsearch {
    * @param[in] $purgeParams boolean If params in session have to be purged
    * 
    **/
-  function LSsearch($LSobject,$context,$params=null,$purgeParams=false) {
+  public function __construct($LSobject,$context,$params=null,$purgeParams=false) {
     if (!LSsession :: loadLSobject($LSobject)) {
       return;
     }
@@ -575,7 +575,7 @@ class LSsearch {
    * 
    * @retval mixed Net_LDAP2_Filter on success or False
    */ 
-  function getFilterFromPattern($pattern=NULL) {
+  public function getFilterFromPattern($pattern=NULL) {
     if ($pattern==NULL) {
       $pattern=$this -> params['pattern'];
     }
@@ -1152,7 +1152,7 @@ class LSsearch {
    * 
    * @retval void
    **/
-  function afterUsingResult() {
+  public function afterUsingResult() {
     $this -> addResultToCache();
   }
   
@@ -1161,7 +1161,7 @@ class LSsearch {
    * 
    * @retval boolean True only if user have been redirected
    **/
-  function redirectWhenOnlyOneResult() {
+  public function redirectWhenOnlyOneResult() {
     if ($this -> total == 1 && $this -> result && self::formIsSubmited()) {
       LSsession :: redirect('view.php?LSobject='.$this -> LSobject.'&dn='.urlencode($this -> result['list'][0]['dn']));
     }
@@ -1173,7 +1173,7 @@ class LSsearch {
    * 
    * @retval boolean True on success or false
    **/
-  function doSort() {
+  private function doSort() {
     if (!$this -> sort) {
       LSdebug('doSort : sort is disabled');
       return true;
@@ -1220,7 +1220,7 @@ class LSsearch {
    * 
    * @retval array The Table of id lines of results sorted
    **/
-  function getSortTable() {
+  public function getSortTable() {
     if (isset($this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']])) {
       return $this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']];
     }

@@ -43,7 +43,7 @@ class LSformElement_select_box extends LSformElement_select {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     if (!$this -> isFreeze()) {
       LSsession :: addCssFile('LSformElement_select_box.css');
     }

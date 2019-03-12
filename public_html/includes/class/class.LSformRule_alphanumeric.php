@@ -37,7 +37,7 @@ class LSformRule_alphanumeric extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  function validate ($value,$options=array(),$formElement) {
+  public static function validate ($value,$options=array(),$formElement) {
 
 
      if (isset($options['params']['withAccents']) && $options['params']['withAccents'] == true){

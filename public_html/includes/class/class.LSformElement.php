@@ -56,7 +56,7 @@ class LSformElement {
    *
    * @retval true
    */ 
-  function LSformElement (&$form, $name, $label, $params,&$attr_html){
+  public function __construct(&$form, $name, $label, $params, &$attr_html){
     $this -> name = $name;
     $this -> label = $label;
     $this -> params = $params;
@@ -76,7 +76,7 @@ class LSformElement {
    *
    * @retval boolean Retourne True
    */
-  function setValue($data) {
+  public function setValue($data) {
     if (!is_array($data)) {
       $data=array($data);
     }
@@ -98,7 +98,7 @@ class LSformElement {
    *
    * @retval boolean Retourne True
    */
-  function setValueFromPostData($data) {
+  public function setValueFromPostData($data) {
     if (!is_array($data)) {
       $data=array($data);
     }
@@ -111,7 +111,7 @@ class LSformElement {
    * 
    * @retval Array Les valeurs de l'élement
    */
-  function exportValues(){
+  public function exportValues(){
     return $this -> values;
   }
 
@@ -126,7 +126,7 @@ class LSformElement {
    *
    * @retval void
    */
-  function addValue($data) {
+  public function addValue($data) {
     if (is_array($data)) {
       $this -> values = array_merge($this -> values, $data);
     }
@@ -142,7 +142,7 @@ class LSformElement {
    *
    * @retval boolean
    */
-  function isFreeze(){
+  public function isFreeze(){
     return $this -> _freeze;
   }
   
@@ -153,7 +153,7 @@ class LSformElement {
    *
    * @retval void
    */
-  function freeze() {
+  public function freeze() {
     $this -> _freeze = true;
   }
 
@@ -164,7 +164,7 @@ class LSformElement {
    *
    * @retval void
    */
-  function setRequired($isRequired=true) {
+  public function setRequired($isRequired=true) {
     $this -> _required = $isRequired;
   }
 
@@ -175,7 +175,7 @@ class LSformElement {
    *
    * @retval boolean
    */
-  function isRequired(){
+  public function isRequired(){
     return $this -> _required;
   }
 
@@ -184,7 +184,7 @@ class LSformElement {
    *
    * @retval void
    */
-  function getLabelInfos() {
+  public function getLabelInfos() {
     if ($this -> isRequired()) {
         $return['required']=true;
     }
@@ -212,7 +212,7 @@ class LSformElement {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }
@@ -241,7 +241,7 @@ class LSformElement {
    *
    * @retval string Le label de l'élément
    */
-  function getLabel() {
+  public function getLabel() {
     if ($this -> label != "") {
       return __($this -> label);
     }
@@ -253,7 +253,7 @@ class LSformElement {
    *
    * @retval boolean True si le champ est à valeur multiple, False sinon
    */
-  function isMultiple() {
+  public function isMultiple() {
     return $this -> getParam('multiple', false, 'bool');
   }
   
@@ -265,7 +265,7 @@ class LSformElement {
   * 
   * @retval string Le HTML compilé du template
   */
-  function fetchTemplate($template=NULL,$variables=array()) {
+  public function fetchTemplate($template=NULL,$variables=array()) {
     if (!$template) {
       $template = $this -> template;
     }
@@ -293,7 +293,7 @@ class LSformElement {
   *
   * @retval string Code HTML d'un champ vide.
   */
-  function getEmptyField() {
+  public function getEmptyField() {
     return $this -> fetchTemplate($this -> fieldTemplate);
   }
 

@@ -36,7 +36,7 @@ class LSformRule_ssh_pub_key extends LSformRule {
    *
    * @return boolean true if the value is valide, false if not
    */ 
-  function validate($value,$options,$formElement) {
+  public static function validate($value,$options,$formElement) {
     if (preg_match('/^(ssh-[a-z0-9]+) +([^ ]+) +(.*)$/', $value, $m)) {
       $data=@base64_decode($m[2]);
       if (is_string($data))

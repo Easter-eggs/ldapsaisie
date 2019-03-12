@@ -40,7 +40,7 @@ class LSformRule_integer extends LSformRule{
    *
    * @return boolean true if the value is valided, false otherwise
    */
-  function validate ($value,$options=array(),$formElement) {
+  public static function validate ($value,$options=array(),$formElement) {
     if($options['params']['max'] && $value > $options['params']['max']) {
       return;
     }

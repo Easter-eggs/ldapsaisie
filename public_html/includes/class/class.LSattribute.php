@@ -60,7 +60,7 @@ class LSattribute {
    *
    * @retval boolean Retourne true si la création a réussi, false sinon.
    */ 
-  function LSattribute ($name,$config,&$ldapObject) {
+  public function __construct($name, $config, &$ldapObject) {
     $this -> name = $name;
     $this -> config = $config;
     $this -> ldapObject =& $ldapObject;
@@ -90,7 +90,7 @@ class LSattribute {
    * @see LSattr_html::getLabel()
    */ 
 
-  function getLabel() {
+  public function getLabel() {
     if (!$this -> html) {
       LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
       return;
@@ -105,7 +105,7 @@ class LSattribute {
    *
    * @retval boolean true
    */
-  function loadData($attr_data) {
+  public function loadData($attr_data) {
     if ((!is_array($attr_data))&&(!empty($attr_data))) {
       $attr_data = array($attr_data);
     }
@@ -120,7 +120,7 @@ class LSattribute {
    *
    * @retval boolean true
    */
-  function reloadData($attr_data) {
+  public function reloadData($attr_data) {
     if ((!is_array($attr_data))&&(!empty($attr_data))) {
       $attr_data = array($attr_data);
     }
@@ -139,7 +139,7 @@ class LSattribute {
    *
    * @retval mixed La valeur de l'attribut
    */
-  function getValue() {
+  public function getValue() {
     if ($this -> isUpdate()) {
       return $this -> getUpdateData();
     }
@@ -155,7 +155,7 @@ class LSattribute {
    *
    * @retval mixed La valeur originale de l'attribut
    */
-  function getOldValue() {
+  public function getOldValue() {
     return $this -> data;
   }
   
@@ -166,7 +166,7 @@ class LSattribute {
    *
    * @retval string La valeur d'affichage de l'attribut
    */
-  function getDisplayValue() {
+  public function getDisplayValue() {
     if (!$this -> ldap) {
       LSerror :: addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
       return;
@@ -213,7 +213,7 @@ class LSattribute {
    *
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
-  function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
+  public function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
     if($this -> getConfig("form.$idForm")) {
       if (!$this -> html) {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
@@ -279,7 +279,7 @@ class LSattribute {
    * 
    * @retval string 'r'/'w'/'n' pour 'read'/'write'/'none'
    **/
-  function myRights() {
+  private function myRights() {
     // cache
     if ($this -> _myRights != NULL) {
       return $this -> _myRights;
@@ -308,7 +308,7 @@ class LSattribute {
    *
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
-  function addToView(&$form) {
+  public function addToView(&$form) {
     if ($this -> getConfig('view', false, 'bool') && ($this -> myRights() != 'n') ) {
       if (!$this -> html) {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
@@ -341,7 +341,7 @@ class LSattribute {
    *
    * @retval boolean true si la valeur a été rafraichie ou que ce n'est pas nécessaire, false sinon
    */
-  function refreshForm(&$form,$idForm) {
+  public function refreshForm(&$form,$idForm) {
     if ($this -> getConfig("form.$idForm") && ($this -> myRights() != 'n')) {
       if (!$this -> html) {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
@@ -366,7 +366,7 @@ class LSattribute {
    *
    * @retval string La valeur a afficher dans le formulaire.
    */
-  function getFormVal() {
+  public function getFormVal() {
     $data=$this -> html -> getFormVal($this -> data);
     if ($data==NULL) {
       $data=array();
@@ -386,7 +386,7 @@ class LSattribute {
    *
    * @retval void
    */
-  function setUpdateData($data) {
+  public function setUpdateData($data) {
     if($this -> ldap -> isUpdated($data)) {
       $this -> updateData=$data;
     }
@@ -399,7 +399,7 @@ class LSattribute {
    *
    * @retval boolean true si l'attribut a été validé, false sinon
    */
-  function isValidate() {
+  public function isValidate() {
     return $this -> is_validate;
   }
   
@@ -410,7 +410,7 @@ class LSattribute {
    *
    * @retval void
    */
-  function validate() {
+  public function validate() {
     $this -> is_validate=true;
   }
   
@@ -421,7 +421,7 @@ class LSattribute {
    *
    * @retval boolean true si l'attribut a été mis à jour, false sinon
    */
-  function isUpdate() {
+  public function isUpdate() {
     return ($this -> updateData===false)?false:true;
   }
   
@@ -432,7 +432,7 @@ class LSattribute {
    *
    * @retval boolean true si l'attribut est obligatoire, false sinon
    */
-  function isRequired() {
+  public function isRequired() {
     return $this -> getConfig('required', false, 'bool');
   }
   
@@ -443,7 +443,7 @@ class LSattribute {
    *
    * @retval boolean true si la valeur de l'attribut peut être générée, false sinon
    */
-  function canBeGenerated() {
+  public function canBeGenerated() {
     $format = $this -> getConfig('generate_value_format', $this -> getConfig('default_value'));
     return (
               (function_exists($this -> getConfig('generate_function')))
@@ -463,7 +463,7 @@ class LSattribute {
    *
    * @retval boolean true si la valeur à put être générée, false sinon
    */
-  function generateValue() {
+  public function generateValue() {
     $value = false;
     $generate_function = $this -> getConfig('generate_function');
     $format = $this -> getConfig('generate_value_format', $this -> getConfig('default_value'));
@@ -496,7 +496,7 @@ class LSattribute {
    *
    * @retval mixed La valeur de l'attribut pour son enregistrement dans l'annuaire
    */
-  function getUpdateData() {
+  public function getUpdateData() {
     if (!$this -> isUpdate()) {
       return;
     }
@@ -547,7 +547,7 @@ class LSattribute {
    *
    * @retval mixed La configuration de validation de l'attribut
    */
-  function getValidateConfig() {
+  public function getValidateConfig() {
     if (isset($this -> config['validation'])) {
       return $this -> config['validation'];
     }
@@ -561,7 +561,7 @@ class LSattribute {
    *
    * @retval array les noms des attributs dépendants
    */
-  function getDependsAttrs() {
+  public function getDependsAttrs() {
     return (isset($this -> config['dependAttrs'])?$this -> config['dependAttrs']:null);
   }
 
@@ -575,7 +575,7 @@ class LSattribute {
    * 
    * @retval void
    */
-  function addEvent($event,$fct,$params,$class=NULL) {
+  public function addEvent($event,$fct,$params,$class=NULL) {
     $this -> _events[$event][] = array(
       'function'  => $fct,
       'params'    => $params,
@@ -593,7 +593,7 @@ class LSattribute {
    * 
    * @retval void
    */
-  function addObjectEvent($event,&$obj,$meth,$params=NULL) {
+  public function addObjectEvent($event,&$obj,$meth,$params=NULL) {
     $this -> _objectEvents[$event][] = array(
       'obj'  => &$obj,
       'meth'  => $meth,
@@ -608,7 +608,7 @@ class LSattribute {
    * 
    * @retval boolean True si tout c'est bien passé, false sinon
    */
-  function fireEvent($event) {
+  public function fireEvent($event) {
     $return = true;
     if(isset($this -> config[$event])) {
       if (!is_array($this -> config[$event])) {

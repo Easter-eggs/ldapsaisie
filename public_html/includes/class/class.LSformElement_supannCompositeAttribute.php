@@ -73,7 +73,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
 
     $parseValues=array();
@@ -123,7 +123,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
   *
   * @retval string Code HTML d'un champ vide.
   */
-  function getEmptyField() {
+  public function getEmptyField() {
     return $this -> fetchTemplate($this -> fieldTemplate,array('components' => $this -> components));
   }
   
@@ -172,7 +172,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }

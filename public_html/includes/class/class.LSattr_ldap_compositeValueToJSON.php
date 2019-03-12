@@ -36,7 +36,7 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
    *
    * @retval mixed La valeur d'affichage de l'attribut
    */
-  function getDisplayValue($data) {
+  public static function getDisplayValue($data) {
     if ($data) {
       if (!is_array($data))
         $data = array($data);
@@ -55,7 +55,7 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
    *
    * @retval mixed La valeur traitée de l'attribut
    */
-  function getUpdateData($data) {
+  public static function getUpdateData($data) {
     if ($data) {
       if (!is_array($data))
         $data = array($data);
@@ -67,7 +67,7 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
     return $data;
   }
 
-  function parseValue($value) {
+  public static function parseValue($value) {
     if (preg_match_all('/\[([^=]*)=([^\]]*)\]/',$value,$matches)) {
       $parseValue=array();
       for($i=0;$i<count($matches[0]);$i++) {
@@ -78,7 +78,7 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
     return;
   }
 
-  function encodeValue($value) {
+  public static function encodeValue($value) {
     if (is_array($value)) {
       $ret="";
       foreach($value as $key => $val)

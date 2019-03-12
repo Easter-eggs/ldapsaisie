@@ -36,7 +36,7 @@ class LSimport {
    *
    * @retval boolean true if the form was posted, false otherwise
    */
-  function isSubmit() {
+  public static function isSubmit() {
     if (isset($_POST['validate']) && ($_POST['validate']=='LSimport'))
       return true;
     return;
@@ -48,7 +48,7 @@ class LSimport {
    *
    * @retval mixed The path of the temporary file, false on error
    */
-  function getPostFile() {
+  public static function getPostFile() {
     if (is_uploaded_file($_FILES['importfile']['tmp_name'])) {
       $fp = fopen($_FILES['importfile']['tmp_name'], "r");
       $buf = fread($fp, filesize($_FILES['importfile']['tmp_name']));
@@ -80,7 +80,7 @@ class LSimport {
    *
    * @retval mixed Array of POST data, false on error
    */
-  function getPostData() {
+  public static function getPostData() {
     if (isset($_REQUEST['LSobject']) && isset($_POST['ioFormat'])) {
       $file=self::getPostFile();
       if ($file) {
@@ -140,7 +140,7 @@ class LSimport {
    *
    * @retval boolean Array of the import result, false on error
    */
-  function importFromPostData() {
+  public static function importFromPostData() {
     // Get data from $_POST
     $data=self::getPostData();
     if (is_array($data)) {

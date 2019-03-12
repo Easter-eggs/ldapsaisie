@@ -35,7 +35,7 @@ class LSformRule_compare extends LSformRule {
    *
    * @return string  Operateur à utiliser
    */
-  function _findOperator($operator_name) {
+  private static function _findOperator($operator_name) {
 
     $_operators = array(
         'eq'  => '==',
@@ -67,12 +67,12 @@ class LSformRule_compare extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  function validate ($values,$options=array(),$formElement) {
+  public static function validate ($values,$options=array(),$formElement) {
     if (!isset($options['params']['operator'])) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'compare', 'param' => 'operator');
       return;
     }
-    $operator = LSformRule_compare :: _findOperator($options['params']['operator']);
+    $operator = self :: _findOperator($options['params']['operator']);
     if ('==' != $operator && '!=' != $operator) {
       $compareFn = create_function('$a, $b', 'return floatval($a) ' . $operator . ' floatval($b);');
     }

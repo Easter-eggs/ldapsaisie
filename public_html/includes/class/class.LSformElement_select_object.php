@@ -53,7 +53,7 @@ class LSformElement_select_object extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay($refresh=NULL){
+  public function getDisplay($refresh=NULL){
     LSsession :: addCssFile('LSformElement_select_object.css');
     if ($refresh) {
       $this -> values = $this -> getValuesFromSession();
@@ -128,7 +128,7 @@ class LSformElement_select_object extends LSformElement {
   /*
    * Return the values of the object form the session variable
    */
-  function getValuesFromSession() {
+  public function getValuesFromSession() {
     return $this -> attr_html -> getValuesFromSession();
   }
   
@@ -139,7 +139,7 @@ class LSformElement_select_object extends LSformElement {
    * 
    * @retval void
    **/
-  function setSelectableObject($object) {
+  public function setSelectableObject($object) {
     $this -> selectableObject = $object;
   }
   
@@ -148,7 +148,7 @@ class LSformElement_select_object extends LSformElement {
    * 
    * @retval Array The values of the element
    */
-  function exportValues(){
+  public function exportValues(){
     $values = $this -> attr_html -> getValuesFromFormValues($this -> values);
     return $values;
   }
@@ -162,7 +162,7 @@ class LSformElement_select_object extends LSformElement {
    *
    * @retval boolean Return True
    */
-  function setValueFromPostData($data) {
+  public function setValueFromPostData($data) {
     LSformElement::setValueFromPostData($data);
     $this -> values = $this -> attr_html -> refreshForm($this -> values,true);
     return true;
@@ -175,7 +175,7 @@ class LSformElement_select_object extends LSformElement {
    * 
    * @retval array(dn -> displayName) Found objects
    */
-  function searchAdd ($pattern) {
+  public function searchAdd ($pattern) {
     if ($this -> getParam('html_options.selectable_object')) {
       $obj_type = $this -> getParam('html_options.selectable_object.object_type');
       if (LSsession :: loadLSobject($obj_type)) {

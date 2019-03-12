@@ -60,7 +60,7 @@ class LSsearchEntry {
    * @param[in] $resultEntry array The data of the result entry
    * 
    **/
-  function LSsearchEntry(&$LSsearch,$LSobject,$params,$hash,&$result,$id) {
+  public function __construct(&$LSsearch, $LSobject, $params, $hash, &$result, $id) {
     if (!LSsession :: loadLSobject($LSobject)) {
       return;
     }
@@ -100,7 +100,7 @@ class LSsearchEntry {
    *
    * @retval void
    **/
-  function registerOtherValue($name,$value) {
+  private function registerOtherValue($name,$value) {
     $this -> other_values[$name]=$value;
   }
 

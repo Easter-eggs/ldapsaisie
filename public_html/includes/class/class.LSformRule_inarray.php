@@ -37,7 +37,7 @@ class LSformRule_inarray extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */ 
-  function validate($value,$option,$formElement) {
+  public static function validate($value,$option,$formElement) {
     if (!isset($option['params']['possible_values']) || !is_array($option['params']['possible_values'])) {
       LSerror :: addErrorCode('LSformRule_inarray_01');
       return;

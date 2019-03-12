@@ -43,7 +43,7 @@ class LSldap {
    *
    * @retval void
    */
-  function setConfig ($config) {
+  public static function setConfig ($config) {
     self :: $config = $config;
   }
   

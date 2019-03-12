@@ -62,7 +62,7 @@ class LSform {
    *
    * @retval void
    */ 
-  function LSform (&$ldapObject,$idForm,$submit=NULL){
+  public function __construct(&$ldapObject, $idForm, $submit=NULL){
     $this -> idForm = $idForm;
     if (!$submit) {
       $this -> submit = _("Validate");
@@ -81,7 +81,7 @@ class LSform {
    *
    * @retval void
    */ 
-  function display(){
+  public function display(){
     if ($this -> idForm == 'view') {
       self :: loadDependenciesDisplayView($this -> $ldapObject);
     }
@@ -227,7 +227,7 @@ class LSform {
    *
    * @retval void
    */ 
-  function displayView(){
+  public function displayView(){
     self :: loadDependenciesDisplayView($this -> ldapObject);
     
     $LSform_object = array(
@@ -261,7 +261,7 @@ class LSform {
    *
    * @retval void
    */ 
-  function setElementError($attr,$msg=NULL) {
+  public function setElementError($attr,$msg=NULL) {
     if($msg!='') {
       $msg_error=getFData($msg,$attr->getLabel());
     }
@@ -281,7 +281,7 @@ class LSform {
    * 
    * @retval boolean
    */ 
-  function definedError($element=NULL) {
+  public function definedError($element=NULL) {
     if ($element) {
       return isset($this -> _elementsErrors[$element]);
     }
@@ -295,7 +295,7 @@ class LSform {
    * 
    * @retval Array array(element => array(errors))
    */
-  function getErrors() {
+  public function getErrors() {
     return $this -> _elementsErrors;
   }
   
@@ -306,7 +306,7 @@ class LSform {
    *
    * @retval boolean true si le formulaire a été validé et que les données ont été validées, false sinon
    */ 
-  function validate(){
+  public function validate(){
     if(!$this -> can_validate)
       return;
     if ($this -> isSubmit()) {
@@ -333,7 +333,7 @@ class LSform {
    *
    * @retval boolean true si toutes la saisie est OK, false sinon
    */
-  function checkData() {
+  public function checkData() {
     $retval=true;
     foreach ($this -> _postData as $element => $values) {
       if ($this -> definedError($element)) {
@@ -378,7 +378,7 @@ class LSform {
    *
    * @retval boolean true si au moins une valeur est présente, false sinon
    */
-  function checkRequired($data) {
+  public function checkRequired($data) {
     foreach($data as $val) {
       if (!empty($val)||(is_string($val)&&($val=="0")))
         return true;
@@ -393,7 +393,7 @@ class LSform {
    *
    * @retval boolean true si la saisie du formulaire est présente en POST, false sinon
    */
-  function isSubmit() {
+  public function isSubmit() {
     if( (isset($_POST['validate']) && ($_POST['validate']=='LSform')) && (isset($_POST['idForm']) && ($_POST['idForm'] == $this -> idForm)) )
       return true;
     return;
@@ -409,7 +409,7 @@ class LSform {
    * 
    * @retval boolean true si les données ont été définies, false sinon
    */
-  function setPostData($data,$consideredAsSubmit=false) {
+  public function setPostData($data,$consideredAsSubmit=false) {
     if (is_array($data)) {
       foreach($data as $key => $values) {
         if (!is_array($values)) {
@@ -435,7 +435,7 @@ class LSform {
    *
    * @retval boolean true si les valeurs ont bien été récupérées, false sinon.
    */
-  function getPostData() {
+  public function getPostData() {
     if (is_null($this -> dataEntryForm)) {
       foreach($this -> elements as $element_name => $element) {
         if( !($element -> getPostData($this -> _postData)) ) {
@@ -481,7 +481,7 @@ class LSform {
    *
    * @retval LSformElement
    */
-  function addElement($type,$name,$label,$params=array(),&$attr_html) {
+  public function addElement($type,$name,$label,$params=array(),&$attr_html) {
     $elementType='LSformElement_'.$type;
     LSsession :: loadLSclass($elementType);
     if (!class_exists($elementType)) {
@@ -532,7 +532,7 @@ class LSform {
    *
    * @retval boolean
    */
-  function addRule($element, $rule, $options=array()) {
+  public function addRule($element, $rule, $options=array()) {
     if ( isset($this ->elements[$element]) ) {
       if ($this -> isRuleRegistered($rule)) {
         $this -> _rules[$element][]=array(
@@ -564,7 +564,7 @@ class LSform {
    *
    * @retval boolean
    */
-  function setRequired($element) {
+  public function setRequired($element) {
     if (isset( $this -> elements[$element] ) )
       return $this -> elements[$element] -> setRequired();
     else
@@ -580,7 +580,7 @@ class LSform {
    *
    * @param[in] $element string Le nom de l'élément conserné
    */
-  function isRuleRegistered($rule) {
+  public function isRuleRegistered($rule) {
     LSsession :: loadLSclass('LSformRule');
     LSsession :: loadLSclass('LSformRule_'.$rule);
     return class_exists('LSformRule_'.$rule);
@@ -591,7 +591,7 @@ class LSform {
    *
    * @retval mixed Les valeurs validés du formulaire, ou false si elles ne le sont pas
    */
-  function exportValues() {
+  public function exportValues() {
     if ($this -> _isValidate) {
       $retval=array();
       foreach($this -> _postData as $element => $values) {
@@ -611,7 +611,7 @@ class LSform {
    *
    * @retval LSformElement L'élement du formulaire voulu
    */
-  function getElement($element) {
+  public function getElement($element) {
     return $this -> elements[$element];
   }
 
@@ -620,7 +620,7 @@ class LSform {
    *
    * @retval boolean True si les valeurs ont été définies, false sinon.
    */
-  function setValuesFromPostData() {
+  public function setValuesFromPostData() {
     if (empty($this -> _postData)) {
       return;
     }
@@ -637,7 +637,7 @@ class LSform {
    *
    * @retval string Le code HTML du champ vide.
    */
-  function getEmptyField($element) {
+  public function getEmptyField($element) {
     $element = $this -> getElement($element);
     if ($element) {      
       return $element -> getEmptyField();     
@@ -654,7 +654,7 @@ class LSform {
    * 
    * @retval  void
    **/
-  function setMaxFileSize($size) {
+  public function setMaxFileSize($size) {
     $this -> maxFileSize = $size;
   }
 
@@ -665,7 +665,7 @@ class LSform {
    *
    * @retval boolean True si le masque de saisie a été appliqué, False sinon
    **/
-   function applyDataEntryForm($dataEntryForm) {
+   public function applyDataEntryForm($dataEntryForm) {
      $dataEntryForm=(string)$dataEntryForm;
      $objType = $this -> ldapObject -> getType();
      $config=LSconfig :: get("LSobjects.".$objType.".LSform.dataEntryForm.".$dataEntryForm);
@@ -724,7 +724,7 @@ class LSform {
     *
     * @retval void
     **/
-   function addWarning($txt) {
+   public function addWarning($txt) {
      $this -> warnings[]=$txt;
    }
 

@@ -44,7 +44,7 @@ class LSformElement_url extends LSformElement_text {
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
-  function getDisplay() {
+  public function getDisplay() {
     LSsession :: addHelpInfos (
       'LSformElement_url',
       array(

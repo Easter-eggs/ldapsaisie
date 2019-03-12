@@ -43,7 +43,7 @@ class LSformElement_labeledValue extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
 
     $parseValues=array();
@@ -64,7 +64,7 @@ class LSformElement_labeledValue extends LSformElement {
   *
   * @retval string Code HTML d'un champ vide.
   */
-  function getEmptyField() {
+  public function getEmptyField() {
     return $this -> fetchTemplate($this -> fieldTemplate,array(
       'labels' => $this -> getParam('html_options.labels'),
     ));
@@ -77,7 +77,7 @@ class LSformElement_labeledValue extends LSformElement {
   *
   * @retval array Un tableau cle->valeur contenant value et label
   **/
-  function parseValue($value) {
+  public function parseValue($value) {
     $ret=array('raw_value' => $value);
     if (preg_match('/^\[([^\]]*)\](.*)$/',$value,$m)) {
       $ret['label'] = $m[1];
@@ -99,7 +99,7 @@ class LSformElement_labeledValue extends LSformElement {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }

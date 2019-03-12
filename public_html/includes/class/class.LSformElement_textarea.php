@@ -42,7 +42,7 @@ class LSformElement_textarea extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
       LSsession :: addHelpInfos(

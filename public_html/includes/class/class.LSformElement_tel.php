@@ -40,7 +40,7 @@ class LSformElement_tel extends LSformElement_text {
   
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
-  function getDisplay() {
+  public function getDisplay() {
     $this -> fetchVariables['uriLinkTitle'] = $this -> attr_html -> attribute -> ldapObject ->getDisplayName();
     return parent :: getDisplay();
   }

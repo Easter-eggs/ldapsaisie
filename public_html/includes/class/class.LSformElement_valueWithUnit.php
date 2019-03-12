@@ -40,7 +40,7 @@ class LSformElement_valueWithUnit extends LSformElement {
   * @retval array|False Le tableau contenant en cle les seuils et en valeur les labels des unites.
   *                     Si le parametre units n'est pas defini, cette fonction retournera False
   **/
-  function getUnits() {
+  public function getUnits() {
     $units = $this -> getParam('html_options.units');
     if (is_array($units)) {
       if ($this -> getParam('html_options.translate_labels', true)) {
@@ -65,7 +65,7 @@ class LSformElement_valueWithUnit extends LSformElement {
   *
   * @retbal string Formatted number
   */
-  function formatNumber($number) {
+  public function formatNumber($number) {
     if ((int)$number==$number) return $number;
     return number_format($number,
       $this -> getParam('html_options.nb_decimals', 2, 'int'),
@@ -81,7 +81,7 @@ class LSformElement_valueWithUnit extends LSformElement {
   *
   * @retval array
   */
-  function getDisplay(){
+  public function getDisplay(){
     $return = $this -> getLabelInfos();
 
     $values_and_units=array();
@@ -128,7 +128,7 @@ class LSformElement_valueWithUnit extends LSformElement {
   *
   * @retval string Code HTML d'un champ vide.
   */
-  function getEmptyField() {
+  public function getEmptyField() {
     return $this -> fetchTemplate(
       $this -> fieldTemplate,
       array(
@@ -147,7 +147,7 @@ class LSformElement_valueWithUnit extends LSformElement {
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  function getPostData(&$return) {
+  public function getPostData(&$return) {
     if($this -> isFreeze()) {
       return true;
     }
