@@ -96,7 +96,7 @@ class LSformElement_image extends LSformElement {
       return true;
     }
    
-    if (is_uploaded_file($_FILES[$this -> name]['tmp_name'])) {
+    if (isset($_FILES[$this -> name]) && isset($_FILES[$this -> name]['tmp_name']) && is_uploaded_file($_FILES[$this -> name]['tmp_name'])) {
       $fp = fopen($_FILES[$this -> name]['tmp_name'], "r");
       $buf = fread($fp, filesize($_FILES[$this -> name]['tmp_name']));
       fclose($fp);

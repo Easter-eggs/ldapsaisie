@@ -87,6 +87,7 @@ class LSformElement_password extends LSformElement {
       if ($this -> sendMail && LSsession :: loadLSaddon('mail')) {
         $msg = $this -> getParam('html_options.mail.msg');
         $subject = $this -> getParam('html_options.mail.subject');
+        $mail = "";
         if (isset($_POST['LSformElement_password_'.$this -> name.'_msg'])) {
           $msgInfos = json_decode($_POST['LSformElement_password_'.$this -> name.'_msg']);
           if ($msgInfos -> subject) {

@@ -65,9 +65,10 @@ LSerror :: defineError('MAIL_01',
   * @retval boolean true si MAIL est pleinement supporté, false sinon
   */
   function sendMail($to,$subject,$msg,$headers=array()) {
-    $mail_obj  = & Mail::factory(MAIL_SEND_METHOD, $MAIL_SEND_PARAMS);
+    global $MAIL_SEND_PARAMS, $MAIL_HEARDERS;
+    $mail_obj = Mail::factory(MAIL_SEND_METHOD, (isset($MAIL_SEND_PARAMS)?$MAIL_SEND_PARAMS:null));
     
-    if(is_array($MAIL_HEARDERS)) {
+    if (isset($MAIL_HEARDERS) && is_array($MAIL_HEARDERS)) {
       $headers = array_merge($headers,$MAIL_HEARDERS);
     }
     if ($subject) {

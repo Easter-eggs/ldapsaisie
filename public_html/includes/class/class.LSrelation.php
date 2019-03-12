@@ -368,7 +368,7 @@ class LSrelation {
               $data['id'] = $_REQUEST['id'];
             }
             else {
-              LSerror :: addErrorCode('LSrelations_03',$relationName);
+              LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
             }
           }
           else {

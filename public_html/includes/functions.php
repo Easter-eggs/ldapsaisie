@@ -440,7 +440,7 @@ function LSdebugDefined() {
         if (!is_array($chs)) {
           $chs=array('chars' => $chs);
         }
-        if (!is_int($chs['nb'])) {
+        if (!isset($chs['nb']) || !is_int($chs['nb'])) {
           $chs['nb']=1;
         }
         $retval.=aleaChar($chs['chars'],$chs['nb']);
