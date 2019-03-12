@@ -29,10 +29,10 @@ LSsession :: loadLSclass('LSauthMethod_basic');
  */
 class LSauthMethod_HTTP extends LSauthMethod_basic {
 
-  public function LSauthMethod_HTTP() {
+  public function __construct() {
     LSauth :: disableLoginForm();
     LSauth :: disableLogoutBtn();
-    return parent :: LSauthMethod_basic();
+    return parent :: __construct();
   }
 
   /**

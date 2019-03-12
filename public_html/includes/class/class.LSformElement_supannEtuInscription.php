@@ -111,7 +111,7 @@ class LSformElement_supannEtuInscription extends LSformElement_supannCompositeAt
 				'required' => false
 			)
 		);
-		return parent::LSformElement ($form, $name, $label, $params,$attr_html);
+		return parent :: __construct($form, $name, $label, $params, $attr_html);
 	}
 
 }

@@ -30,7 +30,7 @@ class LSauthMethod_CAS extends LSauthMethod {
   public function __construct() {
 		LSauth :: disableLoginForm();
 		
-		if (!parent :: LSauthMethod())
+		if (!parent :: __construct())
 			return;
 
 		if (LSsession :: includeFile(PHP_CAS_PATH)) {

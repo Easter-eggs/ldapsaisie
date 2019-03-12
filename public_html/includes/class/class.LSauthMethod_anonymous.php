@@ -31,7 +31,7 @@ class LSauthMethod_anonymous extends LSauthMethod {
 		LSauth :: disableLoginForm();
 		LSauth :: disableSelfAccess();
 
-		if (!parent :: LSauthMethod())
+		if (!parent :: __construct())
 			return;
 
 		if ( (!defined('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT')) || (constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT') === True)) {

@@ -54,7 +54,7 @@ class LSformElement_supannRoleEntite extends LSformElement_supannCompositeAttrib
 			'required' => false
 		  )
 	  );
-	  return parent::LSformElement ($form, $name, $label, $params,$attr_html);
+	  return parent :: __construct($form, $name, $label, $params, $attr_html);
   }
 
 }

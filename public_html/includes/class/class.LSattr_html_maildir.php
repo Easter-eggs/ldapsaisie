@@ -35,7 +35,7 @@ class LSattr_html_maildir extends LSattr_html {
   public function __construct($name, $config, &$attribute) {
     $attribute -> addObjectEvent('before_delete',$this,'beforeDelete');
     $attribute -> addObjectEvent('after_delete',$this,'deleteMaildirByFTP');
-    return parent :: LSattr_html($name, $config, $attribute);
+    return parent :: __construct($name, $config, $attribute);
   }
   
   public function doOnModify($action,$cur,$new) {

@@ -36,7 +36,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   var $fieldTemplate = 'LSformElement_jsonCompositeAttribute_field.tpl';
 
   public function __construct(&$form, $name, $label, $params, &$attr_html){
-    parent :: LSformElement($form, $name, $label, $params,$attr_html);
+    parent :: __construct($form, $name, $label, $params,$attr_html);
     $this -> components = $this -> getParam('html_options.components', array());
   }
 
