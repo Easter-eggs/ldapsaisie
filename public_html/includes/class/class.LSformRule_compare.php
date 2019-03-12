@@ -48,9 +48,9 @@ class LSformRule_compare extends LSformRule {
 
     if (empty($operator_name)) {
       return '==';
-    } elseif (isset($this->_operators[$operator_name])) {
-      return $this->_operators[$operator_name];
-    } elseif (in_array($operator_name, $this->_operators)) {
+    } elseif (isset($_operators[$operator_name])) {
+      return $_operators[$operator_name];
+    } elseif (in_array($operator_name, $_operators)) {
       return $operator_name;
     } else {
       return '==';
