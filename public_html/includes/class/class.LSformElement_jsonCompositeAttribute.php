@@ -182,7 +182,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   protected function getSelectListComponentPossibleValues($c) {
     if (!isset($this -> _cache_getSelectListComponentPossibleValues[$c])) {
       if (!LSsession :: loadLSclass('LSattr_html_select_list')) return;
-      $this -> _cache_getSelectListComponentPossibleValues[$c]=LSattr_html_select_list :: getPossibleValues($this -> components[$c]['options'], $this -> name, $this->attr_html->attribute->ldapObject);
+      $this -> _cache_getSelectListComponentPossibleValues[$c]=LSattr_html_select_list :: _getPossibleValues($this -> components[$c]['options'], $this -> name, $this->attr_html->attribute->ldapObject);
     }
     return $this -> _cache_getSelectListComponentPossibleValues[$c];
   }

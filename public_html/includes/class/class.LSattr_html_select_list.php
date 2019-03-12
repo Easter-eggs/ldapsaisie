@@ -66,6 +66,22 @@ class LSattr_html_select_list extends LSattr_html{
   }
 
   /**
+   * Retourne un tableau des valeurs possibles de la liste de l'attribut courant
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
+   *               la valeur des balises option et en valeur ce qui sera affiché.
+   */
+  protected function getPossibleValues() {
+    return self :: _getPossibleValues(
+      $this -> getConfig('html_options'),
+      $this -> name,
+      $this->attribute->ldapObject
+    );
+  }
+
+  /**
    * Retourne un tableau des valeurs possibles de la liste
    *
    * @param[in] $options Attribute options (optinal)
@@ -77,10 +93,7 @@ class LSattr_html_select_list extends LSattr_html{
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */ 
-  public static function getPossibleValues($options=false,$name=false,&$ldapObject=false) {
-    if (!$options) $options=$this -> config['html_options'];
-    if (!$name) $name=$this -> name;
-    if (!$ldapObject) $ldapObject=$this->attribute->ldapObject;
+  public static function _getPossibleValues($options=false,$name=false,&$ldapObject=false) {
     $retInfos = array();
     if (isset($options['possible_values']) && is_array($options['possible_values'])) {
       foreach($options['possible_values'] as $val_key => $val_label) {
