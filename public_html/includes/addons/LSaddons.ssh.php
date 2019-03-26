@@ -61,7 +61,7 @@ LSerror :: defineError('SSH_07',
 
  /**
   * Check LdapSaisie SSH support
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true if SSH is fully supported, false otherwise
@@ -85,10 +85,30 @@ LSerror :: defineError('SSH_07',
 
  /**
   * Connect to an SFTP server
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
-  * @param[in] $params array The SSH connexion parameters
+  *
+  * @param[in] $params array The SSH connexion parameters :
+  *                          array (
+  *                            'host' => '[SSH server hostname/IP]', // required
+  *                            'port' => [SSH port], // optional, default : 22
+  *                            'timeout' => [SSH connection timeout], // optional, default : 10
+  *
+  *                            // Authentication
+  *                            'user' => '[SSH remote user]', // required
+  *
+  *                            // Auth method :
+  *                            // One of the following method configuration is required.
+  *
+  *                            // Auth using simple password
+  *                            'password' => '[secret password]'
+  *
+  *                            // Auth using a key
+  *                            'auth_key' => array (
+  *                              'file_path' => '[SSH private key file path]',
+  *                              'password' => '[SSH private key file password]' // Only if need
+  *                            )
+  *                          )
   * @param[in] $sftp boolean Enable SFTP mode (default : false)
   *
   * @retval mixed SSH2/SFTP object or false
@@ -147,17 +167,17 @@ LSerror :: defineError('SSH_07',
 
     if (!$cnx->login($user, $password)) {
       LSerror :: addErrorCode('SSH_04', array('host' => $host, 'port' => $port));
-      return false; 
+      return false;
     }
 
     return $cnx;
   }
-  
+
  /**
   * Create one or more directories throught SFTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $connection_params array Connection parameters
   * @param[in] $dirs array|string The directory/ies to add
   * @param[in] $mode integer The directory/ies mode (default : default umask on the SSH server)
@@ -187,9 +207,9 @@ LSerror :: defineError('SSH_07',
 
  /**
   * Delete one or more directories throught SFTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $connection_params array Connection parameters
   * @param[in] $dirs array|string The directory/ies to remove
   * @param[in] $recursive boolean Enable recursive mode (default : false)
@@ -218,9 +238,9 @@ LSerror :: defineError('SSH_07',
 
  /**
   * Rename a directory throught SFTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $connection_params array Connection parameters
   * @param[in] $old  string The actual directory path to rename
   * @param[in] $new  string The new directory path
@@ -241,9 +261,9 @@ LSerror :: defineError('SSH_07',
 
  /**
   * Exec a command throught SSH
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $connection_params array Connection parameters
   * @param[in] $cmd  string The command to run on remote server
   *
