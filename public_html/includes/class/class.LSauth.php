@@ -121,7 +121,7 @@ class LSauth {
   **/
   public static function afterLogout() {
     if (!is_null(self :: $provider)) {
-      return self :: $provider -> logout();
+      return self :: $provider -> afterLogout();
     }
     LSerror :: addErrorCode('LSauth_06');
     return;
