@@ -93,6 +93,12 @@
   </listitem>
 </varlistentry>
 
+    </variablelist>
+    </para>
+
+  </listitem>
+</varlistentry>
+
 <varlistentry>
   <term>LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL</term>
   <listitem>
@@ -103,13 +109,6 @@
     déconnexion sera masqué.</simpara></note>
   </listitem>
 </varlistentry>
-
-    </variablelist>
-    </para>
-
-  </listitem>
-</varlistentry>
-
 
 </variablelist>
 </sect2>
