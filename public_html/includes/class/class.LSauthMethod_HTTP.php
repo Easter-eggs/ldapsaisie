@@ -30,10 +30,11 @@ LSsession :: loadLSclass('LSauthMethod_basic');
 class LSauthMethod_HTTP extends LSauthMethod_basic {
 
   public function __construct() {
+    parent :: __construct();
     LSauth :: disableLoginForm();
     if (!defined('LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL'))
       LSauth :: disableLogoutBtn();
-    return parent :: __construct();
+    return True;
   }
 
   /**
