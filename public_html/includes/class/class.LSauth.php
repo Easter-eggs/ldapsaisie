@@ -104,7 +104,23 @@ class LSauth {
   * @retval void
   **/
   public static function logout() {
-     if (!is_null(self :: $provider)) {
+    if (!is_null(self :: $provider)) {
+      return self :: $provider -> logout();
+    }
+    LSerror :: addErrorCode('LSauth_06');
+    return;
+  }
+
+ /**
+  * After logout
+  *
+  * This method is run by LSsession after the local session was
+  * was successfully destroyed.
+  *
+  * @retval void
+  **/
+  public static function afterLogout() {
+    if (!is_null(self :: $provider)) {
       return self :: $provider -> logout();
     }
     LSerror :: addErrorCode('LSauth_06');

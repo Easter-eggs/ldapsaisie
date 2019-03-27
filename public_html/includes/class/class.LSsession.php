@@ -533,15 +533,23 @@ class LSsession {
       }
       
       if (isset($_GET['LSsession_logout'])) {
+        // Trigger LSauth logout
         LSauth :: logout();
-        session_destroy();
-        
+
+        // Delete temporaries files
         if (is_array($_SESSION['LSsession']['tmp_file'])) {
           self :: $tmp_file = $_SESSION['LSsession']['tmp_file'];
         }
         self :: deleteTmpFile();
+
+        // Destroy local session
         unset($_SESSION['LSsession']);
-        
+        session_destroy();
+
+        // Trigger LSauth after logout
+        LSauth :: afterLogout();
+
+        // Redirect user on home page
         self :: redirect('index.php');
         return;
       }

@@ -94,6 +94,18 @@ class LSauthMethod {
      return true;
   }
 
+ /**
+  * After logout
+  *
+  * This method is run by LSsession after the local session was
+  * was successfully destroyed.
+  *
+  * @retval void
+  **/
+  public static function afterLogout() {
+    return true;
+  }
+
   /**
    * Get LDAP credentials
    *
