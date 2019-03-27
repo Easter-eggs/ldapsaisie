@@ -31,7 +31,8 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
 
   public function __construct() {
     LSauth :: disableLoginForm();
-    LSauth :: disableLogoutBtn();
+    if (!defined('LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL'))
+      LSauth :: disableLogoutBtn();
     return parent :: __construct();
   }
 
@@ -100,6 +101,21 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
     else {
       return parent :: authenticate();
     }
+  }
+
+ /**
+  * After logout
+  *
+  * This method is run by LSsession after the local session was
+  * was successfully destroyed.
+  *
+  * @retval void
+  **/
+  public static function afterLogout() {
+    if (defined('LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL')) {
+      LSsession :: redirect(LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL);
+    }
+    return true;
   }
 
 }

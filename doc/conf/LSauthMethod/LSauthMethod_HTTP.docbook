@@ -93,6 +93,17 @@
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL</term>
+  <listitem>
+    <para>URL de déconnexion externe, utile par exemple dans le contexte d'une
+    connexion via un service SSO. L'utilisateur sera automatiquement redirigé
+    vers cette URL après sa déconnexion effective au niveau d'LdapSaisie.</para>
+    <note><simpara>Si cette URL de déconnexion n'est pas défini, le bouton de
+    déconnexion sera masqué.</simpara></note>
+  </listitem>
+</varlistentry>
+
     </variablelist>
     </para>
 

@@ -47,3 +47,5 @@
  */
 //define('LSAUTHMETHOD_HTTP_METHOD', 'PHP_PASS');
 
+// Remote logout URL (in SSO context for instance)
+//define('LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL', 'https://idp.domain.tld/logout');
