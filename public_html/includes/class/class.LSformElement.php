@@ -198,6 +198,7 @@ class LSformElement {
     }
     if (!empty($help_infos))
       $return['help_info'] = implode(' - ', $help_infos);
+    $return['help_info_in_view'] = $this -> getParam('help_info_in_view', false, 'bool');
 
     return $return;
   }

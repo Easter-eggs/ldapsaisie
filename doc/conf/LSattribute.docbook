@@ -19,6 +19,7 @@
     'label' => '[label de l'attr1',
     'displayAttrName' => '[booleen]',
     'help_info' => '[Message d'aide sur l'attribut attr1]',
+    'help_info_in_view' => '[booleen]',
     'ldap_type' => 'ldaptype1',
     'ldap_options' => array(
       // Options LDAP liées au type LDAP de l'attribut
@@ -88,6 +89,16 @@
   <listitem>
     <simpara>Message d'aide qui sera affiché dans une bulle d'aide à côté du
     nom de l'attribut dans les formulaires.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>help_info_in_view</term>
+  <listitem>
+    <simpara>Booléen définissant si le message d'aide doit être affiché sur la vue
+    de visualisation de l'objet.</simpara>
+    <simpara>Valeurs possibles : <emphasis>0</emphasis> ou <emphasis>1</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>0</emphasis></simpara>
   </listitem>
 </varlistentry>
 

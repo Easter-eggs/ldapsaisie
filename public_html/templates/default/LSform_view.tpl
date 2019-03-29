@@ -26,7 +26,7 @@
         {foreach from=$tab.args item=arg}
           {if $LSform_fields[$arg]}
             {assign var='field' value='oui'}
-            <dt class='LSform'>{$LSform_fields[$arg].label|escape:"htmlall"}</dt>
+            <dt class='LSform'>{$LSform_fields[$arg].label|escape:"htmlall"}{if $LSform_fields[$arg].help_info_in_view && $LSform_fields[$arg].help_info!=""} <img class='LStips' src="{img name='help'}" alt='?' title='{$LSform_fields[$arg].help_info|escape:'htmlall'}'/>{/if}</dt>
             <dd class='LSform'>{$LSform_fields[$arg].html}</dd>
           {/if}
         {/foreach}
