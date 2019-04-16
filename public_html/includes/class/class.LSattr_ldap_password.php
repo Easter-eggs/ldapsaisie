@@ -115,7 +115,7 @@ class LSattr_ldap_password extends LSattr_ldap {
     $encode = $this -> getConfig('ldap_options.encode', 'md5crypt', 'string');
     $encode_function = $this -> getConfig('ldap_options.encode_function');
     if ($encode_function || $encode == 'function') {
-      if ( (!$encode_function) || (!is_callable($encode_function)) ) {
+      if ( (!$encode_function) || (!is_callable($encode_function)) ) {
         $encode = 'clear';
         $encode_function = null;
         LSerror :: addErrorCode('LSattr_ldap_password_02', ($encode_function?$encode_function:__('undefined')));
