@@ -835,7 +835,18 @@ class LSsearch {
     
     $this -> _searchParams = $retval;
   }
-  
+
+  /**
+   * Get search attributes
+   *
+   * @retval array The attributes asked in this search
+   **/
+  public function getAttributes() {
+    if (!$this -> _searchParams)
+      $this -> generateSearchParams();
+    return $this -> _searchParams['attributes'];
+  }
+
   /**
    * Run the search
    *

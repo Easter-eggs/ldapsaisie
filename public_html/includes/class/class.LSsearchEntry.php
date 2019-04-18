@@ -42,6 +42,9 @@ class LSsearchEntry {
   // The hash of the search parameters
   private $hash = NULL;
   
+  // The attributes list
+  private $attrs_list=array();
+
   // The attributes values
   private $attrs=array();
   
@@ -69,6 +72,7 @@ class LSsearchEntry {
     $this -> params = $params;
     $this -> id = $id;
     $this -> dn =& $result[$id]['dn'];
+    $this -> attrs_list = $LSsearch -> getAttributes();
     $this -> attrs =& $result[$id]['attrs'];
     $this -> cache =& $result[$id]['cache'];
   }
@@ -227,8 +231,8 @@ class LSsearchEntry {
       $this -> cache[$key] = $ret;
       return $ret;
     }
-    elseif (in_array($key,array_keys($this -> attrs))) {
-      return $this -> attrs[$key];
+    elseif (in_array($key,array_keys($this -> attrs_list))) {
+      return (isset($this -> attrs[$key])?$this -> attrs[$key]:null);
     }
     elseif (array_key_exists($key,$this->params['customInfos'])) {
       if(isset($this -> cache['customInfos'][$key])) {
