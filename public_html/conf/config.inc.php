@@ -188,7 +188,7 @@ define('LSdebug',false);
 $GLOBALS['LSlog']['filename'] = 'tmp/LS.log';
 $GLOBALS['LSlog']['enable'] = true;
 
-define('NB_LSOBJECT_LIST',20);
+define('NB_LSOBJECT_LIST',30);
 define('NB_LSOBJECT_LIST_SELECT',11);
 
 define('MAX_SEND_FILE_SIZE',2000000);
