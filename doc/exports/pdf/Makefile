@@ -1,13 +1,14 @@
 DOCBOOK_FILE=../../LdapSaisie.docbook
 JW=jw
-PDF_FILE=LdapSaisie.pdf
+BASE_FILENAME=LdapSaisie
+PDF_FILE=$(BASE_FILENAME).pdf
 
 all:		pdf
 
-pdf:		LdapSaisie.pdf
+pdf:		$(PDF_FILE)
 
 LdapSaisie.pdf:		$(DOCBOOK_FILE)
-						SP_ENCODING=XML $(JW) -f docbook -b pdf "$(DOCBOOK_FILE)"
+	SP_ENCODING=XML $(JW) -f docbook -b pdf "$(DOCBOOK_FILE)"
 
 clean:
-				rm -f $(PDF_FILE)
+	rm -f $(BASE_FILENAME).*
