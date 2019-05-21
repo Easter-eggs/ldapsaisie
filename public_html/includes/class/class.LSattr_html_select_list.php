@@ -74,7 +74,7 @@ class LSattr_html_select_list extends LSattr_html{
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */
   protected function getPossibleValues() {
-    return self :: _getPossibleValues(
+    return static :: _getPossibleValues(
       $this -> getConfig('html_options'),
       $this -> name,
       $this->attribute->ldapObject
@@ -98,12 +98,12 @@ class LSattr_html_select_list extends LSattr_html{
     if (isset($options['possible_values']) && is_array($options['possible_values'])) {
       foreach($options['possible_values'] as $val_key => $val_label) {
         if($val_key==='OTHER_OBJECT') {
-          $objInfos=self :: getLSobjectPossibleValues($val_label,$options,$name);
-          $retInfos=self :: _array_merge($retInfos,$objInfos);
+          $objInfos=static :: getLSobjectPossibleValues($val_label,$options,$name);
+          $retInfos=static :: _array_merge($retInfos,$objInfos);
         }
         elseif($val_key==='OTHER_ATTRIBUTE') {
-          $attrInfos=self :: getLSattributePossibleValues($val_label, $options, $name, $ldapObject);
-          $retInfos=self :: _array_merge($retInfos,$attrInfos);
+          $attrInfos=static :: getLSattributePossibleValues($val_label, $options, $name, $ldapObject);
+          $retInfos=static :: _array_merge($retInfos,$attrInfos);
         }
 	elseif (is_array($val_label)) {
 		if (!isset($val_label['possible_values']) || !is_array($val_label['possible_values']) || !isset($val_label['label']))
@@ -111,8 +111,8 @@ class LSattr_html_select_list extends LSattr_html{
 		$subRetInfos=array();
 		foreach($val_label['possible_values'] as $vk => $vl) {
 			if ($vk==='OTHER_OBJECT') {
-				$objInfos=self :: getLSobjectPossibleValues($vl,$options,$name);
-				$subRetInfos=self :: _array_merge($subRetInfos,$objInfos);
+				$objInfos=static :: getLSobjectPossibleValues($vl,$options,$name);
+				$subRetInfos=static :: _array_merge($subRetInfos,$objInfos);
 			}
 			else {
 				$vk=$ldapObject->getFData($vk);
@@ -125,7 +125,7 @@ class LSattr_html_select_list extends LSattr_html{
 				$subRetInfos[$vk]=$vl;
 			}
 		}
-		self :: _sort($subRetInfos,$options);
+		static :: _sort($subRetInfos,$options);
 		if (isset($options['translate_labels']) && !$options['translate_labels']) {
 			$subRetLabel = $ldapObject->getFData($val_label['label']);
 		}
@@ -150,7 +150,7 @@ class LSattr_html_select_list extends LSattr_html{
       }
     }
 
-    self :: _sort($retInfos,$options);
+    static :: _sort($retInfos,$options);
 
     return $retInfos;
   }
@@ -229,7 +229,7 @@ class LSattr_html_select_list extends LSattr_html{
    * @retval int Value for uasort
    **/
   protected static function _sortTwoValuesDesc(&$va,&$vb) {
-    return (-1 * self :: _sortTwoValuesAsc($va,$vb));
+    return (-1 * static :: _sortTwoValuesAsc($va,$vb));
   }
 
 
@@ -299,7 +299,7 @@ class LSattr_html_select_list extends LSattr_html{
       }
     }
 
-    self :: _sort($retInfos,$options);
+    static :: _sort($retInfos,$options);
 
     return $retInfos;
   }
@@ -373,15 +373,15 @@ class LSattr_html_select_list extends LSattr_html{
               LSerror :: addErrorCode('LSattr_html_select_list_03',$attr['attr']);
           }
           else
-            $retInfos = self :: getLSattributePossibleValues($attr['attr'], $options ,$name ,$ldapObject);
+            $retInfos = static :: getLSattributePossibleValues($attr['attr'], $options ,$name ,$ldapObject);
         }
         else
           LSerror :: addErrorCode('LSattr_html_select_list_02',$attr['attr']);
       }
       else {
         foreach($attr as $sub_attr => $sub_label) {
-          $subRetInfos = self :: getLSattributePossibleValues($sub_attr, $options ,$name ,$ldapObject);
-          self :: _sort($subRetInfos,$options);
+          $subRetInfos = static :: getLSattributePossibleValues($sub_attr, $options ,$name ,$ldapObject);
+          static :: _sort($subRetInfos,$options);
           $retInfos[] = array (
             'label' => $sub_label,
             'possible_values' => $subRetInfos
@@ -389,7 +389,7 @@ class LSattr_html_select_list extends LSattr_html{
         }
       }
     }
-    self :: _sort($retInfos,$options);
+    static :: _sort($retInfos,$options);
     return $retInfos;
   }
 
