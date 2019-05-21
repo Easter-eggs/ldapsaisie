@@ -47,16 +47,16 @@ LSerror :: defineError('SSH_03',
   _("SSH : Fail to load authentication key (%{path}).")
 );
 LSerror :: defineError('SSH_04',
-  _("SSH Support : Unable to connect to SSH Server (%{host}:%{port}).")
+  _("SSH : Unable to connect to SSH Server (%{host}:%{port}).")
 );
 LSerror :: defineError('SSH_05',
-  _("SSH Support : Unable to make directory %{dir} on the remote server.")
+  _("SSH : Unable to make directory %{dir} on the remote server.")
 );
 LSerror :: defineError('SSH_06',
-  _("SSH Support : Unable to delete directory %{dir} on the remote server.")
+  _("SSH : Unable to delete directory %{dir} on the remote server.")
 );
 LSerror :: defineError('SSH_07',
-  _("SSH Support : Unable to rename folder from %{old} to %{new} on the remote server.")
+  _("SSH : Unable to rename folder from %{old} to %{new} on the remote server.")
 );
 
  /**
