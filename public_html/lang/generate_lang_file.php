@@ -275,7 +275,7 @@ if (loadDir(LS_OBJECTS_DIR) && loadDir(LS_LOCAL_DIR.LS_OBJECTS_DIR)) {
             add($cconfig['help_info']);
 
             // Component type select_list
-            if (is_array($cconfig['options']['possible_values'])) {
+            if (is_array($cconfig['options']['possible_values']) && (!isset($cconfig['options']['translate_labels']) || $cconfig['options']['translate_labels']) && !$withoutselectlist) {
               foreach($cconfig['options']['possible_values'] as $pkey => $pname) {
                 if (is_array($pname)) {
                   add($pname['label']);
