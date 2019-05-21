@@ -1,3 +1,38 @@
+ldapsaisie (2.0-0) unstable; urgency=medium
+
+  * LSform :
+    * Don't blame on missing required attribute on non-create form and
+      if attibute is not present in form (or freezed).
+    * Fix display bug when user has no right on the first tab
+  * LSldapObject : fix removing old RDN value after object renaming
+  * LSerror : fix PHP error handling
+  * LSsession :
+    * Fix setLocale()  parameter handling
+    * Always log include errors
+  * LSattr_html_maildir : fix PHP error in class contructor
+  * LSformRule :: compare : fix find operator method
+  * LSformElement_password : fix syntax error in getPostData() method
+  * LSsearch : make purgeParams() and purgeCache() methods static
+  * Add SSH LSaddon
+  * LSauth : add afterLogout() trigger
+  * LSauthMethod_HTTP :
+    * add LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL parameter
+    * fix constructor to load config before handling it
+  * LSattribute : add help_info_in_view parameter
+  * LSsearchEntry : Fix 'unknwon property error' on accessing undefined attribute
+  * Clarify recover password process by hiding form after the first step
+  * Globally improve configuration information access to avoid duplicated code
+    and PHP warnings.
+  * Log all errors on developpement instance and with magic URL parameter LSdebug
+  * Explicitly defined class methods visibility and upgrade PHP class constructor
+    syntax. Solve static/non-static problems on some methods, parent constructor
+    calls and 'Cannot make non static method' errors.
+  * Increase NB_LSOBJECT_LIST default value to 30
+  * Add globalSearch feature
+  * Code cleaning / Fix some PHP notices
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 21 May 2019 12:17:40 +0200
+
 ldapsaisie (1.8-6) unstable; urgency=medium
 
   * Fix bug on LSformElement :: text -> getDependsFields() when using modifiers
