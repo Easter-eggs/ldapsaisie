@@ -71,6 +71,9 @@ $GLOBALS['LSlang'] = array (
 "Given email address is invalid." =>
   "L'adresse mail saisie est invalide.",
 
+"Global search" =>
+  "Recherche globale",
+
 "Godfather of ..." =>
   "Parrain de ...",
 

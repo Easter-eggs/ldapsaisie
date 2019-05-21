@@ -104,6 +104,16 @@ a img {
  * Menu
  ******************
  */
+form.LSglobal_search {
+  margin-top: 0.8em;
+}
+
+input.LSglobal_search {
+  background: url(../../images/default/find.png) no-repeat right #fff;
+  padding-right: 18px;
+  width: 138px!important;
+}
+
 ul.menu {
   list-style-image:   url(../../images/default/puce.png);
 }

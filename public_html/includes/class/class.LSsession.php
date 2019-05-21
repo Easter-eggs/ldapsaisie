@@ -531,6 +531,8 @@ class LSsession {
       if (!self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
         return;
       }
+
+      LStemplate :: assign('globalSearch', self :: globalSearch());
       
       if (isset($_GET['LSsession_logout'])) {
         // Trigger LSauth logout
@@ -632,6 +634,7 @@ class LSsession {
             self :: loadLSaccess();
             self :: loadLSaddonsViewsAccess();
             LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
+            LStemplate :: assign('globalSearch', self :: globalSearch());
             $_SESSION['LSsession']=self :: getContextInfos();
             return true;
           }
@@ -2258,7 +2261,18 @@ class LSsession {
   public static function cacheSearch() {
     return ( (LSconfig :: get('cacheSearch')) || (self :: $ldapServer['cacheSearch']));
   }
-  
+
+  /**
+   * Return true if global search is enabled
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean True if global search is enabled, false instead
+   */
+  public static function globalSearch() {
+    return LSconfig :: get('globalSearch', LSconfig :: get('globalSearch', true, 'bool'), 'bool', self :: $ldapServer);
+  }
+
   /**
    * Retourne le label des niveaux pour le serveur ldap courant
    * 

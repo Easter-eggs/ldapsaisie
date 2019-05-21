@@ -116,6 +116,18 @@ define('CONST2','val2')
 
 
 <varlistentry>
+  <term>globalSearch</term>
+  <listitem>
+    <simpara>Activation/Désactivation de la recherche globale dans l'annuaire.
+    </simpara>
+    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou
+    <emphasis>False</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>True</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
   <term>keepLSsessionActive</term>
   <listitem>
     <simpara>Activation/Désactivation du maintient de la LSsession active.</simpara>

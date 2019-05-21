@@ -68,6 +68,8 @@
     // Configuration des recherches de l'objet
   ), // fin LSsearch
 
+  'globalSearch' => [booleen],
+
   // ioFormat
   'ioFormat' => array (
     // Configuration des formats d'import/export de l'objet
@@ -261,6 +263,14 @@
     des recherches de &LSobject; de ce type dans l'annuaire.
     <link linkend="config-LSobject-LSsearch">Voir la section concernée</link>.
     </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>globalSearch</term>
+  <listitem>
+    <simpara>Inclure ou non ce type d'objet dans le résultat des recherches globales
+    (Par défaut : <literal>True</literal>).</simpara>
   </listitem>
 </varlistentry>
 

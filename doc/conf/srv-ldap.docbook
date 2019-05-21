@@ -25,6 +25,7 @@ serveur LDAP.</para>
       ),
       'cacheLSprofiles' => [boolean],
       'cacheSearch' => [boolean],
+      'globalSearch' => [boolean],
       'authObjectType' => [LSobject],
       'authObjectFilter' => [LSformat],
       'authObjectTypeAttrPwd' => [attribut],
@@ -125,6 +126,16 @@ serveur LDAP.</para>
   <listitem>
     <simpara>Activation/Désactivation de la mise en cache du résultat des 
     recherches sur ce serveur.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
+  <term>globalSearch</term>
+  <listitem>
+    <simpara>Activation/Désactivation de la recherche globale sur ce serveur
+    en particulier. Par defaut, la valeur du paramètre global
+    <literal>globalSearch</literal> est utilisée.</simpara>
   </listitem>
 </varlistentry>
 
