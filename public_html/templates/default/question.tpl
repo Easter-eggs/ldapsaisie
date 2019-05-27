@@ -8,6 +8,6 @@
     </p>
     {/if}
     
-    <p class='question'>{$question|escape:"htmlall"}</p>
+    <p class='question'>{$question}</p>
     <a href='{$validation_url}' class='question'>{$validation_label|escape:"htmlall"}</a>
 {include file='ls:bottom.tpl'}

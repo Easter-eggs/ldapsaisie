@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 12:03+0200\n"
-"PO-Revision-Date: 2019-05-21 12:04+0200\n"
+"POT-Creation-Date: 2019-05-27 18:10+0200\n"
+"PO-Revision-Date: 2019-05-27 18:11+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -1235,7 +1235,6 @@ msgid "updating relations"
 msgstr "mise à jour des relations"
 
 #: includes/class/class.LSrelation.php:214 includes/class/class.LSform.php:213
-#: remove.php:49
 msgid "Do you really want to delete"
 msgstr "Voulez-vous vraiment supprimer"
 
@@ -1874,6 +1873,10 @@ msgstr "Suppression"
 #: remove.php:39
 msgid "has been deleted successfully"
 msgstr "a bien été supprimé"
+
+#: remove.php:49
+msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
+msgstr "Voulez-vous vraiment supprimer <strong>%{displayName}</strong> ?"
 
 #~ msgid "SSH Support : Unable to connect to SSH Server (%{host}:%{port})."
 #~ msgstr ""

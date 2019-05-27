@@ -46,7 +46,7 @@ if(LSsession :: startLSsession()) {
             else {
               // Définition du Titre de la page
               LStemplate :: assign('pagetitle',_('Deleting').' : '.$object -> getDisplayName());
-              LStemplate :: assign('question',_('Do you really want to delete').' <strong>'.$object -> getDisplayName().'</strong> ?');
+              LStemplate :: assign('question', getFData(_('Do you really want to delete <strong>%{displayName}</strong> ?'), $object -> getDisplayName()));
               LStemplate :: assign('validation_url','remove.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn).'&amp;valid');
               LStemplate :: assign('validation_label',_('Validate'));
             }

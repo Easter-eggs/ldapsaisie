@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 12:02+0200\n"
+"POT-Creation-Date: 2019-05-27 18:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1051,7 +1051,6 @@ msgid "updating relations"
 msgstr ""
 
 #: includes/class/class.LSrelation.php:214 includes/class/class.LSform.php:213
-#: remove.php:49
 msgid "Do you really want to delete"
 msgstr ""
 
@@ -1611,4 +1610,8 @@ msgstr ""
 
 #: remove.php:39
 msgid "has been deleted successfully"
+msgstr ""
+
+#: remove.php:49
+msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr ""
