@@ -29,7 +29,7 @@ if(LSsession :: startLSsession()) {
 
     $LSview_actions=array();
     $LSview_actions['refresh'] = array (
-      'label' => 'Refresh',
+      'label' => _('Refresh'),
       'url' => 'global_search.php?pattern='.urlencode($pattern).'&refresh=1',
       'action' => 'refresh'
     );
