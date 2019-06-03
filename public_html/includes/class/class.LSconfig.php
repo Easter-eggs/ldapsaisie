@@ -54,11 +54,17 @@ class LSconfig {
   }
   
  /**
-  * Récupération d'une valeur
+  * Get a specific configuration variable value
   * 
-  * @param[in] $var string Le nom de valeur à récupérer (Exemple : cacheSearch)
+  * @param[in] $var string The configuration variable name
+  * @param[in] $default mixed The default value to return if configuration variable
+  *                           is not set (Default : null)
+  * @param[in] $cast string   The type of expected value. The configuration variable
+  *                           value will be cast as this type. Could be : bool, int,
+  *                           float or string. (Optional, default : raw value)
+  * @param[in] $data array    The configuration data (optional)
   * 
-  * @retval mixed La valeur de la variable, ou false si son nom n'est parsable
+  * @retval mixed The configuration variable value
   **/
   public static function get($var, $default=null, $cast=null, $data=null) {
     $vars = explode('.', $var);
@@ -85,6 +91,59 @@ class LSconfig {
       default:
         return $value;
     }
+  }
+
+ /**
+  * Get list of keys of a specific configuration variable
+  *
+  * @param[in] $var string The configuration variable name
+  * @param[in] $data array The configuration data (optional)
+  *
+  * @retval array An array of the keys of a specific configuration variable
+  **/
+  public static function keys($var, $data=null) {
+    $value = self :: get($var, null, null, $data);
+    return (is_array($value)?array_keys($value):array());
+  }
+
+ /**
+  * Get list of configuration variables with their value that matching a specific pattern
+  *
+  * The character '*' could replace any part (expect the first one) of the configuration
+  * variable name. In this case, the keys of the parent value will be iterated to compose
+  * the result.
+  *
+  * @param[in] $pattern string The configuration variable pattern
+  * @param[in] $default mixed  The default value to return if configuration variable
+  *                            is not set (optional, see self :: get())
+  * @param[in] $cast string    The type of expected value (optional, see self :: get())
+  * @param[in] $data array     The configuration data (optional, see self :: get())
+  *
+  * @retval array The list of matching configuration variables with their value
+  **/
+  public static function getMatchingKeys($pattern, $default=null, $cast=null, $data=null, $prefix=null) {
+    $return = array();
+    if ($pos = strpos($pattern, '*')) {
+      // Handle subkey
+      $root_key = (is_string($prefix)?"$prefix.":"").substr($pattern, 0, ($pos-1));
+      $suffix = substr($pattern, $pos+2, (strlen($pattern)-$pos));
+      $subkeys = self :: keys($root_key);
+      if ($suffix) {
+        foreach ($subkeys as $subkey)
+          $return = array_merge($return, self :: getMatchingKeys($suffix, $default, $cast, $data, "$root_key.$subkey"));
+      }
+      else {
+        foreach ($subkeys as $subkey) {
+          $key = "$root_key.$subkey";
+          $return[$key] = self :: get($key, $default, $cast, $data);
+        }
+      }
+    }
+    else {
+      $key = (is_string($prefix)?"$prefix.":"").$pattern;
+      $return[$key] = self :: get($key, $default, $cast, $data);
+    }
+    return $return;
   }
 
  /**
