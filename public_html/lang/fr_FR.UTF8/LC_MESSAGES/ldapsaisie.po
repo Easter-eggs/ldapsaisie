@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-27 18:10+0200\n"
-"PO-Revision-Date: 2019-05-27 18:11+0200\n"
+"POT-Creation-Date: 2019-06-03 14:24+0200\n"
+"PO-Revision-Date: 2019-06-03 14:24+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -57,6 +57,22 @@ msgstr "Recherche approximative"
 msgid "Recursive search"
 msgstr "Recherche récursive"
 
+#: view.php:143 create.php:120 includes/class/class.LSrelation.php:267
+msgid "New"
+msgstr "Nouveau"
+
+#: view.php:149 import.php:59
+msgid "Import"
+msgstr "Importer"
+
+#: view.php:156 includes/class/class.LSsession.php:1418
+msgid "Refresh"
+msgstr "Rafraîchir"
+
+#: view.php:161
+msgid "Reset"
+msgstr "Réinitialiser"
+
 #: select.php:70 includes/class/class.LSsession.php:1214
 #: includes/class/class.LSsession.php:2284
 msgid "Level"
@@ -74,10 +90,6 @@ msgstr "L'objet a bien été modifié."
 msgid "View"
 msgstr "Voir"
 
-#: import.php:59
-msgid "Import"
-msgstr "Importer"
-
 #: create.php:75
 msgid "Data entry form"
 msgstr "Masque de saisie"
@@ -85,10 +97,6 @@ msgstr "Masque de saisie"
 #: create.php:81
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
-
-#: create.php:120 includes/class/class.LSrelation.php:267
-msgid "New"
-msgstr "Nouveau"
 
 #: custom_search_action.php:53
 msgid ""
@@ -768,10 +776,6 @@ msgstr ""
 #: includes/class/class.LSsession.php:1272
 msgid "Your new password has been sent to %{mail}. "
 msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
-
-#: includes/class/class.LSsession.php:1418
-msgid "Refresh"
-msgstr "Rafraîchir"
 
 #: includes/class/class.LSsession.php:1434
 msgid "Language"

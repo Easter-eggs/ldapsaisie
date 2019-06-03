@@ -112,7 +112,7 @@ if(LSsession :: startLSsession()) {
           $object = new $LSobject();
           LStemplate :: assign('pagetitle',$object -> getLabel());
           
-          $LSsearch = new LSsearch($LSobject,'LSview');
+          $LSsearch = new LSsearch($LSobject, 'LSview', null, (isset($_REQUEST['reset'])));
           $LSsearch -> setParam('extraDisplayedColumns',True);
           $LSsearch -> setParamsFormPostData();
           
@@ -140,22 +140,27 @@ if(LSsession :: startLSsession()) {
           $LSview_actions=array();
           if(LSsession :: canCreate($LSobject)) {
             $LSview_actions['create'] = array (
-              'label' => 'New',
+              'label' => _('New'),
               'url' => 'create.php?LSobject='.$LSobject,
               'action' => 'create'
             );
             if ($object -> listValidIOformats()) {
               $LSview_actions['import'] = array (
-                'label' => 'Import',
+                'label' => _('Import'),
                 'url' => 'import.php?LSobject='.$LSobject,
                 'action' => 'import'
               );
             }
           }
           $LSview_actions['refresh'] = array (
-            'label' => 'Refresh',
+            'label' => _('Refresh'),
             'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
             'action' => 'refresh'
+          );
+          $LSview_actions['reset'] = array (
+            'label' => _('Reset'),
+            'url' => 'view.php?LSobject='.$LSobject.'&amp;reset',
+            'action' => 'reset'
           );
           /*$LSview_actions['purge'] = array (
             'label' => 'Purge the cache',

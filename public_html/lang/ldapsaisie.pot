@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-27 18:09+0200\n"
+"POT-Creation-Date: 2019-06-03 14:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,22 @@ msgstr ""
 msgid "Recursive search"
 msgstr ""
 
+#: view.php:143 create.php:120 includes/class/class.LSrelation.php:267
+msgid "New"
+msgstr ""
+
+#: view.php:149 import.php:59
+msgid "Import"
+msgstr ""
+
+#: view.php:156 includes/class/class.LSsession.php:1418
+msgid "Refresh"
+msgstr ""
+
+#: view.php:161
+msgid "Reset"
+msgstr ""
+
 #: select.php:70 includes/class/class.LSsession.php:1214
 #: includes/class/class.LSsession.php:2284
 msgid "Level"
@@ -71,20 +87,12 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: import.php:59
-msgid "Import"
-msgstr ""
-
 #: create.php:75
 msgid "Data entry form"
 msgstr ""
 
 #: create.php:81
 msgid "Object has been added."
-msgstr ""
-
-#: create.php:120 includes/class/class.LSrelation.php:267
-msgid "New"
 msgstr ""
 
 #: custom_search_action.php:53
@@ -665,10 +673,6 @@ msgstr ""
 
 #: includes/class/class.LSsession.php:1272
 msgid "Your new password has been sent to %{mail}. "
-msgstr ""
-
-#: includes/class/class.LSsession.php:1418
-msgid "Refresh"
 msgstr ""
 
 #: includes/class/class.LSsession.php:1434
