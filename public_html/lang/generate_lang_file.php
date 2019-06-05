@@ -165,6 +165,9 @@ function add($msg, $context=null) {
     if (array_key_exists($msg, $translations)) {
       $translation = $translations[$msg];
     }
+    elseif (_($msg) != $msg) {
+      $translation = _($msg);
+    }
     elseif ($interactive && $format != 'pot') {
       if ($copyoriginalvalue) {
         fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or leave empty to copy original string) : ");
