@@ -24,7 +24,7 @@ require_once 'core.php';
 
 if(LSsession :: startLSsession()) {
   if (LSsession :: globalSearch()) {
-    $LSobjects = LSsession :: $ldapServer['LSaccess'];
+    $LSaccess = LSsession :: getLSaccess();
     $pattern = (isset($_REQUEST['pattern'])?$_REQUEST['pattern']:'');
 
     $LSview_actions=array();
@@ -44,8 +44,8 @@ if(LSsession :: startLSsession()) {
 
     if (LSsession :: loadLSclass('LSsearch')) {
       $pages=array();
-      foreach ($LSobjects as $LSobject) {
-        if ( LSsession :: loadLSobject($LSobject) ) {
+      foreach ($LSaccess as $LSobject => $label) {
+        if ( $LSobject != SELF && LSsession :: loadLSobject($LSobject) ) {
           if (!LSconfig::get("LSobjects.$LSobject.globalSearch", true, 'bool'))
             continue;
           $object = new $LSobject();
@@ -80,6 +80,7 @@ if(LSsession :: startLSsession()) {
               }
             }
           }
+          $LSsearch -> afterUsingResult();
         }
       }
     }
@@ -94,8 +95,6 @@ if(LSsession :: startLSsession()) {
     LStemplate :: assign('pattern',$pattern);
     LStemplate :: assign('pages',$pages);
     LSsession :: setTemplate('global_search.tpl');
-
-    LStemplate :: addEvent('displayed', array($LSsearch, 'afterUsingResult'));
   }
   else {
     LSerror :: addErrorCode('LSsession_11');

@@ -1404,10 +1404,9 @@ class LSsession {
       $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file."?nocache=$nocache' />\n";
     }
     LStemplate :: assign('LSsession_css',$Css_txt);
-  
-    if (isset(self :: $LSaccess[self :: $topDn])) {
-      LStemplate :: assign('LSaccess',self :: $LSaccess[self :: $topDn]);
-    }
+ 
+    // Access 
+    LStemplate :: assign('LSaccess', self :: getLSaccess());
     LStemplate :: assign('LSaddonsViewsAccess',self :: $LSaddonsViewsAccess);
     
     // Niveau
@@ -1783,6 +1782,21 @@ class LSsession {
     }
     self :: $LSaccess = $LSaccess;
     $_SESSION['LSsession']['LSaccess'] = $LSaccess;
+  }
+
+ /**
+  * Get user access
+  *
+  * @param[in] $topDn string Top DN (optional, default : current)
+  *
+  * @retval array User's access
+  **/
+  public static function getLSaccess($topDn=null) {
+    if (is_null($topDn)) $topDn = self :: $topDn;
+    if (isset(self :: $LSaccess[self :: $topDn])) {
+      return self :: $LSaccess[self :: $topDn];
+    }
+    return array();
   }
 
   /**
