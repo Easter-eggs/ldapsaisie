@@ -29,6 +29,17 @@ if (isset($_REQUEST['LSdebug']) || preg_match('/^127\.[0-9]+\.[0-9]+\.[0-9]+$/',
 else
 	error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 
+// Root directory path
+if (__FILE__ != "") {
+	$script = __FILE__;
+}
+else {
+	foreach(get_included_files() as $script)
+		if (basename($script) == 'core.php')
+			break;
+}
+define('LS_ROOT_DIR', realpath(dirname($script)));
+
 // Définitions des dossiers d'inclusions
 define('LS_CONF_DIR','conf/');
 define('LS_OBJECTS_DIR', LS_CONF_DIR . 'LSobjects/');
