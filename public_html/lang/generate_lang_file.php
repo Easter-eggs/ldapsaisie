@@ -169,6 +169,8 @@ function add($msg, $context=null) {
       $translation = _($msg);
     }
     elseif ($interactive && $format != 'pot') {
+      if ($context)
+        fwrite(STDERR, "\n# $context\n");
       if ($copyoriginalvalue) {
         fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or leave empty to copy original string) : ");
         $in = trim(fgets(STDIN));
