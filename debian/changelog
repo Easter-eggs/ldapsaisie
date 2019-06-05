@@ -1,3 +1,14 @@
+ldapsaisie (2.1-0) unstable; urgency=medium
+
+  * LSattr_html :: select_list : fix children classes overriding problem
+  * Translations : clean code and improvements
+  * Fix question on remove object page
+  * Add reset search button
+  * Fix global_search in multiple subDn context
+  * Global search : add button to trigger search
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 05 Jun 2019 12:41:54 +0200
+
 ldapsaisie (2.0-0) unstable; urgency=medium
 
   * LSform :
