@@ -109,9 +109,13 @@ form.LSglobal_search {
 }
 
 input.LSglobal_search {
-  background: url(../../images/default/find.png) no-repeat right #fff;
-  padding-right: 18px;
+  padding-right: 23px;
   width: 138px!important;
+}
+
+form.LSglobal_search input[type='image'] {
+  margin-left: -25px;
+  margin-bottom: -3px;
 }
 
 ul.menu {

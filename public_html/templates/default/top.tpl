@@ -33,6 +33,7 @@
       <form action='global_search.php' method='post' class='LSview_search LSglobal_search'>
         <input type='hidden' name='LSsearch_submit' value='1'/>
         <input type='text' name='pattern' class='LSview_search LSglobal_search' placeholder='{tr msg='Global search'}'/>
+        <input type='image' src='{img name='find'}' alt='{tr msg='Global search'}' title='{tr msg='Global search'}' />
       </form>
       {/if}
 
