@@ -7,7 +7,8 @@
 <citetitle>Structure</citetitle>...
 <![CDATA['ldap_options' => array (
   'timestamp' => [Booléen], // Si la date est stockée au format timestamp
-  'format' => '[Format de stockage]' // Default : "%Y%m%d%H%M%SZ"
+  'format' => '[Format de stockage]', // Default : "YmdHisO"
+  'timezone' => '[Fuseau horaire]', // Default : "UTC"
 ),]]>
 ...
 </programlisting>
@@ -30,12 +31,27 @@
   <term>format</term>
   <listitem>
     <para>Format de stockage de la date dans l'annuaire. Ce format est composé à
-    partir des motifs clés gérés par la fonction <function>strftime()</function>
+    partir des motifs clés gérés par la fonction <function>date()</function>
     de &php;. Pour plus d'information, consulter 
-    <ulink url='http://www.php.net/strftime'>la documentation officielle</ulink>.
-    <note><simpara>La valeur par défaut est <emphasis>%Y%m%d%H%M%SZ</emphasis>,
-    correspondant au format de stockage par défaut dans &openldap;. Exemple : 
-    <emphasis>20091206230506Z</emphasis></simpara></note>
+    <ulink url='http://www.php.net/date'>la documentation officielle</ulink>.
+    <note><simpara>La valeur par défaut est <emphasis>YmdHisO</emphasis>,
+    correspondant à la syntaxe <literal>Generalized Time</literal> telle que
+    définie dans la <ulink url='https://tools.ietf.org/html/rfc4517'>RFC4517
+    </ulink>. Exemples : <literal>20091206230506Z</literal>
+    <emphasis>(=2009/12/06 23:05:66 UTC)</emphasis> ou
+    <literal>20190613143537+0200</literal>
+    <emphasis>(=2019/06/13 14:35:37 UTC+0200)</emphasis>.</simpara></note>
+    </para>
+
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>timezone</term>
+  <listitem>
+    <para>Fuseau horaire de stockage des dates dans l'annuaire LDAP. Les valeurs
+    possibles sont documentées dans <ulink url='https://www.php.net/timezones'>la
+    documentation officielle de PHP</ulink>. (Par défaut : <literal>UTC</literal>)
     </para>
     
   </listitem>

@@ -55,9 +55,6 @@ define('LS_LOCAL_DIR', 'local/');
 define('LS_TEXT_DOMAIN', 'ldapsaisie');
 define('LS_I18N_DIR', 'lang');
 
-// Timezone
-date_default_timezone_set('UTC');
-
 require_once LS_INCLUDE_DIR.'functions.php';
 
 require_once LS_CLASS_DIR.'class.LSsession.php';

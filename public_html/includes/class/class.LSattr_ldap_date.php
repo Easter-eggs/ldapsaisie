@@ -42,9 +42,9 @@ class LSattr_ldap_date extends LSattr_ldap {
     }
     $retval=array();
     foreach($data as $val) {
-      $date = strptime($val,$this -> getFormat());
-      if (is_array($date)) {
-        $retval[] = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900); 
+      $datetime = date_create_from_format($this -> getFormat(), $val);
+      if (is_a($datetime, DateTime)) {
+        $retval[] = $datetime -> format('U');
       }
     }
     return $retval;
@@ -61,10 +61,18 @@ class LSattr_ldap_date extends LSattr_ldap {
     if ($this -> getConfig('ldap_options.timestamp', false, 'bool')) {
       return $data;
     }
+    $timezone = timezone_open($this -> getConfig('ldap_options.timezone', 'UTC', 'string'));
     $retval=array();
     if(is_array($data)) {
       foreach($data as $val) {
-        $retval[] = strftime($this -> getFormat(),$val);
+        $datetime = date_create("@$val");
+        $datetime -> setTimezone($timezone);
+        $datetime_string = $datetime -> format($this -> getFormat());
+
+        // Replace +0000 or -0000 end by Z
+        $datetime_string = preg_replace('/[\+\-]0000$/', 'Z', $datetime_string);
+
+        $retval[] = $datetime_string;
       }
     }
     return $retval;
@@ -76,7 +84,7 @@ class LSattr_ldap_date extends LSattr_ldap {
   * @retval string Le format de la date
   **/
   public function getFormat() {
-    return $this -> getConfig('ldap_options.format', '%Y%m%d%H%M%SZ');
+    return $this -> getConfig('ldap_options.format', 'YmdHisO');
   }
 
 }
