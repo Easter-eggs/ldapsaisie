@@ -29,6 +29,10 @@ function check_file_or_symlink() {
 
 cd $ROOT_DIR
 
+msg "-> Store gettext MO files state : "
+MO_STATE_BEFORE=$( find $ROOT_DIR/public_html/lang/ -type f -name '*.mo'|sort -u|xargs md5sum )
+msg "done."
+
 msg "-> Clean git repos : "
 for i in $LOCAL_FILES
 do
@@ -240,6 +244,25 @@ then
 			fi
 		done
 	fi
+fi
+
+msg "-> Check for gettext MO files changes : "
+MO_STATE_AFTER=$( find $ROOT_DIR/public_html/lang/ -type f -name '*.mo'|sort -u|xargs md5sum )
+if [ "$MO_STATE_AFTER" == "$MO_STATE_BEFORE" ]
+then
+	msg "No change detected."
+elif [ -n "$WEBSERVER_RELOAD_CMD" ]
+then
+	msg "Changed detected : try to webserver to handle changes..."
+	$WEBSERVER_RELOAD_CMD
+	if [ $? -eq 0 ]
+	then
+		msg "done."
+	else
+		msg "ERROR"
+	fi
+else
+	msg "Changed detected :\n\n/!\\ You have to force-reload your webserver to handle it ! /!\\\n\n"
 fi
 
 if [ $BUILD_DOC -eq 1 ]

@@ -14,6 +14,9 @@ THEME_TPL_REF="default"
 THEME_CSS_REF="default"
 THEME_IMG_REF="default"
 
+# Webserver service reload command to run on gettext MO files changed
+#WEBSERVER_RELOAD_CMD='sudo service apache2 force-reload'
+
 # Do doc export ?
 BUILD_DOC=1
 
