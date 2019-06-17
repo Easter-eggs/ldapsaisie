@@ -132,7 +132,7 @@ class LSerror {
   * @retvat string Le texte des erreurs
   */
   private static function getError($error) {
-    return "(Code ".htmlentities($error[0]).") ".htmlentities(getFData(self :: $_errorCodes[$error[0]]['msg'],$error[1]));
+    return ($error[0]?"(Code ".htmlentities($error[0]).") ":"").htmlentities(getFData(self :: $_errorCodes[$error[0]]['msg'],$error[1]));
   }
   
  /**
