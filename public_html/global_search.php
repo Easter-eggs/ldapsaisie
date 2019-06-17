@@ -26,6 +26,10 @@ if(LSsession :: startLSsession()) {
   if (LSsession :: globalSearch()) {
     $LSaccess = LSsession :: getLSaccess();
     $pattern = (isset($_REQUEST['pattern'])?$_REQUEST['pattern']:'');
+    if (empty($pattern)) {
+      LSerror :: addErrorCode(false, _('You must provide pattern for global search.'));
+      LSsession :: redirect('index.php');
+    }
 
     $LSview_actions=array();
     $LSview_actions['refresh'] = array (

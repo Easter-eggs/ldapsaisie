@@ -56,7 +56,7 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/view.php:156
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1417
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/global_search.php:32
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/global_search.php:36
 msgid "Refresh"
 msgstr ""
 
@@ -1694,6 +1694,10 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/remove.php:49
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/global_search.php:30
+msgid "You must provide pattern for global search."
 msgstr ""
 
 #: templates/default/import.tpl:8
