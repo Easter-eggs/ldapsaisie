@@ -1,0 +1,60 @@
+<sect2 id="config-LSaddon_mailquota">
+  <title>LSaddon_mailquota</title>
+  <para>Cet &LSaddon; fournie une fonction <literal>mailquota_get_usage</literal>
+  pouvant être utilisée pour récupérer l'utilisation du quota d'une boîte mail
+  IMAP. Pour cela, &LdapSaisie; se connecte au serveur IMAP en utilisant un
+  compte maître.</para>
+  <para>Cet &LSaddon; fournie une également une fonction
+  <literal>mailquota_show_usage</literal> pouvant être utilisée comme
+  &customSearchActions; et permettant d'afficher l'utilisation du quota de la
+  boîte mail correspondante via une message dynamique (<literal>LSinfo</literal>).
+  </para>
+
+  <para>Des paramètres de configuration sont disponibles dans le fichier de
+  configuration <literal>config.LSaddons.mailquota.php</literal>.</para>
+
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure du fichier</citetitle>
+<![CDATA[// IMAP Mailbox connection string LSformat (composed with LSldapObject attributes)
+// See : https://php.net/imap_open (parameter $mailbox)
+define('MAILQUOTA_IMAP_MAILBOX','{localhost}');
+
+// IMAP Master user
+define('MAILQUOTA_IMAP_MASTER_USER', 'ldapsaisie');
+
+// IMAP Master user's password
+define('MAILQUOTA_IMAP_MASTER_USER_PWD', 'secret');
+
+// IMAP Master user LSformat composed with :
+//  * masteruser = master username (MAILQUOTA_IMAP_MASTER_USER)
+//  * LSldapObject attributes
+define('MAILQUOTA_IMAP_MASTER_USER_FORMAT', '%{mail}*%{masteruser}');
+
+// IMAP quota root mailbox
+define('MAILQUOTA_IMAP_QUOTA_ROOT_MAILBOX', 'INBOX');]]>
+</programlisting>
+
+<para>Ci-dessous, vous trouverez un exemple de configuration de la fonction
+<literal>mailquota_show_usage()</literal> comme &customActions;</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Exemple d'utilisation</citetitle><![CDATA[$GLOBALS['LSobjects']['LSpeople'] = array (
+        [...]
+        'customActions' => array (
+                'showmailquotausage' => array (
+                        'function' => 'mailquota_show_usage',
+                        'label' => 'Show mail quota usage',
+                        'noConfirmation' => true,
+                        'disableOnSuccessMsg' => true,
+                        'icon' => 'mail',
+                        'rights' => array (
+                                'admin'
+                        )
+                ),
+                [...]
+        ),
+        [...]
+);]]>
+</programlisting>
+
+</sect2>
