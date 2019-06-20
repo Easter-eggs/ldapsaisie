@@ -111,9 +111,11 @@ class LSattr_ldap_password extends LSattr_ldap {
    *
    * @retval strinf The encode password
    */
-  public function encodePassword($clearPassword) {
-    $encode = $this -> getConfig('ldap_options.encode', 'md5crypt', 'string');
-    $encode_function = $this -> getConfig('ldap_options.encode_function');
+  public function encodePassword($clearPassword, $encode=null, $encode_function=null, $salt=null) {
+    if (is_null($encode))
+      $encode = $this -> getConfig('ldap_options.encode', 'md5crypt', 'string');
+    if (is_null($encode_function))
+      $encode_function = $this -> getConfig('ldap_options.encode_function');
     if ($encode_function || $encode == 'function') {
       if ( (!$encode_function) || (!is_callable($encode_function)) ) {
         $encode = 'clear';
@@ -130,7 +132,9 @@ class LSattr_ldap_password extends LSattr_ldap {
           return '{CRYPT}' . crypt($clearPassword,substr($clearPassword,0,2));
         }
         else {
-          return '{CRYPT}' . crypt($clearPassword,$this -> getSalt(2));
+          if (is_null($salt))
+            $salt = $this -> getSalt(2);
+          return '{CRYPT}' . crypt($clearPassword, $salt);
         }
         break;
       case 'ext_des':
@@ -138,7 +142,9 @@ class LSattr_ldap_password extends LSattr_ldap {
           LSerror :: addErrorCode('LSattr_ldap_password_01','ext_des');
         }
         else {
-          return '{CRYPT}' . crypt( $clearPassword, '_' . $this -> getSalt(8) );
+          if (is_null($salt))
+            $salt = $this -> getSalt(8);
+          return '{CRYPT}' . crypt( $clearPassword, '_' . $salt );
         }
         break;
       case 'blowfish':
@@ -146,7 +152,9 @@ class LSattr_ldap_password extends LSattr_ldap {
           LSerror :: addErrorCode('LSattr_ldap_password_01','blowfish');
         }
         else {
-          return '{CRYPT}' . crypt( $clearPassword, '$2a$12$' . $this -> getSalt(13) );
+          if (is_null($salt))
+            $salt = '$2y$12$' . $this -> getSalt(22);
+          return '{CRYPT}' . crypt( $clearPassword, $salt );
         }
         break;
       case 'sha':
@@ -191,7 +199,8 @@ class LSattr_ldap_password extends LSattr_ldap {
         }
         if( function_exists( 'mhash' ) && function_exists( 'mhash_keygen_s2k' ) ) {
           mt_srand( (double) microtime() * 1000000 );
-          $salt = mhash_keygen_s2k( $mhash_type, $clearPassword, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
+          if (is_null($salt))
+            $salt = mhash_keygen_s2k( $mhash_type, $clearPassword, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
           return "{".strtoupper($encode)."}".base64_encode( mhash( $mhash_type, $clearPassword.$salt ).$salt );
         }
         else {
@@ -201,8 +210,9 @@ class LSattr_ldap_password extends LSattr_ldap {
       case 'smd5':
         if( function_exists( 'mhash' ) && function_exists( 'mhash_keygen_s2k' ) ) {
           mt_srand( (double) microtime() * 1000000 );
-          $salt = mhash_keygen_s2k( MHASH_MD5, $password_clear, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
-          return "{SMD5}".base64_encode( mhash( MHASH_MD5, $password_clear.$salt ).$salt );
+          if (is_null($salt))
+            $salt = mhash_keygen_s2k( MHASH_MD5, $password_clear, substr( pack( "h*", md5( mt_rand() ) ), 0, 8 ), 4 );
+          return "{SMD5}".base64_encode( mhash( MHASH_MD5, $clearPassword.$salt ).$salt );
         }
         else {
           LSerror :: addErrorCode('LSattr_ldap_password_01','smd5');
@@ -216,7 +226,9 @@ class LSattr_ldap_password extends LSattr_ldap {
           LSerror :: addErrorCode('LSattr_ldap_password_01','md5crypt');
         }
         else {
-          return '{CRYPT}'.crypt($clearPassword,'$1$'.$this -> getSalt().'$');
+          if (is_null($salt))
+            $salt = $this -> getSalt();
+          return '{CRYPT}'.crypt($clearPassword,'$1$'.$salt.'$');
         }
         break;
       case 'clear':
@@ -228,6 +240,102 @@ class LSattr_ldap_password extends LSattr_ldap {
     }
     LSerror :: addErrorCode('LSattr_ldap_password_01', $encode);
     return $clearPassword;
+  }
+
+  function verify($clearPassword, $hashedPassword=null) {
+    // If $hashedPassword is not provided, use attribute values
+    if (is_null($hashedPassword))
+      $hashedPassword = $this -> attribute -> getValue();
+
+    // If $hashedPassword is array, iter to find valid password
+    if (is_array($hashedPassword)) {
+      foreach($hashedPassword as $pwd)
+        if ($this -> verify($clearPassword, $pwd))
+          return true;
+      return false;
+    }
+    // Verify $hashedPassword is a string
+    elseif (!is_string($hashedPassword))
+      return false;
+
+    // Custom verify function configured ? If yes, use it
+    $verifyFunction = $this -> getConfig('ldap_options.verify_function', null);
+    if (!is_null($verifyFunction) && is_callable($verifyFunction))
+      return call_user_func($verifyFunction, $clearPassword, $hashedPassword);
+
+    // Custom encode function configured ? If yes, use it
+    $encodeFunction = $this -> getConfig('ldap_options.encode_function', null);
+    if (!is_null($encodeFunction) && is_callable($encodeFunction))
+      return (strcasecmp(call_user_func_array($encodeFunction, array(&$this -> attribute -> ldapObject, $clearPassword)), $hashedPassword) == 0);
+
+    // Extract cipher
+    if (preg_match('/{([^}]+)}(.*)/',$hashedPassword,$matches)) {
+      $hashedPasswordData = $matches[2];
+      $cypher = strtolower($matches[1]);
+
+    } else {
+      $cypher = null;
+    }
+
+    // Verify password according on cypher
+    switch($cypher) {
+      # SSHA crypted passwords
+      case 'ssha':
+      case 'ssha256':
+      case 'ssha512':
+      case 'smd5':
+        $data = base64_decode($hashedPasswordData);
+        # Salt = last 4 bytes
+        $salt = substr($data, -4);
+        $new_hash = $this -> encodePassword($clearPassword, $cypher, null, $salt);
+        return (strcmp($hashedPassword,$new_hash) == 0);
+        break;
+
+      # Non-salted cyphers
+      case 'sha':
+      case 'sha256':
+      case 'sha512':
+      case 'md5':
+        $new_hash = $this -> encodePassword($clearPassword, $cypher);
+        return (strcasecmp($new_hash, $hashedPassword) == 0);
+        break;
+
+      # Crypt passwords
+      case 'crypt':
+        # Check if it's blowfish crypt
+        if (preg_match('/^\\$2+/',$hashedPasswordData)) {
+          list($dummy, $version, $rounds, $salt_hash) = explode('$',$hashedPasswordData);
+          $salt = '$'.$version.'$'.$rounds.'$'.substr($salt_hash, 0, 22);
+          $new_hash = $this -> encodePassword($clearPassword, 'blowfish', null, $salt);
+          return (strcasecmp($new_hash, $hashedPassword) == 0);
+        }
+
+        # Check if it's an md5crypt
+        elseif (strstr($hashedPasswordData,'$1$')) {
+          list($dummy,$type,$salt,$hash) = explode('$',$hashedPasswordData);
+          $new_hash = $this -> encodePassword($clearPassword, 'md5crypt', null, $salt);
+          return (strcasecmp($new_hash, $hashedPassword) == 0);
+        }
+
+        # Check if it's ext_des crypt
+        elseif (strstr($hashedPasswordData,'_')) {
+          return (crypt($clearPassword,$hashedPasswordData) == $hashedPasswordData);
+        }
+
+        # Password is plain crypt
+        else {
+          return (crypt($clearPassword,$hashedPasswordData) == $hashedPasswordData);
+        }
+
+        break;
+
+      # No crypt is given
+      default:
+        # Assume is a plaintext password
+        return (strcasecmp($clearPassword, $hashedPassword) == 0);
+    }
+    // It's supposed to never append, but just in case, return false
+    return false;
   }
  
   /**

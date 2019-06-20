@@ -197,25 +197,10 @@ class LSformElement_password extends LSformElement {
       return false;
     }
     if ($this -> isLoginPassword()) {
-      return LSsession :: checkUserPwd($this -> attr_html -> attribute -> ldapObject,$pwd);
+      return LSsession :: checkUserPwd($this -> attr_html -> attribute -> ldapObject, $pwd);
     }
     else {
-      $hash = $this -> attr_html -> attribute -> ldap -> encodePassword($pwd);
-      $find=false;
-      if (is_array($this -> attr_html -> attribute -> data)) {
-        $data = $this -> attr_html -> attribute -> data;
-      }
-      elseif (!is_array($this -> attr_html -> attribute -> data) && !empty($this -> attr_html -> attribute -> data)) {
-        $data = array($this -> attr_html -> attribute -> data);
-      }
-      else {
-        return $find;
-      }
-      foreach($data as $val) {
-        if ($hash == $val)
-          $find=true;
-      }
-      return $find;
+      return $this -> attr_html -> attribute -> ldap -> verify($pwd);
     }
   }
 
@@ -351,7 +336,7 @@ class LSformElement_password extends LSformElement {
   }
 
   public function isLoginPassword() {
-    return $this -> getParam('html_options.isLoginPassword', true);
+    return $this -> getParam('html_options.isLoginPassword', false, 'bool');
   }
 
 }
