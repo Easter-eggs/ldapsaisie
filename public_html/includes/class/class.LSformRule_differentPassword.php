@@ -102,5 +102,5 @@ LSerror :: defineError('LSformRule_differentPassword_04',
 _("LSformRule_differentPassword : The other password attribute could not be the same of the current one.")
 );
 LSerror :: defineError('LSformRule_differentPassword_05',
-_("LSformRule_differentPassword : The other password attributes does not used LSattr_ldap :: password. It's not the case of the attribure %{attr}.")
+_("LSformRule_differentPassword : The other password attributes must use LSattr_ldap :: password. It's not the case of the attribure %{attr}.")
 );
