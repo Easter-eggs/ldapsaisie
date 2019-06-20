@@ -2,6 +2,7 @@
 <!ENTITY conf-LSattribute-check-data-alphanumeric SYSTEM "alphanumeric.docbook">
 <!ENTITY conf-LSattribute-check-data-callable SYSTEM "callable.docbook">
 <!ENTITY conf-LSattribute-check-data-date SYSTEM "date.docbook">
+<!ENTITY conf-LSattribute-check-data-differentPassword SYSTEM "differentPassword.docbook">
 <!ENTITY conf-LSattribute-check-data-email SYSTEM "email.docbook">
 <!ENTITY conf-LSattribute-check-data-filesize SYSTEM "filesize.docbook">
 <!ENTITY conf-LSattribute-check-data-imagefile SYSTEM "imagefile.docbook">

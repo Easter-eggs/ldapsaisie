@@ -47,6 +47,7 @@ règles.</para>
 &conf-LSattribute-check-data-alphanumeric;
 &conf-LSattribute-check-data-callable;
 &conf-LSattribute-check-data-date;
+&conf-LSattribute-check-data-differentPassword;
 &conf-LSattribute-check-data-email;
 &conf-LSattribute-check-data-filesize;
 &conf-LSattribute-check-data-imagefile;
