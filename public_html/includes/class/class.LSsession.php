@@ -195,21 +195,26 @@ class LSsession {
   }
 
  /**
-  * Chargement d'une classe d'LdapSaisie
+  * Load an LdapSaisie class
   *
-  * @param[in] $class Nom de la classe Ã  charger (Exemple : LSpeople)
-  * @param[in] $type (Optionnel) Type de classe Ã  charger (Exemple : LSobjects)
+  * @param[in] $class The class name to load (Example : LSpeople)
+  * @param[in] $type (Optionnel) The class type to load (Example : LSobjects)
+  * @param[in] $warn (Optionnel) Trigger LSsession_05 error if an error occured loading this class (Default: false)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   * 
-  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
+  * @retval boolean true on success, otherwise false
   */
-  public static function loadLSclass($class,$type='') {
+  public static function loadLSclass($class, $type=null, $warn=false) {
     if (class_exists($class))
       return true;
-    if($type!='')
-      $type=$type.'.';
-    return self :: includeFile(LS_CLASS_DIR .'class.'.$type.$class.'.php');
+    if($type)
+      $class = "$type.$class";
+    if (self :: includeFile(LS_CLASS_DIR .'class.'.$class.'.php'))
+      return true;
+    if ($warn)
+      LSerror :: addErrorCode('LSsession_05', $class);
+    return False;
   }
 
  /**
