@@ -159,6 +159,15 @@ class LSlog {
 			// Logging on this handler
 			call_user_func(array($handler, 'logging'), $level, $message);
 		}
+
+		if ($level == 'FATAL') {
+			if (php_sapi_name() == "cli")
+				die($message);
+			elseif (class_exists('LStemplate'))
+				LStemplate :: fatal_error($message);
+			else
+				die($message);
+		}
 	}
 
 	/**

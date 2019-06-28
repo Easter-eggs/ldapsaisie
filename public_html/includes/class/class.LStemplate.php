@@ -320,6 +320,19 @@ class LStemplate {
     return self :: $_smarty -> fetch("ls:$template");
   }
 
+  /**
+   * Handle fatal error
+   *
+   * @param[in] $error string|null Error message (optional)
+   *
+   * @retval void
+   **/
+  public static function fatal_error($error=null) {
+    self :: $_smarty -> assign('fatal_error', $error);
+    self :: $_smarty -> display("ls:fatal_error.tpl");
+    exit();
+  }
+
  /**
   * Register a template function
   *
