@@ -42,15 +42,14 @@ de l'application.</para>
     <simpara>Ce paramètre défini le niveau minimum de la journalisation :
     tous les messages des niveaux inférieurs ne seront pas inclus dans le
     journal de l'application. Les niveaux de journalisation gérés par
-    l'application sont (dans l'ordre du plus petit au plus grand) :
+    l'application sont (dans l'ordre du plus petit au plus grand) :</simpara>
     <itemizedlist>
-      <listitem>DEBUG</listitem>
-      <listitem>INFO</listitem>
-      <listitem>WARNING</listitem>
-      <listitem>ERROR</listitem>
-      <listitem>FATAL</listitem>
+      <listitem><simpara>DEBUG</simpara></listitem>
+      <listitem><simpara>INFO</simpara></listitem>
+      <listitem><simpara>WARNING</simpara></listitem>
+      <listitem><simpara>ERROR</simpara></listitem>
+      <listitem><simpara>FATAL</simpara></listitem>
     </itemizedlist>
-    </simpara>
   </listitem>
 </varlistentry>
 
