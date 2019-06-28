@@ -303,7 +303,13 @@ class LStemplate {
     // Trigger displaying event
     self :: fireEvent('displaying');
 
-    self :: $_smarty -> display("ls:$template");
+    try {
+      self :: $_smarty -> display("ls:$template");
+    }
+    catch (Exception $e) {
+      LSlog :: exception($e, getFData(_("Smarty - An exception occured displaying template '%{template}'"), $template));
+      exit();
+    }
 
     // Trigger displayed event
     self :: fireEvent('displayed');
@@ -317,7 +323,12 @@ class LStemplate {
   * @retval string The template compiled
   **/
   public static function fetch($template) {
-    return self :: $_smarty -> fetch("ls:$template");
+    try {
+      return self :: $_smarty -> fetch("ls:$template");
+    }
+    catch (Exception $e) {
+      LSlog :: exception($e, getFData(_("Smarty - An exception occured fetching template '%{template}'"), $template), false);
+    }
   }
 
   /**
