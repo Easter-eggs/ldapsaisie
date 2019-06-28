@@ -208,7 +208,7 @@ $GLOBALS['LSlog']['handlers'] = array (
 	),
 	*/
 );
-$GLOBALS['LSlog']['level'] = 'DEBUG';	// DEBUG, INFO, WARNING, ERROR, FATAL
+$GLOBALS['LSlog']['level'] = 'INFO';	// DEBUG, INFO, WARNING, ERROR, FATAL
 $GLOBALS['LSlog']['enable'] = true;
 
 define('NB_LSOBJECT_LIST',30);
