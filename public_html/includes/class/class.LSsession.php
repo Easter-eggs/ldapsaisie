@@ -126,6 +126,22 @@ class LSsession {
   }
 
  /**
+  * Lancement de LSlog
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval true si tout c'est bien passÃ©, false sinon
+  */
+  private static function startLSlog() {
+    if (self :: loadLSclass('LSlog')) {
+      if (LSlog :: start()) {
+        return true;
+      }
+    }
+    return False;
+  }
+
+ /**
   * Lancement et initialisation de Smarty
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -189,7 +205,6 @@ class LSsession {
     if(!self :: loadLSclass('LSerror')) {
       return;
     }
-    set_error_handler(array('LSerror','errorHandler'),E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
     self :: defineLSerrors();
     return true;
   }
@@ -465,6 +480,7 @@ class LSsession {
       }
 
       self :: startLSerror();
+      self :: startLSlog();
       self :: startLStemplate();
 
       session_start();

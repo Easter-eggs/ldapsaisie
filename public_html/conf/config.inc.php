@@ -184,8 +184,31 @@ define('LS_CSS_DIR', 'css');
 //Debug
 define('LSdebug',false);
 
-// Logs
-$GLOBALS['LSlog']['filename'] = 'tmp/LS.log';
+// Logging
+$GLOBALS['LSlog']['handlers'] = array (
+	array (
+		'handler' => 'file',
+		'path' => 'tmp/LS.log',
+	),
+	array (
+		'handler' => 'email', // Email handler (each logged message generated an email)
+		'level' => 'FATAL',
+		'recipient' => 'root@localhost', // Email recipient
+	),
+	/*
+	array (
+		'handler' => 'syslog', // Syslog handler
+		//'priority' => 'WARNING', // Force priority : EMERG, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG
+	),
+	*/
+	/*
+	array (
+		'handler' => 'system', // System logging (using PHP error_log)
+		'level' => 'ERROR',
+	),
+	*/
+);
+$GLOBALS['LSlog']['level'] = 'DEBUG';	// DEBUG, INFO, WARNING, ERROR, FATAL
 $GLOBALS['LSlog']['enable'] = true;
 
 define('NB_LSOBJECT_LIST',30);

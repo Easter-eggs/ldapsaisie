@@ -195,22 +195,15 @@ define('CONST2','val2')
 <varlistentry>
   <term>LSdebug</term>
   <listitem>
-    <simpara>Variable booléenne déterminant si le mode debug est activé.</simpara>
+    <simpara>Variable booléenne déterminant si le débogage à l'écran est activé.</simpara>
   </listitem>
 </varlistentry>
 
 <varlistentry>
-  <term>$GLOBALS['LSlog']['enable']</term>
+  <term>$GLOBALS['LSlog']</term>
   <listitem>
-    <simpara>Variable booléenne déterminant si les logs sont activés.</simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>$GLOBALS['LSlog']['filename']</term>
-  <listitem>
-    <simpara>Variable déterminant le chemin du fichier de log.</simpara>
-    <simpara>Valeur par défaut : <emphasis>/tmp/LS.log</emphasis></simpara>
+    <simpara>Variable permettant de configurer la journalisation de l'application.
+    <link linkend="config-LSlog">Voir section concernée</link>.</simpara>
   </listitem>
 </varlistentry>
 
@@ -254,6 +247,8 @@ define('CONST2','val2')
 </varlistentry>
 
 </variablelist>
+
+&conf-LSlog;
 
 </sect2>
 

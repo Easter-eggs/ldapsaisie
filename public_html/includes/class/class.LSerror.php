@@ -64,7 +64,8 @@ class LSerror {
    */ 
   public static function addErrorCode($code=-1,$msg='') {
     $_SESSION['LSerror'][] = array($code,$msg);
-    LSlog('[ERROR] '.self::getError(array($code,$msg)));
+    if (class_exists('LSlog'))
+      LSlog :: error(self::getError(array($code,$msg)));
   }
   
   /**
@@ -172,56 +173,10 @@ class LSerror {
     return;
   }
 
-  /**
-   * PHP error handler (see set_error_handler() function doc)
-   **/
-  public static function errorHandler($errno, $errstr, $errfile, $errline) {
-    self :: addErrorCode(-2,"Error ".self :: convertPHPErrorNo($errno)." occured in file $errfile (line : $errline) : $errstr");
-    if ( E_RECOVERABLE_ERROR===$errno ) {
-      throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
-    }
-    return False;
-  }
-
-  /**
-   * Convert PHP error number to string
-   * 
-   * @param[in] $errno int Error number
-   * 
-   * @retval string Corresponding error name
-   **/
-  public static function convertPHPErrorNo($errno) {
-    $error_levels=array (
-      1       => "ERROR",
-      2       => "WARNING",
-      4       => "PARSE",
-      8       => "NOTICE",
-      16      => "CORE_ERROR",
-      32      => "CORE_WARNING",
-      64      => "COMPILE_ERROR",
-      128     => "COMPILE_WARNING",
-      256     => "USER_ERROR",
-      512     => "USER_WARNING",
-      1024    => "USER_NOTICE",
-      2048    => "STRICT",
-      4096    => "RECOVERABLE_ERROR",
-      8192    => "DEPRECATED",
-      16384   => "USER_DEPRECATED",
-      32767   => "ALL",
-    );
-    if (isset($error_levels[$errno])) {
-      return $error_levels[$errno];
-    }
-    else {
-      return "UNKNOWN_ERROR";
-    }
-  }
-
 }
 
 /*
  * Error Codes
  */
 LSerror :: defineError(-1,_("Unknown error : %{error}"));
-LSerror :: defineError(-2,_("PHP error : %{error}"));
 

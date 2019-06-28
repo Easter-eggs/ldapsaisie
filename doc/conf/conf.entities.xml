@@ -5,6 +5,7 @@
 <!ENTITY conf-LSprofile SYSTEM "LSprofile.docbook">
 <!ENTITY conf-subDn SYSTEM "subDn.docbook">
 <!ENTITY conf-recoverPassword SYSTEM "recoverPassword.docbook">
+<!ENTITY conf-LSlog SYSTEM "LSlog.docbook">
 <!ENTITY conf-LSformat SYSTEM "LSformat.docbook">
 <!ENTITY conf-LDAP_search_params SYSTEM "LDAP_search_params.docbook">
 

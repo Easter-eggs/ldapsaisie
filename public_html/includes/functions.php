@@ -281,11 +281,12 @@ function LSdebug($data,$dump=false) {
   if ($dump) {
     $data=varDump($data);
   }
-  else if (!is_array($data) && !is_object($data)) {
+  LSlog :: debug($data);
+
+  if (!is_array($data) && !is_object($data)) {
     $data="[$data]";
   }
   $GLOBALS['LSdebug_fields'][]=$data;
-  LSlog('[DEBUG] '.$data);
   return true;
 }
 
@@ -491,22 +492,6 @@ function LSdebugDefined() {
       return -1;
     else 
       return 1;
-  }
-  
-  function LSlog($msg,$dump=false) {
-    if ($GLOBALS['LSlog']['enable']) {
-      global $LSlogFile;
-      if (!$LSlogFile) {
-        $LSlogFile=fopen($GLOBALS['LSlog']['filename'],'a');
-      }
-      if ($dump) {
-        $msg=varDump($msg);
-      }
-      else if (is_array($msg)||is_object($msg)) {
-        $msg = print_r($msg,true);
-      }
-      fwrite($LSlogFile,$_SERVER['REQUEST_URI']." : ".$msg."\n");
-    }
   }
   
   function __($msg) {

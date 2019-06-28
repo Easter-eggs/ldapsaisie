@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sect3 id="config-LSlog">
+  <title>Configuration de la journalisation</title>
+
+<para>Cette section décrit le tableau de configuration de la journalisation
+de l'application.</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA[$GLOBALS['LSlog'] = array(
+  'enable' => [booléen],
+  'level' => '[niveau]',
+  'handlers' => array(
+    '[handler 1]',
+    array (
+      'handler' => [handler 2],
+      'level' => '[niveau]',
+      // Autres paramètres propre à cet handler
+      [...]
+    ),
+    [...]
+  ),
+);]]>
+...
+</programlisting>
+
+<!-- Début Paramètres Configuration -->  
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>enable</term>
+  <listitem>
+    <simpara>Booléen permatant d'activer ou désactiver complètement la
+    journalisation. Par défaut : <literal>False</literal></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>level</term>
+  <listitem>
+    <simpara>Ce paramètre défini le niveau minimum de la journalisation :
+    tous les messages des niveaux inférieurs ne seront pas inclus dans le
+    journal de l'application. Les niveaux de journalisation gérés par
+    l'application sont (dans l'ordre du plus petit au plus grand) :
+    <itemizedlist>
+      <listitem>DEBUG</listitem>
+      <listitem>INFO</listitem>
+      <listitem>WARNING</listitem>
+      <listitem>ERROR</listitem>
+      <listitem>FATAL</listitem>
+    </itemizedlist>
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>handlers</term>
+  <listitem>
+    <para>Tableau permettant de configurer les <emphasis>handlers</emphasis> de la
+    journalisation. Chaque <emphasis>handler</emphasis> gère les messages
+    journalisés d'une manière qui lui est propre.</para>
+
+    <para>Plusieurs <emphasis>handlers</emphasis> peuvent être configurés en même
+    temps (y compris plusieurs <emphasis>handlers</emphasis> du même type).</para>
+
+    <para>Ce tableau peut contenir simplement le nom du type de <emphasis>handler
+    </emphasis>à utiliser ou bien des tableaux configurant un à un chacun des
+    <emphasis>handlers</emphasis>. Dans ce second cas, la structure de la
+    configuration d'un <emphasis>handler</emphasis> est la suivante :</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA[array(
+  'handler' => [type],
+  'level' => '[niveau]',
+  // Autres paramètres propre à ce handler
+  [...]
+)]]>
+...
+</programlisting>
+
+    <variablelist>
+      <title>Paramètres de configuration d'un handler</title>
+
+<varlistentry>
+  <term>handler</term>
+  <listitem>
+    <simpara>Type du <emphasis>handler</emphasis> (voir ci-dessous).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>level</term>
+  <listitem>
+    <simpara>Ce paramètre défini le niveau minimum de la journalisation
+    spécifique à cet <emphasis>handler</emphasis>. Si ce paramètre est omis,
+    le niveau global sera utilisé. Les valeurs possibles de ce paramètre
+    sont les mêmes que pour le paramètre <literal>$GLOBALS['LSlog']['level']
+    </literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+    </variablelist>
+     
+    <para>Il existe plusieurs types d'<emphasis>handlers</emphasis> gérés par
+    l'application :</para>
+    <variablelist>
+      <varlistentry>
+        <term>file</term>
+        <listitem>
+          <simpara>Journalisation dans un simple fichier texte. Le chemin du
+          fichier peut être configuré via le paramètre <literal>path</literal>.
+          Si ce paramètre est omis, le chemin du fichier par défaut est soit la
+          valeur de la variable <literal>$GLOBALS['LSlog']['filename']</literal>
+          (pour la rétro-compatibilité avec les anciennes versions d'LdapSaisie)
+          ou à défaut : <literal>tmp/LS.log</literal>.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>syslog</term>
+        <listitem>
+          <simpara>Journalisation via le service <emphasis>syslog</emphasis>.
+          Il est possible de configurer une priorité systématique pour les 
+          messages journalisés. À défaut, la priorité sera déterminée
+          automatiquement en fonction du niveau du message. Les valeurs
+          possibles de ce paramètre sont : <literal>EMERG, ALERT, CRITICAL,
+          ERROR, WARNING, NOTICE, INFO, DEBUG</literal></simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>system</term>
+        <listitem>
+          <simpara>Journalisation via le gestionnaire d'erreurs PHP. Cet <emphasis>
+          handler</emphasis> utilise la fonction PHP <literal>error_log</literal>.
+          Pour plus d'informations sur comment configurer le gestionnaire d'erreurs
+          PHP, consulter la <ulink url='https://www.php.net/error_log'>documentation
+          officielle</ulink>.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>email</term>
+        <listitem>
+          <simpara>Journalisation via l'envoi d'un email : chaque message journalisé
+          déclenchera l'envoi d'un email au destinataire configuré. L'adresse email
+          du destinataire peut-être configurée via le paramètre <literal>recipient
+          </literal>.</simpara>
+          <note><para>Il est conseillé d'utiliser ce type d'<emphasis>handler</emphasis>
+          avec un niveau minimum de journalisation important (<literal>FATAL</literal>
+          recommandé) pour ne pas déclencher un nombre trop important d'envois d'emails.
+          </para></note>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+<!-- Fim Paramètres Configuration -->
+
+</sect3>

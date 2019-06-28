@@ -247,7 +247,7 @@ class LSsearchEntry {
       }
     }
     else {
-      LSlog('LSsearchEntry : '.$this -> dn.' => Unknown property '.$key.' !');
+      LSlog :: warning('LSsearchEntry : '.$this -> dn.' => Unknown property '.$key.' !');
       return __("Unknown property !");
     }
   }

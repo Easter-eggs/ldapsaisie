@@ -35,7 +35,7 @@ class LSauthMethod_anonymous extends LSauthMethod {
 			return;
 
 		if ( (!defined('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT')) || (constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT') === True)) {
-			LSlog('logout : '.constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT'));
+			LSlog :: debug('logout : '.constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT'));
 			LSauth :: disableLogoutBtn();
 		}
 
