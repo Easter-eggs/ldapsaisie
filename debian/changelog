@@ -1,3 +1,10 @@
+ldapsaisie (2.3-0) unstable; urgency=medium
+
+  * LSform_rule :: differentPassword : Add missing LSform :: getValue() function
+  * LSattr_ldap_password : Fix parameters pass to verify_function and add doc about it
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 01 Jul 2019 19:16:14 +0200
+
 ldapsaisie (2.2-0) unstable; urgency=medium
 
   * LSattr_ldap :
