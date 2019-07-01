@@ -1,3 +1,24 @@
+ldapsaisie (2.2-0) unstable; urgency=medium
+
+  * LSattr_ldap :
+    * date : Fix handling timezone
+    * password : Rework/improve on password encrypt/decrypt method
+  * Logging / errors reporting :
+    * Globally rework and improve logging by introducing LSlog component
+    * LSerror : fix error formatting when no error code is provided
+    * LSform : warn on error loading LSformRule
+  * LStemplate :
+    * catch error on displaying/fetching templates
+    * display error page on fatal error
+  * Other improvements :
+    * Force search pattern in global search
+    * upgradeFromGit.sh : add gettext MO file change detection
+  * New features :
+    * Add LSformRule :: differentPassword
+    * Add LSaddon mailquota
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 01 Jul 2019 17:08:08 +0200
+
 ldapsaisie (2.1-0) unstable; urgency=medium
 
   * LSattr_html :: select_list : fix children classes overriding problem
