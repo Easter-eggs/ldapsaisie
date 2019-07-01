@@ -261,7 +261,7 @@ class LSattr_ldap_password extends LSattr_ldap {
     // Custom verify function configured ? If yes, use it
     $verifyFunction = $this -> getConfig('ldap_options.verify_function', null);
     if (!is_null($verifyFunction) && is_callable($verifyFunction))
-      return call_user_func($verifyFunction, $clearPassword, $hashedPassword);
+      return call_user_func_array($verifyFunction, array(&$this -> attribute -> ldapObject, $clearPassword, $hashedPassword));
 
     // Custom encode function configured ? If yes, use it
     $encodeFunction = $this -> getConfig('ldap_options.encode_function', null);
