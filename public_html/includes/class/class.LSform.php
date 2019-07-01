@@ -616,6 +616,23 @@ class LSform {
   }
 
   /**
+   * Return the values of an element
+   *
+   * If form is posted, retreive values from postData, otherwise
+   * retreive value from the element.
+   *
+   * @param[in] string $element The element name
+   *
+   * @retval mixed The element values
+   **/
+  public function getValue($element) {
+    if ($this -> isSubmit() && $this -> _postData) {
+      return $this -> _postData[$element];
+    }
+    return $this -> elements[$element] -> getValue();
+  }
+
+  /**
    * Défini les valeurs des élements à partir des valeurs postées
    *
    * @retval boolean True si les valeurs ont été définies, false sinon.
