@@ -1278,8 +1278,16 @@ msgstr ""
 msgid "Generate the value"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSauthMethod_CAS.php:113
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSauthMethod_CAS.php:146
 msgid "LSauthMethod_CAS : Failed to load phpCAS."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSauthMethod_CAS.php:149
+msgid ""
+"LSauthMethod_CAS : Please check your configuration : you must configure CAS "
+"server SSL certificate validation using one of the following constant : "
+"LSAUTH_CAS_SERVER_SSL_CERT, LSAUTH_CAS_SERVER_SSL_CACERT or "
+"LSAUTH_CAS_SERVER_NO_SSL_VALIDATION"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:98
@@ -1314,36 +1322,36 @@ msgstr ""
 msgid "Mandatory field"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:762
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:779
 msgid "LSform : Error during the recovery of the values of the form."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:765
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:782
 msgid ""
 "LSform : Error durring the recovery of the value of the field '%{element}'."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:772
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:789
 msgid "LSform : The field %{element} doesn't exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:775
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:792
 msgid "LSfom : Field type unknow (%{type})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:778
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:795
 msgid "LSform : Error during the creation of the element '%{element}'."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:781
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:798
 msgid "LSform : The data entry form %{name} doesn't exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:784
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:801
 msgid "LSform : The data entry form %{name} is not correctly configured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:787
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:804
 msgid ""
 "LSform : The element %{name}, listed as displayed in data entry form "
 "configuration, doesn't exist."

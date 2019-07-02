@@ -27,6 +27,9 @@
  */
 class LSauthMethod_CAS extends LSauthMethod {
 
+  // Configured flag
+  private $configured = false;
+
   public function __construct() {
 		LSauth :: disableLoginForm();
 		
@@ -35,29 +38,56 @@ class LSauthMethod_CAS extends LSauthMethod {
 
 		if (LSsession :: includeFile(PHP_CAS_PATH)) {
 			if (defined('PHP_CAS_DEBUG_FILE')) {
+				LSlog :: debug('LSauthMethod_CAS : enable debug file '.PHP_CAS_DEBUG_FILE);
 				phpCAS::setDebug(PHP_CAS_DEBUG_FILE);
 			}
-			phpCAS::client(constant(LSAUTH_CAS_VERSION),LSAUTH_CAS_SERVER_HOSTNAME,LSAUTH_CAS_SERVER_PORT,LSAUTH_CAS_SERVER_URI,false);
-			if (LSAUTH_CAS_SERVER_NO_SSL_VALIDATION) {
-				phpCAS::setNoCasServerValidation();
-			}
+			LSlog :: debug('LSauthMethod_CAS : initialise phpCAS :: client with CAS server URL https://'.LSAUTH_CAS_SERVER_HOSTNAME.':'.LSAUTH_CAS_SERVER_PORT.(defined('LSAUTH_CAS_SERVER_URI')?LSAUTH_CAS_SERVER_URI: ''));
+			phpCAS::client (
+				constant(LSAUTH_CAS_VERSION),
+				LSAUTH_CAS_SERVER_HOSTNAME,
+				LSAUTH_CAS_SERVER_PORT,
+				(defined('LSAUTH_CAS_SERVER_URI')?LSAUTH_CAS_SERVER_URI: ''),
+				false
+			);
 
+			// Configure CAS server SSL validation
+			$cas_server_ssl_validation_configured = false;
+			if (defined('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION') && LSAUTH_CAS_SERVER_NO_SSL_VALIDATION) {
+				LSlog :: debug('LSauthMethod_CAS : disable CAS server SSL validation => /!\ NOT RECOMMENDED IN PRODUCTION ENVIRONMENT /!\\');
+				phpCAS::setNoCasServerValidation();
+				$cas_server_ssl_validation_configured = true;
+			}
+			
 			if (defined('LSAUTH_CAS_SERVER_SSL_CERT')) {
+				LSlog :: debug('LSauthMethod_CAS : validate CAS server SSL certificate using '.LSAUTH_CAS_SERVER_SSL_CERT.' certificate file.');
 				phpCAS::setCasServerCert(LSAUTH_CAS_SERVER_SSL_CERT);
+				$cas_server_ssl_validation_configured = true;
 			}
 
 			if (defined('LSAUTH_CAS_SERVER_SSL_CACERT')) {
+				LSlog :: debug('LSauthMethod_CAS : validate CAS server SSL certificate using '.LSAUTH_CAS_SERVER_SSL_CACERT.' CA certificate file.');
 				phpCAS::setCasServerCACert(LSAUTH_CAS_SERVER_SSL_CACERT);
+				$cas_server_ssl_validation_configured = true;
+			}
+
+			// Check CAS server SSL validation is now configured
+			if (!$cas_server_ssl_validation_configured) {
+				LSerror :: addErrorCode('LSauthMethod_CAS_02');
+				return false;
 			}
 
 			if (defined('LSAUTH_CAS_CURL_SSLVERION')) {
+				LSlog :: debug('LSauthMethod_CAS : use specific SSL version '.LSAUTH_CAS_CURL_SSLVERION);
 				phpCAS::setExtraCurlOption(CURLOPT_SSLVERSION,LSAUTH_CAS_CURL_SSLVERION);
 			}
 
 			if (LSAUTH_CAS_DISABLE_LOGOUT) {
+				LSlog :: debug('LSauthMethod_CAS : disable logout');
 				LSauth :: disableLogoutBtn();
 			}
 
+			// Set configured flag
+			$this -> configured = true;
 			return true;
 		}
 		else {
@@ -74,15 +104,15 @@ class LSauthMethod_CAS extends LSauthMethod {
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
-		
-		if (class_exists('phpCAS')) {
-			
+		if ($this -> configured) {
 			// Launch Auth
+			LSlog :: debug('LSauthMethod_CAS : force authentication');
 			phpCAS::forceAuthentication();
 
 			$this -> authData = array(
 				'username' => phpCAS::getUser()
 			);
+			LSlog :: debug('LSauthMethod_CAS : auth data : '.varDump($this -> authData));
 			return $this -> authData;
 		}
 		return;
@@ -94,12 +124,15 @@ class LSauthMethod_CAS extends LSauthMethod {
   * @retval boolean True on success or False
   **/
 	public function logout() {
-		if(class_exists('phpCAS')) {
+		if($this -> configured) {
 			if (LSauth :: displayLogoutBtn()) {
 				phpCAS :: forceAuthentication();
+				LSlog :: debug("LSauthMethod_CAS :: logout() : trigger CAS logout");
 				phpCAS :: logout();
 				return true;
 			}
+			else
+				LSlog :: warning("LSauthMethod_CAS :: logout() : logout is disabled");
 		}
 		return;
 	}
@@ -111,5 +144,8 @@ class LSauthMethod_CAS extends LSauthMethod {
  */
 LSerror :: defineError('LSauthMethod_CAS_01',
 _("LSauthMethod_CAS : Failed to load phpCAS.")
+);
+LSerror :: defineError('LSauthMethod_CAS_02',
+_("LSauthMethod_CAS : Please check your configuration : you must configure CAS server SSL certificate validation using one of the following constant : LSAUTH_CAS_SERVER_SSL_CERT, LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION")
 );
 
