@@ -106,16 +106,28 @@ a img {
  */
 form.LSglobal_search {
   margin-top: 0.8em;
+  border: 1px solid #0097c4;
+  display: flex;
 }
 
 input.LSglobal_search {
-  padding-right: 23px;
-  width: 138px!important;
+  width: 144px!important;
+  border: none!important;
+  margin-right: 0;
+  height: 20px;
+  padding: 1px 3px;
+  display: flex;
+  outline: none;
+  box-sizing: border-box;
 }
 
 form.LSglobal_search input[type='image'] {
-  margin-left: -25px;
-  margin-bottom: -3px;
+  display: inline-block;
+  margin-left: 0;
+  box-sizing: content-box;
+  height: 16px;
+  padding: 2px;
+  display: flex;
 }
 
 ul.menu {
