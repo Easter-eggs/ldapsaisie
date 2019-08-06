@@ -43,7 +43,7 @@ class LSattr_ldap_date extends LSattr_ldap {
     $retval=array();
     foreach($data as $val) {
       $datetime = date_create_from_format($this -> getFormat(), $val);
-      if (is_a($datetime, DateTime)) {
+      if ($datetime instanceof DateTime) {
         $retval[] = $datetime -> format('U');
       }
     }
