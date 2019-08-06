@@ -43,12 +43,10 @@ class LSattr_html_password extends LSattr_html {
       return;
     }
 
-    if (count($data)>1) {
-      LSerror :: addErrorCode('LSattr_html_03','password');
-    }
-    
     if ($data) {
       if(is_array($data)) {
+        if (count($data)>1)
+          LSerror :: addErrorCode('LSattr_html_03','password');
         $element -> setValue($data[0]);
       }
       else {
