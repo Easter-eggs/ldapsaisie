@@ -80,10 +80,6 @@ td.LSobject-list, tr.LSobject-list {
 	margin-left: 11em;
 }
 
-p.LSobject-list-page {
-	clear:			both;
-}
-
 /* ---- LSform ---- */
 
 .LSform dt {
@@ -138,17 +134,21 @@ li.LSform_layout_current {
 	background-color:	#a53248;
 }
 
+form.LSglobal_search {
+	border-color:		#a53248;
+}
+
 li.menu a, a.menu, h1 {
-	color:				#a53248;
+	color:			#a53248;
 }
 
 /* ---- Gris clair ---- */
-a.LSsession_recoverPassword, a.LSobject-list-page, h2 {
+a.LSsession_recoverPassword, a.LSobject-list-page, a.LSobject-list-nb-by-page, h2 {
 	color:			#999;
 }
 
 /* ---- Gris fonce ---- */
-#status, input[type='submit'].LSview_search, input[type='text'].LSview_search, th.LSobject-list, th.LSobject-list a, .LSform dt, a, div.LSinfosBox, strong.LSobject-list-page, a.LSobject-list-page:hover {
+#status, input[type='submit'].LSview_search, input[type='text'].LSview_search, th.LSobject-list, th.LSobject-list a, .LSform dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover {
 	color:			#4d4d4d;
 }
 
