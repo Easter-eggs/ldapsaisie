@@ -224,6 +224,16 @@ define('CONST2','val2')
 </varlistentry>
 
 <varlistentry>
+  <term>$GLOBALS['NB_LSOBJECT_LIST_CHOICES']</term>
+  <listitem>
+    <simpara>Variable permettant de configurer la liste des choix proposés à
+    l'utilisateur pour le nombre maximum d'objets affichés par page de résultat
+    de recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+
+<varlistentry>
   <term>MAX_SEND_FILE_SIZE</term>
   <listitem>
     <simpara>Constante déterminant la taille maximale d'un fichier envoyé à travers

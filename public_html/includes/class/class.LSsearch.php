@@ -58,7 +58,7 @@ class LSsearch {
     'displaySubDn' => NULL,
     'displayFormat' => NULL,
     'nbObjectsByPage' => NB_LSOBJECT_LIST,
-    'nbObjectsByPageChoices' => array(25, 50, 75, 100),
+    'nbObjectsByPageChoices' => NULL,
     'nbPageLinkByPage' => 10,
     'customInfos' => array(),
     'withoutCache' => false,
@@ -714,6 +714,9 @@ class LSsearch {
    **/
   public function getParam($key) {
     if(in_array($key,array_keys($this -> params))) {
+      if ($key == 'nbObjectsByPageChoices' && !is_array($this -> params['nbObjectsByPageChoices'])) {
+        return (isset($GLOBALS['NB_LSOBJECT_LIST_CHOICES']) && is_array($GLOBALS['NB_LSOBJECT_LIST_CHOICES'])?$GLOBALS['NB_LSOBJECT_LIST_CHOICES']:range(NB_LSOBJECT_LIST, NB_LSOBJECT_LIST*4, NB_LSOBJECT_LIST));
+}
       return $this -> params[$key];
     }
     return NULL;
