@@ -181,6 +181,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     ),
     'params' => array (
       'recursive' => true,
+      'nbObjectsByPage' => 5,
+      'nbObjectsByPageChoices' => array(5, 10, 15),
     ),
     'predefinedFilters' => array (
       '(jpegPhoto=*)' => 'With photo',

@@ -236,27 +236,34 @@ td.LSobject-list-names {
  */
 p.LSobject-list-page {
   text-align:         center;
-  margin:             0.5em;
+  margin:             auto;
+  margin-top:         0.5em;
+  max-width:          20em;
 }
 
-a.LSobject-list-page {
+a.LSobject-list-page, a.LSobject-list-nb-by-page {
   color:              #0072b8;
   text-decoration:    none;
 }
 
-a.LSobject-list-page:hover {
+a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover {
   color:              #0072b8;
 }
 
-strong.LSobject-list-page {
+strong.LSobject-list-page, strong.LSobject-list-nb-by-page {
   color:              #0072b8;
+}
+
+#LSobject_list_nbresult, p.LSobject-list-nb-by-page {
+  float:              right;
+  clear:              both;
+  color:              #333;
+  font-style:         italic;
+  margin:             0;
+  margin-right:       20px;
 }
 
 #LSobject_list_nbresult {
-  float:              right;
-  color:              #333;
-  font-style:         italic;
-  margin-right:       20px;
   text-transform:     lowercase;
 }
 

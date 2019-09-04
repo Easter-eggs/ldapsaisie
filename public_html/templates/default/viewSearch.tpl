@@ -113,7 +113,21 @@
       </tr>   
     {/foreach}
 </table>
+
 <span id='LSobject_list_nbresult'>{$LSsearch->label_total|escape:"htmlall"}</span>
+{if !empty($page.list)}
+  <p class='LSobject-list-nb-by-page'>
+    {tr msg='Nb / page :'}
+    {foreach from=$LSsearch->getParam('nbObjectsByPageChoices') item=choice}
+      {if $LSsearch->getParam('nbObjectsByPage') == $choice}
+        <strong><a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;nbObjectsByPage={$choice}'  class='LSobject-list-nb-by-page'>{$choice}</a></strong>
+      {else}
+        <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;nbObjectsByPage={$choice}'  class='LSobject-list-nb-by-page'>{$choice}</a>
+      {/if}
+    {/foreach}
+  </p>
+{/if}
+
 {if $page.nbPages > 1}
   <p class='LSobject-list-page'>
     

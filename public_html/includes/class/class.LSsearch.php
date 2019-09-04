@@ -58,6 +58,7 @@ class LSsearch {
     'displaySubDn' => NULL,
     'displayFormat' => NULL,
     'nbObjectsByPage' => NB_LSOBJECT_LIST,
+    'nbObjectsByPageChoices' => array(25, 50, 75, 100),
     'nbPageLinkByPage' => 10,
     'customInfos' => array(),
     'withoutCache' => false,
@@ -331,6 +332,34 @@ class LSsearch {
       else {
         LSerror :: addErrorCode('LSsearch_03','nbObjectsByPage');
         $OK=false;
+      }
+    }
+
+    // nbObjectsByPageChoices
+    if (isset($params['nbObjectsByPageChoices'])) {
+      if (is_array($params['nbObjectsByPageChoices'])) {
+        $choices = array();
+        $choiceError = false;
+        foreach($params['nbObjectsByPageChoices'] as $choice) {
+          if (is_int($choice) && !in_array($choice, $choices)) {
+            $choices[] = $choice;
+          }
+          else {
+            $choiceError = true;
+            break;
+          }
+        }
+        if (!empty($choices) && !$choiceError) {
+          $this -> params['nbObjectsByPageChoices'] = $choices;
+        }
+        else {
+          LSerror :: addErrorCode('LSsearch_03','nbObjectsByPageChoices');
+          $OK = false;
+        }
+      }
+      else {
+        LSerror :: addErrorCode('LSsearch_03','nbObjectsByPageChoices');
+        $OK = false;
       }
     }
     
