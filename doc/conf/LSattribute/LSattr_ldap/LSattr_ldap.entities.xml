@@ -4,6 +4,9 @@
 <!ENTITY conf-LSattr_ldap_compositeValueToJSON SYSTEM "LSattr_ldap_compositeValueToJSON.docbook">
 <!ENTITY conf-LSattr_ldap_date SYSTEM "LSattr_ldap_date.docbook">
 <!ENTITY conf-LSattr_ldap_image SYSTEM "LSattr_ldap_image.docbook">
+<!ENTITY conf-LSattr_ldap_naiveDate SYSTEM "LSattr_ldap_naiveDate.docbook">
 <!ENTITY conf-LSattr_ldap_numeric SYSTEM "LSattr_ldap_numeric.docbook">
 <!ENTITY conf-LSattr_ldap_password SYSTEM "LSattr_ldap_password.docbook">
 <!ENTITY conf-LSattr_ldap_postaladdress SYSTEM "LSattr_ldap_postaladdress.docbook">
+
+<!ENTITY LSattr_ldap_date "<link linkend='config-LSattr_ldap_date'>LSattr_ldap_date</link>">

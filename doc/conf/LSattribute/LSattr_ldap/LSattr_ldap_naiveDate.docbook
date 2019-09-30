@@ -1,0 +1,9 @@
+<sect4 id="config-LSattr_ldap_naiveDate">
+  <title>LSattr_ldap_naiveDate</title>
+  <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
+  une date dont la <emphasis>timezone</emphasis> doit être ignorée. Côté LDAP,
+  les dates seront stockées au format UTC étant donnée que la syntaxe LDAP exige
+  une <emphasis>timezone</emphasis>, cependant celle-ci sera complètement ignorée.
+  Ce type peut-être utilisé à la place du type &LSattr_ldap_date;.</para>
+
+</sect4>
