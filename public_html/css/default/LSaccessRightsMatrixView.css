@@ -1,0 +1,80 @@
+/*
+ * Table
+ */
+#LSaccessRightsMatrixView table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1em;
+	text-align: center;
+}
+
+#LSaccessRightsMatrixView table tr, #LSaccessRightsMatrixView table td {
+        transition: all 0.25s linear 0s;
+}
+
+#LSaccessRightsMatrixView table tr:hover {
+        background-color: #AAA;
+}
+
+#LSaccessRightsMatrixView table thead th:first-of-type, #LSaccessRightsMatrixView table tbody th {
+	text-align: left;
+}
+
+span.LSaccessRightsMatrixView_readable, span.LSaccessRightsMatrixView_writable {
+	color: #fff;
+	border: 1px solid;
+	border-radius: 0.3em;
+	display: inline-block;
+	padding: 0.1em;
+}
+
+span.LSaccessRightsMatrixView_readable {
+	background-color: #17a2b8;
+	border-color: #17a2b8;
+}
+
+span.LSaccessRightsMatrixView_writable {
+	background-color: #ffc107;
+	border-color: #ffc107;
+}
+
+/*
+ * Tabs
+ */
+ul.LSaccessRightsMatrixView_tabs {
+  list-style-type:    none;
+  padding:            0;
+  margin:             1em;
+  margin-bottom:      0;
+}
+
+ul.LSaccessRightsMatrixView_tabs li a {
+  text-decoration:    none;
+  color:              #fff;
+}
+
+ul.LSaccessRightsMatrixView_tabs li {
+  text-decoration:    none;
+  color:              #fff;
+  background-color:   #52BCE5;
+  border-radius:      3px 3px 0px 0px;
+  padding:            4px;
+  display:            inline;
+  margin-right:       1px;
+}
+
+ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab {
+  color:              #fff;
+  background-color:   #0072B8;
+}
+
+div.LSaccessRightsMatrixView_tab_content {
+  border:             1px solid #0072B8;
+  margin:             1em;
+  padding:            0.5em;
+  margin-top:         4px;
+}
+
+div.LSaccessRightsMatrixView_tab_content h2 {
+  margin: 0;
+}

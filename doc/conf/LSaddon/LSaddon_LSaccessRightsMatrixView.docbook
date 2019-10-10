@@ -1,0 +1,11 @@
+<sect2 id="config-LSaddon_LSaccessRightsMatrixView">
+  <title>LSaddon_LSaccessRightsMatrixView</title>
+  <para>Cet &LSaddon; offre une interface de visualisation des droits d'accès
+  des différents &LSprofiles; configurés. Pour chaque type d'objet, la matrice
+  des droits d'accès par attribut et par profil est affiché sous la forme d'un
+  tableau.</para>
+
+  <para>Le fichier de configuration permet de définir au travers la variable
+  <literal>$GLOBALS['LSaccessRightsMatrixView_allowed_LSprofiles']</literal>
+  la liste des &LSprofiles; autorisés à accéder à cette interface.</para>
+</sect2>

@@ -11,6 +11,7 @@
   
   &conf-LSaddon_asterisk;
   &conf-LSaddon_exportSearchResultAsCSV;
+  &conf-LSaddon_LSaccessRightsMatrixView;
   &conf-LSaddon_mail;
   &conf-LSaddon_maildir;
   &conf-LSaddon_mailquota;

@@ -275,6 +275,15 @@ msgstr ""
 msgid "%{value} (unrecognized value)"
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:26
+msgid "Access Right Matrix Support : The global array %{array} is not defined."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:52
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:88
+msgid "Access rights matrix"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.ftp.php:27
 msgid "FTP Support : Pear::Net_FTP is missing."
 msgstr ""
@@ -1498,88 +1507,88 @@ msgstr ""
 msgid "Pedagogical element"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1055
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1087
 msgid "Actions"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1058
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1090
 #: templates/default/global_search.tpl:25
 msgid "This search didn't get any result."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1310
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1342
 msgid "LSsearch : Invalid filter : %{filter}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1313
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1345
 msgid "LSsearch : Invalid basedn : %{basedn}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1316
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1348
 msgid "LSsearch : Invalid value for %{param} parameter."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1319
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1351
 msgid ""
 "LSsearch : Invalid size limit. Must be an integer greater or equal to 0."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1322
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1354
 msgid "LSsearch : Invalid parameter %{attr}. Must be an boolean."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1325
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1357
 msgid ""
 "LSsearch : Invalid parameter attributes. Must be an string or an array of "
 "strings."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1328
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1360
 msgid "LSsearch : Can't build attributes list for make filter."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1331
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1363
 msgid ""
 "LSsearch : Error building filter with attribute '%{attr}' and pattern "
 "'%{pattern}'"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1334
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1366
 msgid "LSsearch : Error combining filters."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1337
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1369
 msgid "LSsearch : Invalid pattern."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1340
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1372
 msgid "LSsearch : Invalid attribute %{attr} in parameters."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1343
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1375
 msgid "LSsearch : Error during the search."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1346
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1378
 msgid "LSsearch : Error sorting the search."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1349
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1381
 msgid ""
 "LSsearch : The function of the custum information %{name} is not callable."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1352
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1384
 msgid ""
 "LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} "
 "(filter : %{filter})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1355
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1387
 msgid "LSsearch : Error during execution of the custom action %{customAction}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1358
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearch.php:1390
 msgid "LSsearch : Invalid search pattern."
 msgstr ""
 
@@ -1748,6 +1757,10 @@ msgstr ""
 msgid "A fatal error occured. If problem persist, please contact support."
 msgstr ""
 
+#: templates/default/LSaccessRightsMatrixView.tpl:15
+msgid "Attributes / Profiles"
+msgstr ""
+
 #: templates/default/fatal_error.tpl:23
 msgid "Details"
 msgstr ""
@@ -1769,6 +1782,10 @@ msgstr ""
 msgid "Imported objects"
 msgstr ""
 
+#: templates/default/viewSearch.tpl:120
+msgid "Nb / page :"
+msgstr ""
+
 #: templates/default/import.tpl:74
 msgid "No imported object"
 msgstr ""
@@ -1779,6 +1796,14 @@ msgstr ""
 
 #: templates/default/import.tpl:17
 msgid "Only validate data"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:27
+msgid "Readable"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:29
+msgid "Readable / Writable"
 msgstr ""
 
 #: templates/default/top.tpl:62
