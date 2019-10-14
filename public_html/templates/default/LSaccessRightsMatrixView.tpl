@@ -14,13 +14,13 @@
       <thead>
         <th>{tr msg="Attributes / Profiles"}</th>
         {foreach $LSprofiles as $name => $label}
-        <th>{$label}</th>
+        <th>{$label} {if $name != $label}<img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/>{/if}</th>
         {/foreach}
       </thead>
       <tbody>
       {foreach $LSobjects[$LSobject]['attrs'] as $name => $conf}
         <tr>
-          <th>{$conf.label}</th>
+          <th>{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
           {foreach $LSprofiles as $profil => $profil_conf}
           <td>
           {if $conf.rights[$profil] == 'r'}
