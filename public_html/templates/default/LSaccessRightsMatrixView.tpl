@@ -21,8 +21,8 @@
       {foreach $LSobjects[$LSobject]['attrs'] as $name => $conf}
         <tr>
           <th>{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
-          {foreach $LSprofiles as $profil => $profil_conf}
-          <td>
+          {foreach $LSprofiles as $profil => $profil_label}
+          <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
           {if $conf.rights[$profil] == 'r'}
             <span class='LSaccessRightsMatrixView_readable'>{tr msg="Readable"}</span>
           {elseif $conf.rights[$profil] == 'w'}
@@ -48,8 +48,8 @@
       {foreach $LSobjects[$LSobject]['relations'] as $name => $conf}
         <tr>
           <th>{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
-          {foreach $LSprofiles as $profil => $profil_conf}
-          <td>
+          {foreach $LSprofiles as $profil => $profil_label}
+          <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
           {if $conf.rights[$profil] == 'r'}
             <span class='LSaccessRightsMatrixView_readable'>{tr msg="Readable"}</span>
           {elseif $conf.rights[$profil] == 'w'}
