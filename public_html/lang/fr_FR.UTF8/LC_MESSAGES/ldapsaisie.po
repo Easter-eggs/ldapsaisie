@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-10-10 18:16+0200\n"
+"PO-Revision-Date: 2019-10-14 12:33+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -336,9 +336,17 @@ msgstr ""
 "défini."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:52
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:88
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:120
 msgid "Access rights matrix"
 msgstr "Matrice des droits d'accès"
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:62
+msgid "All connected users"
+msgstr "Tous les utilisateurs connectés"
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:116
+msgid "The user him-self"
+msgstr "L'utilisateur lui-même"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.ftp.php:27
 msgid "FTP Support : Pear::Net_FTP is missing."
@@ -2102,10 +2110,12 @@ msgid "Only validate data"
 msgstr "Validation des données uniquement"
 
 #: templates/default/LSaccessRightsMatrixView.tpl:27
+#: templates/default/LSaccessRightsMatrixView.tpl:54
 msgid "Readable"
 msgstr "Lecture"
 
 #: templates/default/LSaccessRightsMatrixView.tpl:29
+#: templates/default/LSaccessRightsMatrixView.tpl:56
 msgid "Readable / Writable"
 msgstr "Lecture / Écriture"
 
@@ -2113,9 +2123,21 @@ msgstr "Lecture / Écriture"
 msgid "Refresh my access rights"
 msgstr "Rafraîchir mes droits d'accès"
 
+#: templates/default/LSaccessRightsMatrixView.tpl:42
+msgid "Relations / Profiles"
+msgstr "Relations / Profils"
+
 #: templates/default/import.tpl:25
 msgid "Result"
 msgstr "Résultat"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:38
+msgid "Their relations with other objects"
+msgstr "Leurs relations avec les autres objets"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:65
+msgid "This object type has no configured relation."
+msgstr "Ce type d'objet n'a aucune relation de configurée."
 
 #: templates/default/import.tpl:14
 msgid "Update objects if exists"

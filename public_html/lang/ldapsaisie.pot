@@ -280,8 +280,16 @@ msgid "Access Right Matrix Support : The global array %{array} is not defined."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:52
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:88
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:120
 msgid "Access rights matrix"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:62
+msgid "All connected users"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.LSaccessRightsMatrixView.php:116
+msgid "The user him-self"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.ftp.php:27
@@ -1799,10 +1807,12 @@ msgid "Only validate data"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:27
+#: templates/default/LSaccessRightsMatrixView.tpl:54
 msgid "Readable"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:29
+#: templates/default/LSaccessRightsMatrixView.tpl:56
 msgid "Readable / Writable"
 msgstr ""
 
@@ -1810,8 +1820,20 @@ msgstr ""
 msgid "Refresh my access rights"
 msgstr ""
 
+#: templates/default/LSaccessRightsMatrixView.tpl:42
+msgid "Relations / Profiles"
+msgstr ""
+
 #: templates/default/import.tpl:25
 msgid "Result"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:38
+msgid "Their relations with other objects"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:65
+msgid "This object type has no configured relation."
 msgstr ""
 
 #: templates/default/import.tpl:14

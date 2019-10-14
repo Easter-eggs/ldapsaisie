@@ -68,6 +68,8 @@ function LSaccessRightsMatrixView() {
 	foreach (LSsession :: $ldapServer["LSaccess"] as $LSobject) {
 		if (!LSsession :: loadLSobject($LSobject))
 			continue;
+
+		// List attributes and rigths on their
 		$attrs = array();
 		foreach(LSconfig :: get("LSobjects.$LSobject.attrs", array()) as $attr_name => $attr_config) {
 			$raw_attr_rights = LSconfig :: get('rights', array(), 'array', $attr_config);
@@ -82,9 +84,27 @@ function LSaccessRightsMatrixView() {
 				'rights' => $attr_rights,
 			);
 		}
+
+		// List relations and rigths on their
+		$relations = array();
+		foreach(LSconfig :: get("LSobjects.$LSobject.LSrelation", array()) as $relation_name => $relation_config) {
+			$raw_relation_rights = LSconfig :: get('rights', array(), 'array', $relation_config);
+			$relation_rights = array();
+			if ($LSobject == LSsession :: $ldapServer["authObjectType"])
+				$relation_rights['self'] = LSconfig :: get('self', False, null, $raw_relation_rights);
+			foreach(array_keys($LSprofiles) as $LSprofile) {
+				$relation_rights[$LSprofile] = LSconfig :: get($LSprofile, False, null, $raw_relation_rights);
+			}
+			$relations[$relation_name] = array (
+				'label' => __(LSconfig :: get('label', $relation_name, 'string', $relation_config)),
+				'rights' => $relation_rights,
+			);
+		}
+
 		$LSobjects[$LSobject] = array (
 			'label' => __(LSconfig :: get("LSobjects.$LSobject.label", $LSobject, 'string')),
 			'attrs' => $attrs,
+			'relations' => $relations,
 		);
 	}
 
@@ -94,6 +114,8 @@ function LSaccessRightsMatrixView() {
 
 	if ($LSobject == LSsession :: $ldapServer["authObjectType"])
 		$LSprofiles = array_merge(array('self' => _('The user him-self')), $LSprofiles);
+
+	LSdebug($LSobjects);
 
 	LStemplate :: assign('pagetitle', _('Access rights matrix'));
 	LStemplate :: assign('LSprofiles', $LSprofiles);
