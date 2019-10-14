@@ -63,7 +63,7 @@ function LSaccessRightsMatrixView() {
 	);
 	if (isset(LSsession :: $ldapServer["LSprofiles"]) && is_array(LSsession :: $ldapServer["LSprofiles"]))
 		foreach(LSsession :: $ldapServer["LSprofiles"] as $LSprofile => $LSprofile_conf)
-			$LSprofiles[$LSprofile] = $LSprofile;
+			$LSprofiles[$LSprofile] = (isset($LSprofile_conf['label'])?__($LSprofile_conf['label']):$LSprofile);
 	$LSobjects = array();
 	foreach (LSsession :: $ldapServer["LSaccess"] as $LSobject) {
 		if (!LSsession :: loadLSobject($LSobject))

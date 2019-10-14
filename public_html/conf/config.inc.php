@@ -52,6 +52,7 @@ $GLOBALS['LSconfig'] = array(
 */
       'LSprofiles' => array (
         'admin' => array (
+          'label' => 'Administrator',
           'o=ls' => array (
             'uid=eeggs,ou=people,o=ls' => NULL
           ),
@@ -63,6 +64,7 @@ $GLOBALS['LSconfig'] = array(
           )
         ),
         'godfather' => array (
+          'label' => 'Godfather',
           'LSobjects' => array (
             'LSpeople' => array (
               'attr' => 'lsGodfatherDn',

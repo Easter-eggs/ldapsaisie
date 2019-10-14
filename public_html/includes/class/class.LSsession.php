@@ -1659,11 +1659,15 @@ class LSsession {
       foreach (self :: $ldapServer['LSprofiles'] as $profile => $profileInfos) {
         if (is_array($profileInfos)) {
           foreach ($profileInfos as $topDn => $rightsInfos) {
+            // Do not handle 'label' key as a topDn
+            if ($topDn == 'label') {
+              continue;
+            }
             /*
              * If $topDn == 'LSobject', we search for each LSobject type to find
              * all items on witch the user will have powers.
              */
-            if ($topDn == 'LSobjects') {
+            elseif ($topDn == 'LSobjects') {
               if (is_array($rightsInfos)) {
                 foreach ($rightsInfos as $LSobject => $listInfos) {
                   LSdebug('loading LSprofile ' . $profile . ' for LSobject ' . $LSobject . ' with params ' . var_export($listInfos, true));

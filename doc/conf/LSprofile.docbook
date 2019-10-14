@@ -16,6 +16,7 @@
 <citetitle>Structure</citetitle>...
 <![CDATA['LSprofile' => array (
   [nom d'un LSprofile] => array (
+    [label] => [label du LSprofile],
     [basedn] => [dn utilisateur],
     [autre basedn] => array (
       [dn d'un utilisateur] => NULL,
@@ -282,6 +283,10 @@ objets retournés. Les paramètres de la recherche sont&nbsp;:
 
 </itemizedlist>
 
+<para>Par ailleurs, il est possible d'attribuer un label plus explicite à chaque
+<emphasis>LSprofile</emphasis> à l'aide de la clé <literal>label</literal>. Ce
+label sera utilisé pour faire référence au <emphasis>LSprofile</emphasis> lorsque
+nécéssaire. <emphasis>(Paramètre facultatif)</emphasis></para>
   
 </sect4>
 <!-- Fin LSprofiles -->
