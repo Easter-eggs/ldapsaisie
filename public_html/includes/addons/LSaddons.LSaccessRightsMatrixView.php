@@ -58,7 +58,12 @@ function LSaddon_LSaccessRightsMatrixView_support() {
 }
 
 function LSaccessRightsMatrixView() {
-	$LSprofiles = LSsession :: $ldapServer["LSprofiles"];
+	$LSprofiles = array(
+		'user' => _('All connected users'),
+	);
+	if (isset(LSsession :: $ldapServer["LSprofiles"]) && is_array(LSsession :: $ldapServer["LSprofiles"]))
+		foreach(LSsession :: $ldapServer["LSprofiles"] as $LSprofile => $LSprofile_conf)
+			$LSprofiles[$LSprofile] = $LSprofile;
 	$LSobjects = array();
 	foreach (LSsession :: $ldapServer["LSaccess"] as $LSobject) {
 		if (!LSsession :: loadLSobject($LSobject))
@@ -67,6 +72,8 @@ function LSaccessRightsMatrixView() {
 		foreach(LSconfig :: get("LSobjects.$LSobject.attrs", array()) as $attr_name => $attr_config) {
 			$raw_attr_rights = LSconfig :: get('rights', array(), 'array', $attr_config);
 			$attr_rights = array();
+			if ($LSobject == LSsession :: $ldapServer["authObjectType"])
+				$attr_rights['self'] = LSconfig :: get('self', False, null, $raw_attr_rights);
 			foreach(array_keys($LSprofiles) as $LSprofile) {
 				$attr_rights[$LSprofile] = LSconfig :: get($LSprofile, False, null, $raw_attr_rights);
 			}
@@ -84,6 +91,9 @@ function LSaccessRightsMatrixView() {
 	// Determine current LSobject
 	reset($LSobjects);
 	$LSobject = (isset($_REQUEST['LSobject']) && array_key_exists($_REQUEST['LSobject'], $LSobjects)?$_REQUEST['LSobject']:key($LSobjects));
+
+	if ($LSobject == LSsession :: $ldapServer["authObjectType"])
+		$LSprofiles = array_merge(array('self' => _('The user him-self')), $LSprofiles);
 
 	LStemplate :: assign('pagetitle', _('Access rights matrix'));
 	LStemplate :: assign('LSprofiles', $LSprofiles);

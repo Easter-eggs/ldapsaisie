@@ -13,8 +13,8 @@
     <table>
       <thead>
         <th>{tr msg="Attributes / Profiles"}</th>
-        {foreach $LSprofiles as $name => $conf}
-        <th>{$name}</th>
+        {foreach $LSprofiles as $name => $label}
+        <th>{$label}</th>
         {/foreach}
       </thead>
       <tbody>
