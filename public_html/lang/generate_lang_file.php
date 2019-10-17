@@ -307,36 +307,37 @@ if (!in_array('config', $withouts) && (!$only || $only == 'config')) {
         case 'jsonCompositeAttribute':
           $components = LSconfig :: keys("LSobjects.$obj.attrs.$attr.html_options.components");
           foreach($components as $c) {
-            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.label");
-            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.help_info");
-            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.check_data.*.msg");
+            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.label");
+            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.help_info");
+            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.check_data.*.msg");
 
             if (
-                  LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.$c.type") == 'select_list' &&
-                  LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.$c.options.translate_labels", "True", "bool") &&
+                  LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.type") == 'select_list' &&
+                  LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.translate_labels", "True", "bool") &&
                   !in_array('select-list', $withouts)
                )
             {
-              foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values", array()) as $pkey => $plabel) {
-                if ($pkey == 'OTHER_OBJECT')
-                  continue;
-                elseif ($pkey == 'OTHER_ATTRIBUTE') {
-                  if (is_string($plabel))
+              foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values", array()) as $pkey => $plabel) {
+                if (is_string($pkey)) {
+                  if ($pkey == 'OTHER_OBJECT')
                     continue;
-                  elseif (is_array($plabel)) {
-                    if (isset($plabel['json_component_key']))
-                      addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.OTHER_ATTRIBUTE.json_component_label");
-                    else
-                      addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.OTHER_ATTRIBUTE.*");
+                  elseif ($pkey == 'OTHER_ATTRIBUTE') {
+                    if (is_string($plabel))
+                      continue;
+                    elseif (is_array($plabel)) {
+                      if (isset($plabel['json_component_key']))
+                        addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.json_component_label");
+                      else
+                        addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.*");
+                    }
                   }
+                  else
+                    add($plabel, "LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey");
                 }
-                elseif(is_string($plabel)) {
-                  add($plabel, "LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.$pkey");
-                }
-                elseif (is_array($plabel)) {
+                elseif (is_int($pkey) && is_array($plabel)) {
                   // Sub possible values
-                  addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.$pkey.label");
-                  foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.$pkey.possible_values", array()) as $ppkey => $pplabel) {
+                  addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey.label");
+                  foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey.possible_values", array()) as $ppkey => $pplabel) {
                     if ($ppkey == 'OTHER_OBJECT')
                       continue;
                     elseif ($ppkey == 'OTHER_ATTRIBUTE') {
@@ -344,13 +345,13 @@ if (!in_array('config', $withouts) && (!$only || $only == 'config')) {
                         continue;
                       elseif (is_array($pplabel)) {
                         if (isset($pplabel['json_component_key']))
-                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.OTHER_ATTRIBUTE.json_component_label");
+                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.json_component_label");
                         else
-                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.OTHER_ATTRIBUTE.*");
+                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.*");
                       }
                     }
                     elseif(is_string($pplabel)) {
-                      add($pplabel, "LSobjects.$obj.attrs.$attr.html_options.$c.options.possible_values.$pkey.possible_values.$ppkey");
+                      add($pplabel, "LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey.possible_values.$ppkey");
                     }
                   }
                 }
@@ -369,22 +370,23 @@ if (!in_array('config', $withouts) && (!$only || $only == 'config')) {
         case 'select_box':
           if (LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.translate_labels", "True", "bool") && !in_array('select-list', $withouts)) {
             foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.possible_values", array()) as $pkey => $plabel) {
-              if ($pkey == 'OTHER_OBJECT')
-                continue;
-              elseif ($pkey == 'OTHER_ATTRIBUTE') {
-                if (is_string($plabel))
+              if (is_string($pkey)) {
+                if ($pkey == 'OTHER_OBJECT')
                   continue;
-                elseif (is_array($plabel)) {
-                  if (isset($plabel['json_component_key']))
-                    addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.json_component_label");
-                  else
-                    addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.*");
+                elseif ($pkey == 'OTHER_ATTRIBUTE') {
+                  if (is_string($plabel))
+                    continue;
+                  elseif (is_array($plabel)) {
+                    if (isset($plabel['json_component_key']))
+                      addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.json_component_label");
+                    else
+                      addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.*");
+                  }
                 }
+                else
+                  add($plabel, "LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey");
               }
-              elseif(is_string($plabel)) {
-                add($plabel, "LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey");
-              }
-              elseif (is_array($plabel)) {
+              elseif (is_int($pkey) && is_array($plabel)) {
                 // Sub possible values
                 addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey.label");
                 foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey.possible_values", array()) as $ppkey => $pplabel) {

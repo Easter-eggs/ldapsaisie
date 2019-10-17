@@ -155,6 +155,10 @@ $GLOBALS['LSlang'] = array (
 "Name must contain alphanumeric values only." =>
   "Le nom doit contenir uniquement des valeurs alpha-numériques.",
 
+# templates/default/viewSearch.tpl:120
+"Nb / page :" =>
+  "Nb / page :",
+
 # LSobjects.LSpeople.attrs.uidNumber.label
 "Numeric identifier" =>
   "Identifiant numérique",
