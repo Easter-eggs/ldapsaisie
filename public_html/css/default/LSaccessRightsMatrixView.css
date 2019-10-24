@@ -20,6 +20,14 @@
 	text-align: left;
 }
 
+#LSaccessRightsMatrixView table tbody td, #LSaccessRightsMatrixView table thead th {
+	border-left: 1px dotted #ddd;
+}
+
+#LSaccessRightsMatrixView table thead th:first-of-type {
+	margin: none;
+}
+
 span.LSaccessRightsMatrixView_readable, span.LSaccessRightsMatrixView_writable {
 	color: #fff;
 	border: 1px solid;
