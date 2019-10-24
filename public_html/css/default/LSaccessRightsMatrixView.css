@@ -2,48 +2,111 @@
  * Table
  */
 #LSaccessRightsMatrixView table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1em;
-	text-align: center;
+  border-collapse: collapse;
+  margin-top: 1em;
+  text-align: center;
 }
 
 #LSaccessRightsMatrixView table tr, #LSaccessRightsMatrixView table td {
-        transition: all 0.25s linear 0s;
+  transition: all 0.25s linear 0s;
 }
 
-#LSaccessRightsMatrixView table tr:hover {
-        background-color: #AAA;
+#LSaccessRightsMatrixView table tbody tr:hover {
+  background-color: #AAA;
 }
 
 #LSaccessRightsMatrixView table thead th:first-of-type, #LSaccessRightsMatrixView table tbody th {
-	text-align: left;
+  text-align: left;
 }
 
-#LSaccessRightsMatrixView table tbody td, #LSaccessRightsMatrixView table thead th {
-	border-left: 1px dotted #ddd;
+/*
+ * Table rotated header
+ */
+.table-header-rotated th.row-header{
+  width: auto;
+  border-top: 1px dotted #dddddd;
 }
 
-#LSaccessRightsMatrixView table thead th:first-of-type {
-	margin: none;
+.table-header-rotated td{
+  width: 50px;
+  border-top: 1px dotted #dddddd;
+  border-left: 1px dotted #dddddd;
+  border-right: 1px dotted #dddddd;
+  vertical-align: middle;
+  text-align: center;
 }
 
+.table-header-rotated tr:last-of-type td, .table-header-rotated th.row-header:last-of-type {
+  border-left: 1px dotted #dddddd;
+  border-bottom: 1px dotted #dddddd;
+}
+
+.table-header-rotated th.rotate-45{
+  height: 150px;
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+  position: relative;
+  vertical-align: bottom;
+  padding: 0;
+  font-size: 11px;
+  line-height: 0.8;
+  white-space: nowrap;
+}
+
+.table-header-rotated th.rotate-45 > div{
+  position: relative;
+  top: 0px;
+  left: 75px; /* 150 * tan(45) / 2 = 50 where 150 is the height on the cell and 45 is the transform angle*/
+  height: 100%;
+  -ms-transform:skew(-45deg,0deg);
+  -moz-transform:skew(-45deg,0deg);
+  -webkit-transform:skew(-45deg,0deg);
+  -o-transform:skew(-45deg,0deg);
+  transform:skew(-45deg,0deg);
+  overflow: hidden;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
+}
+
+.table-header-rotated th.rotate-45 span {
+  -ms-transform:skew(45deg,0deg) rotate(315deg);
+  -moz-transform:skew(45deg,0deg) rotate(315deg);
+  -webkit-transform:skew(45deg,0deg) rotate(315deg);
+  -o-transform:skew(45deg,0deg) rotate(315deg);
+  transform:skew(45deg,0deg) rotate(315deg);
+  position: absolute;
+  bottom: 30px; /* 50 cos(45) = 28 with an additional 2px margin*/
+  left: -25px; /*Because it looked good, but there is probably a mathematical link here as well*/
+  display: inline-block;
+  // width: 100%;
+  width: 85px; /* 150 / cos(45) - 50 cos (45) = 85 where 150 is the height of the cell, 50 the width of the cell and 45 the transform angle*/
+  text-align: left;
+  // white-space: nowrap; /*whether to display in one line or not*/
+}
+
+/*
+ * Readable/Writable tips
+ */
 span.LSaccessRightsMatrixView_readable, span.LSaccessRightsMatrixView_writable {
-	color: #fff;
-	border: 1px solid;
-	border-radius: 0.3em;
-	display: inline-block;
-	padding: 0.1em;
+  color: #fff;
+  border: 1px solid;
+  border-radius: 0.3em;
+  display: inline-block;
+  padding: 0.1em;
+  width: 2.2em;
+  text-align: center;
 }
 
 span.LSaccessRightsMatrixView_readable {
-	background-color: #17a2b8;
-	border-color: #17a2b8;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
 }
 
 span.LSaccessRightsMatrixView_writable {
-	background-color: #ffc107;
-	border-color: #ffc107;
+  background-color: #ffc107;
+  border-color: #ffc107;
 }
 
 /*
@@ -85,4 +148,13 @@ div.LSaccessRightsMatrixView_tab_content {
 
 div.LSaccessRightsMatrixView_tab_content h2 {
   margin: 0;
+}
+
+/*
+ * Legend
+ */
+#LSaccessRightsMatrixView_legend {
+  padding-top: 1em;
+  font-style: italic;
+  font-weight: normal;
 }
