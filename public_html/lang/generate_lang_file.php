@@ -180,9 +180,11 @@ function add($msg, $context=null) {
           $translation = $msg;
       }
       else {
-        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or 'c' to copy original message, leave empty to pass) : ");
+        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or 'c' to copy original message, 'i' to ignore this message, leave empty to pass) : ");
         $in = trim(fgets(STDIN));
         if ($in) {
+          if ($in=="i")
+            return True;
           if ($in=="c")
             $translation = $msg;
           else
