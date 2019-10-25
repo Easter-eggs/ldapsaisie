@@ -29,6 +29,7 @@ $GLOBALS['LSconfig'] = array(
   'cacheLSprofiles' => true,
   'cacheSubDn' => true,
   'cacheSearch' => true,
+  'globalSearch' => true,
   'keepLSsessionActive' => true,
   'ldap_servers' => array (
     array (
@@ -153,6 +154,7 @@ $GLOBALS['LSconfig'] = array(
       ),
       'cacheLSprofiles' => true,
       'cacheSearch' => true,
+      'globalSearch' => true,
       'authObjectTypeAttrPwd' => 'userPassword',
       'recoverPassword' => array(
         'mailAttr' => 'mail',
