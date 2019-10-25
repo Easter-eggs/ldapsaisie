@@ -1,3 +1,19 @@
+ldapsaisie (2.4.0-0) unstable; urgency=medium
+
+  * LSauthMethod_CAS : improve logging
+  * Fix global search button display on Chromium
+  * Fix some PHP 7 warnings
+  * LSsearch :
+     * Add nbObjectsByPageChoices parameter
+     * Add $GLOBALS['NB_LSOBJECT_LIST_CHOICES'] parameter
+  * Update light CSS styles
+  * Add LSattr_ldap :: naiveDate
+  * Add LSaddon LSaccessRightsMatrixView
+  * LSprofiles : add possibility to configure them a label
+  * generate_lang_file.php : fix some problems
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Fri, 25 Oct 2019 18:02:49 +0200
+
 ldapsaisie (2.3-0) unstable; urgency=medium
 
   * LSform_rule :: differentPassword : Add missing LSform :: getValue() function
