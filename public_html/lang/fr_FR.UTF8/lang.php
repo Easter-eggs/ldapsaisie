@@ -8,6 +8,10 @@ $GLOBALS['LSlang'] = array (
 "Accountable(s)" =>
   "Responsable(s)",
 
+# ldap_servers.0.LSprofiles.admin.label
+"Administrator" =>
+  "Administrateur",
+
 # LSobjects.LSpeople.attrs.loginShell.help_info
 "Allow user to connect a POSIX system." =>
   "Autorisie l'utilisateur à se connecter aux systèmes POSIX.",
@@ -78,6 +82,10 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSpeople.attrs.mail.check_data.email.msg
 "Given email address is invalid." =>
   "L'adresse mail saisie est invalide.",
+
+# ldap_servers.0.LSprofiles.godfather.label
+"Godfather" =>
+  "Parrain",
 
 # LSobjects.LSpeople.LSrelation.godfather.label
 "Godfather of ..." =>

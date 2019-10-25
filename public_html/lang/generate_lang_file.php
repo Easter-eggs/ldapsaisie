@@ -247,6 +247,7 @@ if (!in_array('config', $withouts) && (!$only || $only == 'config')) {
     addFromLSconfig("ldap_servers.$ldap_server_id.recoverPassword.newPasswordMail.subject");
     addFromLSconfig("ldap_servers.$ldap_server_id.recoverPassword.newPasswordMail.msg");
     addFromLSconfig("ldap_servers.$ldap_server_id.subDn.*", 'key', array("LSobject"));
+    addFromLSconfig("ldap_servers.$ldap_server_id.LSprofiles.*.label");
 
     // LSaccess
     foreach (LSconfig :: get("ldap_servers.$ldap_server_id.LSaccess", array()) as $LSobject) {
