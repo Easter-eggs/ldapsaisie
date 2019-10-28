@@ -388,12 +388,21 @@ class LSsession {
       if ($encoding) {
         $lang.='.'.$encoding;
       }
-      setlocale(LC_ALL, $lang);
-      bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR);
-      textdomain(LS_TEXT_DOMAIN);
-      
+      // Gettext firstly look the LANGUAGE env variable, so set it
+      putenv("LANGUAGE=$lang");
+
+      // Set the locale
+      if (setlocale(LC_ALL, $lang) === false)
+        LSlog :: error("An error occured setting locale to '$lang'");
+      // Configure and set the text domain
+      $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR);
+      LSlog :: debug("Text domain fullpath is '$fullpath'.");
+      LSlog :: debug("Text domain is : ".textdomain(LS_TEXT_DOMAIN));
+
+      // Include local translation file
       self :: includeFile(LS_I18N_DIR.'/'.$lang.'/lang.php');
 
+      // Include other local translation file(s)
       foreach (listFiles(LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang, '/^lang.+\.php$/') as $file) {
 	$path = LS_LOCAL_DIR.'/'.LS_I18N_DIR."/$lang/$file";
         LSlog :: debug("LSession :: setLocale() : Local '$lang.$encoding' : load translation file '$path'");
