@@ -1,3 +1,13 @@
+ldapsaisie (2.4.1-0) unstable; urgency=medium
+
+  * generate_lang_file.php : handle LSprofiles's label
+  * Enable globalSearch by default
+  * generate_lang_file.php : add ignore choice in interactive mode
+  * LSsession : improving logging
+  * Fix some translation problems by forcing the LANGUAGE env variable value
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 28 Oct 2019 13:03:01 +0100
+
 ldapsaisie (2.4.0-0) unstable; urgency=medium
 
   * LSauthMethod_CAS : improve logging
