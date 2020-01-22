@@ -58,12 +58,6 @@ class LSauthMethod_CAS extends LSauthMethod {
 				$cas_server_ssl_validation_configured = true;
 			}
 			
-			if (defined('LSAUTH_CAS_SERVER_SSL_CERT')) {
-				LSlog :: debug('LSauthMethod_CAS : validate CAS server SSL certificate using '.LSAUTH_CAS_SERVER_SSL_CERT.' certificate file.');
-				phpCAS::setCasServerCert(LSAUTH_CAS_SERVER_SSL_CERT);
-				$cas_server_ssl_validation_configured = true;
-			}
-
 			if (defined('LSAUTH_CAS_SERVER_SSL_CACERT')) {
 				LSlog :: debug('LSauthMethod_CAS : validate CAS server SSL certificate using '.LSAUTH_CAS_SERVER_SSL_CACERT.' CA certificate file.');
 				phpCAS::setCasServerCACert(LSAUTH_CAS_SERVER_SSL_CACERT);
@@ -146,6 +140,6 @@ LSerror :: defineError('LSauthMethod_CAS_01',
 _("LSauthMethod_CAS : Failed to load phpCAS.")
 );
 LSerror :: defineError('LSauthMethod_CAS_02',
-_("LSauthMethod_CAS : Please check your configuration : you must configure CAS server SSL certificate validation using one of the following constant : LSAUTH_CAS_SERVER_SSL_CERT, LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION")
+_("LSauthMethod_CAS : Please check your configuration : you must configure CAS server SSL certificate validation using one of the following constant : LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION")
 );
 

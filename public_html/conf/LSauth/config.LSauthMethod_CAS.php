@@ -50,9 +50,6 @@ define('LSAUTH_CAS_SERVER_PORT',443);
 // No SSL validation for the CAS server
 define('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION',false);
 
-// CAS server SSL Certificate path
-//define('LSAUTH_CAS_SERVER_SSL_CERT','');
-
 // CAS server SSL CA Certificate path
 //define('LSAUTH_CAS_SERVER_SSL_CACERT','');
 

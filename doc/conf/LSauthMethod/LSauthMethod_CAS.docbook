@@ -36,9 +36,6 @@ define('LSAUTH_CAS_SERVER_PORT',443);
 // No SSL validation for the CAS server
 define('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION',false);
 
-// CAS server SSL Certificate path
-//define('LSAUTH_CAS_SERVER_SSL_CERT','');
-
 // CAS server SSL CA Certificate path
 //define('LSAUTH_CAS_SERVER_SSL_CACERT','');
 </programlisting>
@@ -121,14 +118,6 @@ define('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION',false);
   <listitem>
     <simpara>Booléen permettant de désactiver la validation du certificat
     SSL du serveur CAS lors des requêtes de validation des tickets CAS.</simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>LSAUTH_CAS_SERVER_SSL_CERT</term>
-  <listitem>
-    <simpara>Chemin d'accès du fichier contenant le certificat SSL du serveur
-    CAS au format PEM. Commenter la ligne pour désactiver ce paramètre.</simpara>
   </listitem>
 </varlistentry>
 
