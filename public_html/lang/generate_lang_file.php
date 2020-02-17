@@ -45,7 +45,7 @@ $format=$available_formats[0];
 $translations=array();
 $debug = false;
 $load_files = array();
-function usage($error, $exit_code=0) {
+function usage($error=false, $exit_code=0) {
   global $argv, $available_withouts, $available_onlys;
   if ($error)
     echo "$error\n\n";
