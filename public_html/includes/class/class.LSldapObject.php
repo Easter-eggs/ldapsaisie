@@ -1857,6 +1857,22 @@ class LSldapObject {
     return LSconfig :: get($param, $default, $cast, $this -> config);
   }
 
+ /**
+  * Allow conversion of LdapObject to string
+  *
+  * @retval string The string representation of the LdapObject
+  */
+  public function __toString() {
+    if ($this -> dn)
+      return "<LdapObject ".$this -> dn.">";
+    $rdn_attr = $this -> getConfig('rdn');
+    if( $rdn_attr && isset($this -> attrs[$rdn_attr]) ) {
+      $rdn_val = $this -> attrs[$rdn_attr] -> getUpdateData();
+      if (!empty($rdn_val))
+        return "<LdapObject (new) $rdn_attr=".$rdn_val[0].">";
+    }
+    return "<LdapObject (new)>";
+  }
 }
 
 /**
