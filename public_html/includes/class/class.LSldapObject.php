@@ -144,11 +144,10 @@ class LSldapObject {
    *
    * @retval string Valeur descriptive d'affichage de l'objet
    */ 
-  public function getDisplayName($spe='',$full=false) {
-    if ($spe=='') {
+  public function getDisplayName($spe=null, $full=false) {
+    if (is_null($spe))
       $spe = $this -> getDisplayNameFormat();
-    }
-    $val = $this -> getFData($spe,$this -> attrs,'getDisplayValue');
+    $val = $this -> getFData($spe, $this -> attrs, 'getDisplayValue');
     if (LSsession :: haveSubDn() && $full) {
       $val.=' ('.$this -> subDnName.')';
     }
