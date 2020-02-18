@@ -141,6 +141,13 @@ class LSlog {
 		if (!array_key_exists($level, self :: $levels))
 			$level = self :: $default_level;
 
+		// Handle non-string message
+		if (!is_string($message)) {
+			if (is_object($message) && method_exists($message, '__toString'))
+				$message = strval($message);
+			else
+				$message = varDump($message);
+		}
 		
 		// Add prefix
 		if (php_sapi_name() == "cli") {
