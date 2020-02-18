@@ -629,7 +629,7 @@ class LSsearch {
       
       $filters=array();
       foreach ($attrsList as $attr => $opts) {
-        if ($params['approx']) {
+        if ($this -> params['approx']) {
           if (isset($opts['approxLSformat'])) {
             $filter=Net_LDAP2_Filter::parse(getFData($opts['approxLSformat'],array('name'=>$attr,'pattern'=>$pattern)));
           }
