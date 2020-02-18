@@ -161,7 +161,7 @@ class LSattr_html_select_object extends LSattr_html{
         $DNs=$values;
         foreach($DNs as $dn) {
           if($obj -> loadData($dn)) {
-            $retInfos[$dn] = $obj -> getDisplayName($conf['display_name_format']);
+            $retInfos[$dn] = $obj -> getDisplayName((isset($conf['display_name_format'])?$conf['display_name_format']:null));
           }
         }
       }
