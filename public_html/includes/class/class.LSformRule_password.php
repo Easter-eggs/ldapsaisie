@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_password extends LSformRule {
- 
+
   /**
    * Vérification de la valeur.
    *
@@ -42,52 +42,45 @@ class LSformRule_password extends LSformRule {
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
-   */ 
+   */
   public static function validate ($value,$options=array(),$formElement) {
-    if(isset($options['params']['maxLength'])) {
-      if (strlen($value)>$options['params']['maxLength'])
-        return;
-    }
-    
-    if(isset($options['params']['minLength'])) {
-      if (strlen($value)<$options['params']['minLength'])
-        return;
-    }
-    
-    if(isset($options['params']['regex'])) {
-      if (!is_array($options['params']['regex'])) {
-        $options['params']['regex']=array($options['params']['regex']);
-      }
-      if (isset($options['params']['minValidRegex'])) {
-        $options['params']['minValidRegex']=(int)$options['params']['minValidRegex'];
-        if ($options['params']['minValidRegex']==0 || $options['params']['minValidRegex']>count($options['params']['regex'])) {
-          $options['params']['minValidRegex']=count($options['params']['regex']);
-        }
-      }
-      else {
-        $options['params']['minValidRegex']=count($options['params']['regex']);
-      }
+    $maxLength = LSconfig :: get('params.maxLength', null, 'int', $options);
+    if(is_int($maxLength) && strlen($value) > $maxLength)
+      return;
+
+    $minLength = LSconfig :: get('params.minLength', null, 'int', $options);
+    if(is_int($minLength) && strlen($value) < $minLength)
+      return;
+
+    $regex = LSconfig :: get('params.regex', null, null, $options);
+    if(!is_null($regex)) {
+      if (!is_array($regex))
+        $regex = array($regex);
+
+      $minValidRegex = LSconfig :: get('params.minValidRegex', count($regex), 'int', $options);
+      if ($minValidRegex == 0 || $minValidRegex > count($regex))
+        $minValidRegex = count($regex);
+
       $valid=0;
-      foreach($options['params']['regex'] as $regex) {
-        if ($regex[0]!='/') {
+      foreach($regex as $r) {
+        if ($r[0] != '/') {
           LSerror :: addErrorCode('LSformRule_password_01');
           continue;
         }
-        if (preg_match($regex,$value))
+        if (preg_match($r, $value))
           $valid++;
       }
-      if ($valid<$options['params']['minValidRegex'])
+      if ($valid < $minValidRegex)
         return;
     }
 
-    if(isset($options['params']['prohibitedValues']) && is_array($options['params']['prohibitedValues'])) {
-      if (in_array($value,$options['params']['prohibitedValues']))
-        return;
-    }
-    
+    $prohibitedValues = LSconfig :: get('params.prohibitedValues', null, null, $options);
+    if(is_array($prohibitedValues) && in_array($value, $prohibitedValues))
+      return;
+
     return true;
   }
-  
+
 }
 
 

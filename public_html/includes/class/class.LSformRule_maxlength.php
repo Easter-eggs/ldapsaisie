@@ -31,19 +31,20 @@ class LSformRule_maxlength extends LSformRule {
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Longueur max : $options['params']['limit']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
    */
   public static function validate ($value,$options,$formElement) {
-    if(!isset($options['params']['limit'])) {
+    $limit = LSconfig :: get('params.limit', null, 'int', $options);
+    if(is_null($limit)) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'maxlength', 'param' => 'limit'));
       return;
     }
-    return (strlen($value)<=$options['params']['limit']);
+    return (strlen($value) <= $limit);
   }
-  
+
 }
 

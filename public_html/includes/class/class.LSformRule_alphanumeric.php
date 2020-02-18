@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_alphanumeric extends LSformRule {
-  
+
   /**
    * Vérification de la valeur.
    *
@@ -39,8 +39,7 @@ class LSformRule_alphanumeric extends LSformRule {
    */
   public static function validate ($value,$options=array(),$formElement) {
 
-
-     if (isset($options['params']['withAccents']) && $options['params']['withAccents'] == true){
+     if (LSconfig :: get('params.withAccents', false, 'bool', $options)) {
          $regex = '/(*UTF8)^[0-9\p{L}]+$/';
      }
      else {
@@ -50,6 +49,6 @@ class LSformRule_alphanumeric extends LSformRule {
      return LSformRule_regex :: validate($value,$regex,$formElement);
 
   }
-  
+
 }
 

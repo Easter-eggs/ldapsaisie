@@ -26,23 +26,24 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_inarray extends LSformRule {
-  
+
   /**
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Regex : $option['params']['possible_values'] ou $option
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
-   */ 
+   */
   public static function validate($value,$option,$formElement) {
-    if (!isset($option['params']['possible_values']) || !is_array($option['params']['possible_values'])) {
+    $possible_values = LSconfig :: get('params.possible_values', null, null, $options);
+    if (!is_array($possible_values)) {
       LSerror :: addErrorCode('LSformRule_inarray_01');
       return;
     }
-    if (!in_array($value,$option['params']['possible_values']))
+    if (!in_array($value, $possible_values))
       return false;
     return true;
   }

@@ -31,7 +31,7 @@ class LSformRule_filesize extends LSformRule {
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Taille max (en octet) : $options['params']['maxSize']
    *                              - Taille min (en octet) : $options['params']['minSize']
    * @param object $formElement L'objet formElement attaché
@@ -40,23 +40,19 @@ class LSformRule_filesize extends LSformRule {
    */
   public static function validate ($value,$options,$formElement) {
     $file = LSsession :: getTmpFile($value);
-    
-    $size = filesize($file);
-    
-    if (is_int($options['params']['maxSize'])) {
-      if ($size > $options['params']['maxSize']) {
-        return;
-      }
-    }
 
-    if (is_int($options['params']['minSize'])) {
-      if ($size < $options['params']['minSize']) {
-        return;
-      }
-    }
-    
+    $size = filesize($file);
+
+    $maxSize = LSconfig :: get('params.maxSize', null, 'int', $options);
+    if (is_int($maxSize) && $size > $maxSize)
+      return;
+
+    $minSize = LSconfig :: get('params.minSize', null, 'int', $options);
+    if (is_int($minSize) && $size < $minSize)
+      return;
+
     return true;
   }
-  
+
 }
 

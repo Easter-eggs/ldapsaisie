@@ -33,7 +33,7 @@ class LSformRule_imagefile extends LSformRule {
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Type MIME : $options['params']['mimeType']
    *                              - Type MIME (regex) : $options['params']['mimeTypeRegEx']
    * @param object $formElement L'objet formElement attaché
@@ -42,19 +42,21 @@ class LSformRule_imagefile extends LSformRule {
    */
   public static function validate ($value,$options,$formElement) {
     $file = LSsession :: getTmpFile($value);
-    
+
     $mimetype = mime_content_type($file);
-    
-    if ( (!isset($options['params']['mimeType'])) && (!isset($options['params']['mimeTypeRegEx'])) ) {
+
+    $mimeType = LSconfig :: get('params.mimeType', null, null, $options);
+    $mimeTypeRegEx = LSconfig :: get('params.mimeTypeRegEx', null, null, $options);
+    if ( is_null($mimeType) && is_null($mimeTypeRegEx)) {
       $options = array(
         'params' => array(
           'mimeTypeRegEx' => '/image\/.*/'
         )
       );
     }
-    
+
     return LSformRule_mimetype :: validate($value,$options,$formElement);
   }
-  
+
 }
 

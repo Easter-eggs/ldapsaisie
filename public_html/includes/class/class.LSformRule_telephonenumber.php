@@ -26,12 +26,12 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_telephonenumber extends LSformRule {
- 
+
  /**
    * Vérification de la valeur.
    *
    * @param string $value Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon

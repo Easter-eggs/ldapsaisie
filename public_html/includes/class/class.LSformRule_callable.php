@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_callable extends LSformRule {
-  
+
   /**
    * Check the value using the callable object
    *
@@ -40,15 +40,21 @@ class LSformRule_callable extends LSformRule {
    * @param object $formElement The LSformElement object
    *
    * @return boolean true if the value is valid, false otherwise
-   */ 
+   */
   public static function validate($value,$options,$formElement) {
-    if (is_callable($options['params']['callable'])) {
-      return call_user_func_array($options['params']['callable'],array($value,$options['params'],&$formElement));
-    }
-    else {
-      LSerror :: addErrorCode('LSformRule_callable_01');
-      return False;
-    }
+    $callable = LSconfig :: get('params.callable', null, null, $options);
+    if (is_callable($callable))
+      return call_user_func_array(
+        $callable,
+        array(
+          $value,
+          LSconfig :: get('params', array(), null, $options),
+          &$formElement
+        )
+      );
+
+    LSerror :: addErrorCode('LSformRule_callable_01');
+    return False;
   }
 
 }

@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_ssh_pub_key extends LSformRule {
-  
+
   /**
    * Validate SSH public key value
    *
@@ -35,7 +35,7 @@ class LSformRule_ssh_pub_key extends LSformRule {
    * @param object $formElement The related formElement object
    *
    * @return boolean true if the value is valide, false if not
-   */ 
+   */
   public static function validate($value,$options,$formElement) {
     if (preg_match('/^(ssh-[a-z0-9]+) +([^ ]+) +(.*)$/', $value, $m)) {
       $data=@base64_decode($m[2]);

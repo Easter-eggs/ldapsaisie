@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_compare extends LSformRule {
-  
+
   /**
    * Retourne l'operateur de comparaison.
    *
@@ -61,18 +61,19 @@ class LSformRule_compare extends LSformRule {
    * Vérification des valeurs.
    *
    * @param string $values Valeurs à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Operateur : $options['params']['operator']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
    */
   public static function validate ($values,$options=array(),$formElement) {
-    if (!isset($options['params']['operator'])) {
+    $operator = LSconfig :: get('params.operator', null, 'string', $options);
+    if (!$operator) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'compare', 'param' => 'operator'));
       return;
     }
-    $operator = self :: _findOperator($options['params']['operator']);
+    $operator = self :: _findOperator($operator);
     if ('==' != $operator && '!=' != $operator) {
       $compareFn = create_function('$a, $b', 'return floatval($a) ' . $operator . ' floatval($b);');
     }
@@ -81,6 +82,6 @@ class LSformRule_compare extends LSformRule {
     }
     return $compareFn($values[0], $values[1]);
   }
-  
+
 }
 

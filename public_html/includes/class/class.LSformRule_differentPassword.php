@@ -31,17 +31,18 @@ class LSformRule_differentPassword extends LSformRule {
    * Check the value
    *
    * @param string $values Value to check
-   * @param array $options Validation options : 
-   *                              - Other attribute : $options['params']['otherAttributes']
+   * @param array $options Validation options :
+   *                              - Other attribute : $options['params']['otherPasswordAttributes']
    * @param object $formElement The linked LSformElement object
    *
    * @return boolean true si la valeur est valide, false sinon
    */
   public static function validate($value, $options, $formElement) {
-    if (is_array($options) && isset($options['params']['otherPasswordAttributes'])) {
+    $otherPasswordAttributes = LSconfig :: get('params.otherPasswordAttributes', null, null, $options);
+    if (!is_null($otherPasswordAttributes)) {
       // Make sure otherPasswordAttributes is an array
-      if (!is_array($options['params']['otherPasswordAttributes']))
-        $options['params']['otherPasswordAttributes'] = array($options['params']['otherPasswordAttributes']);
+      if (!is_array($otherPasswordAttributes))
+        $otherPasswordAttributes = array($otherPasswordAttributes);
 
       // Load LSattr_ldap_password
       if (!LSsession :: loadLSclass("LSattr_ldap_password")) {
@@ -50,7 +51,7 @@ class LSformRule_differentPassword extends LSformRule {
       }
 
       // Iter on otherPasswordAttributes to check password does not match
-      foreach($options['params']['otherPasswordAttributes'] as $attr) {
+      foreach($otherPasswordAttributes as $attr) {
         // Check attribute exist
         if (!isset($formElement -> attr_html -> attribute -> ldapObject -> attrs[$attr])) {
           LSerror :: addErrorCode('LSformRule_differentPassword_03', $attr);

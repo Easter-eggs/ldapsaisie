@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_LSformElement_select_validValue extends LSformRule {
-  
+
   /**
    * Validate value
    *
@@ -35,7 +35,7 @@ class LSformRule_LSformElement_select_validValue extends LSformRule {
    * @param object $formElement The related formElement object
    *
    * @return boolean true if the value is valide, false if not
-   */ 
+   */
   public static function validate($value,$option,$formElement) {
     $ret = $formElement -> isValidValue($value);
     if ($ret===False) return False;

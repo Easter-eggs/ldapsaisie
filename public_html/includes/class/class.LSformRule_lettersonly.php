@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_lettersonly extends LSformRule {
-  
+
   /**
    * Vérification de la valeur.
    *
@@ -41,6 +41,6 @@ class LSformRule_lettersonly extends LSformRule {
     LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);
   }
-  
+
 }
 

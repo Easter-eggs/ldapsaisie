@@ -35,10 +35,10 @@ class LSformRule_required extends LSformRule {
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
-   */ 
+   */
   public static function validate ($value,$options=NULL,$formElement) {
     return ((string)$value != '');
   }
-  
+
 }
 

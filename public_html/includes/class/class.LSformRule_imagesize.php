@@ -31,7 +31,7 @@ class LSformRule_imagesize extends LSformRule {
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Largeur max : $options['params']['maxWidth']
    *                              - Largeur min : $options['params']['minWidth']
    *                              - Hauteur max : $options['params']['maxHeight']
@@ -43,30 +43,25 @@ class LSformRule_imagesize extends LSformRule {
   public static function validate ($value,$options,$formElement) {
     $file = LSsession :: getTmpFile($value);
     list($width, $height, $type, $attr) = getimagesize($file);
-    
-    if (is_int($options['params']['maxWidth'])) {
-      if ($width > $options['params']['maxWidth']) {
-        return;
-      }
-    }
-    if (is_int($options['params']['minWidth'])) {
-      if ($width < $options['params']['minWidth']) {
-        return;
-      }
-    }
-    if (is_int($options['params']['maxHeight'])) {
-      if ($height > $options['params']['maxHeight']) {
-        return;
-      }
-    }
-    if (is_int($options['params']['minHeight'])) {
-      if ($height < $options['params']['minHeight']) {
-        return;
-      }
-    }
-    
+
+    $maxWidth = LSconfig :: get('params.maxWidth', null, 'int', $options);
+    if (is_int($maxWidth) && $width > $maxWidth)
+      return;
+
+    $minWidth = LSconfig :: get('params.minWidth', null, 'int', $options);
+    if (is_int($minWidth) && $width < $minWidth)
+      return;
+
+    $maxHeight = LSconfig :: get('params.maxHeight', null, 'int', $options);
+    if (is_int($maxHeight) && $height > $maxHeight)
+      return;
+
+    $minHeight = LSconfig :: get('params.minHeight', null, 'int', $options);
+    if (is_int($minHeight) && $height < $minHeight)
+      return;
+
     return true;
   }
-  
+
 }
 

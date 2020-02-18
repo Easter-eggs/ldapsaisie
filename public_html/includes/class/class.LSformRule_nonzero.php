@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_nonzero extends LSformRule {
-  
+
   /**
    * Vérification de la valeur.
    *
@@ -35,12 +35,12 @@ class LSformRule_nonzero extends LSformRule {
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
-   */ 
+   */
   public static function validate ($value,$options,$formElement) {
     $regex = '/^-?[1-9][0-9]*/';
     LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);
   }
-  
+
 }
 

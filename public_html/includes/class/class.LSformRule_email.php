@@ -26,19 +26,23 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_email extends LSformRule {
- 
+
  /**
    * Vérification de la valeur.
    *
    * @param string $value Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                                  - Check domain : $options['params']['checkDomain']
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
    */
   public static function validate($value,$options=array(),$formElement) {
-    return checkEmail($value,$options['params']['domain'],$options['params']['checkDomain']);
+    return checkEmail(
+      $value,
+      LSconfig :: get('params.domain', NULL, 'string', $options),
+      LSconfig :: get('params.checkDomain', true, 'bool', $options)
+    );
   }
 
 }

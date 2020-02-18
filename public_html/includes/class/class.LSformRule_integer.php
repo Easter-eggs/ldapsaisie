@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_integer extends LSformRule{
-  
+
   /**
    * Verification value.
    *
@@ -41,16 +41,18 @@ class LSformRule_integer extends LSformRule{
    * @return boolean true if the value is valided, false otherwise
    */
   public static function validate ($value,$options=array(),$formElement) {
-    if($options['params']['max'] && $value > $options['params']['max']) {
+    $max = LSconfig :: get('params.max', null, 'int', $options);
+    if(is_int($max) && $value > $max)
       return;
-    }
-    if($options['params']['min'] && $value < $options['params']['min']) {
+
+    $min = LSconfig :: get('params.min', null, 'int', $options);
+    if(is_int($min) && $value < $min)
       return;
-    }
-    if($options['params']['negative']) {
+
+    if(LSconfig :: get('params.negative', false, 'bool', $options)) {
       $regex = '/^-[0-9]*$/';
     }
-    elseif($options['params']['positive']) {
+    elseif(LSconfig :: get('params.positive', false, 'bool', $options)) {
       $regex = '/^[0-9]*$/';
     }
     else {
@@ -59,6 +61,6 @@ class LSformRule_integer extends LSformRule{
     LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);
   }
-  
+
 }
 

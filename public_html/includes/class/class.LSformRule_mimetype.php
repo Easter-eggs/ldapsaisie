@@ -31,7 +31,7 @@ class LSformRule_mimetype extends LSformRule {
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Type MIME : $options['params']['mimeType']
    *                              - Type MIME (regex) : $options['params']['mimeTypeRegEx']
    * @param object $formElement L'objet formElement attaché
@@ -40,30 +40,26 @@ class LSformRule_mimetype extends LSformRule {
    */
   public static function validate ($value,$options,$formElement) {
     $file = LSsession :: getTmpFile($value);
-    
-    $mimetype = mime_content_type($file);
-    
-    if (isset($options['params']['mimeType'])) {
-      if (is_array($options['params']['mimeType'])) {
-        if (!in_array($mimetype,$options['params']['mimeType'])) {
+    $real_mimetype = mime_content_type($file);
+
+    $mimetype = LSconfig :: get('params.mimeType', null, null, $options);
+    if (!is_null($mimetype)) {
+      if (is_array($mimetype)) {
+        if (!in_array($real_mimetype, $mimetype))
           return;
-        }
       }
       else {
-        if ($mimetype != $options['params']['mimeType']) {
+        if ($real_mimetype != $mimetype)
           return;
-        }
       }
     }
-    
-    if (isset($options['params']['mimeTypeRegEx'])) {
-      if (!preg_match($options['params']['mimeTypeRegEx'], $mimetype)) {
-        return false;
-      }
-    }
-    
+
+    $mimeTypeRegEx = LSconfig :: get('params.mimeTypeRegEx', null, 'string', $options);
+    if (is_string($mimeTypeRegEx) && !preg_match($mimeTypeRegEx, $real_mimetype))
+      return false;
+
     return true;
   }
-  
+
 }
 

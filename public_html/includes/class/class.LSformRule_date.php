@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_date extends LSformRule {
-  
+
   /**
    * Validation de données
   *
@@ -38,11 +38,12 @@ class LSformRule_date extends LSformRule {
   * @return boolean True si les données sont valide, False sinon.
   */
   public static function validate($value,$options=NULL,$formElement) {
-    if (!isset($options['params']['format'])) {
+    $format = LSconfig :: get('params.format', null, 'string', $options);
+    if (is_null($format)) {
       LSerror :: addErrorCode('LSformRule_date_01');
       return;
     }
-    $date = strptime($value,$options['params']['format']);
+    $date = strptime($value, $format);
     if(is_array($date)) {
       $res = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900);
       if ((is_int($res)) && ($res != -1) && ($res !== False)) {

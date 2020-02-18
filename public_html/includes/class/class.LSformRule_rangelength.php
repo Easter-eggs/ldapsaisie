@@ -26,26 +26,27 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_rangelength extends LSformRule {
- 
+
   /**
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Longueur min : $options['params']['limits'][0]
    *                              - Longueur max : $options['params']['limits'][1]
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
-   */ 
+   */
   public static function validate ($value,$options=array(),$formElement) {
-    if(!isset($options['params']['limits'])) {
+    $limits = LSconfig :: get('params.limits', null, null, $options);
+    if(!is_array($limits) || count($limits) != 2) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'rangelength', 'param' => 'limits'));
       return;
     }
-    $len=strlen($value);
-    return ($len >= $options['params']['limits'][0] && $len <= $options['params']['limits'][1]);
+    $len = strlen($value);
+    return ($len >= $limits[0] && $len <= $limits[1]);
   }
-  
+
 }
 

@@ -26,34 +26,31 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_regex extends LSformRule {
-  
+
   /**
    * Vérification de la valeur.
    *
    * @param string $values Valeur à vérifier
-   * @param array $options Options de validation : 
+   * @param array $options Options de validation :
    *                              - Regex : $options['params']['regex'] ou $options
    * @param object $formElement L'objet formElement attaché
    *
    * @return boolean true si la valeur est valide, false sinon
-   */ 
-  public static function validate($value,$options,$formElement) {
+   */
+  public static function validate($value, $options, $formElement) {
     if (is_array($options)) {
-      if (isset($options['params']['regex'])) {
-        $regex=$options['params']['regex'];
-      }
-      else {
+      $regex = LSconfig :: get('params.regex', null, 'string', $options);
+      if (!is_string($regex)) {
         LSerror :: addErrorCode('LSformRule_regex_01');
         return;
       }
     }
     else {
-      $regex=$options;
+      $regex = $options;
     }
-    if (!preg_match($regex, $value)) {
+    if (!preg_match($regex, $value))
       return false;
-   }
-   return true;
+    return true;
   }
 
 }
