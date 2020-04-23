@@ -1,18 +1,19 @@
 var LSformElement_mail = new Class({
     initialize: function(){
+      this.fields = [];
       this.initialiseLSformElement_mail();
       if (typeof(varLSform) != "undefined") {
         varLSform.addModule("LSformElement_mail",this);
       }
       this.LSmail_open = 0;
     },
-    
+
     initialiseLSformElement_mail: function(el) {
       if (typeof(el) == 'undefined') {
         el = document;
       }
       el.getElements('input.LSformElement_mail').each(function(input) {
-	if (!input.hasClass('LSformElement_mail_disableMailSending')) {
+    	if (!input.hasClass('LSformElement_mail_disableMailSending')) {
           this.addBtnAfter.bind(this)(input);
         }
       }, this);
@@ -21,8 +22,18 @@ var LSformElement_mail = new Class({
           this.addBtnAfter.bind(this)(a);
         }
       }, this);
+      var getName = /^(.*)\[\]$/;
+      el.getElements('input.LSformElement_mail_autocomplete').each(function(input) {
+        this.fields.push(
+          new LSformElement_mail_field(
+            getName.exec(input.name)[1],
+            input
+          )
+        );
+      }, this);
+
     },
-    
+
     addBtnAfter: function(el) {
       var btn = new Element('img');
       btn.setProperties({
@@ -33,12 +44,12 @@ var LSformElement_mail = new Class({
       btn.addEvent('click',this.onBtnClick.bind(this,btn));
       varLSdefault.addHelpInfo(btn,'LSformElement_mail','mail');
     },
-    
+
     reinitialize: function(el) {
       varLSform.initializeModule('LSformElement_text',el);
       this.initialiseLSformElement_mail(el);
     },
-    
+
     onBtnClick: function(btn) {
       if (this.LSmail_open==0) {
         var mail = btn.getParent().getFirst().innerHTML;
@@ -58,12 +69,12 @@ var LSformElement_mail = new Class({
         }
       }
     },
-    
+
     onLSmailClose: function(LSmail) {
       LSdebug('LSformElement_mail : close LSmail');
       this.LSmail_open = 0;
     },
-    
+
     onLSmailValid: function(LSmail) {
       LSdebug('LSformElement_mail : valid LSmail');
       LSmail.send();

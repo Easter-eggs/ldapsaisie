@@ -1,13 +1,51 @@
 <sect4 id="config-LSattr_html_mail">
   <title>LSattr_html_mail</title>
   <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
-  une adresse e-mail. Il propose directement dans l'interface, la possibilité
-  d'envoyer des mails à l'adresse saisie.</para>
+  une adresse e-mail. Il offre les fonctionnalités suivantes :
+  <itemizedlist>
+    <listitem><simpara>la possibilité d'envoyer des mails directement depuis l'interface
+    de l'application ;</simpara></listitem>
+    <listitem><simpara>l'autocomplétion lors de la saisie d'une adresse.</simpara></listitem>
+  </itemizedlist>
+  </para>
 
 <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['html_options' => array(
-  'disableMailSending' => [booléen]
+  'disableMailSending' => [booléen],
+
+  // Autocomplétion pour un type d'LSobject donné
+  'autocomplete' => array (
+    'object_type' => '[Type d'LSobject]',
+    'mail_attributes' => array (
+      'mail',
+      'mailAlternateAddress',
+      [...]
+    ),
+    'filter' => '[filtre LDAP]',
+    'basedn' => '[base DN spécifique]',
+    'scope' => '[scope de recherche]',
+    'displayFormat' => '[LSformat]',
+    'onlyAccessible' => [booléen],
+  ),
+
+  // Autocomplétion sur la base d'une recherche LDAP brute
+  'autocomplete' => array (
+    'mail_attributes' => array (
+      'mail',
+      'mailAlternateAddress',
+      [...]
+    ),
+    'filter' => '[filtre LDAP]',
+    'basedn' => '[base DN spécifique]',
+    'scope' => '[scope de recherche]',
+    'displayFormat' => '[LSformat]',
+    'onlyAccessible' => [booléen],
+  ),
+
+  // Autocomplétion (par défaut)
+  'autocomplete' => true,
+
 ),]]>
 ...
 </programlisting>
@@ -25,9 +63,89 @@
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>autocomplete</term>
+  <listitem>
+    <para>Paramètrage de l'autocomplétion des adresses mails saisies : Il peut s'agir
+    d'un tableau configurant les paramètres de l'autocomplétion ou simplement
+    <literal>true</literal> pour activer l'autocomplétion par défaut, c'est à dire la recherche brute
+    dans l'annuaire de n'importe quel objet ayant l'attribut <literal>mail</literal>.</para>
+    <para>En cas de configuration avancée, il est possible de faire une recherche :
+    <itemizedlist>
+      <listitem><simpara>Sur la base d'un type d'&LSobject; donné : l'autocomplétion se fera
+      alors comme n'importe quelle recherche d'un type d'objet donné.</simpara></listitem>
+      <listitem><simpara>Sur la base d'une recherche brute dans l'annuaire : l'autocomplétion se
+      fera alors sur la valeur de l'adresse mail recherchée et au travers une recherche brute dans
+      l'annuaire sur n'importe quels objets ayant une adresse email correspondant.</simpara></listitem>
+    </itemizedlist>
+    </para>
+    <para>Les paramètres associés à ces deux cas de figure sont décrits ci-dessous :
+      <variablelist>
+
+<varlistentry>
+  <term>object_type</term>
+  <listitem>
+    <simpara>Le type d'&LSobject; recherché.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>mail_attributes</term>
+  <listitem>
+    <simpara>Le(s) nom de l'attribut stockant les adresses emails recherchées. Il peut s'agir d'une chaîne
+    de caractères ou d'un tableau s'il y a plusieurs attributs.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>filter</term>
+  <listitem>
+    <simpara>Un filtre de recherche falcultatif venant en plus de celui calculé automatiquement à partir
+    du mot clé de recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>basedn</term>
+  <listitem>
+    <simpara>Le <emphasis>basedn</emphasis> de la recherche. <emphasis>Paramètre
+    facultatif.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>scope</term>
+  <listitem>
+    <simpara>Le <emphasis>scope</emphasis> de la recherche. <emphasis>Paramètre
+    facultatif, par défaut : <literal>sub</literal>.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>displayFormat</term>
+  <listitem>
+    <simpara>Le &LSformat; d'affichage des objets trouvés. Ce paramètre est facultatif et par défaut,
+    il s'agira du format d'affichage propre au type d'&LSobject; (si défini) et à défaut, l'adresse
+    mail trouvée sera affichée.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>onlyAccessible</term>
+  <listitem>
+    <simpara>Booléen falcultatif définissant si seul les &LSobjects; auxquels l'utilisateur connecté à accès
+    doivent être considérés comme sélectionnables (Faux par défaut). Ce paramètre n'est appliqué que dans
+    le cas d'une recherche pour un type d'&LSobject; donné.</simpara>
+  </listitem>
+</varlistentry>
+      </variablelist>
+    </para>
+  </listitem>
+</varlistentry>
+
 </variablelist>
 
-  <important><simpara>Ce type d'attribut HTML est dérivé du type 
+  <important><simpara>Ce type d'attribut HTML est dérivé du type
   <link linkend='config-LSattr_html_text'>text</link>. Il profite donc de toutes
   les fonctionnalités d'un champ de ce type (autogénération, ...).</simpara>
   </important>
