@@ -510,6 +510,7 @@ class LSsession {
 
       self :: startLSerror();
       self :: startLSlog();
+      self :: loadLScli();
       self :: startLStemplate();
 
       if (php_sapi_name() != "cli")
