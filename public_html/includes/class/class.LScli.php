@@ -73,10 +73,12 @@ class LScli {
       echo "$error\n\n";
 
     echo "Usage : ".basename($argv[0])." [-h] [-qdC] command\n";
-    echo "  -h            Show this message\n";
-    echo "  -q|--quiet    Quiet mode\n";
-    echo "  -d|--debug    Debug mode\n";
-    echo "  -C|--console  Log on console\n";
+    echo "  -h                Show this message\n";
+    echo "  -q|--quiet        Quiet mode\n";
+    echo "  -d|--debug        Debug mode\n";
+    echo "  -C|--console      Log on console\n";
+    echo "  -L|--load-class   Load specific class to permit access to its CLI commands\n";
+    echo "  -A|--load-addons  Load specific addon to permit access to its CLI commands\n";
     echo "  command       Command to run\n";
     echo "\n";
     echo "Available commands :\n";
@@ -132,6 +134,20 @@ class LScli {
           case '-C':
           case '--console':
             LSlog :: logOnConsole();
+            break;
+          case '-L':
+          case '--load-class':
+            $i++;
+            $class = $argv[$i];
+            if(!LSsession :: loadLSclass($class))
+              self :: usage("Fail to load class '$class'.");
+            break;
+          case '-A':
+          case '--load-addon':
+            $i++;
+            $addon = $argv[$i];
+            if(!LSsession :: loadLSaddon($addon))
+              self :: usage("Fail to load addon '$addon'.");
             break;
           default:
             if ($command)
