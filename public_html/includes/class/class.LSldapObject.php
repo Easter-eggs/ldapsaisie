@@ -1872,6 +1872,61 @@ class LSldapObject {
     }
     return "<LdapObject (new)>";
   }
+
+  public static function cli_show($command_args) {
+    $objType = null;
+    $dn = null;
+    $raw_values = false;
+    foreach ($command_args as $arg) {
+      if ($arg == '-r' || $arg == '--raw-value')
+        $raw_values = true;
+      elseif (is_null($objType)) {
+        $objType = $arg;
+      }
+      elseif (is_null($dn)) {
+        $dn = $arg;
+      }
+      else
+        LScli :: usage("Invalid $arg parameter.");
+    }
+
+    if (is_null($objType) || is_null($dn))
+      LScli :: usage('You must provide LSobject type and DN.');
+
+    if (!LSsession :: loadLSobject($objType))
+      return false;
+
+    $obj = new $objType();
+    if (!$obj->loadData($dn)) {
+      LSlog :: fatal("Fail to load object $dn data from LDAP");
+      return false;
+    }
+
+    echo $obj -> _cli_show($raw_values);
+
+    return true;
+  }
+
+  public function _cli_show($raw_values) {
+    echo $this -> type_name." (".($this -> dn?$this -> dn:'new').") :\n";
+    foreach ($this -> attrs as $attr_name => $attr) {
+      echo "  - $attr_name :";
+      $values = ($raw_values?$attr->getValue():$attr->getDisplayValue());
+      if (empty($values)) {
+        echo " empty\n";
+        continue;
+      }
+      if (!is_array($values)) $values = array($values);
+
+      // Truncate values if too long
+      for ($i=0; $i < count($values); $i++)
+        if (strlen($values[$i]) > 70)
+          $values[$i] = substr($values[$i], 0, 65)."[...]";
+      echo (count($values) > 1?"\n    - ":" ");
+      echo  implode("\n    - ", $values);
+      echo "\n";
+    }
+  }
 }
 
 /**
@@ -1994,4 +2049,12 @@ _("LSldapObject : Error during generating container DN : %{error}")
 // LSrelation
 LSerror :: defineError('LSrelations_05',
 _("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
+);
+
+// LScli
+LScli :: add_command(
+    'show',
+    array('LSldapObject', 'cli_show'),
+    'Show an LSobject',
+    '[object type] [dn] [-r|--raw-values]'
 );
