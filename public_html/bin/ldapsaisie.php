@@ -25,6 +25,11 @@ require_once realpath(dirname(__FILE__)."/../")."/core.php";
 
 if(LSsession :: startCliLSsession()) {
 
+  // Load some default classes
+  foreach(array('LSsearch', 'LSldapObject') as $class)
+    if (!LSsession :: loadLSClass($class))
+      LSlog :: fatal("Fail to load class $class.");
+
   // Handle CLI arguments and run command (if provided)
   LScli :: handle_args();
 
