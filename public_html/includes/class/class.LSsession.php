@@ -100,9 +100,21 @@ class LSsession {
   */
   public static function includeFile($file, $external=false) {
     $path = ($external?'':LS_ROOT_DIR."/").$file;
-    $local_path = ($external?'':LS_ROOT_DIR."/").LS_LOCAL_DIR.'/'.$file;
+    $local_path = ($external?'':LS_ROOT_DIR."/").LS_LOCAL_DIR.$file;
     $path = (file_exists($local_path)?$local_path:$path);
-    if (!file_exists($path)) {
+    if ($path[0] != '/') {
+      $found = stream_resolve_include_path($path);
+      if ($found === false) {
+        LSlog :: debug("includeFile($file, external=$external) : file $path not found in include path.");
+        return;
+      }
+      else {
+        LSlog :: debug("includeFile($file, external=$external) : file '$path' found in include path as '$found'.");
+        $path = $found;
+      }
+    }
+    else if (!file_exists($path)) {
+      LSlog :: debug("includeFile($file, external=$external) : file not found ($local_path / $path)");
       return;
     }
     return include_once($path);
