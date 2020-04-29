@@ -1873,6 +1873,18 @@ class LSldapObject {
     return "<LdapObject (new)>";
   }
 
+  /**
+   * CLI show command
+   *
+   * @param[in] $command_args array Command arguments :
+   *   - Positional arguments :
+   *     - LSobject type
+   *     - object DN
+   *   - Optional arguments :
+   *     - -r|--raw-values : show raw values (instead of display ones)
+   *
+   * @retval boolean True on succes, false otherwise
+   **/
   public static function cli_show($command_args) {
     $objType = null;
     $dn = null;
@@ -1907,6 +1919,13 @@ class LSldapObject {
     return true;
   }
 
+  /**
+   * CLI helper to show the object info
+   *
+   * @param[in] $raw-values bool Show attributes raw values (instead of display ones)
+   *
+   * @retval void
+   **/
   public function _cli_show($raw_values) {
     echo $this -> type_name." (".($this -> dn?$this -> dn:'new').") :\n";
     foreach ($this -> attrs as $attr_name => $attr) {
