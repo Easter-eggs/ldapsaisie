@@ -275,22 +275,18 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Patterm
     if (isset($params['pattern'])) {
       if ($params['pattern']=="") {
         $this -> params['pattern'] = NULL;
-        $this -> params['filter'] = NULL;
       }
       elseif ($this -> isValidPattern($params['pattern'])) {
         $this -> params['pattern'] = $params['pattern'];
-        if (!is_string($params['filter'])) {
-          $this -> params['filter']=NULL;
-        }
       }
     }
-    
-    
+
+
     // BaseDN
     if (isset($params['basedn']) && is_string($params['basedn'])) {
       if (isCompatibleDNs(LSsession :: getRootDn(),$params['basedn'])) {
