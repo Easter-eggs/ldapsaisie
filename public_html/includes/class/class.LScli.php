@@ -77,6 +77,9 @@ class LScli {
     echo "  -q|--quiet        Quiet mode\n";
     echo "  -d|--debug        Debug mode\n";
     echo "  -C|--console      Log on console\n";
+    echo "  -S|--ldap-server  Connect to a specific LDAP server: you could specify a LDAP\n";
+    echo "                    server by its declaration order in configuration (default:\n";
+    echo "                    first one).\n";
     echo "  -L|--load-class   Load specific class to permit access to its CLI commands\n";
     echo "  -A|--load-addons  Load specific addon to permit access to its CLI commands\n";
     echo "  command       Command to run\n";
@@ -107,6 +110,7 @@ class LScli {
   public static function handle_args() {
     global $argv;
     $log_level = 'INFO';
+    $ldap_server_id = false;
     $command = false;
     $command_args = array();
     LSlog :: debug("handle_args :\n".varDump($argv));
@@ -134,6 +138,13 @@ class LScli {
           case '-C':
           case '--console':
             LSlog :: logOnConsole();
+            break;
+          case '-S':
+          case '--ldap-server':
+            $i++;
+            $ldap_server_id = intval($argv[$i]);
+            if(!LSsession :: setLdapServer($ldap_server_id))
+              self :: usage("Fail to select LDAP server #$ldap_server_id.");
             break;
           case '-L':
           case '--load-class':
@@ -167,6 +178,12 @@ class LScli {
       LSlog :: debug("LScli :: handle_args() : no detected command => show usage");
       self :: usage();
     }
+
+    // Connect to LDAP server
+    if ($ldap_server_id === false && !LSsession :: setLdapServer(0))
+      LSlog :: fatal('Fail to select first LDAP server.');
+    if (!LSsession :: LSldapConnect())
+      LSlog :: fatal('Fail to connect to LDAP server.');
 
     // Run command
     LSlog :: debug('Run '.basename($argv[0])." command $command with argument(s) '".implode("', '", $command_args)."'");
