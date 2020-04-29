@@ -359,6 +359,11 @@ class LSsearch {
       }
     }
 
+    // Extra Columns
+    if (isset($params['extraDisplayedColumns'])) {
+      $this -> params['extraDisplayedColumns']=(bool)$params['extraDisplayedColumns'];
+    }
+
     // Sort Limit
     if (isset($params['sortlimit'])) {
       if (is_int($params['sortlimit']) && $params['sortlimit']>=0 ) {
@@ -471,11 +476,6 @@ class LSsearch {
         LSerror :: addErrorCode('LSsearch_06');
         $OK=false;
       }
-    }
-
-    // Extra Columns
-    if (isset($params['extraDisplayedColumns'])) {
-      $this -> params['extraDisplayedColumns']=(bool)$params['extraDisplayedColumns'];
     }
 
     // predefinedFilter
