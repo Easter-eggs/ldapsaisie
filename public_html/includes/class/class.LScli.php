@@ -155,7 +155,7 @@ class LScli {
     // Run command
     LSlog :: debug('Run '.basename($argv[0])." command $command with argument(s) '".implode("', '", $command_args)."'");
     try {
-      $result = call_user_func($cli_commands[$command]['handler'], $command_args);
+      $result = call_user_func(self :: $commands[$command]['handler'], $command_args);
 
       exit($result?0:1);
     }
