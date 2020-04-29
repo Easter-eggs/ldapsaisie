@@ -30,13 +30,13 @@ if(LSsession :: startLSsession()) {
   else if (isset($_GET['LSobject'])) {
     $LSobject = $_GET['LSobject'];
   }
-  
+
   if (isset($LSobject)) {
     // LSObject creation
     if (LSsession ::loadLSobject($LSobject)) {
       if ( LSsession :: canCreate($LSobject) ) {
         $object = new $LSobject();
-        
+
         if (isset($_GET['load']) && $_GET['load']!='') {
           $form = $object -> getForm('create',urldecode($_GET['load']));
         }
@@ -138,4 +138,3 @@ else {
   LSsession :: setTemplate('login.tpl');
 }
 LSsession :: displayTemplate();
-

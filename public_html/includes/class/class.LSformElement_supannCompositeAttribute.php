@@ -36,10 +36,10 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 
   var $template = 'LSformElement_supannCompositeAttribute.tpl';
   var $fieldTemplate = 'LSformElement_supannCompositeAttribute_field.tpl';
-  
+
   /*
-   * Composants des valeurs composites : 
-   * 
+   * Composants des valeurs composites :
+   *
    * Format :
    *   array (
    *     '[clé composant1]' => array (
@@ -57,18 +57,18 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
    *   - 'table' => Composant alimenté à partir d'une table issu de la
    *                nomenclature SUPANN. Le paramètre 'table' permet alors
    *                de spécifier quel table SUPANN intéroger.
-   *   - 'codeEntite' => Composant stockant le code d'une entite SUPANN de 
+   *   - 'codeEntite' => Composant stockant le code d'une entite SUPANN de
    *                     l'annuaire.
    *   - 'text' => saisie manuelle
-   * 
+   *
    */
   var $components = array ();
-  
+
   var $_postParsedData=null;
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -116,8 +116,8 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 	}
     return $return;
   }
-  
-    
+
+
  /**
   * Retourne le code HTML d'un champ vide
   *
@@ -126,18 +126,18 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
   public function getEmptyField() {
     return $this -> fetchTemplate($this -> fieldTemplate,array('components' => $this -> components));
   }
-  
+
   /**
    * Traduit la valeur d'un composant
-   * 
+   *
    * Retourne un array contenant :
    *  - label : l'étiquette de la valeur ou 'no' sinon
    *  - value : la valeur brute
    *  - translated : la valeur traduite ou la valeur elle même
-   * 
-   * @param[in] $c string Le nom du composant 
+   *
+   * @param[in] $c string Le nom du composant
    * @param[in] $val string La valeur
-   * 
+   *
    * @retval array
    **/
 	function translateComponentValue($c,$val) {
@@ -161,7 +161,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 		}
 		return $retval;
 	}
-	
+
   /**
    * Recupère la valeur de l'élement passée en POST
    *
@@ -176,7 +176,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
     if($this -> isFreeze()) {
       return true;
     }
-   
+
     $count=0;
     $end=false;
     $parseValues=array();
@@ -239,7 +239,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 				$end=true;
 				break;
 			}
-			
+
 		}
 		if (!$end) {
 			if (!empty($unemptyComponents)) {
@@ -255,12 +255,12 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 	$this -> _postParsedData=$parseValues;
     return true;
   }
-  
+
   /**
    * This ajax method is used by the searchComponentPossibleValues function of the form element.
    *
    * @param[in] $data The address to the array of data witch will be return by the ajax request
-   * 
+   *
    * @retval void
    **/
   public static function ajax_searchComponentPossibleValues(&$data) {
@@ -275,7 +275,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
       }
     }
   }
-  
+
   private function searchComponentPossibleValues($c,$pattern) {
 	  $pattern=strtolower($pattern);
 	  $retval=array();
@@ -308,4 +308,3 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
   }
 
 }
-

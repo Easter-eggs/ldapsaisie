@@ -35,10 +35,10 @@ class LSformElement_labeledValue extends LSformElement {
 
   var $template = 'LSformElement_labeledValue.tpl';
   var $fieldTemplate = 'LSformElement_labeledValue_field.tpl';
-  
+
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -126,4 +126,3 @@ class LSformElement_labeledValue extends LSformElement {
   }
 
 }
-

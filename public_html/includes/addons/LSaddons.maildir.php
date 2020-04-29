@@ -43,10 +43,10 @@ LSerror :: defineError('MAILDIR_03',
 LSerror :: defineError('MAILDIR_04',
   _("MAILDIR : Error retrieving remote path of the maildir.")
 );
-      
+
  /**
   * Verification du support Maildir par ldapSaisie
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true si Maildir est pleinement supporté, false sinon
@@ -80,9 +80,9 @@ $retval=true;
 
  /**
   * Creation d'une Maildir via FTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   * @param[in] $dir Le chemin de la maildir. Si défini, la valeur ne sera pas
   *                 récupérée dans le ldapObject
@@ -107,12 +107,12 @@ $retval=true;
     }
     return true;
   }
-  
+
   /**
   * Suppression d'une Maildir via FTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   * @param[in] $dir Le chemin de la maildir. Si défini, la valeur ne sera pas
   *                 récupérée dans le ldapObject
@@ -132,19 +132,19 @@ $retval=true;
     }
     return true;
   }
-  
+
  /**
   * Retourne le chemin distant de la maildir
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval string Le chemin distant de la maildir ou false si il y a un problème
   */
   function getMaildirPath($ldapObject) {
     $dir = getFData(LS_MAILDIR_FTP_MAILDIR_PATH,$ldapObject,'getValue');
-    
+
     if (LS_MAILDIR_FTP_MAILDIR_PATH_REGEX != "") {
       if (preg_match(LS_MAILDIR_FTP_MAILDIR_PATH_REGEX,$dir,$regs)) {
         $dir = $regs[1];
@@ -153,20 +153,20 @@ $retval=true;
         $dir = "";
       }
     }
-    
+
     if ($dir=="") {
       LSerror :: addErrorCode('MAILDIR_04');
       return;
     }
-    
+
     return $dir;
   }
-   
+
   /**
   * Rename Maildir via FTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $old L'ancien chemin de la maildir
   * @param[in] $new Le nouveau chemin de la maildir
   *
@@ -179,4 +179,3 @@ $retval=true;
     }
     return true;
   }
-

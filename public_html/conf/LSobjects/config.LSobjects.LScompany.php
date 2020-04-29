@@ -29,9 +29,9 @@ $GLOBALS['LSobjects']['LScompany'] = array (
   'container_dn' => 'ou=companies',
   'display_name_format' => '%{ou}',
   'label' => 'Companies',
-  
+
   'attrs' => array (
-  
+
     /* ----------- start -----------*/
     'ou' => array (
       'label' => 'Name',
@@ -52,7 +52,7 @@ $GLOBALS['LSobjects']['LScompany'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
     /* ----------- start -----------*/
     'description' => array (
       'label' => 'Description',
@@ -71,7 +71,7 @@ $GLOBALS['LSobjects']['LScompany'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
       'label' => 'Accountable(s)',
@@ -103,4 +103,3 @@ $GLOBALS['LSobjects']['LScompany'] = array (
     /* ----------- end -----------*/
   )
 );
-

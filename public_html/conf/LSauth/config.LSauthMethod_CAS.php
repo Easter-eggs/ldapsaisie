@@ -57,4 +57,3 @@ define('LSAUTH_CAS_SERVER_NO_SSL_VALIDATION',false);
 // You could have to set SSLVERSION manualy if you have cURL
 // error on ticket validation. Possibles values : 2 or 3
 //define('LSAUTH_CAS_CURL_SSLVERION',3);
-

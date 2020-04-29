@@ -26,13 +26,13 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSattr_html {
-  
+
   var $name;
   var $config;
   var $attribute;
   var $LSformElement_type = false;
 
-  /**         
+  /**
    * Constructeur
    *
    * Cette methode construit l'objet et définis la configuration.
@@ -44,14 +44,14 @@ class LSattr_html {
    * @param[in] &$attribute LSattribute L'objet LSattribut parent
    *
    * @retval boolean Retourne true.
-   */   
+   */
   public function __construct($name, $config, &$attribute) {
     $this -> name = $name;
     $this -> config = $config;
     $this -> attribute =& $attribute;
     return true;
   }
-  
+
   /**
    * Retourne le label de l'attribut
    *
@@ -63,7 +63,7 @@ class LSattr_html {
   public function getLabel() {
     return __($this -> getConfig('label', $this -> name));
   }
-  
+
   /**
    * Ajoute l'attribut au formualaire passer en paramètre
    *
@@ -86,14 +86,14 @@ class LSattr_html {
     if ($data) {
       $element -> setValue($data);
     }
-    return $element; 
+    return $element;
   }
-  
+
   /**
    * Effectue les tâches nécéssaires au moment du rafraichissement du formulaire
-   * 
+   *
    * @param[in] $data mixed La valeur de l'attribut
-   * 
+   *
    * @retval mixed La valeur formatée de l'attribut
    **/
   public function refreshForm($data) {
@@ -136,4 +136,3 @@ _("LSattr_html : The method addToForm() of the HTML type of the attribute %{attr
 LSerror :: defineError('LSattr_html_03',
 _("LSattr_html_%{type} : Multiple data are not supported for this field type.")
 );
-

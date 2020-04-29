@@ -55,7 +55,7 @@ LSerror :: defineError('FTP_05',
 
  /**
   * Verification du support FTP par ldapSaisie
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true si FTP est pleinement supporté, false sinon
@@ -73,7 +73,7 @@ LSerror :: defineError('FTP_05',
         $retval=false;
       }
     }
-    
+
     return $retval;
   }
 
@@ -81,9 +81,9 @@ LSerror :: defineError('FTP_05',
 
  /**
   * Connexion a un serveur FTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $host string Le nom ou l'IP du serveur FTP
   * @param[in] $port string Le port de connexion au serveur ftp
   * @param[in] $user string Le nom d'utilidateur de connexion
@@ -102,7 +102,7 @@ LSerror :: defineError('FTP_05',
       else {
         LSerror :: addErrorCode('FTP_01',"2");
         LSerror :: addErrorCode('FTP_00',$do -> getMessage());
-        return;         
+        return;
       }
     }
     else {
@@ -111,12 +111,12 @@ LSerror :: defineError('FTP_05',
       return;
     }
   }
-  
+
  /**
   * Creation d'un ou plusieurs dossiers via FTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $host string Le nom ou l'IP du serveur FTP
   * @param[in] $port string Le port de connexion au serveur ftp
   * @param[in] $user string Le nom d'utilidateur de connexion
@@ -153,17 +153,17 @@ LSerror :: defineError('FTP_05',
 
  /**
   * Suppression d'un ou plusieurs dossiers via FTP
-  * 
+  *
   * Note : Attention : suppression récursive. Cela veut dire que les sous-dossiers
   * lister par un LS FTP seront supprimé d'abord. Attention : Si votre serveur
   * FTP est configuré pour caché certains fichiers ou dossiers (dont le nom
   * commence par un '.' par exempl), ces fichiers ne seront pas supprimés et la
   * suppression du dossier parent échoura.
-  * 
+  *
   * Pour VsFTPd : Ajouter force_dot_files=1 dans la configuration.
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $host string Le nom ou l'IP du serveur FTP
   * @param[in] $port string Le port de connexion au serveur ftp
   * @param[in] $user string Le nom d'utilidateur de connexion
@@ -193,12 +193,12 @@ LSerror :: defineError('FTP_05',
     }
     return true;
   }
-  
+
  /**
   * Renomage d'un dossier via FTP
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $host string Le nom ou l'IP du serveur FTP
   * @param[in] $port string Le port de connexion au serveur ftp
   * @param[in] $user string Le nom d'utilidateur de connexion
@@ -221,4 +221,3 @@ LSerror :: defineError('FTP_05',
     }
     return true;
   }
-

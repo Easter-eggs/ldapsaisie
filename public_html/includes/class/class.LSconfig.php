@@ -25,17 +25,17 @@
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSconfig { 
-  
+class LSconfig {
+
   // Configuration Data
   private static $data=array();
-  
+
  /**
   * Lancement de LSconfig
-  * 
+  *
   * Chargement initiale des données de configuration à partir des fichiers en
   * config.*.php du dossier LS_CONF_DIR
-  * 
+  *
   * @retval boolean True si tout s'est bien passé, False sinon
   **/
   public static function start() {
@@ -52,10 +52,10 @@ class LSconfig {
     }
     return;
   }
-  
+
  /**
   * Get a specific configuration variable value
-  * 
+  *
   * @param[in] $var string The configuration variable name
   * @param[in] $default mixed The default value to return if configuration variable
   *                           is not set (Default : null)
@@ -63,7 +63,7 @@ class LSconfig {
   *                           value will be cast as this type. Could be : bool, int,
   *                           float or string. (Optional, default : raw value)
   * @param[in] $data array    The configuration data (optional)
-  * 
+  *
   * @retval mixed The configuration variable value
   **/
   public static function get($var, $default=null, $cast=null, $data=null) {
@@ -148,12 +148,12 @@ class LSconfig {
 
  /**
   * Définition d'une valeur
-  * 
+  *
   * @param[in] $var string Le nom de valeur à définir
   * @param[in] $val mixed La valeur de la variable
-  * 
+  *
   * @retval boolean True si tout s'est bien passé, False sinon
-  **/  
+  **/
   public static function set($var,$val) {
     $vars=explode('.',$var);
     if(is_array($vars)) {
@@ -166,6 +166,5 @@ class LSconfig {
     }
     return;
   }
-  
-}
 
+}

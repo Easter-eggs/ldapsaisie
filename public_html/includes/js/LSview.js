@@ -8,7 +8,7 @@ var LSview = new Class({
           delete_confirm_validate:  "Delete"
         };
       }
-      
+
       $$('td.LSobject-list-names').each(function(el) {
         el.addEvent('click',this.onTdLSobjectListNamesClick.bind(this,el));
       }, this);
@@ -27,14 +27,14 @@ var LSview = new Class({
           el.addEvent('click',this.onCustomActionBtnClick.bindWithEvent(this,el));
         }
       }, this);
-      
+
       this.LSsearchForm = $('LSsearch_form');
       this.LSsearchPredefinedFilter = $('LSview_search_predefinedFilter');
       if($type(this.LSsearchPredefinedFilter) && $type('LSsearch_form')) {
         this.LSsearchPredefinedFilter.addEvent('change',this.onLSsearchPredefinedFilterChange.bind(this));
       }
     },
-    
+
     onLSsearchPredefinedFilterChange: function() {
       if (this.LSsearchForm) {
         this.LSsearchForm.submit();
@@ -51,14 +51,14 @@ var LSview = new Class({
         this._confirmBoxOpen = 1;
         var name = a.getParent().getParent().getFirst('td').getElement('a').innerHTML;
         this.confirmBox = new LSconfirmBox({
-          text:         this.labels.delete_confirm_text + ' "'+name+'" ?', 
+          text:         this.labels.delete_confirm_text + ' "'+name+'" ?',
           startElement: a,
           onConfirm:    this.removeFromA.bind(this,a),
           onClose:      this.onConfirmBoxClose.bind(this)
         });
       }
     },
-    
+
     onRemoveViewBtnClick: function(event,a) {
       Event(event).stop();
       if (!this._confirmBoxOpen) {
@@ -74,11 +74,11 @@ var LSview = new Class({
         });
       }
     },
-    
+
     onConfirmBoxClose: function() {
       this._confirmBoxOpen = 0;
     },
-    
+
     removeFromA: function(a) {
       document.location = a.href+'&valid';
     },

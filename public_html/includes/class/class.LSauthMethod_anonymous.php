@@ -48,9 +48,9 @@ class LSauthMethod_anonymous extends LSauthMethod {
 
   /**
    * Check Auth Data
-   * 
+   *
    * Return authentication data or false
-   * 
+   *
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
@@ -59,7 +59,7 @@ class LSauthMethod_anonymous extends LSauthMethod {
 		);
     return $this -> authData;
   }
-  
+
 }
 
 /*
@@ -68,4 +68,3 @@ class LSauthMethod_anonymous extends LSauthMethod {
 LSerror :: defineError('LSauthMethod_anonymous_01',
 _("LSauthMethod_anonymous : You must define the LSAUTHMETHOD_ANONYMOUS_USER contant in the configuration file.")
 );
-

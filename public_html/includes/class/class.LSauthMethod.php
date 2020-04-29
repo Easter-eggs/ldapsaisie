@@ -28,7 +28,7 @@
 class LSauthMethod {
 
   var $authData = array();
-  
+
   public function __construct() {
     // Load config
     LSsession :: includeFile(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
@@ -38,9 +38,9 @@ class LSauthMethod {
 
   /**
    * Check Auth Data
-   * 
+   *
    * Return authentication data or false
-   * 
+   *
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
@@ -48,11 +48,11 @@ class LSauthMethod {
     // This method have to define $this -> authData['username']
     return false;
   }
-  
+
   /**
    * Check authentication
    *
-   * @retval LSldapObject|false The LSldapObject of the user authificated or false 
+   * @retval LSldapObject|false The LSldapObject of the user authificated or false
    */
   public function authenticate() {
     if (LSsession :: loadLSobject(LSsession :: $ldapServer['authObjectType'])) {
@@ -83,10 +83,10 @@ class LSauthMethod {
     }
     return;
   }
-  
+
  /**
   * Logout
-  * 
+  *
   * @retval boolean True on success or False
   **/
   public function logout() {
@@ -126,4 +126,3 @@ class LSauthMethod {
   }
 
 }
-

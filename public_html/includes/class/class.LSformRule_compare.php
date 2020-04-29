@@ -84,4 +84,3 @@ class LSformRule_compare extends LSformRule {
   }
 
 }
-

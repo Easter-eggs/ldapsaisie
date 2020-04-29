@@ -34,7 +34,7 @@ class LSformElement_postaladdress extends LSformElement_textarea {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -88,4 +88,3 @@ function LSformElement_postaladdress__generate_pattern($LSformElement) {
 LSerror :: defineError('LSformElement_postaladdress_01',
 _("LSformElement_postaladdress : Map URL pattern generate function is not callabled (%{function}).")
 );
-

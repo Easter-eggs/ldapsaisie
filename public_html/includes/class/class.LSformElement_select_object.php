@@ -27,7 +27,7 @@ LSsession :: loadLSclass('LSformElement');
  *
  * This class define select elements for form. It extends the generic class LSformElement.
  *
- * HTML options : 
+ * HTML options :
  * // *************************************
  * 'html_options' => array (
  *   selectable_object => array (
@@ -37,7 +37,7 @@ LSsession :: loadLSclass('LSformElement');
  *   )
  * ),
  * // *************************************
- * 
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 
@@ -48,7 +48,7 @@ class LSformElement_select_object extends LSformElement {
 
  /**
   * Return display informations of the element
-  * 
+  *
   * This method return the display informations of the element.
   *
   * @retval array
@@ -85,7 +85,7 @@ class LSformElement_select_object extends LSformElement {
           'delete' => _("Delete")
         )
       );
-      
+
       LSsession :: addJSscript('LSformElement_select_object_field.js');
       LSsession :: addJSscript('LSformElement_select_object.js');
       if (LSsession :: loadLSclass('LSselect')) {
@@ -124,28 +124,28 @@ class LSformElement_select_object extends LSformElement {
     $val = strcoll(strtolower($va), strtolower($vb));
     return $val*$dir;
   }
-  
+
   /*
    * Return the values of the object form the session variable
    */
   public function getValuesFromSession() {
     return $this -> attr_html -> getValuesFromSession();
   }
-  
+
   /**
    * Defined the type of object witch is selectionable
-   * 
+   *
    * @param[in] $object string The type of object
-   * 
+   *
    * @retval void
    **/
   public function setSelectableObject($object) {
     $this -> selectableObject = $object;
   }
-  
+
   /**
    * Export the values of the element
-   * 
+   *
    * @retval Array The values of the element
    */
   public function exportValues(){
@@ -170,9 +170,9 @@ class LSformElement_select_object extends LSformElement {
 
   /**
    * Search the selectionable objects with a pattern
-   * 
+   *
    * @param[in] $pattern The pattern of the search
-   * 
+   *
    * @retval array(dn -> displayName) Found objects
    */
   public function searchAdd ($pattern) {
@@ -198,13 +198,13 @@ class LSformElement_select_object extends LSformElement {
     }
     return array();
   }
- 
+
   /**
    * This ajax method is used to refresh the value display
    * in the form element after the modify window is closed.
    *
    * @param[in] $data The address to the array of data witch will be return by the ajax request
-   * 
+   *
    * @retval void
    **/
   public static function ajax_refresh(&$data) {
@@ -227,7 +227,7 @@ class LSformElement_select_object extends LSformElement {
    * This ajax method is used by the search-and-add function of the form element.
    *
    * @param[in] $data The address to the array of data witch will be return by the ajax request
-   * 
+   *
    * @retval void
    **/
   public static function ajax_searchAdd(&$data) {
@@ -242,4 +242,3 @@ class LSformElement_select_object extends LSformElement {
   }
 
 }
-

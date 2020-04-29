@@ -5,7 +5,7 @@ var LSformElement_postaladdress = new Class({
         varLSform.addModule("LSformElement_postaladdress",this);
       }
     },
-    
+
     initialiseLSformElement_postaladdress: function(el) {
       if (typeof(el) == 'undefined') {
         el = document;
@@ -14,7 +14,7 @@ var LSformElement_postaladdress = new Class({
         this.addBtnAfter.bind(this)(p);
       }, this);
     },
-   
+
     getFieldName: function(el) {
       try {
         var name = el.getParent().getParent().id;
@@ -36,7 +36,7 @@ var LSformElement_postaladdress = new Class({
       }
       return;
     },
- 
+
     addBtnAfter: function(el) {
       var name = this.getFieldName(el);
       if (typeof(varLSdefault.LSjsConfig['LSformElement_postaladdress_'+name]) == "undefined") {
@@ -53,12 +53,12 @@ var LSformElement_postaladdress = new Class({
       btn.addEvent('click',this.onBtnClick.bind(this,el));
       varLSdefault.addHelpInfo(btn,'LSformElement_postaladdress','viewOnMap');
     },
-    
+
     reinitialize: function(el) {
       varLSform.initializeModule('LSformElement_textarea',el);
       this.initialiseLSformElement_postaladdress(el);
     },
-    
+
     onBtnClick: function(el) {
       var address = el.get('html');
       if (typeof(address)!="undefined") {

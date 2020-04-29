@@ -25,17 +25,17 @@
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSsearch { 
-  
+class LSsearch {
+
   // The LdapObject type of search
   private $LSobject=NULL;
-  
+
   // The configuration of search
   private $config;
-  
+
   // The context of search
   private $context;
-  
+
   // The parameters of the search
   private $params=array (
     // Search params
@@ -64,42 +64,42 @@ class LSsearch {
     'withoutCache' => false,
     'extraDisplayedColumns' => false,
   );
-  
+
   // The cache of search parameters
   private $_searchParams = NULL;
-  
+
   // The cache of the hash of the search parameters
   private $_hash = NULL;
-  
+
   // The result of the search
   private $result=NULL;
-  
+
   // Caches
   private $_canCopy=NULL;
-  
+
   /**
    * Constructor
-   * 
+   *
    * @param[in] $LSobject string The LdapObject type of search
    * @param[in] $context string Context of search (LSrelation / LSldapObject/ ...)
    * @param[in] $params array Parameters of search
    * @param[in] $purgeParams boolean If params in session have to be purged
-   * 
+   *
    **/
   public function __construct($LSobject,$context,$params=null,$purgeParams=false) {
     if (!LSsession :: loadLSobject($LSobject)) {
       return;
     }
     $this -> LSobject = $LSobject;
-    
+
     $this -> loadConfig();
-    
+
     if (isset($_REQUEST['LSsearchPurgeSession'])) {
       $this -> purgeSession();
     }
-    
+
     $this -> context = $context;
-    
+
     if (!$purgeParams) {
       if (! $this -> loadParamsFromSession()) {
         LSdebug('LSsearch : load default parameters');
@@ -110,16 +110,16 @@ class LSsearch {
       $this -> purgeParams($LSobject);
       $this -> loadDefaultParameters();
     }
-    
+
     if (is_array($params)) {
       $this -> setParams($params);
     }
-    
+
   }
 
   /**
    * Load configuration from LSconfig
-   * 
+   *
    * @retval void
    */
   private function loadConfig() {
@@ -133,10 +133,10 @@ class LSsearch {
       }
     }
   }
-  
+
   /**
    * Load default search parameters from configuration
-   * 
+   *
    * @retval boolean True on success or False
    */
   private function loadDefaultParameters() {
@@ -145,21 +145,21 @@ class LSsearch {
     }
     return true;
   }
-  
+
   /**
    * Load search parameters from session
-   * 
+   *
    * @retval boolean True if params has been loaded from session or False
    */
   private function loadParamsFromSession() {
     LSdebug('LSsearch : load context params session '.$this -> context);
     if (isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context]) && is_array($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context])) {
       $params = $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context];
-      
+
       if ($params['filter']) {
         $params['filter'] = Net_LDAP2_Filter::parse($params['filter']);
       }
-      
+
       $this -> params = $params;
       return true;
     }
@@ -168,7 +168,7 @@ class LSsearch {
 
   /**
    * Save search parameters in session
-   * 
+   *
    * @retval void
    */
   private function saveParamsInSession() {
@@ -177,7 +177,7 @@ class LSsearch {
     if ($params['filter'] instanceof Net_LDAP2_Filter) {
       $params['filter'] = $params['filter'] -> asString();
     }
-    
+
     foreach ($params as $param => $value) {
       if ( !isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]) || $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]!=$value) {
         LSdebug("S: $param => ".varDump($value));
@@ -185,58 +185,58 @@ class LSsearch {
       }
     }
   }
-  
+
   /**
    * Purge parameters in session
-   * 
+   *
    * @param[in] $LSobject string The LSobject type
-   * 
+   *
    * @retval void
    */
   public static function purgeParams($LSobject) {
     unset($_SESSION['LSsession']['LSsearch'][$LSobject]['params']);
   }
-  
+
   /**
    * Purge cache
-   * 
+   *
    * @retval void
    */
   public static function purgeCache($LSobject) {
     unset($_SESSION['LSsession']['LSsearch'][$LSobject]);
   }
-  
+
   /**
    * Purge session
-   * 
+   *
    * @retval void
    */
   private function purgeSession() {
     unset($_SESSION['LSsession']['LSsearch']);
   }
-  
+
   /**
    * Define one search parameter
-   * 
+   *
    * @param[in] $param string The parameter name
    * @param[in] $value mixed The parameter value
-   * 
+   *
    * @retval boolean True on success or False
    */
   public function setParam($param,$value) {
     return $this -> setParams(array($param => $value));
   }
-  
+
   /**
    * Define search parameters
-   * 
+   *
    * @param[in] $params array Parameters of search
-   * 
+   *
    * @retval boolean True on success or False
    */
   public function setParams($params) {
     $OK=true;
-    
+
     // Filter
     if (isset($params['filter'])) {
       if (is_string($params['filter'])) {
@@ -264,7 +264,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Without Cache
     if (isset($params['withoutCache'])) {
       if (is_bool($params['withoutCache']) || $params['withoutCache']==0 || $params['withoutCache']==1) {
@@ -297,7 +297,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // subDn
     if (isset($params['subDn']) && is_string($params['subDn'])) {
       if (LSsession :: validSubDnLdapServer($params['subDn'])) {
@@ -308,7 +308,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Scope
     if (isset($params['scope']) && is_string($params['scope'])) {
       if (in_array($params['scope'],array('sub','one','base'))) {
@@ -319,7 +319,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // nbObjectsByPage
     if (isset($params['nbObjectsByPage'])) {
       if (((int)$params['nbObjectsByPage'])>1 ) {
@@ -358,7 +358,7 @@ class LSsearch {
         $OK = false;
       }
     }
-    
+
     // Sort Limit
     if (isset($params['sortlimit'])) {
       if (is_int($params['sortlimit']) && $params['sortlimit']>=0 ) {
@@ -372,7 +372,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Sort Direction
     if (isset($params['sortDirection']) && is_string($params['sortDirection'])) {
       if (in_array($params['sortDirection'],array('ASC','DESC'))) {
@@ -383,7 +383,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Sort By
     if (isset($params['sortBy']) && is_string($params['sortBy'])) {
       if (in_array($params['sortBy'],array('displayName','subDn')) || ($this ->extraDisplayedColumns && isset($this ->extraDisplayedColumns[$params['sortBy']]))) {
@@ -402,7 +402,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Size Limit
     if (isset($params['sizelimit'])) {
       if (((int)$params['sizelimit']) >= 0) {
@@ -413,7 +413,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Attronly
     if (isset($params['attronly'])) {
       if (is_bool($params['attronly']) || $params['attronly']==0 || $params['attronly']==1) {
@@ -424,7 +424,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Recursive
     if (isset($params['recursive'])) {
       if (is_bool($params['recursive']) || $params['recursive']==0 || $params['recursive']==1) {
@@ -435,7 +435,7 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // displaySubDn
     if (isset($params['displaySubDn'])) {
       if (! LSsession :: isSubDnLSobject($this -> LSobject) ) {
@@ -448,7 +448,7 @@ class LSsearch {
         }
       }
     }
-    
+
     // Attributes
     if (isset($params['attributes'])) {
       if (is_string($params['attributes'])) {
@@ -499,12 +499,12 @@ class LSsearch {
         $OK=false;
       }
     }
-    
+
     // Display Format
     if (isset($params['displayFormat']) && is_string($params['displayFormat'])) {
       $this -> params['displayFormat'] = $params['displayFormat'];
     }
-    
+
     // Custom Infos
     if (isset($params['customInfos']) && is_array($params['customInfos'])) {
       foreach($params['customInfos'] as $name => $data) {
@@ -534,7 +534,7 @@ class LSsearch {
 
   /**
    * Return true only if the form is submited
-   * 
+   *
    * @retval boolean True only if the is submited
    **/
   private function formIsSubmited() {
@@ -543,40 +543,40 @@ class LSsearch {
 
   /**
    * Define search parameters by reading Post Data ($_REQUEST)
-   * 
+   *
    * @retval void
    */
   public function setParamsFormPostData() {
     $data = $_REQUEST;
-    
+
     if (self::formIsSubmited()) {
-      // Recursive 
+      // Recursive
       if (is_null($data['recursive'])) {
         $data['recursive']=false;
       }
       else {
         $data['recursive']=true;
       }
-      
-      // Approx 
+
+      // Approx
       if (is_null($data['approx'])) {
         $data['approx']=false;
       }
       else {
         $data['approx']=true;
       }
-      
+
       if (isset($data['ajax']) && !isset($data['pattern'])) {
         $data['pattern']="";
       }
     }
-    
+
     $this -> setParams($data);
   }
-  
+
   /**
    * Toggle the sort direction
-   * 
+   *
    * @retval void
    **/
   private function toggleSortDirection() {
@@ -587,14 +587,14 @@ class LSsearch {
       $this -> params['sortDirection'] = "ASC";
     }
   }
-  
+
   /**
    * Make a filter object with a pattern of search
    *
    * @param[in] $pattern The pattern of search. If is null, the pattern in params will be used.
-   * 
+   *
    * @retval mixed Net_LDAP2_Filter on success or False
-   */ 
+   */
   public function getFilterFromPattern($pattern=NULL) {
     if ($pattern==NULL) {
       $pattern=$this -> params['pattern'];
@@ -617,12 +617,12 @@ class LSsearch {
           }
         }
       }
-      
+
       if (empty($attrsList)) {
         LSerror :: addErrorCode('LSsearch_07');
         return;
       }
-      
+
       $filters=array();
       foreach ($attrsList as $attr => $opts) {
         if ($this -> params['approx']) {
@@ -665,12 +665,12 @@ class LSsearch {
     }
     return;
   }
-  
+
   /**
    * Check if search pattern is valid
-   * 
+   *
    * @param[in] $pattern string The pattern
-   * 
+   *
    * @retval boolean True if pattern is valid or False
    **/
   public function isValidPattern($pattern) {
@@ -682,10 +682,10 @@ class LSsearch {
     LSerror :: addErrorCode('LSsearch_17');
     return False;
   }
-  
+
   /**
    * Check if cache is enabled
-   * 
+   *
    * @retval boolean True if cache is enabled or False
    **/
   public function cacheIsEnabled() {
@@ -700,12 +700,12 @@ class LSsearch {
     }
     return LSsession :: cacheSearch();
   }
-  
+
   /**
    * Methode for parameters value access
-   * 
+   *
    * @param[in] $key string The parameter name
-   * 
+   *
    * @retval mixed The parameter value or NULL
    **/
   public function getParam($key) {
@@ -717,10 +717,10 @@ class LSsearch {
     }
     return NULL;
   }
-  
+
   /**
    * Return hidden fileds to add in search form
-   * 
+   *
    * @retval array The hield fields whith their values
    **/
   public function getHiddenFieldForm() {
@@ -728,18 +728,18 @@ class LSsearch {
       'LSobject' => $this -> LSobject
     );
   }
-  
+
   /**
    * Generate an array with search parameters, only parameters whitch have to be
-   * passed to Net_LDAP2 for the LDAP search. This array will be store in 
+   * passed to Net_LDAP2 for the LDAP search. This array will be store in
    * $this -> _searchParams private variable.
-   * 
+   *
    * @retval void
    **/
   private function generateSearchParams() {
     // Purge the cache of the hash
     $this -> _hash = NULL;
-    
+
     // Base
     $retval = array(
       'filter' => $this -> params['filter'],
@@ -749,7 +749,7 @@ class LSsearch {
       'attronly' => $this -> params['attronly'],
       'attributes' => $this -> params['attributes']
     );
-    
+
     // Pattern
     if (!is_null($this -> params['pattern'])) {
       $filter=$this ->getFilterFromPattern();
@@ -760,7 +760,7 @@ class LSsearch {
         $retval['filter']=LSldap::combineFilters('and',array($retval['filter'],$filter));
       }
     }
-    
+
     // predefinedFilter
     if (is_string($this -> params['predefinedFilter'])) {
       if (!is_null($retval['filter'])) {
@@ -773,7 +773,7 @@ class LSsearch {
         $retval['filter']=$this -> params['predefinedFilter'];
       }
     }
-    
+
     // Filter
     $objFilter=LSldapObject::_getObjectFilter($this -> LSobject);
     if ($objFilter) {
@@ -787,7 +787,7 @@ class LSsearch {
         $retval['filter']=$objFilter;
       }
     }
-    
+
     // Recursive
     if (is_null($retval['basedn'])) {
       if (!is_null($this -> params['subDn'])) {
@@ -810,11 +810,11 @@ class LSsearch {
     if ($this -> params['recursive'] || !isset($retval['scope'])) {
       $retval['scope'] = 'sub';
     }
-    
+
     if (is_null($this -> params['displayFormat'])) {
       $this -> params['displayFormat']=LSconfig::get("LSobjects.".$this -> LSobject.".display_name_format");
     }
-    
+
     // Display Format
     $attrs=getFieldInFormat($this -> params['displayFormat']);
     if(is_array($retval['attributes'])) {
@@ -860,7 +860,7 @@ class LSsearch {
     if (is_array($retval['attributes'])) {
       $retval['attributes']=array_unique($retval['attributes']);
     }
-    
+
     $this -> _searchParams = $retval;
   }
 
@@ -879,16 +879,16 @@ class LSsearch {
    * Run the search
    *
    * @param[in] $cache boolean Define if the cache can be used
-   * 
+   *
    * @retval boolean True on success or False
-   */ 
+   */
   public function run($cache=true) {
     $this -> generateSearchParams();
     if ($this -> _searchParams['filter'] instanceof Net_LDAP2_Filter) {
       LSdebug('LSsearch : filter : '.$this -> _searchParams['filter']->asString());
     }
     LSdebug('LSsearch : basedn : '.$this -> _searchParams['basedn'].' - scope : '.$this -> _searchParams['scope']);
-    
+
     if( $cache && (!isset($_REQUEST['refresh'])) && (!$this -> params['withoutCache']) ) {
       LSdebug('LSsearch : with the cache');
       $this -> result = $this -> getResultFromCache();
@@ -897,7 +897,7 @@ class LSsearch {
       LSdebug('LSsearch : without the cache');
       $this -> setParam('withoutCache',false);
     }
-    
+
     if (!$this -> result) {
       LSdebug('LSsearch : Not in cache');
       $this -> result=array(
@@ -934,19 +934,19 @@ class LSsearch {
 
       $this -> addResultToCache();
     }
-    
+
     $this -> doSort();
-    
+
     return true;
   }
-  
+
   /**
    * Return an hash corresponding to the parameters of the search
-   * 
+   *
    * @param[in] $searchParams array An optional search params array
-   * 
+   *
    * @retval string The hash of the parameters of the search
-   **/  
+   **/
   public function getHash($searchParams=null) {
     if(is_null($searchParams)) {
       $searchParams=$this -> _searchParams;
@@ -959,12 +959,12 @@ class LSsearch {
     }
     return hash('md5',print_r($searchParams,true));
   }
-  
+
   /**
    * Add the result of the search to cache of the session
-   * 
+   *
    * @retval void
-   **/  
+   **/
   public function addResultToCache() {
     if ($this -> cacheIsEnabled()) {
       LSdebug('LSsearch : Save result in cache.');
@@ -972,12 +972,12 @@ class LSsearch {
       $_SESSION['LSsession']['LSsearch'][$this -> LSobject][$hash]=$this->result;
     }
   }
-  
+
   /**
    * Get the result of the search from cache of the session
-   * 
+   *
    * @retval array | False The array of the result of the search or False
-   **/  
+   **/
   private function getResultFromCache() {
     if ($this -> cacheIsEnabled()) {
       $hash=$this->getHash();
@@ -988,12 +988,12 @@ class LSsearch {
     }
     return;
   }
-  
+
   /**
    * Get page informations to display
-   * 
+   *
    * @param[in] $page integer The number of the page
-   * 
+   *
    * @retval array The information of the page
    **/
   public function getPage($page=0) {
@@ -1009,33 +1009,33 @@ class LSsearch {
       'list' => array(),
       'total' => $this -> total
     );
-    
+
     if ($retval['total']>0) {
       LSdebug('Total : '.$retval['total']);
-      
+
       if (!$this->params['nbObjectsByPage']) {
         $this->params['nbObjectsByPage']=NB_LSOBJECT_LIST;
       }
       $retval['nbPages']=ceil($retval['total']/$this->params['nbObjectsByPage']);
-      
+
       $sortTable=$this -> getSortTable();
-      
+
       $list = array_slice(
         $sortTable,
         ($page * $this->params['nbObjectsByPage']),
         $this->params['nbObjectsByPage']
       );
-      
+
       foreach ($list as $key => $id) {
         $retval['list'][]=new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$id);
       }
     }
     return $retval;
   }
-  
+
   /**
    * Get search entries
-   * 
+   *
    * @retval array The entries
    **/
   public function getSearchEntries() {
@@ -1046,19 +1046,19 @@ class LSsearch {
     $retval=array();
     if ($this -> total>0) {
       $sortTable=$this -> getSortTable();
-      
+
       foreach ($sortTable as $key => $id) {
         $retval[]=new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$id);
       }
     }
     return $retval;
   }
-  
+
   /**
    * Access to information of this object
-   * 
+   *
    * @param[in] $key string The key of the info
-   * 
+   *
    * @retval mixed The info
    **/
   public function __get($key) {
@@ -1150,13 +1150,13 @@ class LSsearch {
       throw new Exception('Incorrect property !');
     }
   }
-  
+
   /**
    * Function use with uasort to sort two entry
-   * 
+   *
    * @param[in] $a array One line of result
    * @param[in] $b array One line of result
-   * 
+   *
    * @retval int Value for uasort
    **/
   private function _sortTwoEntry(&$a,&$b) {
@@ -1172,27 +1172,27 @@ class LSsearch {
     $va = $oa->$sortBy;
     $ob = new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$b);
     $vb = $ob->$sortBy;
-    
+
     if ($va == $vb) return 0;
-    
+
     $val = strnatcmp(strtolower($va), strtolower($vb));
     return $val*$dir;
   }
-  
+
   /**
    * Function to run after using the result. It's update the cache
-   * 
+   *
    * IT'S FUNCTION IS VERY IMPORTANT !!!
-   * 
+   *
    * @retval void
    **/
   public function afterUsingResult() {
     $this -> addResultToCache();
   }
-  
+
   /**
    * Redirect user to object view if the search have only one result
-   * 
+   *
    * @retval boolean True only if user have been redirected
    **/
   public function redirectWhenOnlyOneResult() {
@@ -1201,10 +1201,10 @@ class LSsearch {
     }
     return;
   }
-  
+
   /**
    * Run the sort if it's enabled and if the result is not in the cache
-   * 
+   *
    * @retval boolean True on success or false
    **/
   private function doSort() {
@@ -1222,21 +1222,21 @@ class LSsearch {
     if ($this->total==0) {
       return true;
     }
-    
+
     if (isset($this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']])) {
       LSdebug('doSort : from cache');
       return true;
     }
-     
+
     LSdebug('doSort : '.$this -> params['sortBy'].' - '.$this -> params['sortDirection']);
-    
+
     $this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']]=range(0,($this -> total-1));
-    
+
     if (!LSsession :: loadLSClass('LSsearchEntry')) {
       LSerror::addErrorCode('LSsession_05','LSsearchEntry');
       return;
     }
-    
+
     if (!uasort(
       $this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']],
       array($this,'_sortTwoEntry')
@@ -1244,14 +1244,14 @@ class LSsearch {
       LSerror :: addErrorCode('LSsearch_13');
       return;
     }
-    
+
     return true;
   }
-  
+
   /**
-   * Returns the id of table rows in the result sorted according to criteria 
+   * Returns the id of table rows in the result sorted according to criteria
    * defined in the parameters
-   * 
+   *
    * @retval array The Table of id lines of results sorted
    **/
   public function getSortTable() {
@@ -1260,10 +1260,10 @@ class LSsearch {
     }
     return range(0,($this -> total-1));
   }
-  
+
   /**
    * List objects name
-   * 
+   *
    * @retval Array DN associate with name
    **/
   public function listObjectsName() {
@@ -1271,61 +1271,61 @@ class LSsearch {
       LSerror::addErrorCode('LSsession_05',$this -> LSobject);
       return;
     }
-    
+
     $retval=array();
-    
+
     if ($this -> total>0) {
       $sortTable=$this -> getSortTable();
-      
+
       foreach ($sortTable as $key => $id) {
         $entry=new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$id);
         $retval[$entry->dn]=$entry->displayName;
       }
     }
-    
+
     return $retval;
   }
-  
+
   /**
-   * List LSldapObjects 
-   * 
+   * List LSldapObjects
+   *
    * @retval Array of LSldapObjects
    **/
-  public function listObjects() {    
+  public function listObjects() {
     $retval=array();
-    
+
     if ($this -> total>0) {
       $sortTable=$this -> getSortTable();
 
-      $c=0;      
+      $c=0;
       foreach ($sortTable as $key => $id) {
         $retval[$c]=new $this -> LSobject();
         $retval[$c] -> loadData($this -> result['list'][$id]['dn']);
         $c++;
       }
     }
-    
+
     return $retval;
   }
-  
+
   /**
    * List objects dn
-   * 
+   *
    * @retval Array of DN
    **/
-  public function listObjectsDn() {    
+  public function listObjectsDn() {
     $retval=array();
-    
+
     if ($this -> total>0) {
       $sortTable=$this -> getSortTable();
 
-      $c=0;      
+      $c=0;
       foreach ($sortTable as $key => $id) {
         $retval[$c] = $this -> result['list'][$id]['dn'];
         $c++;
       }
     }
-    
+
     return $retval;
   }
 
@@ -1385,4 +1385,3 @@ _("LSsearch : Error during execution of the custom action %{customAction}.")
 LSerror :: defineError('LSsearch_17',
 _("LSsearch : Invalid search pattern.")
 );
-

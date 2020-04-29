@@ -29,7 +29,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
   ),
   'rdn' => 'uid',
   'container_dn' => 'ou=people',
-  
+
   'container_auto_create' => array(
     'objectclass' => array(
       'top',
@@ -69,14 +69,14 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       )
     )
   ),
-  
+
   'before_modify' => 'valid',
   'after_modify' => 'valid',
   //'after_create' => 'createMaildirByFTP',
   //'after_delete' => 'removeMaildirByFTP',
   'display_name_format' => '%{cn}',
   'label' => 'Users',
-  
+
   // LSrelation
   'LSrelation' => array(
     'groups' => array(
@@ -109,7 +109,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       )
     )
   ),
-  
+
   // LSform
   'LSform' => array (
     'ajaxSubmit' => 1,
@@ -117,7 +117,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     'layout' => array (
       'Civilite' => array(
         'label' => 'Civility',
-        'img' => 1, 
+        'img' => 1,
         'args' => array (
           'uid',
           'personalTitle',
@@ -170,7 +170,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       )
     ) // fin dataEntryForm
   ), // fin LSform
-  
+
   'LSsearch' => array (
     'attrs' => array (
       'givenName',
@@ -207,10 +207,10 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
     ),
   ),
-  
+
   // Attributes
   'attrs' => array (
-  
+
     /* ----------- start -----------*/
     'uid' => array (
       'label' => 'Identifier',
@@ -682,7 +682,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
       'label' => 'Accountable(s)',
@@ -715,4 +715,3 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
 
   ) // Fin args
 );
-

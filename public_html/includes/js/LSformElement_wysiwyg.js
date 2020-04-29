@@ -7,7 +7,7 @@ var LSformElement_wysiwyg = new Class({
         varLSform.addEvent("submit",this.onLSformSubmit.bind(this));
       }
     },
-    
+
     initialiseLSformElement_wysiwyg: function(el) {
       var getName = /^(.*)\[\]$/
 
@@ -36,13 +36,13 @@ var LSformElement_wysiwyg = new Class({
 
         // Set iframe height
         var body = doc.body, html = doc.documentElement;
-        var height = Math.max( body.scrollHeight, body.offsetHeight, 
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
                                html.clientHeight, html.scrollHeight,
                                html.offsetHeight );
         iframe.setStyle('height', height+'px');
       }, this);
     },
-    
+
     reinitialize: function(el) {
       this.initialiseLSformElement_wysiwyg(el);
     },

@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Handle logging to email (using error_log PHP function with message_type = 1)
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>

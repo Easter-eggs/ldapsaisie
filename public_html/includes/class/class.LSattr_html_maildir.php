@@ -31,13 +31,13 @@ class LSattr_html_maildir extends LSattr_html {
 
   var $LSformElement_type = 'maildir';
   var $_toDo = array();
-  
+
   public function __construct($name, $config, &$attribute) {
     $attribute -> addObjectEvent('before_delete',$this,'beforeDelete');
     $attribute -> addObjectEvent('after_delete',$this,'deleteMaildirByFTP');
     return parent :: __construct($name, $config, $attribute);
   }
-  
+
   public function doOnModify($action,$cur,$new) {
     $this -> _toDo = array (
       'action' => $action,
@@ -46,7 +46,7 @@ class LSattr_html_maildir extends LSattr_html {
     );
     $this -> attribute -> addObjectEvent('after_modify',$this,'toDo');
   }
-  
+
   public function toDo() {
     if (is_array($this -> _toDo)) {
       switch($this -> _toDo['action']) {
@@ -74,7 +74,7 @@ class LSattr_html_maildir extends LSattr_html {
     LSdebug($this -> name.' - LSformElement_maildir->toDo() : Nothing to do.');
     return true;
   }
-  
+
   public function deleteMaildirByFTP() {
     $archiveNameFormat = $this -> getConfig('html_options.archiveNameFormat');
     if ($archiveNameFormat) {
@@ -99,7 +99,7 @@ class LSattr_html_maildir extends LSattr_html {
       return;
     }
   }
-  
+
   public function beforeDelete() {
     $this -> _toDo = array (
       'action' => 'delete',
@@ -107,7 +107,7 @@ class LSattr_html_maildir extends LSattr_html {
       'new' => ''
     );
   }
-  
+
   public function getRemoteRootPathRegex($val='LS') {
     if ($val=='LS') {
       $val = $this -> attribute -> getValue();
@@ -129,6 +129,5 @@ class LSattr_html_maildir extends LSattr_html {
     }
     return $val;
   }
-  
-}
 
+}

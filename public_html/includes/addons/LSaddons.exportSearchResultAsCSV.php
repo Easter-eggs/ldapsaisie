@@ -47,7 +47,7 @@ LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_03',
 
  /**
   * Check support of exportSearchResultAsCSV
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true if exportSearchResultAsCSV is fully supported, false in other case
@@ -72,15 +72,15 @@ LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_03',
         $retval=false;
       }
     }
-    
+
     return $retval;
   }
-  
+
  /**
   * Write LSsearch result as CSV and force download of it.
-  * 
+  *
   * @param[in] $LSsearch The LSsearch object
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean Void if CSV file is successfully generated and upload, false in other case
@@ -152,4 +152,3 @@ LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_03',
     }
     return (fputcsv($csv, $row, LS_EXPORTSEARCHRESULTASCSV_DELIMITER, LS_EXPORTSEARCHRESULTASCSV_ENCLOSURE, LS_EXPORTSEARCHRESULTASCSV_ESCAPE_CHAR) !== false);
   }
-

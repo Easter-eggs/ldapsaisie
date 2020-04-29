@@ -10,7 +10,7 @@ var LSformElement_supannLabeledValue_field = new Class({
 		console.log(this.field_type);
 		varLSform.addModule(this.field_type,this);
     },
-    
+
     initializeLSformElement_supannLabeledValue_field: function(el) {
 		if (!$type(el)) {
 			el = this.ul;
@@ -19,7 +19,7 @@ var LSformElement_supannLabeledValue_field = new Class({
 			this.values.push(new LSformElement_supannLabeledValue_field_value(li,this.name,this.field_type));
 		}, this);
     },
-    
+
     clearValue: function() {
 		if (this.values.length>1) {
 			for(var i=1; i<=this.values.length; i++) {
@@ -31,7 +31,7 @@ var LSformElement_supannLabeledValue_field = new Class({
 			this.values[0].clear();
 		}
 	},
-	
+
     reinitialize: function(li) {
       this.values.push(new LSformElement_supannLabeledValue_field_value(li,this.name,this.field_type));
     }

@@ -52,7 +52,7 @@ class LSattr_ldap_naiveDate extends LSattr_ldap {
           $date['tm_mon']+1,
           $date['tm_mday'],
           $date['tm_year']+1900
-        ); 
+        );
       }
     }
     return $retval;
@@ -76,4 +76,3 @@ class LSattr_ldap_naiveDate extends LSattr_ldap {
   }
 
 }
-

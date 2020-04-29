@@ -5,7 +5,7 @@ var LSformElement_ssh_key = new Class({
         varLSdefault.addHelpInfo(span,'LSformElement_ssh_key','display');
       }, this);
     },
-    
+
     onShortDisplayClick: function(span) {
       var p = span.getParent().getFirst('p.LSformElement_ssh_key_value');
       if (typeof(p)) {

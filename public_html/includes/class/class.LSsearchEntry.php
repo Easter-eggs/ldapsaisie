@@ -25,43 +25,43 @@
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSsearchEntry { 
-  
+class LSsearchEntry {
+
   // The LSsearch object
   private $LSsearch=NULL;
-  
+
   // The LdapObject type of search
   private $LSobject=NULL;
-  
+
   // DN
   private $dn;
-  
+
   // The parameters of the search
   private $params=array ();
-  
+
   // The hash of the search parameters
   private $hash = NULL;
-  
+
   // The attributes list
   private $attrs_list=array();
 
   // The attributes values
   private $attrs=array();
-  
+
   // Cache
   private $cache=array();
 
   // Other values
   private $other_values=array();
-  
+
   /**
    * Constructor
-   * 
+   *
    * @param[in] $LSobject string The LdapObject type of search
    * @param[in] $params array Parameters of search
    * @param[in] $hash array Parameters of search
    * @param[in] $resultEntry array The data of the result entry
-   * 
+   *
    **/
   public function __construct(&$LSsearch, $LSobject, $params, $hash, &$result, $id) {
     if (!LSsession :: loadLSobject($LSobject)) {
@@ -76,12 +76,12 @@ class LSsearchEntry {
     $this -> attrs =& $result[$id]['attrs'];
     $this -> cache =& $result[$id]['cache'];
   }
-  
+
   /**
    * Get text value of entry
-   * 
+   *
    * @param[in] $key string The name of the value
-   * 
+   *
    * @retval mixed The value
    **/
   public function get($key) {
@@ -110,21 +110,21 @@ class LSsearchEntry {
 
   /**
    * Get formated text value of entry
-   * 
+   *
    * @param[in] $format string The format of the value
-   * 
+   *
    * @retval mixed The formated value
-   **/  
+   **/
   public function getFData($format) {
     return getFData($format,$this,'get');
   }
-  
-  
+
+
   /**
    * Access to infos of the entry
-   * 
+   *
    * @param[in] $key string The name of the value
-   * 
+   *
    * @retval mixed The value
    **/
   public function __get($key) {
@@ -161,7 +161,7 @@ class LSsearchEntry {
           'action' => 'view'
         )
       );
-      
+
       if (LSsession :: canEdit($this -> LSobject,$this -> dn)) {
         $this -> cache['actions'][]=array(
           'label' => _('Modify'),
@@ -169,7 +169,7 @@ class LSsearchEntry {
           'action' => 'modify'
         );
       }
-      
+
       if ($this -> LSsearch -> canCopy) {
         $this -> cache['actions'][] = array(
           'label' => _('Copy'),
@@ -177,7 +177,7 @@ class LSsearchEntry {
           'action' => 'copy'
         );
       }
-      
+
       if (LSsession :: canRemove($this -> LSobject,$this -> dn)) {
         $this -> cache['actions'][] = array (
           'label' => _('Delete'),
@@ -260,4 +260,3 @@ class LSsearchEntry {
 LSerror :: defineError('LSsearchEntry_01',
 _("LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns %{column}.")
 );
-

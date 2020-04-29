@@ -9,7 +9,7 @@ var LSformElement_jsonCompositeAttribute_field_value = new Class({
         this.initializeLSformElement_jsonCompositeAttribute_field_value();
         varLSform.addModule(field_type,this);
     },
-    
+
     initializeLSformElement_jsonCompositeAttribute_field_value: function(el) {
         if (!$type(el)) {
             el = this.li;
@@ -18,11 +18,11 @@ var LSformElement_jsonCompositeAttribute_field_value = new Class({
             this.components[div.get('data-component')]=new LSformElement_jsonCompositeAttribute_field_value_component(div,div.get('data-component'),this.name,this.uuid);
         }, this);
     },
-      
+
     reinitialize: function(el) {
         this.initializeLSformElement_jsonCompositeAttribute_field_value(el);
     },
-    
+
     clear: function() {
         for (c in this.components) {
             this.components[c].clear();

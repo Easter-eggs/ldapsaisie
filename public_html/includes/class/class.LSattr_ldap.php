@@ -26,12 +26,12 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSattr_ldap {
-  
+
   var $name;
   var $config;
   var $attribute;
 
-  /**         
+  /**
    * Constructeur
    *
    * Cette methode construit l'objet et définis la configuration.
@@ -61,7 +61,7 @@ class LSattr_ldap {
   public function getUpdateData($data) {
     return $data;
   }
- 
+
   /**
    * Retourne la valeur d'affichage de l'attribut après traitement lié à son type ldap
    *
@@ -72,9 +72,9 @@ class LSattr_ldap {
   public function getDisplayValue($data) {
     return $data;
   }
- 
+
   /**
-   * Retourne vrai si la valeur passé en paramètre n'était pas la même que la 
+   * Retourne vrai si la valeur passé en paramètre n'était pas la même que la
    * valeur passer au formulaire
    *
    * @param[in] $data mixed La valeur a tester
@@ -103,4 +103,3 @@ class LSattr_ldap {
   }
 
 }
-

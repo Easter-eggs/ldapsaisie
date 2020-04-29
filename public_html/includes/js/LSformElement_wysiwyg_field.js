@@ -15,5 +15,5 @@ var LSformElement_wysiwyg_field = new Class({
       options.language = varLSdefault.getCurrentLang();
       tinymce.init(options);
     },
-    
+
 });

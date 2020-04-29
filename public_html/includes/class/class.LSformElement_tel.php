@@ -32,12 +32,12 @@ LSsession :: loadLSclass('LSformElement_text');
  */
 
 class LSformElement_tel extends LSformElement_text {
-  
+
   var $fetchVariables = array(
     'uriClass' => 'LSformElement_tel',
     'uriPrefix' => 'tel:'
   );
-  
+
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
   public function getDisplay() {
@@ -46,4 +46,3 @@ class LSformElement_tel extends LSformElement_text {
   }
 
 }
-

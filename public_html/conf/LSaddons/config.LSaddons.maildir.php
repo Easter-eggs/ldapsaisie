@@ -25,7 +25,7 @@
  * Données de configuration pour le support Maildir *
  ****************************************************
  */
-  
+
 // Serveur FTP - Host
 define('LS_MAILDIR_FTP_HOST','127.0.0.1');
 
@@ -36,7 +36,7 @@ define('LS_MAILDIR_FTP_PORT',21);
 define('LS_MAILDIR_FTP_USER','vmail');
 
 // Serveur FTP - Passorwd
-define('LS_MAILDIR_FTP_PWD','password'); 
+define('LS_MAILDIR_FTP_PWD','password');
 
 // Serveur FTP - Maildir Path
 define('LS_MAILDIR_FTP_MAILDIR_PATH','%{mailbox}');
@@ -46,4 +46,3 @@ define('LS_MAILDIR_FTP_MAILDIR_PATH_REGEX','/^\/home\/vmail\/([^\/]+)\/$/');
 
 // Serveur FTP - Maildir CHMOD
 define('LS_MAILDIR_FTP_MAILDIR_CHMOD','700');
-

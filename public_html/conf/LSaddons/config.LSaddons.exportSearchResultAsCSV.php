@@ -25,13 +25,12 @@
  * Configuration for exportSearchResultAsCSV support *
  *****************************************************
  */
-  
+
 // CSV file delimiter
 define('LS_EXPORTSEARCHRESULTASCSV_DELIMITER',',');
-  
+
 // CSV file enclosure
 define('LS_EXPORTSEARCHRESULTASCSV_ENCLOSURE','"');
-  
+
 // CSV file escape character (available since PHP 5.5.4)
 define('LS_EXPORTSEARCHRESULTASCSV_ESCAPE_CHAR','\\');
-

@@ -30,7 +30,7 @@ if(LSsession :: startLSsession()) {
   else if (isset($_GET['LSobject'])) {
     $LSobject = $_GET['LSobject'];
   }
-  
+
   if (isset($LSobject)) {
     // LSObject creation
     if (LSsession ::loadLSobject($LSobject)) {
@@ -38,7 +38,7 @@ if(LSsession :: startLSsession()) {
         if ( LSsession :: loadLSclass('LSimport')) {
           $object = new $LSobject();
           LStemplate :: assign('LSobject',$LSobject);
-  
+
           $ioFormats=$object->listValidIOformats();
           if (is_array($ioFormats) && !empty($ioFormats)) {
             LStemplate :: assign('ioFormats',$ioFormats);
@@ -54,7 +54,7 @@ if(LSsession :: startLSsession()) {
             LStemplate :: assign('ioFormats',array());
             LSerror :: addErrorCode('LSsession_16');
           }
-  	
+
           // Define page title
           LStemplate :: assign('pagetitle',_('Import').' : '.$object->getLabel());
           LSsession :: addCssFile('LSform.css');
@@ -82,4 +82,3 @@ else {
   LSsession :: setTemplate('login.tpl');
 }
 LSsession :: displayTemplate();
-

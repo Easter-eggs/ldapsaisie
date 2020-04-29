@@ -9,7 +9,7 @@ var LSformElement_text_field = new Class({
       this.onChangeColor = '#f16d6d';
       this.generatedValue = "";
     },
-    
+
     start: function() {
       if (this._start) {
         return true;
@@ -18,9 +18,9 @@ var LSformElement_text_field = new Class({
         if ($type(this.params['generate_value_format'])) {
           this.format = this.params['generate_value_format'];
           this.oldBg=this.input.getStyle('background-color');
-          
+
           this.fx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
-          
+
           // GenerateBtn
           this.generateBtn = new Element('img');
           this.generateBtn.addClass('btn');
@@ -54,7 +54,7 @@ var LSformElement_text_field = new Class({
         }
       }
     },
-    
+
     refreshValue: function(force) {
       if (force==true) {
         this._auto=1;

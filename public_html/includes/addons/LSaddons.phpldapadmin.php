@@ -30,7 +30,7 @@ LSerror :: defineError('PHPLDAPADMIN_SUPPORT_01',
 
 /**
  * Verify support of PhpLdapAdmin by LdapSaisie
- * 
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  *
  * @retval boolean true if is supported, false also
@@ -54,7 +54,7 @@ function LSaddon_phpldapadmin_support() {
 
 /**
  * Redirect to PhpLdapAdmin view object page
- * 
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  *
  * @retval boolean true in all cases
@@ -64,4 +64,3 @@ function redirectToPhpLdapAdmin(&$ldapObject) {
    LSsession::redirect($url);
    return true;
 }
-

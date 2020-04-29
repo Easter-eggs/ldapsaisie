@@ -8,7 +8,7 @@ var LSdefault = new Class({
         autoClose: 0
       });
       this.LSdebugInfos = $('LSdebug_txt');
-      
+
       // LSerror
       this.LSerror = new LSinfosBox({
         name: 'LSerror',
@@ -16,7 +16,7 @@ var LSdefault = new Class({
         autoClose: 10000
       });
       this.LSerror_div = $('LSerror_txt');
-      
+
       // LSinfos
       this.LSinfos = new LSinfosBox({name: 'LSinfos'});
       this.LSinfos_div = $('LSinfos_txt');
@@ -33,42 +33,42 @@ var LSdefault = new Class({
       this.loading_img=[];
       this.loading_img_id=-1;
 
-      // LSsession_topDn      
+      // LSsession_topDn
       this.LSsession_topDn = $('LSsession_topDn');
       if (this.LSsession_topDn) {
         this.LSsession_topDn.addEvent('change',this.onLSsession_topDnChange.bind(this));
       }
-      
+
       // Display Infos
       if (this.LSdebugInfos.innerHTML != '') {
         this.LSdebug.display(this.LSdebugInfos.innerHTML);
       }
-      
+
       if (this.LSerror_div.innerHTML != '') {
         this.LSerror.display(this.LSerror_div.innerHTML);
       }
-      
+
       if (this.LSinfos_div.innerHTML != '') {
         this.LSinfos.display(this.LSinfos_div.innerHTML);
       }
-      
+
       // :)
       var getMoo = /moo$/;
       if (getMoo.exec(window.location)) {
         this.moo();
       }
       document.addEvent('keyup',this.onWantMoo.bindWithEvent(this));
-      
+
       this.LStips = new Tips('.LStips', {'text': ""});
-      
+
       if ($type(this.LSjsConfig['keepLSsessionActive'])) {
         this.LSjsConfig['keepLSsessionActive'] = (Math.round(this.LSjsConfig['keepLSsessionActive']*0.70)*1000);
         this.keepLSsession.delay(this.LSjsConfig['keepLSsessionActive'],this);
       }
-      
+
       this.initializeLang();
     },
-    
+
     initializeLang: function() {
       this.LSlang = $('LSlang');
       if ($type(this.LSlang)) {
@@ -86,7 +86,7 @@ var LSdefault = new Class({
         }
       }
     },
-    
+
     onLSlangClick: function() {
       LSdebug(this.LSlang_select);
       var infos = this.LSlang.getCoordinates();
@@ -95,7 +95,7 @@ var LSdefault = new Class({
       this.LSlang_select.setStyle('display','block');
       this.LSlang_open=1;
     },
-    
+
     closeLSlang: function(event) {
       event = new Event(event);
       if (event.target.id!='LSlang') {
@@ -110,7 +110,7 @@ var LSdefault = new Class({
       }
       return false;
     },
-    
+
     onSelectLSlangImgClick: function(img) {
       window.location='index.php?lang='+img.alt;
     },
@@ -138,22 +138,22 @@ var LSdefault = new Class({
           document.location = data.LSredirect;
           return true;
         }
-        
+
         if ($type(data.imgload)) {
           this.loadingImgHide(data.imgload);
         }
         else {
           this.loadingImgHide();
         }
-        
+
         if ($type(data.LSdebug)) {
           this.LSdebug.displayOrAdd(data.LSdebug);
         }
-        
+
         if ($type(data.LSinfos)) {
           this.LSinfos.displayOrAdd(data.LSinfos);
         }
-        
+
         if ($type(data.LSerror)) {
           this.LSerror.displayOrAdd(data.LSerror);
           return;
@@ -198,7 +198,7 @@ var LSdefault = new Class({
         this.loading_img[id].destroy();
       }
     },
-    
+
     ajaxDisplayDebugAndError: function() {
       var LSdebug_txt = $('LSdebug_txt_ajax');
       if (LSdebug_txt) {
@@ -207,7 +207,7 @@ var LSdefault = new Class({
           this.LSdebug.displayOrAdd(debug);
         }
       }
-      
+
       var LSerror_txt = $('LSerror_txt_ajax');
       if (LSerror_txt) {
         var error=LSerror_txt.innerHTML;
@@ -216,18 +216,18 @@ var LSdefault = new Class({
         }
       }
     },
-    
+
     imagePath: function(image) {
       return 'image.php?i=' + image;
     },
-    
+
     getParams: function(name) {
       if ($type(this.LSjsConfig[name])) {
         return this.LSjsConfig[name];
       }
       return new Hash();
     },
-    
+
     addHelpInfo: function(el,group,name) {
       if ($type(this.LSjsConfig['helpInfos'])) {
         if ($type(el)=='element') {
@@ -240,7 +240,7 @@ var LSdefault = new Class({
         }
       }
     },
-    
+
     setHelpInfo: function(el,group,name) {
       if ($type(this.LSjsConfig['helpInfos'])) {
         if ($type(el)=='element') {
@@ -252,25 +252,25 @@ var LSdefault = new Class({
         }
       }
     },
-    
+
     addTip: function(el) {
       this.LStips.attach(el);
     },
-    
+
     removeTip: function(el) {
       this.LStips.detach(el);
     },
-    
+
     keepLSsession: function() {
       LSdebug('Keep LSsession');
       new Request({url: 'index_ajax.php', data: {}, onSuccess: this.keepLSsessionComplete.bind(this)}).send();
     },
-    
+
     keepLSsessionComplete: function() {
       LSdebug('Keep LSsession OK');
       this.keepLSsession.delay(this.LSjsConfig['keepLSsessionActive'],this);
     },
-    
+
     log: function(data) {
       this.LSdebug.addInfo(data);
     }

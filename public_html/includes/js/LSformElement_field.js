@@ -4,7 +4,7 @@ var LSformElement_field = new Class({
       this.LSformElement = LSformElement;
       this.li = li;
       this.field_name = field_name;
-      
+
       if (this.LSformElement.multiple) {
         this.addFieldBtn = new Element('img');
         this.addFieldBtn.src = varLSdefault.imagePath('add');
@@ -12,7 +12,7 @@ var LSformElement_field = new Class({
         this.addFieldBtn.addEvent('click',this.LSformElement.onAddFieldBtnClick.bind(this.LSformElement,this));
         this.addFieldBtn.injectInside(this.li);
         varLSdefault.addHelpInfo(this.addFieldBtn,'LSform','addFieldBtn');
-        
+
         this.removeFieldBtn = new Element('img');
         this.removeFieldBtn.src = varLSdefault.imagePath('remove');
         this.removeFieldBtn.addClass('btn');
@@ -21,7 +21,7 @@ var LSformElement_field = new Class({
         varLSdefault.addHelpInfo(this.removeFieldBtn,'LSform','removeFieldBtn');
       }
     },
-    
+
     getFormField: function() {
       if ($type(this._formField)) {
         return this._formField;
@@ -32,14 +32,14 @@ var LSformElement_field = new Class({
       }
       return this._formField;
     },
-    
+
     clearValue: function() {
       if ($type(this.getFormField())) {
         this.getFormField().value='';
       }
       varLSform.clearFieldValue(this.field_name);
     },
-    
+
     remove: function() {
       this.li.destroy();
     }

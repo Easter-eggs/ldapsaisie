@@ -26,7 +26,7 @@ LSsession :: loadLSaddon('supann');
 /**
  * Element supannActivite d'un formulaire pour LdapSaisie
  *
- * Cette classe définis les éléments supannEtablissement des formulaires.
+ * Cette classe dï¿½finis les ï¿½lï¿½ments supannEtablissement des formulaires.
  * Elle etant la classe basic LSformElement_supannLabeledValue.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -35,4 +35,3 @@ LSsession :: loadLSaddon('supann');
 class LSformElement_supannActivite extends LSformElement_supannLabeledValue {
   var $supannNomenclatureTable = 'supannActivite';
 }
-

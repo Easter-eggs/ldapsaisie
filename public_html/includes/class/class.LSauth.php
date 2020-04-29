@@ -23,17 +23,17 @@
 /**
  * Gestion de l'authentification d'un utilisateur
  *
- * Cette classe gere l'authentification des utilisateurs à l'interface
+ * Cette classe gere l'authentification des utilisateurs ï¿½ l'interface
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSauth {
-  
+
   static private $authData=NULL;
   static private $authObject=NULL;
   static private $config=array();
   static private $provider=NULL;
-  
+
   static private $params = array (
     'displayLoginForm' => true,
     'displayLogoutBtn' => true,
@@ -68,7 +68,7 @@ class LSauth {
       return;
     }
   }
-  
+
   public static function forceAuthentication() {
     LSdebug('LSauth :: forceAuthentication()');
     if (!is_null(self :: $provider)) {
@@ -100,7 +100,7 @@ class LSauth {
 
  /**
   * Logout
-  * 
+  *
   * @retval void
   **/
   public static function logout() {
@@ -129,7 +129,7 @@ class LSauth {
 
  /**
   * Disable logout button in LSauth parameters
-  * 
+  *
   * @retval void
   **/
   public static function disableLogoutBtn() {
@@ -138,13 +138,13 @@ class LSauth {
 
  /**
   * Can display or not logout button in LSauth parameters
-  * 
+  *
   * @retval boolean
   **/
   public static function displayLogoutBtn() {
     return self :: $params['displayLogoutBtn'];
   }
-  
+
  /**
   * Disable self access
   *
@@ -200,4 +200,3 @@ _("LSauth : Not correctly initialized.")
 LSerror :: defineError('LSauth_07',
 _("LSauth : Failed to get authentication informations from provider.")
 );
-

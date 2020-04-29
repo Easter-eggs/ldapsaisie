@@ -28,7 +28,7 @@ LSerror :: defineError('LSACCESSRIGHTSMATRIXVIEW_SUPPORT_01',
 
 /**
  * Check support of LSaccessRightsMatrixView addon by LdapSaisie
- * 
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  *
  * @retval boolean true if LSaccessRightsMatrixView addon is totally supported, false in other case

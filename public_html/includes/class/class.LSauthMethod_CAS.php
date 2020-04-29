@@ -32,7 +32,7 @@ class LSauthMethod_CAS extends LSauthMethod {
 
   public function __construct() {
 		LSauth :: disableLoginForm();
-		
+
 		if (!parent :: __construct())
 			return;
 
@@ -57,7 +57,7 @@ class LSauthMethod_CAS extends LSauthMethod {
 				phpCAS::setNoCasServerValidation();
 				$cas_server_ssl_validation_configured = true;
 			}
-			
+
 			if (defined('LSAUTH_CAS_SERVER_SSL_CACERT')) {
 				LSlog :: debug('LSauthMethod_CAS : validate CAS server SSL certificate using '.LSAUTH_CAS_SERVER_SSL_CACERT.' CA certificate file.');
 				phpCAS::setCasServerCACert(LSAUTH_CAS_SERVER_SSL_CACERT);
@@ -92,9 +92,9 @@ class LSauthMethod_CAS extends LSauthMethod {
 
   /**
    * Check Auth Data
-   * 
+   *
    * Return authentication data or false
-   * 
+   *
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
@@ -111,10 +111,10 @@ class LSauthMethod_CAS extends LSauthMethod {
 		}
 		return;
 	}
-	
+
  /**
   * Logout
-  * 
+  *
   * @retval boolean True on success or False
   **/
 	public function logout() {
@@ -142,4 +142,3 @@ _("LSauthMethod_CAS : Failed to load phpCAS.")
 LSerror :: defineError('LSauthMethod_CAS_02',
 _("LSauthMethod_CAS : Please check your configuration : you must configure CAS server SSL certificate validation using one of the following constant : LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION")
 );
-

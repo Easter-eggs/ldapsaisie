@@ -22,7 +22,7 @@
 
 /**
  * LDAP Attribute shadowExpire
- * 
+ *
  * This class permit to manage shadowExpire attribute as a timestamp, and consequently
  * permit to use LSattr_html_date to manage it value in the interface.
  */
@@ -59,4 +59,3 @@ class LSattr_ldap_shadowExpire extends LSattr_ldap {
   }
 
 }
-

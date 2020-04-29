@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Gestion des sessions
  *
  * Cette classe gÃ¨re les sessions d'utilisateurs.
@@ -31,60 +31,60 @@ class LSsession {
 
   // La configuration du serveur Ldap utilisé
   public static $ldapServer = NULL;
-  
+
   // L'id du serveur Ldap utilisé
   private static $ldapServerId = NULL;
-  
+
   // Le topDn courant
   private static $topDn = NULL;
-  
+
   // Le DN de l'utilisateur connecté
   private static $dn = NULL;
-  
+
   // Le RDN de l'utilisateur connecté (son identifiant)
   private static $rdn = NULL;
-  
+
   // Les LSprofiles de l'utilisateur
   private static $LSprofiles = array();
-  
+
   // Les droits d'accès de l'utilisateur
   private static $LSaccess = array();
 
   // LSaddons views
   private static $LSaddonsViews = array();
   private static $LSaddonsViewsAccess = array();
-  
+
   // Les fichiers temporaires
   private static $tmp_file = array();
-  
+
   // Langue et encodage actuel
   private static $lang = NULL;
   private static $encoding = NULL;
-  
+
   /*
    * Constante de classe non stockée en session
    */
   // Le template à afficher
   private static $template = NULL;
-  
+
   // Les subDn des serveurs Ldap
   private static $_subDnLdapServer = array();
-  
+
   // Affichage Ajax
   private static $ajaxDisplay = false;
 
   // Les fichiers JS à charger dans la page
   private static $JSscripts = array();
-  
+
   // Les paramètres JS à communiquer dans la page
   private static $_JSconfigParams = array();
-  
+
   // Les fichiers CSS à charger dans la page
   private static $CssFiles = array();
 
   // L'objet de l'utilisateur connecté
   private static $LSuserObject = NULL;
-  
+
   // The LSauht object of the session
   private static $LSauthObject = false;
 
@@ -180,7 +180,7 @@ class LSsession {
       return self :: getRootDn();
     }
   }
-  
+
  /**
   * Retourne le rootDn de la session
   *
@@ -217,7 +217,7 @@ class LSsession {
   * @param[in] $warn (Optionnel) Trigger LSsession_05 error if an error occured loading this class (Default: false)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
-  * 
+  *
   * @retval boolean true on success, otherwise false
   */
   public static function loadLSclass($class, $type=null, $warn=false) {
@@ -272,7 +272,7 @@ class LSsession {
             LSlog :: error("LSsession :: loadLSobject($object) : Fail to load LSaddon '".$GLOBALS['LSobjects'][$object]['LSaddons']."'");
             $error = 1;
           }
-        } 
+        }
       }
     }
     if ($error) {
@@ -288,7 +288,7 @@ class LSsession {
   * @param[in] $addon Nom de l'addon Ã  charger (Exemple : samba)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
-  * 
+  *
   * @retval boolean true si le chargement a rÃ©ussi, false sinon.
   */
   public static function loadLSaddon($addon) {
@@ -307,7 +307,7 @@ class LSsession {
   * Chargement d'une classe d'authentification d'LdapSaisie
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
-  * 
+  *
   * @retval boolean true si le chargement a reussi, false sinon.
   */
   public static function loadLSauth() {
@@ -360,7 +360,7 @@ class LSsession {
 
  /**
   * Défini la locale
-  * 
+  *
   * @retval void
   */
   public static function setLocale($lang=null,$encoding=null) {
@@ -378,7 +378,7 @@ class LSsession {
         $lang = LSconfig :: get('lang');
       }
     }
-    
+
     if (is_null($encoding)) {
       if (isset($_REQUEST['encoding'])) {
         $encoding = $_REQUEST['encoding'];
@@ -393,12 +393,12 @@ class LSsession {
         $encoding = LSconfig :: get('encoding');
       }
     }
-    
+
     $_SESSION['LSlang']=$lang;
     self :: $lang=$lang;
     $_SESSION['LSencoding']=$encoding;
     self :: $encoding=$encoding;
-    
+
 
     if (self :: localeExist($lang,$encoding)) {
       LSlog :: debug("LSsession :: setLocale() : Use local '$lang.$encoding'");
@@ -433,12 +433,12 @@ class LSsession {
       LSlog :: error("The local '$lang' does not exists , use default one.");
     }
   }
-  
+
  /**
   * Retourne la liste des langues disponibles
-  * 
+  *
   * @retval array Tableau/Liste des langues disponibles
-  **/ 
+  **/
   public static function getLangList() {
     $list=array('en_US');
     if (self :: $encoding) {
@@ -463,9 +463,9 @@ class LSsession {
 
  /**
   * Retourne la langue courante de la session
-  * 
+  *
   * @param[in] boolean Si true, le code langue retourné sera court
-  * 
+  *
   * @retval string La langue de la session
   **/
   public static function getLang($short=false) {
@@ -474,13 +474,13 @@ class LSsession {
     }
     return self :: $lang;
   }
-  
+
  /**
   * Vérifie si une locale est disponible
-  * 
+  *
   * @param[in] $lang string La langue (Ex : fr_FR)
   * @param[in] $encoding string L'encodage de caractère (Ex : UTF8)
-  * 
+  *
   * @retval boolean True si la locale est disponible, False sinon
   **/
   public static function localeExist($lang,$encoding) {
@@ -531,7 +531,7 @@ class LSsession {
   *
   * Initialisation d'une LSsession :
   * - Authentification et activation du mÃ©canisme de session de LdapSaisie
-  * - ou Chargement des paramÃ¨tres de la session Ã  partir de la variable 
+  * - ou Chargement des paramÃ¨tres de la session Ã  partir de la variable
   *   $_SESSION['LSsession'].
   * - ou Destruction de la session en cas de $_GET['LSsession_logout'].
   *
@@ -541,9 +541,9 @@ class LSsession {
     if (!self :: initialize()) {
       return;
     }
-    
+
     if(isset($_SESSION['LSsession']['dn']) && !isset($_GET['LSsession_recoverPassword'])) {
-      LSlog :: debug('LSsession : existing session'); 
+      LSlog :: debug('LSsession : existing session');
       // --------------------- Session existante --------------------- //
       self :: $topDn         = $_SESSION['LSsession']['topDn'];
       self :: $dn            = $_SESSION['LSsession']['dn'];
@@ -551,7 +551,7 @@ class LSsession {
       self :: $ldapServerId  = $_SESSION['LSsession']['ldapServerId'];
       self :: $tmp_file      = $_SESSION['LSsession']['tmp_file'];
       self :: $userLDAPcreds = $_SESSION['LSsession']['userLDAPcreds'];
-      
+
       if ( self :: cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
         self :: setLdapServer(self :: $ldapServerId);
         if (!LSauth :: start()) {
@@ -574,17 +574,17 @@ class LSsession {
           return;
         self :: loadLSprofiles();
       }
-      
+
       if ( self :: cacheSudDn() && (!isset($_REQUEST['LSsession_refresh'])) ) {
         self :: $_subDnLdapServer = ((isset($_SESSION['LSsession_subDnLdapServer']))?$_SESSION['LSsession_subDnLdapServer']:NULL);
       }
-      
+
       if (!self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
         return;
       }
 
       LStemplate :: assign('globalSearch', self :: globalSearch());
-      
+
       if (isset($_GET['LSsession_logout'])) {
         // Trigger LSauth logout
         LSauth :: logout();
@@ -606,25 +606,25 @@ class LSsession {
         self :: redirect('index.php');
         return;
       }
-      
+
       if ( !self :: cacheLSprofiles() || isset($_REQUEST['LSsession_refresh']) ) {
         self :: loadLSprofiles();
         self :: loadLSaccess();
         self :: loadLSaddonsViewsAccess();
         $_SESSION['LSsession']=self :: getContextInfos();
       }
-      
+
       LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
-      
+
       if (isset ($_POST['LSsession_topDn']) && $_POST['LSsession_topDn']) {
         if (self :: validSubDnLdapServer($_POST['LSsession_topDn'])) {
           self :: $topDn = $_POST['LSsession_topDn'];
           $_SESSION['LSsession']['topDn'] = $_POST['LSsession_topDn'];
         } // end if
       } // end if
-      
+
       return true;
-      
+
     }
     else {
       // --------------------- Session inexistante --------------------- //
@@ -638,7 +638,7 @@ class LSsession {
       else {
         self :: setLdapServer(0);
       }
-      
+
       // Connexion au serveur LDAP
       if (self :: LSldapConnect()) {
 
@@ -650,12 +650,12 @@ class LSsession {
           self :: $topDn = self :: $ldapServer['ldap_config']['basedn'];
         }
         $_SESSION['LSsession_topDn']=self :: $topDn;
-       
+
         if (!LSauth :: start()) {
           LSlog :: error("LSsession :: startLSsession() : can't start LSauth -> stop");
           return;
         }
-        
+
         if (isset($_GET['LSsession_recoverPassword'])) {
           $recoveryPasswordInfos = self :: recoverPasswd(
                                       $_REQUEST['LSsession_user'],
@@ -694,7 +694,7 @@ class LSsession {
       else {
         LSerror :: addErrorCode('LSsession_09');
       }
-      
+
       if (self :: $ldapServerId) {
         LStemplate :: assign('ldapServerId',self :: $ldapServerId);
       }
@@ -727,10 +727,10 @@ class LSsession {
 
   /**
    * Do recover password
-   * 
+   *
    * @param[in] $username string The submited username
    * @param[in] $recoveryHash string The submited recoveryHash
-   * 
+   *
    * @retval array The recoveryPassword infos for template
    **/
   private static function recoverPasswd($username,$recoveryHash) {
@@ -756,12 +756,12 @@ class LSsession {
       else {
         return $recoveryPasswordInfos;
       }
-      
+
       $nbresult=count($result);
-      
+
       if ($nbresult==0) {
         LSlog :: debug('LSsession :: recoverPasswd() : incorrect hash/username');
-        LSerror :: addErrorCode('LSsession_06');  
+        LSerror :: addErrorCode('LSsession_06');
       }
       elseif ($nbresult>1) {
         LSlog :: debug("LSsession :: recoverPasswd() : duplicated user found with hash/username '$username'");
@@ -777,11 +777,11 @@ class LSsession {
             $user=$result[0];
             $emailAddress = $user -> getValue(self :: $ldapServer['recoverPassword']['mailAttr']);
             $emailAddress = $emailAddress[0];
-            
+
             if (checkEmail($emailAddress)) {
               LSlog :: debug("LSsession :: recoverPasswd() : Email = '$emailAddress'");
               self :: $dn = $user -> getDn();
-              
+
               // 1ère étape : envoie du recoveryHash
               if (empty($recoveryHash)) {
                 $hash=self :: recoverPasswdFirstStep($user);
@@ -815,14 +815,14 @@ class LSsession {
     }
     return $recoveryPasswordInfos;
   }
-  
+
   /**
    * Send recover password mail
-   * 
+   *
    * @param[in] $mail string The user's mail
    * @param[in] $step integer The step
    * @param[in] $info string The info for formatted message
-   * 
+   *
    * @retval boolean True on success or False
    **/
   private static function recoverPasswdSendMail($mail,$step,$info) {
@@ -831,7 +831,7 @@ class LSsession {
     if (self :: $ldapServer['recoverPassword']['recoveryEmailSender']) {
       $sendParams['From']=self :: $ldapServer['recoverPassword']['recoveryEmailSender'];
     }
-    
+
     if ($step==1) {
       if ($_SERVER['HTTPS']=='on') {
         $recovery_url='https://';
@@ -840,7 +840,7 @@ class LSsession {
         $recovery_url='http://';
       }
       $recovery_url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'&recoveryHash='.$info;
-      
+
       $subject = self :: $ldapServer['recoverPassword']['recoveryHashMail']['subject'];
       $msg = getFData(
         self :: $ldapServer['recoverPassword']['recoveryHashMail']['msg'],
@@ -854,7 +854,7 @@ class LSsession {
         $info
       );
     }
-    
+
     if (!sendMail($mail,$subject,$msg,$sendParams)) {
       LSlog :: debug("LSsession :: recoverPasswdSendMail($mail, $step) : error sending email.");
       LSerror :: addErrorCode('LSsession_20',4);
@@ -862,13 +862,13 @@ class LSsession {
     }
     return true;
   }
-  
-  
+
+
   /**
    * Do first step of recovering password
-   * 
+   *
    * @param[in] $user LSldapObject The LSldapObject of the user
-   * 
+   *
    * @retval string|False The recory hash on success or False
    **/
   private static function recoverPasswdFirstStep($user) {
@@ -876,7 +876,7 @@ class LSsession {
     $rdn=$user -> getValue('rdn');
     $rdn = $rdn[0];
     $recovery_hash = md5($rdn . strval(time()) . strval(rand()));
-    
+
     $lostPasswdForm = $user -> getForm('lostPassword');
     $lostPasswdForm -> setPostData(
       array(
@@ -884,7 +884,7 @@ class LSsession {
       )
       ,true
     );
-      
+
     if($lostPasswdForm -> validate()) {
       if ($user -> updateData('lostPassword')) {
         // recoveryHash de l'utilisateur mis à jour
@@ -906,9 +906,9 @@ class LSsession {
 
   /**
    * Do second step of recovering password
-   * 
+   *
    * @param[in] $user LSldapObject The LSldapObject of the user
-   * 
+   *
    * @retval string|False The new password on success or False
    **/
   private static function recoverPasswdSecondStep($user) {
@@ -950,12 +950,12 @@ class LSsession {
     }
     return;
   }
-  
+
  /**
   * Retourne les informations du contexte
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
-  * 
+  *
   * @retval array Tableau associatif des informations du contexte
   */
   private static function getContextInfos() {
@@ -972,12 +972,12 @@ class LSsession {
       'LSaddonsViewsAccess' => self :: $LSaddonsViewsAccess
     );
   }
-  
+
   /**
   * Retourne l'objet de l'utilisateur connecté
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
-  * 
+  *
   * @retval mixed L'objet de l'utilisateur connecté ou false si il n'a pas put
   *               être créé
   */
@@ -996,12 +996,12 @@ class LSsession {
     }
     return self :: $LSuserObject;
   }
-  
+
  /**
   * Retourne le DN de l'utilisateur connecté
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
-  * 
+  *
   * @retval string Le DN de l'utilisateur connecté
   */
   public static function getLSuserObjectDn() {
@@ -1010,11 +1010,11 @@ class LSsession {
 
  /**
   * Modifie l'utilisateur connecté à la volé
-  * 
+  *
   * @param[in] $object Mixed  L'objet Ldap du nouvel utilisateur
   *                           le type doit correspondre à
   *                           self :: $ldapServer['authObjectType']
-  * 
+  *
   * @retval boolean True en cas de succès, false sinon
   */
  public static function changeAuthUser($object) {
@@ -1026,7 +1026,7 @@ class LSsession {
     }
     self :: $rdn = $rdn;
     self :: $LSuserObject = $object;
-    
+
     if(self :: loadLSprofiles()) {
       self :: loadLSaccess();
       self :: loadLSaddonsViewsAccess();
@@ -1040,7 +1040,7 @@ class LSsession {
  /**
   * DÃ©finition du serveur Ldap de la session
   *
-  * DÃ©finition du serveur Ldap de la session Ã  partir de son ID dans 
+  * DÃ©finition du serveur Ldap de la session Ã  partir de son ID dans
   * le tableau LSconfig :: get('ldap_servers').
   *
   * @param[in] integer Index du serveur Ldap
@@ -1093,7 +1093,7 @@ class LSsession {
 
   /**
    * Use this function to know if subDn is enabled for the curent LdapServer
-   * 
+   *
    * @retval boolean
    **/
   public static function subDnIsEnabled() {
@@ -1171,13 +1171,13 @@ class LSsession {
     }
     return $return;
   }
-  
+
   /**
    * Retourne la liste de subDn du serveur Ldap utilise
    * trié par la profondeur dans l'arboressence (ordre décroissant)
-   * 
+   *
    * @return array() Tableau des subDn trié
-   */  
+   */
   public static function getSortSubDnLdapServer($login=false) {
     $subDnLdapServer = self :: getSubDnLdapServer($login);
     if (!$subDnLdapServer) {
@@ -1207,7 +1207,7 @@ class LSsession {
         else {
           $selected_txt = '';
         }
-        $display.="<option value=\"".$dn."\"$selected_txt>".$txt."</option>\n"; 
+        $display.="<option value=\"".$dn."\"$selected_txt>".$txt."</option>\n";
       }
       return $display;
     }
@@ -1218,7 +1218,7 @@ class LSsession {
   * Vérifie qu'un subDn est déclaré
   *
   * @param[in] string Un subDn
-  * 
+  *
   * @retval boolean True si le subDn existe, False sinon
   */
   public static function validSubDnLdapServer($subDn) {
@@ -1280,7 +1280,7 @@ class LSsession {
     LStemplate :: assign('loginform_label_pwd',_('Password'));
     LStemplate :: assign('loginform_label_submit',_('Connect'));
     LStemplate :: assign('loginform_label_recoverPassword',_('Forgot your password ?'));
-    
+
     self :: setTemplate('login.tpl');
     self :: addJSscript('LSsession_login.js');
   }
@@ -1288,10 +1288,10 @@ class LSsession {
  /**
   * Affiche le formulaire de récupération de mot de passe
   *
-  * Défini les informations pour le template Smarty du formulaire de 
+  * Défini les informations pour le template Smarty du formulaire de
   * récupération de mot de passe
-  * 
-  * @param[in] $infos array() Information sur le status du processus de 
+  *
+  * @param[in] $infos array() Information sur le status du processus de
   *                           recouvrement de mot de passe
   *
   * @retval void
@@ -1299,11 +1299,11 @@ class LSsession {
   public static function displayRecoverPasswordForm($recoveryPasswordInfos) {
     LStemplate :: assign('pagetitle',_('Recovery of your credentials'));
     LStemplate :: assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
-    
+
     if (count(LSconfig :: get('ldap_servers'))==1) {
       LStemplate :: assign('recoverpasswordform_ldapserver_style','style="display: none"');
     }
-    
+
     LStemplate :: assign('recoverpasswordform_label_ldapserver',_('LDAP server'));
     $ldapservers_name=array();
     $ldapservers_index=array();
@@ -1317,10 +1317,10 @@ class LSsession {
     LStemplate :: assign('recoverpasswordform_label_user',_('Identifier'));
     LStemplate :: assign('recoverpasswordform_label_submit',_('Validate'));
     LStemplate :: assign('recoverpasswordform_label_back',_('Back'));
-    
+
     $recoverpassword_step = 'start';
     $recoverpassword_msg = _('Please fill the identifier field to proceed recovery procedure');
-    
+
     if (isset($recoveryPasswordInfos['recoveryHashMail'])) {
       $recoverpassword_step = 'token_sent';
       $recoverpassword_msg = getFData(
@@ -1329,7 +1329,7 @@ class LSsession {
         $recoveryPasswordInfos['recoveryHashMail']
       );
     }
-    
+
     if (isset($recoveryPasswordInfos['newPasswordMail'])) {
       $recoverpassword_step = 'new_password_sent';
       $recoverpassword_msg = getFData(
@@ -1337,10 +1337,10 @@ class LSsession {
         $recoveryPasswordInfos['newPasswordMail']
       );
     }
-    
+
     LStemplate :: assign('recoverpassword_step',$recoverpassword_step);
     LStemplate :: assign('recoverpassword_msg',$recoverpassword_msg);
-    
+
     self :: setTemplate('recoverpassword.tpl');
     self :: addJSscript('LSsession_recoverPassword.js');
   }
@@ -1348,7 +1348,7 @@ class LSsession {
  /**
   * DÃ©fini le template Smarty Ã  utiliser
   *
-  * Remarque : les fichiers de templates doivent se trouver dans le dossier 
+  * Remarque : les fichiers de templates doivent se trouver dans le dossier
   * templates/.
   *
   * @param[in] string Le nom du fichier de template
@@ -1378,7 +1378,7 @@ class LSsession {
 
  /**
   * Ajouter un paramètre de configuration Javascript
-  * 
+  *
   * @param[in] $name string Nom de la variable de configuration
   * @param[in] $val mixed Valeur de la variable de configuration
   *
@@ -1432,7 +1432,7 @@ class LSsession {
     }
 
     $KAconf = LSconfig :: get('keepLSsessionActive');
-    if ( 
+    if (
           (
             (!isset(self :: $ldapServer['keepLSsessionActive']))
             &&
@@ -1445,14 +1445,14 @@ class LSsession {
     }
 
     LStemplate :: assign('LSjsConfig',base64_encode(json_encode(self :: $_JSconfigParams)));
-    
+
     if (LSdebug) {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";
     }
     else {
       $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 0;</script>\n";
     }
-    
+
     LStemplate :: assign('LSsession_js',$JSscript_txt);
 
     // Css
@@ -1468,11 +1468,11 @@ class LSsession {
       $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file."?nocache=$nocache' />\n";
     }
     LStemplate :: assign('LSsession_css',$Css_txt);
- 
-    // Access 
+
+    // Access
     LStemplate :: assign('LSaccess', self :: getLSaccess());
     LStemplate :: assign('LSaddonsViewsAccess',self :: $LSaddonsViewsAccess);
-    
+
     // Niveau
     $listTopDn = self :: getSubDnLdapServer();
     if (is_array($listTopDn)) {
@@ -1490,12 +1490,12 @@ class LSsession {
       LStemplate :: assign('LSsession_subDn',self :: $topDn);
       LStemplate :: assign('LSsession_subDnName',self :: getSubDnName());
     }
-    
+
     LStemplate :: assign('LSlanguages',self :: getLangList());
     LStemplate :: assign('LSlang',self :: $lang);
     LStemplate :: assign('LSencoding',self :: $encoding);
     LStemplate :: assign('lang_label',_('Language'));
-    
+
     LStemplate :: assign('displayLogoutBtn',LSauth :: displayLogoutBtn());
     LStemplate :: assign('displaySelfAccess',LSauth :: displaySelfAccess());
 
@@ -1504,7 +1504,7 @@ class LSsession {
       LStemplate :: assign('LSinfos',$_SESSION['LSsession_infos']);
       $_SESSION['LSsession_infos']=array();
     }
-    
+
     if (self :: $ajaxDisplay) {
       LStemplate :: assign('LSerror_txt',LSerror :: getErrors());
       LStemplate :: assign('LSdebug_txt',LSdebug_print(true));
@@ -1515,15 +1515,15 @@ class LSsession {
     }
     if (!self :: $template)
       self :: setTemplate('empty.tpl');
-      
+
     LStemplate :: assign('connected_as',_("Connected as"));
-    
+
     LStemplate :: display(self :: $template);
   }
-  
+
  /**
   * Défini que l'affichage se fera ou non via un retour Ajax
-  * 
+  *
   * @param[in] $val boolean True pour que l'affichage se fasse par un retour
   *                         Ajax, false sinon
   * @retval void
@@ -1531,7 +1531,7 @@ class LSsession {
   public static function setAjaxDisplay($val=true) {
     self :: $ajaxDisplay = (boolean)$val;
   }
-  
+
  /**
   * Affiche un retour Ajax
   *
@@ -1542,9 +1542,9 @@ class LSsession {
       echo json_encode($data);
       return;
     }
-    
+
     $data['LSjsConfig'] = self :: $_JSconfigParams;
-    
+
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
       $txt_infos="<ul>\n";
@@ -1555,7 +1555,7 @@ class LSsession {
       $data['LSinfos'] = $txt_infos;
       $_SESSION['LSsession_infos']=array();
     }
-    
+
     if (LSerror :: errorsDefined()) {
       $data['LSerror'] = LSerror :: getErrors();
     }
@@ -1568,15 +1568,15 @@ class LSsession {
       $data['LSdebug'] = LSdebug_print(true,false);
     }
 
-    echo json_encode($data);  
+    echo json_encode($data);
   }
- 
+
  /**
   * Retournne un template Smarty compilé
   *
   * @param[in] string $template Le template à retourner
   * @param[in] array $variables Variables Smarty à assigner avant l'affichage
-  * 
+  *
   * @retval string Le HTML compilé du template
   */
   public static function fetchTemplate($template,$variables=array()) {
@@ -1585,7 +1585,7 @@ class LSsession {
     }
     return LStemplate :: fetch($template);
   }
-  
+
   /**
    * Prend un tableau de LSobject et le réduit en utilisant un filtre de
    * recherche sur un autre type de LSobject.
@@ -1694,7 +1694,7 @@ class LSsession {
 
   /**
    * Charge les droits LS de l'utilisateur
-   * 
+   *
    * @retval boolean True si le chargement Ã  rÃ©ussi, false sinon.
    **/
   private static function loadLSprofiles() {
@@ -1769,7 +1769,7 @@ class LSsession {
       return;
     }
   }
-  
+
   /**
    * Charge les droits d'accÃ¨s de l'utilisateur pour construire le menu de l'interface
    *
@@ -1782,7 +1782,7 @@ class LSsession {
         if ($name=='LSobject') {
           if (is_array($config)) {
 
-            // Définition des subDns 
+            // Définition des subDns
             foreach($config as $objectType => $objectConf) {
               if (self :: loadLSobject($objectType)) {
                 if ($subdnobject = new $objectType()) {
@@ -1928,33 +1928,33 @@ class LSsession {
     }
     return false;
   }
-  
+
   /**
    * Retourne qui est l'utilisateur par rapport Ã  l'object
    *
    * @param[in] string Le DN de l'objet
-   * 
+   *
    * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
    */
   public static function whoami($dn) {
     $retval = array('user');
-    
+
     foreach(self :: $LSprofiles as $profile => $infos) {
       if(self :: isLSprofile($dn,$profile)) {
        $retval[]=$profile;
       }
     }
-    
+
     if (self :: $dn == $dn) {
       $retval[]='self';
     }
-    
+
     return $retval;
   }
-  
+
   /**
    * Retourne le droit de l'utilisateur Ã  accÃ¨der Ã  un objet
-   * 
+   *
    * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    * @param[in] string $right Le type de droit d'accÃ¨s Ã  tester ('r'/'w')
@@ -1985,7 +1985,7 @@ class LSsession {
       $objectdn=LSconfig :: get('LSobjects.'.$LSobject.'.container_dn').','.self :: $topDn;
       $whoami = self :: whoami($objectdn);
     }
-    
+
     // Pour un attribut particulier
     if ($attr) {
       if ($attr=='rdn') {
@@ -2007,7 +2007,7 @@ class LSsession {
           }
         }
       }
-      
+
       if (($right=='r')||($right=='w')) {
         if ($r==$right) {
           return true;
@@ -2021,7 +2021,7 @@ class LSsession {
         return;
       }
     }
-    
+
     // Pour un attribut quelconque
     $attrs_conf=LSconfig :: get('LSobjects.'.$LSobject.'.attrs');
     if (is_array($attrs_conf)) {
@@ -2046,10 +2046,10 @@ class LSsession {
     }
     return;
   }
-  
+
   /**
    * Retourne le droit de l'utilisateur Ã  editer Ã  un objet
-   * 
+   *
    * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    * @param[in] string $attr Le nom de l'attribut auquel on test l'accÃ¨s
@@ -2062,23 +2062,23 @@ class LSsession {
 
   /**
    * Retourne le droit de l'utilisateur Ã  supprimer un objet
-   * 
+   *
    * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
-   */  
+   */
   public static function canRemove($LSobject,$dn) {
     return self :: canAccess($LSobject,$dn,'w','rdn');
   }
-  
+
   /**
    * Retourne le droit de l'utilisateur Ã  crÃ©er un objet
-   * 
+   *
    * @param[in] string $LSobject Le type de l'objet
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
-   */    
+   */
   public static function canCreate($LSobject) {
     if (!self :: loadLSobject($LSobject)) {
       return;
@@ -2088,10 +2088,10 @@ class LSsession {
     }
     return self :: canAccess($LSobject,NULL,'w','rdn');
   }
-  
+
   /**
    * Retourne le droit de l'utilisateur Ã  gÃ©rer la relation d'objet
-   * 
+   *
    * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $relationName Le nom de la relation avec l'objet
@@ -2118,7 +2118,7 @@ class LSsession {
           }
         }
       }
-      
+
       if ($r == $right) {
         return true;
       }
@@ -2135,20 +2135,20 @@ class LSsession {
 
   /**
    * Retourne le droit de l'utilisateur Ã  modifier la relation d'objet
-   * 
+   *
    * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
    * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $relationName Le nom de la relation avec l'objet
    *
    * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
-   */  
+   */
   public static function relationCanEdit($dn,$LSobject,$relationName) {
     return self :: relationCanAccess($dn,$LSobject,$relationName,'w');
   }
 
   /**
    * Retourne le droit de l'utilisateur a executer une customAction
-   * 
+   *
    * @param[in] string $dn Le DN de l'objet
    * @param[in] string $LSobject Le type de l'objet
    * @param[in] string $customActionName Le nom de la customAction
@@ -2168,7 +2168,7 @@ class LSsession {
         }
       }
     }
-    
+
     return;
   }
 
@@ -2232,9 +2232,9 @@ class LSsession {
 
   /**
    * Ajoute un fichier temporaire
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @retval void
    **/
   public static function addTmpFile($value,$filePath) {
@@ -2242,15 +2242,15 @@ class LSsession {
     self :: $tmp_file[$filePath] = $hash;
     $_SESSION['LSsession']['tmp_file'][$filePath] = $hash;
   }
-  
+
   /**
    * Retourne le chemin du fichier temporaire si l'existe
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @param[in] $value La valeur du fichier
-   * 
-   * @retval mixed 
+   *
+   * @retval mixed
    **/
   public static function tmpFileExist($value) {
     $hash = mhash(MHASH_MD5,$value);
@@ -2261,18 +2261,18 @@ class LSsession {
     }
     return false;
   }
-  
+
   /**
    * Retourne le chemin du fichier temporaire
-   * 
+   *
    * Retourne le chemin du fichier temporaire qu'il crÃ©era Ã  partir de la valeur
    * s'il n'existe pas dÃ©jÃ .
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @param[in] $value La valeur du fichier
-   * 
-   * @retval mixed 
+   *
+   * @retval mixed
    **/
   public static function getTmpFile($value) {
     $exist = self :: tmpFileExist($value);
@@ -2310,9 +2310,9 @@ class LSsession {
 
   /**
    * Supprime les fichiers temporaires
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @retval void
    **/
   public static function deleteTmpFile($filePath=NULL) {
@@ -2334,7 +2334,7 @@ class LSsession {
    * Retourne true si le cache des droits est activé
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @retval boolean True si le cache des droits est activé, false sinon.
    */
   public static function cacheLSprofiles() {
@@ -2345,18 +2345,18 @@ class LSsession {
    * Retourne true si le cache des subDn est activé
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @retval boolean True si le cache des subDn est activé, false sinon.
    */
   public static function cacheSudDn() {
     return ( (LSconfig :: get('cacheSubDn')) || (self :: $ldapServer['cacheSubDn']));
   }
-  
+
   /**
    * Retourne true si le cache des recherches est activé
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @retval boolean True si le cache des recherches est activé, false sinon.
    */
   public static function cacheSearch() {
@@ -2376,20 +2376,20 @@ class LSsession {
 
   /**
    * Retourne le label des niveaux pour le serveur ldap courant
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @retval string Le label des niveaux pour le serveur ldap dourant
    */
   public static function getSubDnLabel() {
     return (self :: $ldapServer['subDnLabel']!='')?__(self :: $ldapServer['subDnLabel']):_('Level');
   }
-  
+
   /**
    * Retourne le nom du subDn
-   * 
+   *
    * @param[in] $subDn string subDn
-   * 
+   *
    * @retval string Le nom du subDn ou '' sinon
    */
   public static function getSubDnName($subDn=false) {
@@ -2406,9 +2406,9 @@ class LSsession {
 
   /**
    * L'objet est t-il utilisé pour listé les subDnS
-   * 
+   *
    * @param[in] $type string Le type d'objet
-   * 
+   *
    * @retval boolean true si le type d'objet est un subDnObject, false sinon
    */
   public static function isSubDnLSobject($type) {
@@ -2422,10 +2422,10 @@ class LSsession {
     }
     return $result;
   }
-  
+
   /**
    * Indique si un type d'objet est dans le menu courant
-   * 
+   *
    * @retval boolean true si le type d'objet est dans le menu, false sinon
    */
   public static function in_menu($LSobject,$topDn=NULL) {
@@ -2434,10 +2434,10 @@ class LSsession {
     }
     return isset(self :: $LSaccess[$topDn][$LSobject]);
   }
-  
+
   /**
    * Indique si le serveur LDAP courant a des subDn
-   * 
+   *
    * @retval boolean true si le serveur LDAP courant a des subDn, false sinon
    */
   public static function haveSubDn() {
@@ -2446,23 +2446,23 @@ class LSsession {
 
   /**
    * Ajoute une information à afficher
-   * 
+   *
    * @param[in] $msg string Le message à afficher
-   * 
+   *
    * @retval void
    */
   public static function addInfo($msg) {
     $_SESSION['LSsession_infos'][]=$msg;
   }
-  
+
   /**
    * Redirection de l'utilisateur vers une autre URL
-   * 
+   *
    * @param[in] $url string L'URL
    * @param[in] $exit boolean Si true, l'execution script s'arrête après la redirection
-   * 
+   *
    * @retval void
-   */  
+   */
   public static function redirect($url,$exit=true) {
     LStemplate :: assign('url',$url);
     LStemplate :: display('redirect.tpl');
@@ -2470,14 +2470,14 @@ class LSsession {
       exit();
     }
   }
-  
+
   /**
    * Retourne l'adresse mail d'emission configurée pour le serveur courant
-   * 
+   *
    * @retval string Adresse mail d'emission
    */
   public static function getEmailSender() {
-    return self :: $ldapServer['emailSender'];  
+    return self :: $ldapServer['emailSender'];
   }
 
   /**
@@ -2498,14 +2498,14 @@ class LSsession {
     if ($force)
      self :: redirect('index.php');
   }
-  
+
   /**
    * Ajout d'une information d'aide
-   * 
+   *
    * @param[in] $group string Le nom du groupe d'infos dans lequels ajouter
    *                          celle-ci
    * @param[in] $infos array  Tableau array(name => value) des infos
-   * 
+   *
    * @retval void
    */
   public static function addHelpInfos($group,$infos) {
@@ -2518,12 +2518,12 @@ class LSsession {
       }
     }
   }
-  
+
  /**
   * Défini les codes erreur relative à la classe LSsession
-  * 
+  *
   * @retval void
-  */  
+  */
   private static function defineLSerrors() {
     /*
      * Error Codes
@@ -2604,12 +2604,12 @@ class LSsession {
 
   /**
    * Ajax method when change ldapserver on login form
-   * 
+   *
    * @param[in] $data array The return data address
-   * 
+   *
    * @retval void
    **/
-  public static function ajax_onLdapServerChangedLogin(&$data) {  
+  public static function ajax_onLdapServerChangedLogin(&$data) {
     if ( isset($_REQUEST['server']) ) {
       self :: setLdapServer($_REQUEST['server']);
       $data = array();
@@ -2630,15 +2630,15 @@ class LSsession {
       $data['recoverPassword'] = isset(self :: $ldapServer['recoverPassword']);
     }
   }
-  
+
   /**
    * Ajax method when change ldapserver on recoverPassword form
-   * 
+   *
    * @param[in] $data array The return data address
-   * 
+   *
    * @retval void
    **/
-  public static function ajax_onLdapServerChangedRecoverPassword(&$data) {  
+  public static function ajax_onLdapServerChangedRecoverPassword(&$data) {
     if ( isset($_REQUEST['server']) ) {
       self :: setLdapServer($_REQUEST['server']);
       $data=array('recoverPassword' => isset(self :: $ldapServer['recoverPassword']));
@@ -2710,4 +2710,3 @@ class LSsession {
   }
 
 }
-

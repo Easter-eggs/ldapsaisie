@@ -19,7 +19,7 @@ var LSformElement_jsonCompositeAttribute_field_value_component_text_value = new 
         this.removeValueBtn.injectInside(this.li);
       }
     },
-    
+
     clear: function() {
       this.input.value = '';
     },

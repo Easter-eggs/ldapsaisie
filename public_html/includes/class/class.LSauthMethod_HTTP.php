@@ -39,9 +39,9 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
 
   /**
    * Check Auth Data
-   * 
+   *
    * Return authentication data or false
-   * 
+   *
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
@@ -127,4 +127,3 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
 LSerror :: defineError('LSauthMethod_HTTP_01',
 _("LSauthMethod_HTTP : the %{var} environnement variable is missing.")
 );
-

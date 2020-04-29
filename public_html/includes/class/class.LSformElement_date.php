@@ -90,10 +90,10 @@ class LSformElement_date extends LSformElement {
     $this -> values = $data;
     return true;
   }
-  
+
   /**
    * Exporte les valeurs de l'élément
-   * 
+   *
    * @retval Array Les valeurs de l'élement
    */
   public function exportValues(){
@@ -102,16 +102,16 @@ class LSformElement_date extends LSformElement {
       foreach($this -> values as $val) {
         $date = strptime($val,$this -> getFormat());
         if (is_array($date)) {
-          $retval[] = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900); 
+          $retval[] = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900);
         }
       }
     }
     return $retval;
   }
-  
+
  /**
   * Retourne le format d'affichage de la date
-  * 
+  *
   * @retval string Le format de la date
   **/
   public function getFormat() {
@@ -136,7 +136,7 @@ class LSformElement_date extends LSformElement {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -153,7 +153,7 @@ class LSformElement_date extends LSformElement {
           'today' => _('Today.')
         )
       );
-      
+
       $params = array(
         'format' => $this -> php2js_format($this -> getFormat()),
         'style' => $this -> getStyle(),
@@ -163,7 +163,7 @@ class LSformElement_date extends LSformElement {
         'showTodayButton' => $this -> getParam('html_options.showTodayButton', true, 'bool'),
       );
       LSsession :: addJSconfigParam($this -> name, $params);
-      
+
       $codeLang = str_replace('_','-',preg_replace('/\..*$/','',LSsession :: getLang()));
 
       LSsession :: addJSscript('Picker.js',LS_LIB_DIR.'arian-mootools-datepicker/');
@@ -178,10 +178,10 @@ class LSformElement_date extends LSformElement {
     $return['html'] = $this -> fetchTemplate();
     return $return;
   }
- 
+
  /**
   * Convertis un format de date Php (strftime) en JS (jscalendar)
-  * 
+  *
   * @retval mixed Format de date jscalendar (string) ou False si la convertion
   *               n'a pas réussi.
   */
@@ -209,4 +209,3 @@ class LSformElement_date extends LSformElement {
     return $new;
   }
 }
-

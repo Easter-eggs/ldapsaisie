@@ -111,4 +111,3 @@ else {
 
 // Affichage des retours d'erreurs
 LSsession :: displayTemplate();
-

@@ -28,6 +28,5 @@
 class LSattr_html_textarea extends LSattr_html {
 
   var $LSformElement_type = 'textarea';
-  
-}
 
+}

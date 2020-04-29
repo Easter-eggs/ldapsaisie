@@ -31,9 +31,9 @@ class LSldap {
 
   private static $config;
   private static $cnx = NULL;
-  
+
   /**
-   * DÈfini la configuration
+   * DÔøΩfini la configuration
    *
    * Cette methode d√©finis la configuration de l'acc√®s √† l'annuaire
    *
@@ -46,14 +46,14 @@ class LSldap {
   public static function setConfig ($config) {
     self :: $config = $config;
   }
-  
+
   /**
    * Connect to LDAP server
    *
    * This method  establish connection to LDAP server
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @param[in] $config array LDAP configuration array in format of Net_LDAP2
    *
    * @retval boolean true if connected, false instead
@@ -70,7 +70,7 @@ class LSldap {
     }
     return true;
   }
-  
+
   /**
    * Reconnect (or connect) with other credentials
    *
@@ -113,7 +113,7 @@ class LSldap {
   public static function close() {
     self :: $cnx -> done();
   }
-  
+
   /**
    * Recherche dans l'annuaire
    *
@@ -150,7 +150,7 @@ class LSldap {
     }
     return $retInfos;
   }
-  
+
   /**
    * Compte le nombre de retour d'une recherche dans l'annuaire
    *
@@ -177,7 +177,7 @@ class LSldap {
     }
     return $ret -> count();
   }
-  
+
   /**
    * Charge les valeurs des attributs d'une entr√© de l'annuaire
    *
@@ -197,7 +197,7 @@ class LSldap {
     $return=self :: search('(objectClass=*)',$dn);
     return $return[0]['attrs'];
   }
-  
+
   /**
    * Retourne une entr√©e existante ou nouvelle
    *
@@ -207,7 +207,7 @@ class LSldap {
    * @param[in] $dn string DN de l'entr√© Ldap
    *
    * @retval ldapentry|array Un objet ldapentry (PEAR::Net_LDAP2)
-   *                         ou un tableau (si c'est une nouvelle entrÈe):
+   *                         ou un tableau (si c'est une nouvelle entrÔøΩe):
    *                          Array (
    *                            'entry' => ldapentry,
    *                            'new' => true
@@ -219,7 +219,7 @@ class LSldap {
       $entry = self :: getLdapEntry($dn);
       if ($entry === false) {
         $newentry = self :: getNewEntry($dn,$obj_conf['objectclass'],array());
-        
+
         if (!$newentry) {
           return;
         }
@@ -234,7 +234,7 @@ class LSldap {
       return;
     }
   }
-  
+
   /**
    * Retourne un object NetLDAP d'une entree existante
    *
@@ -243,7 +243,7 @@ class LSldap {
    * @param[in] $dn string DN de l'entr√© Ldap
    *
    * @retval ldapentry|boolean  Un objet ldapentry (PEAR::Net_LDAP2) ou false en
-   *                            cas de problËme
+   *                            cas de problÔøΩme
    */
   public static function getLdapEntry($dn) {
     $entry = self :: $cnx -> getEntry($dn);
@@ -254,15 +254,15 @@ class LSldap {
       return $entry;
     }
   }
-  
+
  /**
-  * Retourne une nouvelle entrÈe
-  * 
+  * Retourne une nouvelle entrÔøΩe
+  *
   * @param[in] $dn string Le DN de l'objet
   * @param[in] $objectClass array Un tableau contenant les objectClass de l'objet
   * @param[in] $attrs array Un tabeau du type array('attr_name' => attr_value, ...)
-  * 
-  * @retval mixed Le nouvelle objet en cas de succËs, false sinon
+  *
+  * @retval mixed Le nouvelle objet en cas de succÔøΩs, false sinon
   */
   public static function getNewEntry($dn,$objectClass,$attrs,$add=false) {
     $newentry = Net_LDAP2_Entry::createFresh($dn,array_merge(array('objectclass' =>$objectClass),(array)$attrs));
@@ -276,10 +276,10 @@ class LSldap {
     }
     return $newentry;
   }
-  
+
   /**
    * Met √† jour une entr√©e dans l'annuaire
-   * 
+   *
    * Remarque : Supprime les valeurs vides de attributs et les attributs sans valeur.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -340,7 +340,7 @@ class LSldap {
         LSdebug('LSldap :: update()');
         $ret = $entry -> update();
       }
-      
+
       if (Net_LDAP2::isError($ret)) {
         LSerror :: addErrorCode('LSldap_05',$dn);
         LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
@@ -353,7 +353,7 @@ class LSldap {
               // Attribut n'existe pas dans l'annuaire
               continue;
             }
-            // MÈthode buggÈ : suppression impossible de certain attribut
+            // MÔøΩthode buggÔøΩ : suppression impossible de certain attribut
             // exemple : jpegPhoto
             // $entry -> delete($attr);
             $entry -> replace(array($attr =>array()));
@@ -402,12 +402,12 @@ class LSldap {
   public static function isConnected() {
     return (self :: $cnx == NULL)?false:true;
   }
-  
+
   /**
    * Supprime un objet de l'annuaire
    *
    * @param[in] string DN de l'objet √† supprimer
-   * 
+   *
    * @retval boolean True si l'objet √† √©t√© supprim√©, false sinon
    */
   public static function remove($dn) {
@@ -420,12 +420,12 @@ class LSldap {
   }
 
   /**
-   * DÈplace un objet LDAP dans l'annuaire
-   * 
+   * DÔøΩplace un objet LDAP dans l'annuaire
+   *
    * @param[in] $old string Le DN actuel
    * @param[in] $new string Le futur DN
-   * 
-   * @retval boolean True si l'objet a ÈtÈ dÈplacÈ, false sinon
+   *
+   * @retval boolean True si l'objet a ÔøΩtÔøΩ dÔøΩplacÔøΩ, false sinon
    */
   public static function move($old,$new) {
     $ret = self :: $cnx -> move($old,$new);
@@ -436,12 +436,12 @@ class LSldap {
     }
     return true;
   }
-  
+
   /**
    * Combine LDAP Filters
-   * 
+   *
    * @params array Array of LDAP filters
-   * 
+   *
    * @retval Net_LDAP2_Filter | False The combined filter or False
    **/
   public static function combineFilters($op,$filters,$asStr=false) {
@@ -469,12 +469,12 @@ class LSldap {
     }
     return;
   }
-  
+
   /**
    * Check LDAP Filters String
-   * 
+   *
    * @params string A LDAP filter as string
-   * 
+   *
    * @retval boolean True only if the filter could be parsed
    **/
   public static function isValidFilter($filter) {
@@ -515,4 +515,3 @@ LSerror :: defineError('LSldap_06',
 LSerror :: defineError('LSldap_07',
   _("LSldap : Error while changing the DN of the object.")
 );
-

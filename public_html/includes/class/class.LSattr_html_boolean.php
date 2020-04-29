@@ -30,4 +30,3 @@ class LSattr_html_boolean extends LSattr_html {
   var $LSformElement_type = 'boolean';
 
 }
-

@@ -36,7 +36,7 @@ class LSformElement_valueWithUnit extends LSformElement {
 
  /**
   * Retourne les unites de l'attribut
-  * 
+  *
   * @retval array|False Le tableau contenant en cle les seuils et en valeur les labels des unites.
   *                     Si le parametre units n'est pas defini, cette fonction retournera False
   **/
@@ -76,7 +76,7 @@ class LSformElement_valueWithUnit extends LSformElement {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -86,7 +86,7 @@ class LSformElement_valueWithUnit extends LSformElement {
 
     $values_and_units=array();
     $units=$this -> getUnits();
-    
+
     if ($units) {
       foreach ($this -> values as $value) {
         if (preg_match('/^([0-9]*)$/',$value,$regs)) {
@@ -110,9 +110,9 @@ class LSformElement_valueWithUnit extends LSformElement {
         }
       }
     }
-    
+
     LSsession :: addCssFile('LSformElement_valueWithUnit.css');
-    
+
     $return['html']=$this -> fetchTemplate(
       NULL,
       array(
@@ -122,7 +122,7 @@ class LSformElement_valueWithUnit extends LSformElement {
     );
     return $return;
   }
-  
+
  /**
   * Retourne le code HTML d'un champ vide
   *
@@ -136,7 +136,7 @@ class LSformElement_valueWithUnit extends LSformElement {
       )
     );
   }
-  
+
   /**
    * Recupère la valeur de l'élement passée en POST
    *
@@ -202,4 +202,3 @@ class LSformElement_valueWithUnit extends LSformElement {
 LSerror :: defineError('LSformElement_valueWithUnit_01',
 _("LSformElement_valueWithUnit : Units configuration data are missing for the attribute %{attr}.")
 );
-

@@ -28,6 +28,5 @@
 class LSattr_html_ssh_key extends LSattr_html {
 
   var $LSformElement_type = 'ssh_key';
-  
-}
 
+}

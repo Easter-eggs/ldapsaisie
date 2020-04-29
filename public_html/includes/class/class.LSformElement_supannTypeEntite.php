@@ -37,4 +37,3 @@ class LSformElement_supannTypeEntite extends LSformElement_supannLabeledValue {
 	var $supannNomenclatureTable = 'typeEntite';
 
 }
-

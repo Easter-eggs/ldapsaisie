@@ -32,11 +32,11 @@ if(LSsession :: startLSsession()) {
       $LSobject = LSsession :: getLSuserObject() -> getType();
       $dn = LSsession :: getLSuserObjectDn();
     }
-    else { 
+    else {
       $LSobject = $_GET['LSobject'];
     }
   }
-  
+
   if (isset($_POST['LSform_objectdn'])) {
     $dn = $_POST['LSform_objectdn'];
   }
@@ -105,7 +105,7 @@ if(LSsession :: startLSsession()) {
               'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.urlencode($object -> getDn()),
               'action' => 'view'
             );
-          
+
             if (LSsession :: canRemove($LSobject,$object -> getDn())) {
               $LSview_actions[] = array(
                 'label' => _('Delete'),
@@ -113,7 +113,7 @@ if(LSsession :: startLSsession()) {
                 'action' => 'delete'
               );
             }
-            
+
             LStemplate :: assign('LSview_actions',$LSview_actions);
             LSsession :: setTemplate('modify.tpl');
             $form -> display();
@@ -138,4 +138,3 @@ else {
   LSsession :: setTemplate('login.tpl');
   LSsession :: displayTemplate();
 }
-

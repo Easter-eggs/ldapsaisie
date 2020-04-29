@@ -13,7 +13,7 @@ var LSconfirmBox = new Class({
       this.create();
       this.display();
     },
-    
+
     create: function() {
       this.box = new Element('div');
       this.box.setProperty('id','box-LSconfirmBox');
@@ -28,12 +28,12 @@ var LSconfirmBox = new Class({
         this.title.set('html',this.labels.title);
       };
       this.title.injectInside(this.box)
-      
+
       this.closeBtn = new Element('span');
       this.closeBtn.setProperty('id','closeBtn-LSconfirmBox');
       this.closeBtn.injectInside(this.box);
       this.closeBtn.addEvent('click',this.cancel.bind(this));
-      
+
       this.text = new Element('p');
       this.text.setProperty('id','text-LSconfirmBox');
       if (this._options.text) {
@@ -43,11 +43,11 @@ var LSconfirmBox = new Class({
         this.text.set('html',this.labels.text);
       }
       this.text.injectInside(this.box);
-      
+
       this.btnsBox = new Element('p');
       this.btnsBox.setProperty('id','btnsBox-LSconfirmBox');
       this.btnsBox.injectInside(this.box);
-      
+
       this.confirmBtn = new Element('span');
       this.confirmBtn.addClass('btn-LSconfirmBox');
       if (this._options.validate_label) {
@@ -58,7 +58,7 @@ var LSconfirmBox = new Class({
       }
       this.confirmBtn.injectInside(this.btnsBox);
       this.confirmBtn.addEvent('click',this.confirm.bind(this));
-      
+
       this.cancelBtn = new Element('span');
       this.cancelBtn.addClass('btn-LSconfirmBox');
       if (this._options.cancel_label) {
@@ -69,23 +69,23 @@ var LSconfirmBox = new Class({
       }
       this.cancelBtn.injectInside(this.btnsBox);
       this.cancelBtn.addEvent('click',this.cancel.bind(this));
-      
+
       this._purge=0;
-      
+
       this.fx = {
         open:   new Fx.Morph(this.box, {duration: 500, fps: 30, transition: Fx.Transitions.Sine.easeOut, onComplete: this.displayContent.bind(this)}),
         close:  new Fx.Morph(this.box, {duration: 500, fps: 30, transition: Fx.Transitions.Sine.easeOut, onComplete: this.onClose.bind(this)})
       };
       this._scrolling=0;
     },
-    
+
     display: function() {
       this.box.setStyle('display','block');
       this.position(true);
       window.addEvent('resize', this.position.bind(this));
       window.addEvent('scroll', this.positionWhenScrolling.bind(this));
     },
-    
+
     positionWhenScrolling: function(oldValue) {
       if (this._scrolling==0||$type(oldValue)) {
         this._scrolling = 1;
@@ -99,20 +99,20 @@ var LSconfirmBox = new Class({
         }
       }
     },
-    
+
     displayContent: function() {
       [this.title, this.closeBtn, this.text, this.btnsBox].each(function(el) {
         var fx = new Fx.Tween(el,{duration: 200, fps: 30});
         fx.start('opacity',1);
       },this);
     },
-    
+
     hide: function() {
       this.box.empty();
       this.fx.close.start(this.getStartStyles());
       window.removeEvent('resize', this.position.bind(this));
     },
-    
+
     onClose: function() {
       this.box.setStyle('display','none');
       this.purge();
@@ -120,14 +120,14 @@ var LSconfirmBox = new Class({
         $try(this._options.onClose);
       }
     },
-    
+
     purge: function() {
       this._purge=1;
       this.box.empty();
       this.box.destroy();
       delete this.fx;
     },
-    
+
     getStartStyles: function() {
       if ($type(this._options.startElement)) {
         var startStyles = {
@@ -147,7 +147,7 @@ var LSconfirmBox = new Class({
       }
       return startStyles;
     },
-    
+
     getEndStyles: function() {
       if (this._options.width) {
         w = this._options.width;
@@ -155,7 +155,7 @@ var LSconfirmBox = new Class({
       else {
         w = 300;
       }
-      
+
       var endStyles = {
         width:    w.toInt()+'px',
         top:      ((window.getHeight()/2)-(this.box.getStyle('height').toInt()/2)-this.box.getStyle('border').toInt()+window.getScrollTop()).toInt(),
@@ -164,7 +164,7 @@ var LSconfirmBox = new Class({
       };
       return endStyles;
     },
-    
+
     position: function(start) {
       if (this._purge==0) {
         var endStyles = this.getEndStyles();
@@ -174,14 +174,14 @@ var LSconfirmBox = new Class({
         this.fx.open.start(endStyles);
       }
     },
-    
+
     confirm: function() {
       this.hide();
       if (this._options.onConfirm) {
         $try(this._options.onConfirm);
       }
     },
-    
+
     cancel: function() {
       this.hide();
       if (this._options.onCancel) {

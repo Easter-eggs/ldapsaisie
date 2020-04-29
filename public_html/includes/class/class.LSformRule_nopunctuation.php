@@ -43,4 +43,3 @@ class LSformRule_nopunctuation extends LSformRule {
   }
 
 }
-

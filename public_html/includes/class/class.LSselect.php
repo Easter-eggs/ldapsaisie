@@ -24,7 +24,7 @@ class LSselect {
 
  /*
   * Méthode chargeant les dépendances d'affichage
-  * 
+  *
   * @retval void
   */
   public static function loadDependenciesDisplay() {
@@ -34,7 +34,7 @@ class LSselect {
     LSsession :: addJSscript('LSselect.js');
     LSsession :: addCssFile('LSselect.css');
   }
-  
+
   public static function ajax_addItem(&$data) {
     if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['multiple']))) {
       if (!$_REQUEST['multiple']) {
@@ -50,7 +50,7 @@ class LSselect {
       }
     }
   }
-  
+
   public static function ajax_dropItem(&$data) {
     if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn']))) {
       if (is_array($_SESSION['LSselect'][$_REQUEST['objecttype']])) {
@@ -64,7 +64,7 @@ class LSselect {
       }
     }
   }
-  
+
   public static function ajax_refreshSession(&$data) {
     if ((isset($_REQUEST['objecttype'])) && (isset($_REQUEST['values'])) ) {
       $_SESSION['LSselect'][$_REQUEST['objecttype']]=array();
@@ -82,10 +82,9 @@ class LSselect {
       LSerror :: addErrorCode('LSsession_12');
     }
   }
-  
+
   public static function selectablly($obj,$args) {
     return (LSsession::canEdit($obj->type,$obj->dn,$args))?1:0;
   }
 
 }
-

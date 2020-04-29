@@ -3,12 +3,12 @@ var LSrelation = new Class({
       this.labels = varLSdefault.LSjsConfig['LSrelation_labels'];
       if (!$type(this.labels)) {
         this.labels = {
-          close_confirm_text:     'Do you really want to delete', 
-          close_confirm_title:    'Warning', 
-          close_confirm_validate: 'Delete' 
+          close_confirm_text:     'Do you really want to delete',
+          close_confirm_title:    'Warning',
+          close_confirm_validate: 'Delete'
         };
       }
-          
+
       this.edit = 0;
       this.deleteBtn = [];
       this.deleteBtnId = 0;
@@ -22,7 +22,7 @@ var LSrelation = new Class({
         this.initializeBtn();
       }
     },
-    
+
     initializeBtn: function() {
       $$('img.LSrelation-btn').each(function(el) {
         el.destroy();
@@ -39,14 +39,14 @@ var LSrelation = new Class({
         this.deleteBtnId++;
       }, this);
     },
-    
+
     onDeleteBtnClick: function(img) {
       if (this._confirmDelete) {
         var a = img.getPrevious('a');
         this.confirmBox = new LSconfirmBox({
-          text:           this.labels.close_confirm_text + ' "'+a.innerHTML+'" ?', 
-          title:          this.labels.close_confirm_title, 
-          validate_label: this.labels.close_confirm_validate, 
+          text:           this.labels.close_confirm_text + ' "'+a.innerHTML+'" ?',
+          title:          this.labels.close_confirm_title,
+          validate_label: this.labels.close_confirm_validate,
           startElement:   img,
           onConfirm:      this.deleteFromImg.bind(this,img)
         });
@@ -55,7 +55,7 @@ var LSrelation = new Class({
         this.deleteFromImg(img);
       }
     },
-    
+
     deleteFromImg: function(img) {
       var li = img.getParent('li');
       var a = img.getPrevious('a');
@@ -64,7 +64,7 @@ var LSrelation = new Class({
       LSdebug(ul.id);
       var getId = /LSrelation_ul_([0-9]*)/
       var id = getId.exec(ul.id)[1];
-      
+
       var data = {
         template:   'LSrelation',
         action:     'deleteByDn',
@@ -74,7 +74,7 @@ var LSrelation = new Class({
       data.imgload=varLSdefault.loadingImgDisplay(li,'inside');
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.deleteFromImgComplete.bind(this)}).send();
     },
-    
+
     deleteFromImgComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
@@ -85,7 +85,7 @@ var LSrelation = new Class({
           if (!$type(ul.getFirst())) {
             var getId = /LSrelation_ul_([0-9]*)/
             var id = getId.exec(ul.id)[1];
-            
+
             var newli = new Element('li');
             newli.addClass('LSrelation');
             newli.set('html',varLSdefault.LSjsConfig['LSrelations'][id]['emptyText']);
@@ -97,23 +97,23 @@ var LSrelation = new Class({
         }
       }
     },
-    
+
     onLSrelationModifyBtnClick: function(event,a) {
       new Event(event).stop();
-      
+
       var data = {
         template:   'LSrelation',
         action:     'refreshSession',
         id:         a.id,
         href:       a.href
       };
-      
+
       LSdebug(data);
       this.refreshRelation=a.id;
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+a.id,'inside');
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSrelationModifyBtnClickComplete.bind(this)}).send();
     },
-    
+
     onLSrelationModifyBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
@@ -122,19 +122,19 @@ var LSrelation = new Class({
         varLSsmoothbox.openURL(data.href,{startElement: $(data.id), width: 635});
       }
     },
-    
+
     onLSsmoothboxValid: function() {
       var data = {
         template:   'LSrelation',
         action:     'refreshList',
         id:         this.refreshRelation
       };
-      
+
       LSdebug(data);
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+this.refreshRelation,'inside');
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
     },
-    
+
     onLSsmoothboxValidComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {

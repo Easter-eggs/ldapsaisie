@@ -37,7 +37,7 @@ class LSformElement_select extends LSformElement {
 
  /**
   * Return display data of this element
-  * 
+  *
   * This method return display data of this element
   *
   * @retval array
@@ -152,4 +152,3 @@ function LSformElement_select_checkIsValidValue($params,$template) {
   $template -> assign('LSformElement_select_isValidValue_label',$label);
 }
 LStemplate :: registerFunction('LSformElement_select_checkIsValidValue','LSformElement_select_checkIsValidValue');
-

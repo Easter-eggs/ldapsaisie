@@ -43,7 +43,7 @@ LSerror :: defineError('MAILQUOTA_03',
 
 /**
  * Check support of this addons
- * 
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  *
  * @retval boolean True if this addons is fully supported, false otherwise

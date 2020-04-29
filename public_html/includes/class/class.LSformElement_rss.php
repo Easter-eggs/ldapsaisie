@@ -40,9 +40,9 @@ class LSformElement_rss extends LSformElement_text {
     'uriClass' => 'LSformElement_rss',
     'uriPrefix' => ''
   );
-  
+
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
-  
+
   public function getDisplay() {
     LSsession :: addHelpInfos (
       'LSformElement_rss',
@@ -52,6 +52,5 @@ class LSformElement_rss extends LSformElement_text {
     );
     return parent :: getDisplay($return);
   }
-  
-}
 
+}

@@ -38,7 +38,7 @@ LSerror :: defineError('ASTERISK_03',
 
  /**
   * Check support of Asterisk by LdapSaisie
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true if Asterisk is totally supported, false in other case
@@ -65,13 +65,13 @@ LSerror :: defineError('ASTERISK_03',
 
  /**
   * Make asterisk password hash
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * Hash password in MD5 respecting the LSformat LS_ASTERISK_HASH_PWD_FORMAT.
   *
   * This function can be used as encode_function of LSattr_ldap :: password.
-  * 
+  *
   * @param[in] $ldapObject LSldapObject The LSldapObject use to build the hashed password
   * @param[in] $clearPassword string The password in clear text
   *
@@ -111,4 +111,3 @@ LSerror :: defineError('ASTERISK_03',
     }
     return hashAsteriskPassword($ldapObject,(string)$password);
   }
-

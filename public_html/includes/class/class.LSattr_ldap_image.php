@@ -28,4 +28,3 @@
 class LSattr_ldap_image extends LSattr_ldap {
   // \\
 }
-

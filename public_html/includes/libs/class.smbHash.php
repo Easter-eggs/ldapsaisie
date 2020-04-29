@@ -187,39 +187,39 @@ var $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5
 	*/
 	function doHash($in, $key, $forw) {
 		$ki = array();
-	
+
 		$pk1 = $this->permute($key, $this->perm1, 56);
-		
+
 		$c = array();
 		$d = array();
 		for ($i = 0; $i < 28; $i++) {
 			$c[$i] = $pk1[$i];
 			$d[$i] = $pk1[28 + $i];
 		}
-		
+
 		for ($i = 0; $i < 16; $i++) {
 			$c = $this->lshift($this->sc[$i], $c);
 			$d = $this->lshift($this->sc[$i], $d);
-			
+
 			$cd = $c;
 			for ($k = 0; $k < sizeof($d); $k++) $cd[] = $d[$k];
 			$ki[$i] = $this->permute($cd, $this->perm2, 48);
 		}
-		
+
 		$pd1 = $this->permute($in, $this->perm3, 64);
-		
+
 		$l = array();
 		$r = array();
 		for ($i = 0; $i < 32; $i++) {
 			$l[$i] = $pd1[$i];
 			$r[$i] = $pd1[32 + $i];
 		}
-		
+
 		for ($i = 0; $i < 16; $i++) {
 			$er = $this->permute($r, $this->perm4, 48);
 			if ($forw) $erk = $this->mxor($er, $ki[$i]);
 			else $erk = $this->mxor($er, $ki[15 - $i]);
-			
+
 			for ($j = 0; $j < 8; $j++) {
 				for ($k = 0; $k < 6; $k++) {
 					$b[$j][$k] = $erk[($j * 6) + $k];
@@ -230,12 +230,12 @@ var $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5
 				$n = array();
 				$m = ($b[$j][0] << 1) | $b[$j][5];
 				$n = ($b[$j][1] << 3) | ($b[$j][2] << 2) | ($b[$j][3] << 1) | $b[$j][4];
-				
+
 				for ($k = 0; $k < 4; $k++) {
 					$b[$j][$k]=($this->sbox[$j][$m][$n] & (1 << (3-$k)))?1:0;
 				}
 			}
-			
+
 			for ($j = 0; $j < 8; $j++) {
 				for ($k = 0; $k < 4; $k++) {
 					$cb[($j * 4) + $k] = $b[$j][$k];
@@ -268,7 +268,7 @@ var $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5
 
 	function smb_hash($in, $key, $forw){
 		$key2 = $this->str_to_key($key);
-	
+
 		for ($i = 0; $i < 64; $i++) {
 			$inb[$i] = ($in[$i/8] & (1<<(7-($i%8)))) ? 1:0;
 			$keyb[$i] = ($key2[$i/8] & (1<<(7-($i%8)))) ? 1:0;
@@ -352,7 +352,7 @@ var $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5
 	function G($X, $Y, $Z) {
 		return ($X&$Y) | ($X&$Z) | ($Y&$Z);
 	}
-	
+
 	function H($X, $Y, $Z) {
 		return $X^$Y^$Z;
 	}
@@ -459,7 +459,7 @@ var $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5
 		$this->ROUND3($C,$D,$A,$B,  5, 11, $X);  $this->ROUND3($B,$C,$D,$A, 13, 15, $X);
 		$this->ROUND3($A,$B,$C,$D,  3,  3, $X);  $this->ROUND3($D,$A,$B,$C, 11,  9, $X);
 		$this->ROUND3($C,$D,$A,$B,  7, 11, $X);  $this->ROUND3($B,$C,$D,$A, 15, 15, $X);
-		
+
 		$A = $this->add32(array($A, $AA)); $B = $this->add32(array($B, $BB));
 		$C = $this->add32(array($C, $CC)); $D = $this->add32(array($D, $DD));
 	}
@@ -522,19 +522,18 @@ var $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5
 	*
 	* PHP 4 only supports signed shifts by default.
 	*/
-	function unsigned_shift_r($a, $b) { 
-		$z = 0x80000000; 
-		if ($z & $a) { 
-			$a = ($a >> 1); 
-			$a &= (~$z); 
-			$a |= 0x40000000; 
-			$a = ($a >> ($b - 1)); 
-		} 
-		else { 
-			$a = ($a >> $b); 
-		} 
-		return $a; 
-	} 
+	function unsigned_shift_r($a, $b) {
+		$z = 0x80000000;
+		if ($z & $a) {
+			$a = ($a >> 1);
+			$a &= (~$z);
+			$a |= 0x40000000;
+			$a = ($a >> ($b - 1));
+		}
+		else {
+			$a = ($a >> $b);
+		}
+		return $a;
+	}
 
 }
-

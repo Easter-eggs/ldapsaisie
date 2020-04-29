@@ -49,4 +49,3 @@ class LSattr_ldap_postaladdress extends LSattr_ldap {
   }
 
 }
-

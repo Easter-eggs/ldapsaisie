@@ -34,7 +34,7 @@
  *                    une tableau d'objet ou un objet.
  * @param[in] $meth string Le nom de la methode de/des objet(s) à appeler pour
  *                         obtenir la valeur de remplacement dans la chaine formatée.
- * 
+ *
  * @retval string La chaine formatée
  */
 function getFData($format,$data,$meth=NULL) {
@@ -211,7 +211,7 @@ function _getFData_extractAndModify($data,$ch) {
     if (strpos($ch[6], '~')!==false) {
       $val = withoutAccents($val);
     }
- 
+
     # Upper / Lower case
     if (strpos($ch[6], '!')!==false) {
       $val=mb_strtoupper($val);
@@ -271,7 +271,7 @@ function return_data($data) {
 function varDump($data) {
   ob_start();
   var_dump($data);
-  $data=ob_get_contents(); 
+  $data=ob_get_contents();
   ob_end_clean();
   return $data;
 }
@@ -327,7 +327,7 @@ function LSdebugDefined() {
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval boolean true si les DN sont compatibles, false sinon.
-   */ 
+   */
   function isCompatibleDNs($dn1,$dn2) {
     $infos1=ldap_explode_dn($dn1,0);
     if(!$infos1)
@@ -342,7 +342,7 @@ function LSdebugDefined() {
     }
     $infos1=array_reverse($infos1);
     $infos2=array_reverse($infos2);
-    
+
     for($i=0;$i<$infos1['count'];$i++) {
       if (!isset($infos2[$i])) continue;
       if($infos1[$i]==$infos2[$i]) continue;
@@ -354,7 +354,7 @@ function LSdebugDefined() {
   /**
    * Fait la somme de DN
    *
-   * Retourne un DN qui correspond au point de séparation des DN si les DN 
+   * Retourne un DN qui correspond au point de séparation des DN si les DN
    * ne sont pas dans la meme dans la meme branche ou le dn le plus long sinon.
    *
    * @param[in] $dn Un premier DN.
@@ -363,7 +363,7 @@ function LSdebugDefined() {
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval string Un DN (ou false si les DN ne sont pas valide)
-   */ 
+   */
   function sumDn($dn1,$dn2) {
     $infos1=ldap_explode_dn($dn1,0);
     if(!$infos1)
@@ -378,7 +378,7 @@ function LSdebugDefined() {
     }
     $infos1=array_reverse($infos1);
     $infos2=array_reverse($infos2);
-    
+
     $first=true;
     $basedn='';
     for($i=0;$i<$infos1['count'];$i++) {
@@ -396,7 +396,7 @@ function LSdebugDefined() {
     }
     return $basedn;
   }
-  
+
   function checkEmail($value,$domain=NULL,$checkDns=true) {
     $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
 
@@ -407,7 +407,7 @@ function LSdebugDefined() {
 
     $nd = explode('@', $value);
     $nd=$nd[1];
-    
+
     if ($domain) {
       if(is_array($domain)) {
         if (!in_array($nd,$domain)) {
@@ -430,7 +430,7 @@ function LSdebugDefined() {
 
     return true;
   }
-  
+
   function generatePassword($chars=NULL,$lenght=NULL) {
     if (!$lenght) {
         $lenght=8;
@@ -455,7 +455,7 @@ function LSdebugDefined() {
       return aleaChar($chars,$lenght);
     }
   }
-  
+
   function aleaChar($chars=NULL,$lenght=1) {
     if (is_array($chars)) {
       $nchars="";
@@ -475,7 +475,7 @@ function LSdebugDefined() {
       }
     }
     if (!$chars) {
-      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';    
+      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
     }
     $nbChars=strlen($chars);
     $retval="";
@@ -486,14 +486,14 @@ function LSdebugDefined() {
     }
     return $retval;
   }
-  
+
   function compareDn($a,$b) {
     if (substr_count($a,',') > substr_count($b,','))
       return -1;
-    else 
+    else
       return 1;
   }
-  
+
   function __($msg) {
     if (empty($msg)) return $msg;
     if (isset($GLOBALS['LSlang'][$msg])) {
@@ -501,12 +501,12 @@ function LSdebugDefined() {
     }
     return _($msg);
   }
-  
+
  /**
   * Supprime les accents d'une chaine
-  * 
+  *
   * @param[in] $string La chaine originale
-  * 
+  *
   * @retval string La chaine sans les accents
   */
   function withoutAccents($string){
@@ -588,7 +588,7 @@ function LSdebugDefined() {
   *
   * @param[in] $dir The path of the directory
   * @param[in] $regex The regex apply on filename
-  * 
+  *
   * @retval array() List of file name
   **/
   function listFiles($dir,$regex) {
@@ -639,4 +639,3 @@ function LSdebugDefined() {
     }
     return "unknown : ".(string)$callable;
   }
-

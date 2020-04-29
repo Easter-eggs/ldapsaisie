@@ -37,7 +37,7 @@ class LSformElement_ssh_key extends LSformElement {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -57,7 +57,7 @@ class LSformElement_ssh_key extends LSformElement {
           'display' => _("Display the full key.")
         )
       );
-      
+
       $values_txt = array();
       foreach ($this -> values as $value) {
         if (preg_match('/^ssh-([a-z0-9]+) +([^ ]+) +(.*)$/',$value,$regs)) {
@@ -81,6 +81,5 @@ class LSformElement_ssh_key extends LSformElement {
     $return['html'] = $this -> fetchTemplate(NULL,$params);
     return $return;
   }
-  
-}
 
+}

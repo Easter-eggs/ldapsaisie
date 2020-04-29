@@ -3,7 +3,7 @@ var LSformElement_jsonCompositeAttribute = new Class({
       this.fields = [];
       this.initialiseLSformElement_jsonCompositeAttribute();
     },
-    
+
     initialiseLSformElement_jsonCompositeAttribute: function(el) {
       if (!$type(el)) {
         el = document;

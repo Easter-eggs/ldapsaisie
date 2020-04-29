@@ -3,7 +3,7 @@ var LSformElement_maildir = new Class({
       this.fields=new Hash();
       this.initialiseLSformElement_maildir();
     },
-    
+
     initialiseLSformElement_maildir: function() {
       var getName = /^(.*)\[\]$/
       $$('input.LSformElement_maildir').each(function(input) {

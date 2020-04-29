@@ -5,7 +5,7 @@ var LSformElement_maildir_field = new Class({
       this.params = varLSdefault.getParams(this.name);
       this.initialiseLSformElement_maildir_field();
     },
-    
+
     initialiseLSformElement_maildir_field: function() {
       if (!$type(varLSform.idform)) {
         return true;
@@ -23,7 +23,7 @@ var LSformElement_maildir_field = new Class({
           this.doInput.value = 1;
           this.doBtn.src = varLSdefault.imagePath('maildir_do');
           varLSdefault.addHelpInfo(this.doBtn,'LSformElement_maildir','do');
-        }  
+        }
         else {
           this.doInput.value = 0;
           this.doBtn.src = varLSdefault.imagePath('maildir_nodo');
@@ -33,7 +33,7 @@ var LSformElement_maildir_field = new Class({
         this.doInput.injectAfter(this.doBtn);
       }
     },
-    
+
     onDoBtnClick: function() {
       if (this.doInput.value==0) {
         this.doInput.value = 1;
@@ -46,5 +46,5 @@ var LSformElement_maildir_field = new Class({
         varLSdefault.setHelpInfo(this.doBtn,'LSformElement_maildir','nodo');
       }
     }
-    
+
 });

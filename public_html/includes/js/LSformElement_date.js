@@ -6,7 +6,7 @@ var LSformElement_date = new Class({
         varLSform.addModule("LSformElement_date",this);
       }
     },
-    
+
     initialiseLSformElement_date: function(el) {
       if (!$type(el)) {
         el = document;
@@ -17,7 +17,7 @@ var LSformElement_date = new Class({
         this.fields[name] = new LSformElement_date_field(name,input);
       }, this);
     },
-    
+
     reinitialize: function(el) {
       this.initialiseLSformElement_date(el);
     }

@@ -49,4 +49,3 @@ class LSformRule_rangelength extends LSformRule {
   }
 
 }
-

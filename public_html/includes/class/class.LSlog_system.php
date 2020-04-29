@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Handle system logging (using error_log PHP function)
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>

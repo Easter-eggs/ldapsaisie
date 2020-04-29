@@ -56,7 +56,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
     }
     return array();
   }
- 
+
   /**
    * Check if a value corresponding to True
    *
@@ -73,7 +73,7 @@ class LSattr_ldap_boolean extends LSattr_ldap {
     }
     return;
   }
-  
+
   /**
    * Check if a value corresponding to False
    *
@@ -110,4 +110,3 @@ class LSattr_ldap_boolean extends LSattr_ldap {
   }
 
 }
-

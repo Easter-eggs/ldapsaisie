@@ -60,12 +60,12 @@ class LSattr_html_select_object extends LSattr_html{
 
   /**
    * Effectue les tâches nécéssaires au moment du rafraichissement du formulaire
-   * 
+   *
    * Récupère un array du type array('DNs' => 'displayName') à partir d'une
    * liste de DNs.
-   * 
+   *
    * @param[in] $data mixed La valeur de l'attribut (liste de DNs)
-   * 
+   *
    * @retval mixed La valeur formatée de l'attribut (array('DNs' => 'displayName'))
    **/
   public function refreshForm($data,$fromDNs=false) {
@@ -76,11 +76,11 @@ class LSattr_html_select_object extends LSattr_html{
    * Retourne un tableau des valeurs de l'attribut à partir des valeurs du formulaire
    *
    * @param[in] mixed Tableau des valeurs du formulaire
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval array  Tableau des valeurs de l'attribut
-   */ 
+   */
   public function getValuesFromFormValues($values=NULL) {
     $conf = $this -> getConfig('html_options.selectable_object');
     if (is_array($conf) && is_array($values)) {
@@ -94,7 +94,7 @@ class LSattr_html_select_object extends LSattr_html{
         LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
         return;
       }
-      
+
       if (!LSsession :: loadLSobject($conf['object_type'])) {
         return;
       }
@@ -130,12 +130,12 @@ class LSattr_html_select_object extends LSattr_html{
    *
    * @param[in] mixed $values Tableau des valeurs de l'attribut
    * @param[in] boolean $fromDNs True si les valeurs passées en paramètre sont des DNs
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval array Tableau associatif des objects selectionés avec en clé
    *               le DN et en valeur ce qui sera affiché.
-   */ 
+   */
   public function getFormValues($values=NULL, $fromDNs=false) {
     $conf = $this -> getConfig('html_options.selectable_object');
     if (is_array($conf) && is_array($values)) {
@@ -148,11 +148,11 @@ class LSattr_html_select_object extends LSattr_html{
         LSerror :: addErrorCode('LSattr_html_select_object_02',$this -> name);
         return;
       }
-      
+
       if (!LSsession :: loadLSobject($conf['object_type'])) {
         return;
       }
-      
+
       $retInfos = array();
       $DNs=array();
 
@@ -242,4 +242,3 @@ _("LSattr_html_select_object : the value of the parameter value_attribute in the
 LSerror :: defineError('LSattr_html_select_object_03',
 _("LSattr_html_select_object : more than one object returned corresponding to value %{val} of attribute %{attr}.")
 );
-

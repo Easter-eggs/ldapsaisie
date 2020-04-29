@@ -3,7 +3,7 @@
  * LSForm
  ******************
  */
- 
+
 /*
  * Layout
  */
@@ -52,7 +52,7 @@ div.LSform_layout {
   margin:             1em;
   padding:            0.5em;
 }
- 
+
 div.LSform_layout_active {
   display:            none;
   margin-top:         4px;
@@ -61,14 +61,14 @@ div.LSform_layout_active {
 div.LSform_layout_current {
   display:            block;
 }
- 
+
 /*
  * Architecture
- */ 
+ */
 div.LSform {
   margin-left:                1em;
 }
- 
+
 dl.LSform {
   margin:                     0;
   padding:                    0;
@@ -141,7 +141,7 @@ img.LSform-add-field-btn, img.LSform-remove-field-btn {
   width: 139px;
   z-index: 13000;
 }
- 
+
 .tip-title {
   font-weight:      bold;
   font-size:        11px;

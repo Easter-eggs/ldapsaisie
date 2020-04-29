@@ -3,7 +3,7 @@ var LSformElement_password = new Class({
       this.fields=new Hash();
       this.initialiseLSformElement_password();
     },
-    
+
     initialiseLSformElement_password: function() {
       var getName = /^(.*)\[\]$/
       $$('input.LSformElement_password').each(function(input) {

@@ -51,4 +51,3 @@ class LSformRule_alphanumeric extends LSformRule {
   }
 
 }
-

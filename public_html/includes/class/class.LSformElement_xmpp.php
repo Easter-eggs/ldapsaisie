@@ -35,14 +35,14 @@ class LSformElement_xmpp extends LSformElement_text {
   var $JSscripts = array(
     'LSformElement_xmpp.js'
   );
-  
+
   var $fetchVariables = array(
     'uriClass' => 'LSformElement_xmpp',
     'uriPrefix' => 'xmpp:'
   );
-  
+
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
-  
+
   public function getDisplay() {
     LSsession :: addHelpInfos (
       'LSformElement_xmpp',
@@ -54,5 +54,3 @@ class LSformElement_xmpp extends LSformElement_text {
   }
 
 }
-
-

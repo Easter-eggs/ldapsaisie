@@ -14,7 +14,7 @@
  * Net_LDAP2 (pear install net_ldap2)
  * Smarty (paquet smarty dans Debian)
  * L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'.
-   
+
   #################
   # Avertissement #
   #################
@@ -34,7 +34,7 @@ Il n'existe pas encore de version stable publiée. Vous pouvez obtenir le code s
 Le dépôt Git peut être récupéré anonymement en utilisant la commande suivante :
 
       git clone git://git.labs.libre-entreprise.org/ldapsaisie.git
-    
+
 La racine web de l'application se trouvera alors dans le dossier /ldapsaisie/public_html/.
 
 2.2. A partir des snapshot
@@ -109,7 +109,7 @@ Dans ce tutoriel, nous partirons du principe que vous avez pleinement la main su
  1. La première étape consiste à faire un clonage du repos Git. Pour cela il vous faut avoir installés les outils de Git contenu, dans Debian, dans le paquet git-core. Le dépôt Git doit ensuite être récupéré anonymement en utilisant la commande suivante :
 
     git clone git://git.labs.libre-entreprise.org/ldapsaisie.git
-  
+
   ########
   # Note #
   ########

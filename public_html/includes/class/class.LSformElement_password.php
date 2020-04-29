@@ -32,10 +32,10 @@ LSsession :: loadLSclass('LSformElement');
  */
 
 class LSformElement_password extends LSformElement {
-  
+
   var $fieldTemplate = 'LSformElement_password_field.tpl';
   var $template = 'LSformElement_password.tpl';
-  
+
   var $sendMail = false;
 
   /**
@@ -53,20 +53,20 @@ class LSformElement_password extends LSformElement {
     $retval = parent :: getPostData($return);
     // Si une valeur est recupérée
     if ($retval) {
-      $val = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue(); 
+      $val = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue();
       if( (empty($return[$this -> name][0]) ) && ( ! empty( $val ) ) ) {
         unset($return[$this -> name]);
         $this -> form -> _notUpdate[$this -> name] = true;
         return true;
       }
-      
+
       if ($this -> verifyPassword($return[$this -> name][0]) || (empty($return[$this -> name][0]) && empty($val))) {
         LSdebug("Password : no change");
         unset($return[$this -> name]);
         $this -> form -> _notUpdate[$this -> name] == true;
         return true;
       }
-      
+
       //Mail
 
       // Do not send mail if password is not set :
@@ -114,7 +114,7 @@ class LSformElement_password extends LSformElement {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -127,7 +127,7 @@ class LSformElement_password extends LSformElement {
       $pwd = $this -> values[0];
     }
     if (!$this -> isFreeze()) {
-      
+
       // Help Infos
       LSsession :: addHelpInfos(
         'LSformElement_password',
@@ -142,11 +142,11 @@ class LSformElement_password extends LSformElement {
           'editmail' => _("Modify the mail sent to notice the user")
         )
       );
-      
+
       if ($this -> getParam('html_options.generationTool') && $this -> getParam('html_options.autoGenerate') && empty($this -> values)) {
         $pwd=$this->generatePassword($this -> params);
       }
-      
+
       $params = array(
         'generate' => $this -> getParam('html_options.generationTool', true, 'bool'),
         'clearEdit' => $this -> getParam('html_options.clearEdit', false, 'bool'),
@@ -159,7 +159,7 @@ class LSformElement_password extends LSformElement {
         $params['mail']['mail_attr'] = $this -> getMailAttrs();
       }
       LSsession :: addJSconfigParam($this -> name, $params);
-      
+
       LSsession :: addJSscript('LSformElement_password_field.js');
       LSsession :: addJSscript('LSformElement_password.js');
     }
@@ -173,7 +173,7 @@ class LSformElement_password extends LSformElement {
     );
     return $return;
   }
-  
+
   public static function generatePassword($params=NULL) {
     if (LSconfig :: get('html_options.use_pwgen', false, null, $params)) {
       $args = LSconfig :: get('html_options.pwgen_opts', '', 'string', $params);
@@ -191,7 +191,7 @@ class LSformElement_password extends LSformElement {
     }
     return generatePassword(LSconfig :: get('html_options.chars', null, null, $params), LSconfig :: get('html_options.lenght', 8, 'int', $params));
   }
-  
+
   public function verifyPassword($pwd) {
     if ($this -> attr_html -> attribute -> ldapObject -> isNew()) {
       return false;
@@ -255,7 +255,7 @@ class LSformElement_password extends LSformElement {
           return;
         }
       }
-              
+
       if (checkEmail($mail,NULL,true)) {
         $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password',$this -> sendMail['pwd']);
         $msg = $this -> attr_html -> attribute -> ldapObject -> getFData($this -> sendMail['msg']);
@@ -278,7 +278,7 @@ class LSformElement_password extends LSformElement {
     }
     return true;
   }
-  
+
   public static function ajax_verifyPassword(&$data) {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
@@ -303,7 +303,7 @@ class LSformElement_password extends LSformElement {
       }
     }
   }
-  
+
   public static function ajax_generatePassword(&$data) {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
@@ -359,4 +359,3 @@ _("LSformElement_password : Fail to determine witch e-mail attribute to use to s
 LSerror :: defineError('LSformElement_password_05',
 _("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function throwed an exception : %{msg}")
 );
-

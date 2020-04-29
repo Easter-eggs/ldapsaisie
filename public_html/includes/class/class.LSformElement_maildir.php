@@ -27,7 +27,7 @@ LSsession :: loadLSclass('LSformElement_text');
  *
  * Cette classe définis les éléments maildir des formulaires.
  * Elle étant la classe LSformElement_text.
- * 
+ *
  * Options HTML : 
  * // *************************************
  * 'html_options' => array (
@@ -58,9 +58,9 @@ class LSformElement_maildir extends LSformElement_text {
     'LSformElement_maildir_field.js',
     'LSformElement_maildir.js'
   );
-  
+
   var $fieldTemplate = 'LSformElement_maildir_field.tpl';
-  
+
   public function getDisplay() {
     LSsession :: addHelpInfos (
       'LSformElement_maildir',
@@ -71,7 +71,7 @@ class LSformElement_maildir extends LSformElement_text {
     );
     return parent :: getDisplay($return);
   }
-  
+
   /**
    * Recupère la valeur de l'élement passée en POST
    *
@@ -85,14 +85,14 @@ class LSformElement_maildir extends LSformElement_text {
   public function getPostData(&$return) {
     // Récupère la valeur dans _POST, et les vérifie avec la fonction générale
     $retval = parent :: getPostData($return);
-    
+
     // Si une valeur est recupérée
     if ($retval&&$_POST['LSformElement_maildir_'.$this -> name.'_do']) {
       $cur = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue();
       $cur=$cur[0];
       $new = $return[$this -> name][0];
       $action=null;
-      
+
       if ( $new != $cur ) {
         if( ($new=="") && ( $cur!="" ) ) {
           $action='delete';
@@ -103,7 +103,7 @@ class LSformElement_maildir extends LSformElement_text {
         else {
           $action='create';
         }
-        
+
         if ($action) {
           $new = $this -> attr_html -> getRemoteRootPathRegex($new);
           $cur = $this -> attr_html -> getRemoteRootPathRegex($cur);
@@ -115,4 +115,3 @@ class LSformElement_maildir extends LSformElement_text {
   }
 
 }
-

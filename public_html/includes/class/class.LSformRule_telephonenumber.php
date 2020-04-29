@@ -21,18 +21,18 @@
 ******************************************************************************/
 
 /**
- * Règle de validation d'un numéro de téléphone.
+ * Rï¿½gle de validation d'un numï¿½ro de tï¿½lï¿½phone.
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule_telephonenumber extends LSformRule {
 
  /**
-   * Vérification de la valeur.
+   * Vï¿½rification de la valeur.
    *
-   * @param string $value Valeur à vérifier
+   * @param string $value Valeur ï¿½ vï¿½rifier
    * @param array $options Options de validation :
-   * @param object $formElement L'objet formElement attaché
+   * @param object $formElement L'objet formElement attachï¿½
    *
    * @return boolean true si la valeur est valide, false sinon
    */
@@ -43,4 +43,3 @@ class LSformRule_telephonenumber extends LSformRule {
   }
 
 }
-

@@ -37,7 +37,7 @@ class LSformElement_boolean extends LSformElement {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -65,4 +65,3 @@ class LSformElement_boolean extends LSformElement {
   }
 
 }
-

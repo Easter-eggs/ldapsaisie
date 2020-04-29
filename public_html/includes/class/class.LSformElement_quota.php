@@ -43,7 +43,7 @@ class LSformElement_quota extends LSformElement {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -52,7 +52,7 @@ class LSformElement_quota extends LSformElement {
     $return = $this -> getLabelInfos();
 
     $quotas=array();
-    
+
     foreach ($this -> values as $value) {
       if (preg_match('/^([0-9]*)$/',$value,$regs)) {
         $infos = array(
@@ -72,7 +72,7 @@ class LSformElement_quota extends LSformElement {
         }
         $infos['valueSize'] = $infos['size'] / $infos['valueSizeFact'];
         $infos['valueTxt'] = $infos['valueSize'].$this ->sizeFacts[$infos['valueSizeFact']];
-        
+
         $quotas[$value] = $infos;
       }
       else {
@@ -81,9 +81,9 @@ class LSformElement_quota extends LSformElement {
         );
       }
     }
-    
+
     LSsession :: addCssFile('LSformElement_quota.css');
-    
+
     $return['html'] = $this -> fetchTemplate(
       NULL,
       array(
@@ -93,7 +93,7 @@ class LSformElement_quota extends LSformElement {
     );
     return $return;
   }
-  
+
  /**
   * Retourne le code HTML d'un champ vide
   *
@@ -107,7 +107,7 @@ class LSformElement_quota extends LSformElement {
       )
     );
   }
-  
+
   /**
    * Recupère la valeur de l'élement passée en POST
    *
@@ -153,4 +153,3 @@ class LSformElement_quota extends LSformElement {
   }
 
 }
-

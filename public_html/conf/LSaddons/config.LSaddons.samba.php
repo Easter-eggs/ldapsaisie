@@ -39,7 +39,7 @@ define('LS_SAMBA_DOMAIN_OBJECT_DN','sambaDomainName=LS,o=ls');
 define('LS_SAMBA_SID_BASE_USER',1000);
 
 // Nombre de base pour le calcul des sambaSID Groupe
-define('LS_SAMBA_SID_BASE_GROUP',1001); 
+define('LS_SAMBA_SID_BASE_GROUP',1001);
 
 /**
  * NB : C'est deux nombres doivent être pour l'un paire et pour l'autre impaire
@@ -60,4 +60,3 @@ define('LS_SAMBA_HOME_PATH_FORMAT','\\SERVER\%{uid}');
 
 // Format du chemin du profile
 define('LS_SAMBA_PROFILE_PATH_FORMAT','\\SERVER\profiles\%{uid}');
-

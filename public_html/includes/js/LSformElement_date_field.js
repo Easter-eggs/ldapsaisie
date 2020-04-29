@@ -2,7 +2,7 @@ var LSformElement_date_field = new Class({
     initialize: function(name,input){
       this.name = name;
       this.input = input;
-      
+
       this.params = varLSdefault.LSjsConfig[this.name];
       if (!$type(this.params)) {
         this.params={};
@@ -65,7 +65,7 @@ var LSformElement_date_field = new Class({
         varLSdefault.addHelpInfo(this.todayBtn,'LSformElement_date','today');
       }
     },
-    
+
     onNowBtnClick: function() {
       this.input.value = new Date().format(this.params.format);
     },

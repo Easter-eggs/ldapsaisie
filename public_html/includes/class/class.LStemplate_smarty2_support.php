@@ -19,7 +19,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *******************************************************************************/
 
-/** 
+/**
  * Support Smarty2 for LStemplate
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -33,7 +33,7 @@
  *                               where the result should be stored.
  * @param[in] $smarty_obj object The Smarty object
  *
- * @return bool TRUE if it was able to successfully retrieve 
+ * @return bool TRUE if it was able to successfully retrieve
  *              the resource and FALSE otherwise.
  **/
 function LStemplate_smarty_get_template ($tpl_name, &$tpl_source, &$smarty_obj) {
@@ -42,7 +42,7 @@ function LStemplate_smarty_get_template ($tpl_name, &$tpl_source, &$smarty_obj) 
 }
 
 /**
- * Retrieve the last modification timestamp of a template 
+ * Retrieve the last modification timestamp of a template
  *
  * @param[in] $tpl_name string The template name
  * @param[in] $tpl_timestamp int Variable passed by reference
@@ -50,7 +50,7 @@ function LStemplate_smarty_get_template ($tpl_name, &$tpl_source, &$smarty_obj) 
  * @param[in] $smarty_obj object The Smarty object
  *
  * @return bool TRUE if the timestamp could be succesfully determined,
- *               or FALSE otherwise 
+ *               or FALSE otherwise
  **/
 function LStemplate_smarty_get_timestamp($tpl_name, &$tpl_timestamp, &$smarty_obj) {
   $time=LStemplate :: getTemplateTimestamp($tpl_name);
@@ -64,13 +64,13 @@ function LStemplate_smarty_get_timestamp($tpl_name, &$tpl_timestamp, &$smarty_ob
 /**
  * Determine if template is secured or not
  *
- * This function is used only for template resources but should 
+ * This function is used only for template resources but should
  * still be defined.
  *
  * @param[in] $tpl_name string The template name
  * @param[in] $smarty_obj object The Smarty object
  *
- * @return bool TRUE if the template is secured, or FALSE otherwise 
+ * @return bool TRUE if the template is secured, or FALSE otherwise
  **/
 function LStemplate_smarty_get_secure($tpl_name, &$smarty_obj) {
   return True;
@@ -87,7 +87,7 @@ function LStemplate_smarty_get_secure($tpl_name, &$smarty_obj) {
  * @param[in] $tpl_name string The template name
  * @param[in] $smarty_obj object The Smarty object
  *
- * @return bool TRUE if the template is trusted, or FALSE otherwise 
+ * @return bool TRUE if the template is trusted, or FALSE otherwise
  **/
 function LStemplate_smarty_get_trusted($tpl_name, &$smarty_obj) {
   return True;
@@ -112,4 +112,3 @@ LStemplate :: $_smarty -> register_resource('ls', array(
 function LStemplate_register_function($name,$function_name) {
   LStemplate :: $_smarty -> register_function($name,$function_name);
 }
-

@@ -32,9 +32,9 @@ if(LSsession :: startLSsession()) {
     else {
       $dn = isset($_REQUEST['dn'])?urldecode($_REQUEST['dn']):null;
     }
-    
+
     if (LSsession :: in_menu($LSobject) || LSsession :: canAccess($LSobject,$dn)) {
-    
+
       if ( LSsession :: loadLSobject($LSobject) ) {
         // Affichage d'un objet
         if ( $dn!='' ) {
@@ -46,7 +46,7 @@ if(LSsession :: startLSsession()) {
                 'action' => 'modify'
               );
             }
-            
+
             if (LSsession :: canCreate($LSobject)) {
               $LSview_actions[] = array(
                 'label' => _('Copy'),
@@ -54,7 +54,7 @@ if(LSsession :: startLSsession()) {
                 'action' => 'copy'
               );
             }
-            
+
             if (LSsession :: canRemove($LSobject,$dn)) {
               $LSview_actions[] = array(
                 'label' => _('Delete'),
@@ -79,7 +79,7 @@ if(LSsession :: startLSsession()) {
                 }
               }
             }
-            
+
             if (LSsession :: getLSuserObjectDn() != $dn) {
               $object = new $LSobject();
               $object -> loadData($dn);
@@ -91,15 +91,15 @@ if(LSsession :: startLSsession()) {
             }
 
             LStemplate :: assign('LSldapObject',$object);
-            
+
             $view = $object -> getView();
             $view -> displayView();
-            
+
             // LSrelations
             if (LSsession :: loadLSclass('LSrelation')) {
               LSrelation :: displayInLSview($object);
             }
-            
+
             LStemplate :: assign('LSview_actions',$LSview_actions);
             LSsession :: setTemplate('view.tpl');
           }
@@ -111,11 +111,11 @@ if(LSsession :: startLSsession()) {
         elseif (LSsession :: loadLSclass('LSsearch')) {
           $object = new $LSobject();
           LStemplate :: assign('pagetitle',$object -> getLabel());
-          
+
           $LSsearch = new LSsearch($LSobject, 'LSview', null, (isset($_REQUEST['reset'])));
           $LSsearch -> setParam('extraDisplayedColumns',True);
           $LSsearch -> setParamsFormPostData();
-          
+
           $searchForm = array (
             'action' => $_SERVER['PHP_SELF'],
             'recursive' => (! LSsession :: isSubDnLSobject($LSobject) && LSsession :: subDnIsEnabled() ),
@@ -136,7 +136,7 @@ if(LSsession :: startLSsession()) {
             'predefinedFilter' => $LSsearch->getParam('predefinedFilter')
           );
           LStemplate :: assign('searchForm',$searchForm);
-          
+
           $LSview_actions=array();
           if(LSsession :: canCreate($LSobject)) {
             $LSview_actions['create'] = array (
@@ -186,20 +186,20 @@ if(LSsession :: startLSsession()) {
           }
 
           LStemplate :: assign('LSview_actions',$LSview_actions);
-          
+
           $LSsearch -> run();
-          
+
           $LSsearch -> redirectWhenOnlyOneResult();
-          
+
           $page=(isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
           $page = $LSsearch -> getPage($page);
           LStemplate :: assign('page',$page);
           LStemplate :: assign('LSsearch',$LSsearch);
-          
+
           if (LSsession :: loadLSclass('LSform')) {
             LSform :: loadDependenciesDisplayView();
           }
-          
+
           LSsession :: setTemplate('viewSearch.tpl');
         }
         else {
@@ -224,4 +224,3 @@ LSsession :: displayTemplate();
 if (isset($LSsearch)) {
   $LSsearch->afterUsingResult();
 }
-

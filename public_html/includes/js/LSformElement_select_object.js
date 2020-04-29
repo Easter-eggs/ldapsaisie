@@ -3,7 +3,7 @@ var LSformElement_select_object = new Class({
       this.fields = [];
       this.initialiseLSformElement_select_object();
     },
-    
+
     initialiseLSformElement_select_object: function(el) {
       if (!$type(el)) {
         el = document;

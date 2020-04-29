@@ -42,13 +42,13 @@ class LSerror {
    * @param[in] $msg LSformat Le format paramètrable du message de l'erreur
    *
    * @retval void
-   */ 
+   */
   public static function defineError($code=-1,$msg='') {
     self :: $_errorCodes[$code] = array(
       'msg' => $msg
     );
   }
-  
+
   /**
    * Ajoute une erreur
    *
@@ -56,25 +56,25 @@ class LSerror {
    *
    * @param[in] $code numeric Le code de l'erreur
    * @param[in] $msg mixed Un tableau ou une chaine pour la construction du message d'erreur
-   *                       Tableau : '[clef]' => 'valeur' 
+   *                       Tableau : '[clef]' => 'valeur'
    *                                    La clef sera utilisé dans le format de message d'erreur
    *                                    dans le fichier 'error_code.php'.
    *
    * @retval void
-   */ 
+   */
   public static function addErrorCode($code=-1,$msg='') {
     $_SESSION['LSerror'][] = array($code,$msg);
     if (class_exists('LSlog'))
       LSlog :: error(self::getError(array($code,$msg)));
   }
-  
+
   /**
    * Affiche les erreurs
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $return boolean True pour que le texte d'erreurs soit retourné
-   * 
+   *
    * @retval void
    */
   public static function display($return=False) {
@@ -94,7 +94,7 @@ class LSerror {
    *
    * @param[in] $code Error code (Goto : addErrorCode())
    * @param[in] $msg Error msg (Goto : addErrorCode())
-   * 
+   *
    * @retval void
    */
   public static function stop($code=-1,$msg='') {
@@ -124,7 +124,7 @@ class LSerror {
     }
     return;
   }
-  
+
  /**
   * Retourne le texte d'une erreur
   *
@@ -135,7 +135,7 @@ class LSerror {
   private static function getError($error) {
     return ($error[0]?"(Code ".htmlentities($error[0]).") ":"").htmlentities(getFData(self :: $_errorCodes[$error[0]]['msg'],$error[1]));
   }
-  
+
  /**
   * Définir si il y a des erreurs
   *
@@ -146,7 +146,7 @@ class LSerror {
   public static function errorsDefined() {
     return !empty($_SESSION['LSerror']);
   }
-  
+
  /**
   * Efface les erreurs sotckés
   *
@@ -157,12 +157,12 @@ class LSerror {
   private static function resetError() {
     unset ($_SESSION['LSerror']);
   }
-  
+
   /**
    * Check if is Net_LDAP2 error and display possible error message
-   * 
+   *
    * @param[in] $data mixed Data
-   * 
+   *
    * @retval boolean True if it's an error or False
    **/
   public static function isLdapError($data) {
@@ -179,4 +179,3 @@ class LSerror {
  * Error Codes
  */
 LSerror :: defineError(-1,_("Unknown error : %{error}"));
-

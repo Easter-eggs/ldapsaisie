@@ -8,7 +8,7 @@ var LSformElement_supannCompositeAttribute_field = new Class({
 		this.initializeLSformElement_supannCompositeAttribute_field();
 		varLSform.addField(this.name,this);
     },
-    
+
     initializeLSformElement_supannCompositeAttribute_field: function(el) {
 		if (!$type(el)) {
 			el = this.ul;
@@ -17,7 +17,7 @@ var LSformElement_supannCompositeAttribute_field = new Class({
 			this.values.push(new LSformElement_supannCompositeAttribute_field_value(li,this.name,this.field_type));
 		}, this);
     },
-    
+
     clearValue: function() {
 		console.log('clear');
 		console.log(this.values);

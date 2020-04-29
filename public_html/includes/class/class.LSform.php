@@ -37,12 +37,12 @@ class LSform {
   var $_rules = array();
 
   var $_postData = array();
- 
+
   var $_elementsErrors = array();
   var $_isValidate = false;
 
   var $_notUpdate = array();
-  
+
   var $maxFileSize = NULL;
 
   var $dataEntryForm = NULL;
@@ -61,7 +61,7 @@ class LSform {
    * @param[in] $submit string La valeur du bouton submit
    *
    * @retval void
-   */ 
+   */
   public function __construct(&$ldapObject, $idForm, $submit=NULL){
     $this -> idForm = $idForm;
     if (!$submit) {
@@ -73,14 +73,14 @@ class LSform {
     $this -> ldapObject =& $ldapObject;
     LSsession :: loadLSclass('LSformElement');
   }
-  
+
   /**
    * Affiche le formualaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval void
-   */ 
+   */
   public function display(){
     if ($this -> idForm == 'view') {
       self :: loadDependenciesDisplayView($this -> $ldapObject);
@@ -91,7 +91,7 @@ class LSform {
       LSsession :: addJSscript('LSform.js');
       LSsession :: addCssFile('LSform.css');
     }
-    
+
     LSsession :: addHelpInfos(
       'LSform',
       array(
@@ -99,20 +99,20 @@ class LSform {
         'removeFieldBtn' => _('Delete this field.')
       )
     );
-    
+
     LStemplate :: assign('LSform_action',$_SERVER['PHP_SELF']);
     $LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n
     \t<input type='hidden' name='idForm' id='LSform_idform' value='".$this -> idForm."'/>\n
     \t<input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='".$this -> ldapObject -> getType()."'/>\n
     \t<input type='hidden' name='LSform_objectdn' id='LSform_objectdn'  value='".$this -> ldapObject -> getValue('dn')."'/>\n";
 
-    
+
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getValue('dn')
     );
     LStemplate :: assign('LSform_object',$LSform_object);
-    
+
     $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
 
     if (!isset($this -> dataEntryFormConfig['disabledLayout']) || $this -> dataEntryFormConfig['disabledLayout']==false) {
@@ -121,7 +121,7 @@ class LSform {
         LStemplate :: assign('LSform_layout_nofield_label',_('No field.'));
       }
     }
-    
+
     $fields = array();
     if (!isset($this -> dataEntryFormConfig['displayedElements']) && !is_array($this -> dataEntryFormConfig['displayedElements'])) {
       foreach($this -> elements as $element) {
@@ -160,12 +160,12 @@ class LSform {
       }
       $LSform_header .= "\t<input type='hidden' name='LSform_dataEntryForm' value='".$this -> dataEntryForm."'/>\n";
     }
-    
+
     if ($this -> maxFileSize) {
       $LSform_header.="\t<input type='hidden' name='MAX_FILE_SIZE' value='".$this -> maxFileSize."'/>\n";
     }
     LStemplate :: assign('LSform_header',$LSform_header);
-    
+
     LStemplate :: assign('LSform_fields',$fields);
 
     $JSconfig = array (
@@ -179,10 +179,10 @@ class LSform {
     LSsession :: addJSconfigParam('LSform_'.$this -> idForm,$JSconfig);
     LStemplate :: assign('LSform_submittxt',$this -> submit);
   }
-  
+
  /*
   * Méthode chargeant les dépendances d'affichage d'une LSview
-  * 
+  *
   * @retval void
   */
   public static function loadDependenciesDisplayView($ldapObject=false) {
@@ -219,17 +219,17 @@ class LSform {
     }
     LSsession :: addJSscript('LSview.js');
   }
-  
+
   /**
    * Affiche la vue
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval void
-   */ 
+   */
   public function displayView(){
     self :: loadDependenciesDisplayView($this -> ldapObject);
-    
+
     $LSform_object = array(
       'type' => $this -> ldapObject -> getType(),
       'dn' => $this -> ldapObject -> getDn()
@@ -241,14 +241,14 @@ class LSform {
       $fields[$element -> name] = $field;
     }
     LStemplate :: assign('LSform_fields',$fields);
-    
+
     $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
     if (is_array($layout_config)) {
       LStemplate :: assign('LSform_layout',$layout_config);
       LStemplate :: assign('LSform_layout_nofield_label',_('No field.'));
     }
-  }  
-  
+  }
+
   /**
    * Défini l'erreur sur un champ
    *
@@ -260,7 +260,7 @@ class LSform {
    *                 du champs concerné.
    *
    * @retval void
-   */ 
+   */
   public function setElementError($attr,$msg=NULL) {
     if($msg!='') {
       $msg_error=getFData($msg,$attr->getLabel());
@@ -271,16 +271,16 @@ class LSform {
     $this -> _elementsErrors[$attr->name][]=$msg_error;
     $this -> can_validate=false;
   }
-  
+
   /**
    * Savoir si des erreurs son définie pour un élement du formulaire
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $element [<b>required</b>] string Le nom de l'élement
-   * 
+   *
    * @retval boolean
-   */ 
+   */
   public function definedError($element=NULL) {
     if ($element) {
       return isset($this -> _elementsErrors[$element]);
@@ -289,23 +289,23 @@ class LSform {
       return !empty($this -> _elementsErrors);
     }
   }
-  
+
   /**
    * Retourne le tableau des erreurs
-   * 
+   *
    * @retval Array array(element => array(errors))
    */
   public function getErrors() {
     return $this -> _elementsErrors;
   }
-  
+
   /**
    * Verifie si le formulaire a été validé et que les données sont valides.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval boolean true si le formulaire a été validé et que les données ont été validées, false sinon
-   */ 
+   */
   public function validate(){
     if(!$this -> can_validate)
       return;
@@ -401,12 +401,12 @@ class LSform {
 
   /**
    * Défini arbitrairement des données en POST
-   * 
+   *
    * @author Benjamin Renard <brenard@easter-eggs.com>
-   * 
+   *
    * @param[in] $data array('attr' => array(values)) Tableau des données du formulaire
    * @param[in] $consideredAsSubmit Définie si on force le formualaire comme envoyer
-   * 
+   *
    * @retval boolean true si les données ont été définies, false sinon
    */
   public function setPostData($data,$consideredAsSubmit=false) {
@@ -417,12 +417,12 @@ class LSform {
         }
         $_POST[$key] = $values;
       }
-      
+
       if ($consideredAsSubmit) {
         $_POST['validate']='LSform';
         $_POST['idForm']=$this -> idForm;
       }
-      
+
       return true;
     }
     return;
@@ -471,7 +471,7 @@ class LSform {
 
   /**
    * Ajoute un élément au formulaire
-   * 
+   *
    * Ajoute un élément au formulaire et définis les informations le concernant.
    *
    * @param[in] $type string Le type de l'élément
@@ -485,7 +485,7 @@ class LSform {
     $elementType='LSformElement_'.$type;
     LSsession :: loadLSclass($elementType);
     if (!class_exists($elementType)) {
-      LSerror :: addErrorCode('LSform_05',array('type' => $type));  
+      LSerror :: addErrorCode('LSform_05',array('type' => $type));
       return;
     }
     $element=$this -> elements[$name] = new $elementType($this,$name,$label,$params,$attr_html);
@@ -542,11 +542,11 @@ class LSform {
         return true;
       }
       else {
-        LSerror :: addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));      
+        LSerror :: addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));
         return;
       }
     }
-    else {  
+    else {
       LSerror :: addErrorCode('LSform_04',array('element' => $element));
       return;
     }
@@ -649,26 +649,26 @@ class LSform {
 
   /**
    * Retourne le code HTML d'un champ vide.
-   * 
+   *
    * @param[in] string Le nom du champ du formulaire
    *
    * @retval string Le code HTML du champ vide.
    */
   public function getEmptyField($element) {
     $element = $this -> getElement($element);
-    if ($element) {      
-      return $element -> getEmptyField();     
+    if ($element) {
+      return $element -> getEmptyField();
     }
     else {
       return;
     }
   }
-  
+
   /**
    * Défini la taille maximal pour les fichiers envoyés par le formualaire
-   * 
+   *
    * @param[in] $size La taille maximal en octets
-   * 
+   *
    * @retval  void
    **/
   public function setMaxFileSize($size) {
@@ -803,4 +803,3 @@ _("LSform : The data entry form %{name} is not correctly configured.")
 LSerror :: defineError('LSform_09',
 _("LSform : The element %{name}, listed as displayed in data entry form configuration, doesn't exist.")
 );
-

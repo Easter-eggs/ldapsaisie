@@ -27,7 +27,7 @@ if(LSsession :: startLSsession()) {
   if ((isset($_GET['LSobject'])) && (isset($_GET['dn']))) {
     $LSobject=urldecode($_GET['LSobject']);
     $dn=urldecode($_GET['dn']);
-    
+
     if (LSsession ::loadLSobject($LSobject)) {
         if ( LSsession :: canRemove($LSobject,$dn) ) {
           $object = new $LSobject();
@@ -75,4 +75,3 @@ else {
 
 // Affichage des retours d'erreurs
 LSsession :: displayTemplate();
-

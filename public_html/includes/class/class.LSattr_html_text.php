@@ -28,6 +28,5 @@
 class LSattr_html_text extends LSattr_html {
 
   var $LSformElement_type = 'text';
-  
-}
 
+}

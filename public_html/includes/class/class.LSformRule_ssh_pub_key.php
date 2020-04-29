@@ -46,4 +46,3 @@ class LSformRule_ssh_pub_key extends LSformRule {
   }
 
 }
-

@@ -59,4 +59,3 @@ class LSformRule_imagefile extends LSformRule {
   }
 
 }
-

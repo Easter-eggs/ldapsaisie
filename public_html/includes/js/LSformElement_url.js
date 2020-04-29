@@ -5,7 +5,7 @@ var LSformElement_url = new Class({
         varLSform.addModule("LSformElement_url",this);
       }
     },
-    
+
     initialiseLSformElement_url: function(el) {
       if (typeof(el) == 'undefined') {
         el = document;
@@ -17,7 +17,7 @@ var LSformElement_url = new Class({
         this.addBtnAfter.bind(this)(a);
       }, this);
     },
-    
+
     addBtnAfter: function(el) {
       var btn_go = new Element('img');
       btn_go.setProperties({
@@ -27,7 +27,7 @@ var LSformElement_url = new Class({
       btn_go.injectAfter(el);
       btn_go.addEvent('click',this.onGoBtnClick.bind(this,btn_go));
       varLSdefault.addHelpInfo(btn_go,'LSformElement_url','go');
-      
+
       if (this.isAddFavoriteSupportedBrowser()) {
         var btn_fav = new Element('img');
         btn_fav.setProperties({
@@ -39,12 +39,12 @@ var LSformElement_url = new Class({
         varLSdefault.addHelpInfo(btn_fav,'LSformElement_url','fav');
       }
     },
-    
+
     reinitialize: function(el) {
       varLSform.initializeModule('LSformElement_text',el);
       this.initialiseLSformElement_url(el);
     },
-    
+
     onGoBtnClick: function(btn) {
       var href = btn.getParent().getFirst().href;
       if (typeof(href)=="undefined") {
@@ -54,7 +54,7 @@ var LSformElement_url = new Class({
         window.open(href,'_blank');
       }
     },
-    
+
     onAddFavoriteBtnClick: function(btn) {
       var href = btn.getParent().getFirst().value;
       if (typeof(href)=="undefined") {
@@ -70,7 +70,7 @@ var LSformElement_url = new Class({
         }
       }
     },
-    
+
     isAddFavoriteSupportedBrowser: function() {
       if (window.sidebar || window.external) {
         return 1;

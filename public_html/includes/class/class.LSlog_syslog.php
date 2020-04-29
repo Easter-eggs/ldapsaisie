@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Handle logging to syslog
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>

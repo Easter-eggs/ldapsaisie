@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Default logging handler
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -93,4 +93,3 @@ class LSlog_handler {
 		return false;
 	}
 }
-

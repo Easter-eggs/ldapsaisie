@@ -8,7 +8,7 @@ var LSformElement_jsonCompositeAttribute_field = new Class({
 		this.initializeLSformElement_jsonCompositeAttribute_field();
 		varLSform.addField(this.name,this);
     },
-    
+
     initializeLSformElement_jsonCompositeAttribute_field: function(el) {
 		if (!$type(el)) {
 			el = this.ul;
@@ -17,7 +17,7 @@ var LSformElement_jsonCompositeAttribute_field = new Class({
 			this.values.push(new LSformElement_jsonCompositeAttribute_field_value(li,this.name,this.field_type));
 		}, this);
     },
-    
+
     clearValue: function() {
 		if (this.values.length>1) {
 			for(var i=1; i<=this.values.length; i++) {

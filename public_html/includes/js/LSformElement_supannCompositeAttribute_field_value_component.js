@@ -4,11 +4,11 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
       this.field_name = field_name;
       this.name = name;
       this.params = varLSdefault.LSjsConfig[this.field_name];
-      
+
       this.input = p.getElement('input');
       this.img = p.getElement('img');
       this.span = p.getElement('span');
-      
+
       if (this.params.components[this.name].type=="table" || this.params.components[this.name].type=="codeEntite") {
 		  this.inputSearch=new Element(
 			'input',
@@ -21,7 +21,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		  );
 		  this.inputSearch.addEvent('keydown',this.onKeyUpInputSearch.bindWithEvent(this));
 		  this.inputSearch.injectInside(this.p);
-		  
+
 		  this.searchBtn=new Element(
 			'img',
 			{
@@ -32,12 +32,12 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		  );
 		  this.searchBtn.addEvent('click',this.toogleInputSearch.bind(this));
 		  this.searchBtn.injectBefore(this.inputSearch);
-		  
+
 		  this._lastSearch=null;
 		  this._possibleValues=null;
 	  }
     },
-    
+
     toogleInputSearch: function() {
 		if (this.inputSearch.getStyle('display')=='none') {
 			this.inputSearch.setStyle('display','block');
@@ -49,22 +49,22 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 			this.inputSearch.set('value','');
 		}
 	},
-    
+
     onKeyUpInputSearch: function(event) {
       event = new Event(event);
-      
+
       if ((event.key=='enter')||(event.key=='tab')) {
         event.stop();
         if (this.inputSearch.value!="") {
           this.launchSearch();
         }
       }
-      
+
       if (event.key=='esc') {
         this.toogleInputSearch();
       }
     },
-    
+
     launchSearch: function() {
 		this.hidePossibleValues();
 		this._lastSearch=this.inputSearch.value;
@@ -80,14 +80,14 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		data.imgload=varLSdefault.loadingImgDisplay(this.inputSearch);
 		new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSearchComplete.bind(this)}).send();
     },
-    
+
     onSearchComplete: function(responseText, responseXML) {
 		var data = JSON.decode(responseText);
 		if ( varLSdefault.checkAjaxReturn(data) ) {
 		  this.displayPossibleValues(data.possibleValues);
 		}
     },
-    
+
     displayPossibleValues: function(possibleValues) {
 		if (this._possibleValues==null) {
 			this._possibleValues=new Element(
@@ -98,7 +98,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 			);
 			this._possibleValues.injectInside(this.p);
 		}
-		
+
 
 		var ul=new Element('ul');
 		possibleValues.each(function(v) {
@@ -134,14 +134,14 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		ul.injectInside(this._possibleValues);
 		this._possibleValues.setStyle('display', 'block');
 	},
-	
+
 	hidePossibleValues: function() {
 		if (this._possibleValues!=null) {
 			this._possibleValues.setStyle('display', 'none');
 			this._possibleValues.empty();
 		}
 	},
-	
+
 	onClickPossibleValue: function(event) {
 		this.hidePossibleValues();
 		event = new Event(event);
@@ -161,7 +161,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		this.span.set('title',li.get('data-value'));
 		this.toogleInputSearch();
 	},
-	
+
 	clear: function() {
 		if (this.img) {
 			this.img.dispose();

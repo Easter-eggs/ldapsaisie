@@ -35,7 +35,7 @@ class LSattr_html_password extends LSattr_html {
    * @param[in] $data Valeur du champs du formulaire
    *
    * @retval LSformElement L'element du formulaire ajouté
-   */ 
+   */
   public function addToForm (&$form,$idForm,$data=NULL) {
     $element=$form -> addElement('password', $this -> name, $this -> getLabel(), $this -> config, $this);
     if(!$element) {
@@ -55,6 +55,5 @@ class LSattr_html_password extends LSattr_html {
     }
     return $element;
   }
-  
-}
 
+}

@@ -28,12 +28,11 @@ LSsession :: loadLSclass('LSattr_html_select_list');
  * Same as LSattr_html_select_list but using <input> type checkbox
  * for multiple values selection and type radio for single value
  * selection.
- * 
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSattr_html_select_box extends LSattr_html_select_list {
 
   var $LSformElement_type = 'select_box';
-  
-}
 
+}

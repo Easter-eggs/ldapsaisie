@@ -31,7 +31,7 @@ LSsession :: loadLSclass('LSattr_html');
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSattribute {
-  
+
   var $name;
   var $config;
   var $ldapObject;
@@ -44,7 +44,7 @@ class LSattribute {
   var $_myRights=NULL;
   var $_events=array();
   var $_objectEvents=array();
-  
+
   /**
    * Constructeur
    *
@@ -59,7 +59,7 @@ class LSattribute {
    * @param[in] &$ldapObject LSldapObject L'objet ldap parent
    *
    * @retval boolean Retourne true si la création a réussi, false sinon.
-   */ 
+   */
   public function __construct($name, $config, &$ldapObject) {
     $this -> name = $name;
     $this -> config = $config;
@@ -78,8 +78,8 @@ class LSattribute {
     }
     return true;
   }
-  
-  
+
+
   /**
    * Retourne la valeur du label de l'attribut
    *
@@ -88,7 +88,7 @@ class LSattribute {
    * @retval string Le label de l'attribut
    *
    * @see LSattr_html::getLabel()
-   */ 
+   */
 
   public function getLabel() {
     if (!$this -> html) {
@@ -97,7 +97,7 @@ class LSattribute {
     }
     return $this -> html -> getLabel();
   }
-  
+
   /**
    * Défini la valeur de l'attribut
    *
@@ -112,7 +112,7 @@ class LSattribute {
     $this -> data = $attr_data;
     return true;
   }
-  
+
   /**
    * Redéfini la valeur de l'attribut
    *
@@ -129,7 +129,7 @@ class LSattribute {
     $this -> is_validate=false;
     return true;
   }
-  
+
   /**
    * Retourne la valeur de l'attribut
    *
@@ -158,7 +158,7 @@ class LSattribute {
   public function getOldValue() {
     return $this -> data;
   }
-  
+
   /**
    * Retourne la valeur d'affichage de l'attribut
    *
@@ -197,7 +197,7 @@ class LSattribute {
     }
     return $data;
   }
-  
+
   /**
    * Ajoute l'attribut au formulaire
    *
@@ -234,7 +234,7 @@ class LSattribute {
       else {
         $data = NULL;
       }
-      
+
       $element = $this -> html -> addToForm($form,$idForm,$data);
       if(!$element) {
         LSerror :: addErrorCode('LSform_06',$this -> name);
@@ -269,14 +269,14 @@ class LSattribute {
         else {
           LSerror :: addErrorCode('LSattribute_04',$this->name);
         }
-      } 
+      }
     }
     return true;
   }
 
   /**
    * Récupération des droits de l'utilisateur sur l'attribut
-   * 
+   *
    * @retval string 'r'/'w'/'n' pour 'read'/'write'/'none'
    **/
   private function myRights() {
@@ -330,7 +330,7 @@ class LSattribute {
     }
     return true;
   }
-  
+
   /**
    * Rafraichis la valeur de l'attribut dans un formualaire
    *
@@ -358,7 +358,7 @@ class LSattribute {
     }
     return true;
   }
-  
+
   /**
    * Retourne la valeur a afficher dans le formulaire
    *
@@ -376,7 +376,7 @@ class LSattribute {
     }
     return $data;
   }
-  
+
   /**
    * Définis les données de mises à jour si un changement a eut lieu
    *
@@ -391,7 +391,7 @@ class LSattribute {
       $this -> updateData=$data;
     }
   }
-  
+
   /**
    * Vérifie si l'attribut a été validé
    *
@@ -402,7 +402,7 @@ class LSattribute {
   public function isValidate() {
     return $this -> is_validate;
   }
-  
+
   /**
    * Valide le champs
    *
@@ -413,7 +413,7 @@ class LSattribute {
   public function validate() {
     $this -> is_validate=true;
   }
-  
+
   /**
    * Vérifie si l'attribut a été mise à jour
    *
@@ -424,7 +424,7 @@ class LSattribute {
   public function isUpdate() {
     return ($this -> updateData===false)?false:true;
   }
-  
+
   /**
    * Vérifie si l'attribut est obligatoire
    *
@@ -435,7 +435,7 @@ class LSattribute {
   public function isRequired() {
     return $this -> getConfig('required', false, 'bool');
   }
-  
+
   /**
    * Vérifie si la valeur de l'attribut peut être générée
    *
@@ -487,7 +487,7 @@ class LSattribute {
     }
     return;
   }
-  
+
   /**
    * Retourne la valeur de l'attribut pour son enregistrement dans l'annuaire
    * si l'attribut à été modifié.
@@ -539,7 +539,7 @@ class LSattribute {
     $this -> _finalUpdateData = $result;
     return $result;
   }
- 
+
   /**
    * Retourne la configuration de validation de l'attribut
    *
@@ -567,12 +567,12 @@ class LSattribute {
 
   /**
    * Ajouter une action lors d'un événement
-   * 
+   *
    * @param[in] $event string Le nom de l'événement
    * @param[in] $fct string Le nom de la fonction à exectuer
    * @param[in] $params mixed Paramètres pour le lancement de la fonction
    * @param[in] $class Nom de la classe possèdant la méthode $fct à executer
-   * 
+   *
    * @retval void
    */
   public function addEvent($event,$fct,$params,$class=NULL) {
@@ -582,15 +582,15 @@ class LSattribute {
       'class'     => $class
     );
   }
-  
+
   /**
    * Ajouter une action sur un objet lors d'un événement
-   * 
+   *
    * @param[in] $event string Le nom de l'événement
    * @param[in] $obj object L'objet dont la méthode doit être executé
    * @param[in] $meth string Le nom de la méthode
    * @param[in] $params mixed Paramètres d'execution de la méthode
-   * 
+   *
    * @retval void
    */
   public function addObjectEvent($event,&$obj,$meth,$params=NULL) {
@@ -600,12 +600,12 @@ class LSattribute {
       'params'    => $params
     );
   }
-  
+
   /**
    * Lance les actions à executer lors d'un événement
-   * 
+   *
    * @param[in] $event string Le nom de l'événement
-   * 
+   *
    * @retval boolean True si tout c'est bien passé, false sinon
    */
   public function fireEvent($event) {
@@ -628,7 +628,7 @@ class LSattribute {
         }
       }
     }
-    
+
     if (isset($this -> _events[$event]) && is_array($this -> _events[$event])) {
       foreach ($this -> _events[$event] as $e) {
         if ($e['class']) {
@@ -670,7 +670,7 @@ class LSattribute {
         }
       }
     }
-    
+
     if (isset($this -> _objectEvents[$event]) && is_array($this -> _objectEvents[$event])) {
       foreach ($this -> _objectEvents[$event] as $e) {
         if (method_exists($e['obj'],$e['meth'])) {
@@ -688,7 +688,7 @@ class LSattribute {
         }
       }
     }
-    
+
     return $return;
   }
 
@@ -704,7 +704,7 @@ class LSattribute {
   public function getConfig($param, $default=null, $cast=null) {
     return LSconfig :: get($param, $default, $cast, $this -> config);
   }
-  
+
 }
 
 /**
@@ -737,4 +737,3 @@ LSerror :: defineError('LSattribute_08',
 LSerror :: defineError('LSattribute_09',
   _("LSattribute : The attr_%{type} of the attribute %{name} is not yet defined.")
 );
-

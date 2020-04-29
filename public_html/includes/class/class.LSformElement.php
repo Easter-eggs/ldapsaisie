@@ -55,7 +55,7 @@ class LSformElement {
    * @param[in] $params mixed Paramètres supplémentaires
    *
    * @retval true
-   */ 
+   */
   public function __construct(&$form, $name, $label, $params, &$attr_html){
     $this -> name = $name;
     $this -> label = $label;
@@ -84,12 +84,12 @@ class LSformElement {
     $this -> values = $data;
     return true;
   }
-  
+
   /**
-   * Définis la valeur de l'élément à partir des données 
+   * Définis la valeur de l'élément à partir des données
    * envoyées en POST du formulaire
    *
-   * Cette méthode définis la valeur de l'élément à partir des données 
+   * Cette méthode définis la valeur de l'élément à partir des données
    * envoyées en POST du formulaire.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -108,7 +108,7 @@ class LSformElement {
 
   /**
    * Exporte les valeurs de l'élément
-   * 
+   *
    * @retval Array Les valeurs de l'élement
    */
   public function exportValues(){
@@ -137,7 +137,7 @@ class LSformElement {
 
   /**
    * Test si l'élément est éditable
-   * 
+   *
    * Cette méthode test si l'élément est éditable
    *
    * @retval boolean
@@ -145,7 +145,7 @@ class LSformElement {
   public function isFreeze(){
     return $this -> _freeze;
   }
-  
+
   /**
    * Freeze l'élément
    *
@@ -170,7 +170,7 @@ class LSformElement {
 
   /**
    * Test si l'élément est requis
-   * 
+   *
    * Cette méthode test si l'élément est requis
    *
    * @retval boolean
@@ -257,13 +257,13 @@ class LSformElement {
   public function isMultiple() {
     return $this -> getParam('multiple', false, 'bool');
   }
-  
+
  /**
   * Retournne un template Smarty compilé dans le contexte d'un LSformElement
   *
   * @param[in] string $template Le template à retourner
   * @param[in] array $variables Variables Smarty à assigner avant l'affichage
-  * 
+  *
   * @retval string Le HTML compilé du template
   */
   public function fetchTemplate($template=NULL,$variables=array()) {
@@ -288,7 +288,7 @@ class LSformElement {
       )
     );
   }
-  
+
  /**
   * Retourne le code HTML d'un champ vide
   *
@@ -312,4 +312,3 @@ class LSformElement {
   }
 
 }
-

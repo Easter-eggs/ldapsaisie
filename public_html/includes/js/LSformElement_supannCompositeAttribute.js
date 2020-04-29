@@ -3,7 +3,7 @@ var LSformElement_supannCompositeAttribute = new Class({
       this.fields = [];
       this.initialiseLSformElement_supannCompositeAttribute();
     },
-    
+
     initialiseLSformElement_supannCompositeAttribute: function(el) {
       if (!$type(el)) {
         el = document;

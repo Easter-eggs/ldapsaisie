@@ -3,7 +3,7 @@ var LSformElement_supannLabeledValue = new Class({
       this.fields = [];
       this.initialiseLSformElement_supannLabeledValue();
     },
-    
+
     initialiseLSformElement_supannLabeledValue: function(el) {
       if (!$type(el)) {
         el = document;

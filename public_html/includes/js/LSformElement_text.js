@@ -6,9 +6,9 @@ var LSformElement_text = new Class({
         varLSform.addModule("LSformElement_text",this);
       }
     },
-    
+
     initialiseLSformElement_text: function(el) {
-      
+
       if (typeof(el) == 'undefined') {
         el = document;
       }
@@ -18,7 +18,7 @@ var LSformElement_text = new Class({
         if (!$type(this.elements[name])) {
           this.elements[name] = new Hash();
         }
-        var id = this.elements[name].getLength(); 
+        var id = this.elements[name].getLength();
         this.elements[name][id] = new LSformElement_text_field(name,input,this);
       }, this);
       this.elements.each(function(element) {
@@ -27,11 +27,11 @@ var LSformElement_text = new Class({
         },this);
       },this);
     },
-    
+
     reinitialize: function(el) {
       this.initialiseLSformElement_text(el);
     },
-    
+
     getDependsFields: function(format) {
       var retval=new Array();
       var find = 1;
@@ -48,11 +48,11 @@ var LSformElement_text = new Class({
         }
         else {
           find=0;
-        }           
+        }
       }
       return retval;
     }
-    
+
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
   varLSformElement_text = new LSformElement_text();

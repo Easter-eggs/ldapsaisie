@@ -1,7 +1,7 @@
 var LSsession_recoverPassword = new Class({
     initialize: function(){
       this.select_ldapserver = $('LSsession_ldapserver');
-      if ( ! this.select_ldapserver ) 
+      if ( ! this.select_ldapserver )
         return;
       this.loading_zone = $('loading_zone');
       this.select_ldapserver.addEvent('change',this.onLdapServerChanged.bind(this));
@@ -44,7 +44,7 @@ var LSsession_recoverPassword = new Class({
         }
       }
     },
-    
+
     loginformLevelHide: function(){
       $$('.loginform-level').each(function(el) {
         el.setStyle('display','none');

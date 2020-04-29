@@ -355,7 +355,7 @@ LSerror :: defineError('SUPANN_02',
 				)
 			);
 			$search -> run();
-		
+
 			foreach($search -> getSearchEntries() as $e) {
 				$code=$e->get('supannCodeEntite');
 				if (is_array($code)) $code=$code[0];
@@ -425,4 +425,3 @@ LSerror :: defineError('SUPANN_02',
 	  }
 	  return $retval;
   }
-

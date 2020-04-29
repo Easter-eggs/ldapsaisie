@@ -26,7 +26,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSformRule {
-  
+
   /**
    * Validation de données
   *
@@ -48,4 +48,3 @@ class LSformRule {
 LSerror :: defineError('LSformRule_01',
 _("LSformRule_%{type} : Parameter %{param} is not found.")
 );
-

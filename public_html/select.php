@@ -25,18 +25,18 @@ require_once 'core.php';
 if(LSsession :: startLSsession()) {
   if (isset($_REQUEST['LSobject'])) {
     $LSobject = $_REQUEST['LSobject'];
-    
+
     if ( LSsession ::loadLSobject($LSobject) ) {
       if (LSsession :: loadLSclass('LSsearch')) {
         $object = new $LSobject();
         LStemplate :: assign('pagetitle',$object -> getLabel());
-        
+
         $LSsearch = new LSsearch($LSobject,'LSselect');
         $LSsearch -> setParamsFormPostData();
         $LSsearch -> setParam('nbObjectsByPage',NB_LSOBJECT_LIST_SELECT);
-        
+
         $selectablly=((isset($_REQUEST['selectablly']))?$_REQUEST['selectablly']:0);
-        
+
         if (is_string($_REQUEST['editableAttr'])) {
           $LSsearch -> setParam(
             'customInfos',
@@ -57,7 +57,7 @@ if(LSsession :: startLSsession()) {
 		}
 	}
         $multiple = ((isset($_REQUEST['multiple']))?1:0);
-        
+
         $searchForm = array (
           'action' => $_SERVER['PHP_SELF'],
           'recursive' => (! LSsession :: isSubDnLSobject($LSobject) && LSsession :: subDnIsEnabled() ),
@@ -89,7 +89,7 @@ if(LSsession :: startLSsession()) {
           )
         );
         LStemplate :: assign('searchForm',$searchForm);
-        
+
         $LSview_actions=array(
           array (
             'label' => 'Refresh',
@@ -98,7 +98,7 @@ if(LSsession :: startLSsession()) {
           )
         );
         LStemplate :: assign('LSview_actions',$LSview_actions);
-        
+
         $LSsearch -> run();
         $page=(isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
         $page = $LSsearch -> getPage($page);
@@ -106,14 +106,14 @@ if(LSsession :: startLSsession()) {
         LStemplate :: assign('LSsearch',$LSsearch);
 
         LStemplate :: assign('LSobject_list_objectname',$object -> getLabel());
-        
+
         if (isset($_REQUEST['ajax'])) {
           LSsession :: setTemplate('select_table.tpl');
         }
         else {
           LSsession :: setTemplate('select.tpl');
         }
-        
+
         LSsession :: setAjaxDisplay();
       }
       else {
@@ -135,4 +135,3 @@ LSsession :: displayTemplate();
 if (isset($LSsearch)) {
   $LSsearch->afterUsingResult();
 }
-

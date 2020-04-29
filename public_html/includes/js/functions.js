@@ -28,7 +28,7 @@ function LSdebug(arguments) {
  * @param[in] $data mixed Data used to compose the string.
  *                    It can be strings array or object.
  * @param[in] $meth string Object method name to call to get the new value for the formatted string.
- * 
+ *
  * Invocation example :
  * getFData('%{test1} je  %{test2}',{
  *    getValue: function(val) {
@@ -39,7 +39,7 @@ function LSdebug(arguments) {
  *      return data[val];
  *    }
  * },'getValue');
- * 
+ *
  * @retval string The formatted string
  */
 function getFData(format,data,meth) {
@@ -56,7 +56,7 @@ function getFData(format,data,meth) {
    * - 7 : "!" / "_" / "~" / "%"
    */
   var getMotif =  new RegExp('%\{(([A-Za-z0-9]+)(\:(-?[0-9])+)?(\:(-?[0-9])+)?)([\!\_\~\%]*)?\}');
-  var find=1;  
+  var find=1;
   var val="";
   if(($type(data)=='object') || ($type(data)=='array')) {
     if ($type(data[meth])!='function') {
@@ -68,7 +68,7 @@ function getFData(format,data,meth) {
         }
         else {
           find=0;
-        }           
+        }
       }
     }
     else {
@@ -90,14 +90,14 @@ function getFData(format,data,meth) {
             LSdebug('getFData() : '+meth+'() -> rater');
             return;
           }
-          
+
           val=_getFData_extractAndModify(val,ch);
-          
+
           format=format.replace(new RegExp('%\{'+ch[1]+'[\:0-9\!\_\%\~]*\}'),val);
         }
         else {
           find=0;
-        }           
+        }
       }
     }
   }
@@ -211,9 +211,9 @@ function _getFData_extractAndModify(data,ch) {
 
 /**
 * Delete accentuated characters in a string
-* 
+*
 * @param[in] $string Original string
-* 
+*
 * @retval string de-accentuated string
 */
 function replaceAccents(str) {
@@ -232,10 +232,10 @@ function replaceAccents(str) {
 
 /**
 * Replace spaces or tabs of a string by an argument
-* 
+*
 * @param[in] $string The original string
 * @param[in] $string The character to set instead of spaces or tabs
-* 
+*
 * @retval string The modified outspaced string
 */
 function replaceSpaces(str,to) {
@@ -255,7 +255,7 @@ function replaceSpaces(str,to) {
  * @param[in] url string The original URL
  * @param[in] name string The variable name
  * @param[in] value string The value of the variable
- * 
+ *
  * @retval string The URL with the value
  */
 function urlAddVar(url,name,value) {

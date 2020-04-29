@@ -199,7 +199,7 @@ class LSlog {
 			else
 				$message = varDump($message);
 		}
-		
+
 		// Add prefix
 		if (php_sapi_name() == "cli") {
 			global $argv;

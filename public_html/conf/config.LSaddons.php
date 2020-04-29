@@ -26,4 +26,3 @@ $GLOBALS['LSaddons']['loads'] = array (
   'ftp',
   'maildir'
 );
-

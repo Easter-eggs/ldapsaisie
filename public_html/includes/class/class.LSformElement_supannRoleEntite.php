@@ -58,4 +58,3 @@ class LSformElement_supannRoleEntite extends LSformElement_supannCompositeAttrib
   }
 
 }
-

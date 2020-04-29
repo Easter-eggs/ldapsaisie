@@ -42,11 +42,11 @@ class LSattr_html_image extends LSattr_html {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
     }
-    
+
     if (count($data)>1) {
       LSerror :: addErrorCode('LSattr_html_03','password');
     }
-    
+
     if ($data) {
       if(is_array($data)) {
         $element -> setValue($data[0]);
@@ -55,8 +55,7 @@ class LSattr_html_image extends LSattr_html {
         $element -> setValue($data);
       }
     }
-    return $element; 
+    return $element;
   }
-  
-}
 
+}

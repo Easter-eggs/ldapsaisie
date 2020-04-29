@@ -39,7 +39,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
   'display_name_format' => '%{cn}',
   'label' => 'Groups',
   'attrs' => array (
-  
+
     /* ----------- start -----------*/
     'cn' => array (
       'label' => 'Name',
@@ -69,7 +69,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
     /* ----------- start -----------*/
     'gidNumber' => array (
       'label' => 'Identifier',
@@ -93,7 +93,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
     /* ----------- start -----------*/
     'uniqueMember' => array (
       'label' => 'Members',
@@ -105,7 +105,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
           'display_name_format' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
                                                               // si non définie => utilisation du 'display_name_format'
                                                               // de la définition de l'objet
-                                              
+
           'value_attribute' => 'dn',                          // Spécifie le attributs dont la valeur sera retournée par
         )
       ),
@@ -129,7 +129,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
     /* ----------- start -----------*/
     'description' => array (
       'label' => 'Description',
@@ -148,7 +148,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
     /* ----------- start -----------*/
     'lsGodfatherDn' => array (
       'label' => 'Accountable(s)',
@@ -178,7 +178,6 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       )
     ),
     /* ----------- end -----------*/
-    
+
   )
 );
-

@@ -5,7 +5,7 @@ var LSformElement_xmpp = new Class({
         varLSform.addModule("LSformElement_xmpp",this);
       }
     },
-    
+
     initialiseLSformElement_xmpp: function(el) {
       if (typeof(el) == 'undefined') {
         el = document;
@@ -17,7 +17,7 @@ var LSformElement_xmpp = new Class({
         this.addBtnAfter.bind(this)(a);
       }, this);
     },
-    
+
     addBtnAfter: function(el) {
       var btn = new Element('img');
       btn.setProperties({
@@ -29,12 +29,12 @@ var LSformElement_xmpp = new Class({
       btn.addEvent('click',this.onBtnClick.bind(this,btn));
       varLSdefault.addHelpInfo(btn,'LSformElement_xmpp','chat');
     },
-    
+
     reinitialize: function(el) {
       varLSform.initializeModule('LSformElement_text',el);
       this.initialiseLSformElement_xmpp(el);
     },
-    
+
     onBtnClick: function(btn) {
       var href = btn.getParent().getFirst().href;
       if (typeof(href)=="undefined") {

@@ -28,6 +28,5 @@
 class LSattr_html_xmpp extends LSattr_html {
 
   var $LSformElement_type = 'xmpp';
-  
-}
 
+}

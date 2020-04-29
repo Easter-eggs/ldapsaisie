@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Smarty ressource for LdapSaisie template
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -44,7 +44,7 @@ class Smarty_Resource_LdapSaisie extends Smarty_Resource_Custom {
    $source = LStemplate :: getTemplateSource($name);
    $mtime = LStemplate :: getTemplateTimestamp($name);
  }
- 
+
  /**
   * Fetch a template's modification time from database
   *
@@ -71,4 +71,3 @@ LStemplate :: $_smarty -> registerResource('ls', new Smarty_Resource_LdapSaisie(
 function LStemplate_register_function($name,$function_name) {
   LStemplate :: $_smarty -> registerPlugin("function",$name,$function_name);
 }
-

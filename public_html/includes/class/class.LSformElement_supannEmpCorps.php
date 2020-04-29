@@ -37,4 +37,3 @@ class LSformElement_supannEmpCorps extends LSformElement_supannLabeledValue {
 	var $supannNomenclatureTable = 'empCorps';
 
 }
-

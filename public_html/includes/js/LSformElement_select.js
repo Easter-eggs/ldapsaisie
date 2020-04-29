@@ -2,7 +2,7 @@ var LSformElement_select = new Class({
     initialize: function(){
       this.initialiseLSformElement_select();
     },
-    
+
     initialiseLSformElement_select: function() {
       $$('select.LSformElement_select').each(function(el) {
         var btn = new Element('img');
@@ -18,11 +18,11 @@ var LSformElement_select = new Class({
         varLSdefault.addHelpInfo(btn,'LSformElement_select','clear');
       }, this);
     },
-    
+
     onClearBtnClick: function(select) {
       this.resetSelect(select);
     },
-    
+
     resetSelect: function(select) {
       if ($type(select)!='select') {
         select=select.getParent('select');

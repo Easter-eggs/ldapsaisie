@@ -7,7 +7,7 @@ var LSformElement = new Class({
       this.multiple = this.ul.hasClass('LSformElement_multiple');
       this.initializeLSformElement();
     },
-    
+
     initializeLSformElement: function(li) {
       if (typeof(li) == 'undefined') {
         var elements = this.ul.getChildren('li');
@@ -20,7 +20,7 @@ var LSformElement = new Class({
         this.fields[id] = new LSformElement_field(this,li,id,this.name);
       }, this);
     },
-    
+
     onAddFieldBtnClick: function(field){
       var data = {
         template:   'LSform',

@@ -55,13 +55,13 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
  /**
   * Verification du support Samba par ldapSaisie
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true si Samba est pleinement supporté, false sinon
   */
   function LSaddon_samba_support() {
-    
+
     $retval=true;
 
     // Dependance de librairie
@@ -98,15 +98,15 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
         LSerror :: addErrorCode('SAMBA_SUPPORT_03');
         $retval=false;
     }
-    
+
     return $retval;
   }
 
  /**
   * Generation de sambaSID d'un utilisateur
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   *   Number   = LS_SAMBA_UIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_USER
   *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
   *
@@ -127,12 +127,12 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
     return ($sambaSID);
   }
-  
+
  /**
   * Generation de sambaSID d'un groupe
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   *   Number   = LS_SAMBA_GIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_GROUP
   *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
   *
@@ -156,9 +156,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
  /**
   * Generation de sambaPrimaryGroupSID
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   *   Number   = LS_SAMBA_GIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_GROUP
   *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
   *
@@ -171,7 +171,7 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
       LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaPrimaryGroupSID'));
       return;
     }
-    
+
     $gidNumber = $ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ] -> getValue();
     $gidNumber = $gidNumber[0] * 2 + LS_SAMBA_SID_BASE_GROUP;
     $sambaPrimaryGroupSID = LS_SAMBA_DOMAIN_SID . '-' . $gidNumber;
@@ -181,9 +181,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
  /**
   * Generation de sambaNTPassword
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval string sambaNTPassword ou false si il y a un problème durant la génération
@@ -206,9 +206,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
  /**
   * Generation de sambaLMPassword
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval string sambaLMPassword ou false si il y a un problème durant la génération
@@ -231,9 +231,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
 /**
   * Generation de uidNumber en utilisant l'objet sambaDomain
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval integer uidNumber ou false si il y a un problème durant la génération
@@ -244,7 +244,7 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
       LSerror :: addErrorCode('SAMBA_02');
       return;
     }
-    
+
     $uidNumber = $sambaDomain->getValue('uidNumber','single');
     if (Net_LDAP2::isError($uidNumber) || $uidNumber==0) {
       LSerror :: addErrorCode('SAMBA_04','uidNumber');
@@ -264,9 +264,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
  /**
   * Generation de gidNumber en utilisant l'objet sambaDomain
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval integer gidNumber ou false si il y a un problème durant la génération
@@ -277,7 +277,7 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
       LSerror :: addErrorCode('SAMBA_02');
       return;
     }
-    
+
     $gidNumber = $sambaDomain->getValue('gidNumber','single');
     if (Net_LDAP2::isError($gidNumber) || $gidNumber==0) {
       LSerror :: addErrorCode('SAMBA_04','gidNumber');
@@ -297,9 +297,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
  /**
   * Retourne le temps infini au sens NT
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval integer le temps infinie au sens NT
@@ -310,9 +310,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
 
  /**
   * Generation de l'attribut sambaPwdLastSet
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
-  * 
+  *
   * @param[in] $ldapObject L'objet ldap
   *
   * @retval string sambaPwdLastSet
@@ -410,4 +410,3 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
   function generate_sambaKickoffTime_from_shadowExpire($ldapObject) {
     return generate_timestamp_from_shadowExpire($ldapObject);
   }
-

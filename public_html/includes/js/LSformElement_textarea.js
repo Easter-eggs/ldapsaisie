@@ -5,7 +5,7 @@ var LSformElement_textarea = new Class({
         varLSform.addModule("LSformElement_textarea",this);
       }
     },
-    
+
     initialiseLSformElement_textarea: function(el) {
       if (!$type(el)) {
         el = document;
@@ -19,11 +19,11 @@ var LSformElement_textarea = new Class({
         varLSdefault.addHelpInfo(btn,'LSformElement_textarea','clear');
       }, this);
     },
-    
+
     onClearBtnClick: function(btn) {
       btn.getPrevious('textarea').value='';
     },
-    
+
     reinitialize: function(el) {
       this.initialiseLSformElement_textarea(el);
     }

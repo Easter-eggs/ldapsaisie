@@ -77,10 +77,10 @@ class LSattr_ldap_date extends LSattr_ldap {
     }
     return $retval;
   }
-  
+
  /**
   * Retourne le format de stockage de la date
-  * 
+  *
   * @retval string Le format de la date
   **/
   public function getFormat() {
@@ -88,4 +88,3 @@ class LSattr_ldap_date extends LSattr_ldap {
   }
 
 }
-

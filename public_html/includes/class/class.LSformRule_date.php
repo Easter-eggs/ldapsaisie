@@ -61,4 +61,3 @@ class LSformRule_date extends LSformRule {
 LSerror :: defineError('LSformRule_date_01',
 _("LSformRule_date : No date format specify.")
 );
-

@@ -200,7 +200,7 @@ class LSrelation {
 
  /*
   * Méthode chargeant les dépendances d'affichage
-  * 
+  *
   * @retval void
   */
   public static function loadDependenciesDisplay() {
@@ -209,22 +209,22 @@ class LSrelation {
     }
     LSsession :: addJSscript('LSrelation.js');
     LSsession :: addCssFile('LSrelation.css');
-    
+
     LSsession :: addJSconfigParam('LSrelation_labels', array(
       'close_confirm_text'      => _('Do you really want to delete'),
-      'close_confirm_title'     => _('Warning'), 
+      'close_confirm_title'     => _('Warning'),
       'close_confirm_validate'  => _('Delete')
     ));
   }
-  
+
  /*
   * Méthode chargeant les informations des LSrelations d'un objet et définissant
   * les variables templates pour l'affichage dans une LSview.
-  * 
+  *
   * @param[in] LSldapObject L'objet dont on cherche les LSrelations
-  * 
+  *
   * @retval void
-  */ 
+  */
   public static function displayInLSview($object) {
     if (($object instanceof LSldapObject) && (is_array($object -> config['LSrelation']))) {
       $LSrelations=array();
@@ -235,14 +235,14 @@ class LSrelation {
             'label' => __($relationConf['label']),
             'LSobject' => $relationConf['LSobject']
           );
-          
+
           if (isset($relationConf['emptyText'])) {
             $return['emptyText'] = __($relationConf['emptyText']);
           }
           else {
             $return['emptyText'] = _('No object.');
           }
-          
+
           $id=rand();
           $return['id']=$id;
           $LSrelations_JSparams[$id]=array(
@@ -286,13 +286,13 @@ class LSrelation {
           $LSrelations[]=$return;
         }
       }
-      
+
       self :: loadDependenciesDisplay();
       LStemplate :: assign('LSrelations',$LSrelations);
       LSsession :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
     }
   }
-  
+
   public static function ajax_refreshSession(&$return) {
     if ((isset($_REQUEST['id'])) && (isset($_REQUEST['href'])) ) {
       if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
@@ -332,7 +332,7 @@ class LSrelation {
       }
     }
   }
-  
+
   public static function ajax_refreshList(&$data) {
     if (isset($_REQUEST['id'])) {
       if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
@@ -384,7 +384,7 @@ class LSrelation {
       }
     }
   }
-  
+
   public static function ajax_deleteByDn(&$data) {
     if ((isset($_REQUEST['id'])) && (isset($_REQUEST['dn']))) {
       if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
@@ -467,4 +467,3 @@ _("LSrelation : Incomplete configuration for LSrelation %{relation} of object ty
 LSerror :: defineError('LSrelations_06',
 _("LSrelation : Invalid editable attribute for LSrelation %{relation} with LSobject %{LSobject}.")
 );
-

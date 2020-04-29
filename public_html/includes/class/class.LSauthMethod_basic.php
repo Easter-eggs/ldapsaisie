@@ -29,9 +29,9 @@ class LSauthMethod_basic extends LSauthMethod {
 
   /**
    * Check Auth Data
-   * 
+   *
    * Return authentication data or false
-   * 
+   *
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
@@ -44,11 +44,11 @@ class LSauthMethod_basic extends LSauthMethod {
     }
     return;
   }
-  
+
   /**
    * Check authentication
    *
-   * @retval LSldapObject|false The LSldapObject of the user authificated or false 
+   * @retval LSldapObject|false The LSldapObject of the user authificated or false
    */
   public function authenticate() {
 		$authobject = parent :: authenticate();
@@ -64,7 +64,7 @@ class LSauthMethod_basic extends LSauthMethod {
 		}
 		return;
   }
-  
+
  /**
 	* Test un couple LSobject/pwd
 	*
@@ -78,6 +78,5 @@ class LSauthMethod_basic extends LSauthMethod {
   public static function checkUserPwd($object,$pwd) {
     return LSldap :: checkBind($object -> getValue('dn'),$pwd);
   }
-  
-}
 
+}

@@ -63,4 +63,3 @@ class LSformRule_integer extends LSformRule{
   }
 
 }
-

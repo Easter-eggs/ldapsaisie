@@ -37,4 +37,3 @@ class LSformElement_supannEtablissement extends LSformElement_supannLabeledValue
   var $supannNomenclatureTable = 'codeEtablissement';
 
 }
-

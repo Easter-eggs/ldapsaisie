@@ -31,4 +31,3 @@ define('LSAUTHMETHOD_ANONYMOUS_USER','ls');
 
 // Disable logout
 define('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT',False);
-

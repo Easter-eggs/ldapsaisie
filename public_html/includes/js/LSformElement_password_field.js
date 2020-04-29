@@ -5,7 +5,7 @@ var LSformElement_password_field = new Class({
       this.params = varLSdefault.getParams(this.name);
       this.initialiseLSformElement_password_field();
     },
-    
+
     initialiseLSformElement_password_field: function() {
       // ViewHashBtn
       if (this.params['viewHash'] && varLSform.objectdn!= "") {
@@ -16,7 +16,7 @@ var LSformElement_password_field = new Class({
         this.viewHashBtn.injectAfter(this.input);
         varLSdefault.addHelpInfo(this.viewHashBtn,'LSformElement_password','viewHash');
       }
-      
+
       // Mail
       if (this.params['mail']) {
         if ((this.params.mail['canEdit']==1)||(!$type(this.params.mail['canEdit']))) {
@@ -41,7 +41,7 @@ var LSformElement_password_field = new Class({
             this.mailInput.value = 1;
             this.mailBtn.src = varLSdefault.imagePath('mail');
             varLSdefault.addHelpInfo(this.mailBtn,'LSformElement_password','mail');
-          }  
+          }
           else {
             this.mailInput.value = 0;
             this.mailBtn.src = varLSdefault.imagePath('nomail');
@@ -51,7 +51,7 @@ var LSformElement_password_field = new Class({
           this.mailInput.injectAfter(this.mailBtn);
         }
       }
-      
+
       // ViewBtn
       this.viewBtn = new Element('img');
       if (this.params['clearEdit']) {
@@ -65,7 +65,7 @@ var LSformElement_password_field = new Class({
       this.viewBtn.addClass('btn');
       this.viewBtn.addEvent('click',this.changeInputType.bind(this));
       this.viewBtn.injectAfter(this.input);
-      
+
       // Verify
       if (this.params['verify']) {
         this.bgColor = this.input.getStyle('background-color');
@@ -77,7 +77,7 @@ var LSformElement_password_field = new Class({
         this.verifyBtn.injectAfter(this.input);
         varLSdefault.addHelpInfo(this.verifyBtn,'LSformElement_password','verify');
       }
-      
+
       if (this.params['generate']) {
         this.generateBtn = new Element('img');
         this.generateBtn.src = varLSdefault.imagePath('generate');
@@ -86,17 +86,17 @@ var LSformElement_password_field = new Class({
         this.generateBtn.injectAfter(this.input);
         varLSdefault.addHelpInfo(this.generateBtn,'LSformElement_password','generate');
       }
-      
+
       this.initialize_input();
     },
-    
+
     initialize_input: function() {
       // Verify
       if (this.params['verify']) {
         this.verifyFx = new Fx.Tween(this.input,{property: 'background-color',duration:600});
       }
     },
-    
+
     onMailBtnClick: function() {
       if (this.mailInput.value==0) {
         this.mailInput.value = 1;
@@ -109,14 +109,14 @@ var LSformElement_password_field = new Class({
         varLSdefault.setHelpInfo(this.mailBtn,'LSformElement_password','nomail');
       }
     },
-    
+
     onEditMailBtnClick: function(btn) {
       if(!$type(this.LSmail)) {
         this.LSmail = new LSmail();
         this.LSmail.addEvent('close',this.onLSmailClose.bind(this));
         this.LSmail.addEvent('valid',this.onLSmailValid.bind(this));
       }
-      
+
       var mails = []
       if ($type(this.params.mail['mail_attr'])=='array') {
         this.params.mail['mail_attr'].each(function(a) {
@@ -133,17 +133,17 @@ var LSformElement_password_field = new Class({
       this.LSmail.setMsg(this.params.mail['msg']);
       this.LSmail.open(this.editMailBtn);
     },
-    
+
     onLSmailClose: function(LSmail) {
       LSdebug('LSformElement_password : close LSmail');
       this.LSmail_open = 0;
     },
-    
+
     onLSmailValid: function(LSmail) {
       LSdebug('LSformElement_password : valid LSmail');
       this.setMail(LSmail.getMail());
     },
-    
+
     setMail: function(mail) {
       if ($type(mail)) {
         if (!$type(this.msgInput)) {
@@ -157,7 +157,7 @@ var LSformElement_password_field = new Class({
         this.msgInput.value = JSON.encode(mail);
       }
     },
-    
+
     onGenerateBtnClick: function() {
       var data = {
         template:   'LSformElement_password',
@@ -170,7 +170,7 @@ var LSformElement_password_field = new Class({
       data.imgload=varLSdefault.loadingImgDisplay(this.generateBtn);
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.onGenerateBtnClickComplete.bind(this)}).send();
     },
-    
+
     onGenerateBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
@@ -204,7 +204,7 @@ var LSformElement_password_field = new Class({
       this.initialize_input();
       return newInput;
     },
-    
+
     onVerifyBtnClick: function() {
       var data = {
         template:   'LSformElement_password',
@@ -219,7 +219,7 @@ var LSformElement_password_field = new Class({
       data.imgload=varLSdefault.loadingImgDisplay(this.verifyBtn);
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.onVerifyBtnClickComplete.bind(this)}).send();
     },
-    
+
     onVerifyBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
@@ -246,7 +246,7 @@ var LSformElement_password_field = new Class({
       data.imgload=varLSdefault.loadingImgDisplay(this.viewHashBtn);
       new Request({url: 'index_ajax.php', data: data, onSuccess: this.onViewHashBtnClickComplete.bind(this)}).send();
     },
-    
+
     onViewHashBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {

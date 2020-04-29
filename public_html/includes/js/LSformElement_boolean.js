@@ -2,7 +2,7 @@ var LSformElement_boolean = new Class({
     initialize: function(){
       this.initialiseLSformElement_boolean();
     },
-    
+
     initialiseLSformElement_boolean: function() {
       $$('li.LSformElement_boolean').each(function(el) {
         var btn = new Element('img');
@@ -17,7 +17,7 @@ var LSformElement_boolean = new Class({
         varLSdefault.addHelpInfo(btn,'LSformElement_boolean','clear');
       }, this);
     },
-    
+
     onClearBtnClick: function(btn) {
       var li = btn.getParent();
       li.getElements('input').each(function(input) {

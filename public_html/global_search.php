@@ -110,4 +110,3 @@ else {
 
 // Print template
 LSsession :: displayTemplate();
-

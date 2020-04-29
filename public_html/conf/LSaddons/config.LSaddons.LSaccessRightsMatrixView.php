@@ -29,4 +29,3 @@
 $GLOBALS['LSaccessRightsMatrixView_allowed_LSprofiles'] = array(
   "admin",
 );
-

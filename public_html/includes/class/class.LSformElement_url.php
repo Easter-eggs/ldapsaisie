@@ -36,12 +36,12 @@ class LSformElement_url extends LSformElement_text {
   var $JSscripts = array(
     'LSformElement_url.js'
   );
-  
+
   var $fetchVariables = array(
     'uriClass' => 'LSformElement_url',
     'uriPrefix' => ''
   );
-  
+
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
   public function getDisplay() {
@@ -54,6 +54,5 @@ class LSformElement_url extends LSformElement_text {
     );
     return parent :: getDisplay($return);
   }
-  
-}
 
+}

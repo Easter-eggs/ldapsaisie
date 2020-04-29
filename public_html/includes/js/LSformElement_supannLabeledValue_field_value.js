@@ -8,7 +8,7 @@ var LSformElement_supannLabeledValue_field_value = new Class({
         this.input = this.li.getElement('input');
         this.img = this.li.getElement('img.LSformElement_supannLabeledValue_label');
         this.span = this.li.getElement('span');
-        
+
 		this.inputSearch=new Element(
 		'input',
 		{
@@ -47,22 +47,22 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 			this.inputSearch.set('value','');
 		}
 	},
-    
+
     onKeyUpInputSearch: function(event) {
       event = new Event(event);
-      
+
       if ((event.key=='enter')||(event.key=='tab')) {
         event.stop();
         if (this.inputSearch.value!="") {
           this.launchSearch();
         }
       }
-      
+
       if (event.key=='esc') {
         this.toogleInputSearch();
       }
     },
-    
+
     launchSearch: function() {
 		this.hidePossibleValues();
 		this._lastSearch=this.inputSearch.value;
@@ -77,14 +77,14 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 		data.imgload=varLSdefault.loadingImgDisplay(this.inputSearch);
 		new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSearchComplete.bind(this)}).send();
     },
-    
+
     onSearchComplete: function(responseText, responseXML) {
 		var data = JSON.decode(responseText);
 		if ( varLSdefault.checkAjaxReturn(data) ) {
 		  this.displayPossibleValues(data.possibleValues);
 		}
     },
-    
+
     displayPossibleValues: function(possibleValues) {
 		if (this._possibleValues==null) {
 			this._possibleValues=new Element(
@@ -95,7 +95,7 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 			);
 			this._possibleValues.injectInside(this.li);
 		}
-		
+
 
 		var ul=new Element('ul');
 		possibleValues.each(function(v) {
@@ -131,14 +131,14 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 		ul.injectInside(this._possibleValues);
 		this._possibleValues.setStyle('display', 'block');
 	},
-	
+
 	hidePossibleValues: function() {
 		if (this._possibleValues!=null) {
 			this._possibleValues.setStyle('display', 'none');
 			this._possibleValues.empty();
 		}
 	},
-	
+
 	onClickPossibleValue: function(event) {
 		this.hidePossibleValues();
 		event = new Event(event);
@@ -158,7 +158,7 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 		this.span.set('title',li.get('data-value'));
 		this.toogleInputSearch();
 	},
-	
+
 	clear: function() {
 		if (this.img) {
 			this.img.dispose();

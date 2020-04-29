@@ -41,4 +41,3 @@ class LSformRule_required extends LSformRule {
   }
 
 }
-

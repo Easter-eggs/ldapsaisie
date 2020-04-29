@@ -63,7 +63,7 @@ class LSattr_ldap_password extends LSattr_ldap {
    *
    * Note : Password encoding was strongly inspired of the project phpLdapAdmin.
    * URL : http://phpldapadmin.sourceforge.net/
-   * 
+   *
    * @param[in] $data mixed The attribute value
    *
    * @retval mixed The value of this attribute to be stocked
@@ -337,7 +337,7 @@ class LSattr_ldap_password extends LSattr_ldap {
     // It's supposed to never append, but just in case, return false
     return false;
   }
- 
+
   /**
    * Return salt (random string)
    *
@@ -375,4 +375,3 @@ _("LSattr_ldap_password : Encoding type %{type} is not supported. This password 
 LSerror :: defineError('LSattr_ldap_password_02',
 _("LSattr_ldap_password : Encoding function %{function} is not callable. This password will be stored in clear text.")
 );
-

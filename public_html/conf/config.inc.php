@@ -116,7 +116,7 @@ $GLOBALS['LSconfig'] = array(
         'filter'   => '(objectClass=*)',
         'scope'    => 'sub'
       ),
-      'LSprofiles' => array( 
+      'LSprofiles' => array(
         'admin' => array (
           'o=ls' => array (
             'uid=eeggs,ou=people,o=ls' => NULL,
@@ -233,4 +233,3 @@ $GLOBALS['defaultJSscipts']=array(
 
 // CSS
 $GLOBALS['defaultCSSfiles']=array('../light-blue.css');
-

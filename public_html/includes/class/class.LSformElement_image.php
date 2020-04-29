@@ -38,7 +38,7 @@ class LSformElement_image extends LSformElement {
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -69,7 +69,7 @@ class LSformElement_image extends LSformElement {
       if (!$this -> isFreeze()) {
         LStemplate :: assign('LSformElement_image_actions','delete');
       }
-      
+
       if ($this -> form -> definedError($this -> name)) {
         LStemplate :: assign('LSformElement_image_errors',true);
       }
@@ -80,7 +80,7 @@ class LSformElement_image extends LSformElement {
     }
     return $return;
   }
-  
+
   /**
    * Recupère la valeur de l'élement passée en POST
    *
@@ -95,7 +95,7 @@ class LSformElement_image extends LSformElement {
     if($this -> isFreeze()) {
       return true;
     }
-   
+
     if (isset($_FILES[$this -> name]) && isset($_FILES[$this -> name]['tmp_name']) && is_uploaded_file($_FILES[$this -> name]['tmp_name'])) {
       $fp = fopen($_FILES[$this -> name]['tmp_name'], "r");
       $buf = fread($fp, filesize($_FILES[$this -> name]['tmp_name']));
@@ -110,4 +110,3 @@ class LSformElement_image extends LSformElement {
     return true;
   }
 }
-

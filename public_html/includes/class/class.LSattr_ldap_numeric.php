@@ -28,4 +28,3 @@
 class LSattr_ldap_numeric extends LSattr_ldap {
   // \\
 }
-

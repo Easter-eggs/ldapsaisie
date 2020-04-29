@@ -28,4 +28,3 @@
 class LSattr_ldap_ascii extends LSattr_ldap {
   // \\
 }
-

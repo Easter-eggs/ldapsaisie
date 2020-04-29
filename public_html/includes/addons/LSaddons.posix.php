@@ -261,4 +261,3 @@ LSerror :: defineError('POSIX_01',
     }
     return $uids;
   }
-

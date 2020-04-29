@@ -41,4 +41,3 @@ if (!isset($_ERRORS)) {
 }
 
 LSsession :: displayAjaxReturn($data);
-

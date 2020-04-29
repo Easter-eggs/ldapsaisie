@@ -115,4 +115,3 @@ class LSformElement_supannEtuInscription extends LSformElement_supannCompositeAt
 	}
 
 }
-

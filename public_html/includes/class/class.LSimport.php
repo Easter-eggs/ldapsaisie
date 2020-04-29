@@ -296,7 +296,7 @@ class LSimport {
 /*
  * LSimport_implodeValues template function
  *
- * This function permit to implode field values during 
+ * This function permit to implode field values during
  * template processing. This function take as parameters
  * (in $params) :
  * - $values : the field's values to implode
@@ -305,7 +305,7 @@ class LSimport {
  * @param[in] $template Smarty object
  *
  * @retval void
- **/ 
+ **/
 function LSimport_implodeValues($params, $template) {
   extract($params);
 
@@ -328,4 +328,3 @@ _("LSimport : input/output format %{format} invalid.")
 LSerror :: defineError('LSimport_04',
 _("LSimport : Fail to initialize input/output driver")
 );
-

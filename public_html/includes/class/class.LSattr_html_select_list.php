@@ -37,7 +37,7 @@
  *      )
  *    )
  * ),
- * 
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSattr_html_select_list extends LSattr_html{
@@ -92,7 +92,7 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @retval array Tableau associatif des valeurs possible de la liste avec en clé
    *               la valeur des balises option et en valeur ce qui sera affiché.
-   */ 
+   */
   public static function _getPossibleValues($options=false,$name=false,&$ldapObject=false) {
     $retInfos = array();
     if (isset($options['possible_values']) && is_array($options['possible_values'])) {
@@ -413,4 +413,3 @@ _("LSattr_html_select_list : Fail to decode the following attribute %{attr} valu
 LSerror :: defineError('LSattr_html_select_list_05',
 _("LSattr_html_select_list : No component %{component} found in the following attribute %{attr} JSON value : %{value}")
 );
-

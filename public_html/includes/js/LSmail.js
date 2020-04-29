@@ -15,34 +15,34 @@ var LSmail = new Class({
         valid:  new Array()
       };
     },
-    
+
     setMails: function(mails) {
       if ($type(mails)) {
         this.mails = mails;
       }
       else {
         this.mails = new Array();
-      }      
+      }
     },
-    
+
     setMsg: function(msg) {
       if ($type(msg)) {
         this.msg = msg;
       }
       else {
         this.msg = "";
-      }      
+      }
     },
-    
+
     setSubject: function(subject) {
       if ($type(subject)) {
         this.subject = subject;
       }
       else {
         this.subject = "";
-      }      
+      }
     },
-    
+
     setObject: function(type,dn) {
       this.object = {
         type:   type,
@@ -77,7 +77,7 @@ var LSmail = new Class({
           subject:    this.subject,
           options:    this.options
         };
-        
+
         if ($type(startElement)) {
           this.startElement = startElement;
           data.imgload=varLSdefault.loadingImgDisplay(startElement);
@@ -86,7 +86,7 @@ var LSmail = new Class({
         new Request({url: 'index_ajax.php', data: data, onSuccess: this.onOpenGetHtmlComplete.bind(this)}).send();
       }
     },
-    
+
     onOpenGetHtmlComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
@@ -96,7 +96,7 @@ var LSmail = new Class({
         varLSsmoothbox.openHTML(data.html,{startElement: this.startElement, width: 800, height: 400});
       }
     },
-    
+
     onLSsmoothboxValid: function(LSsmoothbox) {
       if($type(LSsmoothbox.frame)) {
         this.sendInfos = {
@@ -107,12 +107,12 @@ var LSmail = new Class({
       }
       this.fireEvent.bind(this)('valid');
     },
-    
+
     onLSsmoothboxClose: function(LSsmoothbox) {
       this.opened=0;
       this.fireEvent.bind(this)('close');
     },
-    
+
     send: function() {
       if ($type(this.sendInfos)) {
         var data = {
@@ -124,11 +124,11 @@ var LSmail = new Class({
         new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSendComplete.bind(this)}).send();
       }
     },
-    
+
     getMail: function() {
       return this.sendInfos;
     },
-    
+
     onSendComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
@@ -137,7 +137,7 @@ var LSmail = new Class({
         }
       }
     },
-    
+
     addEvent: function(event,fnct) {
       if ($type(this.listeners[event])) {
         if ($type(fnct)=="function") {
@@ -145,7 +145,7 @@ var LSmail = new Class({
         }
       }
     },
-    
+
     fireEvent: function(event) {
       LSdebug('LSmail :: fireEvent('+event+')');
       if ($type(this.listeners[event])) {

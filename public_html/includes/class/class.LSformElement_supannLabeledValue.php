@@ -36,12 +36,12 @@ class LSformElement_supannLabeledValue extends LSformElement {
 
   var $template = 'LSformElement_supannLabeledValue.tpl';
   var $fieldTemplate = 'LSformElement_supannLabeledValue_field.tpl';
-  
+
   var $supannNomenclatureTable = null;
 
  /**
   * Retourne les infos d'affichage de l'élément
-  * 
+  *
   * Cette méthode retourne les informations d'affichage de l'élement
   *
   * @retval array
@@ -133,4 +133,3 @@ class LSformElement_supannLabeledValue extends LSformElement {
   }
 
 }
-

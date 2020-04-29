@@ -8,7 +8,7 @@ var LSformElement_jsonCompositeAttribute_field_value_component = new Class({
 
       this.name = name;
       this.params = this.field_params['components'][this.name];
-      
+
       this.label = div.getElement('label');
       if (this.params.type == 'select_list') {
         this.select = div.getElement('select');
@@ -48,7 +48,7 @@ var LSformElement_jsonCompositeAttribute_field_value_component = new Class({
         value.remove.bind(value)();
       }
     },
-    
+
     clear: function() {
       if (this.params.type == 'select_list') {
         this.select.selectedIndex=-1;

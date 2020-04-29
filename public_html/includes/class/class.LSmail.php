@@ -24,18 +24,18 @@ class LSmail {
 
  /*
   * Méthode chargeant les dépendances d'affichage
-  * 
+  *
   * @retval void
   */
   public static function loadDependenciesDisplay() {
     if (LSsession :: loadLSclass('LSsmoothbox')) {
       LSsmoothbox :: loadDependenciesDisplay();
     }
-    
+
     LSsession :: addJSscript('LSmail.js');
     LSsession :: addCssFile('LSmail.css');
   }
-  
+
   public static function ajax_display(&$data) {
     if (isset($_REQUEST['object']['type']) && isset($_REQUEST['object']['dn'])) {
       if (LSsession ::loadLSobject($_REQUEST['object']['type'])) {
@@ -68,7 +68,7 @@ class LSmail {
       'html' => LSsession :: fetchTemplate('LSmail.tpl')
     );
   }
-  
+
   public static function ajax_send(&$data) {
     if (isset($_REQUEST['infos'])) {
       if (LSsession ::loadLSaddon('mail')) {
@@ -83,6 +83,5 @@ class LSmail {
       LSerror :: addErrorCode('LSsession_12');
     }
   }
-  
-}
 
+}

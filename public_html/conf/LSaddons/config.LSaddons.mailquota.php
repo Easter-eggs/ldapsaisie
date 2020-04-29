@@ -25,7 +25,7 @@
  * Configuration for mailquota support *
  ***************************************
  */
-  
+
 // IMAP Mailbox connection string LSformat (composed with LSldapObject attributes)
 // See : https://php.net/imap_open (parameter $mailbox)
 define('MAILQUOTA_IMAP_MAILBOX','{localhost}');

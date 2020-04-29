@@ -29,12 +29,11 @@ if(LSsession :: initialize()) {
       header('Cache-Control: public');
       header('Pragma: cache');
       header('Expires: '. gmdate('D, d M Y H:i:s', time() + 60*60*24*30)); // one month
-      readfile($img_path); 
-      exit(); 
+      readfile($img_path);
+      exit();
     }
   }
   else {
     die(_('Missing parameter'));
   }
 }
-

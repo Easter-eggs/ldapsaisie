@@ -24,7 +24,7 @@ class LSsmoothbox {
 
  /*
   * Méthode chargeant les dépendances d'affichage
-  * 
+  *
   * @retval void
   */
   public static function loadDependenciesDisplay() {
@@ -33,12 +33,11 @@ class LSsmoothbox {
     }
     LSsession :: addJSscript('LSsmoothbox.js');
     LSsession :: addCssFile('LSsmoothbox.css');
-    
+
     LSsession :: addJSconfigParam('LSsmoothbox_labels', array(
       'close_confirm_text'    => _('Are you sure to want to close this window and lose all changes ?'),
       'validate'              => _('Validate')
     ));
   }
-  
-}
 
+}

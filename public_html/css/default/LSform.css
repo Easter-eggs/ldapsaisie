@@ -52,7 +52,7 @@ div.LSform_layout {
   margin:             1em;
   padding:            0.5em;
 }
- 
+
 div.LSform_layout_active {
   display:            none;
   margin-top:         4px;
@@ -64,11 +64,11 @@ div.LSform_layout_current {
 
 /*
  * Architecture
- */ 
+ */
 div.LSform {
   margin-left:                1em;
 }
- 
+
 dl.LSform {
   margin:                     0;
   padding:                    0;
