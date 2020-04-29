@@ -1333,7 +1333,7 @@ class LSsession {
     if (isset($recoveryPasswordInfos['newPasswordMail'])) {
       $recoverpassword_step = 'new_password_sent';
       $recoverpassword_msg = getFData(
-        _("Your new password has been sent to %{mail}. "),
+        _("Your new password has been sent to %{mail}."),
         $recoveryPasswordInfos['newPasswordMail']
       );
     }
