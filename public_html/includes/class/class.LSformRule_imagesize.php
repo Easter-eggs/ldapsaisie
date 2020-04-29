@@ -43,25 +43,33 @@ class LSformRule_imagesize extends LSformRule {
   public static function validate ($value,$options,$formElement) {
     $file = LSsession :: getTmpFile($value);
     list($width, $height, $type, $attr) = getimagesize($file);
+    LSdebug("LSformRule_imagesize :: validate() : image size is $width x $height, type=$type, attr='$attr'");
 
     $maxWidth = LSconfig :: get('params.maxWidth', null, 'int', $options);
-    if (is_int($maxWidth) && $width > $maxWidth)
+    if ($maxWidth && $width > $maxWidth) {
+      LSdebug("LSformRule_imagesize :: validate() : max width error ($width > $maxWidth)");
       return;
+    }
 
     $minWidth = LSconfig :: get('params.minWidth', null, 'int', $options);
-    if (is_int($minWidth) && $width < $minWidth)
+    if ($minWidth && $width < $minWidth) {
+      LSdebug("LSformRule_imagesize :: validate() : min width error ($width < $minWidth)");
       return;
+    }
 
     $maxHeight = LSconfig :: get('params.maxHeight', null, 'int', $options);
-    if (is_int($maxHeight) && $height > $maxHeight)
+    if ($maxHeight && $height > $maxHeight) {
+      LSdebug("LSformRule_imagesize :: validate() : max height error ($height > $maxHeight)");
       return;
+    }
 
     $minHeight = LSconfig :: get('params.minHeight', null, 'int', $options);
-    if (is_int($minHeight) && $height < $minHeight)
+    if ($minHeight && $height < $minHeight) {
+      LSdebug("LSformRule_imagesize :: validate() : min height error ($height < $minHeight)");
       return;
+    }
 
     return true;
   }
 
 }
-
