@@ -1450,7 +1450,6 @@ class LSsearch {
 
     // Load Console Table lib
     $console_table_path = LSconfig :: get('ConsoleTable', 'Console/Table.php', 'string');
-    var_dump($console_table_path);
     if (!LSsession :: includeFile($console_table_path, true))
       LSlog :: fatal('Fail to load ConsoleTable library.');
 
