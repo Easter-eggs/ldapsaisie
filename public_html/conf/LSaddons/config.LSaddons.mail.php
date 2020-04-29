@@ -29,6 +29,9 @@
 // Pear :: Mail
 define('PEAR_MAIL','/usr/share/php/Mail.php');
 
+// Pear :: Mail_mime
+define('PEAR_MAIL_MIME','/usr/share/php/Mail/mime.php');
+
 /*
  * Méthode d'envoie :
  *  - mail : envoie avec la méthode PHP mail()
@@ -76,8 +79,5 @@ $MAIL_SEND_PARAMS = NULL;
  * Headers :
  */
 $MAIL_HEARDERS = array(
-  "Content-Type"  =>  "text/plain",
-  "charset"       =>  "UTF-8",
-  "format"        =>  "flowed"
 );
 

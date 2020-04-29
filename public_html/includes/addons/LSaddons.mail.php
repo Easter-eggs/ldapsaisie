@@ -26,6 +26,9 @@
 LSerror :: defineError('MAIL_SUPPORT_01',
   _("MAIL Support : Pear::MAIL is missing.")
 );
+LSerror :: defineError('MAIL_SUPPORT_02',
+  _("MAIL Support : Pear::MAIL_MIME is missing.")
+);
 
 // Autres erreurs
 LSerror :: defineError('MAIL_00',
@@ -35,10 +38,10 @@ LSerror :: defineError('MAIL_00',
 LSerror :: defineError('MAIL_01',
   _("MAIL : Error sending your email")
 );
-      
+
  /**
   * Verification du support MAIL par ldapSaisie
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true si MAIL est pleinement supporté, false sinon
@@ -53,30 +56,43 @@ LSerror :: defineError('MAIL_01',
         $retval=false;
       }
     }
-    
+
+    if (!class_exists('Mail_mime')) {
+      if(!LSsession::includeFile(PEAR_MAIL_MIME, true)) {
+        LSerror :: addErrorCode('MAIL_SUPPORT_02');
+        $retval=false;
+      }
+    }
+
     return $retval;
   }
-  
+
   /**
   * Envoie d'un mail
-  * 
+  *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval boolean true si MAIL est pleinement supporté, false sinon
   */
-  function sendMail($to,$subject,$msg,$headers=array()) {
+  function sendMail($to, $subject, $msg, $headers=array(), $attachments=array(), $eol="\n", $encoding="utf8") {
     global $MAIL_SEND_PARAMS, $MAIL_HEARDERS;
     $mail_obj = Mail::factory(MAIL_SEND_METHOD, (isset($MAIL_SEND_PARAMS)?$MAIL_SEND_PARAMS:null));
-    
+
     if (isset($MAIL_HEARDERS) && is_array($MAIL_HEARDERS)) {
       $headers = array_merge($headers,$MAIL_HEARDERS);
     }
-    if ($subject) {
-      $headers["Subject"] = $subject;
+
+    if (isset($headers['From'])) {
+      $from = $headers['From'];
+      unset($headers['From']);
     }
-    if (!isset($headers['From']) && (LSsession :: getEmailSender() != "")) {
-      $headers['From'] = LSsession :: getEmailSender();
+    elseif (LSsession :: getEmailSender() != "") {
+      $from = LSsession :: getEmailSender();
     }
+    else {
+      $from = null;
+    }
+
     $headers["To"] = $to;
 
     $to = array (
@@ -92,13 +108,38 @@ LSerror :: defineError('MAIL_01',
       }
     }
 
-    $ret = $mail_obj -> send($to,$headers,$msg);
-    
+    $mime = new Mail_mime(
+      array(
+        'eol' => $eol,
+        'text_charset' => $encoding,
+        'head_charset' => $encoding,
+      )
+    );
+
+    if ($from)
+      $mime->setFrom($from);
+
+    if ($subject)
+      $mime->setSubject($subject);
+
+    $mime->setTXTBody($msg);
+
+    if (is_array($attachments) && !empty($attachments)) {
+      $finfo = new finfo(FILEINFO_MIME_TYPE);
+      foreach ($attachments as $file => $filename) {
+        $mime->addAttachment($file, $finfo->file($file), $filename);
+      }
+    }
+
+    $body = $mime->get();
+    $headers = $mime->headers($headers);
+
+    $ret = $mail_obj -> send($to, $headers, $body);
+
     if ($ret instanceof PEAR_Error) {
       LSerror :: addErrorCode('MAIL_01');
-      LSerror :: addErrorCode('MAIL_00',$ret -> getMessage());
+      LSerror :: addErrorCode('MAIL_00', $ret -> getMessage());
       return;
     }
     return true;
   }
-
