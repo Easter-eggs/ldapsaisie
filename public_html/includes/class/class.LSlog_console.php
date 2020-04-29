@@ -21,14 +21,15 @@
 ******************************************************************************/
 
 /**
- * Handle logging to file (using error_log PHP function with message_type = 3)
+ * Handle logging to console
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSlog_file extends LSlog_handler {
+class LSlog_console extends LSlog_handler {
 
-	// The configured logfile path
-	private $path;
+	// File-descriptors for stdout/stderr
+	private $stdout;
+	private $stderr;
 
 	/**
 	 * Constructor
@@ -39,10 +40,8 @@ class LSlog_file extends LSlog_handler {
 	 **/
 	public function __construct($config) {
 		parent :: __construct($config);
-		// For reto-compatibilty, use LSlog.filename as default log path value
-		$this -> path = self :: getConfig('path', LSlog :: getConfig('filename', 'tmp/LS.log'));
-		if (substr($this -> path, 0, 1) != '/')
-			$this -> path = LS_ROOT_DIR."/".$this -> path;
+		$this -> stdout = fopen('php://stdout', 'w');
+		$this -> stderr = fopen('php://stderr', 'w');
 	}
 
 	/**
@@ -54,6 +53,9 @@ class LSlog_file extends LSlog_handler {
 	 * @retval void
 	 **/
 	public function logging($level, $message) {
-		return error_log(date('Y/m/d H:i:s').' - '.$message."\n", 3, $this -> path);
+		return fwrite(
+			($level > 1?$this -> stderr:$this -> stdout),
+			date('Y/m/d H:i:s').' - '.$level.' - '.$message."\n"
+		);
 	}
 }

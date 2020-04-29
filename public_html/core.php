@@ -24,7 +24,7 @@
 ini_set( 'magic_quotes_gpc', 'off' );
 ini_set( 'magic_quotes_sybase', 'off' );
 ini_set( 'magic_quotes_runtime', 'off' );
-if (isset($_REQUEST['LSdebug']) || preg_match('/^127\.[0-9]+\.[0-9]+\.[0-9]+$/', $_SERVER['HTTP_HOST']))
+if ((isset($_REQUEST) && isset($_REQUEST['LSdebug'])) || (isset($_SERVER['HTTP_HOST']) && preg_match('/^127\.[0-9]+\.[0-9]+\.[0-9]+$/', $_SERVER['HTTP_HOST'])))
 	error_reporting(E_ALL);
 else
 	error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
@@ -49,7 +49,9 @@ define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
 define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
 define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
 define('LS_TMP_DIR', 'tmp/');
+define('LS_TMP_DIR_PATH', LS_ROOT_DIR . '/' . LS_TMP_DIR);
 define('LS_LOCAL_DIR', 'local/');
+define('LS_LOCAL_DIR', LS_ROOT_DIR . '/' . LS_LOCAL_DIR);
 
 // Locale
 define('LS_TEXT_DOMAIN', 'ldapsaisie');
@@ -58,4 +60,3 @@ define('LS_I18N_DIR', 'lang');
 require_once LS_INCLUDE_DIR.'functions.php';
 
 require_once LS_CLASS_DIR.'class.LSsession.php';
-

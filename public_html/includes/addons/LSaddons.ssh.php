@@ -73,7 +73,7 @@ LSerror :: defineError('SSH_07',
     if (!defined('PHPSECLIB_AUTOLOAD')) {
       LSerror :: addErrorCode('SSH_SUPPORT_02','PHPSECLIB_AUTOLOAD');
       $retval=false;
-    } else if(!LSsession::includeFile(PHPSECLIB_AUTOLOAD)) {
+    } else if(!LSsession::includeFile(PHPSECLIB_AUTOLOAD, true)) {
       LSerror :: addErrorCode('SSH_SUPPORT_01');
       $retval=false;
     }
@@ -280,4 +280,3 @@ LSerror :: defineError('SSH_07',
     $exit_status = $cnx->getExitStatus();
     return array($exit_status, $result);
   }
-

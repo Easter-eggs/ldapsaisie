@@ -86,12 +86,12 @@ class LStemplate {
       self :: $config[$key] = $value;
     }
 
-    if (LSsession :: includeFile(self :: $config['smarty_path'])) {
+    if (LSsession :: includeFile(self :: $config['smarty_path'], true)) {
       self :: $_smarty = new Smarty();
       self :: $_smarty -> template_dir = self :: $config['template_dir'];
 
       if ( ! is_writable(self :: $config['compile_dir']) ) {
-        die(_('LStemplate : compile directory is not writable (dir : '.self :: $config['compile_dir'].')'));
+        LSlog :: fatal(getFData(_("LStemplate : compile directory is not writable (dir : %{dir})"), self :: $config['compile_dir']));
       }
       self :: $_smarty -> compile_dir = self :: $config['compile_dir'];
 
@@ -442,4 +442,3 @@ _("LStemplate : Fail to execute trigger %{callable} on event %{event} : is not c
 LSerror :: defineError('LStemplate_03',
 _("LStemplate : Error during the execution of the trigger %{callable} on event %{event}.")
 );
-

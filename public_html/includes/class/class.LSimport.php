@@ -53,7 +53,7 @@ class LSimport {
       $fp = fopen($_FILES['importfile']['tmp_name'], "r");
       $buf = fread($fp, filesize($_FILES['importfile']['tmp_name']));
       fclose($fp);
-      $tmp_file = LS_TMP_DIR.'importfile'.'_'.rand().'.tmp';
+      $tmp_file = LS_TMP_DIR_PATH.'importfile'.'_'.rand().'.tmp';
       if (move_uploaded_file($_FILES['importfile']['tmp_name'],$tmp_file)) {
         LSsession :: addTmpFile($buf,$tmp_file);
       }

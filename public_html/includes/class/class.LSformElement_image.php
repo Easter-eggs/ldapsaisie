@@ -61,9 +61,9 @@ class LSformElement_image extends LSformElement {
     }
 
     if (!empty($this -> values[0])) {
-      $img_path = LSsession :: getTmpFile($this -> values[0]);
+      $img_url = LSsession :: getTmpFileURL($this -> values[0]);
       LStemplate :: assign('LSformElement_image',array(
-        'img' => $img_path,
+        'img' => $img_url,
         'id'  => $id,
       ));
       if (!$this -> isFreeze()) {
@@ -100,10 +100,6 @@ class LSformElement_image extends LSformElement {
       $fp = fopen($_FILES[$this -> name]['tmp_name'], "r");
       $buf = fread($fp, filesize($_FILES[$this -> name]['tmp_name']));
       fclose($fp);
-      $tmp_file = LS_TMP_DIR.$this -> name.'_'.rand().'.tmp';
-      if (move_uploaded_file($_FILES[$this -> name]['tmp_name'],$tmp_file)) {
-        LSsession :: addTmpFile($buf,$tmp_file);
-      }
       $return[$this -> name][0] = $buf;
     }
     else {

@@ -98,14 +98,14 @@ class LSsession {
   *
   * @retval true si tout c'est bien passé, false sinon
   */
-  public static function includeFile($file) {
-    if (file_exists(LS_LOCAL_DIR.'/'.$file)) {
-      $file=LS_LOCAL_DIR.'/'.$file;
-    }
-    elseif (!file_exists($file)) {
+  public static function includeFile($file, $external=false) {
+    $path = ($external?'':LS_ROOT_DIR."/").$file;
+    $local_path = ($external?'':LS_ROOT_DIR."/").LS_LOCAL_DIR.'/'.$file;
+    $path = (file_exists($local_path)?$local_path:$path);
+    if (!file_exists($path)) {
       return;
     }
-    return include_once($file);
+    return include_once($path);
   }
 
  /**
@@ -147,24 +147,24 @@ class LSsession {
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retval true si tout c'est bien passÃ©, false sinon
-  */  
+  */
   private static function startLStemplate() {
     if ( self :: loadLSclass('LStemplate') ) {
       return LStemplate :: start(
         array(
-          'smarty_path'  => LSconfig :: get('Smarty'),
-          'template_dir' => LS_TEMPLATES_DIR,
-          'image_dir'    => LS_IMAGES_DIR,
-          'css_dir'    => LS_CSS_DIR,
-          'compile_dir'  => LS_TMP_DIR,
-          'debug'        => LSdebug,
-          'debug_smarty' => (isset($_REQUEST['LStemplate_debug'])),
+          'smarty_path'   => LSconfig :: get('Smarty'),
+          'template_dir'  => LS_ROOT_DIR . '/'. LS_TEMPLATES_DIR,
+          'image_dir'     => LS_IMAGES_DIR,
+          'css_dir'       => LS_CSS_DIR,
+          'compile_dir'   => LS_TMP_DIR_PATH,
+          'debug'         => LSdebug,
+          'debug_smarty'  => (isset($_REQUEST) && isset($_REQUEST['LStemplate_debug'])),
         )
       );
     }
     return False;
   }
-  
+
  /**
   * Retourne le topDn de la session
   *
@@ -316,6 +316,23 @@ class LSsession {
     }
     else {
       LSerror :: addErrorCode('LSsession_05','LSauth');
+    }
+    return;
+  }
+
+ /**
+  * Load LdapSaisie CLI class
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  *
+  * @retval boolean true if loaded, false otherwise.
+  */
+  public static function loadLScli() {
+    if (self :: loadLSclass('LScli')) {
+      return true;
+    }
+    else {
+      LSerror :: addErrorCode('LSsession_05','LScli');
     }
     return;
   }
@@ -495,7 +512,8 @@ class LSsession {
       self :: startLSlog();
       self :: startLStemplate();
 
-      session_start();
+      if (php_sapi_name() != "cli")
+        session_start();
 
       self :: setLocale($lang,$encoding);
 
@@ -694,7 +712,19 @@ class LSsession {
       return;
     }
   }
-  
+
+ /**
+  * Initialize a CLI session for LdapSaisie
+  *
+  * @retval boolean True if intialized, false otherwise.
+  */
+  public static function startCliLSsession() {
+    if (php_sapi_name() != "cli") return;
+    if (!self :: initialize()) return;
+    if (!self :: loadLScli()) return;
+    return True;
+  }
+
   /**
    * Do recover password
    * 
@@ -1038,7 +1068,7 @@ class LSsession {
   */
   public static function LSldapConnect() {
     if (self :: $ldapServer) {
-      self :: includeFile(LSconfig :: get('NetLDAP2'));
+      self :: includeFile(LSconfig :: get('NetLDAP2'), true);
       if (!self :: loadLSclass('LSldap')) {
         return;
       }
@@ -2247,18 +2277,37 @@ class LSsession {
   public static function getTmpFile($value) {
     $exist = self :: tmpFileExist($value);
     if (!$exist) {
-      $img_path = LS_TMP_DIR .rand().'.tmp';
+      $img_path = LS_TMP_DIR_PATH .rand().'.tmp';
       $fp = fopen($img_path, "w");
       fwrite($fp, $value);
       fclose($fp);
-      self :: addTmpFile($value,$img_path);
+      self :: addTmpFile($value, $img_path);
       return $img_path;
     }
     else {
       return $exist;
     }
   }
-  
+
+  /**
+   * Retourne l'URL du fichier temporaire
+   *
+   * Retourne l'URL du fichier temporaire qu'il créera à partir de la valeur
+   * s'il n'existe pas déjà .
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $value La valeur du fichier
+   *
+   * @retval mixed
+   **/
+  public static function getTmpFileURL($value) {
+    $path = self :: getTmpFile($value);
+    if (substr($path, 0, strlen(LS_ROOT_DIR)) == LS_ROOT_DIR)
+      return substr($path, strlen(LS_ROOT_DIR)+1);
+    return False;
+  }
+
   /**
    * Supprime les fichiers temporaires
    * 

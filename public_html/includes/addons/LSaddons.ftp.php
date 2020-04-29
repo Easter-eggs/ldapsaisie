@@ -68,7 +68,7 @@ LSerror :: defineError('FTP_05',
       if (!defined('NET_FTP')) {
         LSerror :: addErrorCode('FTP_SUPPORT_02','NET_FTP');
         $retval=false;
-      } else if(!LSsession::includeFile(NET_FTP)) {
+      } else if(!LSsession::includeFile(NET_FTP, true)) {
         LSerror :: addErrorCode('FTP_SUPPORT_01');
         $retval=false;
       }

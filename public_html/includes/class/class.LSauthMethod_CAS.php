@@ -36,7 +36,7 @@ class LSauthMethod_CAS extends LSauthMethod {
 		if (!parent :: __construct())
 			return;
 
-		if (LSsession :: includeFile(PHP_CAS_PATH)) {
+		if (LSsession :: includeFile(PHP_CAS_PATH, true)) {
 			if (defined('PHP_CAS_DEBUG_FILE')) {
 				LSlog :: debug('LSauthMethod_CAS : enable debug file '.PHP_CAS_DEBUG_FILE);
 				phpCAS::setDebug(PHP_CAS_DEBUG_FILE);

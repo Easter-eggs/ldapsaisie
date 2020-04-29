@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-/** 
+/**
  * Handle logging
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -61,8 +61,7 @@ class LSlog {
 	public static function start() {
 		// Load configuration
 		self :: $enabled = self :: getConfig('enable', false, 'bool');
-		self :: $level = self :: getConfig('level', self :: $default_level, 'string');
-		if (!array_key_exists(self :: $level, self :: $levels)) self :: $level = 'WARNING';
+		self :: setLevel();
 
 		// Load default handlers class
 		if (!LSsession :: loadLSclass('LSlog_handler', null, true)) {
@@ -80,31 +79,83 @@ class LSlog {
 				$handler_config = array('handler' => $handler);
 			else
 				$handler = (isset($handler_config['handler'])?$handler_config['handler']:'system');
-			
-			$handler_class = "LSlog_$handler";
 
-			// Load handler class
-			if (!LSsession :: loadLSclass($handler_class) || !class_exists($handler_class)) {
-				LSerror :: addErrorCode('LSlog_01', $handler);
+			if (!self :: add_handler($handler, $handler_config))
 				continue;
-			}
 
-			$handler_obj = new $handler_class($handler_config);
-			if ($handler_obj -> checkCompatibility())
-				self :: $handlers[] = $handler_obj;
-			else
-				LSdebug("LSlog handler $handler not supported.");
 			$debug_handlers[] = $handler;
 		}
 		LSdebug('LSlog enabled with level='.self :: $level.' and following handlers : '.implode(', ', $debug_handlers));
+
+		set_exception_handler(array('LSlog', 'exception'));
+		return True;
+	}
+
+	/**
+	 * Add handler
+	 *
+	 * @param[in] $handler string					The handler name
+	 * @param[in] $handler_config array 	The handler configuration (optional)
+	 *
+	 * @retval boolean True if handler added, false otherwise
+	 **/
+	public static function add_handler($handler, $handler_config = array()) {
+		$handler_class = "LSlog_$handler";
+
+		// Load handler class
+		if (!LSsession :: loadLSclass($handler_class) || !class_exists($handler_class)) {
+			LSerror :: addErrorCode('LSlog_01', $handler);
+			return false;
+		}
+
+		$handler_obj = new $handler_class($handler_config);
+		if ($handler_obj -> checkCompatibility()) {
+			self :: $handlers[] = $handler_obj;
+			return True;
+		}
+		LSdebug("LSlog handler $handler not supported.");
+		return false;
+	}
+
+	/**
+	 * Enable console handler (if not already enabled)
+	 *
+	 * @retval boolean True if log on console enabled, false otherwise
+	 **/
+	public static function logOnConsole() {
+		for ($i=0; $i < count(self :: $handlers); $i++)
+			if (is_a(self :: $handlers[$i], 'LSlog_console'))
+				return true;
+		return self :: add_handler('console');
+	}
+
+
+	/**
+	 * Set log level
+	 *
+	 * @param[in] $level string|null The log level (optinal, default: from configuration or 'WARNING')
+	 *
+	 * @retval boolean True if log level set, false otherwise
+	 **/
+	public static function setLevel($level=null) {
+		if (!$level) {
+			$level = self :: getConfig('level', self :: $default_level, 'string');
+			if (!array_key_exists(self :: $level, self :: $levels)) {
+				self :: $level = 'WARNING';
+				if ($level)
+					self :: warning("Invalid log level '$level' configured. Set log level to WARNING.");
+				$level = 'WARNING';
+			}
+		}
+		else if (!array_key_exists($level, self :: $levels))
+			return false;
+		self :: $level = $level;
 
 		// Set PHP error/exception handlers
 		if (self :: $level == 'DEBUG')
 			set_error_handler(array('LSlog', 'php_error'), E_ALL & ~E_STRICT);
 		else
 			set_error_handler(array('LSlog', 'php_error'), E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
-		set_exception_handler(array('LSlog', 'exception'));
-
 		return True;
 	}
 
@@ -236,7 +287,7 @@ class LSlog {
 		$traces = debug_backtrace();
 		if (!is_array($traces) || count($traces) <= 2)
 			return "";
-	
+
 		$msg = array();
 		for ($i=2; $i < count($traces); $i++) {
 			$trace = array("#$i");
@@ -248,7 +299,7 @@ class LSlog {
 				$trace[] = $traces[$i]['function']. "()";
 			$msg[] = implode(" - ", $trace);
 		}
-	
+
 		return implode("\n", $msg);
 	}
 
@@ -382,4 +433,3 @@ class LSlog {
 LSerror :: defineError('LSlog_01',
 _("LSlog : Fail to load logging handler %{handler}.")
 );
-

@@ -48,7 +48,7 @@ LSerror :: defineError('MAIL_01',
 
     // Dependance de librairie
     if (!class_exists('Mail')) {
-      if(!LSsession::includeFile(PEAR_MAIL)) {
+      if(!LSsession::includeFile(PEAR_MAIL, true)) {
         LSerror :: addErrorCode('MAIL_SUPPORT_01');
         $retval=false;
       }
