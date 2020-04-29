@@ -1329,6 +1329,195 @@ class LSsearch {
     return $retval;
   }
 
+  /**
+   * CLI search command
+   *
+   * @param[in] $command_args array Command arguments :
+   *   - Positional arguments :
+   *     - LSobject type
+   *     - patterns
+   *   - Optional arguments :
+   *     - -f|--filter : LDAP filter string
+   *     - -b|--basedn : LDAP base DN
+   *     - --subDn : LDAP sub DN
+   *     - -s|--scope : LDAP search scope (sub, one, base)
+   *     - -l|--limit : search result size limit
+   *     - -a|--approx : approximative search on provided pattern
+   *     - -r|--recursive : recursive search
+   *     - --sort-by : Sort by specific attribute/column
+   *     - -R|--reverse : reverse search result
+   *     - --sort-limit : Sort limit (in number of objects found)
+   *     - --display-subdn : Display subDn in result
+   *     - --display-format : Display format of objectName
+   *     - -N|--nb-obj-by-page : number of object by page
+   *     - -W|--without-cache : Disable cache
+   *     - -e|--extra-columns : Display extra columns
+   *     - -p|--page : page number to show (starting by 1, default: first one)
+   *
+   * @retval boolean True on succes, false otherwise
+   **/
+  public static function cli_search($command_args) {
+    $objType = null;
+    $patterns = array();
+    $params = array(
+      'sortDirection' => 'ASC',
+      'extraDisplayedColumns' => false,
+    );
+    $page_nb = 1;
+    for ($i=0; $i < count($command_args); $i++) {
+      switch ($command_args[$i]) {
+        case '-f':
+        case '--filter':
+          $params['filter'] = $command_args[++$i];
+          break;
+        case '-b':
+        case '--basedn':
+          $params['basedn'] = $command_args[++$i];
+          break;
+        case '--subdn':
+          $params['subdn'] = $command_args[++$i];
+          break;
+        case '-s':
+        case '--scope':
+          $params['scope'] = $command_args[++$i];
+          break;
+        case '-s':
+        case '--scope':
+          $params['scope'] = $command_args[++$i];
+          break;
+        case '-l':
+        case '--limit':
+          $params['sizelimit'] = intval($command_args[++$i]);
+          break;
+        case '-a':
+        case '--approx':
+          $params['approx'] = true;
+          break;
+        case '-r':
+        case '--recursive':
+          $params['recursive'] = true;
+          break;
+        case '--sort-by':
+          $params['sortBy'] = $command_args[++$i];
+          break;
+        case '-R':
+        case '--reverse':
+          $params['sortDirection'] = 'DESC';
+          break;
+        case '--sort-limit':
+          $params['sortlimit'] = intval($command_args[++$i]);
+          break;
+        case '--sort-limit':
+          $params['sortlimit'] = intval($command_args[++$i]);
+          break;
+        case '--display-subdn':
+          $params['displaySubDn'] = true;
+          break;
+        case '--display-format':
+          $params['displayFormat'] = boolval($command_args[++$i]);
+          break;
+        case '-N':
+        case '--nb-obj-by-page':
+          $params['nbObjectsByPage'] = intval($command_args[++$i]);
+          break;
+        case '-W':
+        case '--without-cache':
+          $params['withoutCache'] = True;
+          break;
+        case '-e':
+        case '--extra-columns':
+          $params['extraDisplayedColumns'] = True;
+          break;
+        case '-p':
+        case '--page':
+          $page_nb = intval($command_args[++$i]);
+          break;
+        default:
+          if (is_null($objType)) {
+            $objType = $command_args[$i];
+          }
+          elseif (substr($command_args[$i], 0, 1) == '-') {
+            LScli :: usage("Invalid parameter '".$command_args[$i]."'");
+          }
+          else {
+            $patterns[] = $command_args[$i];
+          }
+      }
+    }
+
+    if (is_null($objType))
+      LScli :: usage('You must provide LSobject type.');
+
+    // Load Console Table lib
+    $console_table_path = LSconfig :: get('ConsoleTable', 'Console/Table.php', 'string');
+    var_dump($console_table_path);
+    if (!LSsession :: includeFile($console_table_path, true))
+      LSlog :: fatal('Fail to load ConsoleTable library.');
+
+    if (!empty($patterns))
+      $params['pattern'] = implode(' ', $patterns);
+
+    $search = new LSsearch($objType, 'CLI', array(), true);
+
+    // Set search params
+    LSlog :: debug('Search parameters : '.varDump($params));
+    if (!$search -> setParams($params))
+      LSlog :: fatal('Fail to set search parameters.');
+
+    // Run search
+    if (!$search -> run())
+      LSlog :: fatal('Fail to run search.');
+
+    // Retrieve page
+    $page = $search -> getPage(($page_nb-1));
+    /*
+     * $page = array(
+     *   'nb' => $page,
+     *   'nbPages' => 1,
+     *   'list' => array(),
+     *   'total' => $this -> total
+     * );
+     */
+
+    // Check page
+    if (!is_array($page) || $page_nb > $page['nbPages'])
+      LSlog :: fatal("Fail to retreive page #$page_nb.");
+    if (empty($page['list'])) {
+      echo "No $objType object found.\n";
+      exit(0);
+    }
+
+    // Create result table with its header
+    $tbl = new Console_Table();
+    $headers = array('DN', 'Name');
+    if ($search -> displaySubDn)
+      $headers[] = $search -> label_level;
+    if ($search -> extraDisplayedColumns) {
+      foreach ($search -> visibleExtraDisplayedColumns as $cid => $conf) {
+        $headers[] = $conf['label'];
+      }
+    }
+    $tbl->setHeaders($headers);
+
+    // Add one line for each object found (in page)
+    foreach($page['list'] as $obj) {
+      $row = array(
+        $obj -> dn,
+        $obj -> displayName,
+      );
+      if ($search -> displaySubDn)
+        $row[] = $obj -> subDn;
+      if ($search -> extraDisplayedColumns) {
+        foreach ($search -> visibleExtraDisplayedColumns as $cid => $conf) {
+          $row[] = $obj -> $cid;
+        }
+      }
+      $tbl->addRow($row);
+    }
+    echo $tbl->getTable();
+    echo "Page ".($page['nb']+1)." on ".$page['nbPages']."\n";
+    return true;
+  }
 }
 
 /**
@@ -1384,4 +1573,35 @@ _("LSsearch : Error during execution of the custom action %{customAction}.")
 );
 LSerror :: defineError('LSsearch_17',
 _("LSsearch : Invalid search pattern.")
+);
+
+// LScli
+LScli :: add_command(
+    'search',
+    array('LSsearch', 'cli_search'),
+    'Search LSobject',
+    '[object type] [pattern1] [pattern2 ...]',
+    array(
+    '   - Positional arguments :',
+    '     - LSobject type',
+    '     - patterns',
+    '',
+    '   - Optional arguments :',
+    '     - -f|--filter : LDAP filter string',
+    '     - -b|--basedn : LDAP base DN',
+    '     - --subDn : LDAP sub DN',
+    '     - -s|--scope : LDAP search scope (sub, one, base)',
+    '     - -l|--limit : search result size limit',
+    '     - -a|--approx : approximative search on provided pattern',
+    '     - -r|--recursive : recursive search',
+    '     - --sort-by : Sort by specific attribute/column',
+    '     - -R|--reverse : reverse search result',
+    '     - --sort-limit : Sort limit (in number of objects found)',
+    '     - --display-subdn : Display subDn in result',
+    '     - --display-format : Display format of objectName',
+    '     - -N|--nb-obj-by-page : number of object by page',
+    '     - -W|--without-cache : Disable cache',
+    '     - -e|--extra-columns : Display extra columns',
+    '     - -p|--page : page number to show (starting by 1, default: first one)',
+  )
 );

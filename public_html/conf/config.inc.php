@@ -24,6 +24,7 @@
 $GLOBALS['LSconfig'] = array(
   'NetLDAP2' => '/usr/share/php/Net/LDAP2.php',
   'Smarty' => '/usr/share/php/smarty3/Smarty.class.php',
+  'ConsoleTable' => '/usr/share/php/Console/Table.php',
   'lang' => 'fr_FR',
   'encoding' => 'UTF8',
   'cacheLSprofiles' => true,
