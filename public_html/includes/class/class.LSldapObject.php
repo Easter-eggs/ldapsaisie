@@ -1922,29 +1922,55 @@ class LSldapObject {
   /**
    * CLI helper to show the object info
    *
-   * @param[in] $raw-values bool Show attributes raw values (instead of display ones)
+   * @param[in] $raw_values bool Show attributes raw values (instead of display ones)
    *
    * @retval void
    **/
-  public function _cli_show($raw_values) {
+  public function _cli_show($raw_values=false) {
     echo $this -> type_name." (".($this -> dn?$this -> dn:'new').") :\n";
-    foreach ($this -> attrs as $attr_name => $attr) {
-      echo "  - $attr_name :";
-      $values = ($raw_values?$attr->getValue():$attr->getDisplayValue());
-      if (empty($values)) {
-        echo " empty\n";
-        continue;
+    if (is_array($this -> getConfig('LSform.layout'))) {
+      foreach($this -> getConfig('LSform.layout') as $tab_name => $tab) {
+        echo "  - ".(isset($tab['label'])?$tab['label']:$tab_name)." :\n";
+        foreach ($tab['args'] as $attr_name) {
+          $this -> _cli_show_attr($attr_name, $raw_values, "  ");
+        }
+        echo "\n";
       }
-      if (!is_array($values)) $values = array($values);
-
-      // Truncate values if too long
-      for ($i=0; $i < count($values); $i++)
-        if (strlen($values[$i]) > 70)
-          $values[$i] = substr($values[$i], 0, 65)."[...]";
-      echo (count($values) > 1?"\n    - ":" ");
-      echo  implode("\n    - ", $values);
-      echo "\n";
     }
+    else {
+      foreach ($this -> attrs as $attr_name => $attr) {
+        $this -> _cli_show_attr($attr_name, $raw_values);
+      }
+    }
+  }
+
+  /**
+   * CLI helper to show the attribute
+   *
+   * @param[in] $attr_name string The attribute name
+   * @param[in] $raw_values bool Show attributes raw values (instead of display ones)
+   * @param[in] $prefix string Prefix for each line displayed (optional, default: no prefix)
+   *
+   * @retval void
+   **/
+  public function _cli_show_attr($attr_name, $raw_values=false, $prefix="") {
+    if (!isset($this -> attrs[$attr_name]))
+      return;
+    echo "$prefix  - $attr_name :";
+    $values = ($raw_values?$this -> attrs[$attr_name]->getValue():$this -> attrs[$attr_name]->getDisplayValue());
+    if (empty($values)) {
+      echo " empty\n";
+      return true;
+    }
+    if (!is_array($values)) $values = array($values);
+
+    // Truncate values if too long
+    for ($i=0; $i < count($values); $i++)
+      if (strlen($values[$i]) > 70)
+        $values[$i] = substr($values[$i], 0, 65)."[...]";
+    echo (count($values) > 1?"\n$prefix    - ":" ");
+    echo  implode("\n$prefix    - ", $values);
+    echo "\n";
   }
 }
 
