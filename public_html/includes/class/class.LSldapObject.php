@@ -1956,7 +1956,7 @@ class LSldapObject {
   public function _cli_show_attr($attr_name, $raw_values=false, $prefix="") {
     if (!isset($this -> attrs[$attr_name]))
       return;
-    echo "$prefix  - $attr_name :";
+    echo "$prefix  - ".$this -> attrs[$attr_name]->getLabel()." ($attr_name) :";
     $values = ($raw_values?$this -> attrs[$attr_name]->getValue():$this -> attrs[$attr_name]->getDisplayValue());
     if (empty($values)) {
       echo " empty\n";
