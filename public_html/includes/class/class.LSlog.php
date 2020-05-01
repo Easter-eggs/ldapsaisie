@@ -140,7 +140,7 @@ class LSlog {
 	public static function setLevel($level=null) {
 		if (!$level) {
 			$level = self :: getConfig('level', self :: $default_level, 'string');
-			if (!array_key_exists(self :: $level, self :: $levels)) {
+			if (!array_key_exists($level, self :: $levels)) {
 				self :: $level = 'WARNING';
 				if ($level)
 					self :: warning("Invalid log level '$level' configured. Set log level to WARNING.");
