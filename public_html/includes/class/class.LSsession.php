@@ -1979,6 +1979,11 @@ class LSsession {
     if (!self :: loadLSobject($LSobject)) {
       return;
     }
+
+    // Access always granted in CLI mode
+    if (php_sapi_name() == "cli")
+      return true;
+
     if ($dn) {
       $whoami = self :: whoami($dn);
       if ($dn==self :: getLSuserObject() -> getValue('dn')) {
@@ -2116,6 +2121,11 @@ class LSsession {
     $relConf=LSconfig :: get('LSobjects.'.$LSobject.'.LSrelation.'.$relationName);
     if (!is_array($relConf))
       return;
+
+    // Access always granted in CLI mode
+    if (php_sapi_name() == "cli")
+      return true;
+
     $whoami = self :: whoami($dn);
 
     if (($right=='w') || ($right=='r')) {
@@ -2172,6 +2182,11 @@ class LSsession {
     $conf=LSconfig :: get('LSobjects.'.$LSobject.'.customActions.'.$customActionName);
     if (!is_array($conf))
       return;
+
+    // Access always granted in CLI mode
+    if (php_sapi_name() == "cli")
+      return true;
+
     $whoami = self :: whoami($dn);
 
     if (isset($conf['rights']) && is_array($conf['rights'])) {
@@ -2198,6 +2213,11 @@ class LSsession {
     $conf=LSconfig :: get('LSobjects.'.$LSsearch -> LSobject.'.LSsearch.customActions.'.$customActionName);
     if (!is_array($conf))
       return;
+
+    // Access always granted in CLI mode
+    if (php_sapi_name() == "cli")
+      return true;
+
     $dn=$LSsearch -> basedn;
     if (is_null($dn)) $dn=self::getTopDn();
 
