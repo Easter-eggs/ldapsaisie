@@ -1949,7 +1949,7 @@ class LSldapObject {
     // Show LSrelations
     if (LSsession :: loadLSclass('LSrelation') && is_array($this -> getConfig('LSrelation'))) {
       foreach ($this -> getConfig('LSrelation') as $rel_name => $rel_conf) {
-        echo "  - ".(isset($rel_conf['label'])?$rel_conf['label']:$rel_name)." :\n";
+        echo "  - ".(isset($rel_conf['label'])?$rel_conf['label']." (relation $rel_name)":$rel_name)." :\n";
         $relation = new LSrelation($this, $rel_name);
         $list = $relation -> listRelatedObjects();
         if (is_array($list)) {
@@ -2058,6 +2058,138 @@ class LSldapObject {
       }
       LSlog :: error("Fail to remove object ".$obj->getDn().".");
       return false;
+    }
+
+    /**
+     * CLI relation command
+     *
+     * @param[in] $command_args array Command arguments :
+     *   - Positional arguments :
+     *     - LSobject type
+     *     - object DN
+     *     - relation ID
+     *   - Optional arguments :
+     *     - -a|--add : Add related object (specified by DN)
+     *     - -r|--remove : Remove related object (specified by DN)
+     *
+     * @retval boolean True on succes, false otherwise
+     **/
+    public static function cli_relation($command_args) {
+      $objType = null;
+      $dn = null;
+      $relName = null;
+      $add = array();
+      $remove = array();
+      for ($i=0; $i < count($command_args); $i++) {
+        if ($command_args[$i] == '-a' || $command_args[$i] == '--add')
+          $add[] = $command_args[++$i];
+        elseif ($command_args[$i] == '-r' || $command_args[$i] == '--remove')
+          $remove[] = $command_args[++$i];
+        elseif (is_null($objType)) {
+          $objType = $command_args[$i];
+        }
+        elseif (is_null($dn)) {
+          $dn = $command_args[$i];
+        }
+        elseif (is_null($relName)) {
+          $relName = $command_args[$i];
+        }
+        else
+          LScli :: usage("Invalid ".$command_args[$i]." parameter.");
+      }
+
+      if (is_null($objType) || is_null($dn) || is_null($relName))
+        LScli :: usage('You must provide LSobject type, DN and relation ID.');
+
+      if (empty($add) && empty($remove))
+        LScli :: usage('You must provide at least one DN of related object to add/remove.');
+
+      if (!LSsession :: loadLSobject($objType))
+        return false;
+
+      $obj = new $objType();
+      if (!$obj->loadData($dn)) {
+        LSlog :: fatal("Fail to load object $dn data from LDAP");
+        return false;
+      }
+
+      if (!LSsession :: loadLSclass('LSrelation')) {
+        LSlog :: fatal("Fail to load LSrelation class.");
+        return false;
+      }
+
+      if (!is_array($obj -> getConfig("LSrelation.$relName"))) {
+        LSlog :: fatal("LSobject $objType have no relation '$relName'.");
+        return false;
+      }
+
+      $relation = new LSrelation($obj, $relName);
+
+      // List current related objects
+      $list = $relation -> listRelatedObjects();
+      $listDns = array();
+      if (is_array($list)) {
+        foreach($list as $o) {
+          $listDns[] = $o -> getDn();
+        }
+      }
+      LSlog :: debug("Current related object(s) :".varDump($listDns));
+
+      // Keep a copy of initial related objects list
+      $initialListDns = $listDns;
+
+      // Handle add
+      $relatedLSobject = $obj -> getConfig("LSrelation.$relName.LSobject");
+      $search = new LSsearch(
+        $relatedLSobject,
+        "LSldapObject.cli_relation.$objType.$relName",
+        array(
+          'scope' => 'base',
+        )
+      );
+      foreach ($add as $dn) {
+        // Check if DN is already in relation
+        if (in_array($dn, $listDns)) {
+          LSlog :: debug("LSobject $relatedLSobject $dn is already in relation with ".$obj -> getDn().".");
+          continue;
+        }
+
+        // Check DN refer to a related object
+        $search -> setParam('basedn', $dn);
+        $search -> run(false);
+        $result = $search -> listObjectsDn();
+        if (!is_array($result) || count($result) != 1) {
+          LSlog :: error("No $relatedLSobject found for DN $dn");
+          return false;
+        }
+        $listDns[] = $dn;
+      }
+
+      // Handle remove
+      foreach ($remove as $dn) {
+        $found = false;
+        while(true) {
+          $key = array_search($dn, $listDns);
+          if ($key === false) break;
+          $found = true;
+          unset($listDns[$key]);
+        }
+        if (!$found)
+          LSlog :: debug("LSobject $relatedLSobject $dn is not in relation with ".$obj -> getDn().".");
+      }
+
+      if ($initialListDns == $listDns) {
+        LSlog :: info('No changes done.');
+        return True;
+      }
+
+      LSlog :: debug("New related object(s) list: ".varDump($listDns));
+      if ($relation -> updateRelations($listDns)) {
+        LSlog :: info('Objects in relation updated.');
+        return True;
+      }
+      LSlog :: error("Fail to update objects in relation");
+      return False;
     }
 }
 
@@ -2196,4 +2328,11 @@ LScli :: add_command(
     array('LSldapObject', 'cli_remove'),
     'Remove an LSobject',
     '[object type] [dn] [-N|--no-confirm]'
+);
+
+LScli :: add_command(
+    'relation',
+    array('LSldapObject', 'cli_relation'),
+    'Manage LSobject related objects',
+    '[object type] [dn] [relation ID] [-a|--add DN] [-r|--remove DN]'
 );
