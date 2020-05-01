@@ -1928,6 +1928,8 @@ class LSldapObject {
    **/
   public function _cli_show($raw_values=false) {
     echo $this -> type_name." (".($this -> dn?$this -> dn:'new').") :\n";
+
+    // Show attributes
     if (is_array($this -> getConfig('LSform.layout'))) {
       foreach($this -> getConfig('LSform.layout') as $tab_name => $tab) {
         echo "  - ".(isset($tab['label'])?$tab['label']:$tab_name)." :\n";
@@ -1940,6 +1942,28 @@ class LSldapObject {
     else {
       foreach ($this -> attrs as $attr_name => $attr) {
         $this -> _cli_show_attr($attr_name, $raw_values);
+      }
+      echo "\n";
+    }
+
+    // Show LSrelations
+    if (LSsession :: loadLSclass('LSrelation') && is_array($this -> getConfig('LSrelation'))) {
+      foreach ($this -> getConfig('LSrelation') as $rel_name => $rel_conf) {
+        echo "  - ".(isset($rel_conf['label'])?$rel_conf['label']:$rel_name)." :\n";
+        $relation = new LSrelation($this, $rel_name);
+        $list = $relation -> listRelatedObjects();
+        if (is_array($list)) {
+          foreach($list as $o) {
+            echo "    - ".$o -> getDisplayName(NULL,true)." (".$o -> getDn().")\n";
+          }
+          if (empty($list)) {
+            echo "    => ".(isset($rel_conf['emptyText'])?$rel_conf['emptyText']:"No objects.")."\n";
+          }
+        }
+        else {
+          LSlog :: error("Fail to load related objects.");
+        }
+        echo "\n";
       }
     }
   }
