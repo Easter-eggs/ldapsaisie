@@ -1996,6 +1996,69 @@ class LSldapObject {
     echo  implode("\n$prefix    - ", $values);
     echo "\n";
   }
+
+
+    /**
+     * CLI remove command
+     *
+     * @param[in] $command_args array Command arguments :
+     *   - Positional arguments :
+     *     - LSobject type
+     *     - object DN
+     *   - Optional arguments :
+     *     - -N|--no-confirm : Do not ask for confirmation
+     *
+     * @retval boolean True on succes, false otherwise
+     **/
+    public static function cli_remove($command_args) {
+      $objType = null;
+      $dn = null;
+      $confirm = true;
+      foreach ($command_args as $arg) {
+        if ($arg == '-N' || $arg == '--no-confirm')
+          $confirm = false;
+        elseif (is_null($objType)) {
+          $objType = $arg;
+        }
+        elseif (is_null($dn)) {
+          $dn = $arg;
+        }
+        else
+          LScli :: usage("Invalid $arg parameter.");
+      }
+
+      if (is_null($objType) || is_null($dn))
+        LScli :: usage('You must provide LSobject type and DN.');
+
+      if (!LSsession :: loadLSobject($objType))
+        return false;
+
+      $obj = new $objType();
+      if (!$obj->loadData($dn)) {
+        LSlog :: fatal("Fail to load object $dn data from LDAP");
+        return false;
+      }
+
+      if ($confirm) {
+        echo $obj -> _cli_show($raw_values);
+        // Sure ?
+        echo "\nAre you sure you want to delete this object ?  Type 'yes' to continue: ";
+        $handle = fopen ("php://stdin","r");
+        $line = fgets($handle);
+        if(trim($line) != 'yes'){
+                echo "User cancel\n";
+                return True;
+        }
+        echo "\n";
+      }
+
+      if ($obj -> remove()) {
+        LSlog :: info("Object ".$obj->getDn()." removed.");
+        return true;
+      }
+      LSlog :: error("Fail to remove object ".$obj->getDn().".");
+      return false;
+    }
 }
 
 /**
@@ -2126,4 +2189,11 @@ LScli :: add_command(
     array('LSldapObject', 'cli_show'),
     'Show an LSobject',
     '[object type] [dn] [-r|--raw-values]'
+);
+
+LScli :: add_command(
+    'remove',
+    array('LSldapObject', 'cli_remove'),
+    'Remove an LSobject',
+    '[object type] [dn] [-N|--no-confirm]'
 );
