@@ -26,7 +26,7 @@ class LSrelation {
   private $relationName = null;
   private $config = null;
 
-  public function LSrelation(&$obj,$relationName) {
+  public function __construct(&$obj,$relationName) {
     $this -> obj =& $obj;
     $this -> relationName = $relationName;
     if (isset($obj->config['LSrelation'][$relationName]) && is_array($obj->config['LSrelation'][$relationName])) {
