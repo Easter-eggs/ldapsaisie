@@ -44,7 +44,7 @@
       {/foreach}
       {foreach from=$LSaddonsViewsAccess item=access}
         {if $access.showInMenu}
-        <li class='menu'><a href='addon_view.php?LSaddon={$access.LSaddon|escape:"url"}&view={$access.id|escape:"url"}' class='menu'>{tr msg=$access.label}</a></li>
+        <li class='menu'><a href='addon/{$access.LSaddon|escape:"url"}/{$access.id|escape:"url"}' class='menu'>{tr msg=$access.label}</a></li>
         {/if}
       {/foreach}
       </ul>

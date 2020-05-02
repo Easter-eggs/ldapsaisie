@@ -61,3 +61,40 @@ function handle_image($request) {
   LSurl :: error_404($request);
 }
 LSurl :: add_handler('#^image/(?P<image>[^/]+)$#', 'handle_image', false);
+
+/*
+ * Handle LSaddon view request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_addon_view($request) {
+  if (LSsession ::loadLSaddon($request -> LSaddon)) {
+    if ( LSsession :: canAccessLSaddonView($request -> LSaddon, $request -> view) ) {
+      LSsession :: showLSaddonView($request -> LSaddon, $request -> view);
+      // Print template
+      LSsession :: displayTemplate();
+    }
+    else {
+      LSerror :: addErrorCode('LSsession_11');
+    }
+  }
+}
+LSurl :: add_handler('#^addon/(?P<LSaddon>[^/]+)/(?P<view>[^/]+)$#', 'handle_addon_view');
+
+/*
+ * Handle LSaddon view request old-URL for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_addon_view($request) {
+ if ((isset($_GET['LSaddon'])) && (isset($_GET['view']))) {
+   LSerror :: addErrorCode('LSsession_25', urldecode($_GET['LSaddon']));
+   LSsession :: redirect('addon/'.$_GET['LSaddon'].'/'.$_GET['view']);
+ }
+ LSsession :: redirect();
+}
+LSurl :: add_handler('#^addon_view.php#', 'handle_old_addon_view');

@@ -2546,7 +2546,7 @@ class LSsession {
       }
       elseif (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaddonsViewsAccess)) {
         $addon = self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']];
-        self :: redirect('addon_view.php?LSaddon='.urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['LSaddon'])."&view=".urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['id']));
+        self :: redirect('addon/'.urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['LSaddon'])."/".urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['id']));
       }
     }
     if ($force)
@@ -2653,6 +2653,9 @@ class LSsession {
     );
     LSerror :: defineError('LSsession_24',
     _("LSsession : invalid related object's DN pass in parameter.")
+    );
+    LSerror :: defineError('LSsession_25',
+    _("LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please upgrade it.")
     );
   }
 
