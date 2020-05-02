@@ -130,6 +130,13 @@ class LStemplate {
       self :: registerFunction("css", "LStemplate_smarty_css");
       self :: registerFunction("uniqid", "LStemplate_smarty_uniqid");
 
+      // Define public root URL
+      $public_root_url = LSconfig :: get('public_root_url', '/', 'string');
+      // Remove trailing slash
+      if (substr($public_root_url, -1) == '/')
+        $public_root_url =  substr($public_root_url, 0, -1);
+      self :: assign('public_root_url', $public_root_url);
+
       // Trigger started event
       self :: fireEvent('started');
 
