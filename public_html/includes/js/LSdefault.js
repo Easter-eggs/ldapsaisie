@@ -218,7 +218,7 @@ var LSdefault = new Class({
     },
 
     imagePath: function(image) {
-      return 'image.php?i=' + image;
+      return 'image/' + image;
     },
 
     getParams: function(name) {

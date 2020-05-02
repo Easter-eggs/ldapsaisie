@@ -639,3 +639,52 @@ function LSdebugDefined() {
     }
     return "unknown : ".(string)$callable;
   }
+
+/**
+ * Dump file content
+ *
+ * @param[in] $file_path string The file path to dump
+ * @param[in] $max_age integer The cache max_age value, as return in Cache-Control HTTP header
+ *                             (optional, default: 3600)
+ *
+ * @retval void
+ **/
+function dumpFile($file_path, $max_age=3600) {
+  if (is_file($file_path)) {
+    header('Content-Type: '.mime_content_type($file_path));
+    $last_modified_time = filemtime($file_path);
+    $etag = md5_file($file_path);
+    header("Cache-Control: max-age=$max_age, must-revalidate");
+    header("Last-Modified: ".gmdate("D, d M Y H:i:s", $last_modified_time)." GMT");
+    header("Etag: $etag");
+
+    if (
+      (
+        isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
+        @strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $last_modified_time
+      )
+      ||
+      (
+        isset($_SERVER['HTTP_IF_NONE_MATCH']) &&
+        trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag
+      )
+    ) {
+            header("HTTP/1.1 304 Not Modified");
+            exit();
+    }
+
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file_path));
+    readfile($file_path);
+    exit();
+  }
+
+  // File not found, Trigger error 404 (via LSurl if defined)
+  if (class_exists('LSurl')) {
+    LSurl :: error_404();
+  }
+  else {
+    header("HTTP/1.1 404 Not found");
+    exit();
+  }
+}

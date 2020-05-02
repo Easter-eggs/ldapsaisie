@@ -45,3 +45,19 @@ function handle_index($request) {
   LSsession :: displayTemplate();
 }
 LSurl :: add_handler('#^(index\.php)?$#', 'handle_index', true);
+
+/*
+ * Handle image request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_image($request) {
+  $img_path = LStemplate :: getImagePath($request -> image);
+  if (is_file($img_path)) {
+   dumpFile($img_path);
+  }
+  LSurl :: error_404($request);
+}
+LSurl :: add_handler('#^image/(?P<image>[^/]+)$#', 'handle_image', false);

@@ -418,7 +418,7 @@ function LStemplate_smarty_tr($params) {
 
 function LStemplate_smarty_img($params) {
   extract($params);
-  echo "image.php?i=$name";
+  echo "image/$name";
 }
 
 function LStemplate_smarty_css($params) {
