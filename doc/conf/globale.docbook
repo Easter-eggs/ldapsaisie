@@ -56,8 +56,13 @@ define('CONST2','val2')
   <listitem>
     <simpara>URL publique de la racine web de l'application. Il peut s'agir d'une URL relative
     bien qu'une URL absolue soit préférable, notament pour éviter l'auto-détection de celle-ci
-    lorsque nécessaire (lien dans un e-mail par exemple. Par défaut : <literal>/</literal>.
+    lorsque nécessaire (lien dans un e-mail par exemple. Par défaut : <literal>/</literal>.)
     </simpara>
+
+    <important><simpara>Il est indispensable que ce paramètre soit configuré en adéquation avec
+    votre environement pour que l'application fonctionne correctement (notament en cas en cas de
+    déploiement dans un sous-dossier ou encore dans le cadre d'un accès à l'application au travers
+    un <emphasis>reverse-proxy</emphasis>).</simpara></important>
   </listitem>
 </varlistentry>
 
