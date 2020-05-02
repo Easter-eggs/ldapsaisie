@@ -108,16 +108,23 @@ class LSsession {
     if ($path[0] != '/') {
       $found = stream_resolve_include_path($path);
       if ($found === false) {
-        LSlog :: debug("includeFile($file, external=$external) : file $path not found in include path.");
+        $log_msg = "includeFile($file, external=$external) : file $path not found in include path.";
+        if (class_exists('LSlog'))
+          LSlog :: warning($log_msg);
+        else
+          error_log($log_msg);
         return;
       }
       else {
-        LSlog :: debug("includeFile($file, external=$external) : file '$path' found in include path as '$found'.");
         $path = $found;
       }
     }
     else if (!file_exists($path)) {
-      LSlog :: debug("includeFile($file, external=$external) : file not found ($local_path / $path)");
+      $log_msg = "includeFile($file, external=$external) : file not found ($local_path / $path)";
+      if (class_exists('LSlog'))
+        LSlog :: warning($log_msg);
+      else
+        error_log($log_msg);
       return;
     }
     return include_once($path);
