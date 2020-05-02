@@ -50,7 +50,7 @@ define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
 define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
 define('LS_TMP_DIR', 'tmp/');
 define('LS_TMP_DIR_PATH', LS_ROOT_DIR . '/' . LS_TMP_DIR);
-define('LS_LOCAL_DIR', LS_ROOT_DIR . '/' . 'local/');
+define('LS_LOCAL_DIR', 'local/');
 
 // Locale
 define('LS_TEXT_DOMAIN', 'ldapsaisie');
