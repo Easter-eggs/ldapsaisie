@@ -91,6 +91,9 @@ class LSsession {
   // User LDAP credentials
   private static $userLDAPcreds = false;
 
+  // Initialized telltale
+  private static $initialized = false;
+
  /**
   * Include un fichier PHP
   *
@@ -149,6 +152,20 @@ class LSsession {
       if (LSlog :: start()) {
         return true;
       }
+    }
+    return False;
+  }
+
+ /**
+  * Lancement de LSurl
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @retval true si tout c'est bien passÃ©, false sinon
+  */
+  private static function startLSurl() {
+    if (self :: loadLSclass('LSurl') && self :: includeFile(LS_INCLUDE_DIR . "routes.php")) {
+      return true;
     }
     return False;
   }
@@ -515,6 +532,8 @@ class LSsession {
   * @retval boolean True si l'initialisation à réussi, false sinon.
   */
   public static function initialize($lang=null,$encoding=null) {
+    if (self :: $initialized)
+      return true;
     try {
       if (!self :: startLSconfig()) {
         return;
@@ -524,6 +543,7 @@ class LSsession {
       self :: startLSlog();
       self :: loadLScli();
       self :: startLStemplate();
+      self :: startLSurl();
 
       if (php_sapi_name() != "cli")
         session_start();
@@ -536,6 +556,7 @@ class LSsession {
     catch (Exception $e) {
       die('LSsession : fail to initialize session. Error : '.$e->getMessage());
     }
+    self :: $initialized = true;
     return true;
   }
 

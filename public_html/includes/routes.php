@@ -20,8 +20,28 @@
 
 ******************************************************************************/
 
-require_once 'core.php';
+/*
+ * Common routing handlers
+ */
 
-if(LSsession :: initialize()) {
-  LSurl :: handle_request();
+/*
+ * Handle index request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_index($request) {
+  // Redirect to default view (if defined)
+  LSsession :: redirectToDefaultView();
+
+  // Define page title
+  LStemplate :: assign('pagetitle', _('Home'));
+
+  // Template
+  LSsession :: setTemplate('accueil.tpl');
+
+  // Display template
+  LSsession :: displayTemplate();
 }
+LSurl :: add_handler('#^(index\.php)?$#', 'handle_index', true);

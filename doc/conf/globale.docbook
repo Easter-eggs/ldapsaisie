@@ -52,6 +52,16 @@ define('CONST2','val2')
 
 
 <varlistentry>
+  <term>public_root_url</term>
+  <listitem>
+    <simpara>URL publique de la racine web de l'application. Il peut s'agir d'une URL relative
+    bien qu'une URL absolue soit préférable, notament pour éviter l'auto-détection de celle-ci
+    lorsque nécessaire (lien dans un e-mail par exemple. Par défaut : <literal>/</literal>.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
   <term>lang</term>
   <listitem>
     <simpara>Paramètre utilisé pour l'internationalisation :  code de la langue.</simpara>
