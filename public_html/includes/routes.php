@@ -386,7 +386,7 @@ function handle_LSobject_show($request) {
   if ( LSsession :: canEdit($LSobject, $dn) ) {
     $LSview_actions[] = array(
       'label' => _('Modify'),
-      'url' =>'modify.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn),
+      'url' => "object/$LSobject/".urlencode($dn)."/modify",
       'action' => 'modify'
     );
   }
@@ -461,6 +461,113 @@ function handle_old_view_php($request) {
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^view.php#', 'handle_old_view_php');
+
+/*
+ * Handle LSobject modify request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_modify($request) {
+  $object = get_LSobject_from_request(
+    $request,
+    true,                             // instanciate object
+    array('LSsession', 'canEdit')     // Check access method
+  );
+  if (!$object)
+   return;
+
+  $LSobject = $object -> getType();
+  $form = $object -> getForm('modify');
+  if ($form->validate()) {
+    // Update LDAP object data
+    if ($object -> updateData('modify')) {
+      // Update successful
+      if (LSerror::errorsDefined()) {
+        LSsession :: addInfo(_("The object has been partially modified."));
+      }
+      else {
+        LSsession :: addInfo(_("The object has been modified successfully."));
+      }
+      if (isset($_REQUEST['ajax'])) {
+        LSsession :: displayAjaxReturn (
+          array(
+            'LSredirect' => "object/$LSobject/".$object -> getDn()
+          )
+        );
+        return true;
+      }
+      else {
+        if (!LSdebugDefined()) {
+          LSurl :: redirect("object/$LSobject/".$object -> getDn());
+        }
+      }
+    }
+    else {
+      if (isset($_REQUEST['ajax'])) {
+        LSsession :: displayAjaxReturn (
+          array(
+            'LSformErrors' => $form -> getErrors()
+          )
+        );
+        return true;
+      }
+    }
+  }
+  else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
+    LSsession :: displayAjaxReturn (
+      array(
+        'LSformErrors' => $form -> getErrors()
+      )
+    );
+    return true;
+  }
+
+  // List user available actions for this LSobject
+  $LSview_actions = array(
+    array(
+      'label' => _('View'),
+      'url' => "object/$LSobject/".urlencode($object -> getDn()),
+      'action' => 'view'
+    ),
+  );
+
+  if (LSsession :: canRemove($LSobject,$object -> getDn())) {
+    $LSview_actions[] = array(
+      'label' => _('Delete'),
+      'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.urlencode($object -> getDn()),
+      'action' => 'delete'
+    );
+  }
+  LStemplate :: assign('LSview_actions',$LSview_actions);
+
+  // Define page title
+  LStemplate :: assign('pagetitle',_('Modify').' : '.$object -> getDisplayName());
+  $form -> display("object/$LSobject/".urlencode($object -> getDn())."/modify");
+
+  // Set & display template
+  LSsession :: setTemplate('modify.tpl');
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/modify/?$#', 'handle_LSobject_modify');
+
+/*
+ * Handle old modify.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_modify_php($request) {
+  if (!isset($_GET['LSobject']) || !isset($_GET['dn']))
+    $url = null;
+  else
+    $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/modify";
+  LSerror :: addErrorCode('LSsession_26', 'modify.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^modify.php#', 'handle_old_modify_php');
 
 /*
  ************************************************************

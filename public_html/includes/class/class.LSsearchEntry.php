@@ -165,7 +165,7 @@ class LSsearchEntry {
       if (LSsession :: canEdit($this -> LSobject,$this -> dn)) {
         $this -> cache['actions'][]=array(
           'label' => _('Modify'),
-          'url' => 'modify.php?LSobject='.$this -> LSobject.'&amp;dn='.urlencode($this -> dn),
+          'url' => 'object/'.$this -> LSobject.'/'.urlencode($this -> dn).'/modify',
           'action' => 'modify'
         );
       }
