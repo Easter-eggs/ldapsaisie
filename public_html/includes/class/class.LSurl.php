@@ -201,7 +201,7 @@ class LSurl {
     else
       $_SESSION['last_redirect'] = $url;
 
-    logging('DEBUG',"redirect($go) => Redirect to : <$url>");
+    LSlog :: debug("redirect($go) => Redirect to : <$url>");
     header("Location: $url");
     exit();
   }
