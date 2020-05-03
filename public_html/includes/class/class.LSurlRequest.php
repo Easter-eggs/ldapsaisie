@@ -65,4 +65,17 @@ class LSurlRequest {
     }
   }
 
+  /**
+   * Check is request info is set
+   *
+   * @param[in] $key string The name of the info
+   *
+   * @retval boolval True is info is set, False otherwise
+   **/
+  public function __isset($key) {
+    if (in_array($key, array('current_url', 'handler', 'authenticated')))
+      return True;
+    return array_key_exists($key, $this->url_params);
+  }
+
 }
