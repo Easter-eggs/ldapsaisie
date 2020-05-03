@@ -8,7 +8,7 @@
 {/if}
 <ul id='LSrelation_ul_{$item.id|escape:"quotes"}' class='LSrelation'>
 {foreach from=$item.objectList item=object}
-  <li class='LSrelation'><a href='view.php?LSobject={$item.LSobject|escape:"url"}&amp;dn={$object.dn|escape:'url'}' class='LSrelation{if $object.canEdit} LSrelation_editable{/if}' id='LSrelation_{$item.id|escape:"quotes"}_{$object.dn|escape:"quotes"}'>{$object.text|escape:"htmlall"}</a></li>
+  <li class='LSrelation'><a href='object/{$item.LSobject|escape:"url"}/{$object.dn|escape:'url'}' class='LSrelation{if $object.canEdit} LSrelation_editable{/if}' id='LSrelation_{$item.id|escape:"quotes"}_{$object.dn|escape:"quotes"}'>{$object.text|escape:"htmlall"}</a></li>
 {foreachelse}
   <li class='LSrelation'>{$item.emptyText|escape:"htmlall"}</li>
 {/foreach}

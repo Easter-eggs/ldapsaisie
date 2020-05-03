@@ -83,14 +83,14 @@ if(LSsession :: startLSsession()) {
             if (isset($_REQUEST['ajax'])) {
               LSsession :: displayAjaxReturn (
                 array(
-                  'LSredirect' => 'view.php?LSobject='.$LSobject.'&dn='.urlencode($object -> getDn())
+                  'LSredirect' => "object/$LSobject/".urlencode($object -> getDn())
                 )
               );
               exit();
             }
             else {
               if (!LSdebugDefined()) {
-                LSsession :: redirect('view.php?LSobject='.$LSobject.'&dn='.urlencode($object -> getDn()));
+                LSurl :: redirect("object/$LSobject/".urlencode($object -> getDn()));
               }
             }
           }

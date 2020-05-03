@@ -69,7 +69,7 @@
 <h2 class='LSimport_imported_objects'>{tr msg='Imported objects'} ({count($result.imported)})</h2>
 <ul class='LSimport_imported_objects'>
 {foreach $result.imported as $dn => $name}
-  <li><a href='view.php?LSobject={$LSobject|escape:"url"}&dn={$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
+  <li><a href='object/{$LSobject|escape:"url"}/{$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
 {foreachelse}
   <li>{tr msg='No imported object'}</li>
 {/foreach}
@@ -79,7 +79,7 @@
 <h2 class='LSimport_updated_objects'>{tr msg='Updated objects'} ({count($result.updated)})</h2>
 <ul class='LSimport_updated_objects'>
 {foreach $result.updated as $dn => $name}
-  <li><a href='view.php?LSobject={$LSobject|escape:"url"}&dn={$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
+  <li><a href='object/{$LSobject|escape:"url"}/{$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
 {/foreach}
 </ul>
 {/if}

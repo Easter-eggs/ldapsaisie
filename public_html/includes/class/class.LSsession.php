@@ -2549,11 +2549,11 @@ class LSsession {
   public static function redirectToDefaultView($force=false) {
     if (isset(self :: $ldapServer['defaultView'])) {
       if (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaccess[self :: $topDn])) {
-        self :: redirect('view.php?LSobject='.self :: $ldapServer['defaultView']);
+        LSurl :: redirect('object/'.self :: $ldapServer['defaultView']);
       }
       elseif (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaddonsViewsAccess)) {
         $addon = self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']];
-        self :: redirect('addon/'.urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['LSaddon'])."/".urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['id']));
+        LSurl :: redirect('addon/'.urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['LSaddon'])."/".urlencode(self :: $LSaddonsViewsAccess[self :: $ldapServer['defaultView']]['id']));
       }
     }
     if ($force)
@@ -2663,6 +2663,9 @@ class LSsession {
     );
     LSerror :: defineError('LSsession_25',
     _("LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please upgrade it.")
+    );
+    LSerror :: defineError('LSsession_26',
+    _("LSsession : You have been redirect from an old-style URL %{url}. Please upgrade this link.")
     );
   }
 

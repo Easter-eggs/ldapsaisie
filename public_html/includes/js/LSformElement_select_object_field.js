@@ -217,7 +217,7 @@ var LSformElement_select_object_field = new Class({
 
         var a = new Element('a');
         a.addClass('LSformElement_select_object');
-        a.href="view.php?LSobject="+this.params['object_type']+"&dn="+dn;
+        a.href="object/"+this.params['object_type']+"/"+dn;
         a.set('html',name);
         a.injectInside(li);
 
@@ -238,7 +238,7 @@ var LSformElement_select_object_field = new Class({
       else { // Non Multiple
         var a = this.ul.getElement('a');
         if ($type(a)) { // Deja initialise
-          a.href="view.php?LSobject="+this.params['object_type']+"&dn="+dn;
+          a.href="object/"+this.params['object_type']+"/"+dn;
           a.set('html',name);
           a.removeClass('LSformElement_select_object_deleted');
 
@@ -254,7 +254,7 @@ var LSformElement_select_object_field = new Class({
 
           var a = new Element('a');
           a.addClass('LSformElement_select_object');
-          a.href="view.php?LSobject="+this.params['object_type']+"&dn="+dn;
+          a.href="object/"+this.params['object_type']+"/"+dn;
           a.set('html',name);
           a.injectInside(li);
 

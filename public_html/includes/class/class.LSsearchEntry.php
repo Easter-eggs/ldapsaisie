@@ -157,7 +157,7 @@ class LSsearchEntry {
       $this -> cache['actions'] = array (
         array(
           'label' => _('View'),
-          'url' =>'view.php?LSobject='.$this -> LSobject.'&amp;dn='.urlencode($this -> dn),
+          'url' => 'object/'.$this -> LSobject.'/'.urlencode($this -> dn),
           'action' => 'view'
         )
       );

@@ -37,7 +37,7 @@ if(LSsession :: startLSsession()) {
               LStemplate :: assign('pagetitle',_('Deleting').' : '.$objectname);
               if ($object -> remove()) {
                 LSsession :: addInfo($objectname.' '._('has been deleted successfully').'.');
-                LSsession :: redirect('view.php?LSobject='.$LSobject.'&refresh');
+                LSurl :: redirect("object/$LSobject?refresh");
               }
               else {
                 LSerror :: addErrorCode('LSldapObject_15',$objectname);

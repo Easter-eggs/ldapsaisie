@@ -65,14 +65,14 @@ if(LSsession :: startLSsession()) {
               if (isset($_REQUEST['ajax'])) {
                 LSsession :: displayAjaxReturn (
                   array(
-                    'LSredirect' => 'view.php?LSobject='.$LSobject.'&dn='.$object -> getDn()
+                    'LSredirect' => "object/$LSobject/".$object -> getDn()
                   )
                 );
                 exit();
               }
               else {
                 if (!LSdebugDefined()) {
-                  LSsession :: redirect('view.php?LSobject='.$LSobject.'&dn='.$object -> getDn());
+                  LSurl :: redirect("object/$LSobject/".$object -> getDn());
                 }
                 else {
                   LSsession :: displayTemplate();
@@ -102,7 +102,7 @@ if(LSsession :: startLSsession()) {
           else {
             $LSview_actions[] = array(
               'label' => _('View'),
-              'url' =>'view.php?LSobject='.$LSobject.'&amp;dn='.urlencode($object -> getDn()),
+              'url' => "object/$LSobject/".urlencode($object -> getDn()),
               'action' => 'view'
             );
 

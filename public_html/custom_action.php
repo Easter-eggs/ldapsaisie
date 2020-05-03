@@ -54,10 +54,10 @@ if(LSsession :: startLSsession()) {
                     }
                   }
                   if ($config['redirectToObjectList']) {
-                    LSsession :: redirect('view.php?LSobject='.$LSobject.'&refresh');
+                    LSurl :: redirect("object/$LSobject?refresh");
                   }
                   else if (!isset($config['noRedirect']) || !$config['noRedirect']) {
-                    LSsession :: redirect('view.php?LSobject='.$LSobject.'&dn='.urlencode($dn));
+                    LSurl :: redirect("object/$LSobject/".urlencode($dn));
                   }
                 }
                 else {

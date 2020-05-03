@@ -18,7 +18,7 @@
   <tr>
     <td rowspan=2 id='left'>
       <a href='index.php'><img src='{img name='logo'}' alt='Logo' id='logo'/></a>
-      
+
       {if $LSsession_subDn!=""}
         <form action="index.php" method='post' id='LSsession_topDn_form'>
           <label>{$label_level|escape:"htmlall"}
@@ -40,7 +40,7 @@
 
       <ul class='menu'>
       {foreach from=$LSaccess item=label key=LSobject_type}
-        <li class='menu'><a href='view.php?LSobject={$LSobject_type|escape:"url"}' class='menu'>{tr msg=$label}</a></li>
+        <li class='menu'><a href='object/{$LSobject_type|escape:"url"}' class='menu'>{tr msg=$label}</a></li>
       {/foreach}
       {foreach from=$LSaddonsViewsAccess item=access}
         {if $access.showInMenu}
@@ -66,7 +66,3 @@
   </tr>
   <tr>
     <td id='right'>
-    
-    
-
-    

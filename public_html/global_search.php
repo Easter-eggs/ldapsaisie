@@ -93,7 +93,7 @@ if(LSsession :: startLSsession()) {
     }
 
     if ($onlyOne && $onlyOneObject && isset($_REQUEST['LSsearch_submit'])) {
-      LSsession :: redirect('view.php?LSobject='.$onlyOneObject['LSobject'].'&dn='.urlencode($onlyOneObject['dn']));
+      LSurl :: redirect('object/'.$onlyOneObject['LSobject'].'/'.urlencode($onlyOneObject['dn']));
     }
 
     LStemplate :: assign('pattern',$pattern);

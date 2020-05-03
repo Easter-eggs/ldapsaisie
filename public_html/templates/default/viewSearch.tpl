@@ -5,7 +5,7 @@
   {foreach from=$searchForm.hiddenFields item=value key=name}
     <input type='hidden' name='{$name|escape:"htmlall"}' value='{$value|escape:"htmlall"}' />
   {/foreach}
-  
+
   <input type='text' name='pattern' class='LSview_search' value='{$searchForm.values.pattern|escape:"htmlall"}'/>
   <input type='submit' value='{$searchForm.labels.submit|escape:"htmlall"}' name='{$searchForm.names.submit|escape:"htmlall"}' class='LSview_search' />
   <p id='LSview_search_param'>
@@ -42,7 +42,7 @@
     <tr class='LSobject-list'>
       <th class='LSobject-list'>
         {if $LSsearch->sort}
-        <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;sortBy=displayName&amp;nocache={$smarty.now}'>
+        <a href='object/{$LSsearch->LSobject|escape:"url"}?sortBy=displayName&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == 'displayName'}
             <strong>{$LSsearch->label_objectName|escape:"htmlall"}</strong>
             <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
@@ -57,7 +57,7 @@
       {if $LSsearch->displaySubDn}
         <th class='LSobject-list LSobject-list-subdn'>
         {if $LSsearch->sort}
-          <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;sortBy=subDn&amp;nocache={$smarty.now}'>
+          <a href='object/{$LSsearch->LSobject|escape:"url"}?sortBy=subDn&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == 'subDn'}
             <strong>{$LSsearch->label_level|escape:"htmlall"}</strong>
             <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
@@ -74,7 +74,7 @@
         {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
         <th class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>
         {if $LSsearch->sort}
-          <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;sortBy={$cid|escape:"url"}&amp;nocache={$smarty.now}'>
+          <a href='object/{$LSsearch->LSobject|escape:"url"}?sortBy={$cid|escape:"url"}&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == $cid}
             <strong>{tr msg=$conf.label|escape:"htmlall"}</strong>
             <img src='{img name=$LSsearch->sortDirection}' class='LSobject-list-ordersense' alt='{$LSsearch->sortDirection}'/>
@@ -92,7 +92,7 @@
     </tr>
     {foreach from=$page.list item=object}
     <tr class='{cycle values="LSobject-list,LSobject-list LSobject-list-bis"}'>
-        <td class='LSobject-list LSobject-list-names'><a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;dn={$object->dn|escape:'url'}'  class='LSobject-list'>{$object->displayName|escape:"htmlall"}</a> </td>
+        <td class='LSobject-list LSobject-list-names'><a href='object/{$LSsearch->LSobject|escape:"url"}/{$object->dn|escape:'url'}'  class='LSobject-list'>{$object->displayName|escape:"htmlall"}</a> </td>
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn|escape:"htmlall"}</td>{/if}
         {if $LSsearch->extraDisplayedColumns}
           {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
@@ -110,7 +110,7 @@
         <td colspan='{if $LSsearch->extraDisplayedColumns}{count($LSsearch->visibleExtraDisplayedColumns)+3}{else}3{/if}' class='LSobject-list-without-result'>
           {$LSsearch->label_no_result|escape:"htmlall"}
         </td>
-      </tr>   
+      </tr>
     {/foreach}
 </table>
 
@@ -120,9 +120,9 @@
     {tr msg='Nb / page :'}
     {foreach from=$LSsearch->getParam('nbObjectsByPageChoices') item=choice}
       {if $LSsearch->getParam('nbObjectsByPage') == $choice}
-        <strong><a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;nbObjectsByPage={$choice}'  class='LSobject-list-nb-by-page'>{$choice}</a></strong>
+        <strong><a href='object/{$LSsearch->LSobject|escape:"url"}?nbObjectsByPage={$choice}'  class='LSobject-list-nb-by-page'>{$choice}</a></strong>
       {else}
-        <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;nbObjectsByPage={$choice}'  class='LSobject-list-nb-by-page'>{$choice}</a>
+        <a href='object/{$LSsearch->LSobject|escape:"url"}?nbObjectsByPage={$choice}'  class='LSobject-list-nb-by-page'>{$choice}</a>
       {/if}
     {/foreach}
   </p>
@@ -130,7 +130,7 @@
 
 {if $page.nbPages > 1}
   <p class='LSobject-list-page'>
-    
+
   {if $page.nbPages > 10}
     {if $page.nb > 5}
       {if $page.nb > $page.nbPages-6}
@@ -141,21 +141,21 @@
     {else}
       {assign var=start value=0}
     {/if}
-    <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page=0' class='LSobject-list-page'>&lt;</a>
+    <a href='object/{$LSsearch->LSobject|escape:"url"}?page=0' class='LSobject-list-page'>&lt;</a>
     {foreach from=0|range:10 item=i}
       {if $page.nb==$start+$i}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong> 
+        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
       {else}
-        <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page={$i+$start}'  class='LSobject-list-page'>{$i+$start+1}</a>
+        <a href='object/{$LSsearch->LSobject|escape:"url"}?page={$i+$start}'  class='LSobject-list-page'>{$i+$start+1}</a>
       {/if}
     {/foreach}
-    <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page={$page.nbPages-1}' class='LSobject-list-page'>&gt;</a>
+    <a href='object/{$LSsearch->LSobject|escape:"url"}?page={$page.nbPages-1}' class='LSobject-list-page'>&gt;</a>
   {else}
     {section name=listpage loop=$page.nbPages step=1}
       {if $page.nb == $smarty.section.listpage.index}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong> 
+        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
       {else}
-        <a href='view.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page={$smarty.section.listpage.index}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a>
+        <a href='object/{$LSsearch->LSobject|escape:"url"}?page={$smarty.section.listpage.index}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a>
       {/if}
     {/section}
   {/if}

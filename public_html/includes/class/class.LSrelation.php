@@ -354,7 +354,7 @@ class LSrelation {
                   else {
                     $class='';
                   }
-                  $data['html'].= "<li class='LSrelation'><a href='view.php?LSobject=$LSobjectInRelation&amp;dn=".urlencode($o -> getDn())."' class='LSrelation$class' id='LSrelation_".$_REQUEST['id']."_".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
+                  $data['html'].= "<li class='LSrelation'><a href='object/$LSobjectInRelation/".urlencode($o -> getDn())."' class='LSrelation$class' id='LSrelation_".$_REQUEST['id']."_".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
                 }
               }
               else {

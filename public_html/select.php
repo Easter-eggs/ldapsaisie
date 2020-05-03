@@ -93,7 +93,7 @@ if(LSsession :: startLSsession()) {
         $LSview_actions=array(
           array (
             'label' => 'Refresh',
-            'url' => 'view.php?LSobject='.$LSobject.'&amp;refresh',
+            'url' => "object/$LSobject?refresh",
             'action' => 'refresh'
           )
         );

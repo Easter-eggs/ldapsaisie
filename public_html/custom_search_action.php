@@ -54,7 +54,7 @@ if(LSsession :: startLSsession()) {
                   }
                 }
                 if (!isset($config['redirectToObjectList']) || $config['redirectToObjectList']) {
-                  LSsession :: redirect('view.php?LSobject='.$LSobject.'&refresh');
+                  LSurl :: redirect("object/$LSobject?refresh");
                 }
               }
               else {
