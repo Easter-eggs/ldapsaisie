@@ -173,7 +173,7 @@ class LSsearchEntry {
       if ($this -> LSsearch -> canCopy) {
         $this -> cache['actions'][] = array(
           'label' => _('Copy'),
-          'url' =>'create.php?LSobject='.$this -> LSobject.'&amp;load='.urlencode($this -> dn),
+          'url' => 'object/'.$this -> LSobject.'/create?load='.urlencode($this -> dn),
           'action' => 'copy'
         );
       }

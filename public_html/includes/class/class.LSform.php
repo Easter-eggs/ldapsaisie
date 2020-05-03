@@ -75,13 +75,14 @@ class LSform {
   }
 
   /**
-   * Affiche le formualaire
+   * Display the form
    *
+   * @param[in] $LSform_action string|null The form action attribute value (optional, default: $_SERVER['PHP_SELF'])
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval void
    */
-  public function display(){
+  public function display($LSform_action=null){
     if ($this -> idForm == 'view') {
       self :: loadDependenciesDisplayView($this -> $ldapObject);
     }
@@ -100,7 +101,7 @@ class LSform {
       )
     );
 
-    LStemplate :: assign('LSform_action',$_SERVER['PHP_SELF']);
+    LStemplate :: assign('LSform_action', ($LSform_action?$LSform_action:$_SERVER['PHP_SELF']));
     $LSform_header = "\t<input type='hidden' name='validate' value='LSform'/>\n
     \t<input type='hidden' name='idForm' id='LSform_idform' value='".$this -> idForm."'/>\n
     \t<input type='hidden' name='LSform_objecttype' id='LSform_objecttype'  value='".$this -> ldapObject -> getType()."'/>\n

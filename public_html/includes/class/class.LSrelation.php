@@ -265,7 +265,7 @@ class LSrelation {
           if ($relation -> canCreate()) {
              $return['actions'][] = array(
               'label' => _('New'),
-              'url' => 'create.php?LSobject='.$relationConf['LSobject'].'&amp;LSrelation='.$relationName.'&amp;relatedLSobject='.$object->getType().'&amp;relatedLSobjectDN='.urlencode($object -> getValue('dn')),
+              'url' => 'object/'.$relationConf['LSobject'].'/create?LSrelation='.$relationName.'&amp;relatedLSobject='.$object->getType().'&amp;relatedLSobjectDN='.urlencode($object -> getValue('dn')),
               'action' => 'create'
             );
           }

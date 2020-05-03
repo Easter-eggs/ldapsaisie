@@ -79,13 +79,18 @@ LSurl :: add_handler('#^image/(?P<image>[^/]+)$#', 'handle_image', false);
  *
  * @param[in] $request LSurlRequest The request
  * @param[in] $instanciate boolean Instanciate and return an object (optional, default: true)
+ * @param[in] $check_access callable|null Permit to specify check access method (optional, default: LSsession :: canAccess())
  *
  * @retval LSobject|boolean The instanciated LSobject (or True if $instanciate=false), or False
  *                          on error/access refused
  */
-function get_LSobject_from_request($request, $instanciate=true) {
+function get_LSobject_from_request($request, $instanciate=true, $check_access=null) {
     $LSobject = $request -> LSobject;
     $dn = (isset($request -> dn)?$request -> dn:null);
+
+    // Handle $check_access parameter
+    if (is_null($check_access))
+      $check_access = array('LSsession', 'canAccess');
 
     // Handle SELF redirect
     if ( $LSobject == 'SELF' ) {
@@ -96,12 +101,12 @@ function get_LSobject_from_request($request, $instanciate=true) {
 
     // If $dn, check user access to this LSobject
     if ($dn) {
-      if (!LSsession :: canAccess($LSobject, $dn)) {
+      if (!call_user_func($check_access, $LSobject, $dn)) {
         LSerror :: addErrorCode('LSsession_11');
         return false;
       }
     }
-    else if (!LSsession :: in_menu($LSobject) && !LSsession :: canAccess($LSobject)) {
+    else if (!LSsession :: in_menu($LSobject) && !call_user_func($check_access, $LSobject)) {
       LSerror :: addErrorCode('LSsession_11');
       return false;
     }
@@ -158,7 +163,7 @@ function handle_LSobject_search($request) {
   if(LSsession :: canCreate($LSobject)) {
     $LSview_actions['create'] = array (
       'label' => _('New'),
-      'url' => 'create.php?LSobject='.$LSobject,
+      'url' => "object/$LSobject/create",
       'action' => 'create'
     );
     if ($object -> listValidIOformats()) {
@@ -242,6 +247,126 @@ function handle_LSobject_search($request) {
 LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/?$#', 'handle_LSobject_search');
 
 /*
+ * Handle LSobject create request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_create($request) {
+  $object = get_LSobject_from_request(
+    $request,
+    true,                             // instanciate object
+    array('LSsession', 'canCreate')   // Check access method
+  );
+  if (!$object)
+   return;
+
+  $LSobject = $object -> getType();
+
+  if (isset($_GET['load']) && $_GET['load']!='') {
+    $form = $object -> getForm('create', urldecode($_GET['load']));
+  }
+  else {
+    if (isset($_GET['LSrelation']) && isset($_GET['relatedLSobject']) && isset($_GET['relatedLSobjectDN'])) {
+      if (LSsession :: loadLSobject($_GET['relatedLSobject']) && LSsession :: loadLSclass('LSrelation')) {
+        $obj = new $_GET['relatedLSobject']();
+        if ($obj -> loadData(urldecode($_GET['relatedLSobjectDN']))) {
+          $relation = new LSrelation($obj, $_GET['LSrelation']);
+          if ($relation -> exists()) {
+            $attr = $relation -> getRelatedEditableAttribute();
+            if (isset($object -> attrs[$attr])) {
+              $value = $relation -> getRelatedKeyValue();
+              if (is_array($value)) $value=$value[0];
+              $object -> attrs[$attr] -> data = array($value);
+            }
+            else {
+              LSerror :: addErrorCode('LSrelations_06',array('relation' => $relation -> getName(),'LSobject' => $obj -> getType()));
+            }
+          }
+        }
+        else {
+          LSerror :: addErrorCode('LSsession_24');
+        }
+      }
+    }
+    $form = $object -> getForm('create');
+  }
+
+  if (isset($_REQUEST['LSform_dataEntryForm'])) {
+    $form -> applyDataEntryForm((string)$_REQUEST['LSform_dataEntryForm']);
+    LStemplate :: assign('LSform_dataEntryForm', (string)$_REQUEST['LSform_dataEntryForm']);
+  }
+
+  LStemplate :: assign('listAvailableDataEntryForm', LSform :: listAvailableDataEntryForm($LSobject));
+  LStemplate :: assign('DataEntryFormLabel', _('Data entry form'));
+
+  if ($form->validate()) {
+    // Data update for LDAP object
+    if ($object -> updateData('create')) {
+      if (!LSerror::errorsDefined()) {
+        LSsession :: addInfo(_("Object has been added."));
+      }
+      if (isset($_REQUEST['ajax'])) {
+        LSsession :: displayAjaxReturn (
+          array(
+            'LSredirect' => "object/$LSobject/".urlencode($object -> getDn())
+          )
+        );
+        exit();
+      }
+      else {
+        if (!LSdebugDefined())
+          LSurl :: redirect("object/$LSobject/".urlencode($object -> getDn()));
+      }
+    }
+    else {
+      if (isset($_REQUEST['ajax'])) {
+        LSsession :: displayAjaxReturn (
+          array(
+            'LSformErrors' => $form -> getErrors()
+          )
+        );
+        exit();
+      }
+    }
+  }
+  else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
+    LSsession :: displayAjaxReturn (
+      array(
+        'LSformErrors' => $form -> getErrors()
+      )
+    );
+    exit();
+  }
+  // Define page title
+  LStemplate :: assign('pagetitle',_('New').' : '.$object -> getLabel());
+  $form -> display("object/$LSobject/create");
+
+  // Set & display template
+  LSsession :: setTemplate('create.tpl');
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/create/?$#', 'handle_LSobject_create');
+
+/*
+ * Handle old create.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_create_php($request) {
+  if (!isset($_GET['LSobject']))
+    $url = null;
+  else
+    $url = "object/".$_GET['LSobject']."/create";
+  LSerror :: addErrorCode('LSsession_26', 'create.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^create.php#', 'handle_old_create_php');
+
+/*
  * Handle LSobject show request
  *
  * @param[in] $request LSurlRequest The request
@@ -269,7 +394,7 @@ function handle_LSobject_show($request) {
   if (LSsession :: canCreate($LSobject)) {
     $LSview_actions[] = array(
       'label' => _('Copy'),
-      'url' =>'create.php?LSobject='.$LSobject.'&amp;load='.urlencode($dn),
+      'url' => "object/$LSobject/create?load=".urlencode($dn),
       'action' => 'copy'
     );
   }
