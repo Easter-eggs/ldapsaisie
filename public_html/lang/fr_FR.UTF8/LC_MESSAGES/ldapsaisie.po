@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-05-04 11:12+0200\n"
+"PO-Revision-Date: 2020-05-04 14:21+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -21,18 +21,18 @@ msgstr ""
 "X-Generator: Poedit 2.2.1\n"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/select.php:67
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:222
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:224
 #: templates/default/global_search.tpl:7
 msgid "Search"
 msgstr "Rechercher"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/select.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:223
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:225
 msgid "Approximative search"
 msgstr "Recherche approximative"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/select.php:69
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:224
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:226
 msgid "Recursive search"
 msgstr "Recherche récursive"
 
@@ -41,35 +41,6 @@ msgstr "Recherche récursive"
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2446
 msgid "Level"
 msgstr "Niveau"
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/import.php:59
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:171
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:281
-msgid "Import"
-msgstr "Importer"
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_search_action.php:53
-msgid ""
-"The custom action %{title} have been successfully execute on this search."
-msgstr ""
-"L'action personnalisée %{title} a été correctement exécutée sur cette "
-"recherche."
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_search_action.php:68
-msgid "Do you really want to execute custom action %{title} on this search ?"
-msgstr ""
-"Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée %{title} "
-"sur cette recherche ?"
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_search_action.php:73
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSconfirmBox.php:37
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsmoothbox.php:39
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1359
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:669
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_action.php:83
-msgid "Validate"
-msgstr "Valider"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/addons/LSaddons.samba.php:27
 msgid "SAMBA Support : Unable to load smbHash class."
@@ -507,6 +478,16 @@ msgstr "Confirmation"
 msgid "You confirm your choice ?"
 msgstr "Confirmez-vous votre choix ?"
 
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSconfirmBox.php:37
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsmoothbox.php:39
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1359
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:68
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:326
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:773
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:877
+msgid "Validate"
+msgstr "Valider"
+
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSconfirmBox.php:38
 msgid "Cancel"
 msgstr "Annuler"
@@ -566,8 +547,8 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannLabeledValue.php:62
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:167
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:450
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:608
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:554
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:712
 msgid "Modify"
 msgstr "Modifier"
 
@@ -881,7 +862,7 @@ msgid "Your new password has been sent to %{mail}."
 msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1522
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:178
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:181
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/global_search.php:36
 msgid "Refresh"
 msgstr "Rafraîchir"
@@ -1364,7 +1345,7 @@ msgid "updating relations"
 msgstr "mise à jour des relations"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:214
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:214
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:220
 msgid "Do you really want to delete"
 msgstr "Voulez-vous vraiment supprimer"
 
@@ -1373,12 +1354,12 @@ msgid "Warning"
 msgstr "Attention"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:216
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:216
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:222
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:69
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:85
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:183
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:466
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:600
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:570
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:704
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -1388,8 +1369,8 @@ msgid "No object."
 msgstr "Aucun objet."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:267
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:165
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:405
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:168
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:509
 msgid "New"
 msgstr "Nouveau"
 
@@ -1552,12 +1533,19 @@ msgid "Delete this field."
 msgstr "Supprimer cette valeur."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:122
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:249
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:255
 msgid "No field."
 msgstr "Aucun champ."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:203
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_action.php:73
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:322
+msgid "Do you really want to execute custom action %{title} on this search ?"
+msgstr ""
+"Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée %{title} "
+"sur cette recherche ?"
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:209
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:871
 msgid ""
 "Do you really want to execute custom action %{customAction} on "
 "%{objectname} ?"
@@ -1565,49 +1553,49 @@ msgstr ""
 "Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée "
 "%{customAction} sur %{objectname} ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:215
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:221
 msgid "Caution"
 msgstr "Attention"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:270
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:276
 msgid "%{label} attribute data is not valid."
 msgstr "Les données de l'attribut %{label} sont incorrectes."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:348
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:354
 msgid "Mandatory field"
 msgstr "Champ obligatoire"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:780
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:786
 msgid "LSform : Error during the recovery of the values of the form."
 msgstr "LSform : Erreur durant la récupération des valeurs du formulaire."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:783
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:789
 msgid ""
 "LSform : Error durring the recovery of the value of the field '%{element}'."
 msgstr ""
 "LSform : Erreur durant la recupération de la valeur du champ %{element}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:790
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:796
 msgid "LSform : The field %{element} doesn't exist."
 msgstr "LSform : Le champ %{element} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:793
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:799
 msgid "LSfom : Field type unknow (%{type})."
 msgstr "LSform : Type de champ inconnu (%{type})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:796
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:802
 msgid "LSform : Error during the creation of the element '%{element}'."
 msgstr "LSform : Erreur durant la création de l'élément %{element}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:799
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:805
 msgid "LSform : The data entry form %{name} doesn't exist."
 msgstr "LSform : Le masque de saisie %{name} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:802
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:808
 msgid "LSform : The data entry form %{name} is not correctly configured."
 msgstr "LSform : Le masque de saisie %{name} n'est pas correctement configuré."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:805
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:811
 msgid ""
 "LSform : The element %{name}, listed as displayed in data entry form "
 "configuration, doesn't exist."
@@ -2017,12 +2005,12 @@ msgid "Unknown error : %{error}"
 msgstr "Erreur inconnu : %{error}"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:159
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:592
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:696
 msgid "View"
 msgstr "Voir"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:175
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:458
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:562
 msgid "Copy"
 msgstr "Copier"
 
@@ -2048,41 +2036,61 @@ msgstr ""
 msgid "Home"
 msgstr "Accueil"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:183
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:174
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:385
+msgid "Import"
+msgstr "Importer"
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:186
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:364
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:303
+msgid ""
+"The custom action %{title} have been successfully execute on this search."
+msgstr ""
+"L'action personnalisée %{title} a été correctement exécutée sur cette "
+"recherche."
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:468
 msgid "Data entry form"
 msgstr "Masque de saisie"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:370
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:474
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:497
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:601
 msgid "My account"
 msgstr "Mon compte"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:550
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:654
 msgid "The object has been partially modified."
 msgstr "L'objet a été partiellement modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:553
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:657
 msgid "The object has been modified successfully."
 msgstr "L'objet a bien été modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:657
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:761
 msgid "%{objectname} has been successfully deleted."
 msgstr "%{objectname} a bien été supprimé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:666
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:770
 msgid "Deleting : %{objectname}"
 msgstr "Suppression : %{objectname}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:667
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:771
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr "Voulez-vous vraiment supprimer <strong>%{displayName}</strong> ?"
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:845
+msgid ""
+"The custom action %{customAction} have been successfully execute on "
+"%{objectname}."
+msgstr ""
+"L'action personnalisée %{customAction} a été correctement exécutée sur "
+"%{objectname}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/functions.php:112
 msgid ""
@@ -2096,14 +2104,6 @@ msgstr "[pas une chaîne de caractères]"
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/functions.php:251
 msgid "Folder not found"
 msgstr "Dossier introuvable"
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_action.php:53
-msgid ""
-"The custom action %{customAction} have been successfully execute on "
-"%{objectname}."
-msgstr ""
-"L'action personnalisée %{customAction} a été correctement exécutée sur "
-"%{objectname}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/global_search.php:30
 msgid "You must provide pattern for global search."
@@ -2145,7 +2145,7 @@ msgstr "Objets importés"
 msgid "Legend:"
 msgstr "Légende :"
 
-#: templates/default/viewSearch.tpl:120
+#: templates/default/viewSearch.tpl:133
 msgid "Nb / page :"
 msgstr "Nb / page :"
 

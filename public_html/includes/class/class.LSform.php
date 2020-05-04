@@ -186,25 +186,31 @@ class LSform {
   *
   * @retval void
   */
-  public static function loadDependenciesDisplayView($ldapObject=false) {
+  public static function loadDependenciesDisplayView($ldapObject=false, $search_view=false) {
     LSsession :: addCssFile('LSform.css');
     LSsession :: addJSscript('LSform.js');
     $customActionLabels = array ();
     if (is_a($ldapObject,'LSldapObject')) {
-      $objectname=$ldapObject -> getDisplayName();
-      $customActionsConfig = LSconfig :: get('LSobjects.'.$ldapObject->type_name.'.customActions');
+      $objectname=($search_view?$ldapObject -> getLabel():$ldapObject -> getDisplayName());
+      $customActionsConfig = LSconfig :: get('LSobjects.'.$ldapObject->type_name.($search_view?'.LSsearch':'').'.customActions');
       if (is_array($customActionsConfig)) {
         foreach($customActionsConfig as $name => $config) {
           if (isset($config['question_format'])) {
-            $customActionLabels['custom_action_'.$name.'_confirm_text'] = getFData(__($config['question_format']),$objectname);
+            $customActionLabels['custom_action_'.$name.'_confirm_text'] = getFData(__($config['question_format']), $objectname);
+          }
+          elseif ($search_view) {
+            $customActionLabels['custom_action_'.$name.'_confirm_text'] = getFData(
+              _('Do you really want to execute custom action %{title} on this search ?'),
+              $name
+            );
           }
           else {
             $customActionLabels['custom_action_'.$name.'_confirm_text'] = getFData(
-                                _('Do you really want to execute custom action %{customAction} on %{objectname} ?'),
-                                array(
-                                        'objectname' => $objectname,
-                                        'customAction' => $name
-                                )
+              _('Do you really want to execute custom action %{customAction} on %{objectname} ?'),
+              array(
+                      'objectname' => $objectname,
+                      'customAction' => $name
+              )
             );
           }
         }

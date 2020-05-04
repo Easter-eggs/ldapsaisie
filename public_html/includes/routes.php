@@ -205,7 +205,6 @@ function handle_LSobject_search($request) {
     }
   }
 
-
   // Run search
   $LSsearch -> run();
   $LSsearch -> redirectWhenOnlyOneResult();
@@ -240,7 +239,7 @@ function handle_LSobject_search($request) {
 
 
   if (LSsession :: loadLSclass('LSform')) {
-    LSform :: loadDependenciesDisplayView();
+    LSform :: loadDependenciesDisplayView($object, true);
   }
 
   // Set & display template
