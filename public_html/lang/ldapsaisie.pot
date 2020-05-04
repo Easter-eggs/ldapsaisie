@@ -1,16 +1,16 @@
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/select.php:67
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:217
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:222
 #: templates/default/global_search.tpl:7
 msgid "Search"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/select.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:218
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:223
 msgid "Approximative search"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/select.php:69
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:219
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:224
 msgid "Recursive search"
 msgstr ""
 
@@ -20,56 +20,9 @@ msgstr ""
 msgid "Level"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/modify.php:54
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannCompositeAttribute.php:106
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:260
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannLabeledValue.php:62
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:167
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:263
-msgid "Modify"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/modify.php:60
-msgid "The object has been partially modified."
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/modify.php:63
-msgid "The object has been modified successfully."
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/modify.php:104
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:159
-msgid "View"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/modify.php:111
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:216
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:215
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:69
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:85
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:183
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:279
-msgid "Delete"
-msgstr ""
-
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/import.php:59
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:166
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:171
 msgid "Import"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/create.php:75
-msgid "Data entry form"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/create.php:81
-msgid "Object has been added."
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/create.php:120
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:267
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:160
-msgid "New"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_search_action.php:53
@@ -86,8 +39,8 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsmoothbox.php:39
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1359
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:68
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:607
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_action.php:83
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/remove.php:51
 msgid "Validate"
 msgstr ""
 
@@ -516,6 +469,16 @@ msgid ""
 "LSattr_html_%{type} : Multiple data are not supported for this field type."
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannCompositeAttribute.php:106
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:260
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:68
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannLabeledValue.php:62
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:167
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:388
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:546
+msgid "Modify"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannCompositeAttribute.php:107
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:75
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannLabeledValue.php:63
@@ -780,7 +743,7 @@ msgid "Your new password has been sent to %{mail}."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1522
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:173
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:178
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/global_search.php:36
 msgid "Refresh"
 msgstr ""
@@ -1177,7 +1140,7 @@ msgid "updating relations"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:214
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:213
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:214
 msgid "Do you really want to delete"
 msgstr ""
 
@@ -1185,9 +1148,25 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:216
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:216
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:69
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:85
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:183
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:404
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:538
+msgid "Delete"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:243
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:365
 msgid "No object."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:267
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:165
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:343
+msgid "New"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:453
@@ -1310,68 +1289,68 @@ msgid ""
 "LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:98
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:99
 msgid "Add a field to add another values."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:99
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:100
 msgid "Delete this field."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:121
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:248
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:122
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:249
 msgid "No field."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:202
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:203
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_action.php:73
 msgid ""
 "Do you really want to execute custom action %{customAction} on "
 "%{objectname} ?"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:214
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:215
 msgid "Caution"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:269
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:270
 msgid "%{label} attribute data is not valid."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:347
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:348
 msgid "Mandatory field"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:779
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:780
 msgid "LSform : Error during the recovery of the values of the form."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:782
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:783
 msgid ""
 "LSform : Error durring the recovery of the value of the field '%{element}'."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:789
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:790
 msgid "LSform : The field %{element} doesn't exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:792
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:793
 msgid "LSfom : Field type unknow (%{type})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:795
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:796
 msgid "LSform : Error during the creation of the element '%{element}'."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:798
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:799
 msgid "LSform : The data entry form %{name} doesn't exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:801
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:802
 msgid "LSform : The data entry form %{name} is not correctly configured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:804
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:805
 msgid ""
 "LSform : The element %{name}, listed as displayed in data entry form "
 "configuration, doesn't exist."
@@ -1732,8 +1711,13 @@ msgstr ""
 msgid "Unknown error : %{error}"
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:159
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:530
+msgid "View"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:175
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:271
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:396
 msgid "Copy"
 msgstr ""
 
@@ -1755,12 +1739,40 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:178
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:183
 msgid "Reset"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:310
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:302
+msgid "Data entry form"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:308
+msgid "Object has been added."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:435
 msgid "My account"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:488
+msgid "The object has been partially modified."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:491
+msgid "The object has been modified successfully."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:595
+msgid "%{objectname} has been successfully deleted."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:604
+msgid "Deleting : %{objectname}"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:605
+msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/functions.php:112
@@ -1780,19 +1792,6 @@ msgstr ""
 msgid ""
 "The custom action %{customAction} have been successfully execute on "
 "%{objectname}."
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/remove.php:37
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/remove.php:48
-msgid "Deleting"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/remove.php:39
-msgid "has been deleted successfully"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/remove.php:49
-msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/global_search.php:30

@@ -13,13 +13,13 @@ var LSview = new Class({
         el.addEvent('click',this.onTdLSobjectListNamesClick.bind(this,el));
       }, this);
       $$('a.LSobject-list-actions').each(function(el) {
-        var checkRemove = /remove\.php.*/;
+        var checkRemove = /\/remove$/;
         if (checkRemove.exec(el.href)) {
           el.addEvent('click',this.onRemoveListBtnClick.bindWithEvent(this,el));
         }
       }, this);
       $$('a.LSview-actions').each(function(el) {
-        var checkRemove = /remove\.php.*/;
+        var checkRemove = /\/remove$/;
         if (checkRemove.exec(el.href)) {
           el.addEvent('click',this.onRemoveViewBtnClick.bindWithEvent(this,el));
         }
@@ -80,7 +80,7 @@ var LSview = new Class({
     },
 
     removeFromA: function(a) {
-      document.location = a.href+'&valid';
+      document.location = a.href+'?valid';
     },
 
     onCustomActionBtnClick: function(event,a) {

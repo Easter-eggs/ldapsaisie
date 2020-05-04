@@ -181,7 +181,7 @@ class LSsearchEntry {
       if (LSsession :: canRemove($this -> LSobject,$this -> dn)) {
         $this -> cache['actions'][] = array (
           'label' => _('Delete'),
-          'url' => 'remove.php?LSobject='.$this -> LSobject.'&amp;dn='.urlencode($this -> dn),
+          'url' => 'object/'.$this -> LSobject.'/'.urlencode($this -> dn).'/remove',
           'action' => 'delete'
         );
       }

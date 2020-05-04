@@ -402,7 +402,7 @@ function handle_LSobject_show($request) {
   if (LSsession :: canRemove($LSobject, $dn)) {
     $LSview_actions[] = array(
       'label' => _('Delete'),
-      'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn),
+      'url' => "object/$LSobject/".urlencode($dn)."/remove",
       'action' => 'delete'
     );
   }
@@ -536,7 +536,7 @@ function handle_LSobject_modify($request) {
   if (LSsession :: canRemove($LSobject,$object -> getDn())) {
     $LSview_actions[] = array(
       'label' => _('Delete'),
-      'url' => 'remove.php?LSobject='.$LSobject.'&amp;dn='.urlencode($object -> getDn()),
+      'url' => "object/$LSobject/".urlencode($object -> getDn())."/remove",
       'action' => 'delete'
     );
   }
@@ -568,6 +568,68 @@ function handle_old_modify_php($request) {
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^modify.php#', 'handle_old_modify_php');
+
+/*
+ * Handle LSobject remove request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_remove($request) {
+  $object = get_LSobject_from_request(
+    $request,
+    true,                             // instanciate object
+    array('LSsession', 'canRemove')   // Check access method
+  );
+  if (!$object)
+   return;
+
+  $LSobject = $object -> getType();
+  $dn = $object -> getDn();
+  $objectname = $object -> getDisplayName();
+
+  // Remove object (if validated)
+  if (isset($_GET['valid'])) {
+    if ($object -> remove()) {
+      LSsession :: addInfo(getFData(_('%{objectname} has been successfully deleted.'), $objectname));
+      LSurl :: redirect("object/$LSobject?refresh");
+    }
+    else {
+      LSerror :: addErrorCode('LSldapObject_15', $objectname);
+    }
+  }
+
+  // Define page title
+  LStemplate :: assign('pagetitle', getFData(_('Deleting : %{objectname}'), $objectname));
+  LStemplate :: assign('question', getFData(_('Do you really want to delete <strong>%{displayName}</strong> ?'), $objectname));
+  LStemplate :: assign('validation_url', "object/$LSobject/".urlencode($dn)."/remove?valid");
+  LStemplate :: assign('validation_label', _('Validate'));
+
+  // Set & display template
+  LSsession :: setTemplate('question.tpl');
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/remove/?$#', 'handle_LSobject_remove');
+
+/*
+ * Handle old remove.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_remove_php($request) {
+  if (!isset($_GET['LSobject']) || !isset($_GET['dn']))
+    $url = null;
+  elseif (isset($_GET['valid']))
+    $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/remove?valid";
+  else
+    $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/remove";
+  LSerror :: addErrorCode('LSsession_26', 'remove.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^remove.php#', 'handle_old_remove_php');
 
 /*
  ************************************************************
