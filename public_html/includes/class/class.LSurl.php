@@ -239,7 +239,6 @@ class LSurl {
 
     // Check authentication (if need)
     if($request -> authenticated && ! LSsession :: startLSsession()) {
-      LSsession :: setTemplate('login.tpl');
       LSsession :: displayTemplate();
       return true;
     }
