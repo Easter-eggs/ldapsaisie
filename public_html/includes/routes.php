@@ -197,7 +197,7 @@ function handle_LSobject_search($request) {
           'label' => ((isset($config['label']))?__($config['label']):__($name)),
           'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
           'helpInfo' => ((isset($config['helpInfo']))?__($config['helpInfo']):False),
-          'url' => 'custom_search_action.php?LSobject='.$LSobject.'&amp;customAction='.$name,
+          'url' => "object/$LSobject/customAction/$name",
           'action' => ((isset($config['icon']))?$config['icon']:'generate'),
           'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
         );
@@ -248,6 +248,108 @@ function handle_LSobject_search($request) {
   LSsession :: displayTemplate();
 }
 LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/?$#', 'handle_LSobject_search');
+
+/*
+ * Handle LSobject search custom action request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_search_customAction($request) {
+  $object = get_LSobject_from_request($request, true);
+  if (!$object)
+   return;
+
+  if (!LSsession :: loadLSclass('LSsearch')) {
+    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSsession :: displayTemplate();
+    return false;
+  }
+
+  $LSobject = $object -> getType();
+  $customAction = $request -> customAction;
+
+  // Instanciate a LSsearch
+  $LSsearch = new LSsearch($LSobject, 'LSview');
+  $LSsearch -> setParam('extraDisplayedColumns', True);
+  $LSsearch -> setParamsFormPostData();
+
+  // Check user right on this search customAction
+  if ( !LSsession :: canExecuteLSsearchCustomAction($LSsearch, $customAction) ) {
+    LSerror :: addErrorCode('LSsession_11');
+    LSsession :: displayTemplate();
+    return false;
+  }
+
+  $config = LSconfig :: get("LSobjects.$LSobject.LSsearch.customActions.$customAction");
+
+  // Check search customAction function
+  if (!isset($config['function']) || !is_callable($config['function'])) {
+    LSerror :: addErrorCode('LSsession_13');
+    LSsession :: displayTemplate();
+    return false;
+  }
+
+  $objectname = $object -> getDisplayName();
+  $title = isset($config['label'])?__($config['label']):$customAction;
+
+  // Run search customAction (if validated or no confirmation need)
+  if (isset($_GET['valid']) || $config['noConfirmation']) {
+    if (call_user_func_array($config['function'], array(&$LSsearch))) {
+      if (isset($config['disableOnSuccessMsg']) && $config['disableOnSuccessMsg'] != true) {
+        LSsession :: addInfo(
+          (isset($config['onSuccessMsgFormat']) && $config['onSuccessMsgFormat'])?
+          getFData(__($config['onSuccessMsgFormat']), $objectname):
+          getFData(_('The custom action %{title} have been successfully execute on this search.'), $title)
+        );
+      }
+      if (!isset($config['redirectToObjectList']) || $config['redirectToObjectList']) {
+        LSurl :: redirect("object/$LSobject?refresh");
+      }
+    }
+    else {
+      LSerror :: addErrorCode('LSsearch_16', $customAction);
+    }
+  }
+
+  // Define page title & template variables
+  LStemplate :: assign('pagetitle', $title);
+  LStemplate :: assign(
+    'question',
+    (
+      isset($config['question_format'])?
+      getFData(__($config['question_format']), $title):
+      getFData(_('Do you really want to execute custom action %{title} on this search ?'), $title)
+    )
+  );
+  LStemplate :: assign('validation_url', "object/$LSobject/customAction/".urlencode($customAction)."?valid");
+  LStemplate :: assign('validation_label', _('Validate'));
+
+  // Set & display template
+  LSsession :: setTemplate('question.tpl');
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/customAction/(?P<customAction>[^/]+)/?$#', 'handle_LSobject_search_customAction');
+
+/*
+ * Handle old custom_search_action.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_custom_search_action_php($request) {
+  if (!isset($_GET['LSobject']) || !isset($_GET['customAction']))
+    $url = null;
+  elseif (isset($_GET['valid']))
+    $url = "object/".$_GET['LSobject']."/customAction/".$_GET['customAction']."?valid";
+  else
+    $url = "object/".$_GET['LSobject']."/customAction/".$_GET['customAction'];
+  LSerror :: addErrorCode('LSsession_26', 'custom_search_action.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^custom_search_action.php#', 'handle_old_custom_search_action_php');
 
 /*
  * Handle LSobject import request
