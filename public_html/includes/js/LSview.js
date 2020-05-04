@@ -90,7 +90,7 @@ var LSview = new Class({
       Event(event).stop();
       if (!this._confirmBoxOpen) {
         this._confirmBoxOpen = 1;
-        var getName = new RegExp('customAction=([^&]*)');
+        var getName = new RegExp('customAction/([^/]*)');
         var name = getName.exec(a.href)[1];
         if (name) {
           var title = a.innerHTML;

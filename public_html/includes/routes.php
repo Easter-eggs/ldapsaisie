@@ -478,7 +478,7 @@ function handle_LSobject_show($request) {
           'label' => ((isset($config['label']))?__($config['label']):__($name)),
           'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
           'helpInfo' => ((isset($config['helpInfo']))?__($config['helpInfo']):False),
-          'url' => 'custom_action.php?LSobject='.$LSobject.'&amp;dn='.urlencode($dn).'&amp;customAction='.$name,
+          'url' => "object/$LSobject/".urlencode($dn)."/customAction/".urlencode($name),
           'action' => ((isset($config['icon']))?$config['icon']:'generate'),
           'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
         );
@@ -692,6 +692,110 @@ function handle_old_remove_php($request) {
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^remove.php#', 'handle_old_remove_php');
+
+/*
+ * Handle LSobject customAction request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_customAction($request) {
+  $object = get_LSobject_from_request($request);
+  if (!$object)
+   return;
+
+  $LSobject = $object -> getType();
+  $dn = $object -> getDn();
+  $customAction = $request -> customAction;
+
+  if ( !LSsession :: canExecuteCustomAction($dn, $LSobject, $customAction) ) {
+    LSerror :: addErrorCode('LSsession_11');
+    LSsession :: displayTemplate();
+    return;
+  }
+
+  $config = LSconfig :: get("LSobjects.$LSobject.customActions.$customAction");
+
+  // Check customAction function
+  if (!isset($config['function']) || !is_callable($config['function'])) {
+    LSerror :: addErrorCode('LSsession_13');
+    LSsession :: displayTemplate();
+    return;
+  }
+
+  $objectname = $object -> getDisplayName();
+  $title = isset($config['label'])?__($config['label']):$customAction;
+
+  // Run customAction (if validated or noConfirmation required)
+  if (isset($_GET['valid']) || (isset($config['noConfirmation']) && $config['noConfirmation'])) {
+    LStemplate :: assign('pagetitle', $title.' : '.$objectname);
+    if (call_user_func_array($config['function'], array(&$object))) {
+      if ($config['disableOnSuccessMsg'] != true) {
+        if ($config['onSuccessMsgFormat']) {
+          LSsession :: addInfo(getFData(__($config['onSuccessMsgFormat']), $objectname));
+        }
+        else {
+          LSsession :: addInfo(
+            getFData(
+              _('The custom action %{customAction} have been successfully execute on %{objectname}.'),
+              array('objectname' => $objectname, 'customAction' => $customAction)
+            )
+          );
+        }
+      }
+      if (isset($config['redirectToObjectList']) && $config['redirectToObjectList']) {
+        LSurl :: redirect("object/$LSobject?refresh");
+      }
+      else if (!isset($config['noRedirect']) || !$config['noRedirect']) {
+        LSurl :: redirect("object/$LSobject/".urlencode($dn));
+      }
+    }
+    else {
+      LSerror :: addErrorCode('LSldapObject_31', array('objectname' => $objectname, 'customAction' => $customAction));
+    }
+  }
+
+  // Define page title & template variables
+  LStemplate :: assign('pagetitle', $title.' : '.$objectname);
+  LStemplate :: assign(
+    'question',
+    (
+      isset($config['question_format'])?
+      getFData(__($config['question_format']), $objectname):
+      getFData(
+        _('Do you really want to execute custom action %{customAction} on %{objectname} ?'),
+        array('objectname' => $objectname, 'customAction' => $customAction)
+      )
+    )
+  );
+  LStemplate :: assign('validation_url', "object/$LSobject/".urlencode($dn)."/customAction/".urlencode($customAction)."?valid");
+  LStemplate :: assign('validation_label', _('Validate'));
+
+  // Set & display template
+  LSsession :: setTemplate('question.tpl');
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/customAction/(?P<customAction>[^/]+)/?$#', 'handle_LSobject_customAction');
+
+/*
+ * Handle old custom_action.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_custom_action_php($request) {
+  if (!isset($_GET['LSobject']) || !isset($_GET['dn']) || !isset($_GET['customAction']))
+    $url = null;
+  elseif (isset($_GET['valid']))
+    $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/customAction/".$_GET['customAction']."?valid";
+  else
+    $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/customAction/".$_GET['customAction'];
+  LSerror :: addErrorCode('LSsession_26', 'custom_action.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^custom_action.php#', 'handle_old_custom_action_php');
 
 /*
  ************************************************************
