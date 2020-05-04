@@ -19,7 +19,7 @@
     <td rowspan=2 id='left'>
       <a href='index.php'><img src='{img name='logo'}' alt='Logo' id='logo'/></a>
 
-      {if $LSsession_subDn!=""}
+      {if isset($LSsession_subDn) && $LSsession_subDn!=""}
         <form action="index.php" method='post' id='LSsession_topDn_form'>
           <label>{$label_level|escape:"htmlall"}
             <a href="index.php?LSsession_refresh"><img src='{img name='refresh'}' alt='{$_refresh|escape:"htmlall"}' title='{$_refresh|escape:"htmlall"}' /></a>

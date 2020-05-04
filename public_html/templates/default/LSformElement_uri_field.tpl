@@ -1,7 +1,7 @@
 {if $freeze}
   <span class='LSformElement_text'>
   {if $value}
-    <a class='{$uriClass|escape:"htmlall"}' href='{$uriPrefix|escape:"htmlall"}{$value|escape:"htmlall"}'{if $uriLinkTitle} title='{$uriLinkTitle|escape:"htmlall"}'{/if}{if $uriTarget} target='{$uriTarget|escape:"htmlall"}'{/if}>{$value|escape:"htmlall"}</a>
+    <a class='{$uriClass|escape:"htmlall"}' href='{$uriPrefix|escape:"htmlall"}{$value|escape:"htmlall"}'{if isset($uriLinkTitle) && $uriLinkTitle} title='{$uriLinkTitle|escape:"htmlall"}'{/if}{if isset($uriTarget) && $uriTarget} target='{$uriTarget|escape:"htmlall"}'{/if}>{$value|escape:"htmlall"}</a>
   {else}
     {$noValueTxt|escape:"htmlall"}
   {/if}
