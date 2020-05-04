@@ -96,11 +96,23 @@ class LSformElement_image extends LSformElement {
       return true;
     }
 
-    if (isset($_FILES[$this -> name]) && isset($_FILES[$this -> name]['tmp_name']) && is_uploaded_file($_FILES[$this -> name]['tmp_name'])) {
-      $fp = fopen($_FILES[$this -> name]['tmp_name'], "r");
-      $buf = fread($fp, filesize($_FILES[$this -> name]['tmp_name']));
-      fclose($fp);
-      $return[$this -> name][0] = $buf;
+    if (isset($_FILES[$this -> name])) {
+      if (isset($_FILES[$this -> name]['tmp_name']) && is_uploaded_file($_FILES[$this -> name]['tmp_name'])) {
+        $fp = fopen($_FILES[$this -> name]['tmp_name'], "r");
+        $buf = fread($fp, filesize($_FILES[$this -> name]['tmp_name']));
+        fclose($fp);
+        $return[$this -> name][0] = $buf;
+      }
+      else {
+        LSlog :: debug('LSformElement_image('.$this->name.')->getPostData(): uploaded tmp file not found => '.varDump($_FILES[$this -> name]));
+        $php_debug_params = array();
+        foreach (array('file_uploads', 'upload_tmp_dir', 'upload_max_filesize', 'max_file_uploads', 'post_max_size', 'memory_limit') as $param)
+          $php_debug_params[] = "$param = '".ini_get($param)."'";
+        $php_debug_params[] = "HTML form MAX_FILE_SIZE = '".MAX_SEND_FILE_SIZE."'";
+        LSlog :: debug('LSformElement_image('.$this->name.')->getPostData(): '.implode(', ', $php_debug_params));
+        $this -> form -> setElementError($this -> attr_html, $this -> getFileUploadErrorMessage($_FILES[$this -> name]));
+        return false;
+      }
     }
     else {
       if (isset($_POST[$this -> name.'_delete'])) {
@@ -108,5 +120,32 @@ class LSformElement_image extends LSformElement {
       }
     }
     return true;
+  }
+
+  /**
+   * Get file upload error message
+   *
+   * @retval string The translated file upload error message
+   */
+  private function getFileUploadErrorMessage() {
+    if (isset($_FILES) && isset($_FILES[$this -> name]) && isset($_FILES[$this -> name]['error'])) {
+      switch($_FILES[$this -> name]['error']) {
+        case UPLOAD_ERR_INI_SIZE:
+          return _('The uploaded file size exceeds the limit accepted by the server.');
+        case UPLOAD_ERR_FORM_SIZE:
+          return _('The uploaded file size exceeds the limit accepted by the HTML form.');
+        case UPLOAD_ERR_PARTIAL:
+          return _('The file was only partially uploaded.');
+        case UPLOAD_ERR_NO_FILE:
+          return _('No file was uploaded.');
+        case UPLOAD_ERR_NO_TMP_DIR:
+          return _('No temporary folder found to store this uploaded file.');
+        case UPLOAD_ERR_CANT_WRITE:
+          return _('Failed to write file on server disk.');
+        case UPLOAD_ERR_EXTENSION:
+          return _('A PHP extension stopped the file upload.');
+      }
+    }
+    return _("An unknown error occured sending this file.");
   }
 }
