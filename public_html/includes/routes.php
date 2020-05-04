@@ -398,11 +398,11 @@ function handle_LSobject_search($request) {
       if (LSsession :: canExecuteLSsearchCustomAction($LSsearch,$name)) {
         $LSview_actions[] = array (
           'label' => ((isset($config['label']))?__($config['label']):__($name)),
-          'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
+          'hideLabel' => ((isset($config['hideLabel']) && $config['hideLabel'])?$config['hideLabel']:False),
           'helpInfo' => ((isset($config['helpInfo']))?__($config['helpInfo']):False),
           'url' => "object/$LSobject/customAction/$name",
           'action' => ((isset($config['icon']))?$config['icon']:'generate'),
-          'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
+          'class' => 'LScustomActions'.((isset($config['noConfirmation']) && $config['noConfirmation'])?' LScustomActions_noConfirmation':'')
         );
       }
     }
@@ -916,11 +916,11 @@ function handle_LSobject_show($request) {
       if (LSsession :: canExecuteCustomAction($dn, $LSobject, $name)) {
         $LSview_actions[] = array (
           'label' => ((isset($config['label']))?__($config['label']):__($name)),
-          'hideLabel' => ((isset($config['hideLabel']))?$config['hideLabel']:False),
+          'hideLabel' => ((isset($config['hideLabel']) && $config['hideLabel'])?$config['hideLabel']:False),
           'helpInfo' => ((isset($config['helpInfo']))?__($config['helpInfo']):False),
           'url' => "object/$LSobject/".urlencode($dn)."/customAction/".urlencode($name),
           'action' => ((isset($config['icon']))?$config['icon']:'generate'),
-          'class' => 'LScustomActions'.(($config['noConfirmation'])?' LScustomActions_noConfirmation':'')
+          'class' => 'LScustomActions'.((isset($config['noConfirmation']) && $config['noConfirmation'])?' LScustomActions_noConfirmation':'')
         );
       }
     }
