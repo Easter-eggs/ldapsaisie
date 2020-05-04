@@ -35,7 +35,7 @@
 {foreachelse}
     <tr class='LSobject-list'>
       <td colspan='3' class='LSobject-list-without-result'>{$LSsearch->label_no_result|escape:"htmlall"}</td>
-    </tr> 
+    </tr>
 {/foreach}
 </table>
 
@@ -52,21 +52,21 @@
     {else}
       {assign var=start value=0}
     {/if}
-    <a href='select.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page=0&amp;multiple={$searchForm.multiple}' class='LSobject-list-page'>&lt;</a>
+    <a href='object/{$LSsearch->LSobject|escape:"url"}/select?page=0&amp;multiple={$searchForm.multiple}' class='LSobject-list-page'>&lt;</a>
     {foreach from=0|range:10 item=i}
       {if $page.nb==$start+$i}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong> 
+        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
       {else}
-        <a href='select.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page={$i+$start}&amp;multiple={$searchForm.multiple}'  class='LSobject-list-page'>{$i+$start+1}</a> 
+        <a href='object/{$LSsearch->LSobject|escape:"url"}/select?page={$i+$start}&amp;multiple={$searchForm.multiple}'  class='LSobject-list-page'>{$i+$start+1}</a>
       {/if}
     {/foreach}
-    <a href='select.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page={$page.nbPages-1}&amp;multiple={$searchForm.multiple}' class='LSobject-list-page'>&gt;</a>
+    <a href='object/{$LSsearch->LSobject|escape:"url"}/select?page={$page.nbPages-1}&amp;multiple={$searchForm.multiple}' class='LSobject-list-page'>&gt;</a>
   {else}
     {section name=listpage loop=$page.nbPages step=1}
       {if $page.nb == $smarty.section.listpage.index}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong> 
+        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
       {else}
-        <a href='select.php?LSobject={$LSsearch->LSobject|escape:"url"}&amp;page={$smarty.section.listpage.index}&amp;multiple={$searchForm.multiple}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a>
+        <a href='object/{$LSsearch->LSobject|escape:"url"}/select?page={$smarty.section.listpage.index}&amp;multiple={$searchForm.multiple}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a>
       {/if}
     {/section}
   {/if}

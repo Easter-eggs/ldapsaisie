@@ -470,6 +470,139 @@ function handle_old_custom_search_action_php($request) {
 LSurl :: add_handler('#^custom_search_action.php#', 'handle_old_custom_search_action_php');
 
 /*
+ * Handle LSobject select request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_select($request) {
+  $object = get_LSobject_from_request($request, true);
+  if (!$object)
+   return;
+
+  $LSobject = $object -> getType();
+
+  if (!LSsession :: loadLSclass('LSsearch')) {
+    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSsession :: displayTemplate();
+    return false;
+  }
+
+  // Instanciate LSsearch
+  $LSsearch = new LSsearch($LSobject,'LSselect');
+  $LSsearch -> setParamsFormPostData();
+  $LSsearch -> setParam('nbObjectsByPage', NB_LSOBJECT_LIST_SELECT);
+
+  // Handle parameters
+  $selectablly = (isset($_REQUEST['selectablly'])?$_REQUEST['selectablly']:0);
+
+  if (is_string($_REQUEST['editableAttr'])) {
+    $LSsearch -> setParam(
+      'customInfos',
+      array (
+        'selectablly' => array (
+          'function' => array('LSselect', 'selectablly'),
+          'args' => $_REQUEST['editableAttr']
+        )
+      )
+    );
+    $selectablly=1;
+  }
+
+  if (!empty($_REQUEST['filter64'])) {
+    $filter = base64_decode($_REQUEST['filter64'], 1);
+    if ($filter) {
+      $LSsearch -> setParam('filter', $filter);
+    }
+  }
+  $multiple = (isset($_REQUEST['multiple'])?1:0);
+  $page = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
+
+  // Run search
+  $LSsearch -> run();
+
+  // Set template variables
+  LStemplate :: assign('pagetitle', $object -> getLabel());
+  LStemplate :: assign('LSview_actions',
+    array(
+      array (
+        'label' => 'Refresh',
+        'url' => "object/$LSobject/select?refresh",
+        'action' => 'refresh'
+      )
+    )
+  );
+  LStemplate :: assign('searchForm',
+    array (
+      'action' => "object/$LSobject/select",
+      'recursive' => (! LSsession :: isSubDnLSobject($LSobject) && LSsession :: subDnIsEnabled() ),
+      'multiple' => $multiple,
+      'selectablly' => $selectablly,
+      'labels' => array (
+        'submit' => _('Search'),
+        'approx' => _('Approximative search'),
+        'recursive' => _('Recursive search'),
+        'level' => _('Level')
+      ),
+      'values' => array (
+        'pattern' => $LSsearch->getParam('pattern'),
+        'approx' => $LSsearch->getParam('approx'),
+        'recursive' => $LSsearch->getParam('recursive'),
+        'basedn' => $LSsearch->getParam('basedn')
+      ),
+      'names' => array (
+        'submit' => 'LSsearch_submit'
+      ),
+      'hiddenFields' => array_merge(
+        $LSsearch -> getHiddenFieldForm(),
+        array(
+          'ajax' => 1,
+          'filter64' => $_REQUEST['filter64'],
+          'selectablly' => $selectablly,
+          'multiple' => $multiple
+        )
+      )
+    )
+  );
+  LStemplate :: assign('page', $LSsearch -> getPage($page));
+  LStemplate :: assign('LSsearch', $LSsearch);
+  LStemplate :: assign('LSobject_list_objectname', $object -> getLabel());
+
+  // Set & display template
+  LSsession :: setTemplate(isset($_REQUEST['ajax'])?'select_table.tpl':'select.tpl');
+  LSsession :: setAjaxDisplay();
+  LSsession :: displayTemplate();
+  $LSsearch->afterUsingResult();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/select?$#', 'handle_LSobject_select');
+
+/*
+ * Handle old select.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_select_php($request) {
+  if (!isset($_GET['LSobject']))
+    $url = null;
+  else {
+    $url = "object/".$_GET['pattern']."/select";
+    // Preserve GET parameters
+    $params = array();
+    foreach (array('filter64', 'multiple', 'selectablly', 'editableAttr', 'page', 'ajax', 'refresh') as $param)
+      if (isset($_GET[$param]))
+        $params[] = $param.'='.$_GET[$param];
+    if ($params)
+      $url .= '?'.implode('&', $params);
+  }
+  LSerror :: addErrorCode('LSsession_26', 'select.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^select\.php#', 'handle_old_select_php');
+
+/*
  * Handle LSobject import request
  *
  * @param[in] $request LSurlRequest The request

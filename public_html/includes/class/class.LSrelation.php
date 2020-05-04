@@ -258,7 +258,7 @@ class LSrelation {
           if ($relation -> canEdit()) {
             $return['actions'][] = array(
               'label' => _('Modify'),
-              'url' => 'select.php?LSobject='.$relationConf['LSobject'].'&amp;multiple=1'.($relation -> getRelatedEditableAttribute()?'&amp;editableAttr='.$relation -> getRelatedEditableAttribute():''),
+              'url' => 'object/'.$relationConf['LSobject'].'/select?multiple=1'.($relation -> getRelatedEditableAttribute()?'&amp;editableAttr='.$relation -> getRelatedEditableAttribute():''),
               'action' => 'modify'
             );
           }

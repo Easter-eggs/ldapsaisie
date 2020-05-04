@@ -148,7 +148,18 @@ var LSformElement_select_object_field = new Class({
         varLSsmoothbox.asNew();
         varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.displayValidBtn();
-        varLSsmoothbox.openURL('select.php?LSobject='+this.params['object_type']+((this.params['multiple'])?'&multiple=1':'')+((this.params['filter64'])?'&filter64='+this.params['filter64']:''),{width: 635});
+        var url='object/'+this.params['object_type']+'/select';
+        var params = [];
+        if (this.params['multiple']) {
+          params.push('multiple=1');
+        }
+        if (this.params['filter64']) {
+          params.push('filter64='+this.params['filter64']);
+        }
+        if (params) {
+          url=url+'?'+params.join('&');
+        }
+        varLSsmoothbox.openURL(url, {width: 635});
       }
     },
 
