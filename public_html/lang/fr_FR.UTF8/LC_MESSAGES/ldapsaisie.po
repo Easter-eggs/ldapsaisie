@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-05-04 10:44+0200\n"
+"PO-Revision-Date: 2020-05-04 11:12+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -44,6 +44,7 @@ msgstr "Niveau"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/import.php:59
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:171
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:281
 msgid "Import"
 msgstr "Importer"
 
@@ -65,7 +66,7 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsmoothbox.php:39
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1359
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:607
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:669
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_action.php:83
 msgid "Validate"
 msgstr "Valider"
@@ -565,8 +566,8 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannLabeledValue.php:62
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:167
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:388
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:546
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:450
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:608
 msgid "Modify"
 msgstr "Modifier"
 
@@ -1376,8 +1377,8 @@ msgstr "Attention"
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:69
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:85
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:183
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:404
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:538
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:466
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:600
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -1388,7 +1389,7 @@ msgstr "Aucun objet."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:267
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:165
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:343
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:405
 msgid "New"
 msgstr "Nouveau"
 
@@ -2003,7 +2004,7 @@ msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr "LSlog : Impossible de charger l'handler %{handler}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSerror.php:102
-#: templates/default/import.tpl:27
+#: templates/default/import.tpl:28
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -2016,12 +2017,12 @@ msgid "Unknown error : %{error}"
 msgstr "Erreur inconnu : %{error}"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:159
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:530
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:592
 msgid "View"
 msgstr "Voir"
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:175
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:396
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:458
 msgid "Copy"
 msgstr "Copier"
 
@@ -2051,35 +2052,35 @@ msgstr "Accueil"
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:302
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:364
 msgid "Data entry form"
 msgstr "Masque de saisie"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:308
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:370
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:435
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:497
 msgid "My account"
 msgstr "Mon compte"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:488
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:550
 msgid "The object has been partially modified."
 msgstr "L'objet a été partiellement modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:491
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:553
 msgid "The object has been modified successfully."
 msgstr "L'objet a bien été modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:595
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:657
 msgid "%{objectname} has been successfully deleted."
 msgstr "%{objectname} a bien été supprimé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:604
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:666
 msgid "Deleting : %{objectname}"
 msgstr "Suppression : %{objectname}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:605
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:667
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr "Voulez-vous vraiment supprimer <strong>%{displayName}</strong> ?"
 
@@ -2122,11 +2123,11 @@ msgstr "Attributs / Profils"
 msgid "Details"
 msgstr "Détails"
 
-#: templates/default/import.tpl:8
+#: templates/default/import.tpl:9
 msgid "File"
 msgstr "Fichier"
 
-#: templates/default/import.tpl:11
+#: templates/default/import.tpl:12
 msgid "Format"
 msgstr "Format"
 
@@ -2135,7 +2136,7 @@ msgstr "Format"
 msgid "Global search"
 msgstr "Recherche globale"
 
-#: templates/default/import.tpl:69
+#: templates/default/import.tpl:70
 msgid "Imported objects"
 msgstr "Objets importés"
 
@@ -2148,15 +2149,15 @@ msgstr "Légende :"
 msgid "Nb / page :"
 msgstr "Nb / page :"
 
-#: templates/default/import.tpl:74
+#: templates/default/import.tpl:75
 msgid "No imported object"
 msgstr "Aucun objet importé"
 
-#: templates/default/import.tpl:42
+#: templates/default/import.tpl:43
 msgid "No value"
 msgstr "Aucune valeur"
 
-#: templates/default/import.tpl:17
+#: templates/default/import.tpl:18
 msgid "Only validate data"
 msgstr "Validation des données uniquement"
 
@@ -2190,7 +2191,7 @@ msgstr "Rafraîchir mes droits d'accès"
 msgid "Relations / Profiles"
 msgstr "Relations / Profils"
 
-#: templates/default/import.tpl:25
+#: templates/default/import.tpl:26
 msgid "Result"
 msgstr "Résultat"
 
@@ -2206,23 +2207,23 @@ msgstr "Leurs relations avec les autres objets"
 msgid "This object type has no configured relation."
 msgstr "Ce type d'objet n'a aucune relation de configurée."
 
-#: templates/default/import.tpl:14
+#: templates/default/import.tpl:15
 msgid "Update objects if exists"
 msgstr "Mise à jour des objets existants"
 
-#: templates/default/import.tpl:79
+#: templates/default/import.tpl:80
 msgid "Updated objects"
 msgstr "Objets mis à jour"
 
-#: templates/default/import.tpl:20
+#: templates/default/import.tpl:21
 msgid "Valid"
 msgstr "Valider"
 
-#: templates/default/import.tpl:15 templates/default/import.tpl:18
+#: templates/default/import.tpl:16 templates/default/import.tpl:19
 msgid "no"
 msgstr "non"
 
-#: templates/default/import.tpl:15 templates/default/import.tpl:18
+#: templates/default/import.tpl:16 templates/default/import.tpl:19
 msgid "yes"
 msgstr "oui"
 

@@ -169,7 +169,7 @@ function handle_LSobject_search($request) {
     if ($object -> listValidIOformats()) {
      $LSview_actions['import'] = array (
       'label' => _('Import'),
-      'url' => 'import.php?LSobject='.$LSobject,
+      'url' => "object/$LSobject/import",
       'action' => 'import'
      );
     }
@@ -245,6 +245,68 @@ function handle_LSobject_search($request) {
   LSsession :: displayTemplate();
 }
 LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/?$#', 'handle_LSobject_search');
+
+/*
+ * Handle LSobject import request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_import($request) {
+  $object = get_LSobject_from_request($request, true);
+  if (!$object)
+   return;
+
+  $ioFormats = array();
+  $result = null;
+  if ( LSsession :: loadLSclass('LSimport')) {
+    $ioFormats = $object->listValidIOformats();
+    if (is_array($ioFormats) && !empty($ioFormats)) {
+      if (LSimport::isSubmit()) {
+        $result = LSimport::importFromPostData();
+        LSdebug($result, 1);
+      }
+    }
+    else {
+      $ioFormats = array();
+      LSerror :: addErrorCode('LSsession_16');
+    }
+  }
+  else {
+    LSerror :: addErrorCode('LSsession_05','LSimport');
+  }
+
+  // Define page title & template variables
+  LStemplate :: assign('pagetitle',_('Import').' : '.$object->getLabel());
+  LStemplate :: assign('LSobject', $object -> getType());
+  LStemplate :: assign('ioFormats', $ioFormats);
+  LStemplate :: assign('result', $result);
+
+  // Set & display template
+  LSsession :: setTemplate('import.tpl');
+  LSsession :: addCssFile('LSform.css');
+  LSsession :: addCssFile('LSimport.css');
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/import/?$#', 'handle_LSobject_import');
+
+/*
+ * Handle old import.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_import_php($request) {
+  if (!isset($_GET['LSobject']))
+    $url = null;
+  else
+    $url = "object/".$_GET['LSobject']."/import";
+  LSerror :: addErrorCode('LSsession_26', 'import.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^import.php#', 'handle_old_import_php');
 
 /*
  * Handle LSobject create request

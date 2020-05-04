@@ -2,7 +2,8 @@
     {if $pagetitle != ''}<h1 id='LSview_title'>{$pagetitle|escape:"htmlall"}</h1>{/if}
 
 <div class='LSform'>
-<form action='import.php?LSobject={$LSobject|escape:"url"}' method='post' enctype="multipart/form-data">
+<form action='object/{$LSobject|escape:"url"}/import' method='post' enctype="multipart/form-data">
+<input type='hidden' name='LSobject' value='{$LSobject}'/>
 <input type='hidden' name='validate' value='LSimport'/>
 <dl class='LSform'>
   <dt class='LSform'><label for='importfile'>{tr msg='File'}</label></dt>

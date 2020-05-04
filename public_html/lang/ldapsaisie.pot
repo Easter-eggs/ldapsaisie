@@ -22,6 +22,7 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/import.php:59
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:171
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:281
 msgid "Import"
 msgstr ""
 
@@ -39,7 +40,7 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsmoothbox.php:39
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:1359
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSform.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:607
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:669
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/custom_action.php:83
 msgid "Validate"
 msgstr ""
@@ -474,8 +475,8 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_supannLabeledValue.php:62
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:167
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:388
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:546
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:450
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:608
 msgid "Modify"
 msgstr ""
 
@@ -1153,8 +1154,8 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:69
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSformElement_select_object.php:85
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:183
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:404
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:538
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:466
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:600
 msgid "Delete"
 msgstr ""
 
@@ -1165,7 +1166,7 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSrelation.php:267
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:165
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:343
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:405
 msgid "New"
 msgstr ""
 
@@ -1699,7 +1700,7 @@ msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSerror.php:102
-#: templates/default/import.tpl:27
+#: templates/default/import.tpl:28
 msgid "Errors"
 msgstr ""
 
@@ -1712,12 +1713,12 @@ msgid "Unknown error : %{error}"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:159
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:530
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:592
 msgid "View"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsearchEntry.php:175
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:396
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:458
 msgid "Copy"
 msgstr ""
 
@@ -1743,35 +1744,35 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:302
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:364
 msgid "Data entry form"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:308
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:370
 msgid "Object has been added."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:435
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:497
 msgid "My account"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:488
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:550
 msgid "The object has been partially modified."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:491
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:553
 msgid "The object has been modified successfully."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:595
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:657
 msgid "%{objectname} has been successfully deleted."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:604
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:666
 msgid "Deleting : %{objectname}"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:605
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/routes.php:667
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr ""
 
@@ -1810,11 +1811,11 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: templates/default/import.tpl:8
+#: templates/default/import.tpl:9
 msgid "File"
 msgstr ""
 
-#: templates/default/import.tpl:11
+#: templates/default/import.tpl:12
 msgid "Format"
 msgstr ""
 
@@ -1823,7 +1824,7 @@ msgstr ""
 msgid "Global search"
 msgstr ""
 
-#: templates/default/import.tpl:69
+#: templates/default/import.tpl:70
 msgid "Imported objects"
 msgstr ""
 
@@ -1836,15 +1837,15 @@ msgstr ""
 msgid "Nb / page :"
 msgstr ""
 
-#: templates/default/import.tpl:74
+#: templates/default/import.tpl:75
 msgid "No imported object"
 msgstr ""
 
-#: templates/default/import.tpl:42
+#: templates/default/import.tpl:43
 msgid "No value"
 msgstr ""
 
-#: templates/default/import.tpl:17
+#: templates/default/import.tpl:18
 msgid "Only validate data"
 msgstr ""
 
@@ -1878,7 +1879,7 @@ msgstr ""
 msgid "Relations / Profiles"
 msgstr ""
 
-#: templates/default/import.tpl:25
+#: templates/default/import.tpl:26
 msgid "Result"
 msgstr ""
 
@@ -1894,22 +1895,22 @@ msgstr ""
 msgid "This object type has no configured relation."
 msgstr ""
 
-#: templates/default/import.tpl:14
+#: templates/default/import.tpl:15
 msgid "Update objects if exists"
 msgstr ""
 
-#: templates/default/import.tpl:79
+#: templates/default/import.tpl:80
 msgid "Updated objects"
 msgstr ""
 
-#: templates/default/import.tpl:20
+#: templates/default/import.tpl:21
 msgid "Valid"
 msgstr ""
 
-#: templates/default/import.tpl:15 templates/default/import.tpl:18
+#: templates/default/import.tpl:16 templates/default/import.tpl:19
 msgid "no"
 msgstr ""
 
-#: templates/default/import.tpl:15 templates/default/import.tpl:18
+#: templates/default/import.tpl:16 templates/default/import.tpl:19
 msgid "yes"
 msgstr ""
