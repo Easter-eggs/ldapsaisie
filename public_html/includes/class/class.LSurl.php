@@ -203,6 +203,10 @@ class LSurl {
 
     LSlog :: debug("redirect($go) => Redirect to : <$url>");
     header("Location: $url");
+
+    // Set & display template
+    LStemplate :: assign('url', $url);
+    LStemplate :: display('redirect.tpl');
     exit();
   }
 

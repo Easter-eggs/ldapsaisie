@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-05-04 17:56+0200\n"
+"PO-Revision-Date: 2020-05-04 18:25+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -859,11 +859,11 @@ msgstr "Langue"
 msgid "Connected as"
 msgstr "Connecté en tant que"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2611
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2610
 msgid "LSsession : The constant %{const} is not defined."
 msgstr "LSsession : La constante %{const} n'est pas définie."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2614
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2613
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
@@ -871,52 +871,52 @@ msgstr ""
 "LSsession : Le support %{addon} est incertain. Vérifiez la compatibilité du "
 "système et la configuration de l'add-on."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2617
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2616
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 "LSsession : Les données de configuration du serveur LDAP sont invalide. "
 "Impossible de s'y connecter."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2620
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2619
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 "LSsession : Impossible de charger le type d'LSobject %{type} : type inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2623
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2622
 msgid "LSsession : Failed to load LSclass %{class}."
 msgstr "LSsession : Impossible de charger la LSclass %{class}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2626
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2625
 msgid "LSsession : Login or password incorrect."
 msgstr "LSsession : Identifiant ou mot de passe incorrects."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2629
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2628
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr "LSsession : Impossible de vous identifier : Duplication d'identité."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2632
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2631
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 "LSsession : Impossible de charger la classe d'authentification (%{class})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2635
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2634
 msgid "LSsession : Can't connect to LDAP server."
 msgstr "LSsession : Impossible de se connecter au serveur LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2638
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2637
 msgid "LSsession : Impossible to authenticate you."
 msgstr "LSsession : Impossible de vous identifier."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2641
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2640
 msgid "LSsession : Your are not authorized to do this action."
 msgstr "LSsession : Vous n'êtes pas autorisé à faire cette action."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2644
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2643
 msgid "LSsession : Some informations are missing to display this page."
 msgstr "LSsession : Des informations sont manquant pour afficher cette page."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2647
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2646
 msgid ""
 "LSsession : The function of the custom action %{name} does not exists or is "
 "not configured."
@@ -924,24 +924,24 @@ msgstr ""
 "LSsearch : La fonction de l'action personnalisée %{name} n'existe pas ou "
 "n'est pas configurée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2650
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2649
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 "LSsession : Erreur en récupérant les identifiants LDAP de l'utilisateur "
 "depuis LSauth."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2653
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2652
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 "LSsession : Impossible de se reconnecter au serveur LDAP avec les "
 "identifiants de l'utilisateur."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2656
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2655
 msgid "LSsession : No import/export format define for this object type."
 msgstr "LSsession : Aucun format d'entrée/sortie définie pour ce type d'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2659
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2658
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
@@ -949,13 +949,13 @@ msgstr ""
 "LSsession : Erreur durant la création de la liste des niveaux. Contacter les "
 "administrateurs. (Code : %{type})"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2662
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2661
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 "LSsession : La récupération de mot de passe est désactivée pour ce serveur "
 "LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2665
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2664
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
@@ -963,7 +963,7 @@ msgstr ""
 "LSsession : Des informations sont manques pour pouvoir récupérer votre mot "
 "de passe. Contacter les administrateurs."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2668
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2667
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
@@ -971,26 +971,26 @@ msgstr ""
 "LSsession : Erreur durant la récupération de votre mot de passe. Contacter "
 "les administrateurs. (Etape : %{step})"
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2671
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2670
 msgid ""
 "LSsession : call function %{func} do not provided from LSaddon %{addon}."
 msgstr ""
 "LSsession : la fonction %{func} n'est pas fournie par le LSaddon %{addon}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2674
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2673
 msgid "LSsession : problem during initialisation."
 msgstr "LSsession : Problème durant l'initialisation."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2677
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2676
 msgid "LSsession : view function %{func} for LSaddon %{addon} doet not exist."
 msgstr ""
 "LSsession : la fonction de vue %{func} du LSaddon %{addon} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2680
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2679
 msgid "LSsession : invalid related object's DN pass in parameter."
 msgstr "LSsession : DN d'objet en relation incorrect dans les paramètres."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2683
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2682
 msgid ""
 "LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please "
 "upgrade it."
@@ -998,13 +998,22 @@ msgstr ""
 "LSsession : le LSaddon %{addon} utilise toujours l'ancien type d'URL de "
 "vues. Merci de le mettre à jour."
 
-#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2686
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2685
 msgid ""
 "LSsession : You have been redirect from an old-style URL %{url}. Please "
 "upgrade this link."
 msgstr ""
 "LSsession : Vous avez été redirigé depuis une ancienne URL %{url}. Merci de "
 "le mettre à jour ce lien."
+
+#: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSsession.php:2688
+msgid ""
+"LSsession : You still seen use LSsession :: redirect() in your custom code. "
+"Please upgrade it and use LSurl :: redirect()."
+msgstr ""
+"LSsession : Vous semblez toujours utilisé LSsession :: redirect() dans votre "
+"code personnalisé. Merci de mettre à jour ce code et d'utiliser LSurl :: "
+"redirect()."
 
 #: /home/brenard/dev/ldapsaisie_clean3/public_html/includes/class/class.LSldapObject.php:473
 msgid "The attribute %{attr} is not valid."

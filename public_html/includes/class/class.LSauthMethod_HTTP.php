@@ -114,7 +114,7 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
   **/
   public static function afterLogout() {
     if (defined('LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL')) {
-      LSsession :: redirect(LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL);
+      LSurl :: redirect(LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL);
     }
     return true;
   }

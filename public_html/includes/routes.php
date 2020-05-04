@@ -1274,8 +1274,8 @@ LSurl :: add_handler('#^addon/(?P<LSaddon>[^/]+)/(?P<view>[^/]+)$#', 'handle_add
 function handle_old_addon_view($request) {
  if ((isset($_GET['LSaddon'])) && (isset($_GET['view']))) {
    LSerror :: addErrorCode('LSsession_25', urldecode($_GET['LSaddon']));
-   LSsession :: redirect('addon/'.$_GET['LSaddon'].'/'.$_GET['view']);
+   LSurl :: redirect('addon/'.$_GET['LSaddon'].'/'.$_GET['view']);
  }
- LSsession :: redirect();
+ LSurl :: redirect();
 }
 LSurl :: add_handler('#^addon_view.php#', 'handle_old_addon_view');

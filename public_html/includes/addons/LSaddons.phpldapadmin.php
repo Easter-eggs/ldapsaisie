@@ -61,6 +61,6 @@ function LSaddon_phpldapadmin_support() {
  */
 function redirectToPhpLdapAdmin(&$ldapObject) {
   $url = $ldapObject->getFData(LS_PHPLDAPADMIN_VIEW_OBJECT_URL_FORMAT);
-   LSsession::redirect($url);
+   LSurl::redirect($url);
    return true;
 }

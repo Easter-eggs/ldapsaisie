@@ -644,7 +644,7 @@ class LSsession {
         LSauth :: afterLogout();
 
         // Redirect user on home page
-        self :: redirect('index.php');
+        LSurl :: redirect('index.php');
         return;
       }
 
@@ -2535,19 +2535,18 @@ class LSsession {
   }
 
   /**
-   * Redirection de l'utilisateur vers une autre URL
+   * Redirect user to another URL
    *
-   * @param[in] $url string L'URL
-   * @param[in] $exit boolean Si true, l'execution script s'arrête après la redirection
+   * /!\ DEPRECATED /!\ : please use LSurl :: redirect()
+   *
+   * @param[in] $url string The destination URL
+   * @param[in] $exit boolean Unsed (keep for reto-compatibility)
    *
    * @retval void
    */
-  public static function redirect($url,$exit=true) {
-    LStemplate :: assign('url',$url);
-    LStemplate :: display('redirect.tpl');
-    if ($exit) {
-      exit();
-    }
+  public static function redirect($url, $exit=true) {
+    LSerror :: addErrorCode('LSsession_27');
+    LSurl :: redirect($url);
   }
 
   /**
@@ -2575,7 +2574,7 @@ class LSsession {
       }
     }
     if ($force)
-     self :: redirect('index.php');
+     LSurl :: redirect('index.php');
   }
 
   /**
@@ -2684,6 +2683,9 @@ class LSsession {
     );
     LSerror :: defineError('LSsession_26',
     _("LSsession : You have been redirect from an old-style URL %{url}. Please upgrade this link.")
+    );
+    LSerror :: defineError('LSsession_27',
+    _("LSsession : You still seen use LSsession :: redirect() in your custom code. Please upgrade it and use LSurl :: redirect().")
     );
   }
 
