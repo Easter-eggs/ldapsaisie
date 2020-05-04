@@ -160,15 +160,13 @@ var LSformElement_password_field = new Class({
 
     onGenerateBtnClick: function() {
       var data = {
-        template:   'LSformElement_password',
-        action:     'generatePassword',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
         objectdn:   varLSform.objectdn,
         idform:     varLSform.idform
       };
       data.imgload=varLSdefault.loadingImgDisplay(this.generateBtn);
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onGenerateBtnClickComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSformElement_password/generatePassword', data: data, onSuccess: this.onGenerateBtnClickComplete.bind(this)}).send();
     },
 
     onGenerateBtnClickComplete: function(responseText, responseXML) {
@@ -207,8 +205,6 @@ var LSformElement_password_field = new Class({
 
     onVerifyBtnClick: function() {
       var data = {
-        template:   'LSformElement_password',
-        action:     'verifyPassword',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
         idform:     varLSform.idform,
@@ -217,7 +213,7 @@ var LSformElement_password_field = new Class({
       };
       LSdebug(data);
       data.imgload=varLSdefault.loadingImgDisplay(this.verifyBtn);
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onVerifyBtnClickComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSformElement_password/verifyPassword', data: data, onSuccess: this.onVerifyBtnClickComplete.bind(this)}).send();
     },
 
     onVerifyBtnClickComplete: function(responseText, responseXML) {
@@ -237,14 +233,12 @@ var LSformElement_password_field = new Class({
 
     onViewHashBtnClick: function() {
       var data = {
-        template:   'LSformElement_password',
-        action:     'viewHash',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
         objectdn:   varLSform.objectdn
       };
       data.imgload=varLSdefault.loadingImgDisplay(this.viewHashBtn);
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onViewHashBtnClickComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSformElement_password/viewHash', data: data, onSuccess: this.onViewHashBtnClickComplete.bind(this)}).send();
     },
 
     onViewHashBtnClickComplete: function(responseText, responseXML) {

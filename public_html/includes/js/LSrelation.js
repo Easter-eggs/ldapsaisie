@@ -66,13 +66,11 @@ var LSrelation = new Class({
       var id = getId.exec(ul.id)[1];
 
       var data = {
-        template:   'LSrelation',
-        action:     'deleteByDn',
         id:         id,
         dn:         this.a2dn(a)
       };
       data.imgload=varLSdefault.loadingImgDisplay(li,'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.deleteFromImgComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSrelation/deleteByDn', data: data, onSuccess: this.deleteFromImgComplete.bind(this)}).send();
     },
 
     deleteFromImgComplete: function(responseText, responseXML) {
@@ -102,8 +100,6 @@ var LSrelation = new Class({
       new Event(event).stop();
 
       var data = {
-        template:   'LSrelation',
-        action:     'refreshSession',
         id:         a.id,
         href:       a.href
       };
@@ -111,7 +107,7 @@ var LSrelation = new Class({
       LSdebug(data);
       this.refreshRelation=a.id;
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+a.id,'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSrelationModifyBtnClickComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSrelation/refreshSession', data: data, onSuccess: this.onLSrelationModifyBtnClickComplete.bind(this)}).send();
     },
 
     onLSrelationModifyBtnClickComplete: function(responseText, responseXML) {
@@ -125,14 +121,12 @@ var LSrelation = new Class({
 
     onLSsmoothboxValid: function() {
       var data = {
-        template:   'LSrelation',
-        action:     'refreshList',
         id:         this.refreshRelation
       };
 
       LSdebug(data);
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+this.refreshRelation,'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSrelation/refreshList', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
     },
 
     onLSsmoothboxValidComplete: function(responseText, responseXML) {

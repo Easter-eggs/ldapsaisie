@@ -27,12 +27,10 @@ var LSsession_login = new Class({
       var server = this.select_ldapserver.value;
       var data = {
         noLSsession:  1,
-        template:     'LSsession',
-        action:       'onLdapServerChangedLogin',
         server:       server,
         imgload:      imgload
       };
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLdapServerChangedComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSsession/onLdapServerChangedLogin', data: data, onSuccess: this.onLdapServerChangedComplete.bind(this)}).send();
     },
 
     onLdapServerChangedComplete: function(responseText, responseXML){

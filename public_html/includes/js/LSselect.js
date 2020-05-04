@@ -50,25 +50,23 @@ var LSselect = new Class({
 
     oncheckboxChange: function(checkbox){
       if (checkbox.checked) {
+        var url = 'ajax/class/LSselect/addItem';
         var data = {
-          template:   'LSselect',
-          action:     'addItem',
           objectdn:   checkbox.value,
           objecttype: $('LSselect-object').getProperties('caption').caption,
           multiple:   this.multiple
         };
       }
       else {
+        var url = 'ajax/class/LSselect/dropItem';
         var data = {
-          template:   'LSselect',
-          action:     'dropItem',
           objectdn:   checkbox.value,
           objecttype: $('LSselect-object').getProperties('caption').caption,
           multiple:   this.multiple
         };
       }
       data.imgload=varLSdefault.loadingImgDisplay(checkbox.getParent().getNext(),'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.oncheckboxChangeComplete.bind(this)}).send();
+      new Request({url: url, data: data, onSuccess: this.oncheckboxChangeComplete.bind(this)}).send();
     },
 
     oncheckboxChangeComplete: function(responseText, responseXML) {

@@ -67,15 +67,13 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 		this.hidePossibleValues();
 		this._lastSearch=this.inputSearch.value;
 		var data = {
-		  template:   'LSformElement_supannLabeledValue',
-		  action:     'searchPossibleValues',
 		  attribute:  this.name,
 		  objecttype: varLSform.objecttype,
 		  idform:     varLSform.idform,
 		  pattern:    this.inputSearch.value
 		};
 		data.imgload=varLSdefault.loadingImgDisplay(this.inputSearch);
-		new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSearchComplete.bind(this)}).send();
+		new Request({url: 'ajax/class/LSformElement_supannLabeledValue/searchPossibleValues', data: data, onSuccess: this.onSearchComplete.bind(this)}).send();
     },
 
     onSearchComplete: function(responseText, responseXML) {

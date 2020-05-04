@@ -23,8 +23,6 @@ var LSformElement = new Class({
 
     onAddFieldBtnClick: function(field){
       var data = {
-        template:   'LSform',
-        action:     'onAddFieldBtnClick',
         attribute:  this.name,
         objecttype: this.LSform.objecttype,
         objectdn:   this.LSform.objectdn,
@@ -33,7 +31,7 @@ var LSformElement = new Class({
       };
       LSdebug(data);
       data.imgload = varLSdefault.loadingImgDisplay(field.li,'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onAddFieldBtnClickComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSform/onAddFieldBtnClick', data: data, onSuccess: this.onAddFieldBtnClickComplete.bind(this)}).send();
     },
 
     onAddFieldBtnClickComplete: function(responseText, responseXML) {

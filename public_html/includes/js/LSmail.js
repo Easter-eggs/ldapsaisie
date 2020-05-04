@@ -69,8 +69,6 @@ var LSmail = new Class({
     open: function(startElement) {
       if (this.opened==0) {
         var data = {
-          template:   'LSmail',
-          action:     'display',
           object:     this.object,
           mails:      this.mails,
           msg:        this.msg,
@@ -83,7 +81,7 @@ var LSmail = new Class({
           data.imgload=varLSdefault.loadingImgDisplay(startElement);
         }
 
-        new Request({url: 'index_ajax.php', data: data, onSuccess: this.onOpenGetHtmlComplete.bind(this)}).send();
+        new Request({url: 'ajax/class/LSmail/display', data: data, onSuccess: this.onOpenGetHtmlComplete.bind(this)}).send();
       }
     },
 
@@ -116,12 +114,10 @@ var LSmail = new Class({
     send: function() {
       if ($type(this.sendInfos)) {
         var data = {
-          template:   'LSmail',
-          action:     'send',
           infos:      this.sendInfos
         };
         data.imgload=varLSdefault.loadingImgDisplay(this.startElement);
-        new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSendComplete.bind(this)}).send();
+        new Request({url: 'ajax/class/LSmail/send', data: data, onSuccess: this.onSendComplete.bind(this)}).send();
       }
     },
 

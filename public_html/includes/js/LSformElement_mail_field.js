@@ -52,15 +52,13 @@ var LSformElement_mail_field = new Class({
       this.input.set('disabled', 'disabled');
       this.lastAutocompletePattern=pattern;
       var data = {
-        template:   'LSformElement_mail',
-        action:     'autocomplete',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
         idform:     varLSform.idform,
         pattern:    pattern
       };
       data.imgload=varLSdefault.loadingImgDisplay(this.input);
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onAutocompleteComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSformElement_mail/autocomplete', data: data, onSuccess: this.onAutocompleteComplete.bind(this)}).send();
     },
 
     onAutocompleteComplete: function(responseText, responseXML) {

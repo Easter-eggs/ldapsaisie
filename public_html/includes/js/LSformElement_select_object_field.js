@@ -132,14 +132,12 @@ var LSformElement_select_object_field = new Class({
       }, this);
 
       var data = {
-        template:   'LSselect',
-        action:     'refreshSession',
         objecttype: this.params['object_type'],
         values:     JSON.encode(values)
       };
 
       data.imgload=varLSdefault.loadingImgDisplay(this.addBtn,'inside');
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onAddBtnClickComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSselect/refreshSession', data: data, onSuccess: this.onAddBtnClickComplete.bind(this)}).send();
     },
 
     onAddBtnClickComplete: function(responseText, responseXML) {
@@ -165,15 +163,13 @@ var LSformElement_select_object_field = new Class({
 
     onLSsmoothboxValid: function() {
       var data = {
-        template:   'LSformElement_select_object',
-        action:     'refresh',
         attribute:  this.name,
         objecttype: varLSform.objecttype,
         objectdn:   varLSform.objectdn,
         idform:     varLSform.idform
       };
       data.imgload=varLSdefault.loadingImgDisplay(this.addBtn);
-      new Request({url: 'index_ajax.php', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSformElement_select_object/refresh', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
     },
 
     onLSsmoothboxValidComplete: function(responseText, responseXML) {
@@ -373,15 +369,13 @@ var LSformElement_select_object_field = new Class({
       if (this._lastSearch!=this.searchAddInput.value) {
         this._lastSearch=this.searchAddInput.value;
         var data = {
-          template:   'LSformElement_select_object',
-          action:     'searchAdd',
           attribute:  this.name,
           objecttype: varLSform.objecttype,
           idform:     varLSform.idform,
           pattern:    this.searchAddInput.value
         };
         data.imgload=varLSdefault.loadingImgDisplay(this.searchAddInput);
-        new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSearchAddComplete.bind(this)}).send();
+        new Request({url: 'ajax/class/LSformElement_select_object/searchAdd', data: data, onSuccess: this.onSearchAddComplete.bind(this)}).send();
       }
     },
 

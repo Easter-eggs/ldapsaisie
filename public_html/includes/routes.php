@@ -47,6 +47,74 @@ function handle_index($request) {
 LSurl :: add_handler('#^(index\.php)?$#', 'handle_index', true);
 
 /*
+ * Handle ajax keepLSsession request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_ajax_keepLSsession($request) {
+  LSsession :: displayAjaxReturn(null);
+}
+LSurl :: add_handler('#^ajax/keepLSsession/?$#', 'handle_ajax_keepLSsession', true);
+
+/*
+ * Handle ajax request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_ajax($request) {
+  $data = null;
+  switch ($request -> type) {
+    case 'class':
+      $class = $request -> type_value;
+      if (LSsession :: loadLSclass($class)) {
+        $meth = 'ajax_'.$request -> action;
+        if (method_exists($class, $meth)) {
+           $class :: $meth($data);
+        }
+      }
+      break;
+    case 'addon':
+      $addon = $request -> type_value;
+      if (LSsession :: loadLSaddon($addon)) {
+        $func = 'ajax_'.$request -> action;
+        if (function_exists($func)) {
+          $func = new ReflectionFunction($func);
+          if (basename($func->getFileName()) == "LSaddons.$addon.php") {
+            $func->invokeArgs(array(&$data));
+          }
+          else {
+            LSerror :: addErrorCode('LSsession_21',array('func' => $func -> getName(),'addon' => $addon));
+          }
+        }
+      }
+      break;
+    default:
+      LSlog :: fatal('Unsupported AJAX request type !');
+      exit();
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+// TODO : find a proper solution for noLSsession URL parameter
+LSurl :: add_handler('#^ajax/(?P<type>class|addon)/(?P<type_value>[^/]+)/(?P<action>[^/]+)/?$#', 'handle_ajax', (!isset($_REQUEST['noLSsession'])));
+
+/*
+ * Handle old index_ajax.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_index_ajax_php($request) {
+  LSerror :: addErrorCode('LSsession_26', 'index_ajax.php');
+  LSsession :: displayAjaxReturn(null);
+}
+LSurl :: add_handler('#^index_ajax\.php#', 'handle_old_index_ajax_php');
+
+/*
  * Handle global seearch request
  *
  * @param[in] $request LSurlRequest The request

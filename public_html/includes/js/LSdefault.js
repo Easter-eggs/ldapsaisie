@@ -263,7 +263,7 @@ var LSdefault = new Class({
 
     keepLSsession: function() {
       LSdebug('Keep LSsession');
-      new Request({url: 'index_ajax.php', data: {}, onSuccess: this.keepLSsessionComplete.bind(this)}).send();
+      new Request({url: 'ajax/keepLSsession', data: {}, onSuccess: this.keepLSsessionComplete.bind(this)}).send();
     },
 
     keepLSsessionComplete: function() {

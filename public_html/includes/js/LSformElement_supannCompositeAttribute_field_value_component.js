@@ -69,8 +69,6 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		this.hidePossibleValues();
 		this._lastSearch=this.inputSearch.value;
 		var data = {
-		  template:   'LSformElement_supannCompositeAttribute',
-		  action:     'searchComponentPossibleValues',
 		  attribute:  this.field_name,
 		  objecttype: varLSform.objecttype,
 		  idform:     varLSform.idform,
@@ -78,7 +76,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		  pattern:    this.inputSearch.value
 		};
 		data.imgload=varLSdefault.loadingImgDisplay(this.inputSearch);
-		new Request({url: 'index_ajax.php', data: data, onSuccess: this.onSearchComplete.bind(this)}).send();
+		new Request({url: 'ajax/class/LSformElement_supannCompositeAttribute/searchComponentPossibleValues', data: data, onSuccess: this.onSearchComplete.bind(this)}).send();
     },
 
     onSearchComplete: function(responseText, responseXML) {
