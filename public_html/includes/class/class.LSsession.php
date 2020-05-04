@@ -2370,6 +2370,24 @@ class LSsession {
   }
 
   /**
+   * Retourne le chemin du fichier temporaire à partir du nom du fichier (s'il existe)
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $hash La valeur du fichier
+   *
+   * @retval mixed
+   **/
+  public static function getTmpFileByFilename($filename) {
+    foreach(self :: $tmp_file as $filePath => $contentHash) {
+      if (basename($filePath) == $filename) {
+        return $filePath;
+      }
+    }
+    return False;
+  }
+
+  /**
    * Supprime les fichiers temporaires
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>

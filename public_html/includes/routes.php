@@ -250,6 +250,22 @@ function handle_image($request) {
 LSurl :: add_handler('#^image/(?P<image>[^/]+)$#', 'handle_image', false);
 
 /*
+ * Handle tmp file request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_tmp_file($request) {
+  $path = LSsession :: getTmpFileByFilename($request -> filename);
+  if ($path && is_file($path)) {
+   dumpFile($path);
+  }
+  LSurl :: error_404($request);
+}
+LSurl :: add_handler('#^tmp/(?P<filename>[^/]+)$#', 'handle_tmp_file');
+
+/*
  ************************************************************
  * LSobject views
  ************************************************************
