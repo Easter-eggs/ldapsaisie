@@ -494,12 +494,33 @@ function LSdebugDefined() {
       return 1;
   }
 
+  /**
+   * Translate message by using LSlang or Gettext methods
+   *
+   * @param[in] @msg string The message
+   *
+   * @retval string The translated message if translation available, the original message otherwise
+   **/
   function __($msg) {
     if (empty($msg)) return $msg;
     if (isset($GLOBALS['LSlang'][$msg])) {
       return $GLOBALS['LSlang'][$msg];
     }
     return _($msg);
+  }
+
+  /**
+   * Non-translate message
+   *
+   * Just-return the input message. This function permit the detection of message
+   * that will be translated only at display time and not at declare time.
+   *
+   * @param[in] @msg string The message
+   *
+   * @retval string The message (unchanged)
+   **/
+  function ___($msg) {
+    return $msg;
   }
 
  /**

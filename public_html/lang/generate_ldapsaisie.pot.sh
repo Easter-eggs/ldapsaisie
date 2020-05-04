@@ -12,6 +12,7 @@ xgettext	--from-code utf-8 \
 		--omit-header \
 		--copyright-holder="Easter-eggs" \
 		--keyword="__" \
+		--keyword="___" \
 		$( find "$PUBLIC_HTML" -name "*.php" )
 
 # Extract other messages from LdapSaisie templates files
