@@ -103,11 +103,13 @@ function get_LSobject_from_request($request, $instanciate=true, $check_access=nu
     if ($dn) {
       if (!call_user_func($check_access, $LSobject, $dn)) {
         LSerror :: addErrorCode('LSsession_11');
+        LSsession :: displayTemplate();
         return false;
       }
     }
     else if (!LSsession :: in_menu($LSobject) && !call_user_func($check_access, $LSobject)) {
       LSerror :: addErrorCode('LSsession_11');
+      LSsession :: displayTemplate();
       return false;
     }
 
@@ -146,7 +148,8 @@ function handle_LSobject_search($request) {
   $LSobject = $object -> getType();
 
   if (!LSsession :: loadLSclass('LSsearch')) {
-    LSsession :: addErrorCode('LSsession_05','LSsearch');
+    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSsession :: displayTemplate();
     return false;
   }
 
@@ -814,13 +817,13 @@ function handle_addon_view($request) {
   if (LSsession ::loadLSaddon($request -> LSaddon)) {
     if ( LSsession :: canAccessLSaddonView($request -> LSaddon, $request -> view) ) {
       LSsession :: showLSaddonView($request -> LSaddon, $request -> view);
-      // Print template
-      LSsession :: displayTemplate();
     }
     else {
       LSerror :: addErrorCode('LSsession_11');
     }
   }
+  // Print template
+  LSsession :: displayTemplate();
 }
 LSurl :: add_handler('#^addon/(?P<LSaddon>[^/]+)/(?P<view>[^/]+)$#', 'handle_addon_view');
 
