@@ -47,6 +47,125 @@ function handle_index($request) {
 LSurl :: add_handler('#^(index\.php)?$#', 'handle_index', true);
 
 /*
+ * Handle global seearch request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_global_search($request) {
+  // Check global search is enabled
+  if (!LSsession :: globalSearch()) {
+    LSurl :: error_404($request);
+    return false;
+  }
+
+  if (!LSsession :: loadLSclass('LSsearch')) {
+    LSsession :: addErrorCode('LSsession_05','LSsearch');
+    LSsession :: displayTemplate();
+    return false;
+  }
+
+  $LSaccess = LSsession :: getLSaccess();
+  $pattern = (isset($_REQUEST['pattern'])?$_REQUEST['pattern']:'');
+  if (empty($pattern)) {
+    LSerror :: addErrorCode(false, _('You must provide pattern for global search.'));
+    LSurl :: redirect();
+  }
+
+  $LSview_actions=array();
+  $LSview_actions['refresh'] = array (
+    'label' => _('Refresh'),
+    'url' => 'search.php?pattern='.urlencode($pattern).'&refresh=1',
+    'action' => 'refresh'
+  );
+  LStemplate :: assign('LSview_actions', $LSview_actions);
+
+  if (LSsession :: loadLSclass('LSform')) {
+    LSform :: loadDependenciesDisplayView();
+  }
+
+  $onlyOne = true;
+  $onlyOneObject = false;
+  $pages=array();
+  foreach ($LSaccess as $LSobject => $label) {
+    if ( $LSobject == SELF || !LSsession :: loadLSobject($LSobject) )
+      continue;
+    if (!LSconfig::get("LSobjects.$LSobject.globalSearch", true, 'bool'))
+      continue;
+
+    $object = new $LSobject();
+    LStemplate :: assign('pagetitle', $object -> getLabel());
+
+    $LSsearch = new LSsearch($LSobject, 'LSview');
+    $LSsearch -> setParamsFormPostData();
+
+    $LSsearch -> run();
+
+    if ($LSsearch -> total > 0) {
+      $page = $LSsearch -> getPage(0);
+      LStemplate :: assign('page', $page);
+      LStemplate :: assign('LSsearch', $LSsearch);
+      $pages[] = LSsession :: fetchTemplate('global_search_one_page.tpl');
+
+      if ($onlyOne) {
+        if ($LSsearch -> total > 1) {
+          $onlyOne = false;
+        }
+        else {
+          if ($onlyOneObject === false) {
+            $onlyOneObject = array (
+              'LSobject' => $LSobject,
+              'dn' => $page['list'][0] -> dn,
+            );
+          }
+          else {
+            // More than one LSobject type result with one object found
+            $onlyOne = false;
+          }
+        }
+      }
+      $LSsearch -> afterUsingResult();
+    }
+  }
+
+  if ($onlyOne && $onlyOneObject && isset($_REQUEST['LSsearch_submit'])) {
+    LSurl :: redirect('object/'.$onlyOneObject['LSobject'].'/'.urlencode($onlyOneObject['dn']));
+  }
+
+  LStemplate :: assign('pattern',$pattern);
+  LStemplate :: assign('pages',$pages);
+  LSsession :: setTemplate('global_search.tpl');
+
+  // Display template
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^search/?$#', 'handle_global_search');
+
+
+/*
+ * Handle old global_search.php request for retro-compatibility
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_old_global_search_php($request) {
+  if (!isset($_GET['pattern']))
+    $url = null;
+  else {
+    $url = "search?pattern=".$_GET['pattern'];
+    if (isset($_GET['LSsearch_submit']))
+      $url .= "&LSsearch_submit";
+    if (isset($_GET['refresh']))
+      $url .= "&refresh";
+  }
+  LSerror :: addErrorCode('LSsession_26', 'global_search.php');
+  LSurl :: redirect($url);
+}
+LSurl :: add_handler('#^global_search\.php#', 'handle_old_global_search_php');
+
+/*
  * Handle image request
  *
  * @param[in] $request LSurlRequest The request

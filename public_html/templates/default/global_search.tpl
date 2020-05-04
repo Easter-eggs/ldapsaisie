@@ -1,7 +1,7 @@
 {include file='ls:top.tpl'}
 
 
-<form action='global_search.php' method='post' class='LSview_search' id='LSsearch_form'>
+<form action='search' method='post' class='LSview_search' id='LSsearch_form'>
 <div class='LSview_search'>
   <input type='text' name='pattern' class='LSview_search' value='{$pattern|escape:"htmlall"}'/>
   <input type='submit' value='{tr msg="Search"}' name='LSsearch_submit' class='LSview_search' />
