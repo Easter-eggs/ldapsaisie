@@ -7,8 +7,7 @@
     <base href="{$public_root_url}/"/>
     <link rel="icon" type="image/png" href="images/default/favicon.png" />
     <link rel="stylesheet" type="text/css" href="{css name='login.css'}" media="screen" title="Normal" />
-    {$LSsession_css}
-    {$LSsession_js}
+    {include file='ls:LSsession_css.tpl'}
   </head>
 <body>
 
@@ -43,5 +42,6 @@
 <span>{$lang_label} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
 <a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword LSsession_recoverPassword_hidden'>{$loginform_label_recoverPassword|escape:"htmlall"}</a>
 </div>
+{include file='ls:LSsession_js.tpl'}
 </body>
 </html>

@@ -76,11 +76,17 @@ class LSsession {
   // Les fichiers JS à charger dans la page
   private static $JSscripts = array();
 
+  // Libs JS files to load on page
+  private static $LibsJSscripts = array();
+
   // Les paramètres JS à communiquer dans la page
   private static $_JSconfigParams = array();
 
   // Les fichiers CSS à charger dans la page
   private static $CssFiles = array();
+
+  // Libs CSS files to load on page
+  private static $LibsCssFiles = array();
 
   // L'objet de l'utilisateur connecté
   private static $LSuserObject = NULL;
@@ -192,6 +198,8 @@ class LSsession {
           'template_dir'  => LS_ROOT_DIR . '/'. LS_TEMPLATES_DIR,
           'image_dir'     => LS_IMAGES_DIR,
           'css_dir'       => LS_CSS_DIR,
+          'js_dir'        => LS_JS_DIR,
+          'libs_dir'      => LS_LIB_DIR,
           'compile_dir'   => LS_TMP_DIR_PATH,
           'debug'         => LSdebug,
           'debug_smarty'  => (isset($_REQUEST) && isset($_REQUEST['LStemplate_debug'])),
@@ -1400,21 +1408,33 @@ class LSsession {
     self :: $template = $template;
   }
 
- /**
-  * Ajoute un script JS au chargement de la page
-  *
-  * Remarque : les scripts doivents Ãªtre dans le dossier LS_JS_DIR.
-  *
-  * @param[in] $script Le nom du fichier de script Ã  charger.
-  *
-  * @retval void
-  */
-  public static function addJSscript($file,$path=NULL) {
-    $script=array(
-      'file' => $file,
-      'path' => $path
-    );
-    self :: $JSscripts[$path.$file]=$script;
+  /**
+   * Add a JS script to load on page
+   *
+   * @param[in] $file string The JS filename
+   * @param[in] $path string|null The sub-directory path that contain this file.
+   *                              Keep for retro-compatibility : you could just
+   *                              prefix the file name.
+   *
+   * @retval void
+   */
+  public static function addJSscript($file, $path=NULL) {
+    if ($path)
+      $file = $path.$file;
+    if (!in_array($file, self :: $JSscripts))
+      self :: $JSscripts[] = $file;
+  }
+
+  /**
+   * Add a library JS file to load on page
+   *
+   * @param[in] $file string The JS filename
+   *
+   * @retval void
+   */
+  public static function addLibJSscript($file) {
+    if (!in_array($file, self :: $LibsJSscripts))
+      self :: $LibsJSscripts[] = $file;
   }
 
  /**
@@ -1430,20 +1450,32 @@ class LSsession {
   }
 
  /**
-  * Ajoute une feuille de style au chargement de la page
+  * Add a CSS file to load on page
   *
-  * @param[in] $script Le nom du fichier css Ã  charger.
+  * @param[in] $file string The CSS filename
+  * @param[in] $path string|null The sub-directory path that contain this file.
+  *                              Keep for retro-compatibility : you could just
+  *                              prefix the file name.
   *
   * @retval void
   */
-  public static function addCssFile($file,$path=NULL) {
-    if ($path) {
+  public static function addCssFile($file, $path=NULL) {
+    if ($path)
       $file = $path.$file;
-    }
-    else {
-      $file = LStemplate :: getCSSPath($file);
-    }
-    self :: $CssFiles[$file]=$file;
+    if (!in_array($file, self :: $CssFiles))
+      self :: $CssFiles[] = $file;
+  }
+
+ /**
+  * Add a library CSS file to load on page
+  *
+  * @param[in] $file string The CSS filename
+  *
+  * @retval void
+  */
+  public static function addLibCssFile($file) {
+    if (!in_array($file, self :: $LibsCssFiles))
+      self :: $LibsCssFiles[] = $file;
   }
 
  /**
@@ -1454,24 +1486,6 @@ class LSsession {
   * @retval void
   */
   public static function displayTemplate() {
-    // JS
-    $JSscript_txt='';
-    foreach ($GLOBALS['defaultJSscipts'] as $script) {
-      $nocache = LStemplate :: getNoCacheFileValue(LS_JS_DIR.$script);
-      $JSscript_txt.="<script src='".LS_JS_DIR.$script."?nocache=$nocache' type='text/javascript'></script>\n";
-    }
-
-    foreach (self :: $JSscripts as $script) {
-      if (!$script['path']) {
-        $script['path']=LS_JS_DIR;
-      }
-      else {
-        $script['path'].='/';
-      }
-      $nocache = LStemplate :: getNoCacheFileValue($script['path'].$script['file']);
-      $JSscript_txt.="<script src='".$script['path'].$script['file']."?nocache=$nocache' type='text/javascript'></script>\n";
-    }
-
     $KAconf = LSconfig :: get('keepLSsessionActive');
     if (
           (
@@ -1487,28 +1501,28 @@ class LSsession {
 
     LStemplate :: assign('LSjsConfig',base64_encode(json_encode(self :: $_JSconfigParams)));
 
-    if (LSdebug) {
-      $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 1;</script>\n";
-    }
-    else {
-      $JSscript_txt.="<script type='text/javascript'>LSdebug_active = 0;</script>\n";
-    }
+    // JS files
+    $JSscripts = array();
+    if (isset($GLOBALS['defaultJSscipts']) && is_array($GLOBALS['defaultJSscipts']))
+      foreach ($GLOBALS['defaultJSscipts'] as $script)
+        if (!in_array($script, $JSscripts))
+          $JSscripts[] = $script;
 
-    LStemplate :: assign('LSsession_js',$JSscript_txt);
+    foreach (self :: $JSscripts as $script)
+      if (!in_array($script, $JSscripts))
+        $JSscripts[] = $script;
+    LStemplate :: assign('JSscripts', $JSscripts);
+    LStemplate :: assign('LibsJSscripts', self :: $LibsJSscripts);
+    LStemplate :: assign('LSdebug', boolval(LSdebug));
 
-    // Css
+    // CSS files
     self :: addCssFile("LSdefault.css");
-    if (isset($GLOBALS['defaultCSSfiles']) && is_array($GLOBALS['defaultCSSfiles'])) {
-      foreach ($GLOBALS['defaultCSSfiles'] as $file) {
-        self :: addCssFile($file);
-      }
-    }
-    $Css_txt='';
-    foreach (self :: $CssFiles as $file) {
-      $nocache = LStemplate :: getNoCacheFileValue($file);
-      $Css_txt.="<link rel='stylesheet' type='text/css' href='".$file."?nocache=$nocache' />\n";
-    }
-    LStemplate :: assign('LSsession_css',$Css_txt);
+    if (isset($GLOBALS['defaultCSSfiles']) && is_array($GLOBALS['defaultCSSfiles']))
+      foreach ($GLOBALS['defaultCSSfiles'] as $file)
+        if (!in_array($script, self :: $CssFiles))
+          self :: addCssFile($file);
+    LStemplate :: assign('CssFiles', self :: $CssFiles);
+    LStemplate :: assign('LibsCssFiles', self :: $LibsCssFiles);
 
     // Access
     LStemplate :: assign('LSaccess', self :: getLSaccess());

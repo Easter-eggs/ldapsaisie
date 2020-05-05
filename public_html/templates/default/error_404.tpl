@@ -8,17 +8,16 @@
     <link rel="icon" type="image/png" href="images/default/favicon.png" />
     <link rel="stylesheet" type="text/css" href="{css name='base.css'}" title="Normal" />
     <link rel="stylesheet" type="text/css" href="{css name='base_print.css'}" media='print' title="Normal" />
-    {$LSsession_css}
+    {include file='ls:LSsession_css.tpl'}
   </head>
 <body>
 
 {include file='ls:LSdefault.tpl'}
 
-{$LSsession_js}
-
 <div id="fatal_error">
 	<h1>{tr msg="The requested page was not found."}</h1>
 </div>
 
+{include file='ls:LSsession_js.tpl'}
 </body>
 </html>

@@ -48,6 +48,8 @@ class LStemplate {
     'template_dir' => 'templates',
     'image_dir' => 'images',
     'css_dir' => 'css',
+    'js_dir' => 'includes/js',
+    'libs_dir' => 'includes/libs',
     'compile_dir' => 'tmp',
     'debug' => False,
     'debug_smarty' => False
@@ -60,10 +62,7 @@ class LStemplate {
   private static $_smarty_version = NULL;
 
   // Array of directories
-  private static $directories = array(
-                                  'local',
-                                  LS_THEME
-                                );
+  private static $directories = array('local', LS_THEME, './');
 
   // Registered events
   private static $_events = array();
@@ -177,11 +176,23 @@ class LStemplate {
       $default_dir = self :: getDefaultDir();
     $path = false;
     foreach(self :: $directories as $dir) {
-      $path = $root_dir.'/'.$dir.'/'.$file;
-      if (file_exists($path)) {
+      $dir_path = realpath($root_dir.'/'.$dir);
+      if ($dir_path === false)
+        // Directory not found or not accessible
+        continue;
+      $file_path = realpath($dir_path.'/'.$file);
+      if ($file_path === false)
+        // File not found or not accessible
+        continue;
+      // Checks that the file is in the actual folder location
+      $pos = strpos($file_path, $dir_path);
+      if (!is_int($pos) || $pos != 0) {
+        LSlog :: error("LStemplate :: getFilePath($file, $root_dir, $default_dir, $with_nocache) : File '$file_path' is not in root directory '$dir_path' (".varDump($pos).").");
+      }
+      elseif (file_exists($file_path)) {
+        $path = $file_path;
         break;
       }
-      $path = false;
     }
     if (!$path) {
       if (!$default_dir)
@@ -220,6 +231,30 @@ class LStemplate {
   **/
   public static function getCSSPath($css, $with_nocache=false) {
     return self :: getFilePath($css, self :: $config['css_dir'], Null, $with_nocache);
+  }
+
+ /**
+  * Return the path of the JS file to use
+  *
+  * @param[in] string $js The JS name (eg: LSdefaults.js)
+  * @param[in] bool $with_nocache If true, include nocache URL param (default: false)
+  *
+  * @retval string The path of the CSS file
+  **/
+  public static function getJSPath($js, $with_nocache=false) {
+    return self :: getFilePath($js, self :: $config['js_dir'], Null, $with_nocache);
+  }
+
+ /**
+  * Return the path of the libary file to use
+  *
+  * @param[in] string $file_path The lib file path (eg: arian-mootools-datepicker/Picker.js)
+  * @param[in] bool $with_nocache If true, include nocache URL param (default: false)
+  *
+  * @retval string The path of the Lib file
+  **/
+  public static function getLibFilePath($file_path, $with_nocache=false) {
+    return self :: getFilePath($file_path, self :: $config['libs_dir'], Null, $with_nocache);
   }
 
  /**
@@ -429,8 +464,7 @@ function LStemplate_smarty_img($params) {
 }
 
 function LStemplate_smarty_css($params) {
-  extract($params);
-  echo LStemplate :: getCSSPath($name, true);
+  echo "css/".$params['name'];
 }
 
 function LStemplate_smarty_uniqid($params, &$smarty) {

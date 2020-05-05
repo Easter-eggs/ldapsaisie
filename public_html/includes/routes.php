@@ -234,20 +234,59 @@ function handle_old_global_search_php($request) {
 LSurl :: add_handler('#^global_search\.php#', 'handle_old_global_search_php');
 
 /*
- * Handle image request
+ * Handle static file request
  *
  * @param[in] $request LSurlRequest The request
  *
  * @retval void
  **/
-function handle_image($request) {
-  $img_path = LStemplate :: getImagePath($request -> image);
-  if (is_file($img_path)) {
-   dumpFile($img_path);
+function handle_static_file($request) {
+  switch ($request -> type) {
+    case 'image':
+      $path = LStemplate :: getImagePath($request -> file);
+      $mime_type = null;
+      break;
+    case 'css':
+      $path = LStemplate :: getCSSPath($request -> file);
+      $mime_type = 'text/css';
+      break;
+    case 'js':
+      $path = LStemplate :: getJSPath($request -> file);
+      $mime_type = 'text/javascript';
+      break;
+  }
+  if ($path  && is_file($path)) {
+   dumpFile($path, $mime_type);
   }
   LSurl :: error_404($request);
 }
-LSurl :: add_handler('#^image/(?P<image>[^/]+)$#', 'handle_image', false);
+LSurl :: add_handler('#^(?P<type>image|css|js)/(?P<file>[^/]+)$#', 'handle_static_file', false);
+
+/*
+ * Handle libs file request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ **/
+function handle_libs_file($request) {
+  $path = LStemplate :: getLibFilePath($request -> file);
+  if ($path  && is_file($path)) {
+    switch (strtolower(substr($path, -4))) {
+      case '.css':
+        $mime_type = 'text/css';
+        break;
+      case '.js':
+        $mime_type = 'text/javascript';
+        break;
+      default:
+        $mime_type = null;
+    }
+    dumpFile($path, $mime_type);
+  }
+  LSurl :: error_404($request);
+}
+LSurl :: add_handler('#^libs/(?P<file>.+)$#', 'handle_libs_file', false);
 
 /*
  * Handle tmp file request

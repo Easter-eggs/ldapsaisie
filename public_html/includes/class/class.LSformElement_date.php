@@ -166,11 +166,11 @@ class LSformElement_date extends LSformElement {
 
       $codeLang = str_replace('_','-',preg_replace('/\..*$/','',LSsession :: getLang()));
 
-      LSsession :: addJSscript('Picker.js',LS_LIB_DIR.'arian-mootools-datepicker/');
-      LSsession :: addJSscript('Picker.Attach.js',LS_LIB_DIR.'arian-mootools-datepicker/');
-      LSsession :: addJSscript('Picker.Date.js',LS_LIB_DIR.'arian-mootools-datepicker/');
-      LSsession :: addJSscript('Locale.'.$codeLang.'.DatePicker.js',LS_LIB_DIR.'arian-mootools-datepicker/');
-      LSsession :: addCssFile('datepicker_'.$params['style'].'.css',LS_LIB_DIR.'arian-mootools-datepicker/datepicker_'.$params['style'].'/');
+      LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.js');
+      LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.Attach.js');
+      LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.Date.js');
+      LSsession :: addLibJSscript('arian-mootools-datepicker/Locale.'.$codeLang.'.DatePicker.js');
+      LSsession :: addLibCssFile('arian-mootools-datepicker/datepicker_'.$params['style'].'/datepicker_'.$params['style'].'.css');
 
       LSsession :: addJSscript('LSformElement_date_field.js');
       LSsession :: addJSscript('LSformElement_date.js');

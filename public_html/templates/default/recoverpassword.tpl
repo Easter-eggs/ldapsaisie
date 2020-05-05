@@ -6,8 +6,7 @@
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle|escape:"htmlall"}{/if}</title>
     <base href="{$public_root_url}/"/>
     <link rel="stylesheet" type="text/css" href="{css name='recoverpassword.css'}" media="screen" title="Normal" />
-    {$LSsession_css}
-    {$LSsession_js}
+    {include file='ls:LSsession_css.tpl'}
   </head>
 <body>
 
@@ -34,5 +33,6 @@
 <span>{$lang_label|escape:"htmlall"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
 <a href='index.php' id='recoverpassword_back'>{$recoverpasswordform_label_back|escape:"htmlall"}</a>
 </div>
+{include file='ls:LSsession_js.tpl'}
 </body>
 </html>

@@ -665,14 +665,15 @@ function LSdebugDefined() {
  * Dump file content
  *
  * @param[in] $file_path string The file path to dump
+ * @param[in] $mime_type string|null The MIME type return as Content-type (optional, default: auto-detected)
  * @param[in] $max_age integer The cache max_age value, as return in Cache-Control HTTP header
  *                             (optional, default: 3600)
  *
  * @retval void
  **/
-function dumpFile($file_path, $max_age=3600) {
+function dumpFile($file_path, $mime_type=null, $max_age=3600) {
   if (is_file($file_path)) {
-    header('Content-Type: '.mime_content_type($file_path));
+    header('Content-Type: '.(is_null($mime_type)?mime_content_type($file_path):$mime_type));
     $last_modified_time = filemtime($file_path);
     $etag = md5_file($file_path);
     header("Cache-Control: max-age=$max_age, must-revalidate");

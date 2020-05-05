@@ -1,6 +1,6 @@
     </td>
   </tr>
 </table>
-{$LSsession_js}
+{include file='ls:LSsession_js.tpl'}
 </body>
 </html>
