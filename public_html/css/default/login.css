@@ -8,7 +8,7 @@ div.loginform {
   border:                 1px solid #4096b8;
   padding:                1em;
   width:                  30em;
-  background:             transparent url(../../images/default/login_fd.png) no-repeat scroll 98% 98%;
+  background:             transparent url(../image/login_fd) no-repeat scroll 98% 98%;
 }
 
 dl.loginform {

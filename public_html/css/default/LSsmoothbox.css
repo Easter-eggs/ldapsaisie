@@ -24,7 +24,7 @@
 }
 
 #closeBtn-LSsmoothbox {
-  background:           url(../../images/default/close.png) no-repeat;
+  background:           url(../image/close) no-repeat;
   width:                20px;
   height:               20px;
   position:             absolute;

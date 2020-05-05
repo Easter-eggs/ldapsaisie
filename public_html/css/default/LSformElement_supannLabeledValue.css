@@ -1,7 +1,7 @@
 input.LSformElement_supannLabeledValue_search {
 	border: 1px solid #CCC;
 	width: 200px;
-	background: url('../../images/default/find.png') no-repeat scroll 0% 0% #FFF !important;
+	background: url('../image/find') no-repeat scroll 0% 0% #FFF !important;
 	padding-left: 18px;
 }
 

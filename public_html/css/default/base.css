@@ -131,7 +131,7 @@ form.LSglobal_search input[type='image'] {
 }
 
 ul.menu {
-  list-style-image:   url(../../images/default/puce.png);
+  list-style-image:   url(../image/puce);
 }
 
 li.menu {
