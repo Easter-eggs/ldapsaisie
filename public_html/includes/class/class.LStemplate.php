@@ -382,8 +382,10 @@ class LStemplate {
    * @retval void
    **/
   public static function fatal_error($error=null) {
-    self :: $_smarty -> assign('fatal_error', $error);
-    self :: $_smarty -> display("ls:fatal_error.tpl");
+    self :: $_smarty -> assign('pagetitle', _("A fatal error occured."));
+    self :: $_smarty -> assign('error', _("A fatal error occured. If problem persist, please contact support."));
+    self :: $_smarty -> assign('details', $error);
+    self :: $_smarty -> display("ls:error.tpl");
     exit();
   }
 

@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset={$LSencoding}">
-    <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle|escape:"htmlall"}{/if}</title>
+    <title>LdapSaisie - {if isset($pagetitle) && $pagetitle}{$pagetitle|escape:"htmlall"}{else}{$error}{/if}</title>
     <base href="{$public_root_url}/"/>
     <link rel="icon" href="image/favicon" />
     <link rel="stylesheet" type="text/css" href="{css name='base.css'}" title="Normal" />
@@ -14,13 +14,13 @@
 
 {include file='ls:LSdefault.tpl'}
 
-<div id="fatal_error">
-	<h1>{tr msg="A fatal error occured. If problem persist, please contact support."}</h1>
+<div id="error">
+	<h1>{$error}</h1>
 
-{if $fatal_error}
+{if isset($details)}
 	<pre class='details'>
 <em>{tr msg="Details"} :</em>
-{$fatal_error}</p>
+{$details}</p>
 {/if}
 </div>
 

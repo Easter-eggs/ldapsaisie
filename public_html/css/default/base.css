@@ -355,20 +355,20 @@ input[type='submit'].LSview_search {
 
 /*
  *********************
- * Fatal error
+ * Error page
  *********************
  */
-#fatal_error {
+#error {
 	margin: auto;
 	max-width: 80%;
 	text-align: center;
 }
 
-#fatal_error h1 {
+#error h1 {
 	border: none;
 }
 
-#fatal_error pre {
+#error pre {
 	color: #111;
 	text-align: left;
 	background-color: #eee;
@@ -380,7 +380,7 @@ input[type='submit'].LSview_search {
 	border: 1px solid #ccc;
 }
 
-#fatal_error pre em {
+#error pre em {
 	border-radius: 6px;
 	background-color: #60B7D4;
 	font-family: sans-serif;

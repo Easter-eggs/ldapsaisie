@@ -218,7 +218,8 @@ class LSurl {
    * @retval void
    **/
   public static function error_404($request=null) {
-    LSsession :: setTemplate('error_404.tpl');
+    LStemplate :: assign('error', _("The requested page was not found."));
+    LSsession :: setTemplate('error.tpl');
     LSsession :: displayTemplate();
   }
 
