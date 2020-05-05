@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle|escape:"htmlall"}{/if}</title>
     <base href="{$public_root_url}/"/>
-    <link rel="icon" type="image/png" href="images/default/favicon.png" />
+    <link rel="icon" href="image/favicon" />
     <link rel="stylesheet" type="text/css" href="{css name='login.css'}" media="screen" title="Normal" />
     {include file='ls:LSsession_css.tpl'}
   </head>
