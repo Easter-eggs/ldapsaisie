@@ -128,6 +128,7 @@ class LStemplate {
       self :: registerFunction("img", "LStemplate_smarty_img");
       self :: registerFunction("css", "LStemplate_smarty_css");
       self :: registerFunction("uniqid", "LStemplate_smarty_uniqid");
+      self :: registerFunction("var_dump", "LStemplate_smarty_var_dump");
 
       // Define public root URL
       $public_root_url = LSconfig :: get('public_root_url', '/', 'string');
@@ -471,6 +472,10 @@ function LStemplate_smarty_uniqid($params, &$smarty) {
   if (!isset($params['var']))
     $params['var'] = 'uniqid';
   $smarty -> assign($params['var'], uniqid());
+}
+
+function LStemplate_smarty_var_dump($params, &$smarty) {
+  var_dump($params['data']);
 }
 
 // Errors
