@@ -191,16 +191,37 @@ class LScli {
       LSlog :: fatal('Fail to connect to LDAP server.');
 
     // Run command
+    self :: run_command($command, $command_args);
+  }
+
+  /**
+   * Run usage message
+   *
+   * @param[in] $error string|false Error message to display before usage message (optional, default: false)
+   * @retval void
+   **/
+  public function run_command($command, $command_args=array(), $exit=true) {
+    if (php_sapi_name() != "cli") {
+      LSlog :: fatal('Try to use LScli :: run_command() in non-CLI context.');
+      return;
+    }
+    if (!array_key_exists($command, self :: $commands)) {
+      return false;
+    }
     LSlog :: debug('Run '.basename($argv[0])." command $command with argument(s) '".implode("', '", $command_args)."'");
     try {
       $result = call_user_func(self :: $commands[$command]['handler'], $command_args);
 
-      exit($result?0:1);
+      if ($exit)
+        exit($result?0:1);
+      return boolval($result);
     }
     catch(Exception $e) {
       LSlog :: exception($e, "An exception occured running CLI command $command");
-      exit(1);
     }
+    if ($exit)
+      exit(1);
+    return false;
   }
 
 }
