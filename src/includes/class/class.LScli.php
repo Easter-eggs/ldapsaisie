@@ -36,14 +36,19 @@ class LScli {
   /**
    * Add a CLI command
    *
-   * @param[in] $command    string        The CLI command name (required)
-   * @param[in] $handler    callable      The CLI command handler (must be callable, required)
-   * @param[in] $short_desc string|false  A short description of what this command does (required)
-   * @param[in] $usage_args string|false  A short list of commands available arguments show in usage message (optional, default: false)
-   * @param[in] $long_desc  string|false  A long description of what this command does (optional, default: false)
-   * @param[in] $override   boolean       Allow override if a command already exists with the same name (optional, default: false)
+   * @param[in] $command        string        The CLI command name (required)
+   * @param[in] $handler        callable      The CLI command handler (must be callable, required)
+   * @param[in] $short_desc     string|false  A short description of what this command does (required)
+   * @param[in] $usage_args     string|false  A short list of commands available arguments show in usage message
+   *                                          (optional, default: false)
+   * @param[in] $long_desc      string|false  A long description of what this command does (optional, default: false)
+   * @param[in] $need_ldap_con  boolean       Permit to define if this command need connection to LDAP server (optional,
+   *                                          default: true)
+   * @param[in] $override       boolean       Allow override if a command already exists with the same name (optional,
+   *                                          default: false)
    **/
-  public static function add_command($command, $handler, $short_desc, $usage_args=false, $long_desc=false, $override=false) {
+  public static function add_command($command, $handler, $short_desc, $usage_args=false, $long_desc=false,
+                                     $need_ldap_con=true, $override=false) {
     if (array_key_exists($command, self :: $commands) && !$override) {
       LSerror :: addErrorCode('LScli_01', $command);
       return False;
@@ -59,6 +64,7 @@ class LScli {
       'short_desc' => $short_desc,
       'usage_args' => $usage_args,
       'long_desc' => $long_desc,
+      'need_ldap_con' => boolval($need_ldap_con),
     );
     return True;
 	}
@@ -188,11 +194,9 @@ class LScli {
       self :: usage();
     }
 
-    // Connect to LDAP server
+    // Select LDAP server (if not already done with -S/--ldap-server parameter)
     if ($ldap_server_id === false && !LSsession :: setLdapServer(0))
       LSlog :: fatal('Fail to select first LDAP server.');
-    if (!LSsession :: LSldapConnect())
-      LSlog :: fatal('Fail to connect to LDAP server.');
 
     // Run command
     self :: run_command($command, $command_args);
@@ -210,8 +214,18 @@ class LScli {
       return;
     }
     if (!array_key_exists($command, self :: $commands)) {
+      LSlog :: warning("LScli :: run_command() : invalid command '$command'.");
       return false;
     }
+
+    // Connect to LDAP server (if command need)
+    if (self :: $commands[$command]['need_ldap_con']) {
+      if (!class_exists('LSldap') || !LSldap :: isConnected())
+        if (!LSsession :: LSldapConnect())
+          LSlog :: fatal('Fail to connect to LDAP server.');
+    }
+
+    // Run command
     LSlog :: debug('Run '.basename($argv[0])." command $command with argument(s) '".implode("', '", $command_args)."'");
     try {
       $result = call_user_func(self :: $commands[$command]['handler'], $command_args);
