@@ -848,5 +848,6 @@ LScli :: add_command(
     "  -o/--output                 Output file (default: stdout)",
     "  -f/--format                 Output file format : php or pot",
     "                              (default: php)",
-  )
+  ),
+  false   // This command does not need LDAP connection
 );
