@@ -147,13 +147,13 @@ fi
 msg "\t-> [OK]" -e
 
 msg "-> Check change on upgrade script :"
-if [ "$UPGRADE_SCRIPT_MD5" != "$( md5sum $0 )"]
+if [ "$UPGRADE_SCRIPT_MD5" != "$( md5sum $0 )" ]
 then
   msg "\t-> [WARNING] Changes detected on $0 script => Re-run it from start" -e
   $0 $@
   exit $?
 else
-  msg "\t-> [OK] No change detected on upgrade script."
+  msg "\t-> [OK] No change detected on upgrade script." -e
 fi
 
 msg "-> Install local files : "
