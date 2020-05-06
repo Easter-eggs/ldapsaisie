@@ -13,9 +13,18 @@ override_dh_clean:
 override_dh_install:
 	dh_install -X .gitignore -X .placefolder -X tmp
 
+	# Move local directory as /usr/local/share/ldapsaisie
+	# Note: a symbolic link will be install by dh_link
 	mv $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/local $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie
+	# Remove all files in local directory
 	find $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie -type f -exec rm -f \{\} \;
+
+	# Change default log file path
 	sed -i 's/tmp\/LS.log/\/var\/log\/ldapsaisie\/ldapsaisie.log/' $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php
+	# Change default public_root_url
+	sed -i "s/^\(\s*'public_root_url' => \).*/\1'\/ldapsaisie\/',/" $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php
+
+	# Make a copy of default config.inc.php to /usr/local/share/ldapsaisie/conf/config.inc.example.php (=/etc/ldapsaisie/local/conf/config.inc.php)
 	cp $(CURDIR)/debian/ldapsaisie/usr/share/ldapsaisie/conf/config.inc.php $(CURDIR)/debian/ldapsaisie/usr/local/share/ldapsaisie/conf/config.inc.example.php
 
 override_dh_usrlocal:
