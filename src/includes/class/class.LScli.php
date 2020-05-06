@@ -113,6 +113,10 @@ class LScli {
    * @retval void
    **/
   public static function handle_args() {
+    if (php_sapi_name() != "cli") {
+      LSlog :: fatal('Try to use LScli :: handle_args() in non-CLI context.');
+      return;
+    }
     global $argv;
     $log_level = 'INFO';
     $ldap_server_id = false;
