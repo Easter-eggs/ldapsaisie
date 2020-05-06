@@ -16,9 +16,10 @@ xgettext	--from-code utf-8 \
 		$( find "$SRC" -name "*.php" )
 
 # Extract other messages from LdapSaisie templates files
-$SRC/lang/generate_lang_file.php	-o "$SRC/lang/ldapsaisie-templates.pot" \
-						-f pot \
-						--only templates
+$SRC/bin/ldapsaisie.php generate_lang_file \
+		-o "$SRC/lang/ldapsaisie-templates.pot" \
+		-f pot \
+		--only templates
 
 # Merge previous results in ldapsaisie.pot file
 msgcat $SRC/lang/ldapsaisie-main.pot $SRC/lang/ldapsaisie-templates.pot -o $SRC/lang/ldapsaisie.pot

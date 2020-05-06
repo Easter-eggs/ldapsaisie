@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-05-06 12:10+0200\n"
+"PO-Revision-Date: 2020-05-06 17:36+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -458,7 +458,7 @@ msgstr "Confirmez-vous votre choix ?"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSconfirmBox.php:37
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsmoothbox.php:39
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1378
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1246
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:568
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1148
@@ -485,7 +485,6 @@ msgstr "Attribut"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mailQuota.php:80
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_valueWithUnit.php:108
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_quota.php:80
-#: templates/default/LSformElement_mailQuota_field.tpl:17
 msgid "Incorrect value"
 msgstr "Valeur incorrecte"
 
@@ -799,81 +798,77 @@ msgstr ""
 msgid "Clear"
 msgstr "Nettoyer"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1318
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1186
 msgid "Connection"
 msgstr "Connexion"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1328
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1367
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1196
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1235
 msgid "LDAP server"
 msgstr "Serveur LDAP"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1338
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2489
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1206
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2356
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:669
 msgid "Level"
 msgstr "Niveau"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1339
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1377
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1207
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1245
 msgid "Identifier"
 msgstr "Identifiant"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1340
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1208
 msgid "Password"
 msgstr "Mot de passe"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1341
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1209
 msgid "Connect"
 msgstr "Se connecter"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1342
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1210
 msgid "Forgot your password ?"
 msgstr "Mot de passe perdu ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1360
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1228
 msgid "Recovery of your credentials"
 msgstr "Récupération de votre mot de passe"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1379
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1247
 msgid "Back"
 msgstr "Retour"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1382
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1250
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr ""
 "Merci d'entrer votre identifiant pour poursuivre la procédure de récupération"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1387
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1255
 msgid ""
 "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr ""
 "Un e-mail vient de vous être envoyé à l'adresse %{mail}. Merci de suivre les "
 "indications qu'il contient."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1396
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1264
 msgid "Your new password has been sent to %{mail}."
 msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1547
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1415
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:146
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:423
 msgid "Refresh"
 msgstr "Rafraîchir"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1563
-msgid "Language"
-msgstr "Langue"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1585
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1452
 msgid "Connected as"
 msgstr "Connecté en tant que"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2635
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2502
 msgid "LSsession : The constant %{const} is not defined."
 msgstr "LSsession : La constante %{const} n'est pas définie."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2638
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2505
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
@@ -881,52 +876,52 @@ msgstr ""
 "LSsession : Le support %{addon} est incertain. Vérifiez la compatibilité du "
 "système et la configuration de l'add-on."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2641
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2508
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 "LSsession : Les données de configuration du serveur LDAP sont invalide. "
 "Impossible de s'y connecter."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2644
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2511
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 "LSsession : Impossible de charger le type d'LSobject %{type} : type inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2647
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2514
 msgid "LSsession : Failed to load LSclass %{class}."
 msgstr "LSsession : Impossible de charger la LSclass %{class}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2650
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2517
 msgid "LSsession : Login or password incorrect."
 msgstr "LSsession : Identifiant ou mot de passe incorrects."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2653
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2520
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr "LSsession : Impossible de vous identifier : Duplication d'identité."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2656
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2523
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 "LSsession : Impossible de charger la classe d'authentification (%{class})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2659
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2526
 msgid "LSsession : Can't connect to LDAP server."
 msgstr "LSsession : Impossible de se connecter au serveur LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2662
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2529
 msgid "LSsession : Impossible to authenticate you."
 msgstr "LSsession : Impossible de vous identifier."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2665
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2532
 msgid "LSsession : Your are not authorized to do this action."
 msgstr "LSsession : Vous n'êtes pas autorisé à faire cette action."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2668
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2535
 msgid "LSsession : Some informations are missing to display this page."
 msgstr "LSsession : Des informations sont manquant pour afficher cette page."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2671
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2538
 msgid ""
 "LSsession : The function of the custom action %{name} does not exists or is "
 "not configured."
@@ -934,24 +929,24 @@ msgstr ""
 "LSsearch : La fonction de l'action personnalisée %{name} n'existe pas ou "
 "n'est pas configurée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2674
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2541
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 "LSsession : Erreur en récupérant les identifiants LDAP de l'utilisateur "
 "depuis LSauth."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2677
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2544
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 "LSsession : Impossible de se reconnecter au serveur LDAP avec les "
 "identifiants de l'utilisateur."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2680
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2547
 msgid "LSsession : No import/export format define for this object type."
 msgstr "LSsession : Aucun format d'entrée/sortie définie pour ce type d'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2683
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2550
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
@@ -959,13 +954,13 @@ msgstr ""
 "LSsession : Erreur durant la création de la liste des niveaux. Contacter les "
 "administrateurs. (Code : %{type})"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2686
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2553
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 "LSsession : La récupération de mot de passe est désactivée pour ce serveur "
 "LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2689
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2556
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
@@ -973,7 +968,7 @@ msgstr ""
 "LSsession : Des informations sont manques pour pouvoir récupérer votre mot "
 "de passe. Contacter les administrateurs."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2692
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2559
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
@@ -981,26 +976,26 @@ msgstr ""
 "LSsession : Erreur durant la récupération de votre mot de passe. Contacter "
 "les administrateurs. (Etape : %{step})"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2695
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2562
 msgid ""
 "LSsession : call function %{func} do not provided from LSaddon %{addon}."
 msgstr ""
 "LSsession : la fonction %{func} n'est pas fournie par le LSaddon %{addon}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2698
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2565
 msgid "LSsession : problem during initialisation."
 msgstr "LSsession : Problème durant l'initialisation."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2701
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2568
 msgid "LSsession : view function %{func} for LSaddon %{addon} doet not exist."
 msgstr ""
 "LSsession : la fonction de vue %{func} du LSaddon %{addon} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2704
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2571
 msgid "LSsession : invalid related object's DN pass in parameter."
 msgstr "LSsession : DN d'objet en relation incorrect dans les paramètres."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2707
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2574
 msgid ""
 "LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please "
 "upgrade it."
@@ -1008,7 +1003,7 @@ msgstr ""
 "LSsession : le LSaddon %{addon} utilise toujours l'ancien type d'URL de "
 "vues. Merci de le mettre à jour."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2710
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2577
 msgid ""
 "LSsession : You have been redirect from an old-style URL %{url}. Please "
 "upgrade this link."
@@ -1016,7 +1011,7 @@ msgstr ""
 "LSsession : Vous avez été redirigé depuis une ancienne URL %{url}. Merci de "
 "le mettre à jour ce lien."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2713
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2580
 msgid ""
 "LSsession : You still seen use LSsession :: redirect() in your custom code. "
 "Please upgrade it and use LSurl :: redirect()."
@@ -1779,7 +1774,6 @@ msgid "Actions"
 msgstr "Actions"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1086
-#: templates/default/global_search.tpl:25
 msgid "This search didn't get any result."
 msgstr "Cette recherche n'a retournée aucun résultat."
 
@@ -2006,11 +2000,11 @@ msgstr "Rôle"
 msgid "Entity type"
 msgstr "Type d'entité"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:122
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:127
 msgid "Only one command could be executed !"
 msgstr "Une seule commande peut-être exécutée !"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:168
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:173
 msgid ""
 "Invalid parameter \"%{parameter}\".\n"
 "Note: Command's parameter/argument must be place after the command."
@@ -2019,11 +2013,11 @@ msgstr ""
 "Note: Les paramètres/arguments de la commande doivent être placés après "
 "celle-ci."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:207
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:212
 msgid "LScli : The CLI command '%{command}' already exists."
 msgstr "LScli : La commande CLI '%{command}' existe déjà."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:210
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:215
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 "LScli : La fonction de prise en charge de la commande CLI '%{command}' n'est "
@@ -2034,7 +2028,6 @@ msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr "LSlog : Impossible de charger l'handler %{handler}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:102
-#: templates/default/import.tpl:28
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -2093,7 +2086,6 @@ msgstr "Réinitialiser"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:466
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:666
-#: templates/default/global_search.tpl:7
 msgid "Search"
 msgstr "Rechercher"
 
@@ -2167,113 +2159,85 @@ msgstr "[pas une chaîne de caractères]"
 msgid "Folder not found"
 msgstr "Dossier introuvable"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:17
-msgid "Attributes / Profiles"
-msgstr "Attributs / Profils"
-
-#: templates/default/error.tpl:22
-msgid "Details"
-msgstr "Détails"
-
-#: templates/default/import.tpl:9
-msgid "File"
-msgstr "Fichier"
-
 #: templates/default/import.tpl:12
 msgid "Format"
 msgstr "Format"
-
-#: templates/default/top.tpl:36 templates/default/top.tpl:37
-#: templates/default/global_search.tpl:10
-msgid "Global search"
-msgstr "Recherche globale"
-
-#: templates/default/import.tpl:70
-msgid "Imported objects"
-msgstr "Objets importés"
-
-#: templates/default/LSaccessRightsMatrixView.tpl:19
-#: templates/default/LSaccessRightsMatrixView.tpl:55
-msgid "Legend:"
-msgstr "Légende :"
 
 #: templates/default/viewSearch.tpl:133
 msgid "Nb / page :"
 msgstr "Nb / page :"
 
-#: templates/default/import.tpl:75
-msgid "No imported object"
-msgstr "Aucun objet importé"
+#~ msgid "Language"
+#~ msgstr "Langue"
 
-#: templates/default/import.tpl:43
-msgid "No value"
-msgstr "Aucune valeur"
+#~ msgid "Attributes / Profiles"
+#~ msgstr "Attributs / Profils"
 
-#: templates/default/import.tpl:18
-msgid "Only validate data"
-msgstr "Validation des données uniquement"
+#~ msgid "Details"
+#~ msgstr "Détails"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:20
-#: templates/default/LSaccessRightsMatrixView.tpl:37
-#: templates/default/LSaccessRightsMatrixView.tpl:72
-msgid "R"
-msgstr "L"
+#~ msgid "File"
+#~ msgstr "Fichier"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:22
-#: templates/default/LSaccessRightsMatrixView.tpl:39
-#: templates/default/LSaccessRightsMatrixView.tpl:74
-msgid "R/W"
-msgstr "L/É"
+#~ msgid "Global search"
+#~ msgstr "Recherche globale"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:20
-#: templates/default/LSaccessRightsMatrixView.tpl:56
-msgid "Readable"
-msgstr "Lecture"
+#~ msgid "Imported objects"
+#~ msgstr "Objets importés"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:22
-#: templates/default/LSaccessRightsMatrixView.tpl:58
-msgid "Readable / Writable"
-msgstr "Lecture / Écriture"
+#~ msgid "Legend:"
+#~ msgstr "Légende :"
 
-#: templates/default/top.tpl:63
-msgid "Refresh my access rights"
-msgstr "Rafraîchir mes droits d'accès"
+#~ msgid "No imported object"
+#~ msgstr "Aucun objet importé"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:53
-msgid "Relations / Profiles"
-msgstr "Relations / Profils"
+#~ msgid "No value"
+#~ msgstr "Aucune valeur"
 
-#: templates/default/import.tpl:26
-msgid "Result"
-msgstr "Résultat"
+#~ msgid "Only validate data"
+#~ msgstr "Validation des données uniquement"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:48
-msgid "Their relations with other objects"
-msgstr "Leurs relations avec les autres objets"
+#~ msgid "R"
+#~ msgstr "L"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:83
-msgid "This object type has no configured relation."
-msgstr "Ce type d'objet n'a aucune relation de configurée."
+#~ msgid "R/W"
+#~ msgstr "L/É"
 
-#: templates/default/import.tpl:15
-msgid "Update objects if exists"
-msgstr "Mise à jour des objets existants"
+#~ msgid "Readable"
+#~ msgstr "Lecture"
 
-#: templates/default/import.tpl:80
-msgid "Updated objects"
-msgstr "Objets mis à jour"
+#~ msgid "Readable / Writable"
+#~ msgstr "Lecture / Écriture"
 
-#: templates/default/import.tpl:21
-msgid "Valid"
-msgstr "Valider"
+#~ msgid "Refresh my access rights"
+#~ msgstr "Rafraîchir mes droits d'accès"
 
-#: templates/default/import.tpl:16 templates/default/import.tpl:19
-msgid "no"
-msgstr "non"
+#~ msgid "Relations / Profiles"
+#~ msgstr "Relations / Profils"
 
-#: templates/default/import.tpl:16 templates/default/import.tpl:19
-msgid "yes"
-msgstr "oui"
+#~ msgid "Result"
+#~ msgstr "Résultat"
+
+#~ msgid "Their relations with other objects"
+#~ msgstr "Leurs relations avec les autres objets"
+
+#~ msgid "This object type has no configured relation."
+#~ msgstr "Ce type d'objet n'a aucune relation de configurée."
+
+#~ msgid "Update objects if exists"
+#~ msgstr "Mise à jour des objets existants"
+
+#~ msgid "Updated objects"
+#~ msgstr "Objets mis à jour"
+
+#~ msgid "Valid"
+#~ msgstr "Valider"
+
+#~ msgid "no"
+#~ msgstr "non"
+
+#~ msgid "yes"
+#~ msgstr "oui"
 
 #~ msgid "Deleting"
 #~ msgstr "Suppression"
