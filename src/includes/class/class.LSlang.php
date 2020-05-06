@@ -823,8 +823,7 @@ function cli_generate_lang_file($command_args) {
     fclose($fd);
   }
 
-  exit(0);
-
+  return true;
 }
 LScli :: add_command(
   'generate_lang_file',
