@@ -1,6 +1,6 @@
 <?php
 
-require(realpath(dirname(__FILE__)).'/../public_html/includes/functions.php');
+require(realpath(dirname(__FILE__)).'/../src/includes/functions.php');
 
 $tests=array(
 // array(format, test val, test good result)

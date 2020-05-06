@@ -27,7 +27,7 @@ error_reporting(E_ERROR);
 $curdir=getcwd();
 chdir(dirname(__FILE__).'/../');
 
-require_once('core.php');
+require_once('includes/core.php');
 require_once('conf/config.inc.php');
 
 $available_onlys = array("config", "templates", "addons");

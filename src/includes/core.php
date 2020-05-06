@@ -38,12 +38,12 @@ else {
 		if (basename($script) == 'core.php')
 			break;
 }
-define('LS_ROOT_DIR', realpath(dirname($script)));
+define('LS_ROOT_DIR', realpath(dirname($script).'/../'));
 
 // Définitions des dossiers d'inclusions
-define('LS_CONF_DIR','conf/');
+define('LS_CONF_DIR', 'conf/');
 define('LS_OBJECTS_DIR', LS_CONF_DIR . 'LSobjects/');
-define('LS_INCLUDE_DIR','includes/');
+define('LS_INCLUDE_DIR', 'includes/');
 define('LS_CLASS_DIR', LS_INCLUDE_DIR .'class/');
 define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
 define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
@@ -55,7 +55,8 @@ define('LS_LOCAL_DIR', 'local/');
 // Locale
 define('LS_TEXT_DOMAIN', 'ldapsaisie');
 define('LS_I18N_DIR', 'lang');
+define('LS_I18N_DIR_PATH', LS_ROOT_DIR.'/lang');
 
-require_once LS_INCLUDE_DIR.'functions.php';
+require_once LS_ROOT_DIR.'/'.LS_INCLUDE_DIR.'functions.php';
 
-require_once LS_CLASS_DIR.'class.LSsession.php';
+require_once LS_ROOT_DIR.'/'.LS_CLASS_DIR.'class.LSsession.php';

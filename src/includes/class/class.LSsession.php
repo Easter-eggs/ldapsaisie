@@ -196,10 +196,10 @@ class LSsession {
         array(
           'smarty_path'   => LSconfig :: get('Smarty'),
           'template_dir'  => LS_ROOT_DIR . '/'. LS_TEMPLATES_DIR,
-          'image_dir'     => LS_IMAGES_DIR,
-          'css_dir'       => LS_CSS_DIR,
-          'js_dir'        => LS_JS_DIR,
-          'libs_dir'      => LS_LIB_DIR,
+          'image_dir'     => LS_ROOT_DIR. '/'. LS_IMAGES_DIR,
+          'css_dir'       => LS_ROOT_DIR. '/'. LS_CSS_DIR,
+          'js_dir'        => LS_ROOT_DIR. '/'. LS_JS_DIR,
+          'libs_dir'      => LS_ROOT_DIR. '/'. LS_LIB_DIR,
           'compile_dir'   => LS_TMP_DIR_PATH,
           'debug'         => LSdebug,
           'debug_smarty'  => (isset($_REQUEST) && isset($_REQUEST['LStemplate_debug'])),
@@ -456,7 +456,7 @@ class LSsession {
       if (setlocale(LC_ALL, $lang) === false)
         LSlog :: error("An error occured setting locale to '$lang'");
       // Configure and set the text domain
-      $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR);
+      $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR_PATH);
       LSlog :: debug("Text domain fullpath is '$fullpath'.");
       LSlog :: debug("Text domain is : ".textdomain(LS_TEXT_DOMAIN));
 
@@ -464,10 +464,14 @@ class LSsession {
       self :: includeFile(LS_I18N_DIR.'/'.$lang.'/lang.php');
 
       // Include other local translation file(s)
-      foreach (listFiles(LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang, '/^lang.+\.php$/') as $file) {
-	$path = LS_LOCAL_DIR.'/'.LS_I18N_DIR."/$lang/$file";
-        LSlog :: debug("LSession :: setLocale() : Local '$lang.$encoding' : load translation file '$path'");
-        include($path);
+      foreach(array(LS_I18N_DIR_PATH.'/'.$lang, LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang) as $lang_dir) {
+        if (is_dir($lang_dir)) {
+          foreach (listFiles($lang_dir, '/^lang.+\.php$/') as $file) {
+            $path = "$lang_dir/$file";
+            LSlog :: debug("LSession :: setLocale() : Local '$lang.$encoding' : load translation file '$path'");
+            include($path);
+          }
+        }
       }
     }
     else {
@@ -491,12 +495,16 @@ class LSsession {
     else {
       $regex = '/^([a-zA-Z_]*)$/';
     }
-    if ($handle = opendir(LS_I18N_DIR)) {
-      while (false !== ($file = readdir($handle))) {
-        if(is_dir(LS_I18N_DIR.'/'.$file)) {
-          if (preg_match($regex,$file,$regs)) {
-            if (!in_array($regs[1],$list)) {
-              $list[]=$regs[1];
+    foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir) {
+      if (!is_dir($lang_dir))
+      continue;
+      if ($handle = opendir($lang_dir)) {
+        while (false !== ($file = readdir($handle))) {
+          if(is_dir("$lang_dir/$file")) {
+            if (preg_match($regex, $file, $regs)) {
+              if (!in_array($regs[1], $list)) {
+                $list[]=$regs[1];
+              }
             }
           }
         }
@@ -527,15 +535,18 @@ class LSsession {
   *
   * @retval boolean True si la locale est disponible, False sinon
   **/
-  public static function localeExist($lang,$encoding) {
+  public static function localeExist($lang, $encoding) {
     if ( !$lang && !$encoding ) {
       return;
     }
     $locale=$lang.(($encoding)?'.'.$encoding:'');
-    if ($locale=='en_US.UTF8') {
+    if ($locale == 'en_US.UTF8') {
       return true;
     }
-    return (is_dir(LS_I18N_DIR.'/'.$locale));
+    foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir)
+      if (is_dir("$lang_dir/$locale"))
+        return true;
+    return false;
   }
 
  /**

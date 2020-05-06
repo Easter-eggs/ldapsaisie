@@ -20,7 +20,7 @@
 
 ******************************************************************************/
 
-require_once 'core.php';
+require_once '../includes/core.php';
 
 if(LSsession :: initialize()) {
   LSurl :: handle_request();

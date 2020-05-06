@@ -30,7 +30,7 @@ function check_file_or_symlink() {
 cd $ROOT_DIR
 
 msg "-> Store gettext MO files state : "
-MO_STATE_BEFORE=$( find $ROOT_DIR/public_html/lang/ -type f -name '*.mo'|sort -u|xargs md5sum )
+MO_STATE_BEFORE=$( find $ROOT_DIR/src/lang/ -type f -name '*.mo'|sort -u|xargs md5sum )
 msg "done."
 
 msg "-> Clean git repos : "
@@ -81,7 +81,7 @@ fi
 if [ "$THEME" != "" ]
 then
 	msg "\t\t-> Remove theme : " -en
-	rm -f $ROOT_DIR/public_html/templates/$THEME $ROOT_DIR/public_html/images/$THEME $ROOT_DIR/public_html/css/$THEME >> $LOG_FILE 2>&1
+	rm -f $ROOT_DIR/src/templates/$THEME $ROOT_DIR/src/images/$THEME $ROOT_DIR/src/css/$THEME >> $LOG_FILE 2>&1
 	if [ $? -gt 0 ]
 	then
   	msg "Error"
@@ -92,7 +92,7 @@ then
 fi
 
 msg "\t\t-> Clean template cache : " -en
-rm -f $ROOT_DIR/public_html/tmp/*.tpl.php
+rm -f $ROOT_DIR/src/tmp/*.tpl.php
 if [ $? -gt 0 ]
 then
 	msg "Error"
@@ -145,7 +145,7 @@ do
 			then
 				DIFF=`diff $ROOT_DIR/$i.sav $SRC.orig`
 				if [ "$DIFF" != "" ]
-				then	
+				then
 				    msg "\n$DIFF\n\t\t\t-> Caution : This file changed. Do you want edit this file now ? [y/N] " -en
 					read a
 					echo "Reponse : $a"  >> $LOG_FILE
@@ -187,19 +187,19 @@ then
 
 	# TPL
 	msg "\t- Template : " -e
-	ln -s $LOCAL_SAV_DIR/theme/templates $ROOT_DIR/public_html/templates/$THEME >> $LOG_FILE 2>&1
-	if [ -d $ROOT_DIR/public_html/templates/$THEME_TPL_REF ]
+	ln -s $LOCAL_SAV_DIR/theme/templates $ROOT_DIR/src/templates/$THEME >> $LOG_FILE 2>&1
+	if [ -d $ROOT_DIR/src/templates/$THEME_TPL_REF ]
 	then
 		msg "\t\t-> Vérification de la présence des fichiers : " -e
-		for i in $ROOT_DIR/public_html/templates/$THEME_TPL_REF/*
+		for i in $ROOT_DIR/src/templates/$THEME_TPL_REF/*
 		do
 			f=`basename $i`
 			msg "\t\t\t- $f : " -en
-			if [ `check_file_or_symlink "$ROOT_DIR/public_html/templates/$THEME/$f"` -eq 0 ]
+			if [ `check_file_or_symlink "$ROOT_DIR/src/templates/$THEME/$f"` -eq 0 ]
 			then
 				msg "present."
 			else
-				ln -s $ROOT_DIR/public_html/templates/$THEME_TPL_REF/$f $ROOT_DIR/public_html/templates/$THEME/$f
+				ln -s $ROOT_DIR/src/templates/$THEME_TPL_REF/$f $ROOT_DIR/src/templates/$THEME/$f
 				msg "link."
 			fi
 		done
@@ -207,19 +207,19 @@ then
 
 	# IMG
 	msg "\t- Images : " -e
-	ln -s $LOCAL_SAV_DIR/theme/images $ROOT_DIR/public_html/images/$THEME >> $LOG_FILE 2>&1
-	if [ -d $ROOT_DIR/public_html/images/$THEME_IMG_REF ]
+	ln -s $LOCAL_SAV_DIR/theme/images $ROOT_DIR/src/images/$THEME >> $LOG_FILE 2>&1
+	if [ -d $ROOT_DIR/src/images/$THEME_IMG_REF ]
 	then
 		msg "\t\t-> Vérification de la présence des fichiers : " -e
-		for i in $ROOT_DIR/public_html/images/$THEME_IMG_REF/*
+		for i in $ROOT_DIR/src/images/$THEME_IMG_REF/*
 		do
 			f=`basename $i`
 			msg "\t\t\t- $f : " -en
-			if [ `check_file_or_symlink "$ROOT_DIR/public_html/images/$THEME/$f"` -eq 0 ]
+			if [ `check_file_or_symlink "$ROOT_DIR/src/images/$THEME/$f"` -eq 0 ]
 			then
 				msg "present."
 			else
-				ln -s $ROOT_DIR/public_html/images/$THEME_IMG_REF/$f $ROOT_DIR/public_html/images/$THEME/$f
+				ln -s $ROOT_DIR/src/images/$THEME_IMG_REF/$f $ROOT_DIR/src/images/$THEME/$f
 				msg "link."
 			fi
 		done
@@ -227,19 +227,19 @@ then
 
 	# CSS
 	msg "\t- CSS : " -e
-	ln -s $LOCAL_SAV_DIR/theme/css $ROOT_DIR/public_html/css/$THEME >> $LOG_FILE 2>&1
-	if [ -d $ROOT_DIR/public_html/css/$THEME_CSS_REF ]
+	ln -s $LOCAL_SAV_DIR/theme/css $ROOT_DIR/src/css/$THEME >> $LOG_FILE 2>&1
+	if [ -d $ROOT_DIR/src/css/$THEME_CSS_REF ]
 	then
 		msg "\t\t-> Vérification de la présence des fichiers : " -e
-		for i in $ROOT_DIR/public_html/css/$THEME_CSS_REF/*
+		for i in $ROOT_DIR/src/css/$THEME_CSS_REF/*
 		do
 			f=`basename $i`
 			msg "\t\t\t- $f : " -en
-			if [ `check_file_or_symlink "$ROOT_DIR/public_html/css/$THEME/$f"` -eq 0 ]
+			if [ `check_file_or_symlink "$ROOT_DIR/src/css/$THEME/$f"` -eq 0 ]
 			then
 				msg "present."
 			else
-				ln -s $ROOT_DIR/public_html/css/$THEME_CSS_REF/$f $ROOT_DIR/public_html/css/$THEME/$f
+				ln -s $ROOT_DIR/src/css/$THEME_CSS_REF/$f $ROOT_DIR/src/css/$THEME/$f
 				msg "link."
 			fi
 		done
@@ -247,7 +247,7 @@ then
 fi
 
 msg "-> Check for gettext MO files changes : "
-MO_STATE_AFTER=$( find $ROOT_DIR/public_html/lang/ -type f -name '*.mo'|sort -u|xargs md5sum )
+MO_STATE_AFTER=$( find $ROOT_DIR/src/lang/ -type f -name '*.mo'|sort -u|xargs md5sum )
 if [ "$MO_STATE_AFTER" == "$MO_STATE_BEFORE" ]
 then
 	msg "No change detected."
@@ -267,27 +267,27 @@ fi
 
 if [ $BUILD_DOC -eq 1 ]
 then
-	[ -n "$LAST_UPDATE_FILE" ] && [ "`$ROOT_DIR/checkDocExportsNecessity.sh`" == "" ] && echo "Export documentation is not necessary. Pass." && exit 
+	[ -n "$LAST_UPDATE_FILE" ] && [ "`$ROOT_DIR/checkDocExportsNecessity.sh`" == "" ] && echo "Export documentation is not necessary. Pass." && exit
 	msg "-> Do you want build the documentation (y/N) ? " -en
 	read a
 	if [ "$a" == "y" -o "$a" == "Y" ]
 	then
         	msg "-> Build the doc : " -en
 		cd $ROOT_DIR/doc
-		
+
 		make clean >> $LOG_FILE 2>&1
 		make >> $LOG_FILE 2>&1 &
-		
+
 		export P=$!
-		
+
 		trap exitwhell INT
-		
+
 		function exitwhell() {
 			[ -n "$P" ] && kill -9 $P 2> /dev/null
 			echo " -- INT -- "
 			exit 1
 		}
-		
+
 		while [ -d /proc/$P ]
 		do
 			echo -n .

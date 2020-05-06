@@ -71,7 +71,7 @@ $GLOBALS['LSlang'] = array (
 "First Name" =>
   "Prénom",
 
-# templates/default/import.tpl:11
+# templates/default/import.tpl:12
 "Format" =>
   "Format",
 
@@ -163,7 +163,7 @@ $GLOBALS['LSlang'] = array (
 "Name must contain alphanumeric values only." =>
   "Le nom doit contenir uniquement des valeurs alpha-numériques.",
 
-# templates/default/viewSearch.tpl:120
+# templates/default/viewSearch.tpl:133
 "Nb / page :" =>
   "Nb / page :",
 
