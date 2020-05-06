@@ -850,3 +850,92 @@ LScli :: add_command(
   ),
   false   // This command does not need LDAP connection
 );
+
+/**
+ * CLI generate_ldapsaisie_pot command
+ *
+ * @param[in] $command_args array Command arguments
+ *
+ * @retval boolean True on succes, false otherwise
+ **/
+function cli_generate_ldapsaisie_pot($command_args) {
+  // Clean php file in tmp directory
+  if (is_dir(LS_TMP_DIR_PATH)) {
+    foreach(listFiles(LS_TMP_DIR_PATH, '/\.php$/') as $file) {
+      $tmp_file = LS_TMP_DIR_PATH.$file;
+      LSlog :: debug("Remove temporary file '$tmp_file'");
+      if (!unlink($tmp_file)) {
+        LSlog :: fatal("Fail to delete temporary file '$tmp_file'.");
+      }
+    }
+  }
+
+  // List PHP files to parse
+  $php_files = LScli :: run_external_command(
+    array('find', escapeshellarg(LS_ROOT_DIR), '-name', "'*.php'"),
+    null,   // no STDIN data
+    false   // do not escape command args (already done)
+  );
+  if (!is_array($php_files) || $php_files[0] != 0) {
+    LSlog :: fatal("Fail to list PHP files.");
+  }
+
+  // Extract messages from LdapSaisie PHP files using xgettext
+  $result = LScli :: run_external_command(
+    array(
+      "xgettext",
+      "--from-code utf-8",
+      "--language=PHP",
+      "-o", LS_I18N_DIR_PATH."/ldapsaisie-main.pot",      // Output
+      "--omit-header",                                    // No POT header
+      "--keyword=__",                                     // Handle custom __() translation function
+      "--keyword=___,",                                   // Handle custom ___() translation function
+      "--files=-"                                         // Read files to parse from STDIN
+    ),
+    $php_files[1]                                         // Pass PHP files list via STDIN
+  );
+  if (!is_array($result) || $result[0] != 0)
+    LSlog :: fatal("Fail to extract messages from PHP files using xgettext.");
+
+
+  // Extract other messages from LdapSaisie templates files
+  $result = LScli :: run_command(
+    'generate_lang_file',
+    array (
+      "-o", LS_I18N_DIR_PATH."/ldapsaisie-templates.pot",
+      "-f", "pot",
+      "--only", "templates",
+    ),
+    false // do not exit
+  );
+  if (!$result)
+    LSlog :: fatal("Fail to extract messages from template files using generate_lang_file command.");
+
+  // Merge previous results in ldapsaisie.pot file using msgcat
+  $result = LScli :: run_external_command(array(
+    'msgcat',
+    LS_I18N_DIR_PATH."/ldapsaisie-main.pot",
+    LS_I18N_DIR_PATH."/ldapsaisie-templates.pot",
+    "-o", LS_I18N_DIR_PATH."/ldapsaisie.pot",
+  ));
+  if (!is_array($result) || $result[0] != 0)
+    LSlog :: fatal("Fail to merge messages using msgcat.");
+
+  return true;
+}
+LScli :: add_command(
+  'generate_ldapsaisie_pot',
+  'cli_generate_ldapsaisie_pot',
+  'Generate ldapsaisie.pot files :',
+  null,
+  array(
+    "This command generate 3 POT files:",
+    " - ".LS_I18N_DIR_PATH."/ldapsaisie-main.pot",
+    "   => contains messages from PHP files",
+    " - ".LS_I18N_DIR_PATH."/ldapsaisie-templates.pot",
+    "   => contains messages from templates files",
+    " - ".LS_I18N_DIR_PATH."/ldapsaisie.pot",
+    "   => contains all messages",
+  ),
+  false   // This command does not need LDAP connection
+);
