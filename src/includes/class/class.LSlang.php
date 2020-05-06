@@ -213,7 +213,7 @@ if (php_sapi_name() != "cli") return;
 function cli_generate_lang_file($command_args) {
   // Use global variables to share it with sub-functions
   global $available_onlys, $available_withouts, $data, $translations, $interactive,
-  $copyoriginalvalue, $format, $curdir, $additionalfileformat, $copyoriginalvalue;
+  $copyoriginalvalue, $format, $curdir, $additionalfileformat, $copyoriginalvalue, $lang;
 
   // Store existing translations
   $translations = array();
@@ -662,6 +662,7 @@ function cli_generate_lang_file($command_args) {
 
   if (!in_array('addons', $withouts) && (!$only || $only == 'addons')) {
     function parse_addon_file($file) {
+      debug("parse_addon_file($file)");
       $count = 0;
       foreach(file($file) as $line) {
         $count++;

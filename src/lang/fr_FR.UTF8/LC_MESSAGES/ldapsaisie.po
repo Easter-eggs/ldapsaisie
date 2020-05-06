@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-05-06 17:36+0200\n"
+"PO-Revision-Date: 2020-05-06 18:32+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -485,6 +485,7 @@ msgstr "Attribut"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mailQuota.php:80
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_valueWithUnit.php:108
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_quota.php:80
+#: templates/default/LSformElement_mailQuota_field.tpl:17
 msgid "Incorrect value"
 msgstr "Valeur incorrecte"
 
@@ -1774,6 +1775,7 @@ msgid "Actions"
 msgstr "Actions"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1086
+#: templates/default/global_search.tpl:25
 msgid "This search didn't get any result."
 msgstr "Cette recherche n'a retournée aucun résultat."
 
@@ -2000,11 +2002,11 @@ msgstr "Rôle"
 msgid "Entity type"
 msgstr "Type d'entité"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:127
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:137
 msgid "Only one command could be executed !"
 msgstr "Une seule commande peut-être exécutée !"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:173
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:183
 msgid ""
 "Invalid parameter \"%{parameter}\".\n"
 "Note: Command's parameter/argument must be place after the command."
@@ -2013,11 +2015,11 @@ msgstr ""
 "Note: Les paramètres/arguments de la commande doivent être placés après "
 "celle-ci."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:212
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:251
 msgid "LScli : The CLI command '%{command}' already exists."
 msgstr "LScli : La commande CLI '%{command}' existe déjà."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:215
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:254
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 "LScli : La fonction de prise en charge de la commande CLI '%{command}' n'est "
@@ -2028,6 +2030,7 @@ msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr "LSlog : Impossible de charger l'handler %{handler}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:102
+#: templates/default/import.tpl:28
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -2086,6 +2089,7 @@ msgstr "Réinitialiser"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:466
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:666
+#: templates/default/global_search.tpl:7
 msgid "Search"
 msgstr "Rechercher"
 
@@ -2159,85 +2163,118 @@ msgstr "[pas une chaîne de caractères]"
 msgid "Folder not found"
 msgstr "Dossier introuvable"
 
+#: templates/default/LSaccessRightsMatrixView.tpl:17
+msgid "Attributes / Profiles"
+msgstr "Attributs / Profils"
+
+#: templates/default/error.tpl:22
+msgid "Details"
+msgstr "Détails"
+
+#: templates/default/import.tpl:9
+msgid "File"
+msgstr "Fichier"
+
 #: templates/default/import.tpl:12
 msgid "Format"
 msgstr "Format"
+
+#: templates/default/top.tpl:36 templates/default/top.tpl:37
+#: templates/default/global_search.tpl:10
+msgid "Global search"
+msgstr "Recherche globale"
+
+#: templates/default/import.tpl:70
+msgid "Imported objects"
+msgstr "Objets importés"
+
+#: templates/default/top.tpl:53 templates/default/recoverpassword.tpl:33
+#: templates/default/login.tpl:31 templates/default/login.tpl:42
+msgid "Language"
+msgstr "Langue"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:19
+#: templates/default/LSaccessRightsMatrixView.tpl:55
+msgid "Legend:"
+msgstr "Légende :"
 
 #: templates/default/viewSearch.tpl:133
 msgid "Nb / page :"
 msgstr "Nb / page :"
 
-#~ msgid "Language"
-#~ msgstr "Langue"
+#: templates/default/import.tpl:75
+msgid "No imported object"
+msgstr "Aucun objet importé"
 
-#~ msgid "Attributes / Profiles"
-#~ msgstr "Attributs / Profils"
+#: templates/default/import.tpl:43
+msgid "No value"
+msgstr "Aucune valeur"
 
-#~ msgid "Details"
-#~ msgstr "Détails"
+#: templates/default/import.tpl:18
+msgid "Only validate data"
+msgstr "Validation des données uniquement"
 
-#~ msgid "File"
-#~ msgstr "Fichier"
+#: templates/default/LSaccessRightsMatrixView.tpl:20
+#: templates/default/LSaccessRightsMatrixView.tpl:37
+#: templates/default/LSaccessRightsMatrixView.tpl:72
+msgid "R"
+msgstr "L"
 
-#~ msgid "Global search"
-#~ msgstr "Recherche globale"
+#: templates/default/LSaccessRightsMatrixView.tpl:22
+#: templates/default/LSaccessRightsMatrixView.tpl:39
+#: templates/default/LSaccessRightsMatrixView.tpl:74
+msgid "R/W"
+msgstr "L/É"
 
-#~ msgid "Imported objects"
-#~ msgstr "Objets importés"
+#: templates/default/LSaccessRightsMatrixView.tpl:20
+#: templates/default/LSaccessRightsMatrixView.tpl:56
+msgid "Readable"
+msgstr "Lecture"
 
-#~ msgid "Legend:"
-#~ msgstr "Légende :"
+#: templates/default/LSaccessRightsMatrixView.tpl:22
+#: templates/default/LSaccessRightsMatrixView.tpl:58
+msgid "Readable / Writable"
+msgstr "Lecture / Écriture"
 
-#~ msgid "No imported object"
-#~ msgstr "Aucun objet importé"
+#: templates/default/top.tpl:63
+msgid "Refresh my access rights"
+msgstr "Rafraîchir mes droits d'accès"
 
-#~ msgid "No value"
-#~ msgstr "Aucune valeur"
+#: templates/default/LSaccessRightsMatrixView.tpl:53
+msgid "Relations / Profiles"
+msgstr "Relations / Profils"
 
-#~ msgid "Only validate data"
-#~ msgstr "Validation des données uniquement"
+#: templates/default/import.tpl:26
+msgid "Result"
+msgstr "Résultat"
 
-#~ msgid "R"
-#~ msgstr "L"
+#: templates/default/LSaccessRightsMatrixView.tpl:48
+msgid "Their relations with other objects"
+msgstr "Leurs relations avec les autres objets"
 
-#~ msgid "R/W"
-#~ msgstr "L/É"
+#: templates/default/LSaccessRightsMatrixView.tpl:83
+msgid "This object type has no configured relation."
+msgstr "Ce type d'objet n'a aucune relation de configurée."
 
-#~ msgid "Readable"
-#~ msgstr "Lecture"
+#: templates/default/import.tpl:15
+msgid "Update objects if exists"
+msgstr "Mise à jour des objets existants"
 
-#~ msgid "Readable / Writable"
-#~ msgstr "Lecture / Écriture"
+#: templates/default/import.tpl:80
+msgid "Updated objects"
+msgstr "Objets mis à jour"
 
-#~ msgid "Refresh my access rights"
-#~ msgstr "Rafraîchir mes droits d'accès"
+#: templates/default/import.tpl:21
+msgid "Valid"
+msgstr "Valider"
 
-#~ msgid "Relations / Profiles"
-#~ msgstr "Relations / Profils"
+#: templates/default/import.tpl:16 templates/default/import.tpl:19
+msgid "no"
+msgstr "non"
 
-#~ msgid "Result"
-#~ msgstr "Résultat"
-
-#~ msgid "Their relations with other objects"
-#~ msgstr "Leurs relations avec les autres objets"
-
-#~ msgid "This object type has no configured relation."
-#~ msgstr "Ce type d'objet n'a aucune relation de configurée."
-
-#~ msgid "Update objects if exists"
-#~ msgstr "Mise à jour des objets existants"
-
-#~ msgid "Updated objects"
-#~ msgstr "Objets mis à jour"
-
-#~ msgid "Valid"
-#~ msgstr "Valider"
-
-#~ msgid "no"
-#~ msgstr "non"
-
-#~ msgid "yes"
-#~ msgstr "oui"
+#: templates/default/import.tpl:16 templates/default/import.tpl:19
+msgid "yes"
+msgstr "oui"
 
 #~ msgid "Deleting"
 #~ msgstr "Suppression"
