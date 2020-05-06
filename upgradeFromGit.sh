@@ -1,5 +1,20 @@
 #!/bin/bash
 
+JUST_CLEAN=0
+while getopts ":jh" opt
+do
+    case "$opt" in
+        j)
+            JUST_CLEAN=1
+        ;;
+        h)
+            echo "Usage: $0 [-h] [-j]"
+            echo "  -j    Just clean (do not upgrade)"
+            echo "  -h    Show this message"
+            exit 0
+        ;;
+    esac
+done
 
 ROOT_DIR=$( cd `dirname $0`; pwd )
 LOCAL_SAV_DIR="$ROOT_DIR/config.local"
@@ -110,6 +125,16 @@ then
 fi
 msg "\t->[OK]" -e
 
+if [ $JUST_CLEAN -eq 1 ]
+then
+  msg "-> Just-clean mode : stop."
+  exit 0
+fi
+
+msg "-> Store MD5 sum of the upgrade script to detect update on it :"
+UPGRADE_SCRIPT_MD5=$( md5sum $0 )
+msg "\t->[OK]" -e
+
 msg "-> Upgrade git repos : "
 RES_GIT=`git pull`
 RES=$?
@@ -120,6 +145,16 @@ then
 	exit 1
 fi
 msg "\t-> [OK]" -e
+
+msg "-> Check change on upgrade script :"
+if [ "$UPGRADE_SCRIPT_MD5" != "$( md5sum $0 )"]
+then
+  msg "\t-> [WARNING] Changes detected on $0 script => Re-run it from start" -e
+  $0 $@
+  exit $?
+else
+  msg "\t-> [OK] No change detected on upgrade script."
+fi
 
 msg "-> Install local files : "
 for i in $LOCAL_FILES
