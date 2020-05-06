@@ -28,7 +28,7 @@
   <dd><input type='text' name='LSauth_user' /></dd>
   <dt>{$loginform_label_pwd|escape:"htmlall"}</dt>
   <dd><input type='password' name='LSauth_pwd' /></dd>
-  <dt class='LSlang_hidden'>{$lang_label|escape:"htmlall"}</dt>
+  <dt class='LSlang_hidden'>{tr msg="Language"}</dt>
   <dd class='LSlang_hidden'>
   <select name='lang'>
   {foreach from=$LSlanguages item=lang}
@@ -39,7 +39,7 @@
   <dd><input type='submit' value='{$loginform_label_submit|escape:"htmlall"}' /></dd>
 </dl>
 </form>
-<span>{$lang_label} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
+<span>{tr msg="Language"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
 <a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword LSsession_recoverPassword_hidden'>{$loginform_label_recoverPassword|escape:"htmlall"}</a>
 </div>
 {include file='ls:LSsession_js.tpl'}

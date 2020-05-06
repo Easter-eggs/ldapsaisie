@@ -57,10 +57,6 @@ class LSsession {
   // Les fichiers temporaires
   private static $tmp_file = array();
 
-  // Langue et encodage actuel
-  private static $lang = NULL;
-  private static $encoding = NULL;
-
   /*
    * Constante de classe non stockée en session
    */
@@ -402,162 +398,34 @@ class LSsession {
     return true;
   }
 
+
  /**
-  * Défini la locale
+  * Load and start LSlang, the I18N manager
   *
-  * @retval void
+  * @param[in] $lang string|null     The lang (optional, default: see LSlang :: setLocale())
+  * @param[in] $encoding string|null The encoding (optional, default: see LSlang :: setLocale())
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  *
+  * @retval boolean true if LSlang started, false otherwise
   */
-  public static function setLocale($lang=null,$encoding=null) {
-    if (is_null($lang)) {
-      if (isset($_REQUEST['lang'])) {
-        $lang = $_REQUEST['lang'];
-      }
-      elseif (isset($_SESSION['LSlang'])) {
-        $lang = $_SESSION['LSlang'];
-      }
-      elseif (isset(self :: $ldapServer['lang'])) {
-        $lang = self :: $ldapServer['lang'];
-      }
-      else {
-        $lang = LSconfig :: get('lang');
-      }
-    }
-
-    if (is_null($encoding)) {
-      if (isset($_REQUEST['encoding'])) {
-        $encoding = $_REQUEST['encoding'];
-      }
-      elseif (isset($_SESSION['LSencoding'])) {
-        $encoding = $_SESSION['LSencoding'];
-      }
-      elseif (isset(self :: $ldapServer['encoding'])) {
-        $encoding = self :: $ldapServer['encoding'];
-      }
-      else {
-        $encoding = LSconfig :: get('encoding');
-      }
-    }
-
-    $_SESSION['LSlang']=$lang;
-    self :: $lang=$lang;
-    $_SESSION['LSencoding']=$encoding;
-    self :: $encoding=$encoding;
-
-
-    if (self :: localeExist($lang,$encoding)) {
-      LSlog :: debug("LSsession :: setLocale() : Use local '$lang.$encoding'");
-      if ($encoding) {
-        $lang.='.'.$encoding;
-      }
-      // Gettext firstly look the LANGUAGE env variable, so set it
-      putenv("LANGUAGE=$lang");
-
-      // Set the locale
-      if (setlocale(LC_ALL, $lang) === false)
-        LSlog :: error("An error occured setting locale to '$lang'");
-      // Configure and set the text domain
-      $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR_PATH);
-      LSlog :: debug("Text domain fullpath is '$fullpath'.");
-      LSlog :: debug("Text domain is : ".textdomain(LS_TEXT_DOMAIN));
-
-      // Include local translation file
-      self :: includeFile(LS_I18N_DIR.'/'.$lang.'/lang.php');
-
-      // Include other local translation file(s)
-      foreach(array(LS_I18N_DIR_PATH.'/'.$lang, LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang) as $lang_dir) {
-        if (is_dir($lang_dir)) {
-          foreach (listFiles($lang_dir, '/^lang.+\.php$/') as $file) {
-            $path = "$lang_dir/$file";
-            LSlog :: debug("LSession :: setLocale() : Local '$lang.$encoding' : load translation file '$path'");
-            include($path);
-          }
-        }
-      }
-    }
-    else {
-      if ($encoding && $lang) {
-        $lang.='.'.$encoding;
-      }
-      LSlog :: error("The local '$lang' does not exists , use default one.");
-    }
-  }
-
- /**
-  * Retourne la liste des langues disponibles
-  *
-  * @retval array Tableau/Liste des langues disponibles
-  **/
-  public static function getLangList() {
-    $list=array('en_US');
-    if (self :: $encoding) {
-      $regex = '/^([a-zA-Z_]*)\.'.self :: $encoding.'$/';
-    }
-    else {
-      $regex = '/^([a-zA-Z_]*)$/';
-    }
-    foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir) {
-      if (!is_dir($lang_dir))
-      continue;
-      if ($handle = opendir($lang_dir)) {
-        while (false !== ($file = readdir($handle))) {
-          if(is_dir("$lang_dir/$file")) {
-            if (preg_match($regex, $file, $regs)) {
-              if (!in_array($regs[1], $list)) {
-                $list[]=$regs[1];
-              }
-            }
-          }
-        }
-      }
-    }
-    return $list;
-  }
-
- /**
-  * Retourne la langue courante de la session
-  *
-  * @param[in] boolean Si true, le code langue retourné sera court
-  *
-  * @retval string La langue de la session
-  **/
-  public static function getLang($short=false) {
-    if ($short) {
-      return strtolower(self :: $lang[0].self :: $lang[1]);
-    }
-    return self :: $lang;
-  }
-
- /**
-  * Vérifie si une locale est disponible
-  *
-  * @param[in] $lang string La langue (Ex : fr_FR)
-  * @param[in] $encoding string L'encodage de caractère (Ex : UTF8)
-  *
-  * @retval boolean True si la locale est disponible, False sinon
-  **/
-  public static function localeExist($lang, $encoding) {
-    if ( !$lang && !$encoding ) {
+  private static function startLSlang($lang=null, $encoding=null) {
+    if(!self :: loadLSclass('LSlang')) {
       return;
     }
-    $locale=$lang.(($encoding)?'.'.$encoding:'');
-    if ($locale == 'en_US.UTF8') {
-      return true;
-    }
-    foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir)
-      if (is_dir("$lang_dir/$locale"))
-        return true;
-    return false;
+    LSlang :: setLocale($lang, $encoding);
+    return true;
   }
 
  /**
-  * Initialisation LdapSaisie
+  * Initialize LdapSaisie
   *
-  * @param[in] $lang string La langue (Ex : fr_FR / Optionnel)
-  * @param[in] $encoding string L'encodage de caractère (Ex : UTF8 / Optionnel)
+  * @param[in] $lang string|null     The lang (optional, default: see LSlang :: setLocale())
+  * @param[in] $encoding string|null The encoding (optional, default: see LSlang :: setLocale())
   *
-  * @retval boolean True si l'initialisation à réussi, false sinon.
+  * @retval boolean True if initialized, false otherwise
   */
-  public static function initialize($lang=null,$encoding=null) {
+  public static function initialize($lang=null, $encoding=null) {
     if (self :: $initialized)
       return true;
     try {
@@ -574,7 +442,7 @@ class LSsession {
       if (php_sapi_name() != "cli")
         session_start();
 
-      self :: setLocale($lang,$encoding);
+      self :: startLSlang($lang, $encoding);
 
       self :: loadLSaddons();
       self :: loadLSauth();
@@ -1112,7 +980,7 @@ class LSsession {
     if ( is_array($conf) ) {
       self :: $ldapServerId = $id;
       self :: $ldapServer = $conf;
-      self :: setLocale();
+      LSlang :: setLocale();
       self :: setGlobals();
       return true;
     }
@@ -1557,10 +1425,9 @@ class LSsession {
       LStemplate :: assign('LSsession_subDnName',self :: getSubDnName());
     }
 
-    LStemplate :: assign('LSlanguages',self :: getLangList());
-    LStemplate :: assign('LSlang',self :: $lang);
-    LStemplate :: assign('LSencoding',self :: $encoding);
-    LStemplate :: assign('lang_label',_('Language'));
+    LStemplate :: assign('LSlanguages', LSlang :: getLangList());
+    LStemplate :: assign('LSlang', LSlang :: getLang());
+    LStemplate :: assign('LSencoding', LSlang :: getEncoding());
 
     LStemplate :: assign('displayLogoutBtn',LSauth :: displayLogoutBtn());
     LStemplate :: assign('displaySelfAccess',LSauth :: displaySelfAccess());

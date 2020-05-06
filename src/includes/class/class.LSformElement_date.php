@@ -164,7 +164,7 @@ class LSformElement_date extends LSformElement {
       );
       LSsession :: addJSconfigParam($this -> name, $params);
 
-      $codeLang = str_replace('_','-',preg_replace('/\..*$/','',LSsession :: getLang()));
+      $codeLang = str_replace('_','-',preg_replace('/\..*$/','', LSlang :: getLang()));
 
       LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.js');
       LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.Attach.js');

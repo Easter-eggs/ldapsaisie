@@ -50,7 +50,7 @@
       </ul>
     </td>
     <td id='status'>
-    <span>{$lang_label|escape:"htmlall"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
+    <span>{tr msg="Language"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
     <form action='' methode='post' style='display: none' class='LSlang_hidden'>
       <select name='lang'>
       {foreach from=$LSlanguages item=lang}

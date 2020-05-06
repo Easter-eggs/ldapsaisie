@@ -30,7 +30,7 @@
 {/if}
 
 <p id='recoverpassword_msg'>{$recoverpassword_msg|escape:"htmlall"}</p>
-<span>{$lang_label|escape:"htmlall"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
+<span>{tr msg="Language"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
 <a href='index.php' id='recoverpassword_back'>{$recoverpasswordform_label_back|escape:"htmlall"}</a>
 </div>
 {include file='ls:LSsession_js.tpl'}
