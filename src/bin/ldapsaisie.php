@@ -21,7 +21,7 @@
 
 ******************************************************************************/
 
-require_once realpath(dirname(__FILE__)."/../")."/core.php";
+require_once realpath(dirname(__FILE__)."/../")."/includes/core.php";
 
 if(LSsession :: startCliLSsession()) {
 
