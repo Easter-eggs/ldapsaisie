@@ -30,6 +30,9 @@ class LScli {
   // Configured commands
   private static $commands = array();
 
+  // Store current executed command
+  private static $current_command = null;
+
   /**
    * Add a CLI command
    *
@@ -87,6 +90,8 @@ class LScli {
     echo "Available commands :\n";
 
     foreach (self :: $commands as $command => $info) {
+      if (self :: $current_command and self :: $current_command != $command)
+        continue;
       echo "  $command : ".$info['short_desc']."\n";
       echo "    ".basename($argv[0])." $command ".($info['usage_args']?$info['usage_args']:'')."\n";
       if ($info['long_desc']) {
@@ -117,7 +122,7 @@ class LScli {
     for ($i=1; $i < count($argv); $i++) {
       if (array_key_exists($argv[$i], self :: $commands)) {
         if (!$command)
-                $command = $argv[$i];
+                self :: $current_command = $command = $argv[$i];
         else
                 self :: usage(_("Only one command could be executed !"));
       }
