@@ -1,135 +1,143 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <sect1 id="install-arbo">
   <title>Arborescence du projet</title>
-  
+
   <variablelist>
     <title>Racine</title>
-    
+
     <varlistentry>
       <term><filename>doc/</filename></term>
       <listitem>
         <simpara>Les fichiers sources de la documentation (docbook).</simpara>
       </listitem>
     </varlistentry>
-    
+
     <varlistentry>
       <term><filename>lsexample/</filename></term>
       <listitem>
         <simpara>Les fichiers relatifs à l'annuaire d'exemple.</simpara>
       </listitem>
     </varlistentry>
-    
-    <!-- Début - public_html -->
+
+    <!-- Début - src -->
     <varlistentry>
-      <term><filename>public_html/</filename></term>
+      <term><filename>src/</filename></term>
       <listitem>
-        <simpara>Racine Web.</simpara>
+        <simpara>Les sources de l'application.</simpara>
         <variablelist>
+          <varlistentry>
+            <term><filename>public_html/</filename></term>
+            <listitem>
+              <simpara>La racine web de l'application : celle-ci ne contient que les fichiers <literal>.htaccess</literal>
+              et <literal>index.php</literal> qui configure et déclenche la réécriture d'URL.</simpara>
+            </listitem>
+          </varlistentry>
+
           <!-- Début - conf -->
           <varlistentry>
             <term><filename>conf/</filename></term>
             <listitem>
               <simpara>Contient les fichiers de configuration.</simpara>
-              
+
               <!-- Début - conf - Sous dossiers-->
               <variablelist>
-              
+
                 <varlistentry>
                   <term><filename>LSobjects/</filename></term>
                   <listitem>
                     <simpara>Configuration des &LSobjects;.</simpara>
                   </listitem>
                 </varlistentry>
-                
+
                 <varlistentry>
                   <term><filename>LSaddons/</filename></term>
                   <listitem>
                     <simpara>Configuration des &LSaddons;.</simpara>
                   </listitem>
                 </varlistentry>
-                
+
                 <varlistentry>
                   <term><filename>LSauth/</filename></term>
                   <listitem>
                     <simpara>Configuration des &LSauthMethod;.</simpara>
                   </listitem>
                 </varlistentry>
-                
+
               </variablelist>
               <!-- Fin - conf - Sous dossiers -->
-              
+
             </listitem>
           </varlistentry>
           <!-- Fin - conf -->
-          
+
           <!-- Début - include -->
           <varlistentry>
             <term><filename>includes/</filename></term>
-            
+
             <listitem>
               <simpara>Contient les fichiers des ressources.</simpara>
-              
+
               <!-- Début - include - Sous dossiers-->
               <variablelist>
-              
+
                 <varlistentry>
                   <term><filename>addons/</filename></term>
                   <listitem>
                     <simpara>Les addons au projet.</simpara>
                   </listitem>
                 </varlistentry>
-                
+
                 <varlistentry>
                   <term><filename>class/</filename></term>
                   <listitem>
                     <simpara>Les fichiers de définition des classes &php;.</simpara>
                   </listitem>
                 </varlistentry>
-                
+
                 <varlistentry>
                   <term><filename>js/</filename></term>
                   <listitem>
                     <simpara>Les fichiers Javascript.</simpara>
                   </listitem>
                 </varlistentry>
-                
+
                 <varlistentry>
                   <term><filename>libs/</filename></term>
                   <listitem>
                     <simpara>Les librairies utilisées.</simpara>
                   </listitem>
                 </varlistentry>
-                
+
               </variablelist>
               <!-- Fin - include - Sous dossiers -->
-              
+
             </listitem>
           </varlistentry>
           <!-- Fin - include -->
-          
+
           <varlistentry>
             <term><filename>lang/</filename></term>
             <listitem>
               <simpara>Les fichiers d'internationalisation.</simpara>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term><filename>templates/</filename></term>
             <listitem>
-              <simpara>Les fichiers <emphasis>template</emphasis> de l'interface. 
+              <simpara>Les fichiers <emphasis>template</emphasis> de l'interface.
               Il y a un sous-dossier par template.</simpara>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term><filename>css/</filename></term>
             <listitem>
-              <simpara>Les fichiers css de l'interface. Il y a un sous-dossier par 
+              <simpara>Les fichiers css de l'interface. Il y a un sous-dossier par
               template CSS.</simpara>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term><filename>images/</filename></term>
             <listitem>
@@ -144,18 +152,18 @@
               <simpara>Les fichiers personnalisés de l'installation.</simpara>
             </listitem>
           </varlistentry>
-                   
+
           <varlistentry>
             <term><filename>tmp/</filename></term>
             <listitem>
               <simpara>Les fichiers temporaires (y compris le cache des templates).</simpara>
             </listitem>
           </varlistentry>
-          
+
         </variablelist>
       </listitem>
     </varlistentry>
-    <!-- Fin - public_html -->
-    
+    <!-- Fin - src -->
+
   </variablelist>
 </sect1>

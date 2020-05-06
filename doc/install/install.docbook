@@ -6,13 +6,28 @@
 <sect1>
   <title>Pré-requis</title>
   <itemizedlist>
-    <listitem><simpara>&php; 5 avec <parameter>magic_quotes_gpc</parameter> et <parameter>register_globals</parameter> à <literal>off</literal></simpara></listitem>
-    <listitem><simpara>Le support <application>LDAP</application> dans &php; (paquet <application>php5-ldap</application> dans <application>Debian</application>)</simpara></listitem>
-    <listitem><simpara>Le support <application>mhash</application> dans &php; (paquet <application>php5-mhash</application> dans <application>Debian Lenny</application>, intégré à <application>php5-common</application> dans <application>Debian Squeeze</application>)</simpara></listitem>
-    <listitem><simpara>Le support <application>json</application> dans &php; (<command>pear install pecl/json</command> sur <application>RedHat</application>, intégré au paquet <literal>php5-common</literal> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>Le service <application>Apache HTTP</application> avec le module <application>mod_rewrite</application>
+    d'activé. Les règles de réécriture d'URL sont définies dans le fichier <literal>.htaccess</literal> fourni avec
+    l'application et il est donc nécessaire d'autoriser une telle configuration à ce niveau via la directive
+    <literal>AllowOverride</literal> devant inclure à minima <literal>FileInfo</literal>.</simpara></listitem>
+    <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'. En cas
+    d'installation à partir du paquet Debian, ce dossier est remplacé par un lien symbolique vers le dossier
+    <emphasis>/var/cache/ldapsaisie/</emphasis>.</simpara></listitem>
+    <listitem><simpara>&php; 5.6 (ou supérieur) avec <parameter>magic_quotes_gpc</parameter> et
+    <parameter>register_globals</parameter> à <literal>off</literal>.L'outil CLI de <application>PHP</application> est
+    par ailleurs nécessaire pour l'utilisation des outils CLI fournis avec l'application (fourni par le paquet
+    <application>php-cli</application> dans <application>Debian</application>).</simpara></listitem>
+    <listitem><simpara>Le support <application>LDAP</application> dans &php; (paquet <application>php-ldap</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>Le support <application>mhash</application> dans &php; (paquet <application>php5-mhash</application> dans <application>Debian Lenny</application>, intégré à <application>php-common</application> dans les versions supérieurs)</simpara></listitem>
+    <listitem><simpara>Le support <application>json</application> dans &php; (<command>pear install pecl/json</command> sur <application>RedHat</application>, intégré au paquet <literal>php5-common</literal> précédement)</simpara></listitem>
     <listitem><simpara>&netldap; (paquet <application>php-net-ldap2</application> dans <application>Debian</application> ou <command>pear install net_ldap2</command>)</simpara></listitem>
-    <listitem><simpara>&smarty; (paquet <application>smarty</application> dans <application>Debian</application>)</simpara></listitem>
-    <listitem><simpara>L'utisateur exécutant le serveur web doit avoir les droits d'écriture sur le dossier 'tmp'. En cas d'installation à partir du paquet Debian, ce dossier est remplacé par un lien symbolique vers le dossier <emphasis>/var/cache/ldapsaisie/</emphasis>.</simpara></listitem>
+    <listitem><simpara>Le support <application>mbstring</application> dans &php; (paquet <application>php-mbstring</application> depuis <application>Debian Stretch</application>, intégré au paquet <literal>php-common</literal> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>&smarty; (paquet <application>smarty3</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>La librairie &PEAR_PearFile_CSV_DataSource; (paquet <application>php-file-csv-datasource</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>La librairie &PEAR_Console_Table; (nécessaire pour le fonctionnement de l'outil CLI, paquet <application>php-console-table</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>Les librairies &PEAR_Mail; et &PEAR_Mail_Mime; (nécessaire pour l'envoi de courriels, paquets <application>php-mail</application> et <application>php-mail-mime</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>La librairie &PEAR_Net_FTP; (nécessaire pour le fonctionnement du &LSaddon; FTP, paquet <application>php-console-table</application> dans <application>Debian</application>)</simpara></listitem>
+    <listitem><simpara>La librairie &PhpSecLib; (nécessaire pour le fonctionnement du &LSaddon; SSH, paquet <application>php-console-table</application> dans <application>Debian</application>)</simpara></listitem>
   </itemizedlist>
   <warning><simpara>La librairie &netldap; oblige le fait que la racine DSE de
   l'annuaire soit lisible en anonyme sinon la connexion à l'annuaire échouera
@@ -40,39 +55,39 @@
     dans votre fichier <emphasis>/etc/apt/sources.list</emphasis> :
     <screen>
       <command>deb http://ldapsaisie.easter-eggs.org/debian stable main</command>
-    </screen> 
+    </screen>
     Il ne vous restera ensuite plus qu'a installer le paquet <emphasis>ldapsaisie
     </emphasis> avec la commande suivante :
     <screen>
       <command>apt-get install ldapsaisie</command>
-    </screen> 
+    </screen>
     Le fichier <emphasis>/etc/ldapsaisie/apache.conf</emphasis> est un example de
     configuration du serveur web Apache. La configuration du logiciel ce fera ensuite
     dans le dossier <emphasis>/etc/ldapsaisie/local/</emphasis>.
     </para>
   </sect2>
-  
+
   <sect2>
     <title>A partir de Git</title>
     <para>Le dépôt Git peut être récupéré anonymement en utilisant la
     commande suivante :
     <screen>
       <command>git clone git://git.labs.libre-entreprise.org/ldapsaisie.git</command>
-    </screen> 
+    </screen>
     La racine web de l'application se trouvera alors dans le dossier <emphasis>
-    /ldapsaisie/public_html/</emphasis>.
+    /ldapsaisie/src/public_html/</emphasis>.
     </para>
   </sect2>
 
   <sect2>
     <title>A partir des snapshot</title>
     <para>Toutes les nuits, un snapshot de l'arbre Git est réalisé et est
-    téléchargeable au format <emphasis>tar.gz</emphasis> à l'adresse suivante : 
+    téléchargeable au format <emphasis>tar.gz</emphasis> à l'adresse suivante :
     <ulink url='http://ldapsaisie.easter-eggs.org/download/ldapsaisie-snapshoot.tar.gz'>
     http://ldapsaisie.easter-eggs.org/download/ldapsaisie-snapshoot.tar.gz</ulink>
     </para>
   </sect2>
-  
+
 </sect1>
 
 &install-arbo;
@@ -82,54 +97,53 @@
   <para>Cette section décrit les différentes étapes de l'installation de
   LdapSaisie. Deux méthodes d'installation sont présentées ici, l'une à
   partir des sources du projet et l'autre à partir du paquet Debian.</para>
-  
-  <para>Dans ce tutoriel, nous partirons du principe que vous avez 
+
+  <para>Dans ce tutoriel, nous partirons du principe que vous avez
   pleinement la main sur votre serveur (installation de nouveau paquet et
-  configuration de votre serveur web) et que l'installation à partir des sources
-  se fera dans le dossier <literal>/var/www/ldapsaisie</literal>. Nous partons
-  également du principe que votre annuaire LDAP est déjà en place. Nous
-  utiliserons pour cette exemple de mise ne oeuvre l'annuaire correspondant
-  au schéma et à la configuration présente dans les sources du projet dans
-  le dossier <literal>lsexample</literal>.</para>
-  
+  configuration de votre serveur web). Nous partons également du principe que
+  votre annuaire LDAP est déjà en place. Nous utiliserons pour cette exemple
+  de mise ne oeuvre l'annuaire correspondant au schéma et à la configuration
+  présente dans les sources du projet dans le dossier
+  <literal>lsexample</literal>.</para>
+
 <orderedlist>
   <listitem>
   <para>La première étape consiste à installer le locigiel en tant que tel.
-  Pour une installation à partir du paquet Debian référez vous au chapitre
-  <link linkend="install-from-git">Téléchargement</link>. Une fois le paquet
-  Debian, la configuration du logiciel se fera dans le dossier
-  <emphasis>/etc/ldapsaisie/local/</emphasis>. Les fichiers placés dans ce
-  dossier prévaleront toujours aux fichiers fournis par le paquet Debian,
-  vous permettant facilement de modifier un composant existant ou dans écrire
-  de nouveaux. Ainsi, pour modifier un fichier CSS par exemple, il vous
-  suffira de le placer dans le dossier
+  Pour cela, référez vous au chapitre <link linkend="install-download">
+  Téléchargement</link>.</para>
+  <para>En cas d'installation à partir du paquet Debian, la configuration
+  du logiciel se fera dans le dossier <emphasis>/etc/ldapsaisie/local/</emphasis>.
+  Les fichiers placés dans ce dossier prévaleront toujours aux fichiers fournis
+  par le paquet Debian, vous permettant facilement de modifier un composant
+  existant ou dans écrire de nouveaux. Ainsi, pour modifier un fichier CSS par
+  exemple, il vous suffira de le placer dans le dossier
   <emphasis>/etc/ldapsaisie/local/css/</emphasis>.</para>
 
-  <para>Pour une installation à partir du code source, il vous faut
-  cloner le repos Git. Pour cela il vous faut avoir installés les outils de Git 
-  contenu, dans Debian, dans le paquet <literal>git-core</literal>. Le
-  dépôt Git doit ensuite être récupéré anonymement en utilisant la
-  commande suivante :
+  <para>Pour une installation à partir du code source, il vous faut cloner le dépôt Git
+  du projet dans le dossier <literal>/var/www/ldapsaisie</literal>. Pour cela il vous
+  faut avoir installés les outils de Git contenu, dans Debian, dans le paquet
+  <literal>git-core</literal>. Le dépôt Git doit ensuite être récupéré anonymement en
+  utilisant la commande suivante :
   <screen>
-    <command>git clone git://git.labs.libre-entreprise.org/ldapsaisie.git</command>
+    <command>git clone https://gitlab.easter-eggs.com/ee/ldapsaisie.git /var/www/ldapsaisie</command>
   </screen>
   <note><simpara>Pour que cette commande se déroule correctement, vous devez avoir
-  accès au port TCP 9418 du serveur git.labs.libre-entreprise.org. En cas de problème
-  vérifiez votre firewalling.</simpara></note>
+  accès au port TCP 443 du serveur <literal>gitlab.easter-eggs.com</literal>. En cas
+  de problème vérifiez votre parefeu.</simpara></note>
   La suite des opérations se déroulera donc maintenant dans le dossier
   <literal>/var/www/ldapsaisie</literal>. Pour avoir plus de détails sur
-  les élements qu'on retrouve dans ce dossier, vous pouvez consulter 
-  <link linkend="install-arbo">la section concernée</link>. Nous allons 
+  les élements qu'on retrouve dans ce dossier, vous pouvez consulter
+  <link linkend="install-arbo">la section concernée</link>. Nous allons
   nous instérésser plus particulièrement :
   <itemizedlist>
     <listitem><simpara>au script <literal>upgradeFromGit.sh</literal>
     permettant la mise à jour de votre repos tout en concervant les adaptations
     que nous ferons pour l'usage d'LdapSaisie adapté à notre annuaire ;</simpara>
     </listitem>
-    <listitem><simpara>au dossier <literal>config.local</literal> dans 
+    <listitem><simpara>au dossier <literal>config.local</literal> dans
     lequel seront stockés vos fichiers et vos adaptations de l'application ;
     </simpara></listitem>
-    <listitem><simpara>au dossier <literal>public_html</literal> qui
+    <listitem><simpara>au dossier <literal>src/public_html</literal> qui
     correspond à la futur racine du site web de l'application.</simpara>
     </listitem>
   </itemizedlist>
@@ -142,17 +156,17 @@
   <literal>local.sh</literal> en copiant le fichier d'example
   <literal>local.sh.example</literal>. Ce fichier est un script bash
   déclarant les variables de configurations suivantes :
-  
+
 <variablelist>
-  
+
 <varlistentry>
   <term>LOCAL_FILES</term>
   <listitem>
     <simpara>La liste des chemins des fichiers à installer dans l'arboressence
     du site. Cette élément doivent être séparés par des espaces ou des
     retour à la liste. Exemple :</simpara>
-<programlisting>public_html/conf/config.inc.php
-public_html/lang/fr_FR.UTF8/lang.php</programlisting>
+<programlisting>conf/config.inc.php
+lang/fr_FR.UTF8/lang.php</programlisting>
   </listitem>
 </varlistentry>
 
@@ -192,19 +206,19 @@ concerne uniquement la compilation de la documentation. Elle peuvent
 la variable bash <literal>$ROOT_DIR</literal> correspondant au chemin
 du dossier d'installation, c'est à dire dans notre exemple
 <literal>/var/www/ldapsaisie</literal>.</simpara></note>
-  
+
   </para>
   </listitem>
-  
+
   <listitem><simpara>La deuxième étape concerne la configuration globale
   de l'application : Cette partie est principalement contenue dans le
-  fichier <emphasis>conf/config.inc.php</emphasis> (ou
+  fichier <emphasis>src/conf/config.inc.php</emphasis> (ou
   <emphasis>/etc/ldapsaisie/local/conf/config.inc.php</emphasis> en cas
   d'installation à partir du paquet Debian). En cas d'installation à partir
   du code source, il faut donc dans un premier temps copier ce fichier dans
   le dossier <literal>config.local</literal> et le déclarer dans la liste
   des fichiers à déployer lors des mises à jour
-  (variable <literal>LOCAL_FILES</literal> dans le fichier 
+  (variable <literal>LOCAL_FILES</literal> dans le fichier
   <literal>local.sh</literal>). Il s'agit en particulier dans ce fichier
   de configurer la connexion à votre annuaire. Vous pouvez vous inspirer
   du fichier d'exemple fourni et pour plus de détails, reportez-vous à
@@ -213,20 +227,20 @@ du dossier d'installation, c'est à dire dans notre exemple
   <note><simpara>Notez qu'il est possible de passer l'application en mode
   <emphasis>debug</emphasis> ce qui peut être utile par la suite.</simpara></note>
   </listitem>
-  
+
   <listitem><simpara>La troisième étape concerne la configuration des
   types de &LSobjects; : Chaque type d'objet manipulé par LdapSaisie doit
   correspondre avec un type de LSobject.</simpara>
-    
+
     <orderedlist>
-    
-    <listitem><para>Création du fichier de classe : Ce fichier contient la 
+
+    <listitem><para>Création du fichier de classe : Ce fichier contient la
     déclaration de la classe PHP correspondant au type de LSobject. Cette classe
     étend la classe <emphasis>LSldapObject</emphasis> qui contient pour ainsi dire
     toute les méthodes et proprités nécessaires pour les types de LSobject simples
     (sans &LSrelation;). Les fichiers des classes sont contenus dans le dossier
-    <emphasis>/includes/class/</emphasis> et portent les noms composés de la 
-    manière suivante : 
+    <emphasis>/includes/class/</emphasis> et portent les noms composés de la
+    manière suivante :
     <programlisting>class.LSobjects.[nom du type d'LSobject].php</programlisting>
     Le plus simple pour cette étape est de copier un des fichiers d'exemple afin
     de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier.
@@ -235,56 +249,56 @@ du dossier d'installation, c'est à dire dans notre exemple
     ayant des &LSrelations; à gérer, le fichier de classe <emphasis>LSgroup
     </emphasis> contient déjà les méthodes nécéssaires pour gérer ces cas.
     </para></listitem>
-    
+
     <listitem><simpara>Configurer vos LSobject : Cette partie est certainement la
     plus longue et consiste à déclarer l'ensemble des informations relatives aux
     types des objets LDAP manipulés. Les fichiers d'exemples fournis vous seront
     alors d'une aide précieuse. basé vous sur l'un de pour créer le votre. Pour
     cela le fichier de configuration du type d'LSobjet <emphasis>LSpeople</emphasis>
     est le plus complet et est un bon point de départ. Pour plus de détails sur les
-    élements de configuration de ce fichier, reportez-vous à 
+    élements de configuration de ce fichier, reportez-vous à
     <link linkend="config-LSobject">la section concernée</link>.</simpara>
     </listitem>
-    
+
     <listitem><simpara>Configurer si nécessaire les relations entre les objets
     appelés &LSrelations;. Cette opération consiste dans un premier temps à écrire
     les méthodes PHP nécessaires pour gérer ces relations : pour cela regardez le
     fichier de classe du type <emphasis>LSgroup</emphasis>. Il faudra ensuite
     déclarer ces relations dans la configuration des types d'LSobjects : Pour plus
-    de détails, reportez-vous à <link linkend="config-LSobject-LSrelation">la 
+    de détails, reportez-vous à <link linkend="config-LSobject-LSrelation">la
     section concernée</link>.</simpara>
     </listitem>
-    
+
   </orderedlist>
-  
+
   <important><simpara>En cas d'installation à partir du code source, pensez à déclarer
   les fichiers que vous venez de créer dans la variable <literal>LOCAL_FILES</literal>
   du fichier <literal>local.sh</literal>. Exemple pour le type d'LSobjet portant comme
   nom <literal>LSexample</literal> :</simpara>
-<programlisting>public_html/conf/LSobjects/config.LSobjects.LSexample.php
-public_html/includes/class/class.LSobjects.LSexample.php</programlisting>
+<programlisting>src/conf/LSobjects/config.LSobjects.LSexample.php
+src/includes/class/class.LSobjects.LSexample.php</programlisting>
   </important>
-  
+
   <note><simpara>Vous pouvez également personnaliser l'interface : Il est
   possible de personnaliser à votre goût l'interface en écrivant votre
   template ou en modifiant simplement les fichiers CSS. Une partie de
   cette documentation concernera bientôt cette problématique. Patience...
   </simpara></note>
-  
+
   </listitem>
-  
+
   <listitem><simpara>En cas d'installation à partir du code source, une dernière
   étape à ce niveau consiste à lancer le script <literal>upgradeFromGit.sh</literal>
   pour qu'il installe les fichiers que vous venez de créer. Ce script est conçu pour
   dire tout ce qu'il fait donc en cas de problème vous devriez rapidement comprendre
-  où cela coince. Dans tout les cas, n'hésitez pas à poser vos questions à la 
+  où cela coince. Dans tout les cas, n'hésitez pas à poser vos questions à la
   communauté sur la liste <email>ldapsaisie-users@lists.labs.libre-entreprise.org</email>.
   </simpara></listitem>
-  
+
 </orderedlist>
 
 
 
 </sect1>
- 
+
 </chapter>

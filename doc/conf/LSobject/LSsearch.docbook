@@ -3,7 +3,7 @@
   <para>Cette section décrit la manière de paramétrer les recherches dans
   l'annuaire pour un type d'&LSobject; donné.</para>
 
-<para>La configuration des <emphasis>LSsearch</emphasis> se situe dans la 
+<para>La configuration des <emphasis>LSsearch</emphasis> se situe dans la
 configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
 (<emphasis>$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSsearch']</emphasis>).
 <programlisting>
@@ -148,10 +148,10 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
 les paramètres qui seront utilisés pour initialisé une recherche. Ces paramètres
 pourront être redéfini par l'utilisateur ou par l'application en fonction du
 contexte dans lequel cette recherche est effectuée.</para>
-    
+
     <variablelist>
     <title>Paramètres de configuration</title>
-    
+
 <varlistentry>
   <term>pattern</term>
   <listitem>
@@ -264,7 +264,7 @@ contexte dans lequel cette recherche est effectuée.</para>
 </varlistentry>
 
     </variablelist>
-    
+
   </listitem>
 </varlistentry>
 
@@ -274,7 +274,7 @@ contexte dans lequel cette recherche est effectuée.</para>
     <para>Tableau associatif contenant des filtres prédéfinis pour la recherche.
     Les clés sont les filtres au format LDAP et les valeurs sont les labels associés.</para>
   </listitem>
-</varlistentry> 
+</varlistentry>
 
 <varlistentry>
   <term>extraDisplayedColumns</term>
@@ -445,8 +445,9 @@ contexte dans lequel cette recherche est effectuée.</para>
   <term>icon</term>
   <listitem>
     <simpara>Nom de l'îcone à afficher dans le bouton de l'action. Ce nom correspond
-    au nom du fichier de l'image (sans l'extention) qui devra se trouver dans le 
-    dossier <emphasis>/public_html/images/[nom du theme d'images]/</emphasis>.</simpara>
+    au nom du fichier de l'image (sans l'extention) qui devra se trouver dans le
+    dossier <emphasis>/src/images/[nom du theme d'images]/</emphasis> ou dans le dossier
+    <emphasis>src/local/images</emphasis>.</simpara>
   </listitem>
 </varlistentry>
 
@@ -455,7 +456,7 @@ contexte dans lequel cette recherche est effectuée.</para>
   <listitem>
     <simpara>Le nom de la fonction à exécuter qui implémente l'action personnalisée
     Cette fonction prendra en seule paramètre l'objet &LSsearch; sur lequel l'action
-    devra être exécutée et retournera <emphasis>True</emphasis> en cas de succès ou 
+    devra être exécutée et retournera <emphasis>True</emphasis> en cas de succès ou
     <emphasis>False</emphasis> en cas d'échec d'exécution de la fonction.</simpara>
   </listitem>
 </varlistentry>
