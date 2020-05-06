@@ -2256,8 +2256,8 @@ class LSsession {
    **/
   public static function getTmpFileURL($value) {
     $path = self :: getTmpFile($value);
-    if (substr($path, 0, strlen(LS_ROOT_DIR)) == LS_ROOT_DIR)
-      return substr($path, strlen(LS_ROOT_DIR)+1);
+    if ($path && is_file($path))
+      return "tmp/".basename($path);
     return False;
   }
 
