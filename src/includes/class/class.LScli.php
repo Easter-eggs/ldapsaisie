@@ -208,7 +208,7 @@ class LScli {
    * @param[in] $error string|false Error message to display before usage message (optional, default: false)
    * @retval void
    **/
-  public function run_command($command, $command_args=array(), $exit=true) {
+  public static function run_command($command, $command_args=array(), $exit=true) {
     if (php_sapi_name() != "cli") {
       LSlog :: fatal('Try to use LScli :: run_command() in non-CLI context.');
       return;
@@ -226,7 +226,7 @@ class LScli {
     }
 
     // Run command
-    LSlog :: debug('Run '.basename($argv[0])." command $command with argument(s) '".implode("', '", $command_args)."'");
+    LSlog :: debug("Run command $command with argument(s) '".implode("', '", $command_args)."'");
     try {
       $result = call_user_func(self :: $commands[$command]['handler'], $command_args);
 
