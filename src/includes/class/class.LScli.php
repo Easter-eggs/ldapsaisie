@@ -67,7 +67,7 @@ class LScli {
       'need_ldap_con' => boolval($need_ldap_con),
     );
     return True;
-	}
+  }
 
   /**
    * Show usage message
@@ -203,10 +203,13 @@ class LScli {
   }
 
   /**
-   * Run usage message
+   * Run command
    *
-   * @param[in] $error string|false Error message to display before usage message (optional, default: false)
-   * @retval void
+   * @param[in] $command string The command name
+   * @param[in] $command string The command arguments (optional, default: array())
+   * @param[in] $exit boolean   If true, function will exit after command execution (optional, default: true)
+   *
+   * @retval void|boolean If $exit is False, return boolean casted command return
    **/
   public static function run_command($command, $command_args=array(), $exit=true) {
     if (php_sapi_name() != "cli") {
