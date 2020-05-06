@@ -245,6 +245,54 @@ class LScli {
     return false;
   }
 
+  /**
+   * Run external command
+   *
+   * @param[in] $command              string|array  The command. It's could be an array of the command with its arguments.
+   * @param[in] $data_stdin           string|null   The command arguments (optional, default: null)
+   * @param[in] $escape_command_args  boolean       If true, the command will be escaped (optional, default: true)
+   *
+   * @retval false|array An array of return code, stdout and stderr result or False in case of fatal error
+   **/
+  public static function run_external_command($command, $data_stdin=null, $escape_command_args=true) {
+    if (array($command))
+      $command = implode(' ', $command);
+    if ($escape_command_args)
+      $command = escapeshellcmd($command);
+    LSlog :: debug("Run external command: '$command'");
+    $descriptorspec = array(
+      0 => array("pipe", "r"),  // stdin
+      1 => array("pipe", "w"),  // stdout
+      2 => array("pipe", "w"),  // stderr
+    );
+    $process = proc_open($command, $descriptorspec, $pipes);
+
+    if (!is_resource($process)) {
+      LSlog :: error("Fail to run external command: '$command'");
+      return false;
+    }
+
+    if (!is_null($data_stdin)) {
+      fwrite($pipes[0], $data_stdin);
+    }
+    fclose($pipes[0]);
+
+    $stdout = stream_get_contents($pipes[1]);
+    fclose($pipes[1]);
+
+    $stderr = stream_get_contents($pipes[2]);
+    fclose($pipes[2]);
+
+    $return_value = proc_close($process);
+
+    if (!empty($stderr) || $return_value != 0)
+      LSlog :: error("Externan command error:\nCommand : $command\nStdout :\n$stdout\n\n - Stderr :\n$stderr");
+    else
+      LSlog :: debug("Externan command result:\n\tCommand : $command\n\tReturn code: $return_value\n\tOutput:\n\t\t- Stdout :\n$stdout\n\n\t\t- Stderr :\n$stderr");
+
+    return array($return_value, $stdout, $stderr);
+  }
+
 }
 
 /*
