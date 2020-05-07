@@ -277,7 +277,7 @@ class LSsession {
       return true;
     if($type)
       $class = "$type.$class";
-    if (self :: includeFile(LS_CLASS_DIR .'class.'.$class.'.php'))
+    if (self :: includeFile(LS_CLASS_DIR .'class.'.$class.'.php', false, $warn))
       return true;
     if ($warn)
       LSerror :: addErrorCode('LSsession_05', $class);
