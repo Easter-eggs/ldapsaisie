@@ -345,7 +345,12 @@ class LSsession {
   */
   public static function loadLSaddon($addon) {
     if(self :: includeFile(LS_ADDONS_DIR .'LSaddons.'.$addon.'.php')) {
-      self :: includeFile(LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php");
+      // Load LSaddon config file (without warning if not found)
+      $conf_file = LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php";
+      if (self :: includeFile($conf_file, false, false))
+        LSlog :: debug("LSsession :: loadLSaddon($addon): config file '$conf_file' loaded.");
+      else
+        LSlog :: debug("LSsession :: loadLSaddon($addon): config file '$conf_file' not found.");
       if (!call_user_func('LSaddon_'. $addon .'_support')) {
         LSerror :: addErrorCode('LSsession_02',$addon);
         return;
