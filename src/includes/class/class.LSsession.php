@@ -97,37 +97,49 @@ class LSsession {
   private static $initialized = false;
 
  /**
-  * Include un fichier PHP
+  * Include PHP file
   *
+  * @param[in] $file      string  The path to the file to include :
+  *                               - if $external == false : the path must be relative to LS_ROOT_DIR
+  *                               - if $external == true : the path could be absolute or relative. If
+  *                                 relative, it will be treated with PHP include path.
+  * @param[in] $external  boolean If true, file consided as external (optional, default: false)
+  * @param[in] $warn      boolean If true, a warning will be log if file not found (optional, default: true)
+  *                               This warning will be emit using LSlog if it's already loaded or error_log()
+  *                               otherwise.
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval true si tout c'est bien passé, false sinon
+  * @retval boolean True if file is loaded, false otherwise
   */
-  public static function includeFile($file, $external=false) {
+  public static function includeFile($file, $external=false, $warn=true) {
     $path = ($external?'':LS_ROOT_DIR."/").$file;
     $local_path = ($external?'':LS_ROOT_DIR."/").LS_LOCAL_DIR.$file;
     $path = (file_exists($local_path)?$local_path:$path);
     if ($path[0] != '/') {
       $found = stream_resolve_include_path($path);
       if ($found === false) {
+        if (!$warn)
+          return false;
         $log_msg = "includeFile($file, external=$external) : file $path not found in include path.";
         if (class_exists('LSlog'))
           LSlog :: warning($log_msg);
         else
           error_log($log_msg);
-        return;
+        return false;
       }
       else {
         $path = $found;
       }
     }
     else if (!file_exists($path)) {
+      if (!$warn)
+        return false;
       $log_msg = "includeFile($file, external=$external) : file not found ($local_path / $path)";
       if (class_exists('LSlog'))
         LSlog :: warning($log_msg);
       else
         error_log($log_msg);
-      return;
+      return false;
     }
     return include_once($path);
   }
