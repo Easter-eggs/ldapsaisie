@@ -44,7 +44,7 @@ function handle_index($request) {
   // Display template
   LSsession :: displayTemplate();
 }
-LSurl :: add_handler('#^(index\.php)?$#', 'handle_index', true);
+LSurl :: add_handler('#^(index\.php|index)?$#', 'handle_index', true);
 
 /*
  * Handle ajax keepLSsession request
