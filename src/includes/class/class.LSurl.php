@@ -173,6 +173,30 @@ class LSurl {
   }
 
   /**
+   * Get the public absolute URL
+   *
+   * @param[in] $relative_url string|null Relative URL to convert (Default: current URL)
+   *
+   * @retval string The public absolute URL
+   **/
+  public static function get_public_absolute_url($relative_url=null) {
+    if (!is_string($relative_url))
+      $relative_url = self :: get_current_url();
+
+    $public_root_url = LSconfig :: get('public_root_url', '/', 'string');
+
+    if ($public_root_url[0] == '/') {
+      LSlog :: debug("LSurl :: get_public_absolute_url($relative_url): configured public root URL is relative ($public_root_url) => try to detect it from current request infos.");
+      $public_root_url = 'http'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'?'s':'').'://'.$_SERVER['HTTP_HOST'].$public_root_url;
+      LSlog :: debug("LSurl :: get_public_absolute_url($relative_url): detected public_root_url: $public_root_url");
+    }
+
+    $url = self :: remove_trailing_slash($public_root_url)."/$relative_url";
+    LSlog :: debug("LSurl :: get_public_absolute_url($relative_url): result = $url");
+    return $url;
+  }
+
+  /**
    * Trigger redirect to specified URL (or homepage if omited)
    *
    * @param[in] $go string|false The destination URL
