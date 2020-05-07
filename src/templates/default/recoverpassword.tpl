@@ -16,22 +16,22 @@
 <img src='{img name='logo'}' alt='Logo' id='recoverpasswordform_logo' />
 <div id='loading_zone'></div>
 {if $recoverpassword_step == 'start'}
-<form action='{$recoverpasswordform_action}' method='post'>
+<form action='index?LSsession_recoverPassword' method='post'>
 <dl class='recoverpasswordform'>
-  <dt {$recoverpasswordform_ldapserver_style}>{$recoverpasswordform_label_ldapserver|escape:"htmlall"}</dt>
-  <dd {$recoverpasswordform_ldapserver_style}>
-    <select name='LSsession_ldapserver' id='LSsession_ldapserver'>{html_options values=$recoverpasswordform_ldapservers_index output=$recoverpasswordform_ldapservers_name selected=$ldapServerId}</select>
+  <dt {if count($ldapservers) <= 1}style="display: none"{/if}>{tr msg="LDAP server"}</dt>
+  <dd {if count($ldapservers) <= 1}style="display: none"{/if}>
+    <select name='LSsession_ldapserver' id='LSsession_ldapserver'>{html_options options=$ldapservers selected=$ldapServerId}</select>
   </dd>
-  <dt>{$recoverpasswordform_label_user|escape:"htmlall"}</dt>
+  <dt>{tr msg="Identifier"}</dt>
   <dd><input type='text' name='LSsession_user' /></dd>
-  <dd><input type='submit' value='{$recoverpasswordform_label_submit|escape:"htmlall"}' /></dd>
+  <dd><input type='submit' value='{tr msg="Validate"|escape:"quotes"}' /></dd>
 </dl>
 </form>
 {/if}
 
 <p id='recoverpassword_msg'>{$recoverpassword_msg|escape:"htmlall"}</p>
 <span>{tr msg="Language"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
-<a href='' id='recoverpassword_back'>{$recoverpasswordform_label_back|escape:"htmlall"}</a>
+<a href='' id='recoverpassword_back'>{tr msg="Back"}</a>
 </div>
 {include file='ls:LSsession_js.tpl'}
 </body>

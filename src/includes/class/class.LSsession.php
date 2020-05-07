@@ -602,10 +602,10 @@ class LSsession {
         }
 
         if (isset($_GET['LSsession_recoverPassword'])) {
-          $recoveryPasswordInfos = self :: recoverPasswd(
-                                      $_REQUEST['LSsession_user'],
-                                      $_GET['recoveryHash']
-                                   );
+          $recoveryPasswordInfos = self :: recoverPasswd (
+            (isset($_REQUEST['LSsession_user'])?$_REQUEST['LSsession_user']:''),
+            (isset($_GET['recoveryHash'])?$_GET['recoveryHash']:'')
+          );
         }
         else {
           $LSuserObject = LSauth :: forceAuthentication();
@@ -778,18 +778,10 @@ class LSsession {
     }
 
     if ($step==1) {
-      if ($_SERVER['HTTPS']=='on') {
-        $recovery_url='https://';
-      }
-      else {
-        $recovery_url='http://';
-      }
-      $recovery_url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'&recoveryHash='.$info;
-
       $subject = self :: $ldapServer['recoverPassword']['recoveryHashMail']['subject'];
       $msg = getFData(
         self :: $ldapServer['recoverPassword']['recoveryHashMail']['msg'],
-        $recovery_url
+        LSurl :: get_public_absolute_url('index')."?LSsession_recoverPassword&recoveryHash=$info"
       );
     }
     else {
@@ -1200,32 +1192,12 @@ class LSsession {
   * @retval void
   */
   public static function displayLoginForm() {
-    LStemplate :: assign('pagetitle',_('Connection'));
-    if (isset($_GET['LSsession_logout'])) {
-      LStemplate :: assign('loginform_action', '');
-    }
-    else {
-      LStemplate :: assign('loginform_action',$_SERVER['REQUEST_URI']);
-    }
-    if (count(LSconfig :: get('ldap_servers'))==1) {
-      LStemplate :: assign('loginform_ldapserver_style','style="display: none"');
-    }
-    LStemplate :: assign('loginform_label_ldapserver',_('LDAP server'));
-    $ldapservers_name=array();
-    $ldapservers_index=array();
-    foreach(LSconfig :: get('ldap_servers') as $id => $infos) {
-      $ldapservers_index[]=$id;
-      $ldapservers_name[]=__($infos['name']);
-    }
-    LStemplate :: assign('loginform_ldapservers_name',$ldapservers_name);
-    LStemplate :: assign('loginform_ldapservers_index',$ldapservers_index);
-
-    LStemplate :: assign('loginform_label_level',_('Level'));
-    LStemplate :: assign('loginform_label_user',_('Identifier'));
-    LStemplate :: assign('loginform_label_pwd',_('Password'));
-    LStemplate :: assign('loginform_label_submit',_('Connect'));
-    LStemplate :: assign('loginform_label_recoverPassword',_('Forgot your password ?'));
-
+    LStemplate :: assign('pagetitle', _('Connection'));
+    $ldapservers = array();
+    foreach(LSconfig :: get('ldap_servers') as $id => $infos)
+      $ldapservers[$id] = __($infos['name']);
+    LStemplate :: assign('ldapservers', $ldapservers);
+    LStemplate :: assign('ldapServerId', (self :: $ldapServerId?self :: $ldapServerId:0));
     self :: setTemplate('login.tpl');
     self :: addJSscript('LSsession_login.js');
   }
@@ -1242,26 +1214,13 @@ class LSsession {
   * @retval void
   */
   public static function displayRecoverPasswordForm($recoveryPasswordInfos) {
-    LStemplate :: assign('pagetitle',_('Recovery of your credentials'));
-    LStemplate :: assign('recoverpasswordform_action','?LSsession_recoverPassword');
+    LStemplate :: assign('pagetitle', _('Recovery of your credentials'));
 
-    if (count(LSconfig :: get('ldap_servers'))==1) {
-      LStemplate :: assign('recoverpasswordform_ldapserver_style','style="display: none"');
-    }
-
-    LStemplate :: assign('recoverpasswordform_label_ldapserver',_('LDAP server'));
-    $ldapservers_name=array();
-    $ldapservers_index=array();
-    foreach(LSconfig :: get('ldap_servers') as $id => $infos) {
-      $ldapservers_index[]=$id;
-      $ldapservers_name[]=$infos['name'];
-    }
-    LStemplate :: assign('recoverpasswordform_ldapservers_name',$ldapservers_name);
-    LStemplate :: assign('recoverpasswordform_ldapservers_index',$ldapservers_index);
-
-    LStemplate :: assign('recoverpasswordform_label_user',_('Identifier'));
-    LStemplate :: assign('recoverpasswordform_label_submit',_('Validate'));
-    LStemplate :: assign('recoverpasswordform_label_back',_('Back'));
+    $ldapservers = array();
+    foreach(LSconfig :: get('ldap_servers') as $id => $infos)
+      $ldapservers[$id] = __($infos['name']);
+    LStemplate :: assign('ldapservers', $ldapservers);
+    LStemplate :: assign('ldapServerId', (self :: $ldapServerId?self :: $ldapServerId:0));
 
     $recoverpassword_step = 'start';
     $recoverpassword_msg = _('Please fill the identifier field to proceed recovery procedure');
@@ -1283,8 +1242,8 @@ class LSsession {
       );
     }
 
-    LStemplate :: assign('recoverpassword_step',$recoverpassword_step);
-    LStemplate :: assign('recoverpassword_msg',$recoverpassword_msg);
+    LStemplate :: assign('recoverpassword_step', $recoverpassword_step);
+    LStemplate :: assign('recoverpassword_msg', $recoverpassword_msg);
 
     self :: setTemplate('recoverpassword.tpl');
     self :: addJSscript('LSsession_recoverPassword.js');
