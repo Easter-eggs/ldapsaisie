@@ -30,9 +30,12 @@ class LSauthMethod {
   var $authData = array();
 
   public function __construct() {
-    // Load config
-    LSsession :: includeFile(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
-    LSdebug(LS_CONF_DIR."LSauth/config.".get_class($this).".php");
+    // Load config (without warning if not found)
+    $conf_file = LS_CONF_DIR."LSauth/config.".get_class($this).".php";
+    if (LSsession :: includeFile($conf_file, false, false))
+      LSlog :: debug(get_class($this)." :: __construct(): config file ($conf_file) loaded");
+    else
+      LSlog :: debug(get_class($this)." :: __construct(): config file ($conf_file) not found");
     return true;
   }
 
