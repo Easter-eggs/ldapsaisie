@@ -1,4 +1,5 @@
-{include file='ls:top.tpl'}
+{extends file='ls:base_connected.tpl'}
+{block name="content"}
 <div id='LSaccessRightsMatrixView'>
   <h1>{$pagetitle}</h1>
   <ul class="LSaccessRightsMatrixView_tabs">
@@ -84,4 +85,4 @@
 {/if}
   </div>
 </div>
-{include file='ls:bottom.tpl'}
+{/block}

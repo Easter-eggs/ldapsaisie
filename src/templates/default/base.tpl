@@ -6,15 +6,20 @@
     <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle|escape:"htmlall"}{/if}</title>
     <base href="{$public_root_url}/"/>
     <link rel="icon" href="image/favicon" />
+    {block name="css"}
     <link rel="stylesheet" type="text/css" href="{css name='base.css'}" title="Normal" />
     <link rel="stylesheet" type="text/css" href="{css name='base_print.css'}" media='print' title="Normal" />
     {include file='ls:LSsession_css.tpl'}
+    {/block}
+    {block name="head"}{/block}
   </head>
 <body>
 
 {include file='ls:LSdefault.tpl'}
 
-{include file='ls:LSsession_js.tpl'}
+{block name="body"}{/block}
 
+{include file='ls:LSsession_js.tpl'}
+{block name="js"}{/block}
 </body>
 </html>

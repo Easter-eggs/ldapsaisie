@@ -67,6 +67,12 @@ class LStemplate {
   // Registered events
   private static $_events = array();
 
+  // Deprecated templates files
+  private static $deprecated_template_files = array (
+    'accueil.tpl', 'blank.tpl', 'empty.tpl',
+    'top.tpl', 'bottom.tpl',
+  );
+
  /**
   * Start LStemplate
   *
@@ -261,12 +267,19 @@ class LStemplate {
  /**
   * Return the path of the Smarty template file to use
   *
-  * @param[in] string $template The template name (eg: top.tpl)
+  * @param[in] string $template The template name (eg: base.tpl)
   * @param[in] bool $with_nocache If true, include nocache URL param (default: false)
   *
   * @retval string The path of the Smarty template file
   **/
   public static function getTemplatePath($template, $with_nocache=false) {
+    if (in_array($template, self :: $deprecated_template_files))
+      LSlog :: fatal(
+        getFData(
+          _("LStemplate : Request template '%{tpl}' is now deprecated. Please refer to upgrade documentation to adapt your templates."),
+          $template
+        )
+      );
     return self :: getFilePath($template, self :: $config['template_dir'], null, $with_nocache);
   }
 
@@ -287,7 +300,7 @@ class LStemplate {
  /**
   * Return the content of a Smarty template file.
   *
-  * @param[in] string $template The template name (eg: top.tpl)
+  * @param[in] string $template The template name (eg: base.tpl)
   *
   * @retval string The content of the Smarty template file
   **/
@@ -299,7 +312,7 @@ class LStemplate {
         // template name in lower first systematically
         return '';
       }
-      $tpl_path=self :: getTemplatePath('empty.tpl');
+      $tpl_path = self :: getTemplatePath(LSsession :: isConnected()?'base_connected.tpl':'base.tpl');
       LSerror::addErrorCode('LStemplate_01',$template);
     }
     return implode('',file($tpl_path));
@@ -309,7 +322,7 @@ class LStemplate {
   * Return the timestamp of the last change of a Smarty
   * template file.
   *
-  * @param[in] string $template The template name (eg: top.tpl)
+  * @param[in] string $template The template name (eg: base.tpl)
   *
   * @retval string The timestamp of the last change of the Smarty template file
   **/
@@ -338,7 +351,7 @@ class LStemplate {
  /**
   * Display a template
   *
-  * @param[in] string $template The template name (eg: empty.tpl)
+  * @param[in] string $template The template name (eg: base_connected.tpl)
   *
   * @retval void
   **/
@@ -361,7 +374,7 @@ class LStemplate {
  /**
   * Fetch a template
   *
-  * @param[in] string $template The template name (eg: empty.tpl)
+  * @param[in] string $template The template name (eg: base_connected.tpl)
   *
   * @retval string The template compiled
   **/

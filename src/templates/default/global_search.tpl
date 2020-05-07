@@ -1,6 +1,5 @@
-{include file='ls:top.tpl'}
-
-
+{extends file='ls:base_connected.tpl'}
+{block name="content"}
 <form action='search' method='post' class='LSview_search' id='LSsearch_form'>
 <div class='LSview_search'>
   <input type='text' name='pattern' class='LSview_search' value='{$pattern|escape:"htmlall"}'/>
@@ -26,4 +25,4 @@
 {/foreach}
 </form>
 
-{include file='ls:bottom.tpl'}
+{/block}

@@ -39,7 +39,7 @@ function handle_index($request) {
   LStemplate :: assign('pagetitle', _('Home'));
 
   // Template
-  LSsession :: setTemplate('accueil.tpl');
+  LSsession :: setTemplate('homepage.tpl');
 
   // Display template
   LSsession :: displayTemplate();

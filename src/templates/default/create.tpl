@@ -1,4 +1,5 @@
-{include file='ls:top.tpl'}
+{extends file='ls:base_connected.tpl'}
+{block name="content"}
     {if $pagetitle != ''}<h1 id='LSform_title'>{$pagetitle|escape:"htmlall"}</h1>{/if}
 
     {if !empty($listAvailableDataEntryForm)}
@@ -9,6 +10,6 @@
       </select>
       </label>
     {/if}
-    
+
     {include file='ls:LSform.tpl'}
-{include file='ls:bottom.tpl'}
+{/block}

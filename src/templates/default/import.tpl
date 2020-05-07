@@ -1,4 +1,5 @@
-{include file='ls:top.tpl'}
+{extends file='ls:base_connected.tpl'}
+{block name="content"}
     {if $pagetitle != ''}<h1 id='LSview_title'>{$pagetitle|escape:"htmlall"}</h1>{/if}
 
 <div class='LSform'>
@@ -86,4 +87,4 @@
 {/if}
 
 {/if}
-{include file='ls:bottom.tpl'}
+{/block}

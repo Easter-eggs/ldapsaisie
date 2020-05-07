@@ -651,7 +651,7 @@ class LSsession {
         self :: displayLoginForm();
       }
       else {
-        self :: setTemplate('blank.tpl');
+        self :: setTemplate('base.tpl');
         LSerror :: addErrorCode('LSsession_10');
       }
       return;
@@ -932,6 +932,19 @@ class LSsession {
       }
     }
     return self :: $LSuserObject;
+  }
+
+ /**
+  * Check if user is connected
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  *
+  * @retval boolean True if user connected, false instead
+  */
+  public static function isConnected() {
+    if (self :: $LSuserObject)
+      return true;
+    return false;
   }
 
  /**
@@ -1423,7 +1436,7 @@ class LSsession {
       LSdebug_print();
     }
     if (!self :: $template)
-      self :: setTemplate('empty.tpl');
+      self :: setTemplate('base_connected.tpl');
 
     LStemplate :: assign('connected_as',_("Connected as"));
 
