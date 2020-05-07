@@ -76,7 +76,7 @@ class LSlang {
 
      // Check
      if (self :: localeExist($lang, $encoding)) {
-       LSlog :: debug("LSsession :: setLocale() : Use local '$lang.$encoding'");
+       LSlog :: debug("LSlang :: setLocale() : Use local '$lang.$encoding'");
        if ($encoding) {
          $lang .= '.'.$encoding;
        }
@@ -89,18 +89,22 @@ class LSlang {
 
        // Configure and set the text domain
        $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR_PATH);
-       LSlog :: debug("Text domain fullpath is '$fullpath'.");
-       LSlog :: debug("Text domain is : ".textdomain(LS_TEXT_DOMAIN));
+       LSlog :: debug("LSlang :: setLocale(): Text domain fullpath is '$fullpath'.");
+       LSlog :: debug("LSlang :: setLocale(): Text domain is : ".textdomain(LS_TEXT_DOMAIN));
 
        // Include local translation file
-       LSsession :: includeFile(LS_I18N_DIR.'/'.$lang.'/lang.php');
+       $lang_file = LS_I18N_DIR.'/'.$lang.'/lang.php';
+       if (LSsession :: includeFile($lang_file, false, false))
+         LSlog :: debug("LSlang :: setLocale(): lang file '$lang_file' loaded.");
+       else
+         LSlog :: debug("LSlang :: setLocale(): no lang file found ($lang_file).");
 
        // Include other local translation file(s)
        foreach(array(LS_I18N_DIR_PATH.'/'.$lang, LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang) as $lang_dir) {
          if (is_dir($lang_dir)) {
            foreach (listFiles($lang_dir, '/^lang.+\.php$/') as $file) {
              $path = "$lang_dir/$file";
-             LSlog :: debug("LSession :: setLocale() : Local '$lang.$encoding' : load translation file '$path'");
+             LSlog :: debug("LSlang :: setLocale(): Local '$lang.$encoding' : load translation file '$path'");
              include($path);
            }
          }
