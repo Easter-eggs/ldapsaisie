@@ -144,7 +144,7 @@ function handle_global_search($request) {
   $LSview_actions=array();
   $LSview_actions['refresh'] = array (
     'label' => _('Refresh'),
-    'url' => 'search.php?pattern='.urlencode($pattern).'&refresh=1',
+    'url' => 'search?pattern='.urlencode($pattern).'&refresh=1',
     'action' => 'refresh'
   );
   LStemplate :: assign('LSview_actions', $LSview_actions);
