@@ -531,7 +531,7 @@ class LSsession {
         LSauth :: afterLogout();
 
         // Redirect user on home page
-        LSurl :: redirect('index.php');
+        LSurl :: redirect();
         return;
       }
 
@@ -1185,7 +1185,7 @@ class LSsession {
   public static function displayLoginForm() {
     LStemplate :: assign('pagetitle',_('Connection'));
     if (isset($_GET['LSsession_logout'])) {
-      LStemplate :: assign('loginform_action','index.php');
+      LStemplate :: assign('loginform_action', '');
     }
     else {
       LStemplate :: assign('loginform_action',$_SERVER['REQUEST_URI']);
@@ -1226,7 +1226,7 @@ class LSsession {
   */
   public static function displayRecoverPasswordForm($recoveryPasswordInfos) {
     LStemplate :: assign('pagetitle',_('Recovery of your credentials'));
-    LStemplate :: assign('recoverpasswordform_action','index.php?LSsession_recoverPassword');
+    LStemplate :: assign('recoverpasswordform_action','?LSsession_recoverPassword');
 
     if (count(LSconfig :: get('ldap_servers'))==1) {
       LStemplate :: assign('recoverpasswordform_ldapserver_style','style="display: none"');
@@ -2466,7 +2466,7 @@ class LSsession {
       }
     }
     if ($force)
-     LSurl :: redirect('index.php');
+     LSurl :: redirect();
   }
 
   /**

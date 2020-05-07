@@ -40,7 +40,7 @@
 </dl>
 </form>
 <span>{tr msg="Language"} : <img id='LSlang' src='{img name=$LSlang}' alt='{$LSlang|escape:"htmlall"}' title='{$LSlang|escape:"htmlall"}'/></span>
-<a href='index.php?LSsession_recoverPassword' class='LSsession_recoverPassword LSsession_recoverPassword_hidden'>{$loginform_label_recoverPassword|escape:"htmlall"}</a>
+<a href='?LSsession_recoverPassword' class='LSsession_recoverPassword LSsession_recoverPassword_hidden'>{$loginform_label_recoverPassword|escape:"htmlall"}</a>
 </div>
 {include file='ls:LSsession_js.tpl'}
 </body>

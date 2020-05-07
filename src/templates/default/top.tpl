@@ -17,12 +17,12 @@
 <table id='main'>
   <tr>
     <td rowspan=2 id='left'>
-      <a href='index.php'><img src='{img name='logo'}' alt='Logo' id='logo'/></a>
+      <a href=''><img src='{img name='logo'}' alt='Logo' id='logo'/></a>
 
       {if isset($LSsession_subDn) && $LSsession_subDn!=""}
-        <form action="index.php" method='post' id='LSsession_topDn_form'>
+        <form action="" method='post' id='LSsession_topDn_form'>
           <label>{$label_level|escape:"htmlall"}
-            <a href="index.php?LSsession_refresh"><img src='{img name='refresh'}' alt='{$_refresh|escape:"htmlall"}' title='{$_refresh|escape:"htmlall"}' /></a>
+            <a href="?LSsession_refresh"><img src='{img name='refresh'}' alt='{$_refresh|escape:"htmlall"}' title='{$_refresh|escape:"htmlall"}' /></a>
             <select name='LSsession_topDn' id='LSsession_topDn'>
               {html_options values=$LSsession_subDn_indexes output=$LSsession_subDn_names selected=$LSsession_subDn}
             </select>
@@ -60,8 +60,8 @@
       <input type='submit' value='->'/>
     </form>
     {if $displaySelfAccess}{$connected_as|escape:"htmlall"} <span id='user_name'>{$LSsession_username|escape:"htmlall"}</span>{/if}
-    <a href='index.php?LSsession_refresh=1'><img src='{img name='refresh'}' alt="{tr msg="Refresh my access rights"}" title="{tr msg="Refresh my access rights"}" /></a>
-    {if $displayLogoutBtn} <a href='index.php?LSsession_logout'><img src='{img name='logout'}' alt='Logout' title='Logout' /></a>{/if}
+    <a href='?LSsession_refresh=1'><img src='{img name='refresh'}' alt="{tr msg="Refresh my access rights"}" title="{tr msg="Refresh my access rights"}" /></a>
+    {if $displayLogoutBtn} <a href='?LSsession_logout'><img src='{img name='logout'}' alt='Logout' title='Logout' /></a>{/if}
     </td>
   </tr>
   <tr>

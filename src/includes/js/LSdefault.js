@@ -112,7 +112,7 @@ var LSdefault = new Class({
     },
 
     onSelectLSlangImgClick: function(img) {
-      window.location='index.php?lang='+img.alt;
+      window.location='?lang='+img.alt;
     },
 
     onWantMoo: function(event) {
