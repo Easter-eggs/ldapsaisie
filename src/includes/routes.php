@@ -590,7 +590,7 @@ function handle_old_custom_search_action_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'custom_search_action.php');
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^custom_search_action.php#', 'handle_old_custom_search_action_php');
+LSurl :: add_handler('#^custom_search_action\.php#', 'handle_old_custom_search_action_php');
 
 /*
  * Handle LSobject select request
@@ -785,7 +785,7 @@ function handle_old_import_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'import.php');
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^import.php#', 'handle_old_import_php');
+LSurl :: add_handler('#^import\.php#', 'handle_old_import_php');
 
 /*
  * Handle LSobject create request
@@ -905,7 +905,7 @@ function handle_old_create_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'create.php');
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^create.php#', 'handle_old_create_php');
+LSurl :: add_handler('#^create\.php#', 'handle_old_create_php');
 
 /*
  * Handle LSobject show request
@@ -1001,7 +1001,7 @@ function handle_old_view_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'view.php');
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^view.php#', 'handle_old_view_php');
+LSurl :: add_handler('#^view\.php#', 'handle_old_view_php');
 
 /*
  * Handle LSobject modify request
@@ -1108,7 +1108,7 @@ function handle_old_modify_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'modify.php');
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^modify.php#', 'handle_old_modify_php');
+LSurl :: add_handler('#^modify\.php#', 'handle_old_modify_php');
 
 /*
  * Handle LSobject remove request
@@ -1170,7 +1170,7 @@ function handle_old_remove_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'remove.php');
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^remove.php#', 'handle_old_remove_php');
+LSurl :: add_handler('#^remove\.php#', 'handle_old_remove_php');
 
 /*
  * Handle LSobject customAction request
@@ -1274,7 +1274,7 @@ function handle_old_custom_action_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'custom_action.php');
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^custom_action.php#', 'handle_old_custom_action_php');
+LSurl :: add_handler('#^custom_action\.php#', 'handle_old_custom_action_php');
 
 /*
  ************************************************************
@@ -1317,4 +1317,4 @@ function handle_old_addon_view($request) {
  }
  LSurl :: redirect();
 }
-LSurl :: add_handler('#^addon_view.php#', 'handle_old_addon_view');
+LSurl :: add_handler('#^addon_view\.php#', 'handle_old_addon_view');
