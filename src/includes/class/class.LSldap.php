@@ -20,6 +20,8 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Gestion de l'accès à l'annaire Ldap
  *
@@ -27,7 +29,7 @@
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSldap {
+class LSldap extends LSlog_staticLoggerClass {
 
   private static $config;
   private static $cnx = NULL;
@@ -139,7 +141,7 @@ class LSldap {
       LSerror :: addErrorCode('LSldap_02',$ret -> getMessage());
       return;
     }
-    LSdebug("LSldap::search() : return ".$ret->count()." objet(s)");
+    self :: log_debug("LSldap::search() : return ".$ret->count()." objet(s)");
     $retInfos=array();
     foreach($ret as $dn => $entry) {
       if (!$entry instanceof Net_LDAP2_Entry) {
@@ -291,7 +293,7 @@ class LSldap {
    * @retval boolean true si l'objet a bien été mis à jour, false sinon
    */
   public static function update($object_type,$dn,$change) {
-    LSdebug($change);
+    self :: log_debug($change);
     $dropAttr=array();
     $entry=self :: getEntry($object_type,$dn);
     if (is_array($entry)) {
@@ -325,19 +327,19 @@ class LSldap {
       }
       if (isset($changeData)) {
         $entry -> replace($changeData);
-        LSdebug('change : <pre>'.print_r($changeData,true).'</pre>');
-        LSdebug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
+        self :: log_debug('change : <pre>'.print_r($changeData,true).'</pre>');
+        self :: log_debug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
       }
       else {
-        LSdebug('No change');
+        self :: log_debug('No change');
       }
 
       if ($new) {
-        LSdebug('LSldap :: add()');
+        self :: log_debug('LSldap :: add()');
         $ret = self :: $cnx -> add($entry);
       }
       else {
-        LSdebug('LSldap :: update()');
+        self :: log_debug('LSldap :: update()');
         $ret = $entry -> update();
       }
 

@@ -98,7 +98,7 @@ class LStemplate extends LSlog_staticLoggerClass {
       self :: $_smarty -> template_dir = self :: $config['template_dir'];
 
       if ( ! is_writable(self :: $config['compile_dir']) ) {
-        self :: log("FATAL", getFData(_("LStemplate : compile directory is not writable (dir : %{dir})"), self :: $config['compile_dir']));
+        self :: log_fatal(getFData(_("LStemplate : compile directory is not writable (dir : %{dir})"), self :: $config['compile_dir']));
       }
       self :: $_smarty -> compile_dir = self :: $config['compile_dir'];
 
@@ -196,7 +196,7 @@ class LStemplate extends LSlog_staticLoggerClass {
       // Checks that the file is in the actual folder location
       $pos = strpos($file_path, $dir_path);
       if (!is_int($pos) || $pos != 0) {
-        self :: log("ERROR", "LStemplate :: getFilePath($file, $root_dir, $default_dir, $with_nocache) : File '$file_path' is not in root directory '$dir_path' (".varDump($pos).").");
+        self :: log_error("LStemplate :: getFilePath($file, $root_dir, $default_dir, $with_nocache) : File '$file_path' is not in root directory '$dir_path' (".varDump($pos).").");
       }
       elseif (file_exists($file_path)) {
         $path = $file_path;
@@ -276,7 +276,7 @@ class LStemplate extends LSlog_staticLoggerClass {
   **/
   public static function getTemplatePath($template, $with_nocache=false) {
     if (in_array($template, self :: $deprecated_template_files))
-      self :: log("FATAL",
+      self :: log_fatal(
         getFData(
           _("LStemplate : Request template '%{tpl}' is now deprecated. Please refer to upgrade documentation to adapt your templates."),
           $template

@@ -78,7 +78,7 @@ class LSlang extends LSlog_staticLoggerClass {
 
      // Check
      if (self :: localeExist($lang, $encoding)) {
-       self :: log("DEBUG", "setLocale() : Use local '$lang.$encoding'");
+       self :: log_debug("setLocale() : Use local '$lang.$encoding'");
        if ($encoding) {
          $lang .= '.'.$encoding;
        }
@@ -87,26 +87,26 @@ class LSlang extends LSlog_staticLoggerClass {
 
        // Set the locale
        if (setlocale(LC_ALL, $lang) === false)
-         self :: log("ERROR", "An error occured setting locale to '$lang'");
+         self :: log_error("An error occured setting locale to '$lang'");
 
        // Configure and set the text domain
        $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR_PATH);
-       self :: log("DEBUG", "setLocale(): Text domain fullpath is '$fullpath'.");
-       self :: log("DEBUG", "setLocale(): Text domain is : ".textdomain(LS_TEXT_DOMAIN));
+       self :: log_debug("setLocale(): Text domain fullpath is '$fullpath'.");
+       self :: log_debug("setLocale(): Text domain is : ".textdomain(LS_TEXT_DOMAIN));
 
        // Include local translation file
        $lang_file = LS_I18N_DIR.'/'.$lang.'/lang.php';
        if (LSsession :: includeFile($lang_file, false, false))
-         self :: log("DEBUG", "setLocale(): lang file '$lang_file' loaded.");
+         self :: log_debug("setLocale(): lang file '$lang_file' loaded.");
        else
-         self :: log("DEBUG", "setLocale(): no lang file found ($lang_file).");
+         self :: log_debug("setLocale(): no lang file found ($lang_file).");
 
        // Include other local translation file(s)
        foreach(array(LS_I18N_DIR_PATH.'/'.$lang, LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang) as $lang_dir) {
          if (is_dir($lang_dir)) {
            foreach (listFiles($lang_dir, '/^lang.+\.php$/') as $file) {
              $path = "$lang_dir/$file";
-             self :: log("DEBUG", "setLocale(): Local '$lang.$encoding' : load translation file '$path'");
+             self :: log_debug("setLocale(): Local '$lang.$encoding' : load translation file '$path'");
              include($path);
            }
          }
@@ -114,7 +114,7 @@ class LSlang extends LSlog_staticLoggerClass {
      }
      else {
        if ($encoding && $lang) $lang .= '.'.$encoding;
-       self :: log("ERROR", "The local '$lang' does not exists, use default one.");
+       self :: log_error("The local '$lang' does not exists, use default one.");
      }
    }
 
