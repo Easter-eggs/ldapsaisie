@@ -295,6 +295,27 @@ class LScli extends LSlog_staticLoggerClass {
     return array($return_value, $stdout, $stderr);
   }
 
+  /**
+   * CLI helper to ask for user confirmation
+   *
+   * @param[in] $question string The confirmation question (optional, default: "Are you sure?")
+   *
+   * @retval boolean True if user confirmed, false otherwise
+   **/
+  public static function confirm($question=null) {
+    if (is_null($question))
+      $question = "Are you sure?";
+    echo "\n$question  Type 'yes' to continue: ";
+    $handle = fopen ("php://stdin","r");
+    $line = fgets($handle);
+    if(trim($line) != 'yes'){
+            echo "User cancel\n";
+            return false;
+    }
+    echo "\n";
+    return true;
+  }
+
 }
 
 /*
