@@ -20,7 +20,9 @@
 
 ******************************************************************************/
 
-class LSlang {
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
+class LSlang extends LSlog_staticLoggerClass {
 
 
   // Current lang and encoding
@@ -76,7 +78,7 @@ class LSlang {
 
      // Check
      if (self :: localeExist($lang, $encoding)) {
-       LSlog :: debug("LSlang :: setLocale() : Use local '$lang.$encoding'");
+       self :: log("DEBUG", "setLocale() : Use local '$lang.$encoding'");
        if ($encoding) {
          $lang .= '.'.$encoding;
        }
@@ -85,26 +87,26 @@ class LSlang {
 
        // Set the locale
        if (setlocale(LC_ALL, $lang) === false)
-         LSlog :: error("An error occured setting locale to '$lang'");
+         self :: log("ERROR", "An error occured setting locale to '$lang'");
 
        // Configure and set the text domain
        $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR_PATH);
-       LSlog :: debug("LSlang :: setLocale(): Text domain fullpath is '$fullpath'.");
-       LSlog :: debug("LSlang :: setLocale(): Text domain is : ".textdomain(LS_TEXT_DOMAIN));
+       self :: log("DEBUG", "setLocale(): Text domain fullpath is '$fullpath'.");
+       self :: log("DEBUG", "setLocale(): Text domain is : ".textdomain(LS_TEXT_DOMAIN));
 
        // Include local translation file
        $lang_file = LS_I18N_DIR.'/'.$lang.'/lang.php';
        if (LSsession :: includeFile($lang_file, false, false))
-         LSlog :: debug("LSlang :: setLocale(): lang file '$lang_file' loaded.");
+         self :: log("DEBUG", "setLocale(): lang file '$lang_file' loaded.");
        else
-         LSlog :: debug("LSlang :: setLocale(): no lang file found ($lang_file).");
+         self :: log("DEBUG", "setLocale(): no lang file found ($lang_file).");
 
        // Include other local translation file(s)
        foreach(array(LS_I18N_DIR_PATH.'/'.$lang, LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang) as $lang_dir) {
          if (is_dir($lang_dir)) {
            foreach (listFiles($lang_dir, '/^lang.+\.php$/') as $file) {
              $path = "$lang_dir/$file";
-             LSlog :: debug("LSlang :: setLocale(): Local '$lang.$encoding' : load translation file '$path'");
+             self :: log("DEBUG", "setLocale(): Local '$lang.$encoding' : load translation file '$path'");
              include($path);
            }
          }
@@ -112,7 +114,7 @@ class LSlang {
      }
      else {
        if ($encoding && $lang) $lang .= '.'.$encoding;
-       LSlog :: error("The local '$lang' does not exists, use default one.");
+       self :: log("ERROR", "The local '$lang' does not exists, use default one.");
      }
    }
 
@@ -211,13 +213,18 @@ if (php_sapi_name() != "cli") return;
  *
  * @retval boolean True on succes, false otherwise
  **/
- global $available_onlys, $available_withouts;
+ global $LSlang_cli_logger, $available_onlys, $available_withouts;
+
  $available_onlys = array("config", "templates", "addons");
  $available_withouts = array_merge($available_onlys, array("select-list"));
 function cli_generate_lang_file($command_args) {
   // Use global variables to share it with sub-functions
-  global $available_onlys, $available_withouts, $data, $translations, $interactive,
+  global $LSlang_cli_logger, $available_onlys, $available_withouts, $data, $translations, $interactive,
   $copyoriginalvalue, $format, $curdir, $additionalfileformat, $copyoriginalvalue, $lang;
+
+  // Initialize logger (if not already initialized by another CLI command)
+  if (!isset($LSlang_cli_logger))
+    $LSlang_cli_logger = LSlog :: get_logger('generate_lang_file');
 
   // Store existing translations
   $translations = array();
@@ -340,15 +347,9 @@ function cli_generate_lang_file($command_args) {
     }
   }
 
-
-
-  function debug($msg) {
-    LSlog :: debug("generate_lang_file() : $msg");
-  }
-
   function add($msg, $context=null) {
-    global $lang, $data, $translations, $interactive, $copyoriginalvalue, $format;
-    debug("add($msg, $context)");
+    global $LSlang_cli_logger, $lang, $data, $translations, $interactive, $copyoriginalvalue, $format;
+    $LSlang_cli_logger -> debug("add($msg, $context)");
     if ($msg == '')
       return;
     if (!is_null($lang) && _($msg) != "$msg")
@@ -400,11 +401,12 @@ function cli_generate_lang_file($command_args) {
   }
 
   function addFromLSconfig($pattern, $value='value', $excludes=array()) {
-    debug("addFromLSconfig($pattern, array(".implode(',', $excludes)."))");
+    global $LSlang_cli_logger;
+    $LSlang_cli_logger -> debug("addFromLSconfig($pattern, array(".implode(',', $excludes)."))");
     $keys = LSconfig :: getMatchingKeys($pattern);
-    debug("addFromLSconfig : ".count($keys)." matching key(s)");
+    $LSlang_cli_logger -> debug("addFromLSconfig : ".count($keys)." matching key(s)");
     foreach ($keys as $key => $value) {
-      debug("addFromLSconfig : $key = $value");
+      $LSlang_cli_logger -> debug("addFromLSconfig : $key = $value");
       if ($value == 'key') {
         // Get the last key parts as value and all other as key
         $key_parts = explode('.', $key);
@@ -418,7 +420,7 @@ function cli_generate_lang_file($command_args) {
 
   // Load translation files
   foreach($load_files as $path) {
-    debug("Load $path lang file");
+    $LSlang_cli_logger -> debug("Load $path lang file");
     @include($path);
     foreach($GLOBALS['LSlang'] as $msg => $trans) {
       $translations[$msg]=$trans;
@@ -465,7 +467,7 @@ function cli_generate_lang_file($command_args) {
 
     }
 
-    debug('LSobjects list : '.implode(', ', $objects));
+    $LSlang_cli_logger -> debug('LSobjects list : '.implode(', ', $objects));
 
     // LSobject
     foreach($objects as $obj) {
@@ -626,18 +628,19 @@ function cli_generate_lang_file($command_args) {
    */
   if (!in_array('templates', $withouts) && (!$only || $only == 'templates')) {
     function parse_template_file($file) {
-      debug("parse_template_file($file) : start ...");
+      global $LSlang_cli_logger;
+      $LSlang_cli_logger -> debug("parse_template_file($file) : start ...");
       $count = 0;
       foreach(file($file) as $line) {
         $count ++;
         if (preg_match_all('/\{ *tr +msg=["\']([^\}]+)["\'] *\}/',$line,$matches)) {
           foreach($matches[1] as $t) {
-            debug("  - \"$t\" # Line $count");
+            $LSlang_cli_logger -> debug("  - \"$t\" # Line $count");
             add($t, absolute2relative_path($file).":$count");
           }
         }
       }
-      debug("parse_template_file($file) : done.");
+      $LSlang_cli_logger -> debug("parse_template_file($file) : done.");
     }
 
     function find_and_parse_template_file($dir) {
@@ -666,7 +669,8 @@ function cli_generate_lang_file($command_args) {
 
   if (!in_array('addons', $withouts) && (!$only || $only == 'addons')) {
     function parse_addon_file($file) {
-      debug("parse_addon_file($file)");
+      global $LSlang_cli_logger;
+      $LSlang_cli_logger -> debug("parse_addon_file($file)");
       $count = 0;
       foreach(file($file) as $line) {
         $count++;
@@ -743,7 +747,7 @@ function cli_generate_lang_file($command_args) {
    * Handle output file format
    */
   function output_php($fd) {
-    global $additionalfileformat, $data, $copyoriginalvalue;
+    global $LSlang_cli_logger, $additionalfileformat, $data, $copyoriginalvalue;
     fwrite($fd, "<?php\n\n");
 
     if (!$additionalfileformat) fwrite($fd, "\$GLOBALS['LSlang'] = array (\n");
@@ -775,7 +779,7 @@ function cli_generate_lang_file($command_args) {
   }
 
   function output_pot($fd) {
-    global $data, $copyoriginalvalue;
+    global $LSlang_cli_logger, $data, $copyoriginalvalue;
     foreach($data as $key => $key_data) {
       if ($copyoriginalvalue && $key_data['translation'] == "") {
         $val = $key;
@@ -794,14 +798,14 @@ function cli_generate_lang_file($command_args) {
   if ($output) {
     $output = relative2absolute_path($output);
     try {
-      debug("Open output file ($output)");
+      $LSlang_cli_logger -> debug("Open output file ($output)");
       $fd = fopen($output, 'w');
     }
     catch(Exception $e) {
-      LSlog :: error('Error occured opening output file : '.$e->getMessage(), "\n");
+      $LSlang_cli_logger -> error('Error occured opening output file : '.$e->getMessage(), "\n");
     }
     if (!$fd) {
-      LSlog :: error("Use stdout out instead.\n");
+      $LSlang_cli_logger -> error("Use stdout out instead.\n");
       $fd = STDOUT;
       $output = false;
     }
@@ -810,7 +814,7 @@ function cli_generate_lang_file($command_args) {
     $fd = STDOUT;
 
   // Generate output
-  debug("Output format : $format");
+  $LSlang_cli_logger -> debug("Output format : $format");
   switch($format) {
     case 'pot':
       output_pot($fd);
@@ -823,7 +827,7 @@ function cli_generate_lang_file($command_args) {
 
   // Close output file (is specified)
   if ($output && $fd != STDOUT) {
-    debug("Close output file ($output)");
+    $LSlang_cli_logger -> debug("Close output file ($output)");
     fclose($fd);
   }
 
@@ -863,13 +867,18 @@ LScli :: add_command(
  * @retval boolean True on succes, false otherwise
  **/
 function cli_generate_ldapsaisie_pot($command_args) {
+  global $LSlang_cli_logger;
+  // Initialize logger (if not already initialized by another CLI command)
+  if (!isset($LSlang_cli_logger))
+    $LSlang_cli_logger = LSlog :: get_logger('generate_ldapsaisie_pot');
+    
   // Clean php file in tmp directory
   if (is_dir(LS_TMP_DIR_PATH)) {
     foreach(listFiles(LS_TMP_DIR_PATH, '/\.php$/') as $file) {
       $tmp_file = LS_TMP_DIR_PATH.$file;
-      LSlog :: debug("Remove temporary file '$tmp_file'");
+      $LSlang_cli_logger -> debug("Remove temporary file '$tmp_file'");
       if (!unlink($tmp_file)) {
-        LSlog :: fatal("Fail to delete temporary file '$tmp_file'.");
+        $LSlang_cli_logger -> fatal("Fail to delete temporary file '$tmp_file'.");
       }
     }
   }
@@ -881,7 +890,7 @@ function cli_generate_ldapsaisie_pot($command_args) {
     false   // do not escape command args (already done)
   );
   if (!is_array($php_files) || $php_files[0] != 0) {
-    LSlog :: fatal("Fail to list PHP files.");
+    $LSlang_cli_logger -> fatal("Fail to list PHP files.");
   }
 
   // Extract messages from LdapSaisie PHP files using xgettext
@@ -899,7 +908,7 @@ function cli_generate_ldapsaisie_pot($command_args) {
     $php_files[1]                                         // Pass PHP files list via STDIN
   );
   if (!is_array($result) || $result[0] != 0)
-    LSlog :: fatal("Fail to extract messages from PHP files using xgettext.");
+    $LSlang_cli_logger -> fatal("Fail to extract messages from PHP files using xgettext.");
 
 
   // Extract other messages from LdapSaisie templates files
@@ -913,7 +922,7 @@ function cli_generate_ldapsaisie_pot($command_args) {
     false // do not exit
   );
   if (!$result)
-    LSlog :: fatal("Fail to extract messages from template files using generate_lang_file command.");
+    $LSlang_cli_logger -> fatal("Fail to extract messages from template files using generate_lang_file command.");
 
   // Merge previous results in ldapsaisie.pot file using msgcat
   $result = LScli :: run_external_command(array(
@@ -923,7 +932,7 @@ function cli_generate_ldapsaisie_pot($command_args) {
     "-o", LS_I18N_DIR_PATH."/ldapsaisie.pot",
   ));
   if (!is_array($result) || $result[0] != 0)
-    LSlog :: fatal("Fail to merge messages using msgcat.");
+    $LSlang_cli_logger -> fatal("Fail to merge messages using msgcat.");
 
   return true;
 }
