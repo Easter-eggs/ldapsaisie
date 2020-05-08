@@ -27,8 +27,6 @@
  */
 class LSlog_staticLoggerClass {
 
-  // Logger
-  protected static $logger = null;
 
   /*
    * Log a message via class logger
@@ -39,9 +37,7 @@ class LSlog_staticLoggerClass {
    * @retval void
    **/
   protected static function log($level, $message) {
-    if (is_null(self :: $logger))
-      self :: $logger = LSlog :: get_logger(get_called_class());
-    self :: $logger -> logging($level, $message);
+    LSlog :: get_logger(get_called_class()) -> logging($level, $message);
   }
 
   /**
