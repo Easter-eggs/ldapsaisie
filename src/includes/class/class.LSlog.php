@@ -209,7 +209,7 @@ class LSlog {
 			if (!$handler -> checkLevel($level))
 				continue;
 			// Check handler logger filters
-			if ($logger && !$handler -> checkLogger($logger))
+			if (!$handler -> checkLogger($logger))
 				continue;
 
 			// Logging on this handler
