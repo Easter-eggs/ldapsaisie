@@ -15,16 +15,31 @@ de l'application.</para>
     array (
       'handler' => [handler 2],
       'level' => '[niveau]',
-      // Autres paramètres propre à cet handler
+      'loggers' => array('logger1', [...]),
+      'excluded_loggers' => array('logger2', [...]),
+      'format' => '[LSformat]',
+      'cli_format' => '[LSformat]',
+      'datetime_prefix' => [booléen],
+      'datetime_format' => '[format date()]',
+      // Autres paramètres propre à ce handler
       [...]
     ),
     [...]
   ),
+  'loggers' => array (
+    'logger1' => array (
+      'level' => 'DEBUG',
+    ),
+    'logger2' => array (
+      'enabled' => false,
+    ),
+    [...]
+  );
 );]]>
 ...
 </programlisting>
 
-<!-- Début Paramètres Configuration -->  
+<!-- Début Paramètres Configuration -->
 <variablelist>
 <title>Paramètres de configuration</title>
 
@@ -73,6 +88,12 @@ de l'application.</para>
 <![CDATA[array(
   'handler' => [type],
   'level' => '[niveau]',
+  'loggers' => array('logger1', [...]),
+  'excluded_loggers' => array('logger2', [...]),
+  'format' => '[LSformat]',
+  'cli_format' => '[LSformat]',
+  'datetime_prefix' => [booléen],
+  'datetime_format' => '[format date()]',
   // Autres paramètres propre à ce handler
   [...]
 )]]>
@@ -100,8 +121,128 @@ de l'application.</para>
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>loggers</term>
+  <listitem>
+    <simpara>Liste exhautive des composants dont les messages doivent être traités
+    par ce handler (paramètre facultatif, par défaut : tous les composants).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>excluded_loggers</term>
+  <listitem>
+    <simpara>Liste exhautive des composants dont les messages ne doivent pas être
+    traités par ce handler (paramètre facultatif, par défaut : aucun composant).
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>format</term>
+  <listitem>
+    <para>&LSformat; des messages de cet journalisé par ce handler. Ce format
+    est composé à partir des informations décritent ci-dessous. Par défaut :
+    <literal>%{requesturi} - %{remoteaddr} - %{ldapservername} - %{authuser} - %{logger} - %{level} - %{message}</literal>
+    </para>
+
+    <variablelist>
+
+<varlistentry>
+  <term>level</term>
+  <listitem>
+    <simpara>Le niveau du message.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>message</term>
+  <listitem>
+    <simpara>Le message.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>logger</term>
+  <listitem>
+    <simpara>Le composant ayant déchenché cette journalisation.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>clibinpath</term>
+  <listitem>
+    <simpara>Le nom du script ayant déclenché cette jounalisation (uniquement en cas d'exécution en ligne de commande).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>requesturi</term>
+  <listitem>
+    <simpara>L'URL de la page courante (uniquement dans un contexte Web).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>remoteaddr</term>
+  <listitem>
+    <simpara>L'adresse IP du client (uniquement dans un contexte Web).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>ldapservername</term>
+  <listitem>
+    <simpara>Le nom du serveur LDAP courant.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>authuser</term>
+  <listitem>
+    <simpara>Le DN de l'utilisateur connecté (uniquement dans un contexte Web).</simpara>
+  </listitem>
+</varlistentry>
+
     </variablelist>
-     
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>cli_format</term>
+  <listitem>
+    <simpara>&LSformat; des messages de cet journalisé par ce handler dans le
+    cas d'une exécution en ligne de commande. Ce format est composé à partir des
+    même informations que le paramètre <literal>format</literal> (voir ci-dessus).
+    Par défaut : <literal>%{clibinpath} - %{logger} - %{level} - %{message}</literal>
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>datetime_format</term>
+  <listitem>
+    <simpara>Booléen permettant de définir si le message doit être préfixé de la
+    date et heure courante. La valeur par défaut dépends de l'handler (en règle
+    général, toujours actif sauf lorsque le canal de journalisation l'ajoute déjà).
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>datetime_format</term>
+  <listitem>
+    <simpara>Format de la date et heure lorsque celle-ci est ajoutée en préfixe
+    du message (voir paramètre <literal>datetime_format</literal>). Le format
+    correspond à celui attendu par la function <literal>date()</literal> de &php;
+    . Consultez la <ulink url='http://php.net/date'>documentation officielle
+    </ulink> pour plus de détails (Par défaut : <literal>Y/m/d H:i:s</literal>).
+    </simpara>
+  </listitem>
+</varlistentry>
+
+    </variablelist>
+
     <para>Il existe plusieurs types d'<emphasis>handlers</emphasis> gérés par
     l'application :</para>
     <variablelist>
@@ -121,7 +262,7 @@ de l'application.</para>
         <term>syslog</term>
         <listitem>
           <simpara>Journalisation via le service <emphasis>syslog</emphasis>.
-          Il est possible de configurer une priorité systématique pour les 
+          Il est possible de configurer une priorité systématique pour les
           messages journalisés. À défaut, la priorité sera déterminée
           automatiquement en fonction du niveau du message. Les valeurs
           possibles de ce paramètre sont : <literal>EMERG, ALERT, CRITICAL,
@@ -153,6 +294,44 @@ de l'application.</para>
           </para></note>
         </listitem>
       </varlistentry>
+
+    </variablelist>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>loggers</term>
+  <listitem>
+    <para>Tableau permettant de configurer la journalisation composant par composant.
+    Chaque composant peut avoir son propre <literal>logger</literal> ce qui permet
+    alors, par exemple, de configurer le niveau de log spécifiquement pour ce
+    composant.</para>
+
+    <para>Le nom des composant correspond en général au nom de la classe &php;
+    correspondante, ou bien encore le nom d'une commande (lors d'une exécution en
+    ligne de commande).</para>
+
+    <note><para> Par défaut, le nom du composant ayant déclenché un message
+    journalisé est affiché juste avant le niveau de log.</para></note>
+
+    <variablelist>
+      <title>Paramètres de configuration d'un logger</title>
+
+<varlistentry>
+  <term>enabled</term>
+  <listitem>
+    <simpara>Booléen permettant de désactiver complètement les logs du composant
+    (par défaut: <literal>True</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>level</term>
+  <listitem>
+    <simpara>Niveau de log spécifique pour ce composant (par défaut: le niveau
+    de log global).</simpara>
+  </listitem>
+</varlistentry>
 
     </variablelist>
   </listitem>
