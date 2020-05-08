@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 LSsession :: loadLSclass('LSattr_ldap');
 LSsession :: loadLSclass('LSattr_html');
 
@@ -30,7 +31,7 @@ LSsession :: loadLSclass('LSattr_html');
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattribute {
+class LSattribute extends LSlog_staticLoggerClass {
 
   var $name;
   var $config;
