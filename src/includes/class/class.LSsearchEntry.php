@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Object LSsearchEntry
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSsearchEntry {
+class LSsearchEntry extends LSlog_staticLoggerClass {
 
   // The LSsearch object
   private $LSsearch=NULL;
@@ -247,7 +249,7 @@ class LSsearchEntry {
       }
     }
     else {
-      LSlog :: warning('LSsearchEntry : '.$this -> dn.' => Unknown property '.$key.' !');
+      self :: log_warning('LSsearchEntry : '.$this -> dn.' => Unknown property '.$key.' !');
       return __("Unknown property !");
     }
   }
