@@ -307,17 +307,19 @@ class LSform {
   }
 
   /**
-   * Verifie si le formulaire a été validé et que les données sont valides.
+   * Check form is submited and its data are validat
    *
+   * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
+   *                                   just ignore it.
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si le formulaire a été validé et que les données ont été validées, false sinon
+   * @retval boolean true if form is submited and its data are valid, false otherwise
    */
-  public function validate(){
+  public function validate($onlyIfPresent=false){
     if(!$this -> can_validate)
       return;
     if ($this -> isSubmit()) {
-      if (!$this -> getPostData()) {
+      if (!$this -> getPostData($onlyIfPresent)) {
         LSerror :: addErrorCode('LSform_01');
         return;
       }
@@ -436,16 +438,18 @@ class LSform {
   }
 
   /**
-   * Récupère les valeurs postées dans le formulaire
+   * Retreive POST data of the form
    *
+   * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
+   *                                   just ignore it.
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true si les valeurs ont bien été récupérées, false sinon.
+   * @retval boolean true if POST data are retreived, false otherwise
    */
-  public function getPostData() {
+  public function getPostData($onlyIfPresent=false) {
     if (is_null($this -> dataEntryForm)) {
       foreach($this -> elements as $element_name => $element) {
-        if( !($element -> getPostData($this -> _postData)) ) {
+        if( !($element -> getPostData($this -> _postData, $onlyIfPresent)) ) {
           LSerror :: addErrorCode('LSform_02',$element_name);
           return;
         }
@@ -467,7 +471,7 @@ class LSform {
         if ((isset($this -> dataEntryFormConfig['requiredAllAttributes']) && $this -> dataEntryFormConfig['requiredAllAttributes']) || isset($this -> dataEntryFormConfig['requiredAttributes']) && is_array($this -> dataEntryFormConfig['requiredAttributes']) && in_array($elementName,$this -> dataEntryFormConfig['requiredAttributes'])) {
             $element -> setRequired();
         }
-        if( !($element -> getPostData($this -> _postData)) ) {
+        if( !($element -> getPostData($this -> _postData, $onlyIfPresent)) ) {
           LSerror :: addErrorCode('LSform_02',$element_name);
           return;
         }

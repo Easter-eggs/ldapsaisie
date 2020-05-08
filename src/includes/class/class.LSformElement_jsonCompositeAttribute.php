@@ -215,11 +215,13 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
    * This method check present of this element's value in POST data and retreive
    * it to feed the array passed in paramater.
    *
-   * @param[] array Reference of the array for retreived values
+   * @param[in] &$return array Reference of the array for retreived values
+   * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
+   *                                   just ignore it.
    *
    * @retval boolean true if value is in POST data, false instead
    */
-  public function getPostData(&$return) {
+  public function getPostData(&$return, $onlyIfPresent=false) {
     if($this -> isFreeze()) {
       return true;
     }

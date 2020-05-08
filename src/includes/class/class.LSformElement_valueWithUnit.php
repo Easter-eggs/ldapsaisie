@@ -143,11 +143,13 @@ class LSformElement_valueWithUnit extends LSformElement {
    * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
    * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
    *
-   * @param[] array Pointeur sur le tableau qui recupèrera la valeur.
+   * @param[in] &$return array Reference of the array for retreived values
+   * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
+   *                                   just ignore it.
    *
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-  public function getPostData(&$return) {
+  public function getPostData(&$return, $onlyIfPresent=false) {
     if($this -> isFreeze()) {
       return true;
     }
