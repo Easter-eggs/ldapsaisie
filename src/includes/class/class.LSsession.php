@@ -122,7 +122,7 @@ class LSsession {
           return false;
         $log_msg = "includeFile($file, external=$external) : file $path not found in include path.";
         if (class_exists('LSlog'))
-          LSlog :: warning($log_msg);
+          self :: log_warning($log_msg);
         else
           error_log($log_msg);
         return false;
@@ -136,7 +136,7 @@ class LSsession {
         return false;
       $log_msg = "includeFile($file, external=$external) : file not found ($local_path / $path)";
       if (class_exists('LSlog'))
-        LSlog :: warning($log_msg);
+        self :: log_warning($log_msg);
       else
         error_log($log_msg);
       return false;
@@ -175,6 +175,88 @@ class LSsession {
       }
     }
     return False;
+  }
+
+  /*
+   * Log a message via class logger (of other method if LSlog is not loaded)
+   *
+   * @param[in] $level string The log level (see LSlog)
+   * @param[in] $message string The message to log
+   *
+   * @retval void
+   **/
+  protected static function log($level, $message) {
+    if (class_exists('LSlog')) {
+      LSlog :: get_logger(get_called_class()) -> logging($level, $message);
+      return;
+    }
+    // Alternative logging if LSlog is not already started
+    $formated_message = "LSsession - $level - $message";
+    switch ($level) {
+      case 'FATAL':
+      case 'ERROR':
+        error_log($formated_message);
+        if ($level == 'FATAL')
+          die($formated_message);
+        break;
+      default:
+        LSdebug($formated_message);
+    }
+  }
+
+  /**
+   * Log a message with level DEBUG
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_debug($message) {
+    self :: log('DEBUG', $message);
+  }
+
+  /**
+   * Log a message with level INFO
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_info($message) {
+    self :: log('INFO', $message);
+  }
+
+  /**
+   * Log a message with level WARNING
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_warning($message) {
+    self :: log('WARNING', $message);
+  }
+
+  /**
+   * Log a message with level ERROR
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_error($message) {
+    self :: log('ERROR', $message);
+  }
+
+  /**
+   * Log a message with level FATAL
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_fatal($message) {
+    self :: log('FATAL', $message);
   }
 
  /**
@@ -298,30 +380,30 @@ class LSsession {
     $error = 0;
     self :: loadLSclass('LSldapObject');
     if (!self :: loadLSclass($object,'LSobjects')) {
-      LSlog :: error("LSsession :: loadLSobject($object) : Fail to load LSldapObject class");
+      self :: log_error("loadLSobject($object): Fail to load LSldapObject class");
       $error = 1;
     }
     if (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
-      LSlog :: error("LSsession :: loadLSobject($object) : Fail to include 'config.LSobjects.$object.php' file");
+      self :: log_error("loadLSobject($object): Fail to include 'config.LSobjects.$object.php' file");
       $error = 1;
     }
     else {
       if (!LSconfig :: set("LSobjects.$object",$GLOBALS['LSobjects'][$object])) {
-        LSlog :: error("LSsession :: loadLSobject($object) : Fail to LSconfig :: set('LSobjects.$object', \$GLOBALS['LSobjects'][$object])");
+        self :: log_error("loadLSobject($object): Fail to LSconfig :: set('LSobjects.$object', \$GLOBALS['LSobjects'][$object])");
         $error = 1;
       }
       else if (isset($GLOBALS['LSobjects'][$object]['LSaddons'])){
         if (is_array($GLOBALS['LSobjects'][$object]['LSaddons'])) {
           foreach ($GLOBALS['LSobjects'][$object]['LSaddons'] as $addon) {
             if (!self :: loadLSaddon($addon)) {
-              LSlog :: error("LSsession :: loadLSobject($object) : Fail to load LSaddon '$addon'");
+              self :: log_error("loadLSobject($object): Fail to load LSaddon '$addon'");
               $error = 1;
             }
           }
         }
         else {
           if (!self :: loadLSaddon($GLOBALS['LSobjects'][$object]['LSaddons'])) {
-            LSlog :: error("LSsession :: loadLSobject($object) : Fail to load LSaddon '".$GLOBALS['LSobjects'][$object]['LSaddons']."'");
+            self :: log_error("loadLSobject($object): Fail to load LSaddon '".$GLOBALS['LSobjects'][$object]['LSaddons']."'");
             $error = 1;
           }
         }
@@ -348,9 +430,9 @@ class LSsession {
       // Load LSaddon config file (without warning if not found)
       $conf_file = LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php";
       if (self :: includeFile($conf_file, false, false))
-        LSlog :: debug("LSsession :: loadLSaddon($addon): config file '$conf_file' loaded.");
+        self :: log_debug("loadLSaddon($addon): config file '$conf_file' loaded.");
       else
-        LSlog :: debug("LSsession :: loadLSaddon($addon): config file '$conf_file' not found.");
+        self :: log_debug("loadLSaddon($addon): config file '$conf_file' not found.");
       if (!call_user_func('LSaddon_'. $addon .'_support')) {
         LSerror :: addErrorCode('LSsession_02',$addon);
         return;
@@ -488,7 +570,7 @@ class LSsession {
     }
 
     if(isset($_SESSION['LSsession']['dn']) && !isset($_GET['LSsession_recoverPassword'])) {
-      LSlog :: debug('LSsession : existing session');
+      self :: log_debug('existing session');
       // --------------------- Session existante --------------------- //
       self :: $topDn         = $_SESSION['LSsession']['topDn'];
       self :: $dn            = $_SESSION['LSsession']['dn'];
@@ -500,7 +582,7 @@ class LSsession {
       if ( self :: cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
         self :: setLdapServer(self :: $ldapServerId);
         if (!LSauth :: start()) {
-          LSlog :: error("LSsession :: startLSsession() : can't start LSauth -> stop");
+          self :: log_error("startLSsession(): can't start LSauth -> stop");
           return;
         }
         self :: $LSprofiles   = $_SESSION['LSsession']['LSprofiles'];
@@ -512,7 +594,7 @@ class LSsession {
       else {
         self :: setLdapServer(self :: $ldapServerId);
         if (!LSauth :: start()) {
-          LSlog :: error("LSsession :: startLSsession() : can't start LSauth -> stop");
+          self :: log_error("startLSsession(): can't start LSauth -> stop");
           return;
         }
         if (!self :: LSldapConnect())
@@ -597,7 +679,7 @@ class LSsession {
         $_SESSION['LSsession_topDn']=self :: $topDn;
 
         if (!LSauth :: start()) {
-          LSlog :: error("LSsession :: startLSsession() : can't start LSauth -> stop");
+          self :: log_error("startLSsession(): can't start LSauth -> stop");
           return;
         }
 
@@ -705,26 +787,26 @@ class LSsession {
       $nbresult=count($result);
 
       if ($nbresult==0) {
-        LSlog :: debug('LSsession :: recoverPasswd() : incorrect hash/username');
+        self :: log_debug('recoverPasswd(): incorrect hash/username');
         LSerror :: addErrorCode('LSsession_06');
       }
       elseif ($nbresult>1) {
-        LSlog :: debug("LSsession :: recoverPasswd() : duplicated user found with hash/username '$username'");
+        self :: log_debug("recoverPasswd(): duplicated user found with hash/username '$username'");
         LSerror :: addErrorCode('LSsession_07');
       }
       else {
         $rdn = $result[0] -> getValue('rdn');
         $username = $rdn[0];
-        LSlog :: debug("LSsession :: recoverPasswd() : user found, username = '$username'");
+        self :: log_debug("recoverPasswd(): user found, username = '$username'");
         if (self :: $ldapServer['recoverPassword']) {
           if (self :: loadLSaddon('mail')) {
-            LSlog :: debug("LSsession :: recoverPasswd() : start recovering password");
+            self :: log_debug("recoverPasswd(): start recovering password");
             $user=$result[0];
             $emailAddress = $user -> getValue(self :: $ldapServer['recoverPassword']['mailAttr']);
             $emailAddress = $emailAddress[0];
 
             if (checkEmail($emailAddress)) {
-              LSlog :: debug("LSsession :: recoverPasswd() : Email = '$emailAddress'");
+              self :: log_debug("recoverPasswd(): Email = '$emailAddress'");
               self :: $dn = $user -> getDn();
 
               // 1ère étape : envoie du recoveryHash
@@ -793,7 +875,7 @@ class LSsession {
     }
 
     if (!sendMail($mail,$subject,$msg,$sendParams)) {
-      LSlog :: debug("LSsession :: recoverPasswdSendMail($mail, $step) : error sending email.");
+      self :: log_debug("recoverPasswdSendMail($mail, $step): error sending email.");
       LSerror :: addErrorCode('LSsession_20',4);
       return;
     }
@@ -829,13 +911,13 @@ class LSsession {
       }
       else {
         // Erreur durant la mise à jour de l'objet
-        LSlog :: error("LSsession :: recoverPasswdFirstStep($user) : error updating user.");
+        self :: log_error("recoverPasswdFirstStep($user): error updating user.");
         LSerror :: addErrorCode('LSsession_20',6);
       }
     }
     else {
       // Erreur durant la validation du formulaire de modification de perte de password
-      LSlog :: error("LSsession :: recoverPasswdFirstStep($user) : error validating form.");
+      self :: log_error("recoverPasswdFirstStep($user): error validating form.");
       LSerror :: addErrorCode('LSsession_20',5);
     }
     return;
@@ -855,7 +937,7 @@ class LSsession {
        $attr -> config['html_options']['chars'],
        $attr -> config['html_options']['lenght']
       );
-      LSlog :: debug("LSsession :: recoverPasswdSecondStep($user) : new password = '$mdp'.");
+      self :: log_debug("recoverPasswdSecondStep($user): new password = '$mdp'.");
       $lostPasswdForm = $user -> getForm('lostPassword');
       $lostPasswdForm -> setPostData(
         array(
@@ -870,19 +952,19 @@ class LSsession {
         }
         else {
           // Erreur durant la mise à jour de l'objet
-          LSlog :: error("LSsession :: recoverPasswdSecondStep($user) : error updating user.");
+          self :: log_error("recoverPasswdSecondStep($user): error updating user.");
           LSerror :: addErrorCode('LSsession_20',3);
         }
       }
       else {
         // Erreur durant la validation du formulaire de modification de perte de password
-        LSlog :: error("LSsession :: recoverPasswdSecondStep($user) : error validating form.");
+        self :: log_error("recoverPasswdSecondStep($user): error validating form.");
         LSerror :: addErrorCode('LSsession_20',2);
       }
     }
     else {
       // l'attribut password n'existe pas
-      LSlog :: error("LSsession :: recoverPasswdSecondStep($user) : password attribute '$attr' does not exists.");
+      self :: log_error("recoverPasswdSecondStep($user): password attribute '$attr' does not exists.");
       LSerror :: addErrorCode('LSsession_20',1);
     }
     return;
@@ -1530,17 +1612,17 @@ class LSsession {
     if (! isset($filter_def['filter']) &&
           (! isset($filter_def['attr']) ||
            ! isset($filter_def['attr_value']))) {
-      LSlog :: debug("LSsession :: reduceLdapSet() : LSobject LSprofil filter invalid : " . varDump($filter_def));
+      self :: log_debug("reduceLdapSet(): LSobject LSprofil filter invalid : " . varDump($filter_def));
       return array();
     }
 
-    LSlog :: debug('LSsession :: reduceLdapSet() : reducing set of');
+    self :: log_debug('reduceLdapSet(): reducing set of');
     foreach ($set as $object) {
       LSdebug('LSsession :: -> ' . $object -> getDn());
     }
 
     $LSobject = isset($filter_def['LSObject']) ? $filter_def['LSobject'] : $LSobject;
-    LSlog :: debug('LSsession :: reduceLdapSet() : LSobject = ' . $LSobject);
+    self :: log_debug('reduceLdapSet(): LSobject = ' . $LSobject);
     $filters = array();
     foreach ($set as $object) {
       if (isset($filter_def['filter'])) {
@@ -1564,9 +1646,9 @@ class LSsession {
     $LSsearch -> run(false);
 
     $set = $LSsearch -> listObjects();
-    LSlog :: debug('LSsession :: reduceLdapSet() : reduced set to');
+    self :: log_debug('reduceLdapSet(): reduced set to');
     foreach ($set as $object) {
-      LSlog :: debug('LSsession :: reduceLdapSet() : -> ' . $object -> getDn());
+      self :: log_debug('reduceLdapSet(): -> ' . $object -> getDn());
     }
     return $set;
   }
@@ -1580,7 +1662,7 @@ class LSsession {
    */
   private static function loadLSprofilesLSobjects($profile, $LSobject, $listInfos) {
     if (! self :: loadLSclass('LSsearch')) {
-      LSlog :: error('Fail to load class LSsearch');
+      self :: log_error('Fail to load class LSsearch');
       return;
     }
     # we are gonna grow a set of objects progressively, we start from the user
@@ -1635,12 +1717,12 @@ class LSsession {
             elseif ($topDn == 'LSobjects') {
               if (is_array($rightsInfos)) {
                 foreach ($rightsInfos as $LSobject => $listInfos) {
-                  LSlog :: debug('LSsession :: loadLSprofiles() : loading LSprofile ' . $profile . ' for LSobject ' . $LSobject . ' with params ' . var_export($listInfos, true));
+                  self :: log_debug('loadLSprofiles(): loading LSprofile ' . $profile . ' for LSobject ' . $LSobject . ' with params ' . var_export($listInfos, true));
                   self :: loadLSprofilesLSobjects($profile, $LSobject, $listInfos);
                 }
               }
               else {
-                LSlog :: warning('LSsession :: loadLSprofiles() : LSobjects => [] must be an array');
+                self :: log_warning('loadLSprofiles(): LSobjects => [] must be an array');
               }
             }
             else {
@@ -1660,11 +1742,11 @@ class LSsession {
                           }
                         }
                         else {
-                          LSlog :: warning("LSsession :: loadLSprofiles() : fail to load DN '$dn'.");
+                          self :: log_warning("loadLSprofiles(): fail to load DN '$dn'.");
                         }
                       }
                       else {
-                        LSlog :: warning("LSsession :: loadLSprofiles() : fail to instanciate LSobject type '".$conf['LSobject']."'.");
+                        self :: log_warning("loadLSprofiles(): fail to instanciate LSobject type '".$conf['LSobject']."'.");
                       }
                     }
                   }
@@ -1684,7 +1766,7 @@ class LSsession {
           } // fin foreach($profileInfos)
         } // fin is_array($profileInfos)
       } // fin foreach LSprofiles
-      LSlog :: debug("LSsession :: loadLSprofiles() : LSprofiles = ".print_r(self :: $LSprofiles,1));
+      self :: log_debug("loadLSprofiles(): LSprofiles = ".print_r(self :: $LSprofiles,1));
       return true;
     }
     else {
