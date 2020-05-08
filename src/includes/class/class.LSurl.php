@@ -56,6 +56,38 @@ class LSurl {
   // Rewrited request param
   const REWRITED_REQUEST_PARAM = 'REQUESTED_URL';
 
+  // Logger
+  private static $logger = null;
+
+  /*
+   * Log a message via class logger
+   *
+   * @param[in] $level string The log level (see LSlog)
+   * @param[in] $message string The message to log
+   *
+   * @retval void
+   **/
+  private static function log($level, $message) {
+    if (is_null(self :: $logger))
+      self :: $logger = LSlog :: get_logger('LSurl');
+    self :: $logger -> logging($level, $message);
+  }
+
+  /**
+	 * Log an exception via class logger
+	 *
+	 * @param[in] $exception Exception The exception to log
+	 * @param[in] $prefix string|null Custom message prefix (optional, see self :: log_exception())
+	 * @param[in] $fatal boolean Log exception as a fatal error (optional, default: true)
+	 *
+	 * @retval void
+	 **/
+	public static function log_exception($exception, $prefix=null, $fatal=true) {
+    if (is_null(self :: $logger))
+      self :: $logger = LSlog :: get_logger('LSurl');
+    self :: $logger -> exception($exception, $prefix, $fatal);
+  }
+
   /**
    * Add an URL pattern
    *
@@ -81,14 +113,14 @@ class LSurl {
         );
       }
       elseif ($override) {
-        LSlog :: debug("URL : override pattern '$pattern' with handler '$handler' (old handler = '".self :: $patterns[$pattern]."')");
+        self :: log("\Udebug", "URL : override pattern '$pattern' with handler '$handler' (old handler = '".self :: $patterns[$pattern]."')");
         self :: $patterns[$pattern] = array(
           'handler' => $handler,
           'authenticated' => $authenticated,
         );
       }
       else {
-        LSlog :: debug("URL : pattern '$pattern' already defined : do not override.");
+        self :: log("DEBUG", "URL : pattern '$pattern' already defined : do not override.");
       }
     }
   }
@@ -104,16 +136,16 @@ class LSurl {
   private static function get_request($default_url=null) {
     $current_url = self :: get_current_url();
     if (is_null($current_url)) {
-      LSlog :: fatal(_("Fail to determine the requested URL."));
+      self :: log("FATAL", _("Fail to determine the requested URL."));
       exit();
     }
     if (!is_array(self :: $patterns)) {
-      LSlog :: fatal('No URL patterns configured !');
+      self :: log("FATAL", 'No URL patterns configured !');
       exit();
     }
 
-    LSlog :: debug("URL : current url = '$current_url'");
-    LSlog :: debug("URL : check current url with the following URL patterns :\n - ".implode("\n - ", array_keys(self :: $patterns)));
+    self :: log("DEBUG", "URL : current url = '$current_url'");
+    self :: log("DEBUG", "URL : check current url with the following URL patterns :\n - ".implode("\n - ", array_keys(self :: $patterns)));
     foreach (self :: $patterns as $pattern => $handler_infos) {
       $m = self :: url_match($pattern, $current_url);
       if (is_array($m)) {
@@ -121,16 +153,16 @@ class LSurl {
         // Reset last redirect
         if (isset($_SESSION['last_redirect']))
           unset($_SESSION['last_redirect']);
-        LSlog :: debug("URL : result :\n".varDump($request, 1));
+        self :: log("DEBUG", "URL : result :\n".varDump($request, 1));
         return $request;
       }
     }
     if (!is_null($default_url)) {
-      LSlog :: debug("Current URL match with no pattern. Redirect to default URL ('$default_url')");
+      self :: log("DEBUG", "Current URL match with no pattern. Redirect to default URL ('$default_url')");
       self :: redirect($default_url);
       exit();
     }
-    LSlog :: debug("Current URL match with no pattern. Use error 404 handler.");
+    self :: log("DEBUG", "Current URL match with no pattern. Use error 404 handler.");
     return new LSurlRequest(
       $current_url,
       array(
@@ -154,7 +186,7 @@ class LSurl {
       if (!$current_url) return False;
     }
     if (preg_match($pattern, $current_url, $m)) {
-      LSlog :: debug("URL : Match found with pattern '$pattern' :\n\t".str_replace("\n", "\n\t", print_r($m, 1)));
+      self :: log("DEBUG", "URL : Match found with pattern '$pattern' :\n\t".str_replace("\n", "\n\t", print_r($m, 1)));
       return $m;
     }
     return False;
@@ -168,7 +200,7 @@ class LSurl {
   public static function get_current_url() {
     if (array_key_exists(self :: REWRITED_REQUEST_PARAM, $_REQUEST))
       return $_REQUEST[self :: REWRITED_REQUEST_PARAM];
-    LSlog :: warning('LSurl : Rewrite request param not present, try to detect current URL.');
+    self :: log("WARNING", 'LSurl : Rewrite request param not present, try to detect current URL.');
     return self :: detect_current_url();
   }
 
@@ -186,13 +218,13 @@ class LSurl {
     $public_root_url = LSconfig :: get('public_root_url', '/', 'string');
 
     if ($public_root_url[0] == '/') {
-      LSlog :: debug("LSurl :: get_public_absolute_url($relative_url): configured public root URL is relative ($public_root_url) => try to detect it from current request infos.");
+      self :: log("DEBUG", "LSurl :: get_public_absolute_url($relative_url): configured public root URL is relative ($public_root_url) => try to detect it from current request infos.");
       $public_root_url = 'http'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'?'s':'').'://'.$_SERVER['HTTP_HOST'].$public_root_url;
-      LSlog :: debug("LSurl :: get_public_absolute_url($relative_url): detected public_root_url: $public_root_url");
+      self :: log("DEBUG", "LSurl :: get_public_absolute_url($relative_url): detected public_root_url: $public_root_url");
     }
 
     $url = self :: remove_trailing_slash($public_root_url)."/$relative_url";
-    LSlog :: debug("LSurl :: get_public_absolute_url($relative_url): result = $url");
+    self :: log("DEBUG", "LSurl :: get_public_absolute_url($relative_url): result = $url");
     return $url;
   }
 
@@ -221,11 +253,11 @@ class LSurl {
 
     // Prevent loop
     if (isset($_SESSION['last_redirect']) && $_SESSION['last_redirect'] == $url)
-      LSlog :: fatal(_("Fail to determine the requested URL (loop detected)."));
+      self :: log("FATAL", _("Fail to determine the requested URL (loop detected)."));
     else
       $_SESSION['last_redirect'] = $url;
 
-    LSlog :: debug("redirect($go) => Redirect to : <$url>");
+    self :: log("DEBUG", "redirect($go) => Redirect to : <$url>");
     header("Location: $url");
 
     // Set & display template
@@ -259,8 +291,8 @@ class LSurl {
     $request = self :: get_request($default_url);
 
     if (!is_callable($request -> handler)) {
-      LSlog :: error("URL handler function ".$request -> handler."() does not exists !");
-      LSlog :: fatal("This request could not be handled.");
+      self :: log("ERROR", "URL handler function ".$request -> handler."() does not exists !");
+      self :: log("FATAL", "This request could not be handled.");
     }
 
     if (class_exists('LStemplate'))
@@ -276,8 +308,8 @@ class LSurl {
       return call_user_func($request -> handler, $request);
     }
     catch (Exception $e) {
-      LSlog :: exception($e, "An exception occured running URL handler function ".$request -> handler."()");
-      LSlog :: fatal("This request could not be processed correctly.");
+      self :: log_exception($e, "An exception occured running URL handler function ".$request -> handler."()");
+      self :: log("FATAL", "This request could not be processed correctly.");
     }
   }
 
@@ -291,16 +323,16 @@ class LSurl {
    * @retval string|false The current request URL or false if detection fail
    **/
   private static function detect_current_url() {
-    LSlog :: debug("URL : request URI = '".$_SERVER['REQUEST_URI']."'");
+    self :: log("DEBUG", "URL : request URI = '".$_SERVER['REQUEST_URI']."'");
 
     $base = self :: get_rewrite_base();
-    LSlog :: debug("URL : rewrite base = '$base'");
+    self :: log("DEBUG", "URL : rewrite base = '$base'");
 
     if ($_SERVER['REQUEST_URI'] == $base)
       return '';
 
     if (substr($_SERVER['REQUEST_URI'], 0, strlen($base)) != $base) {
-      LSlog :: error("URL : request URI (".$_SERVER['REQUEST_URI'].") does not start with rewrite base ($base)");
+      self :: log("ERROR", "URL : request URI (".$_SERVER['REQUEST_URI'].") does not start with rewrite base ($base)");
       return False;
     }
 

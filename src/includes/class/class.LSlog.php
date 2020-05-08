@@ -53,6 +53,9 @@ class LSlog {
 		'FATAL' => 4,
 	);
 
+	// Current existing loggers
+	private static $loggers = array();
+
 	/**
 	 * Start/initialize logging
 	 *
@@ -180,10 +183,11 @@ class LSlog {
 	 *
 	 * @param[in] $level string The message level
 	 * @param[in] $message string The message
+	 * @param[in] $logger string|null The logger name (optional, default: null)
 	 *
 	 * @retval void
 	 **/
-	private static function logging($level, $message) {
+	public static function logging($level, $message, $logger=null) {
 		// Check LSlog is enabled
 		if (!self :: $enabled)
 			return;
@@ -200,22 +204,16 @@ class LSlog {
 				$message = varDump($message);
 		}
 
-		// Add prefix
-		if (php_sapi_name() == "cli") {
-			global $argv;
-			$message = basename($argv[0])." - $level - $message";
-		}
-		else {
-			$message = $_SERVER['REQUEST_URI'].' - '.$_SERVER['REMOTE_ADDR'].' - '.self :: getLdapServerName().' - '.self :: getAuthenticatedUserDN()." - $level - $message";
-		}
-
 		foreach (self :: $handlers as $handler) {
 			// Check handler level
 			if (!$handler -> checkLevel($level))
 				continue;
+			// Check handler logger filters
+			if ($logger && !$handler -> checkLogger($logger))
+				continue;
 
 			// Logging on this handler
-			call_user_func(array($handler, 'logging'), $level, $message);
+			call_user_func(array($handler, 'logging'), $level, $message, $logger);
 		}
 
 		if ($level == 'FATAL') {
@@ -245,33 +243,6 @@ class LSlog {
 			$level = self :: $default_level;
 
 		return (self :: $levels[$level] >= self :: $levels[$configured_level]);
-	}
-
-	/**
-	 * Helper to retreive current LDAP server name
-	 *
-	 * @retval string Current LDAP server name
-	 **/
-	private static function getLdapServerName() {
-		if (LSsession :: $ldapServer) {
-			if (isset(LSsession :: $ldapServer['name']))
-				return LSsession :: $ldapServer['name'];
-			else
-				return "#".LSsession :: $ldapServerId;
-		}
-		return "Not connected";
-	}
-
-	/**
-	 * Helper to retreive current authenticated user DN
-	 *
-	 * @retval string Current authenticated user DN
-	 **/
-	private static function getAuthenticatedUserDN() {
-		$auth_dn = LSsession :: getLSuserObjectDn();
-		if ($auth_dn)
-			return LSsession :: getLSuserObjectDn();
-		return "Anonymous";
 	}
 
 	/*
@@ -304,17 +275,25 @@ class LSlog {
 	}
 
 	/**
-	 * PHP set_exception_handler helper
+	 * Log an exception
 	 *
-	 * @see https://www.php.net/set_exception_handler
+	 * Could be used as PHP set_exception_handler callable
+ 	 * @see https://www.php.net/set_exception_handler
+	 *
+	 * @param[in] $exception Exception The exception to log
+	 * @param[in] $prefix string|null Custom message prefix (optional, default: "An exception occured :\n")
+	 * @param[in] $fatal boolean Log exception as a fatal error (optional, default: true)
+	 * @param[in] $logger string|null The logger name (optional, default: null)
+	 *
+   * @retval void
 	 **/
-	public static function exception($exception, $prefix=null, $fatal=true) {
+	public static function exception($exception, $prefix=null, $fatal=true, $logger=null) {
 		$message = ($prefix?"$prefix :\n":"An exception occured :\n"). self :: get_debug_backtrace_context(). "\n" .
 			   "## ".$exception->getFile().":".$exception->getLine(). " : ". $exception->getMessage();
-		if ($fatal)
-			self :: fatal($message);
+		if (is_null($logger))
+			self :: logging(($fatal?'FATAL':'ERROR'), $message);
 		else
-			self :: error($message);
+			self :: logging(($fatal?'FATAL':'ERROR'), $message, $logger);
 	}
 
 	/**
@@ -365,6 +344,25 @@ class LSlog {
 		$level = (isset($errors2level[$error])?$errors2level[$error]:'ERROR');
 		self :: logging($level, "A PHP $error occured (#$errno) : $errstr [$errfile:$errline]");
 		return False;
+	}
+
+	/**
+ 	 * Get logger for a specific name
+ 	 *
+ 	 * @param[in] $name The logger name
+ 	 *
+ 	 * @retval LSlog_logger The logger
+ 	 **/
+	public static function &get_logger($name) {
+		if (!LSsession :: loadLSclass('LSlog_logger'))
+			self :: fatal('Fail to load LSlog_logger class.');
+		if (isset(self :: $loggers[$name]))
+			return self :: $loggers[$name];
+		self :: $loggers[$name] = new LSlog_logger(
+			$name,
+			self :: getConfig("loggers.$name", array())
+		);
+		return self :: $loggers[$name];
 	}
 
 	/*

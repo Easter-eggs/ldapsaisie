@@ -49,13 +49,14 @@ class LSlog_console extends LSlog_handler {
 	 *
 	 * @param[in] $level string The message level
 	 * @param[in] $message string The message
+	 * @param[in] $logger string|null The logger name (optional, default: null)
 	 *
 	 * @retval void
 	 **/
-	public function logging($level, $message) {
+	public function logging($level, $message, $logger=null) {
 		return fwrite(
 			($level > 1?$this -> stderr:$this -> stdout),
-			date('Y/m/d H:i:s').' - '.$level.' - '.$message."\n"
+			$this -> format($level, $message, $logger)."\n"
 		);
 	}
 }

@@ -195,6 +195,14 @@ $GLOBALS['LSlog']['handlers'] = array (
 	array (
 		'handler' => 'file',
 		'path' => 'tmp/LS.log',
+		//'level' => 'DEBUG',
+    // Filter on specific loggers
+    //'loggers' => array('LSurl', 'LSlang'),
+    // Default formats
+    //'format' => '%{requesturi} - %{remoteaddr} - %{ldapservername} - %{authuser} - %{level} - %{message}',
+    //'cli_format' => '%{clibinpath} - %{level} - %{message}',
+    //'datetime_prefix' => true,            // Prefix message with datetime ?
+    //'datetime_format' => 'Y/m/d H:i:s',   // Datetime prefix format (see php date() function)
 	),
 	array (
 		'handler' => 'email', // Email handler (each logged message generated an email)
@@ -213,6 +221,25 @@ $GLOBALS['LSlog']['handlers'] = array (
 		'level' => 'ERROR',
 	),
 	*/
+);
+$GLOBALS['LSlog']['loggers'] = array (
+  /**
+   * Loggers permit to define different log parameters for specific components
+   * of LdapSaisie (a class, an addon, ...). You could :
+   *   - Enabled/disabled logs for this component with 'enabled' parameter
+   *   - Set a specific log level for this component with 'enabled' parameter
+   **/
+  /*
+  'LSurl' => array (
+    'level' => 'DEBUG',
+  ),
+  'LSldap' => array (
+    'level' => 'DEBUG',
+  ),
+  'LSlang' => array (
+    'enabled' => false,
+  ),
+  */
 );
 $GLOBALS['LSlog']['level'] = 'INFO';	// DEBUG, INFO, WARNING, ERROR, FATAL
 $GLOBALS['LSlog']['enable'] = true;

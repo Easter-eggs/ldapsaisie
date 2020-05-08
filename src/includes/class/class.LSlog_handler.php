@@ -28,7 +28,17 @@
 class LSlog_handler {
 
 	// The handler configuration
-	private $config;
+	protected $config;
+
+	// Default log formats
+	protected $default_format = '%{requesturi} - %{remoteaddr} - %{ldapservername} - %{authuser} - %{logger} - %{level} - %{message}';
+	protected $default_cli_format = '%{clibinpath} - %{logger} - %{level} - %{message}';
+
+	// Default datetime prefix (enabled/disabled)
+	protected $default_datetime_prefix = true;
+
+	// Default datetime format
+	protected $default_datetime_format = 'Y/m/d H:i:s';
 
 	/**
 	 * Constructor
@@ -39,6 +49,9 @@ class LSlog_handler {
 	 **/
 	public function __construct($config) {
 		$this -> config = $config;
+		$this -> loggers = $this -> getConfig('loggers', array());
+		if (!is_array($this -> loggers))
+			$this -> loggers = array($this -> loggers);
 	}
 
 	/**
@@ -82,14 +95,88 @@ class LSlog_handler {
 	}
 
 	/**
+	 * Check logger against configured loggers filters
+	 *
+	 * @param[in] $logger string The logger
+	 *
+	 * @retval bool True if message of this logger have to be logged, False otherwise
+	 **/
+	public function checkLogger($logger) {
+		return (!$this -> loggers || in_array($logger, $this -> loggers));
+	}
+
+	/**
 	 * Log a message
 	 *
 	 * @param[in] $level string The message level
 	 * @param[in] $message string The message
+	 * @param[in] $logger string|null The logger name (optional, default: null)
 	 *
 	 * @retval void
 	 **/
-	public function logging($level, $message) {
-		return false;
+	public function logging($level, $message, $logger=null) {
+		return;
+	}
+
+	/**
+	 * Format a message
+	 *
+	 * @param[in] $level string The message level
+	 * @param[in] $message string The message
+	 * @param[in] $logger string|null The logger name (optional, default: null)
+	 *
+	 * @retval string The formated message to log
+	 **/
+	protected function format($level, $message, $logger=null) {
+		global $argv;
+		if (php_sapi_name() == "cli")
+			$format = $this -> getConfig('cli_format', $this -> default_cli_format, 'string');
+		else
+			$format = $this -> getConfig('format', $this -> default_format, 'string');
+		// Add datetime prefix (if enabled)
+		if ($this -> getConfig('datetime_prefix', $this -> default_datetime_prefix, 'boolean')) {
+			$format = date($this -> getConfig('datetime_format', $this -> default_datetime_format, 'string'))." - $format";
+		}
+		return getFData(
+			$format,
+			array(
+					'level' => $level,
+					'message' => $message,
+					'logger' => ($logger?$logger:'default'),
+					'datetime' => date('Y/m/d H:i:s'),
+					'clibinpath' => (isset($argv)?$argv[0]:'unknown bin path'),
+					'requesturi' => (isset($_SERVER)?$_SERVER['REQUEST_URI']:'unknown request URI'),
+					'remoteaddr' => (isset($_SERVER)?$_SERVER['REMOTE_ADDR']:'unknown remote address'),
+					'ldapservername' => self :: getLdapServerName(),
+					'authuser' => self :: getAuthenticatedUserDN(),
+			)
+		);
+	}
+
+	/**
+	 * Helper to retreive current LDAP server name
+	 *
+	 * @retval string Current LDAP server name
+	 **/
+	private static function getLdapServerName() {
+		if (LSsession :: $ldapServer) {
+			if (isset(LSsession :: $ldapServer['name']))
+				return LSsession :: $ldapServer['name'];
+			else
+				return "#".LSsession :: $ldapServerId;
+		}
+		return "Not connected";
+	}
+
+	/**
+	 * Helper to retreive current authenticated user DN
+	 *
+	 * @retval string Current authenticated user DN
+	 **/
+	private static function getAuthenticatedUserDN() {
+		$auth_dn = LSsession :: getLSuserObjectDn();
+		if ($auth_dn)
+			return LSsession :: getLSuserObjectDn();
+		return "Anonymous";
 	}
 }

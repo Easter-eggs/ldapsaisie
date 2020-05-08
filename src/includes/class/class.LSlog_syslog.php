@@ -45,6 +45,9 @@ class LSlog_syslog extends LSlog_handler {
 	// Default syslog priority (used if level is not provided or invalid)
 	private static $default_priority = LOG_WARNING;
 
+	// Default datetime prefix (enabled/disabled)
+	protected $default_datetime_prefix = false;
+
 	/**
 	 * Constructor
 	 *
@@ -71,13 +74,14 @@ class LSlog_syslog extends LSlog_handler {
 	 *
 	 * @param[in] $level string The message level
 	 * @param[in] $message string The message
+	 * @param[in] $logger string|null The logger name (optional, default: null)
 	 *
 	 * @retval void
 	 **/
-	public function logging($level, $message) {
+	public function logging($level, $message, $logger=null) {
 		return syslog(
 			$this -> level2priority($level),
-			$message
+			$this -> format($level, $message, $logger)
 		);
 	}
 

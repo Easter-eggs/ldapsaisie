@@ -30,6 +30,9 @@ class LSlog_email extends LSlog_handler {
 	// The configured email recipient
 	private $recipient = null;
 
+	// Default datetime prefix (enabled/disabled)
+	protected $default_datetime_prefix = false;
+
 	/**
 	 * Constructor
 	 *
@@ -47,12 +50,17 @@ class LSlog_email extends LSlog_handler {
 	 *
 	 * @param[in] $level string The message level
 	 * @param[in] $message string The message
+	 * @param[in] $logger string|null The logger name (optional, default: null)
 	 *
 	 * @retval void
 	 **/
-	public function logging($level, $message) {
+	public function logging($level, $message, $logger=null) {
 		if ($this -> recipient)
-			return error_log($message, 1, $this -> recipient);
+			return error_log(
+				$this -> format($level, $message, $logger),
+				1,
+				$this -> recipient
+			);
 		return false;
 	}
 }

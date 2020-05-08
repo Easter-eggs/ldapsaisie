@@ -50,10 +50,15 @@ class LSlog_file extends LSlog_handler {
 	 *
 	 * @param[in] $level string The message level
 	 * @param[in] $message string The message
+	 * @param[in] $logger string|null The logger name (optional, default: null)
 	 *
 	 * @retval void
 	 **/
-	public function logging($level, $message) {
-		return error_log(date('Y/m/d H:i:s').' - '.$message."\n", 3, $this -> path);
+	public function logging($level, $message, $logger=null) {
+		return error_log(
+			$this -> format($level, $message, $logger)."\n",
+			3,
+			$this -> path
+		);
 	}
 }
