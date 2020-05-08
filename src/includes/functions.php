@@ -60,7 +60,10 @@ function getFData($format,$data,$meth=NULL) {
     if(is_array($data)) {
       if ($meth==NULL) {
         while (preg_match($expr,$format[$i],$ch)) {
-          if (is_array($data[$ch[1]])) {
+          if (!isset($data[$ch[1]])) {
+            $val = '';
+          }
+          elseif (is_array($data[$ch[1]])) {
             $val = $data[$ch[1]][0];
           }
           else {
