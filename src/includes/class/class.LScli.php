@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * CLI Manager for LdapSaisie
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LScli {
+class LScli extends LSlog_staticLoggerClass {
 
   // Configured commands
   private static $commands = array();
@@ -120,7 +122,7 @@ class LScli {
    **/
   public static function handle_args() {
     if (php_sapi_name() != "cli") {
-      LSlog :: fatal('Try to use LScli :: handle_args() in non-CLI context.');
+      self :: log_fatal('Try to use LScli :: handle_args() in non-CLI context.');
       return;
     }
     global $argv;
@@ -128,7 +130,7 @@ class LScli {
     $ldap_server_id = false;
     $command = false;
     $command_args = array();
-    LSlog :: debug("handle_args :\n".varDump($argv));
+    self :: log_debug("handle_args :\n".varDump($argv));
     for ($i=1; $i < count($argv); $i++) {
       if (array_key_exists($argv[$i], self :: $commands)) {
         if (!$command)
@@ -190,13 +192,13 @@ class LScli {
     LSlog :: setLevel($log_level);
 
     if (!$command) {
-      LSlog :: debug("LScli :: handle_args() : no detected command => show usage");
+      self :: log_debug("LScli :: handle_args() : no detected command => show usage");
       self :: usage();
     }
 
     // Select LDAP server (if not already done with -S/--ldap-server parameter)
     if ($ldap_server_id === false && !LSsession :: setLdapServer(0))
-      LSlog :: fatal('Fail to select first LDAP server.');
+      self :: log_fatal('Fail to select first LDAP server.');
 
     // Run command
     self :: run_command($command, $command_args);
@@ -213,11 +215,11 @@ class LScli {
    **/
   public static function run_command($command, $command_args=array(), $exit=true) {
     if (php_sapi_name() != "cli") {
-      LSlog :: fatal('Try to use LScli :: run_command() in non-CLI context.');
+      self :: log_fatal('Try to use LScli :: run_command() in non-CLI context.');
       return;
     }
     if (!array_key_exists($command, self :: $commands)) {
-      LSlog :: warning("LScli :: run_command() : invalid command '$command'.");
+      self :: log_warning("LScli :: run_command() : invalid command '$command'.");
       return false;
     }
 
@@ -225,11 +227,11 @@ class LScli {
     if (self :: $commands[$command]['need_ldap_con']) {
       if (!class_exists('LSldap') || !LSldap :: isConnected())
         if (!LSsession :: LSldapConnect())
-          LSlog :: fatal('Fail to connect to LDAP server.');
+          self :: log_fatal('Fail to connect to LDAP server.');
     }
 
     // Run command
-    LSlog :: debug("Run command $command with argument(s) '".implode("', '", $command_args)."'");
+    self :: log_debug("Run command $command with argument(s) '".implode("', '", $command_args)."'");
     try {
       $result = call_user_func(self :: $commands[$command]['handler'], $command_args);
 
@@ -259,7 +261,7 @@ class LScli {
       $command = implode(' ', $command);
     if ($escape_command_args)
       $command = escapeshellcmd($command);
-    LSlog :: debug("Run external command: '$command'");
+    self :: log_debug("Run external command: '$command'");
     $descriptorspec = array(
       0 => array("pipe", "r"),  // stdin
       1 => array("pipe", "w"),  // stdout
@@ -268,7 +270,7 @@ class LScli {
     $process = proc_open($command, $descriptorspec, $pipes);
 
     if (!is_resource($process)) {
-      LSlog :: error("Fail to run external command: '$command'");
+      self :: log_error("Fail to run external command: '$command'");
       return false;
     }
 
@@ -286,9 +288,9 @@ class LScli {
     $return_value = proc_close($process);
 
     if (!empty($stderr) || $return_value != 0)
-      LSlog :: error("Externan command error:\nCommand : $command\nStdout :\n$stdout\n\n - Stderr :\n$stderr");
+      self :: log_error("Externan command error:\nCommand : $command\nStdout :\n$stdout\n\n - Stderr :\n$stderr");
     else
-      LSlog :: debug("Externan command result:\n\tCommand : $command\n\tReturn code: $return_value\n\tOutput:\n\t\t- Stdout :\n$stdout\n\n\t\t- Stderr :\n$stderr");
+      self :: log_debug("Externan command result:\n\tCommand : $command\n\tReturn code: $return_value\n\tOutput:\n\t\t- Stdout :\n$stdout\n\n\t\t- Stderr :\n$stderr");
 
     return array($return_value, $stdout, $stderr);
   }
