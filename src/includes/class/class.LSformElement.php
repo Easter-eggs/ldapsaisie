@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 
 /**
  * Element d'un formulaire pour LdapSaisie
@@ -29,7 +30,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 
-class LSformElement {
+class LSformElement extends LSlog_staticLoggerClass {
 
   var $name;
   var $label;

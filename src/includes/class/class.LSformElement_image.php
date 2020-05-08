@@ -20,7 +20,6 @@
 
 ******************************************************************************/
 
-
 /**
  * Element texte d'un formulaire pour LdapSaisie
  *
@@ -104,12 +103,12 @@ class LSformElement_image extends LSformElement {
         $return[$this -> name][0] = $buf;
       }
       else {
-        LSlog :: debug('LSformElement_image('.$this->name.')->getPostData(): uploaded tmp file not found => '.varDump($_FILES[$this -> name]));
+        self :: log_debug('LSformElement_image('.$this->name.')->getPostData(): uploaded tmp file not found => '.varDump($_FILES[$this -> name]));
         $php_debug_params = array();
         foreach (array('file_uploads', 'upload_tmp_dir', 'upload_max_filesize', 'max_file_uploads', 'post_max_size', 'memory_limit') as $param)
           $php_debug_params[] = "$param = '".ini_get($param)."'";
         $php_debug_params[] = "HTML form MAX_FILE_SIZE = '".MAX_SEND_FILE_SIZE."'";
-        LSlog :: debug('LSformElement_image('.$this->name.')->getPostData(): '.implode(', ', $php_debug_params));
+        self :: log_debug('LSformElement_image('.$this->name.')->getPostData(): '.implode(', ', $php_debug_params));
         $this -> form -> setElementError($this -> attr_html, $this -> getFileUploadErrorMessage($_FILES[$this -> name]));
         return false;
       }
