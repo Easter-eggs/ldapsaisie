@@ -158,8 +158,8 @@ class LSlog_handler {
 					'logger' => ($logger?$logger:'default'),
 					'datetime' => date('Y/m/d H:i:s'),
 					'clibinpath' => (isset($argv)?$argv[0]:'unknown bin path'),
-					'requesturi' => (isset($_SERVER)?$_SERVER['REQUEST_URI']:'unknown request URI'),
-					'remoteaddr' => (isset($_SERVER)?$_SERVER['REMOTE_ADDR']:'unknown remote address'),
+					'requesturi' => (isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'unknown request URI'),
+					'remoteaddr' => (isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'unknown remote address'),
 					'ldapservername' => self :: getLdapServerName(),
 					'authuser' => self :: getAuthenticatedUserDN(),
 			)
