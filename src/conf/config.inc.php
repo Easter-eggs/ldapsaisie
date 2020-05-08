@@ -198,6 +198,7 @@ $GLOBALS['LSlog']['handlers'] = array (
     //'level' => 'DEBUG',
     // Filter on specific loggers
     //'loggers' => array('LSurl', 'LSlang'),
+    'excluded_loggers' => array('generate_lang_file', 'generate_ldapsaisie_pot'),
     // Default formats
     //'format' => '%{requesturi} - %{remoteaddr} - %{ldapservername} - %{authuser} - %{level} - %{message}',
     //'cli_format' => '%{clibinpath} - %{level} - %{message}',

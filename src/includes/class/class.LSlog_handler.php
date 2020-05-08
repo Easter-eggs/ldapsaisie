@@ -40,6 +40,10 @@ class LSlog_handler {
 	// Default datetime format
 	protected $default_datetime_format = 'Y/m/d H:i:s';
 
+	// Loggers filters
+	protected $loggers = array();
+	protected $excluded_loggers = array();
+
 	/**
 	 * Constructor
 	 *
@@ -52,6 +56,9 @@ class LSlog_handler {
 		$this -> loggers = $this -> getConfig('loggers', array());
 		if (!is_array($this -> loggers))
 			$this -> loggers = array($this -> loggers);
+		$this -> excluded_loggers = $this -> getConfig('excluded_loggers', array());
+		if (!is_array($this -> excluded_loggers))
+			$this -> excluded_loggers = array($this -> excluded_loggers);
 	}
 
 	/**
@@ -102,7 +109,13 @@ class LSlog_handler {
 	 * @retval bool True if message of this logger have to be logged, False otherwise
 	 **/
 	public function checkLogger($logger) {
-		return (!$this -> loggers || in_array($logger, $this -> loggers));
+		if (!$this -> loggers && !$this -> excluded_loggers)
+			return true;
+		if ($this -> loggers && in_array($logger, $this -> loggers))
+			return true;
+		if ($this -> excluded_loggers && !in_array($logger, $this -> excluded_loggers))
+			return true;
+		return false;
 	}
 
 	/**
