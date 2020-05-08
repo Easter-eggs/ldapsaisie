@@ -2041,16 +2041,10 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
 
       if ($confirm) {
-        echo $obj -> _cli_show($raw_values);
+        $obj -> _cli_show($raw_values);
         // Sure ?
-        echo "\nAre you sure you want to delete this object ?  Type 'yes' to continue: ";
-        $handle = fopen ("php://stdin","r");
-        $line = fgets($handle);
-        if(trim($line) != 'yes'){
-                echo "User cancel\n";
-                return True;
-        }
-        echo "\n";
+        if (!LScli :: confirm("\nAre you sure you want to delete this object?"));
+          return True;
       }
 
       if ($obj -> remove()) {
