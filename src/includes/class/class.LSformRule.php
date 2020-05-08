@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Base d'une règle de validation de données
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSformRule {
+class LSformRule extends LSlog_staticLoggerClass {
 
   /**
    * Validation de données
