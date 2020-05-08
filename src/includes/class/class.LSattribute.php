@@ -246,6 +246,7 @@ class LSattribute extends LSlog_staticLoggerClass {
       }
 
       if ( ($this -> getConfig("form.$idForm")==0) || ($this -> myRights() == 'r') ) {
+        self :: log_debug("Attribute ".$this -> name." is freeze in form $idForm.");
         $element -> freeze();
       }
       else {
@@ -272,6 +273,9 @@ class LSattribute extends LSlog_staticLoggerClass {
         }
       }
     }
+    else {
+      self :: log_debug("Attribute ".$this -> name." not in form $idForm.");
+    }
     return true;
   }
 
@@ -286,12 +290,23 @@ class LSattribute extends LSlog_staticLoggerClass {
       return $this -> _myRights;
     }
     $return='n';
-    $whoami = $this -> ldapObject -> whoami();
-    foreach($whoami as $who) {
-      $right = $this -> getConfig("rights.$who", ($who=='admin'?'r':null));
-      if (in_array($right, array('r', 'w'))) {
-        $return = $right;
-        if ($return == 'w') break;
+    if (php_sapi_name() == 'cli') {
+      // In CLI mode, take maximum rights affected to LSprofiles
+      foreach ($this -> getConfig("rights", array()) as $who => $right) {
+        if (in_array($right, array('r', 'w'))) {
+          $return = $right;
+          if ($return == 'w') break;
+        }
+      }
+    }
+    else {
+      $whoami = $this -> ldapObject -> whoami();
+      foreach($whoami as $who) {
+        $right = $this -> getConfig("rights.$who", ($who=='admin'?'r':null));
+        if (in_array($right, array('r', 'w'))) {
+          $return = $right;
+          if ($return == 'w') break;
+        }
       }
     }
     $this -> _myRights = $return;

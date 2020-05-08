@@ -1915,8 +1915,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
       return false;
     }
 
-    echo $obj -> _cli_show($raw_values);
-
+    $obj -> _cli_show($raw_values);
     return true;
   }
 
@@ -1935,14 +1934,14 @@ class LSldapObject extends LSlog_staticLoggerClass {
       foreach($this -> getConfig('LSform.layout') as $tab_name => $tab) {
         echo "  - ".(isset($tab['label'])?$tab['label']:$tab_name)." :\n";
         foreach ($tab['args'] as $attr_name) {
-          $this -> _cli_show_attr($attr_name, $raw_values, "  ");
+          echo $this -> _cli_show_attr($attr_name, $raw_values, "  ");
         }
         echo "\n";
       }
     }
     else {
       foreach ($this -> attrs as $attr_name => $attr) {
-        $this -> _cli_show_attr($attr_name, $raw_values);
+        echo $this -> _cli_show_attr($attr_name, $raw_values);
       }
       echo "\n";
     }
@@ -1976,16 +1975,28 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * @param[in] $raw_values bool Show attributes raw values (instead of display ones)
    * @param[in] $prefix string Prefix for each line displayed (optional, default: no prefix)
    *
-   * @retval void
+   * @retval string The formated attribute message
    **/
-  public function _cli_show_attr($attr_name, $raw_values=false, $prefix="") {
+  private function _cli_show_attr($attr_name, $raw_values=false, $prefix="") {
     if (!isset($this -> attrs[$attr_name]))
       return;
-    echo "$prefix  - ".$this -> attrs[$attr_name]->getLabel()." ($attr_name) :";
     $values = ($raw_values?$this -> attrs[$attr_name]->getValue():$this -> attrs[$attr_name]->getDisplayValue());
+    return self :: _cli_show_attr_values($attr_name, $values, $prefix);
+  }
+
+  /**
+   * CLI helper to show the attribute values
+   *
+   * @param[in] $attr_name string The attribute name
+   * @param[in] $values array Attribute values
+   * @param[in] $prefix string Prefix for each line displayed (optional, default: no prefix)
+   *
+   * @retval string The formated attribute values message
+   **/
+  private function _cli_show_attr_values($attr_name, $values, $prefix="") {
+    $return = "$prefix  - ".$this -> attrs[$attr_name]->getLabel()." ($attr_name) :";
     if (empty($values)) {
-      echo " empty\n";
-      return true;
+      return $return." empty\n";
     }
     if (!is_array($values)) $values = array($values);
 
@@ -1993,11 +2004,28 @@ class LSldapObject extends LSlog_staticLoggerClass {
     for ($i=0; $i < count($values); $i++)
       if (strlen($values[$i]) > 70)
         $values[$i] = substr($values[$i], 0, 65)."[...]";
-    echo (count($values) > 1?"\n$prefix    - ":" ");
-    echo  implode("\n$prefix    - ", $values);
-    echo "\n";
+    $return .= (count($values) > 1?"\n$prefix    - ":" ");
+    $return .= implode("\n$prefix    - ", $values);
+    return $return."\n";
   }
 
+  /**
+   * CLI helper to show the attributes values
+   *
+   * @param[in] $attrs_values attrs The attributes values
+   * @param[in] $label string|null The label text to show before attributes values
+   * @param[in] $prefix string Prefix for each line displayed (optional, default: no prefix)
+   *
+   * @retval string The formated attributes values message
+   **/
+  private function _cli_show_attrs_values($attrs_values, $label=null, $prefix="") {
+    $return = "";
+    if ($label)
+      $return .= "$prefix$label\n";
+    foreach ($attrs_values as $attr => $values)
+      $return .= self :: _cli_show_attr_values($attr, $values, $prefix);
+    return $return;
+  }
 
     /**
      * CLI remove command
@@ -2053,6 +2081,142 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
       self :: log_error("Fail to remove object ".$obj->getDn().".");
       return false;
+    }
+
+    /**
+     * CLI helper to parse attribute values given via command argument in format :
+     *
+     *    attr=value1|value2
+     *
+     * @param[in] $obj LSldapObject The LDAP object
+     * @param[in] &$attrs_values array The reference of the array that store attributes values
+     * @param[in] $command_arg string The command argument to parse
+     * @param[in] $delimiter string The delimiter of multiple-value attribute (optional, default: '|')
+     *
+     * @retval boolean True if attribute values successfully parsed, False otherwise
+     **/
+    function _cli_parse_attr_values($obj, &$attrs_values, $command_arg, $delimiter='|') {
+      $arg_parts = explode('=', $command_arg);
+      if (count($arg_parts) < 2)
+        LScli :: usage("Invalid parameter '$command_arg'.");
+      $attr = $arg_parts[0];
+      if (!isset($obj -> attrs[$attr]))
+        LScli :: usage("Invalid parameter '$command_arg': ".$obj->type_name." object as no attribute '$attr'.");
+
+      // Split an check values
+      $values = array();
+      foreach (explode($delimiter, implode('=', array_slice($arg_parts, 1))) as $value)
+        if (!empty($value))
+          $values[] = $value;
+      if (!array_key_exists($attr, $attrs_values))
+        $attrs_values[$attr] = $values;
+      else
+        $attrs_values[$attr] = array_merge($attrs_values[$attr], $values);
+      return true;
+    }
+
+    /**
+     * CLI modify command
+     *
+     * @param[in] $command_args array Command arguments :
+     *   - Positional arguments :
+     *     - LSobject type
+     *     - object DN
+     *     - changes to made on object in format attr=value1|value2
+     *   - Optional arguments :
+     *     - -D|--delimiter : delimiter for multiple values attributes (default: "|")
+     *     - -N|--no-confirm : Do not ask for confirmation
+     *     - -j|--just-try : Just-try mode = validate changes but do not really update LDAP object data
+     *
+     *   Note: for multiple-values attributes, you also could specify attribute and value
+     *   multiple time, for instance : attr1=value1 attr1=value2
+     *
+     * @retval boolean True on succes, false otherwise
+     **/
+    public static function cli_modify($command_args) {
+      $objType = null;
+      $dn = null;
+      $delimiter = "|";
+      $confirm = true;
+      $just_try = false;
+      $changes = array();
+      for ($i=0; $i < count($command_args); $i++) {
+        switch ($command_args[$i]) {
+          case '-d':
+          case '--delimiter':
+            $delimiter = $command_args[++$i];
+            if ($delimiter == '=')
+              LScli :: usage("Invalid delimiter: you can't use '=' as delimiter.");
+            break;
+          case '-N':
+          case '--no-confirm':
+            $confirm = false;
+            break;
+          case '-j':
+          case '--just-try':
+            $just_try = true;
+            break;
+          default:
+            if (is_null($objType)) {
+              $objType = $command_args[$i];
+              if (!LSsession :: loadLSobject($objType))
+                return false;
+              $obj = new $objType();
+            }
+            elseif (is_null($dn)) {
+              $dn = $command_args[$i];
+            }
+            else {
+              // Change on an attribute
+              $obj -> _cli_parse_attr_values($obj, $changes, $command_args[$i], $delimiter);
+            }
+        }
+      }
+
+      if (is_null($objType) || is_null($dn) || empty($changes))
+        LScli :: usage('You must provide LSobject type, DN and at least one change.');
+
+      if (!$obj->loadData($dn)) {
+        self :: log_fatal("Fail to load object $dn data from LDAP");
+        return false;
+      }
+
+      if ($confirm) {
+        echo $obj -> _cli_show_attrs_values($changes, "Attributes's values changes:");
+        // Sure ?
+        if (!LScli :: confirm("Are you sure you want to change attributes's values of this object as specified?"))
+          return True;
+      }
+
+      // Instanciate a modify LSform
+      $form = $obj -> getForm('modify');
+
+      // Check all changed attributes are in modify form and are'nn freezed
+      foreach ($changes as $attr => $value) {
+        if (!$form -> hasElement($attr))
+          LScli :: usage("Change on attribute '$attr' is not possible (attribute not in modify form).");
+        if ($form -> isFreeze($attr))
+          LScli :: usage("Change on attribute '$attr' is not possible (attribute freezed in modify form).");
+      }
+
+      // Set form data from inputed data, validate form (only for present data) and validate data
+      if (!$form -> setPostData($changes, true) || !$form -> validate(true) || !$obj -> updateData('modify', $just_try)) {
+        $error_msg = "Validation errors occured on your changes:";
+        $errors = $form->getErrors();
+        if (is_array($errors) && !empty($errors))
+          $error_msg .= "\n".$obj -> _cli_show_attrs_values($errors, "");
+        else
+          $error_msg .= " unknown error";
+        LSlog :: error($error_msg);
+        return false;
+      }
+      elseif ($just_try) {
+        self :: log_info("$dn: Just-try mode : changes validated but object not updated.");
+      }
+      else {
+        self :: log_info("$dn: Object updated.");
+      }
+      return True;
     }
 
     /**
@@ -2316,6 +2480,33 @@ LScli :: add_command(
     array('LSldapObject', 'cli_show'),
     'Show an LSobject',
     '[object type] [dn] [-r|--raw-values]'
+);
+
+LScli :: add_command(
+    'modify',
+    array('LSldapObject', 'cli_modify'),
+    'Modify an LSobject',
+    '[object type] [dn] [-N|--no-confirm] [-D|--delimiter] attr1=value1|value2 attr2=value3',
+    array(
+      '   - Positional arguments :',
+      '     - LSobject type',
+      '     - LSobject DN',
+      '     - attributes values to modify in format:',
+      '',
+      '        attr_name=value1|value2',
+      '',
+      '       Note: for multiple-values attributes, you also could specify',
+      '             attribute and value multiple time, for instance :',
+      '',
+      '                  attr1=value1 attr1=value2',
+      '',
+      '   - Optional arguments :',
+      '     - -j|--just-try       Just-try mode: validate changes but do not',
+      '                           really update LDAP object data',
+      '     -D|--delimiter        Delimiter for multiple values attributes',
+      '                           (default: "|")',
+      '     -N|--no-confirm       Do not ask for confirmation',
+    )
 );
 
 LScli :: add_command(
