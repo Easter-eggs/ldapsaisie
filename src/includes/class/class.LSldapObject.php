@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 LSsession :: loadLSclass('LSattribute');
 
 /**
@@ -29,7 +30,7 @@ LSsession :: loadLSclass('LSattribute');
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSldapObject {
+class LSldapObject extends LSlog_staticLoggerClass {
 
   var $config = array();
   var $type_name;
@@ -343,9 +344,9 @@ class LSldapObject {
       }
     }
     if($this -> validateAttrsData($idForm)) {
-      LSdebug("les données sont validées");
+      self :: log("DEBUG", "les données sont validées");
       if ($justValidate) {
-        LSdebug('Just validate mode');
+        self :: log("DEBUG", 'Just validate mode');
         return True;
       }
 
@@ -361,7 +362,7 @@ class LSldapObject {
       }
 
       if ($this -> submitChange($idForm)) {
-        LSdebug('Les modifications sont submitÃ©es');
+        self :: log("DEBUG", 'Les modifications sont submitÃ©es');
         // Event After Modify
         $this -> fireEvent('after_modify');
 
@@ -590,7 +591,7 @@ class LSldapObject {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
         if(($attr -> name == $this -> getConfig('rdn')) && (!$new)) {
           $new = true;
-          LSdebug('Rename');
+          self :: log("DEBUG", 'Rename');
           if (!$this -> fireEvent('before_rename')) {
             LSerror :: addErrorCode('LSldapObject_16');
             return;
@@ -626,7 +627,7 @@ class LSldapObject {
       $dn=$this -> getDn();
       if($dn) {
         $this -> dn=$dn;
-        LSdebug($submitData);
+        self :: log("DEBUG", $submitData);
         if ($new) {
           if (!$this -> fireEvent('before_create')) {
             LSerror :: addErrorCode('LSldapObject_20');
@@ -1142,7 +1143,7 @@ class LSldapObject {
           );
         }
         else {
-          LSdebug('Problème durant la mise en cache de la relation '.$relation_name);
+          self :: log("DEBUG", 'Problème durant la mise en cache de la relation '.$relation_name);
           return;
         }
       }
@@ -1266,7 +1267,7 @@ class LSldapObject {
    * @retval True en cas de cas ce succès, False sinon.
    */
   private function afterCreate() {
-    LSdebug('after');
+    self :: log("DEBUG", 'after');
     $error = 0;
 
     // container_auto_create
@@ -1278,7 +1279,7 @@ class LSldapObject {
             if (isset($conf_type['container_auto_create'])&&isset($conf_type['container_dn'])) {
               $dn = $conf_type['container_dn'].','.$this -> getDn();
               if(!LSldap :: getNewEntry($dn,$conf_type['container_auto_create']['objectclass'],$conf_type['container_auto_create']['attrs'],true)) {
-                LSdebug("Impossible de créer l'entrée fille : ".print_r(
+                self :: log("DEBUG", "Impossible de créer l'entrée fille : ".print_r(
                   array(
                     'dn' => $dn,
                     'objectClass' => $conf_type['container_auto_create']['objectclass'],
@@ -1910,7 +1911,7 @@ class LSldapObject {
 
     $obj = new $objType();
     if (!$obj->loadData($dn)) {
-      LSlog :: fatal("Fail to load object $dn data from LDAP");
+      self :: log("FATAL", "Fail to load object $dn data from LDAP");
       return false;
     }
 
@@ -1961,7 +1962,7 @@ class LSldapObject {
           }
         }
         else {
-          LSlog :: error("Fail to load related objects.");
+          self :: log("ERROR", "Fail to load related objects.");
         }
         echo "\n";
       }
@@ -2035,7 +2036,7 @@ class LSldapObject {
 
       $obj = new $objType();
       if (!$obj->loadData($dn)) {
-        LSlog :: fatal("Fail to load object $dn data from LDAP");
+        self :: log("FATAL", "Fail to load object $dn data from LDAP");
         return false;
       }
 
@@ -2053,10 +2054,10 @@ class LSldapObject {
       }
 
       if ($obj -> remove()) {
-        LSlog :: info("Object ".$obj->getDn()." removed.");
+        self :: log("INFO", "Object ".$obj->getDn()." removed.");
         return true;
       }
-      LSlog :: error("Fail to remove object ".$obj->getDn().".");
+      self :: log("ERROR", "Fail to remove object ".$obj->getDn().".");
       return false;
     }
 
@@ -2109,17 +2110,17 @@ class LSldapObject {
 
       $obj = new $objType();
       if (!$obj->loadData($dn)) {
-        LSlog :: fatal("Fail to load object $dn data from LDAP");
+        self :: log("FATAL", "Fail to load object $dn data from LDAP");
         return false;
       }
 
       if (!LSsession :: loadLSclass('LSrelation')) {
-        LSlog :: fatal("Fail to load LSrelation class.");
+        self :: log("FATAL", "Fail to load LSrelation class.");
         return false;
       }
 
       if (!is_array($obj -> getConfig("LSrelation.$relName"))) {
-        LSlog :: fatal("LSobject $objType have no relation '$relName'.");
+        self :: log("FATAL", "LSobject $objType have no relation '$relName'.");
         return false;
       }
 
@@ -2133,7 +2134,7 @@ class LSldapObject {
           $listDns[] = $o -> getDn();
         }
       }
-      LSlog :: debug("Current related object(s) :".varDump($listDns));
+      self :: log("DEBUG", "Current related object(s) :".varDump($listDns));
 
       // Keep a copy of initial related objects list
       $initialListDns = $listDns;
@@ -2150,7 +2151,7 @@ class LSldapObject {
       foreach ($add as $dn) {
         // Check if DN is already in relation
         if (in_array($dn, $listDns)) {
-          LSlog :: debug("LSobject $relatedLSobject $dn is already in relation with ".$obj -> getDn().".");
+          self :: log("DEBUG", "LSobject $relatedLSobject $dn is already in relation with ".$obj -> getDn().".");
           continue;
         }
 
@@ -2159,7 +2160,7 @@ class LSldapObject {
         $search -> run(false);
         $result = $search -> listObjectsDn();
         if (!is_array($result) || count($result) != 1) {
-          LSlog :: error("No $relatedLSobject found for DN $dn");
+          self :: log("ERROR", "No $relatedLSobject found for DN $dn");
           return false;
         }
         $listDns[] = $dn;
@@ -2175,20 +2176,20 @@ class LSldapObject {
           unset($listDns[$key]);
         }
         if (!$found)
-          LSlog :: debug("LSobject $relatedLSobject $dn is not in relation with ".$obj -> getDn().".");
+          self :: log("DEBUG", "LSobject $relatedLSobject $dn is not in relation with ".$obj -> getDn().".");
       }
 
       if ($initialListDns == $listDns) {
-        LSlog :: info('No changes done.');
+        self :: log("INFO", 'No changes done.');
         return True;
       }
 
-      LSlog :: debug("New related object(s) list: ".varDump($listDns));
+      self :: log("DEBUG", "New related object(s) list: ".varDump($listDns));
       if ($relation -> updateRelations($listDns)) {
-        LSlog :: info('Objects in relation updated.');
+        self :: log("INFO", 'Objects in relation updated.');
         return True;
       }
-      LSlog :: error("Fail to update objects in relation");
+      self :: log("ERROR", "Fail to update objects in relation");
       return False;
     }
 }
