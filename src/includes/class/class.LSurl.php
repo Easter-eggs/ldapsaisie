@@ -21,13 +21,14 @@
 ******************************************************************************/
 
 LSsession :: loadLSclass('LSurlRequest');
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 
 /**
  * URL Routing Manager for LdapSaisie
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSurl {
+class LSurl extends LSlog_staticLoggerClass {
 
   /*
    * Configured URL patterns :
@@ -55,38 +56,6 @@ class LSurl {
 
   // Rewrited request param
   const REWRITED_REQUEST_PARAM = 'REQUESTED_URL';
-
-  // Logger
-  private static $logger = null;
-
-  /*
-   * Log a message via class logger
-   *
-   * @param[in] $level string The log level (see LSlog)
-   * @param[in] $message string The message to log
-   *
-   * @retval void
-   **/
-  private static function log($level, $message) {
-    if (is_null(self :: $logger))
-      self :: $logger = LSlog :: get_logger('LSurl');
-    self :: $logger -> logging($level, $message);
-  }
-
-  /**
-	 * Log an exception via class logger
-	 *
-	 * @param[in] $exception Exception The exception to log
-	 * @param[in] $prefix string|null Custom message prefix (optional, see self :: log_exception())
-	 * @param[in] $fatal boolean Log exception as a fatal error (optional, default: true)
-	 *
-	 * @retval void
-	 **/
-	public static function log_exception($exception, $prefix=null, $fatal=true) {
-    if (is_null(self :: $logger))
-      self :: $logger = LSlog :: get_logger('LSurl');
-    self :: $logger -> exception($exception, $prefix, $fatal);
-  }
 
   /**
    * Add an URL pattern
