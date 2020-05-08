@@ -43,7 +43,7 @@ class LSattr_html_image extends LSattr_html {
       return;
     }
 
-    if (count($data)>1) {
+    if ($data && count($data)>1) {
       LSerror :: addErrorCode('LSattr_html_03','password');
     }
 
