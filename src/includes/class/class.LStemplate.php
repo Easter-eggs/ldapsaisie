@@ -20,6 +20,8 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Manage template
  *
@@ -27,7 +29,7 @@
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LStemplate {
+class LStemplate extends LSlog_staticLoggerClass {
 
   /**
    * LStemplate configuration
@@ -96,7 +98,7 @@ class LStemplate {
       self :: $_smarty -> template_dir = self :: $config['template_dir'];
 
       if ( ! is_writable(self :: $config['compile_dir']) ) {
-        LSlog :: fatal(getFData(_("LStemplate : compile directory is not writable (dir : %{dir})"), self :: $config['compile_dir']));
+        self :: log("FATAL", getFData(_("LStemplate : compile directory is not writable (dir : %{dir})"), self :: $config['compile_dir']));
       }
       self :: $_smarty -> compile_dir = self :: $config['compile_dir'];
 
@@ -194,7 +196,7 @@ class LStemplate {
       // Checks that the file is in the actual folder location
       $pos = strpos($file_path, $dir_path);
       if (!is_int($pos) || $pos != 0) {
-        LSlog :: error("LStemplate :: getFilePath($file, $root_dir, $default_dir, $with_nocache) : File '$file_path' is not in root directory '$dir_path' (".varDump($pos).").");
+        self :: log("ERROR", "LStemplate :: getFilePath($file, $root_dir, $default_dir, $with_nocache) : File '$file_path' is not in root directory '$dir_path' (".varDump($pos).").");
       }
       elseif (file_exists($file_path)) {
         $path = $file_path;
@@ -274,7 +276,7 @@ class LStemplate {
   **/
   public static function getTemplatePath($template, $with_nocache=false) {
     if (in_array($template, self :: $deprecated_template_files))
-      LSlog :: fatal(
+      self :: log("FATAL",
         getFData(
           _("LStemplate : Request template '%{tpl}' is now deprecated. Please refer to upgrade documentation to adapt your templates."),
           $template
@@ -363,7 +365,7 @@ class LStemplate {
       self :: $_smarty -> display("ls:$template");
     }
     catch (Exception $e) {
-      LSlog :: exception($e, getFData(_("Smarty - An exception occured displaying template '%{template}'"), $template));
+      self :: log_exception($e, getFData(_("Smarty - An exception occured displaying template '%{template}'"), $template));
       exit();
     }
 
@@ -383,7 +385,7 @@ class LStemplate {
       return self :: $_smarty -> fetch("ls:$template");
     }
     catch (Exception $e) {
-      LSlog :: exception($e, getFData(_("Smarty - An exception occured fetching template '%{template}'"), $template), false);
+      self :: log_exception($e, getFData(_("Smarty - An exception occured fetching template '%{template}'"), $template), false);
     }
   }
 
