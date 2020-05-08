@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Base of a authentication provider for LSauth
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSauthMethod {
+class LSauthMethod extends LSlog_staticLoggerClass {
 
   var $authData = array();
 
@@ -33,9 +35,9 @@ class LSauthMethod {
     // Load config (without warning if not found)
     $conf_file = LS_CONF_DIR."LSauth/config.".get_class($this).".php";
     if (LSsession :: includeFile($conf_file, false, false))
-      LSlog :: debug(get_class($this)." :: __construct(): config file ($conf_file) loaded");
+      self :: log_debug(get_class($this)." :: __construct(): config file ($conf_file) loaded");
     else
-      LSlog :: debug(get_class($this)." :: __construct(): config file ($conf_file) not found");
+      self :: log_debug(get_class($this)." :: __construct(): config file ($conf_file) not found");
     return true;
   }
 
