@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Base d'un type d'attribut Ldap
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_ldap {
+class LSattr_ldap extends LSlog_staticLoggerClass {
 
   var $name;
   var $config;
