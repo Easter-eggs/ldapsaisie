@@ -55,4 +55,59 @@ class LSlog_staticLoggerClass {
     self :: $logger -> exception($exception, $prefix, $fatal);
   }
 
+  /**
+   * Log a message with level DEBUG
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_debug($message) {
+    self :: log('DEBUG', $message);
+  }
+
+  /**
+   * Log a message with level INFO
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_info($message) {
+    self :: log('INFO', $message);
+  }
+
+  /**
+   * Log a message with level WARNING
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_warning($message) {
+    self :: log('WARNING', $message);
+  }
+
+  /**
+   * Log a message with level ERROR
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_error($message) {
+    self :: log('ERROR', $message);
+  }
+
+  /**
+   * Log a message with level FATAL
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_fatal($message) {
+    self :: log('FATAL', $message);
+  }
+
 }
