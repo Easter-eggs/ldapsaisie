@@ -192,10 +192,10 @@ define('LSdebug',false);
 
 // Logging
 $GLOBALS['LSlog']['handlers'] = array (
-	array (
-		'handler' => 'file',
-		'path' => 'tmp/LS.log',
-		//'level' => 'DEBUG',
+  array (
+    'handler' => 'file',
+    'path' => 'tmp/LS.log',
+    //'level' => 'DEBUG',
     // Filter on specific loggers
     //'loggers' => array('LSurl', 'LSlang'),
     // Default formats
@@ -203,24 +203,24 @@ $GLOBALS['LSlog']['handlers'] = array (
     //'cli_format' => '%{clibinpath} - %{level} - %{message}',
     //'datetime_prefix' => true,            // Prefix message with datetime ?
     //'datetime_format' => 'Y/m/d H:i:s',   // Datetime prefix format (see php date() function)
-	),
-	array (
-		'handler' => 'email', // Email handler (each logged message generated an email)
-		'level' => 'FATAL',
-		'recipient' => 'root@localhost', // Email recipient
-	),
-	/*
-	array (
-		'handler' => 'syslog', // Syslog handler
-		//'priority' => 'WARNING', // Force priority : EMERG, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG
-	),
-	*/
-	/*
-	array (
-		'handler' => 'system', // System logging (using PHP error_log)
-		'level' => 'ERROR',
-	),
-	*/
+  ),
+  array (
+    'handler' => 'email', // Email handler (each logged message generated an email)
+    'level' => 'FATAL',
+    'recipient' => 'root@localhost', // Email recipient
+  ),
+  /*
+  array (
+    'handler' => 'syslog', // Syslog handler
+    //'priority' => 'WARNING', // Force priority : EMERG, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG
+  ),
+  */
+  /*
+  array (
+    'handler' => 'system', // System logging (using PHP error_log)
+    'level' => 'ERROR',
+  ),
+  */
 );
 $GLOBALS['LSlog']['loggers'] = array (
   /**
@@ -241,7 +241,7 @@ $GLOBALS['LSlog']['loggers'] = array (
   ),
   */
 );
-$GLOBALS['LSlog']['level'] = 'INFO';	// DEBUG, INFO, WARNING, ERROR, FATAL
+$GLOBALS['LSlog']['level'] = 'INFO';  // DEBUG, INFO, WARNING, ERROR, FATAL
 $GLOBALS['LSlog']['enable'] = true;
 
 define('NB_LSOBJECT_LIST',30);
