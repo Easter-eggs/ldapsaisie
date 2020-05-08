@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Base d'un type d'attribut HTML
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSattr_html {
+class LSattr_html extends LSlog_staticLoggerClass {
 
   var $name;
   var $config;
