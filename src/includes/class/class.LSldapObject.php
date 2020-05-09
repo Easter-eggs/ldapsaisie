@@ -2116,6 +2116,106 @@ class LSldapObject extends LSlog_staticLoggerClass {
     }
 
     /**
+     * CLI create command
+     *
+     * @param[in] $command_args array Command arguments :
+     *   - Positional arguments :
+     *     - LSobject type
+     *     - object DN
+     *     - attributes values in format attr=value1|value2
+     *   - Optional arguments :
+     *     - -D|--delimiter : delimiter for multiple values attributes (default: "|")
+     *     - -N|--no-confirm : Do not ask for confirmation
+     *     - -j|--just-try : Just-try mode = validate provided data but do not really
+     *                       create LDAP object data
+     *
+     *   Note: for multiple-values attributes, you also could specify attribute and value
+     *   multiple time, for instance : attr1=value1 attr1=value2
+     *
+     * @retval boolean True on succes, false otherwise
+     **/
+    public static function cli_create($command_args) {
+      $objType = null;
+      $delimiter = "|";
+      $confirm = true;
+      $just_try = false;
+      $attrs_values = array();
+      for ($i=0; $i < count($command_args); $i++) {
+        switch ($command_args[$i]) {
+          case '-d':
+          case '--delimiter':
+            $delimiter = $command_args[++$i];
+            if ($delimiter == '=')
+              LScli :: usage("Invalid delimiter: you can't use '=' as delimiter.");
+            break;
+          case '-N':
+          case '--no-confirm':
+            $confirm = false;
+            break;
+          case '-j':
+          case '--just-try':
+            $just_try = true;
+            break;
+          default:
+            if (is_null($objType)) {
+              $objType = $command_args[$i];
+              if (!LSsession :: loadLSobject($objType))
+                return false;
+              $obj = new $objType();
+            }
+            else {
+              // Change on an attribute
+              $obj -> _cli_parse_attr_values($obj, $attrs_values, $command_args[$i], $delimiter);
+            }
+        }
+      }
+
+      if (is_null($objType) || empty($attrs_values))
+        LScli :: usage('You must provide LSobject type, DN and at least one change.');
+
+      // Instanciate a create LSform
+      $form = $obj -> getForm('create');
+
+      // Check all changed attributes are in modify form and are'nn freezed
+      foreach ($attrs_values as $attr => $value) {
+        if (!$form -> hasElement($attr))
+          LScli :: usage("Change on attribute '$attr' is not possible (attribute not in create form).");
+        if ($form -> isFreeze($attr))
+          LScli :: usage("Change on attribute '$attr' is not possible (attribute freezed in create form).");
+      }
+
+      // Set form data from inputed data, validate form (only for present data) and validate data (just-validation)
+      if ($form -> setPostData($attrs_values, true) && $form -> validate(true) && $obj -> updateData('create', true)) {
+        // Data validated, get user confirmation
+        if ($confirm) {
+          echo $obj -> _cli_show(false);
+          // Sure ?
+          if (!LScli :: confirm("Are you sure you want to create an $objType with this attributes's values?"))
+            return True;
+        }
+        // Just-try mode: stop
+        if ($just_try) {
+          self :: log_info($obj -> getDn().": Just-try mode : provided information validated but object not updated.");
+          return True;
+        }
+        // Create object in LDAP
+        if ($obj -> updateData('create')) {
+          self :: log_info($obj -> getDn().": Object created.");
+          return True;
+        }
+      }
+      // An error occured: show/log it
+      $error_msg = "Validation errors occured on provided information:";
+      $errors = $form->getErrors();
+      if (is_array($errors) && !empty($errors))
+        $error_msg .= "\n".$obj -> _cli_show_attrs_values($errors, "");
+      else
+        $error_msg .= " unknown error";
+      LSlog :: error($error_msg);
+      return false;
+    }
+
+    /**
      * CLI modify command
      *
      * @param[in] $command_args array Command arguments :
@@ -2483,6 +2583,32 @@ LScli :: add_command(
 );
 
 LScli :: add_command(
+    'create',
+    array('LSldapObject', 'cli_create'),
+    'Create an LSobject',
+    '[object type] [-N|--no-confirm] [-D|--delimiter] attr1=value1|value2 attr2=value3',
+    array(
+      '   - Positional arguments :',
+      '     - LSobject type',
+      '     - attributes values in format:',
+      '',
+      '        attr_name=value1|value2',
+      '',
+      '       Note: for multiple-values attributes, you also could specify',
+      '             attribute and value multiple time, for instance :',
+      '',
+      '                  attr1=value1 attr1=value2',
+      '',
+      '   - Optional arguments :',
+      '     -j|--just-try         Just-try mode: validate provided informations',
+      '                           but do not really create LDAP object. ',
+      '     -D|--delimiter        Delimiter for multiple values attributes',
+      '                           (default: "|")',
+      '     -N|--no-confirm       Do not ask for confirmation',
+    )
+);
+
+LScli :: add_command(
     'modify',
     array('LSldapObject', 'cli_modify'),
     'Modify an LSobject',
@@ -2501,7 +2627,7 @@ LScli :: add_command(
       '                  attr1=value1 attr1=value2',
       '',
       '   - Optional arguments :',
-      '     - -j|--just-try       Just-try mode: validate changes but do not',
+      '     -j|--just-try         Just-try mode: validate changes but do not',
       '                           really update LDAP object data',
       '     -D|--delimiter        Delimiter for multiple values attributes',
       '                           (default: "|")',
