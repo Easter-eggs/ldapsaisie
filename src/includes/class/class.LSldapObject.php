@@ -426,7 +426,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
           }
           else {
             // Don't blame on non-create form for attributes not-present in form (or freezed)
-            if ($LSform && $idFrom != 'create' && (!$LSform -> hasElement($attr_name) || $LSform -> isFreeze($attr_name)))
+            if ($LSform && $idForm != 'create' && (!$LSform -> hasElement($attr_name) || $LSform -> isFreeze($attr_name)))
               continue;
 
             LSerror :: addErrorCode('LSattribute_06',$attr -> getLabel());
