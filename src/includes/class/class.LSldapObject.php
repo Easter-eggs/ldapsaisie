@@ -2071,7 +2071,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
       if ($confirm) {
         $obj -> _cli_show($raw_values);
         // Sure ?
-        if (!LScli :: confirm("\nAre you sure you want to delete this object?"));
+        if (!LScli :: confirm("\nAre you sure you want to delete this object?"))
           return True;
       }
 
