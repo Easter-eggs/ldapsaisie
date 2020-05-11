@@ -175,7 +175,7 @@ class LSimport {
                 // Set form data from inputed data
                 if ($form -> setPostData($objData,true)) {
                   // Validate form
-                  if ($form -> validate()) {
+                  if ($form -> validate(true)) {
                     // Validate data (just validate)
                     if ($object -> updateData('create',True)) {
                       LSdebug('Data is correct, retreive object DN');
@@ -209,7 +209,7 @@ class LSimport {
                             // Set form data from inputed data
                             if ($form -> setPostData($objData,true)) {
                               // Validate form
-                              if ($form -> validate()) {
+                              if ($form -> validate(true)) {
                                 // Update data on LDAP server
                                 if ($data['justTry'] || $object -> updateData('modify')) {
                                   LSdebug('Object '.$object -> getDn().' updated');
