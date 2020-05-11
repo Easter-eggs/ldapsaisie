@@ -115,7 +115,7 @@ function LSaccessRightsMatrixView() {
 	if ($LSobject == LSsession :: $ldapServer["authObjectType"])
 		$LSprofiles = array_merge(array('self' => _('The user him-self')), $LSprofiles);
 
-	LSdebug($LSobjects);
+	LSlog :: get_logger('LSaddon_LSaccessRightsMatrixView') -> debug($LSobjects);
 
 	LStemplate :: assign('pagetitle', _('Access rights matrix'));
 	LStemplate :: assign('LSprofiles', $LSprofiles);
