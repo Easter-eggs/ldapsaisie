@@ -711,7 +711,7 @@ function handle_old_select_php($request) {
   if (!isset($_GET['LSobject']))
     $url = null;
   else {
-    $url = "object/".$_GET['pattern']."/select";
+    $url = "object/".$_GET['LSobject']."/select";
     // Preserve GET parameters
     $params = array();
     foreach (array('filter64', 'multiple', 'selectablly', 'editableAttr', 'page', 'ajax', 'refresh') as $param)
