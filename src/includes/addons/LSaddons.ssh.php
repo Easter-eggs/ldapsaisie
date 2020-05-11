@@ -114,6 +114,7 @@ LSerror :: defineError('SSH_07',
   * @retval mixed SSH2/SFTP object or false
   */
   function connectToSSH($params, $sftp=false) {
+    $logger = LSlog :: get_logger('LSaddon_ssh');
     if (!isset($params['host'])) {
       LSerror :: addErrorCode('SSH_01',"host");
       return false;
@@ -127,7 +128,7 @@ LSerror :: defineError('SSH_07',
     $user = $params['user'];
 
     $port = (isset($params['port'])?$params['port']:22);
-    $timeout = (isset($params['timeout'])?$params['timeout']:22);
+    $timeout = (isset($params['timeout'])?$params['timeout']:10);
 
     if (isset($params['auth_key'])) {
       if (!isset($params['auth_key']['file_path'])) {
@@ -151,8 +152,10 @@ LSerror :: defineError('SSH_07',
         LSerror :: addErrorCode('SSH_03', $key_file_path);
         return;
       }
+      $logger -> debug("Connect on $user@$host:$port (timeout: $timeout sec) with key authentication using file '$key_file_path'.");
     }
     elseif (isset($params['password'])) {
+      $logger -> debug("Connect on $user@$host:$port (timeout: $timeout sec) with password authentication.");
       $password = $params['password'];
     }
     else {
@@ -169,6 +172,7 @@ LSerror :: defineError('SSH_07',
       LSerror :: addErrorCode('SSH_04', array('host' => $host, 'port' => $port));
       return false;
     }
+    $logger -> debug("Connected.");
 
     return $cnx;
   }
@@ -196,6 +200,7 @@ LSerror :: defineError('SSH_07',
     }
     $retval=true;
     foreach($dirs as $dir) {
+      LSlog :: get_logger('LSaddon_ssh') -> debug("mkdir($dir) with chmod=$chmod and recursie ".($recursive?'enabled':'disabled'));
       if (!$cnx -> mkdir($dir, $chmod, $recursive)) {
         LSerror :: addErrorCode('SSH_05',$dir);
         if (!$continue) return false;
@@ -227,6 +232,7 @@ LSerror :: defineError('SSH_07',
     }
     $retval=true;
     foreach($dirs as $dir) {
+      LSlog :: get_logger('LSaddon_ssh') -> debug("delete($dir) with recursive ".($recursive?'enabled':'disabled'));
       if (!$cnx -> delete($dir, $recursive)) {
         LSerror :: addErrorCode('SSH_06',$dir);
         if (!$continue) return false;
@@ -252,6 +258,7 @@ LSerror :: defineError('SSH_07',
     if (! $cnx){
       return;
     }
+    LSlog :: get_logger('LSaddon_ssh') -> debug("rename($old, $new)");
     if (!$cnx -> rename($old, $new)) {
       LSerror :: addErrorCode('SSH_07',array('old' => $old,'new' => $new));
       return;
@@ -276,6 +283,7 @@ LSerror :: defineError('SSH_07',
     if (! $cnx){
       return;
     }
+    LSlog :: get_logger('LSaddon_ssh') -> debug("exec($cmd)");
     $result = $cnx -> exec($cmd);
     $exit_status = $cnx->getExitStatus();
     return array($exit_status, $result);
