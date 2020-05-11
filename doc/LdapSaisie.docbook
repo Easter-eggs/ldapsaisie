@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE 
+<!DOCTYPE
 book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
 [
   <!ENTITY % LS-entities SYSTEM "LS.entities.xml">
   %LS-entities;
-  
+
   <!ENTITY % conf-entities SYSTEM "conf/conf.entities.xml">
   %conf-entities;
   <!ENTITY % conf-LSattribute-LSattr_html-entities SYSTEM "conf/LSattribute/LSattr_html/LSattr_html.entities.xml">
@@ -21,10 +21,11 @@ book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
   <!ENTITY intro SYSTEM "intro/intro.docbook">
   <!ENTITY install SYSTEM "install/install.docbook">
   <!ENTITY install-arbo SYSTEM "install/arbo.docbook">
+  <!ENTITY upgrade SYSTEM "upgrade/upgrade.docbook">
 ]>
-  
+
 <book lang="fr">
- 
+
 <bookinfo lang="fr">
   <title>LdapSaisie</title>
   <authorgroup>
@@ -42,10 +43,12 @@ book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
  <productname>LdapSaisie</productname>
   <releaseinfo>Version 0.3</releaseinfo>
 </bookinfo>
- 
+
 &intro;
 
 &install;
+
+&upgrade;
 
 &conf;
 </book>

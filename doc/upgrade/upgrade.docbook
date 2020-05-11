@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<chapter>
+
+<title>Mise à jour</title>
+
+<para>Cette section de la documentation détaille la procédure de mise à jour d'une installation existante
+et regroupe des informations pratiques et utiles pour des montées de versions spécifiques entrainant par
+exemple une perte de rétrocompatibilité de la configuration.</para>
+
+<sect1>
+  <title>Procédure de mise à jour</title>
+
+  <sect2>
+    <title>Installation via paquet Debian</title>
+    <para>Lors d’une installation par paquet Debian, la mise à jour est grandement facilité par le packaging:
+    Il vous suffit de mettre à jour le paquet <literal>ldapsaisie</literal> :
+<programlisting>apt update
+apt install ldapsaisie</programlisting>
+    </para>
+
+    <para>Une fois l’application mise à jour, prêté attention aux nouveautés et point de vigilances décrite dans
+    la section suivante.</para>
+  </sect2>
+
+  <sect2>
+    <title>Installation à partir des sources</title>
+    <para>Lors d’une installation par à partir des sources, le script <literal>upgradeFromGit.sh</literal> permet
+    d’automatiser la mise à jour, à condition que vous ayez suivi la procédure d’installation à ce sujet.</para>
+
+    <para>Ce script s’occupera alors de :
+    <itemizedlist>
+      <listitem><simpara>Nettoyer <literal>working-tree</literal> Git des liens symboliques des fichiers locaux
+      (et éventuellement du thème) mis en place lors d’une précédente exécution ;</simpara></listitem>
+      <listitem><simpara>Vider le cache des templates ;</simpara></listitem>
+      <listitem><simpara>Mettre à jour le <literal>working-tree</literal> Git via un <literal>git pull</literal>
+      de la mise à jour ;</simpara></listitem>
+      <listitem><simpara>Installer des liens symboliques pour les fichiers locaux. En cas de fichier remplacant
+      un fichier livré avec l’application, le script vous notifiera en cas de changement intervenu dans le fichier
+      fourni avec l’application et vous permettra de le mettre à jour simplement votre fichier local (via un
+      <literal>vim -d</literal>) ;</simpara></listitem>
+      <listitem><simpara>Détecter des changements dans les fichiers <literal>MO</literal> (traduction) et de
+      déclencher dans ce cas un rechargement du serveur web pour prise en compte ;</simpara></listitem>
+      <listitem><simpara>Option : de compiler une version locale à jour de la documentation ;</simpara></listitem>
+    </itemizedlist>
+    </para>
+
+    <para>Une fois l’application mise à jour, prêté attention aux nouveautés et point de vigilances décrite dans
+    la section suivante.</para>
+  </sect2>
+
+</sect1>
+
+<sect1>
+  <title>Mise à jour 2.4.1 -> 3.0.0</title>
+
+<para>Cette mise à jour majeure apporte de nombreuses nouveautés auxquelles il est important de prêter attention.
+Cette section ne parlera pas particulièrement de ces nouveautés, mais vous pouvez consulter le fichier <ulink
+url="&GIT_RAW_ROOT_URL;/debian/ldapsaisie.NEWS">debian/ldapsaisie.NEWS
+</ulink> pour cela. Cette section listera en outre les points de vigilances à avoir et les adaptations à apporter
+sur votre configuration et votre code personnalisé.</para>
+
+<sect2>
+  <title>Fichier config.inc.php</title>
+  <itemizedlist>
+    <listitem><simpara>ajout du paramètre <literal>ConsoleTable</literal> avec pour valeur par défaut sous
+    <application>Debian</application> <literal>/usr/share/php/Console/Table.php</literal></simpara>
+    </listitem>
+    <listitem><simpara>ajout du paramètre <literal>public_root_url</literal> avec pour valeur par défaut sous
+    <application>Debian</application> <literal>/ldapsaisie</literal></simpara></listitem>
+    <listitem><simpara>paramètre <literal>$GLOBALS['defaultCSSfiles']</literal> : il est nécessaire de modifier les
+    URLs des fichiers listés : seul le nom du fichier doit rester, sa localisation sera détectée automatiquement. Par
+    exemple, <literal>$GLOBALS['defaultCSSfiles']=array('../light-blue.css');</literal> devient <literal>
+    $GLOBALS['defaultCSSfiles']=array('light-blue.css');</literal>.
+    </simpara></listitem>
+  </itemizedlist>
+</sect2>
+
+<sect2>
+  <title>Fichiers CSS</title>
+  <itemizedlist>
+    <listitem><simpara>corriger les URL des images : <literal>url(../../images/default/find.png)</literal> devient
+    <literal>url(../image/find)</literal>. Pour identifier les fichiers CSS concernés, vous pouvez utiliser les
+    commandes suivantes :<programlisting>grep -Er 'url\(.*images' /etc/ldapsaisie/local/css
+grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></simpara></listitem>
+    <listitem><simpara>modification CSS page <literal>fatal_error</literal> (fichier base.css) : <literal>
+    #fatal_error</literal> devient <literal>#error</literal></simpara></listitem>
+  </itemizedlist>
+</sect2>
+
+<sect2>
+  <title>Fichiers PHP</title>
+  <itemizedlist>
+    <listitem><simpara><literal>LSsession :: redirect()</literal> devient <literal>LSurl :: redirect()</literal>.
+    Pour identifier les fichiers CSS concernés, vous pouvez utiliser la commande suivante :
+    <programlisting>grep -Er 'LSsession *:: *redirect *\(' /etc/ldapsaisie/local/</programlisting></simpara></listitem>
+    <listitem>
+      <para>Les inclusions de fichiers Javascript via <literal>LSsession :: addJSscript()</literal> doivent
+      être adaptées :
+      <itemizedlist>
+        <listitem><simpara><literal>LSsession :: addJSscript('../../local/includes/js/LSformElement_eetelephone.js');</literal>
+        devient <literal>LSsession :: addJSscript('LSformElement_eetelephone.js');</literal></simpara></listitem>
+        <listitem><simpara><literal>LSsession :: addJSscript('../../local/includes/js/LSformElement_eetelephone.js');</literal>
+        devient <literal>LSsession :: addJSscript('LSformElement_eetelephone.js');</literal></simpara></listitem>
+        <listitem><simpara><literal>LSsession :: addJSscript('click-to-dial_view.js', 'local/includes/js/');</literal>
+        devient <literal>LSsession :: addJSscript('click-to-dial_view.js');</literal></simpara></listitem>
+      </itemizedlist>
+      </para>
+      <para>
+        Pour identifier les fichiers concernés, vous pouvez utiliser les commandes suivantes :
+        <programlisting>grep -Er 'LSsession *:: *addJSscript\(.*local' /etc/ldapsaisie/local/
+grep -Er 'LSsession *:: *addJSscript\(.*\.\.\/' /etc/ldapsaisie/local/</programlisting>
+      </para>
+    </listitem>
+    <listitem><para>Les inclusions de fichiers CSS via <literal>LSsession :: addCssFile()</literal> doivent
+    être adaptées : le nom du fichier CSS uniquememnt doit être conservé (pas de chemin vers le fichier).</para>
+    <para>Pour identifier les fichiers concernés, vous pouvez utiliser les commandes suivantes :
+    <programlisting>grep -Er 'LSsession *:: *addCssFile\(.*local' /etc/ldapsaisie/local/
+grep -Er 'LSsession *:: *addCssFile\(.*\.\.\/' /etc/ldapsaisie/local/</programlisting>
+    </para></listitem>
+    <listitem>
+      <para><literal>LSlog</literal> vs <literal>LSdebug</literal> : L’utilisation de <literal>LSdebug</literal>
+      est dépriorisée en faveur de <literal>LSlog</literal>. Ce dernier ajoute désormais la notion de
+      <emphasis>logger</emphasis>, permettant d’identifier la source des logs. Ce mécanisme permet la configuration
+      d’un niveau de log spécifique pour un <emphasis>logger</emphasis> donné, ainsi que la mise en place de filtres
+      au niveau des <emphasis>handers</emphasis> pour ne logger par exemple que certains <emphasis>loggers</emphasis>,
+      ou à l’inverse en exclure d’autres.</para>
+      <itemizedlist>
+        <listitem>
+          <simpara>Pour vos classes personnalisées : si celles-ci héritent d’une classe standard, il est fort probable
+          qu’il soit possible d’utiliser des méthodes fournies par cette classe pour logguer au travers un
+          <emphasis>logger</emphasis> dédié (voir les méthodes <literal>log_debug</literal>, <literal>log_info</literal>,
+          …). À défaut, il est possible d’utiliser la classe <literal>LSlog_staticLoggerClass</literal> qui facilite
+          l’implémentation.</simpara>
+        </listitem>
+        <listitem>
+          <simpara>Pour vos &LSaddons; : il est conseillé d’utiliser un <emphasis>logger</emphasis>
+          <literal>LSaddon_[addon]</literal> dédié. Le <emphasis>logger</emphasis> peut facilement être récupéré de la
+          manière suivante : <programlisting>LSlog :: get_logger("LSaddon_[addon]")</programlisting>
+          Cette méthode retourne une référence au <emphasis>logger</emphasis> et il est possible d’appeler directement
+          une méthode de log, par exemple :
+          <programlisting>LSlog :: get_logger("LSaddon_[addon]") -> debug("message");</programlisting>
+          </simpara>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+  </itemizedlist>
+</sect2>
+
+<sect2>
+  <title>Fichiers templates :</title>
+
+  <sect3>
+    <title>Changement de l’inclusion des templates</title>
+    <itemizedlist>
+      <listitem>
+        <para>Le cas des fichiers <literal>top.tpl</literal> et <literal>bottom.tpl</literal>
+<programlisting>{include file='ls:top.tpl'}
+
+[...]
+
+{include file='ls:bottom.tpl'}</programlisting>
+          devient :
+<programlisting>{extends file='ls:base_connected.tpl'}
+{block name="content"}
+
+[...]
+
+{/block}
+</programlisting>
+        </para>
+        <note><simpara>Pages à l’état connecté uniquement (incluant le menu, l’entête…).</simpara></note>
+      </listitem>
+      <listitem>
+        <para>Fichiers avec entête HTML :
+<programlisting><![CDATA[<html>
+  <head>
+    [...]
+  </head>
+  <body>
+    [...]
+  </body>
+</html>]]></programlisting>
+  devient :
+<programlisting>{extends file='ls:base.tpl'}
+{block name="body"}
+[...]
+{/block}</programlisting>
+</para>
+<para>Au besoin, si vous avez besoin :
+  <itemizedlist>
+
+<listitem>
+  <para>de remplacer les fichiers CSS chargés par défaut (<literal>base.css</literal> par exemple) : ajouter
+    le block <literal>css</literal> :
+<programlisting><![CDATA[{block name="css"}
+  <link rel="stylesheet" type="text/css" href="{css name='custom.css'}" media="screen" title="Normal" />
+  {include file='ls:LSsession_css.tpl'}
+{/block}]]></programlisting>
+  </para>
+  <note><simpara>Ce block contient tous les CSS, y compris ceux gérés par <literal>LSsession :: addCssFile()</literal>.
+  Pensez à ajouter <literal>{include file='ls:LSsession_css.tpl'}</literal> pour conserver ces derniers.</simpara></note>
+</listitem>
+
+<listitem>
+  <simpara>d’ajouter des infos dans <literal><![CDATA[<head>]]></literal> : ajouter le block <literal>head</literal>
+  (vide par défaut) :
+<programlisting>{block name="head"}
+[...]
+{/block}</programlisting>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>d’ajouter des fichiers Javascript personnalisés : ajouter le block <literal>js</literal> (vide par
+défaut):
+<programlisting>{block name="js"}
+[...]
+{/block}</programlisting>
+  </simpara>
+  <note><simpara>Ce block sera ajouté <emphasis>APRÈS</emphasis> les autres fichiers Javascript chargés (ceux par
+  défaut et ceux ajoutés via <literal>LSsession :: addJSscript()</literal>.</simpara></note>
+</listitem>
+
+  </itemizedlist>
+</para>
+</listitem>
+<listitem><simpara>Autres fichiers remplacés :
+  <itemizedlist>
+    <listitem><simpara><literal>blank.tpl</literal> remplacé par <literal>base.tpl</literal></simpara></listitem>
+    <listitem><simpara><literal>empty.tpl</literal> remplacé par <literal>base_connected.tpl</literal></simpara></listitem>
+    <listitem><simpara><literal>accueil.tpl</literal> remplacé par <literal>homepage.tpl</literal></simpara></listitem>
+  </itemizedlist>
+</simpara></listitem>
+</itemizedlist>
+<para>Pour identifier les fichiers concernés, vous pouvez utiliser la commande suivante :
+<programlisting>grep -Er '(accueil|blank|empty|top|bottom)\.tpl' /etc/ldapsaisie/local/</programlisting>
+</para>
+</sect3>
+
+<sect3>
+  <title>Fichiers templates fournis par defaut :</title>
+  <para>Vérifier les modifications des fichiers templates fourni avec l’application et que vous auriez personnalisé.
+  Pour cela, vous pouvez utiliser la commande suivante :<programlisting><![CDATA[for i in $( ls /etc/ldapsaisie/local/templates/* )
+do
+	default_file="/usr/share/ldapsaisie/templates/default/$( basename "$i" )"
+	[ ! -e "$default_file" ] && continue
+	vi -d $default_file $i
+done]]></programlisting>
+  </para>
+  <note><simpara>Une attention particulière doit être porté aux fichiers <literal>login.tpl</literal> et <literal>
+  recoverpassword.tpl</literal> qui ont particulièrement changés.</simpara></note>
+</sect3>
+
+<sect3>
+  <title>Corriger les URL des images :</title>
+<para><literal>../../images/default/find.png</literal> devient <literal>../image/find</literal></para>
+
+<para>Pour identifier les fichiers concernés, vous pouvez utiliser les commandes suivantes :
+<programlisting>grep -Er 'images' /etc/ldapsaisie/local/templates
+grep -Er '\.(png|gif|jpg)' /etc/ldapsaisie/local/templates</programlisting>
+</para>
+</sect3>
+
+<sect3>
+  <title>Le cas de variable de template <literal>{$LSsession_css}</literal> et <literal>{$LSsession_js}</literal> :</title>
+  <note><simpara>Ceci est déjà géré si vous étendez bien vos templates du fichier <literal>base.tpl</literal> (pour
+  les pages non-connectées) ou <literal>base_connected.tpl</literal> (pour les pages connectées).</simpara></note>
+  <itemizedlist>
+    <listitem>
+      <simpara>
+        <literal>{$LSsession_css}</literal> doit être remplacé par <literal>{include file='ls:LSsession_css.tpl'}</literal>
+      </simpara>
+    </listitem>
+    <listitem>
+      <simpara>
+        <literal>{$LSsession_js}</literal> doit être remplacé par <literal>{include file='ls:LSsession_js.tpl'}</literal>
+      </simpara>
+    </listitem>
+  </itemizedlist>
+</sect3>
+
+</sect2>
+
+<sect2>
+  <title>Tous les fichiers : Modification des URLs</title>
+
+<itemizedlist>
+
+<listitem>
+  <simpara>
+    <literal>view.php</literal> :
+      <itemizedlist>
+        <listitem><simpara>page recherche : <literal>view.php?LSobject=LSpeople</literal> devient
+        <literal>object/LSpeople</literal></simpara></listitem>
+        <listitem><simpara>page d'un objet : <literal>view.php?LSobject=LSpeople&amp;dn=$dn</literal> devient
+        <literal>object/LSpeople/$dn</literal></simpara></listitem>
+      </itemizedlist>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>addon_view.php</literal> :
+    <literal>addon_view.php?LSaddon=ee&amp;view=copyContract</literal> devient
+    <literal>addon/ee/copyContract</literal>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>index_ajax.php</literal> :
+    <itemizedlist>
+
+<listitem><para>Pour les méthodes Ajax de classes :
+<programlisting>var data = {
+  template:   'LSformElement_eetelephone',
+  action:     'make_call',
+  telephoneNumber: tel,
+  name: name,
+};
+new Request({url: 'index_ajax.php', data: data, onSuccess: ...});</programlisting>
+</para>
+<para>Devient :
+<programlisting>var data = {
+  telephoneNumber: tel,
+  name: name,
+};
+new Request({url: 'ajax/class/LSformElement_eetelephone/make_call', data: data, onSuccess: ...});</programlisting>
+</para></listitem>
+
+<listitem><para>Pour les méthodes Ajax d'addon :
+<programlisting>var data = {
+  addon: 'asterisk',
+  action: 'LSasterisk_make_call',
+  telephoneNumber: tel,
+  name: name,
+  nocache: new Date().getTime()
+};
+new Request({url: 'index_ajax.php', data: data, onSuccess: ...});</programlisting>
+</para>
+<para>Devient :
+<programlisting>var data = {
+  telephoneNumber: tel,
+  name: name,
+  nocache: new Date().getTime()
+};
+new Request({url: 'ajax/addon/asterisk/LSasterisk_make_call', data: data, onSuccess: ...});</programlisting>
+</para></listitem>
+
+    </itemizedlist>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>global_search.php</literal> :
+    <literal>global_search.php?refresh</literal> devient <literal>search?refresh</literal>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>index.php</literal> :
+    <literal>index.php?LSsession_recoverPassword</literal> devient <literal>index?LSsession_recoverPassword</literal>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>create.php</literal> :
+    <literal>create.php?LSobject=LSpeople</literal> devient <literal>object/LSpeople/create</literal>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>modify.php</literal> :
+    <literal>modify.php?LSobject=LSpeople&amp;dn=$dn</literal> devient <literal>object/LSpeople/$dn/modify</literal>
+  </simpara>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>import.php</literal> :
+    <literal>import.php?LSobject=LSpeople</literal> devient <literal>object/LSpeople/import</literal>
+  </simpara>
+</listitem>
+
+<listitem>
+  <para>
+    <literal>remove.php</literal> :
+    <literal>remove.php?LSobject=LSpeople&amp;dn=$dn</literal> devient <literal>object/LSpeople/$dn/remove</literal>
+  </para>
+  <para>Avec validation :
+    <literal>remove.php?LSobject=LSpeople&amp;dn=$dn&amp;valid</literal> devient <literal>object/LSpeople/$dn/remove?valid</literal>
+  </para>
+</listitem>
+
+<listitem>
+  <simpara>
+    <literal>select.php</literal> :
+    <literal>select.php?LSobject=LSpeople</literal> devient <literal>object/LSpeople/select</literal>
+  </simpara>
+</listitem>
+
+<listitem>
+  <para>
+    <literal>custom_action.php</literal> :
+    <literal>custom_action.php?LSobject=LSpeople&amp;dn=$dn&amp;customAction=$customAction</literal> devient
+    <literal>object/LSpeople/$dn/custom_action/$customAction</literal>
+  </para>
+  <para>Avec validation :
+    <literal>custom_action.php?LSobject=LSpeople&amp;dn=$dn&amp;customAction=$customAction&amp;valid</literal> devient
+    <literal>object/LSpeople/$dn/custom_action/$customAction?valid</literal>
+  </para>
+</listitem>
+
+<listitem>
+  <para>
+    <literal>custom_search_action.php</literal> :
+    <literal>custom_search_action.php?LSobject=LSpeople&amp;customAction=$customAction</literal>
+    devient <literal>object/LSpeople/custom_action/$customAction</literal>
+  </para>
+  <para>Avec validation :
+    <literal>custom_search_action.php?LSobject=LSpeople&amp;customAction=$customAction&amp;valid</literal>
+    devient <literal>object/LSpeople/custom_action/$customAction?valid</literal>
+  </para>
+</listitem>
+
+</itemizedlist>
+
+<para>Pour identifier les fichiers concernés, vous pouvez utiliser la commande suivante :
+<programlisting>grep -Er '(index|global_search|view|select|create|modify|import|remove|index_ajax|custom_action|custom_search_action|addon_view)\.php' /etc/ldapsaisie/local/</programlisting>
+</para>
+</sect2>
+
+</sect1>
+
+</chapter>

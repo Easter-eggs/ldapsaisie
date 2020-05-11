@@ -37,3 +37,5 @@
 <!ENTITY LSauthMethod "<link linkend='config-LSauthMethod'>LSauthMethod</link>">
 <!ENTITY LSselect "<emphasis>LSselect</emphasis>">
 <!ENTITY LSsearch "<link linkend='config-LSobject-LSsearch'>LSsearch</link>">
+
+<!ENTITY GIT_RAW_ROOT_URL "https://gitlab.easter-eggs.com/ee/ldapsaisie/-/raw/master">
