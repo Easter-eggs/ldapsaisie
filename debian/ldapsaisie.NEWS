@@ -1,3 +1,51 @@
+ldapsaisie (3.0.0-1) unstable; urgency=medium
+
+    This release introduce important modifications and especially :
+      - All pages and files served by the application is now using LSurl,
+        an URL routing engine. This new mechanisms require you enable Apache
+        HTTP mod_rewrite and allow RewriteRule defined in .htaccess file
+        provided with the application. The web-root directory also changed
+        to /usr/share/ldapsaisie/public_html : make sure to consequently adapt
+        your configuration.
+        You also have to adapt the public_root_url to your environment in
+        /etc/ldapsaisie/conf/config.inc.php (default: /ldapsaisie/). This URL
+        is now specify as base URL in all templates file. Consequently, a miss
+        configured URL will cause problems to load any resources files (images,
+        CSS, Javascript, ...).
+        We try to keep compatibility to old-style URL but we display a warning to
+        invite you to update your custom code. Please note, this compatibility only
+        handle redirect to new URL, but POST data are not keep during this
+        redirection. Moreover, Ajax calls on old index_ajax.php URL is not handled
+        and only show the warning message.
+        Furthermore, the LSsession :: redirect() method helper is now deprecated in
+        favor of LSurl :: redirect(). A warning message is also displayed if you
+        have custom code that keep using it.
+        Necessarily, a lot of small change have been made in templates and CSS files.
+        If you customize your web interface, please refer to default files delivered
+        with the application to correctly reintroduce your changes.
+      - Templates files of the application evolve to use blocks. Blocks permit to
+        extends templates from another and just add/replace some blocks of the extended
+        template. This permit to avoid template code duplication and make easier to
+        create custom theme. Common basic templates files are now deprecated in favor
+        to base.tpl and base_connected.tpl : accueil.tpl, blank.tpl, empty.tpl, top.tpl
+        and bottom.tpl.
+      - A CLI tool is now provided with the application : its currently permit
+        to search/list, show, create, modify and delete LSobject as its possible in web
+        interface. You also could run procedure implemented in LdapSaisie (useful to run
+        it as cron for instance).
+        Furthermore, the generate_lang_file.php and generate_ldapsaisie.pot.sh scripts
+        are replaced by LScli commands generate_lang_file and generate_ldapsaisie_pot.
+      - LSlog, the logging manager, have also gain flexibility: it's now possible to
+        configure log level by component, filter log by components in log handlers
+        configuration and configure log format by handler. To make LdapSaisie components
+        using this new flexibility, a lot of small changes have been make, especially in
+        class files. The old-LSdebug function is now in way to be deprecated, or at least
+        deprioritized in favor of using LSlog :: debug().
+    Please see /usr/share/doc/ldapsaisie/changelog.Debian.gz for complete list of
+    changes.
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 06 May 2020 14:30:03 +0200
+
 ldapsaisie (1.7-1) unstable; urgency=medium
 
     This release introduce some modifications for PHP7 and Debian Strech
@@ -13,4 +61,3 @@ ldapsaisie (1.7-1) unstable; urgency=medium
           + helper function loadDir() ($regexpr parameter)
 
  -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 08 Jan 2018 20:27:15 +0100
-

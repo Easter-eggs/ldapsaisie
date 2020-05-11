@@ -1,3 +1,52 @@
+ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
+
+  * A lot of code cleaning and PHP notices fixes
+  * Introduce LSurl, a new URL routing manager for LdapSaisie : all pages
+    and files served by the application is now outside the web root directory.
+  * Define base URL in page templates by using public_root_url parameter
+  * Add a CLI commands manager and the ldapsaisie CLI tool that currently
+    permit to:
+     * search/list, show, create, modify and remove LSobject
+     * run procedure implemented in LdapSaisie (useful to run it as cron for
+      instance).
+  * Replace generate_lang_file.php and generate_ldapsaisie.pot.sh script by
+    CLI commands generate_lang_file and generate_ldapsaisie_pot
+  * LSsession:
+     * includeFile() : allow inclusion of external file with include path search
+       support (see $external parameter).
+     * deprecate redirect() method in favor of LSurl :: redirect()
+     * move lang stuff to a dedicated LSlang class
+  * LSsearch:
+     * fix handling approx parameter
+     * fix possibility to specify a filter and a pattern (in the same time)
+     * fix sorting by extraDisplayedColumns (on one setParams() call)
+     * fix search customActions JS validation
+  * LdapObject:
+     * add __toString() method to fix password recovery bug
+       (report by Adrien Malgoyre <adrien.malgoyre@osupytheas.fr>)
+     * change getDisplayName $spe parameter default value from empty string to
+       null
+  * LSlog :
+    - fix handling non-string message
+    - add loggers, filters and format message by handlers
+  * LSauthMethod::CAS : Remove deprecated LSAUTH_CAS_SERVER_SSL_CERT parameter
+    (since corresponding bogus setCasServerCert() method has been remove in
+    phpCAS)
+  * LSaddon :: mail: Improve mail forging method by using PEAR Mail_mime lib
+  * LSattr_html :: mail : add autocomplete feature
+  * LSformRile :: imagesize : fix parameters handling problem
+  * LSformRule :: filesize : improve by avoiding to create a temporary file
+  * Add ___() function to allow declaration of messages that will be translated
+    at display time
+  * LSimport: fix data removing on LSobject import
+  * Templates :
+     * Globally rework on templates files to use blocks. Common basic templates
+       files are now deprecated in favor to base.tpl and base_connected.tpl :
+       accueil.tpl, blank.tpl, empty.tpl, top.tpl, bottom.tpl
+     * Add var_dump template function helper
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 06 May 2020 14:21:48 +0200
+
 ldapsaisie (2.4.1-0) unstable; urgency=medium
 
   * generate_lang_file.php : handle LSprofiles's label
@@ -241,7 +290,7 @@ ldapsaisie (1.5-1) unstable; urgency=medium
 ldapsaisie (1.4-2) unstable; urgency=medium
 
   * Add new type of HTML attribut : jsonCompositeAttribute
-  * LSrelation : 
+  * LSrelation :
    + improve and make it easy to configure simple relation
    + add possibilty to handle relation with multiple key values
   * Fix some PHP 7 compatibility errors
