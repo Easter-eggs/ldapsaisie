@@ -83,6 +83,7 @@ function LSaddon_mailquota_support() {
  * @retval array|false Array with mailbox usage and quota, or false
  **/
 function mailquota_get_usage(&$LSldapObject) {
+  $logger = LSlog :: get_logger("LSaddon_mailquota");
   try {
     $LSldapObject -> registerOtherValue('masteruser', MAILQUOTA_IMAP_MASTER_USER);
     $imap_login = $LSldapObject -> getFData(MAILQUOTA_IMAP_MASTER_USER_FORMAT);
@@ -91,7 +92,7 @@ function mailquota_get_usage(&$LSldapObject) {
       return false;
     }
     $imap_mailbox = $LSldapObject -> getFData(MAILQUOTA_IMAP_MAILBOX);
-    LSdebug("IMAP mailbox : '$imap_mailbox'");
+    $logger -> debug("Connect on IMAP mailbox '$imap_mailbox' with user $imap_login:xxxxxxx");
     $mbox = @imap_open(
       $imap_mailbox,
       $imap_login,
@@ -100,7 +101,7 @@ function mailquota_get_usage(&$LSldapObject) {
     );
     if ($mbox) {
       $quota_values = imap_get_quotaroot($mbox, MAILQUOTA_IMAP_QUOTA_ROOT_MAILBOX);
-      LSdebug("IMAP mailbox :\n".varDump($quota_values));
+      $logger -> debug("IMAP mailbox root quota:\n".varDump($quota_values));
       if(isset($quota_values['usage'])) {
         return array (
           'usage' => intval($quota_values['usage']*1024),
