@@ -78,10 +78,10 @@ sur votre configuration et votre code personnalisé.</para>
 <sect2>
   <title>Fichiers CSS</title>
   <itemizedlist>
-    <listitem><simpara>corriger les URL des images : <literal>url(../../images/default/find.png)</literal> devient
+    <listitem><para>corriger les URL des images : <literal>url(../../images/default/find.png)</literal> devient
     <literal>url(../image/find)</literal>. Pour identifier les fichiers CSS concernés, vous pouvez utiliser les
     commandes suivantes :<programlisting>grep -Er 'url\(.*images' /etc/ldapsaisie/local/css
-grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></simpara></listitem>
+grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></para></listitem>
     <listitem><simpara>modification CSS page <literal>fatal_error</literal> (fichier base.css) : <literal>
     #fatal_error</literal> devient <literal>#error</literal></simpara></listitem>
   </itemizedlist>
@@ -90,9 +90,9 @@ grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></si
 <sect2>
   <title>Fichiers PHP</title>
   <itemizedlist>
-    <listitem><simpara><literal>LSsession :: redirect()</literal> devient <literal>LSurl :: redirect()</literal>.
+    <listitem><para><literal>LSsession :: redirect()</literal> devient <literal>LSurl :: redirect()</literal>.
     Pour identifier les fichiers CSS concernés, vous pouvez utiliser la commande suivante :
-    <programlisting>grep -Er 'LSsession *:: *redirect *\(' /etc/ldapsaisie/local/</programlisting></simpara></listitem>
+    <programlisting>grep -Er 'LSsession *:: *redirect *\(' /etc/ldapsaisie/local/</programlisting></para></listitem>
     <listitem>
       <para>Les inclusions de fichiers Javascript via <literal>LSsession :: addJSscript()</literal> doivent
       être adaptées :
@@ -133,13 +133,13 @@ grep -Er 'LSsession *:: *addCssFile\(.*\.\.\/' /etc/ldapsaisie/local/</programli
           l’implémentation.</simpara>
         </listitem>
         <listitem>
-          <simpara>Pour vos &LSaddons; : il est conseillé d’utiliser un <emphasis>logger</emphasis>
+          <para>Pour vos &LSaddons; : il est conseillé d’utiliser un <emphasis>logger</emphasis>
           <literal>LSaddon_[addon]</literal> dédié. Le <emphasis>logger</emphasis> peut facilement être récupéré de la
           manière suivante : <programlisting>LSlog :: get_logger("LSaddon_[addon]")</programlisting>
           Cette méthode retourne une référence au <emphasis>logger</emphasis> et il est possible d’appeler directement
           une méthode de log, par exemple :
           <programlisting>LSlog :: get_logger("LSaddon_[addon]") -> debug("message");</programlisting>
-          </simpara>
+          </para>
         </listitem>
       </itemizedlist>
     </listitem>
@@ -202,21 +202,21 @@ grep -Er 'LSsession *:: *addCssFile\(.*\.\.\/' /etc/ldapsaisie/local/</programli
 </listitem>
 
 <listitem>
-  <simpara>d’ajouter des infos dans <literal><![CDATA[<head>]]></literal> : ajouter le block <literal>head</literal>
+  <para>d’ajouter des infos dans <literal><![CDATA[<head>]]></literal> : ajouter le block <literal>head</literal>
   (vide par défaut) :
 <programlisting>{block name="head"}
 [...]
 {/block}</programlisting>
-  </simpara>
+  </para>
 </listitem>
 
 <listitem>
-  <simpara>d’ajouter des fichiers Javascript personnalisés : ajouter le block <literal>js</literal> (vide par
+  <para>d’ajouter des fichiers Javascript personnalisés : ajouter le block <literal>js</literal> (vide par
 défaut):
 <programlisting>{block name="js"}
 [...]
 {/block}</programlisting>
-  </simpara>
+  </para>
   <note><simpara>Ce block sera ajouté <emphasis>APRÈS</emphasis> les autres fichiers Javascript chargés (ceux par
   défaut et ceux ajoutés via <literal>LSsession :: addJSscript()</literal>.</simpara></note>
 </listitem>
@@ -224,13 +224,13 @@ défaut):
   </itemizedlist>
 </para>
 </listitem>
-<listitem><simpara>Autres fichiers remplacés :
+<listitem><para>Autres fichiers remplacés :
   <itemizedlist>
     <listitem><simpara><literal>blank.tpl</literal> remplacé par <literal>base.tpl</literal></simpara></listitem>
     <listitem><simpara><literal>empty.tpl</literal> remplacé par <literal>base_connected.tpl</literal></simpara></listitem>
     <listitem><simpara><literal>accueil.tpl</literal> remplacé par <literal>homepage.tpl</literal></simpara></listitem>
   </itemizedlist>
-</simpara></listitem>
+</para></listitem>
 </itemizedlist>
 <para>Pour identifier les fichiers concernés, vous pouvez utiliser la commande suivante :
 <programlisting>grep -Er '(accueil|blank|empty|top|bottom)\.tpl' /etc/ldapsaisie/local/</programlisting>
@@ -287,7 +287,7 @@ grep -Er '\.(png|gif|jpg)' /etc/ldapsaisie/local/templates</programlisting>
 <itemizedlist>
 
 <listitem>
-  <simpara>
+  <para>
     <literal>view.php</literal> :
       <itemizedlist>
         <listitem><simpara>page recherche : <literal>view.php?LSobject=LSpeople</literal> devient
@@ -295,7 +295,7 @@ grep -Er '\.(png|gif|jpg)' /etc/ldapsaisie/local/templates</programlisting>
         <listitem><simpara>page d'un objet : <literal>view.php?LSobject=LSpeople&amp;dn=$dn</literal> devient
         <literal>object/LSpeople/$dn</literal></simpara></listitem>
       </itemizedlist>
-  </simpara>
+  </para>
 </listitem>
 
 <listitem>
@@ -307,7 +307,7 @@ grep -Er '\.(png|gif|jpg)' /etc/ldapsaisie/local/templates</programlisting>
 </listitem>
 
 <listitem>
-  <simpara>
+  <para>
     <literal>index_ajax.php</literal> :
     <itemizedlist>
 
@@ -348,7 +348,7 @@ new Request({url: 'ajax/addon/asterisk/LSasterisk_make_call', data: data, onSucc
 </para></listitem>
 
     </itemizedlist>
-  </simpara>
+  </para>
 </listitem>
 
 <listitem>
