@@ -234,7 +234,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         array (
           'filter' => 'uid=%{val}',
           'result' => 0,
-          'msg' => 'This identifier is already used.'
+          'msg' => 'This identifier is already used.',
+          'except_current_object' => true,
         )
       ),
       'rights' => array(
