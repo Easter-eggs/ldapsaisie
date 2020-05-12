@@ -11,12 +11,6 @@
   retourné par la recherche et si une authentification auprès de l'annuaire
   LDAP réussie à l'aide du DN de l'objet LDAP trouvé et du mot de passe issu
   de la variable <literal>$_SERVER['PHP_AUTH_PW']</literal>.</para>
-  
-  <note><simpara>La recherche de l'utisateur est effectuée sur une égalité
-  parfaite du RDN ou en utilisant le &LSformat; de fitre de recherche 
-  <literal>authObjectFilter</literal> défini dans la 
-  <link linkend='config-srv-ldap'>configuration du serveur LDAP</link>
-  </simpara></note>
 
   <para>Cette librairie peut être configurée en éditant le fichier de
   configiration
