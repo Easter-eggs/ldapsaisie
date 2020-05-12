@@ -42,12 +42,16 @@ class LSformRule_integer extends LSformRule{
    */
   public static function validate ($value,$options=array(),$formElement) {
     $max = LSconfig :: get('params.max', null, 'int', $options);
-    if(is_int($max) && $value > $max)
+    if(is_int($max) && $max != 0 && $value > $max) {
+      self :: log_debug("value is too higth ($value > $max)");
       return;
+    }
 
     $min = LSconfig :: get('params.min', null, 'int', $options);
-    if(is_int($min) && $value < $min)
+    if(is_int($min) && $min != 0 && $value < $min) {
+      self :: log_debug("value is too low ($value < $min)");
       return;
+    }
 
     if(LSconfig :: get('params.negative', false, 'bool', $options)) {
       $regex = '/^-[0-9]*$/';
@@ -59,7 +63,11 @@ class LSformRule_integer extends LSformRule{
       $regex = '/^-?[0-9]*$/';
     }
     LSsession :: loadLSclass('LSformRule_regex');
-    return LSformRule_regex :: validate($value,$regex,$formElement);
+    if (!LSformRule_regex :: validate($value,$regex,$formElement)) {
+      self :: log_debug("value '$value' does not respect regex '$regex'");
+      return;
+    }
+    return true;
   }
 
 }
