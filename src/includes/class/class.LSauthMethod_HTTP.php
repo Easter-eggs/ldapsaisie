@@ -45,8 +45,13 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
-    if (!defined('LSAUTHMETHOD_HTTP_METHOD'))
+    if (!defined('LSAUTHMETHOD_HTTP_METHOD')) {
+      self :: log_debug('No HTTP method defined: use PHP_AUTH as default.');
       define('LSAUTHMETHOD_HTTP_METHOD', 'PHP_AUTH');
+    }
+    else {
+      self :: log_debug('HTTP method to retreive auth data is "'.LSAUTHMETHOD_HTTP_METHOD.'"');
+    }
 
     switch(constant('LSAUTHMETHOD_HTTP_METHOD')) {
       case 'AUTHORIZATION':
@@ -97,6 +102,7 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
   public function authenticate() {
     if ( (defined('LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE')) && (constant('LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE') === True)) {
       // Return authObject without checking login/password by LDAP auth challenge
+      self :: log_debug('Trust HTTP authenticated user without password challenge');
       return LSauthMethod :: authenticate();
     }
     else {
@@ -114,8 +120,10 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
   **/
   public static function afterLogout() {
     if (defined('LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL')) {
+      self :: log_debug("Logout remote URL configured => redirect user to '".LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL."'.");
       LSurl :: redirect(LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL);
     }
+    self :: log_debug('No logout remote URL configured');
     return true;
   }
 
