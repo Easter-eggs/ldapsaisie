@@ -148,7 +148,7 @@ $GLOBALS['LSconfig'] = array(
           'LSobjects' => array(
             'LSpeople',
             'LSgroup',
-            'LScompany'
+            'LScompany',
             'LSsysaccount'
           )
         ),
