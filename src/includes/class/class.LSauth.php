@@ -109,7 +109,7 @@ class LSauth extends LSlog_staticLoggerClass {
     foreach(self :: getConfig('LSobjects', array()) as $objType => $objParams) {
       if (is_int($objType) && is_string($objParams)) {
         // We just have the object type
-        $objTypes[$objType] = array('filter' => null, 'password_attribute' => 'userPassword');
+        $objTypes[$objParams] = array('filter' => null, 'password_attribute' => 'userPassword');
         continue;
       }
       $objTypes[$objType] = array(
