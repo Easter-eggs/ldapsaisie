@@ -41,6 +41,9 @@ ldapsaisie (3.0.0-1) unstable; urgency=medium
         using this new flexibility, a lot of small changes have been make, especially in
         class files. The old-LSdebug function is now in way to be deprecated, or at least
         deprioritized in favor of using LSlog :: debug().
+      - It's now possible to configure more than one LSobject type that can connect on
+        application as user. Consequently, if your LDAP directory contains more than one
+        type of users, LdapSaisie can now handle it.
     Please see /usr/share/doc/ldapsaisie/changelog.Debian.gz for complete list of
     changes.
 

@@ -29,6 +29,9 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
   * LSlog :
     - fix handling non-string message
     - add loggers, filters and format message by handlers
+  * LSauth :
+    - Add possibility to configure more than one LSobject type as user
+    - Add possibility to handle duplicated identifier
   * LSauthMethod::CAS : Remove deprecated LSAUTH_CAS_SERVER_SSL_CERT parameter
     (since corresponding bogus setCasServerCert() method has been remove in
     phpCAS)
