@@ -986,7 +986,7 @@ class LSsession {
       $pwd_attr = $user -> attrs[$pwd_attr_name];
       $pwd = generatePassword(
         $pwd_attr -> getConfig('html_options.chars'),
-        $pwd_attr -> getConfig('html_options.lenght'),
+        $pwd_attr -> getConfig('html_options.lenght')
       );
       self :: log_debug("recoverPasswdSecondStep($user): new password = '$pwd'.");
       $lostPasswdForm = $user -> getForm('lostPassword');
