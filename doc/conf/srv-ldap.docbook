@@ -18,7 +18,14 @@ serveur LDAP.</para>
       ),
       'useUserCredentials' => [boolean],
       'LSauth' => array (
-        'method' => [LSauth method]
+        'method' => [LSauth method],
+        'LSobjects' => array(
+          '[object type 1]',
+          '[object type 2]' => array(
+            'filter' => '[LDAP filter]',
+            'password_attribute' => '[attribute name]',
+          )
+        )
       ),
       'LSprofiles' => array (
         // Définition des LSprofiles
@@ -26,9 +33,6 @@ serveur LDAP.</para>
       'cacheLSprofiles' => [boolean],
       'cacheSearch' => [boolean],
       'globalSearch' => [boolean],
-      'authObjectType' => [LSobject],
-      'authObjectFilter' => [LSformat],
-      'authObjectTypeAttrPwd' => [attribut],
       'LSaccess' => array (
         [Type LSobject 1],
         [Type LSobject 2],
@@ -50,7 +54,7 @@ serveur LDAP.</para>
 ...
 </programlisting>
 
-<!-- Début Paramètres Configuration -->  
+<!-- Début Paramètres Configuration -->
 <variablelist>
 <title>Paramètres de configuration</title>
 
@@ -66,8 +70,8 @@ serveur LDAP.</para>
 <varlistentry>
   <term>ldap_config</term>
   <listitem>
-    <simpara>Informations de connexion au serveur LDAP. Ces informations sont 
-    structurées selon les attentes de la librairie &netldap;. 
+    <simpara>Informations de connexion au serveur LDAP. Ces informations sont
+    structurées selon les attentes de la librairie &netldap;.
     <ulink url='http://pear.php.net/manual/fr/package.networking.net-ldap.connecting.php'>
     Plus d'informations</ulink>
     </simpara>
@@ -102,12 +106,71 @@ serveur LDAP.</para>
 <varlistentry>
   <term>LSauth</term>
   <listitem>
-    <simpara>Définition de la méthode d'authentification &LSauthMethod;. Pour le
-    moment ce tableau associatif ne contient qu'un paramètre <parameter>
-    method</parameter> qui correpond au nom de la librairie d'authentification.
-    Exemple : pour utiliser la classe <literal>LSauthMethod_HTTP</literal>, la
-    valeur du paramètre <parameter>method</parameter> sera <literal>HTTP</literal>.
-    </simpara>
+    <simpara>Ce tableau défini les paramètres d'authentification à l'application.</simpara>
+    <variablelist>
+    <title>Paramètres de configuration de l'authentification</title>
+
+    <varlistentry>
+      <term>method</term>
+      <listitem>
+        <simpara>Nom de la méthode d'authentification &LSauthMethod;. Exemple : pour utiliser la classe
+        <literal>LSauthMethod_HTTP</literal>, la valeur de ce paramètre sera <literal>HTTP</literal>.
+        <emphasis>Paramètre facultatif, méthode par défaut : <literal>basic</literal>.</emphasis>
+        </simpara>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>LSobjects</term>
+      <listitem>
+        <simpara>Tableau listant les types &LSobjects; pouvant se connecter à l'application. Les valeurs
+        de ce tableau peuvent être un nom de type d'objet ou bien tableau détaillant les paramètres de
+        connexion de ce type d'objet.</simpara>
+        <variablelist>
+        <title>Paramètres de configuration d'un type d'object</title>
+
+<varlistentry>
+  <term>filter</term>
+  <listitem>
+    <simpara>&LSformat; du filtre de recherche de l'utilisateur à sa connexion.
+    Ce format sera composé avec l'identifiant fourni par l'utilisateur. Cela peut
+    par exemple permettre à l'utilisateur de se connecter en fournissant son login
+    ou son email comme identifiant. Exemple de valeur :
+    <literal>(|(uid=%{user})(mail=%{user}))</literal>. <emphasis>Paramètre facultatif,
+    filtre par défaut composé à l'aide de l'attribut RDN.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>password_attribute</term>
+  <listitem>
+    <simpara>Nom de l'attribut stockant le mot de passe de ce type d'&LSobject;. <emphasis>
+    Paramètre facultatif, valeur par défaut : <literal>userPassword</literal>.</emphasis></simpara>
+    <note><simpara>C'est cet attribut de l'utilisateur qui sera modifié par la fonctionnalité
+    de récupération de mot de passe.</simpara></note>
+  </listitem>
+</varlistentry>
+
+        </variablelist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>allow_multi_match</term>
+      <listitem>
+        <simpara>Booléen permettant de définir si un doublon d'identifiant utilisateur est autorisé.
+        Si c'est le cas et lorsqu'un identifiant fourni par l'utilisateur a sa connexion a permi
+        de trouver plus d'un utilisateur possible correspondant, l'application tentera de déterminer
+        lequel de ces utilisateurs correspond à la tentative d'authentification. La méthodologie
+        employée dépendra de la &LSauthMethod; configurée. Par exemple, la &LSauthMethod; <literal>
+        basic</literal> tentera de s'identifier avec le mot de passe. Dans tous les cas, si cette
+        méthode n'a pas permi d'identifier un seul utilisateur, l'authentification échoura. <emphasis>
+        Paramètre facultatif, valeur par défaut : <literal>Faux</literal>.</emphasis>
+        </simpara>
+      </listitem>
+    </varlistentry>
+
+    </variablelist>
   </listitem>
 </varlistentry>
 
@@ -115,7 +178,7 @@ serveur LDAP.</para>
 <varlistentry>
   <term>cacheLSprofiles</term>
   <listitem>
-    <simpara>Activation/Désactivation de la mise en cache des &LSprofiles; des 
+    <simpara>Activation/Désactivation de la mise en cache des &LSprofiles; des
     utilisateurs connectés à ce serveur.</simpara>
   </listitem>
 </varlistentry>
@@ -124,7 +187,7 @@ serveur LDAP.</para>
 <varlistentry>
   <term>cacheSearch</term>
   <listitem>
-    <simpara>Activation/Désactivation de la mise en cache du résultat des 
+    <simpara>Activation/Désactivation de la mise en cache du résultat des
     recherches sur ce serveur.</simpara>
   </listitem>
 </varlistentry>
@@ -140,42 +203,12 @@ serveur LDAP.</para>
 </varlistentry>
 
 
-<varlistentry>
-  <term>authObjectType</term>
-  <listitem>
-    <simpara>Nom du type d'&LSobject; pouvant être utilisé pour authentifier un 
-    utilisateur se connectant à l'interface.</simpara>
-  </listitem>
-</varlistentry>
-
-
-<varlistentry>
-  <term>authObjectFilter</term>
-  <listitem>
-    <simpara>&LSformat; du filtre de recherche de l'utilisateur à sa connexion.
-    Le LSformat sera composé avec la valeur de l'information fourni par l'utilisateur.
-    Cela peut pemettre par exemple de permettre à l'utilisateur de se connecter en 
-    fournissant soit son login, soit son email. Exemple de valeur : 
-    <literal>(|(uid=%{user})(mail=%{user}))</literal></simpara>
-  </listitem>
-</varlistentry>
-
-
-<varlistentry>
-  <term>authObjectTypeAttrPwd</term>
-  <listitem>
-    <simpara>Nom de l'attribut "mot de passe" du type d'&LSobject; utilisé pour 
-    l'authentification des utilisateurs se connectant à l'interface.</simpara>
-  </listitem>
-</varlistentry>
-
-
 <varlistentry id="config-LSaccess">
   <term>LSaccess</term>
   <listitem>
-    <simpara>Définition des types d'&LSobjects; devant apparaître dans le menu de 
+    <simpara>Définition des types d'&LSobjects; devant apparaître dans le menu de
     l'interface.</simpara>
-    <important><simpara>Ce paramètre n'est utilisé que pour les annuaires n'ayant 
+    <important><simpara>Ce paramètre n'est utilisé que pour les annuaires n'ayant
     pas de sous-niveaux (&subDn;).</simpara></important>
   </listitem>
 </varlistentry>
@@ -186,8 +219,8 @@ serveur LDAP.</para>
   <listitem>
     <simpara>Définition des sous-niveaux de connexion à l'annuaire.
     <link linkend="config-subDn">Voir section concernée</link>.</simpara>
-    <important><simpara>Ce paramètre remplace le paramètre 
-    <link linkend="config-LSaccess">LSaccess</link> dans le cas d'un annuaire 
+    <important><simpara>Ce paramètre remplace le paramètre
+    <link linkend="config-LSaccess">LSaccess</link> dans le cas d'un annuaire
     multi-niveaux.</simpara></important>
   </listitem>
 </varlistentry>
@@ -198,7 +231,7 @@ serveur LDAP.</para>
   <listitem>
     <simpara>Définition du label utilisé pour qualifier les sous-niveaux de
     connexion.</simpara>
-    <important><simpara>Ce paramètre est utile uniquement dans le cas d'un annuaire 
+    <important><simpara>Ce paramètre est utile uniquement dans le cas d'un annuaire
     multi-niveaux.</simpara></important>
   </listitem>
 </varlistentry>
@@ -238,8 +271,8 @@ serveur LDAP.</para>
 <varlistentry>
   <term>emailSender</term>
   <listitem>
-    <simpara>Adresse mail utilisée par &LdapSaisie; pour envoyer des e-mails en 
-    relation avec cet annuaire. Cette adresse est celle utilisée par défaut. 
+    <simpara>Adresse mail utilisée par &LdapSaisie; pour envoyer des e-mails en
+    relation avec cet annuaire. Cette adresse est celle utilisée par défaut.
     L'adresse utilisée peut également être configurée dans le contexte de
     configuration du module devant envoyer des e-mails.</simpara>
   </listitem>
@@ -249,7 +282,7 @@ serveur LDAP.</para>
   <term>keepLSsessionActive</term>
   <listitem>
     <simpara>Activation/Désactivation du maintient de la LSsession active.</simpara>
-    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou 
+    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou
     <emphasis>False</emphasis></simpara>
   </listitem>
 </varlistentry>

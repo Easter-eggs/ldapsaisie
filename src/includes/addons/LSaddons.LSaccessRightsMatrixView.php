@@ -74,7 +74,7 @@ function LSaccessRightsMatrixView() {
 		foreach(LSconfig :: get("LSobjects.$LSobject.attrs", array()) as $attr_name => $attr_config) {
 			$raw_attr_rights = LSconfig :: get('rights', array(), 'array', $attr_config);
 			$attr_rights = array();
-			if ($LSobject == LSsession :: $ldapServer["authObjectType"])
+			if ($LSobject == LSsession :: get('authenticated_user_type'))
 				$attr_rights['self'] = LSconfig :: get('self', False, null, $raw_attr_rights);
 			foreach(array_keys($LSprofiles) as $LSprofile) {
 				$attr_rights[$LSprofile] = LSconfig :: get($LSprofile, False, null, $raw_attr_rights);
@@ -90,7 +90,7 @@ function LSaccessRightsMatrixView() {
 		foreach(LSconfig :: get("LSobjects.$LSobject.LSrelation", array()) as $relation_name => $relation_config) {
 			$raw_relation_rights = LSconfig :: get('rights', array(), 'array', $relation_config);
 			$relation_rights = array();
-			if ($LSobject == LSsession :: $ldapServer["authObjectType"])
+			if ($LSobject == LSsession :: get('authenticated_user_type'))
 				$relation_rights['self'] = LSconfig :: get('self', False, null, $raw_relation_rights);
 			foreach(array_keys($LSprofiles) as $LSprofile) {
 				$relation_rights[$LSprofile] = LSconfig :: get($LSprofile, False, null, $raw_relation_rights);
@@ -112,7 +112,7 @@ function LSaccessRightsMatrixView() {
 	reset($LSobjects);
 	$LSobject = (isset($_REQUEST['LSobject']) && array_key_exists($_REQUEST['LSobject'], $LSobjects)?$_REQUEST['LSobject']:key($LSobjects));
 
-	if ($LSobject == LSsession :: $ldapServer["authObjectType"])
+	if ($LSobject == LSsession :: get('authenticated_user_type'))
 		$LSprofiles = array_merge(array('self' => _('The user him-self')), $LSprofiles);
 
 	LSlog :: get_logger('LSaddon_LSaccessRightsMatrixView') -> debug($LSobjects);

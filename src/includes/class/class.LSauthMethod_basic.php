@@ -51,32 +51,28 @@ class LSauthMethod_basic extends LSauthMethod {
    * @retval LSldapObject|false The LSldapObject of the user authificated or false
    */
   public function authenticate() {
-		$authobject = parent :: authenticate();
-		if ($authobject) {
-			if ( $this -> checkUserPwd($authobject,$this -> authData['password']) ) {
-				// Authentication succeeded
-				return $authobject;
-			}
-			else {
-				LSerror :: addErrorCode('LSauth_01');
-				LSdebug('mdp incorrect');
-			}
-		}
-		return;
-  }
-
- /**
-	* Test un couple LSobject/pwd
-	*
-	* Test un bind sur le serveur avec le dn de l'objet et le mot de passe fourni.
-	*
-	* @param[in] LSobject L'object "user" pour l'authentification
-	* @param[in] string Le mot de passe à tester
-	*
-	* @retval boolean True si l'authentification a reussi, false sinon.
-	**/
-  public static function checkUserPwd($object,$pwd) {
-    return LSldap :: checkBind($object -> getValue('dn'),$pwd);
+		$authobjects = LSauth :: username2LSobjects($this -> authData['username']);
+    if (!$authobjects) {
+      LSerror :: addErrorCode('LSauth_01');
+      self :: log_debug('Invalid username');
+      return false;
+    }
+    $matched = array();
+    foreach(array_keys($authobjects) as $dn)
+      if ( LSldap :: checkBind($dn, $this -> authData['password']) )
+        $matched[] = $dn;
+		if (!$matched) {
+      LSerror :: addErrorCode('LSauth_01');
+      self :: log_debug('Invalid password');
+      return false;
+    }
+    elseif (count($matched) > 1) {
+      self :: log_debug('Multiple users match with provided username and password: '.implode(', ', $matched));
+      LSerror :: addErrorCode('LSauth_02');
+      return false;
+    }
+		// Authentication succeeded
+		return $authobjects[$matched[0]];
   }
 
 }

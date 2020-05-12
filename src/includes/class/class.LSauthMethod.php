@@ -60,33 +60,18 @@ class LSauthMethod extends LSlog_staticLoggerClass {
    * @retval LSldapObject|false The LSldapObject of the user authificated or false
    */
   public function authenticate() {
-    if (LSsession :: loadLSobject(LSsession :: $ldapServer['authObjectType'])) {
-      $authobject = new LSsession :: $ldapServer['authObjectType']();
-      $result = $authobject -> searchObject(
-        $this -> authData['username'],
-        LSsession :: getTopDn(),
-        (isset(LSsession :: $ldapServer['authObjectFilter'])?LSsession :: $ldapServer['authObjectFilter']:NULL),
-        array('withoutCache' => true, 'onlyAccessible' => false)
-      );
-      $nbresult=count($result);
-
-      if ($nbresult==0) {
-        // incorrect login
-        LSdebug('identifiant incorrect');
-        LSerror :: addErrorCode('LSauth_01');
-      }
-      else if ($nbresult>1) {
-        // duplication of identity
-        LSerror :: addErrorCode('LSauth_02');
-      }
-      else {
-        return $result[0];
-      }
+    $authobjects = LSauth :: username2LSobjects($this -> authData['username']);
+    if (!$authobjects) {
+      LSerror :: addErrorCode('LSauth_01');
+      self :: log_debug("No user found for provided username '".$this -> authData['username']."'");
     }
-    else {
-      LSerror :: addErrorCode('LSauth_03');
+    elseif (count($authobjects) > 1) {
+      self :: log_debug('Multiple users match with provided username: '.implode(', ', array_keys($authobjects)));
+      LSerror :: addErrorCode('LSauth_02');
+      return false;
     }
-    return;
+    // Authentication succeeded
+    return $authobjects[$matched[0]];
   }
 
  /**

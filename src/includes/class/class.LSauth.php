@@ -88,6 +88,103 @@ class LSauth extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  private static function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, self :: $config);
+  }
+
+  /**
+   * Retreive auth object types info
+   * @return array Array of auth object type with type as key and type's parameters as value
+   */
+  public static function getAuthObjectTypes() {
+    $objTypes = array();
+    foreach(self :: getConfig('LSobjects', array()) as $objType => $objParams) {
+      if (is_int($objType) && is_string($objParams)) {
+        // We just have the object type
+        $objTypes[$objType] = array('filter' => null, 'password_attribute' => 'userPassword');
+        continue;
+      }
+      $objTypes[$objType] = array(
+        'filter' => self :: getConfig("LSobjects.$objType.filter", null, 'string'),
+        'password_attribute' => self :: getConfig("LSobjects.$objType.password_attribute", 'userPassword', 'string'),
+      );
+    }
+    // For retro-compatibility, also retreived old parameters:
+    $oldAuthObjectType = LSconfig :: get('authObjectType', null, 'string', LSsession :: $ldapServer);
+    if ($oldAuthObjectType && !array_key_exists($oldAuthObjectType, $objTypes)) {
+      $objTypes[$oldAuthObjectType] = array(
+        'filter' => LSconfig :: get('authObjectFilter', null, 'string', LSsession :: $ldapServer),
+        'password_attribute' => LSconfig :: get('authObjectTypeAttrPwd', 'userPassword', 'string', LSsession :: $ldapServer),
+      );
+    }
+    return $objTypes;
+  }
+
+  /**
+   * Retreived LSobjects corresponding to a username
+   *
+   * @retval array|false Array of corresponding LSldapObject with object DN as key, or false in case of error
+   */
+  public static function username2LSobjects($username) {
+    $user_objects = array();
+    foreach (self :: getAuthObjectTypes() as $objType => $objParams) {
+      if (!LSsession :: loadLSobject($objType)) {
+        LSerror :: addErrorCode('LSauth_03', $objType);
+        return false;
+      }
+      $authobject = new $objType();
+      $result = $authobject -> searchObject(
+        $username,
+        LSsession :: getTopDn(),
+        $objParams['filter'],
+        array('withoutCache' => true, 'onlyAccessible' => false)
+      );
+      for($i=0; $i<count($result); $i++)
+        $user_objects[$result[$i] -> getDn()] = $result[$i];
+    }
+
+    $nbresult = count($user_objects);
+    if ($nbresult == 0) {
+      // incorrect login
+      self :: log_debug('Invalid username');
+      LSerror :: addErrorCode('LSauth_01');
+      return false;
+    }
+    else if ($nbresult > 1) {
+      // duplication of identity
+      self :: log_debug("More than one user detected for username '$username': ".implode(', ', array_keys($user_objects)));
+      if (!self :: getConfig('allow_multi_match', false, 'bool')) {
+        LSerror :: addErrorCode('LSauth_02');
+        return false;
+      }
+    }
+    return $user_objects;
+  }
+
+  /**
+   * Get user password attribute name
+   *
+   * @param[in] &object LSldapObject The user object
+   *
+   * @retval string|false The user password attribute name or false if not configured
+   */
+  public static function getUserPasswordAttribute(&$object) {
+    $authObjectTypes = self :: getAuthObjectTypes();
+    $objType = $object -> getType();
+    if (array_key_exists($objType, $authObjectTypes))
+      return $authObjectTypes[$objType]['password_attribute'];
+    return false;
+  }
+
+  /**
    * Get LDAP credentials
    *
    * Return LDAP credentials or false
@@ -188,7 +285,7 @@ LSerror :: defineError('LSauth_02',
 _("LSauth : Impossible to identify you : Duplication of identities.")
 );
 LSerror :: defineError('LSauth_03',
-_("LSauth : Could not load type of identifiable objects.")
+_("LSauth : Could not load type of identifiable objects %{type}.")
 );
 LSerror :: defineError('LSauth_04',
 _("LSauth : Can't load authentication method %{method}.")

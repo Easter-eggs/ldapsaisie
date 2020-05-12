@@ -84,8 +84,11 @@ class LSsession {
   // Libs CSS files to load on page
   private static $LibsCssFiles = array();
 
-  // L'objet de l'utilisateur connecté
+  // The LSldapObject of connected user
   private static $LSuserObject = NULL;
+
+  // The LSldapObject type of connected user
+  private static $LSuserObjectType = NULL;
 
   // The LSauht object of the session
   private static $LSauthObject = false;
@@ -95,6 +98,39 @@ class LSsession {
 
   // Initialized telltale
   private static $initialized = false;
+
+  /**
+   * Get session info by key
+   *
+   * @param[in] $key string The info
+   *
+   * @retval mixed The info or null
+   */
+  public static function get($key) {
+    switch($key) {
+      case 'top_dn':
+        return self :: getTopDn();
+      case 'root_dn':
+        return self :: getRootDn();
+      case 'sub_dn_name':
+        return self :: getSubDnName();
+      case 'sub_dn_label':
+        return self :: getSubDnLabel();
+      case 'authenticated_user_dn':
+        return self :: $dn;
+      case 'authenticated_user_type':
+        return self :: $LSuserObjectType;
+      case 'authenticated_user':
+        return self :: getLSuserObject();
+      case 'is_connected':
+        return self :: isConnected();
+      case 'global_search_enabled':
+        return self :: globalSearch();
+      case 'email_sender':
+        return self :: getEmailSender();
+    }
+    return null;
+  }
 
  /**
   * Include PHP file
@@ -569,15 +605,16 @@ class LSsession {
       return;
     }
 
-    if(isset($_SESSION['LSsession']['dn']) && !isset($_GET['LSsession_recoverPassword'])) {
+    if(isset($_SESSION['LSsession']['LSuserObjectType']) && isset($_SESSION['LSsession']['dn']) && !isset($_GET['LSsession_recoverPassword'])) {
       self :: log_debug('existing session');
       // --------------------- Session existante --------------------- //
-      self :: $topDn         = $_SESSION['LSsession']['topDn'];
-      self :: $dn            = $_SESSION['LSsession']['dn'];
-      self :: $rdn           = $_SESSION['LSsession']['rdn'];
-      self :: $ldapServerId  = $_SESSION['LSsession']['ldapServerId'];
-      self :: $tmp_file      = $_SESSION['LSsession']['tmp_file'];
-      self :: $userLDAPcreds = $_SESSION['LSsession']['userLDAPcreds'];
+      self :: $topDn            = $_SESSION['LSsession']['topDn'];
+      self :: $dn               = $_SESSION['LSsession']['dn'];
+      self :: $LSuserObjectType = $_SESSION['LSsession']['LSuserObjectType'];
+      self :: $rdn              = $_SESSION['LSsession']['rdn'];
+      self :: $ldapServerId     = $_SESSION['LSsession']['ldapServerId'];
+      self :: $tmp_file         = $_SESSION['LSsession']['tmp_file'];
+      self :: $userLDAPcreds    = $_SESSION['LSsession']['userLDAPcreds'];
 
       if ( self :: cacheLSprofiles() && !isset($_REQUEST['LSsession_refresh']) ) {
         self :: setLdapServer(self :: $ldapServerId);
@@ -606,7 +643,7 @@ class LSsession {
         self :: $_subDnLdapServer = ((isset($_SESSION['LSsession_subDnLdapServer']))?$_SESSION['LSsession_subDnLdapServer']:NULL);
       }
 
-      if (!self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
+      if (!self :: loadLSobject(self :: $LSuserObjectType)) {
         return;
       }
 
@@ -694,6 +731,7 @@ class LSsession {
           if ($LSuserObject) {
             // Authentication successful
             self :: $LSuserObject = $LSuserObject;
+            self :: $LSuserObjectType = $LSuserObject -> getType();
             self :: $dn = $LSuserObject->getValue('dn');
             self :: $rdn = $LSuserObject->getValue('rdn');
             if (isset(self :: $ldapServer['useUserCredentials']) && self :: $ldapServer['useUserCredentials']) {
@@ -760,83 +798,95 @@ class LSsession {
    *
    * @retval array The recoveryPassword infos for template
    **/
-  private static function recoverPasswd($username,$recoveryHash) {
-    $recoveryPasswordInfos=array();
-    if ( self :: loadLSobject(self :: $ldapServer['authObjectType']) ) {
-      $authobject = new self :: $ldapServer['authObjectType']();
-      if (!empty($recoveryHash)) {
-        $filter=Net_LDAP2_Filter::create(
-          self :: $ldapServer['recoverPassword']['recoveryHashAttr'],
-          'equals',
-          $recoveryHash
+  private static function recoverPasswd($username, $recoveryHash) {
+    // Check feature is enabled and LSmail available
+    if (!isset(self :: $ldapServer['recoverPassword']) || !self :: loadLSaddon('mail')) {
+      LSerror :: addErrorCode('LSsession_18');
+      return;
+    }
+
+    // Start LSauth
+    if (!LSauth :: start()) {
+      self :: log_error("recoverPasswd(): can't start LSauth -> stop");
+      return;
+    }
+
+    // Search user by recoveryHash or username
+    if (!empty($recoveryHash)) {
+      $users = array();
+      $filter = Net_LDAP2_Filter::create(
+        self :: $ldapServer['recoverPassword']['recoveryHashAttr'],
+        'equals',
+        $recoveryHash
+      );
+      foreach (LSauth :: getAuthObjectTypes() as $objType => $objParams) {
+        if (!self :: loadLSobject($objType))
+          return false;
+        $authobject = new $objType();
+        $users = array_merge(
+          $users,
+          $authobject -> listObjects($filter, self :: $topDn, array('onlyAccessible' => false))
         );
-        $result = $authobject -> listObjects($filter,self :: $topDn,array('onlyAccessible' => false));
       }
-      elseif (!empty($username)) {
-        $result = $authobject -> searchObject(
-                    $username,
-                    self :: $topDn,
-                    self :: $ldapServer['authObjectFilter'],
-                    array('onlyAccessible' => false)
-                  );
-      }
-      else {
-        return $recoveryPasswordInfos;
-      }
+    }
+    elseif (!empty($username)) {
+      $users = LSauth :: username2LSobjects($username);
+    }
+    else {
+      self :: log_debug('recoverPasswd(): no username or recoveryHash provided.');
+      return;
+    }
 
-      $nbresult=count($result);
+    // Check user found (and not duplicated)
+    $nbresult = count($users);
+    if ($nbresult == 0) {
+      self :: log_debug('recoverPasswd(): incorrect hash/username');
+      LSerror :: addErrorCode('LSsession_06');
+      return;
+    }
+    elseif ($nbresult > 1) {
+      self :: log_debug("recoverPasswd(): duplicated user found with hash='$recoveryHash' / username='$username'");
+      LSerror :: addErrorCode('LSsession_07');
+      return;
+    }
 
-      if ($nbresult==0) {
-        self :: log_debug('recoverPasswd(): incorrect hash/username');
-        LSerror :: addErrorCode('LSsession_06');
-      }
-      elseif ($nbresult>1) {
-        self :: log_debug("recoverPasswd(): duplicated user found with hash/username '$username'");
-        LSerror :: addErrorCode('LSsession_07');
-      }
-      else {
-        $rdn = $result[0] -> getValue('rdn');
-        $username = $rdn[0];
-        self :: log_debug("recoverPasswd(): user found, username = '$username'");
-        if (self :: $ldapServer['recoverPassword']) {
-          if (self :: loadLSaddon('mail')) {
-            self :: log_debug("recoverPasswd(): start recovering password");
-            $user=$result[0];
-            $emailAddress = $user -> getValue(self :: $ldapServer['recoverPassword']['mailAttr']);
-            $emailAddress = $emailAddress[0];
+    $user = array_pop($users);
+    $rdn = $user -> getValue('rdn');
+    $username = $rdn[0];
+    self :: log_debug("recoverPasswd(): user found, username = '$username'");
 
-            if (checkEmail($emailAddress)) {
-              self :: log_debug("recoverPasswd(): Email = '$emailAddress'");
-              self :: $dn = $user -> getDn();
 
-              // 1ère étape : envoie du recoveryHash
-              if (empty($recoveryHash)) {
-                $hash=self :: recoverPasswdFirstStep($user);
-                if ($hash) {
-                  if (self :: recoverPasswdSendMail($emailAddress,1,$hash)) {
-                    // Mail a bien été envoyé
-                    $recoveryPasswordInfos['recoveryHashMail']=$emailAddress;
-                  }
-                }
-              }
-              // 2nd étape : génération du mot de passe + envoie par mail
-              else {
-                $pwd=self :: recoverPasswdSecondStep($user);
-                if ($pwd) {
-                  if (self :: recoverPasswdSendMail($emailAddress,2,$pwd)){
-                    // Mail a bien été envoyé
-                    $recoveryPasswordInfos['newPasswordMail']=$emailAddress;
-                  }
-                }
-              }
-            }
-            else {
-              LSerror :: addErrorCode('LSsession_19');
-            }
-          }
+    self :: log_debug("recoverPasswd(): start recovering password");
+    $emailAddress = $user -> getValue(self :: $ldapServer['recoverPassword']['mailAttr']);
+    $emailAddress = $emailAddress[0];
+
+    if (!checkEmail($emailAddress)) {
+      LSerror :: addErrorCode('LSsession_19');
+      return;
+    }
+    self :: log_debug("recoverPasswd(): Email = '$emailAddress'");
+    self :: $dn = $user -> getDn();
+
+    //
+    $recoveryPasswordInfos = array();
+
+    // First step : send recoveryHash
+    if (empty($recoveryHash)) {
+      $hash = self :: recoverPasswdFirstStep($user);
+      if ($hash) {
+        if (self :: recoverPasswdSendMail($emailAddress, 1, $hash)) {
+          // Recovery hash sent
+          $recoveryPasswordInfos['recoveryHashMail'] = $emailAddress;
         }
-        else {
-          LSerror :: addErrorCode('LSsession_18');
+      }
+    }
+    // Second step : generate and send new password
+    else {
+      $pwd = self :: recoverPasswdSecondStep($user);
+      if ($pwd) {
+        if (self :: recoverPasswdSendMail($emailAddress, 2, $pwd)) {
+          // New password sent
+          $recoveryPasswordInfos['newPasswordMail'] = $emailAddress;
         }
       }
     }
@@ -931,24 +981,25 @@ class LSsession {
    * @retval string|False The new password on success or False
    **/
   private static function recoverPasswdSecondStep($user) {
-    $attr = $user -> attrs[self :: $ldapServer['authObjectTypeAttrPwd']];
-    if ($attr instanceof LSattribute) {
-      $mdp = generatePassword(
-       $attr -> config['html_options']['chars'],
-       $attr -> config['html_options']['lenght']
+    $pwd_attr_name = LSauth :: getUserPasswordAttribute($user);
+    if (array_key_exists($pwd_attr_name, $user -> attrs)) {
+      $pwd_attr = $user -> attrs[$pwd_attr_name];
+      $pwd = generatePassword(
+        $pwd_attr -> getConfig('html_options.chars'),
+        $pwd_attr -> getConfig('html_options.lenght'),
       );
-      self :: log_debug("recoverPasswdSecondStep($user): new password = '$mdp'.");
+      self :: log_debug("recoverPasswdSecondStep($user): new password = '$pwd'.");
       $lostPasswdForm = $user -> getForm('lostPassword');
       $lostPasswdForm -> setPostData(
         array(
           self :: $ldapServer['recoverPassword']['recoveryHashAttr'] => array(''),
-          self :: $ldapServer['authObjectTypeAttrPwd'] => array($mdp)
+          $pwd_attr_name => array($pwd)
         )
         ,true
       );
       if($lostPasswdForm -> validate()) {
         if ($user -> updateData('lostPassword')) {
-          return $mdp;
+          return $pwd;
         }
         else {
           // Erreur durant la mise à jour de l'objet
@@ -964,7 +1015,7 @@ class LSsession {
     }
     else {
       // l'attribut password n'existe pas
-      self :: log_error("recoverPasswdSecondStep($user): password attribute '$attr' does not exists.");
+      self :: log_error("recoverPasswdSecondStep($user): password attribute '$pwd_attr_name' does not exists.");
       LSerror :: addErrorCode('LSsession_20',1);
     }
     return;
@@ -983,6 +1034,7 @@ class LSsession {
       'topDn' => self :: $topDn,
       'dn' => self :: $dn,
       'rdn' => self :: $rdn,
+      'LSuserObjectType' => self :: $LSuserObjectType,
       'userLDAPcreds' => self :: $userLDAPcreds,
       'ldapServerId' => self :: $ldapServerId,
       'ldapServer' => self :: $ldapServer,
@@ -1000,14 +1052,17 @@ class LSsession {
   * @retval mixed L'objet de l'utilisateur connecté ou false si il n'a pas put
   *               être créé
   */
-  public static function getLSuserObject($dn=null) {
+  public static function &getLSuserObject($dn=null) {
     if ($dn) {
       self :: $dn = $dn;
     }
     if (!self :: $LSuserObject) {
-      if (self :: loadLSobject(self :: $ldapServer['authObjectType'])) {
-        self :: $LSuserObject = new self :: $ldapServer['authObjectType']();
-        self :: $LSuserObject -> loadData(self :: $dn);
+      if (self :: $LSuserObjectType  && self :: loadLSobject(self :: $LSuserObjectType)) {
+        self :: $LSuserObject = new self :: $LSuserObjectType();
+        if (!self :: $LSuserObject -> loadData(self :: $dn)) {
+          self :: $LSuserObject = null;
+          return;
+        }
       }
       else {
         return;
@@ -1024,7 +1079,7 @@ class LSsession {
   * @retval boolean True if user connected, false instead
   */
   public static function isConnected() {
-    if (self :: $LSuserObject)
+    if (self :: getLSuserObject())
       return true;
     return false;
   }
@@ -1041,30 +1096,31 @@ class LSsession {
   }
 
  /**
-  * Modifie l'utilisateur connecté à la volé
+  * Live change of the connected user
   *
-  * @param[in] $object Mixed  L'objet Ldap du nouvel utilisateur
-  *                           le type doit correspondre à
-  *                           self :: $ldapServer['authObjectType']
+  * @param[in] $object LSldapObject The new connected user object
   *
-  * @retval boolean True en cas de succès, false sinon
+  * @retval boolean True on succes, false otherwise
   */
  public static function changeAuthUser($object) {
-  if ($object instanceof self :: $ldapServer['authObjectType']) {
-    self :: $dn = $object -> getDn();
-    $rdn = $object -> getValue('rdn');
-    if(is_array($rdn)) {
-      $rdn = $rdn[0];
-    }
-    self :: $rdn = $rdn;
-    self :: $LSuserObject = $object;
+  if($object instanceof LSldapObject)
+    return;
+  if(!in_array($object -> getType(), LSauth :: getAuthObjectTypes()))
+    return;
+  self :: $dn = $object -> getDn();
+  $rdn = $object -> getValue('rdn');
+  if(is_array($rdn)) {
+    $rdn = $rdn[0];
+  }
+  self :: $rdn = $rdn;
+  self :: $LSuserObject = $object;
+  self :: $LSuserObjectType = $object -> getType();
 
-    if(self :: loadLSprofiles()) {
-      self :: loadLSaccess();
-      self :: loadLSaddonsViewsAccess();
-      $_SESSION['LSsession']=self :: getContextInfos();
-      return true;
-    }
+  if(self :: loadLSprofiles()) {
+    self :: loadLSaccess();
+    self :: loadLSaddonsViewsAccess();
+    $_SESSION['LSsession']=self :: getContextInfos();
+    return true;
   }
   return;
  }

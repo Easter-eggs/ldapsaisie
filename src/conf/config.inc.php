@@ -48,11 +48,16 @@ $GLOBALS['LSconfig'] = array(
             'filter'   => '(objectClass=*)',
             'scope'    => 'sub'
       ),
-/*
       'LSauth' => array (
-        'method' => 'HTTP'
+        //'method' => 'basic', // Auth method : basic(default), HTTP, CAS or anonymous
+        'LSobjects' => array(
+          'LSpeople' => array(
+            'filter' => '(|(uid=%{user})(mail=%{user}))',
+            'password_attribute' => 'userPassword',
+          ),
+        ),
+        //'allow_multi_match' => false, // Allow username multiple match (default: false)
       ),
-*/
       'LSprofiles' => array (
         'admin' => array (
           'label' => 'Administrator',
@@ -82,9 +87,6 @@ $GLOBALS['LSconfig'] = array(
       ),
       'cacheLSprofiles' => true,
       'cacheSearch' => true,
-      'authObjectType' => 'LSpeople',
-      'authObjectFilter' => '(|(uid=%{user})(mail=%{user}))',
-      'authObjectTypeAttrPwd' => 'userPassword',
       'LSaccess' => array(
         'LSpeople',
         'LSgroup'
@@ -118,6 +120,9 @@ $GLOBALS['LSconfig'] = array(
         'filter'   => '(objectClass=*)',
         'scope'    => 'sub'
       ),
+      'LSauth' => array (
+        'LSobjects' => array('LSpeople'),
+      ),
       'LSprofiles' => array(
         'admin' => array (
           'o=ls' => array (
@@ -134,7 +139,6 @@ $GLOBALS['LSconfig'] = array(
           )
         )
       ),
-      'authObjectType' => 'LSpeople',
       'subDnLabel' => 'Company',
       'subDn' => array(
         '== All ==' => array(
@@ -157,7 +161,6 @@ $GLOBALS['LSconfig'] = array(
       'cacheLSprofiles' => true,
       'cacheSearch' => true,
       'globalSearch' => true,
-      'authObjectTypeAttrPwd' => 'userPassword',
       'recoverPassword' => array(
         'mailAttr' => 'mail',
         'recoveryHashAttr' => 'lsRecoveryHash',
