@@ -635,6 +635,7 @@ function cli_generate_lang_file($command_args) {
         $count ++;
         if (preg_match_all('/\{ *tr +msg=["\']([^\}]+)["\'] *\}/',$line,$matches)) {
           foreach($matches[1] as $t) {
+            $t = preg_replace('/[\'"]\|escape\:.*$/', '', $t);
             $LSlang_cli_logger -> debug("  - \"$t\" # Line $count");
             add($t, absolute2relative_path($file).":$count");
           }
@@ -871,7 +872,7 @@ function cli_generate_ldapsaisie_pot($command_args) {
   // Initialize logger (if not already initialized by another CLI command)
   if (!isset($LSlang_cli_logger))
     $LSlang_cli_logger = LSlog :: get_logger('generate_ldapsaisie_pot');
-    
+
   // Clean php file in tmp directory
   if (is_dir(LS_TMP_DIR_PATH)) {
     foreach(listFiles(LS_TMP_DIR_PATH, '/\.php$/') as $file) {
