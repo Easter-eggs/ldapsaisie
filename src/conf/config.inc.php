@@ -55,6 +55,7 @@ $GLOBALS['LSconfig'] = array(
             'filter' => '(|(uid=%{user})(mail=%{user}))',
             'password_attribute' => 'userPassword',
           ),
+          'LSsysaccount',
         ),
         //'allow_multi_match' => false, // Allow username multiple match (default: false)
       ),
@@ -89,7 +90,8 @@ $GLOBALS['LSconfig'] = array(
       'cacheSearch' => true,
       'LSaccess' => array(
         'LSpeople',
-        'LSgroup'
+        'LSgroup',
+        'LSsysaccount',
       ),
       'recoverPassword' => array(
         'mailAttr' => 'mail',
@@ -147,6 +149,7 @@ $GLOBALS['LSconfig'] = array(
             'LSpeople',
             'LSgroup',
             'LScompany'
+            'LSsysaccount'
           )
         ),
         'LSobject' => array(
