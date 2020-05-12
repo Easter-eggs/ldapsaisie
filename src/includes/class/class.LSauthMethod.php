@@ -71,7 +71,7 @@ class LSauthMethod extends LSlog_staticLoggerClass {
       return false;
     }
     // Authentication succeeded
-    return $authobjects[$matched[0]];
+    return array_pop($authobjects);
   }
 
  /**
