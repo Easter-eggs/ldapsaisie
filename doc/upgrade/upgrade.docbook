@@ -72,6 +72,24 @@ sur votre configuration et votre code personnalisé.</para>
     exemple, <literal>$GLOBALS['defaultCSSfiles']=array('../light-blue.css');</literal> devient <literal>
     $GLOBALS['defaultCSSfiles']=array('light-blue.css');</literal>.
     </simpara></listitem>
+    <listitem><para>les paramètres <literal>authObjectType</literal>, <literal>authObjectFilter</literal> et
+    <literal>authObjectTypeAttrPwd</literal> sont remplacés par le tablau <literal>LSobjects</literal> dans le
+    paramètre <literal>LSauth</literal>.</para>
+    <para>Par exemple:
+    <programlisting>'authObjectType' => 'LSpeople',
+'authObjectFilter' => '(|(uid=%{user})(mail=%{user}))',
+'authObjectTypeAttrPwd' => 'userPassword',</programlisting>
+    Devient:
+    <programlisting>'LSauth' => array (
+  'LSobjects' => array(
+    'LSpeople' => array(
+      'filter' => '(|(uid=%{user})(mail=%{user}))',
+      'password_attribute' => 'userPassword',
+    ),
+  ),
+  [...]
+),</programlisting>
+    </para></listitem>
   </itemizedlist>
 </sect2>
 
