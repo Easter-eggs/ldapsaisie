@@ -20,6 +20,8 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Gestion de l'authentification d'un utilisateur
  *
@@ -27,7 +29,7 @@
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSauth {
+class LSauth extends LSlog_staticLoggerClass {
 
   static private $authData=NULL;
   static private $authObject=NULL;
@@ -41,26 +43,26 @@ class LSauth {
   );
 
   public static function start() {
-    LSdebug('LSauth :: start()');
+    self :: log_debug('start()');
     // Load Config
     if (isset(LSsession :: $ldapServer['LSauth']) && is_array(LSsession :: $ldapServer['LSauth'])) {
       self :: $config = LSsession :: $ldapServer['LSauth'];
     }
     if (!LSsession :: loadLSclass('LSauthMethod')) {
-      LSdebug('LSauth :: Failed to load LSauthMethod');
+      self :: log_debug('Failed to load LSauthMethod class');
       return;
     }
     if (!isset(self :: $config['method'])) {
       self :: $config['method']='basic';
     }
     $class='LSauthMethod_'.self :: $config['method'];
-    LSdebug('LSauth : provider -> '.$class);
+    self :: log_debug('provider -> '.$class);
     if (LSsession :: loadLSclass($class)) {
       self :: $provider = new $class();
       if (!self :: $provider) {
         LSerror :: addErrorCode('LSauth_05',self :: $config['method']);
       }
-      LSdebug('LSauth : Provider Started !');
+      self :: log_debug('Provider Started !');
       return true;
     }
     else {
@@ -70,7 +72,7 @@ class LSauth {
   }
 
   public static function forceAuthentication() {
-    LSdebug('LSauth :: forceAuthentication()');
+    self :: log_debug('LSauth :: forceAuthentication()');
     if (!is_null(self :: $provider)) {
       self :: $authData = self :: $provider -> getAuthData();
       if (self :: $authData) {
@@ -78,7 +80,7 @@ class LSauth {
         return self :: $authObject;
       }
       // No data : user has not filled the login form
-      LSdebug('LSauth : No data -> user has not filled the login form');
+      self :: log_debug('No data -> user has not filled the login form');
       return;
     }
     LSerror :: addErrorCode('LSauth_06');
