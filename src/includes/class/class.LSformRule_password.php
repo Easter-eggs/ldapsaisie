@@ -45,12 +45,16 @@ class LSformRule_password extends LSformRule {
    */
   public static function validate ($value,$options=array(),$formElement) {
     $maxLength = LSconfig :: get('params.maxLength', null, 'int', $options);
-    if(is_int($maxLength) && strlen($value) > $maxLength)
+    if(!is_null($maxLength) && $maxLength != 0 && strlen($value) > $maxLength) {
+      self :: log_debug("password is too long (".strlen($value)." > $maxLength)");
       return;
+    }
 
     $minLength = LSconfig :: get('params.minLength', null, 'int', $options);
-    if(is_int($minLength) && strlen($value) < $minLength)
+    if(!is_null($minLength) && $minLength != 0 && strlen($value) < $minLength) {
+      self :: log_debug("password is too short (".strlen($value)." < $minLength)");
       return;
+    }
 
     $regex = LSconfig :: get('params.regex', null, null, $options);
     if(!is_null($regex)) {
@@ -60,6 +64,7 @@ class LSformRule_password extends LSformRule {
       $minValidRegex = LSconfig :: get('params.minValidRegex', count($regex), 'int', $options);
       if ($minValidRegex == 0 || $minValidRegex > count($regex))
         $minValidRegex = count($regex);
+      self :: log_debug("password must match with $minValidRegex regex on ".count($regex));
 
       $valid=0;
       foreach($regex as $r) {
@@ -67,16 +72,24 @@ class LSformRule_password extends LSformRule {
           LSerror :: addErrorCode('LSformRule_password_01');
           continue;
         }
-        if (preg_match($r, $value))
+        if (preg_match($r, $value)) {
+	  self :: log_debug("password match with regex '$r'");
           $valid++;
+ 	}
+	else
+	  self :: log_debug("password does not match with regex '$r'");
       }
-      if ($valid < $minValidRegex)
+      if ($valid < $minValidRegex) {
+        self :: log_warning("password match with only $valid regex on ".count($regex).". $minValidRegex valid regex is required");
         return;
+      }
     }
 
     $prohibitedValues = LSconfig :: get('params.prohibitedValues', null, null, $options);
-    if(is_array($prohibitedValues) && in_array($value, $prohibitedValues))
+    if(is_array($prohibitedValues) && in_array($value, $prohibitedValues)) {
+      self :: log_debug("this password is prohibited");
       return;
+    }
 
     return true;
   }
