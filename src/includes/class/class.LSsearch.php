@@ -144,7 +144,7 @@ class LSsearch {
    * @retval boolean True on success or False
    */
   private function loadDefaultParameters() {
-    if (is_array($this -> config['params'])) {
+    if (isset($this -> config['params']) && is_array($this -> config['params'])) {
       return $this -> setParams($this -> config['params']);
     }
     return true;
