@@ -284,7 +284,8 @@ function LSdebug($data,$dump=false) {
   if ($dump) {
     $data=varDump($data);
   }
-  LSlog :: debug($data);
+  if (class_exists('LSlog'))
+    LSlog :: debug($data);
 
   if (!is_array($data) && !is_object($data)) {
     $data="[$data]";
