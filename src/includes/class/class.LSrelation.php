@@ -259,14 +259,16 @@ class LSrelation {
             $return['actions'][] = array(
               'label' => _('Modify'),
               'url' => 'object/'.$relationConf['LSobject'].'/select?multiple=1'.($relation -> getRelatedEditableAttribute()?'&amp;editableAttr='.$relation -> getRelatedEditableAttribute():''),
-              'action' => 'modify'
+              'action' => 'modify',
+              'class' => 'LSrelation_modify',
             );
           }
           if ($relation -> canCreate()) {
              $return['actions'][] = array(
               'label' => _('New'),
               'url' => 'object/'.$relationConf['LSobject'].'/create?LSrelation='.$relationName.'&amp;relatedLSobject='.$object->getType().'&amp;relatedLSobjectDN='.urlencode($object -> getValue('dn')),
-              'action' => 'create'
+              'action' => 'create',
+              'class' => null,
             );
           }
 

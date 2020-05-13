@@ -2,7 +2,7 @@
 {if $item.actions!=''}
   <ul class='LSview-actions'>
   {foreach from=$item.actions item=action}
-    <li class='LSview-actions'><a href='{$action.url}' class='LSview-actions LSrelation_modify' id='{$item.id|escape:"quotes"}'><img src='{img name=$action.action}' alt='{$action.label|escape:"htmlall"}' title='{$action.label|escape:"htmlall"}' /> {$action.label|escape:"htmlall"}</a></li>
+    <li class='LSview-actions'><a href='{$action.url}' class='LSview-actions{if $action.class} {$action.class}{/if}' id='{$item.id|escape:"quotes"}'><img src='{img name=$action.action}' alt='{$action.label|escape:"htmlall"}' title='{$action.label|escape:"htmlall"}' /> {$action.label|escape:"htmlall"}</a></li>
   {/foreach}
   </ul>
 {/if}
