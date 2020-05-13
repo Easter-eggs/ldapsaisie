@@ -535,6 +535,9 @@ function handle_LSobject_search_customAction($request) {
   $objectname = $object -> getDisplayName();
   $title = isset($config['label'])?__($config['label']):$customAction;
 
+  // Define page title
+  LStemplate :: assign('pagetitle', $title);
+
   // Run search customAction (if validated or no confirmation need)
   if (isset($_GET['valid']) || $config['noConfirmation']) {
     if (call_user_func_array($config['function'], array(&$LSsearch))) {
@@ -552,10 +555,12 @@ function handle_LSobject_search_customAction($request) {
     else {
       LSerror :: addErrorCode('LSsearch_16', $customAction);
     }
+    // Custom action executed: show its template (if not already redirect)
+    LSsession :: displayTemplate();
+    return;
   }
 
-  // Define page title & template variables
-  LStemplate :: assign('pagetitle', $title);
+  // Need confirmation: set template variables and show it
   LStemplate :: assign(
     'question',
     (
@@ -1205,6 +1210,8 @@ function handle_LSobject_customAction($request) {
 
   $objectname = $object -> getDisplayName();
   $title = isset($config['label'])?__($config['label']):$customAction;
+  // Define page title
+  LStemplate :: assign('pagetitle', $title.' : '.$objectname);
 
   // Run customAction (if validated or noConfirmation required)
   if (isset($_GET['valid']) || (isset($config['noConfirmation']) && $config['noConfirmation'])) {
@@ -1233,10 +1240,12 @@ function handle_LSobject_customAction($request) {
     else {
       LSerror :: addErrorCode('LSldapObject_31', array('objectname' => $objectname, 'customAction' => $customAction));
     }
+    // Custom action executed: show its template (if not already redirect)
+    LSsession :: displayTemplate();
+    return;
   }
 
-  // Define page title & template variables
-  LStemplate :: assign('pagetitle', $title.' : '.$objectname);
+  // Need confirmation: set template variables and show it
   LStemplate :: assign(
     'question',
     (
