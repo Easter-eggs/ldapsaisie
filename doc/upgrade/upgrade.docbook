@@ -425,11 +425,11 @@ new Request({url: 'ajax/addon/asterisk/LSasterisk_make_call', data: data, onSucc
   <para>
     <literal>custom_action.php</literal> :
     <literal>custom_action.php?LSobject=LSpeople&amp;dn=$dn&amp;customAction=$customAction</literal> devient
-    <literal>object/LSpeople/$dn/custom_action/$customAction</literal>
+    <literal>object/LSpeople/$dn/customAction/$customAction</literal>
   </para>
   <para>Avec validation :
     <literal>custom_action.php?LSobject=LSpeople&amp;dn=$dn&amp;customAction=$customAction&amp;valid</literal> devient
-    <literal>object/LSpeople/$dn/custom_action/$customAction?valid</literal>
+    <literal>object/LSpeople/$dn/customAction/$customAction?valid</literal>
   </para>
 </listitem>
 
@@ -437,11 +437,11 @@ new Request({url: 'ajax/addon/asterisk/LSasterisk_make_call', data: data, onSucc
   <para>
     <literal>custom_search_action.php</literal> :
     <literal>custom_search_action.php?LSobject=LSpeople&amp;customAction=$customAction</literal>
-    devient <literal>object/LSpeople/custom_action/$customAction</literal>
+    devient <literal>object/LSpeople/customAction/$customAction</literal>
   </para>
   <para>Avec validation :
     <literal>custom_search_action.php?LSobject=LSpeople&amp;customAction=$customAction&amp;valid</literal>
-    devient <literal>object/LSpeople/custom_action/$customAction?valid</literal>
+    devient <literal>object/LSpeople/customAction/$customAction?valid</literal>
   </para>
 </listitem>
 
