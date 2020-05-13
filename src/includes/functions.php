@@ -402,10 +402,11 @@ function LSdebugDefined() {
   }
 
   function checkEmail($value,$domain=NULL,$checkDns=true) {
+    $log = LSlog :: get_logger('checkEmail');
     $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
 
     if (!preg_match($regex, $value)) {
-      LSdebug('checkEmail : regex fail');
+      $log -> debug("'$value': regex fail");
       return false;
     }
 
@@ -415,11 +416,13 @@ function LSdebugDefined() {
     if ($domain) {
       if(is_array($domain)) {
         if (!in_array($nd,$domain)) {
+          $log -> debug("'$value': domain '$nd' not authorized. Allowed domains: '".implode("', '", $domain)."'");
           return false;
         }
       }
       else {
         if($nd!=$domain) {
+          $log -> debug("'$value': domain '$nd' not authorized. Allowed domains: '$domain'");
           return false;
         }
       }
@@ -427,11 +430,12 @@ function LSdebugDefined() {
 
     if ($checkDns && function_exists('checkdnsrr')) {
       if (!(checkdnsrr($nd, 'MX') || checkdnsrr($nd, 'A'))) {
-        LSdebug('checkEmail : DNS fail');
+        $log -> debug("'$value': DNS check fail");
         return false;
       }
     }
 
+    $log -> debug("'$value': validated");
     return true;
   }
 
