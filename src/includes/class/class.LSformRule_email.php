@@ -40,7 +40,7 @@ class LSformRule_email extends LSformRule {
   public static function validate($value,$options=array(),$formElement) {
     return checkEmail(
       $value,
-      LSconfig :: get('params.domain', NULL, 'string', $options),
+      LSconfig :: get('params.domain', null, null, $options),
       LSconfig :: get('params.checkDomain', true, 'bool', $options)
     );
   }
