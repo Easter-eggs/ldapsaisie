@@ -99,6 +99,9 @@ class LSsession {
   // Initialized telltale
   private static $initialized = false;
 
+  // List of currently loaded LSaddons
+  private static $loadedAddons = array();
+
   /**
    * Get session info by key
    *
@@ -453,15 +456,17 @@ class LSsession {
   }
 
  /**
-  * Chargement d'un addons d'LdapSaisie
+  * Load a LSaddon (if not already loaded)
   *
-  * @param[in] $addon Nom de l'addon Ã  charger (Exemple : samba)
+  * @param[in] $addon The addon name (ex: samba)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   *
-  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
+  * @retval boolean True if addon loaded, false otherwise
   */
   public static function loadLSaddon($addon) {
+    if (in_array($addon, self :: $loadedAddons))
+      return true;
     if(self :: includeFile(LS_ADDONS_DIR .'LSaddons.'.$addon.'.php')) {
       // Load LSaddon config file (without warning if not found)
       $conf_file = LS_CONF_DIR."LSaddons/config.LSaddons.".$addon.".php";
@@ -473,6 +478,7 @@ class LSsession {
         LSerror :: addErrorCode('LSsession_02',$addon);
         return;
       }
+      self :: $loadedAddons[] = $addon;
       return true;
     }
     return;
