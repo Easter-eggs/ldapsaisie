@@ -701,7 +701,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * @retval Net_LDAP2_Filter le filtre ldap correspondant au type de l'objet
    */
   public function getObjectFilter() {
-    return self :: getObjectFilter($this -> type_name);
+    return self :: _getObjectFilter($this -> type_name);
   }
 
   /**
