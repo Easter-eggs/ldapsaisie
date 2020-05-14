@@ -123,15 +123,34 @@ class LSlog {
 	/**
 	 * Enable console handler (if not already enabled)
 	 *
+	 * @param[in] $level string|null The log level of the console handler
+	 *
 	 * @retval boolean True if log on console enabled, false otherwise
 	 **/
-	public static function logOnConsole() {
-		for ($i=0; $i < count(self :: $handlers); $i++)
-			if (is_a(self :: $handlers[$i], 'LSlog_console'))
+	public static function logOnConsole($level=null) {
+		for ($i=0; $i < count(self :: $handlers); $i++) {
+			if (is_a(self :: $handlers[$i], 'LSlog_console')) {
+				if (!is_null($level))
+					self :: $handlers[$i] -> setLevel($level);
 				return true;
-		return self :: add_handler('console');
+			}
+		}
+		return self :: add_handler('console', array('level' => $level));
 	}
 
+	/**
+	 * Disable console handler (if already enabled)
+	 *
+	 * @retval void
+	 **/
+	public static function disableLogOnConsole() {
+		for ($i=0; $i < count(self :: $handlers); $i++) {
+			if (is_a(self :: $handlers[$i], 'LSlog_console')) {
+				LSlog :: debug('Remove console handler');
+				unset(self :: $handlers[$i]);
+			}
+		}
+	}
 
 	/**
 	 * Set log level
@@ -243,6 +262,17 @@ class LSlog {
 			$level = self :: $default_level;
 
 		return (self :: $levels[$level] >= self :: $levels[$configured_level]);
+	}
+
+	/**
+	 * Check if a log level exists
+	 *
+	 * @param[in] $level string The level
+	 *
+	 * @retval bool True if the specified log level exists, False otherwise
+	 **/
+	public static function checkLevelExists($level) {
+		return array_key_exists($level, self :: $levels);
 	}
 
 	/*

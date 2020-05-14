@@ -85,9 +85,10 @@ class LScli extends LSlog_staticLoggerClass {
 
     echo "Usage : ".basename($argv[0])." [-h] [-qdC] command\n";
     echo "  -h                Show this message\n";
-    echo "  -q|--quiet        Quiet mode\n";
-    echo "  -d|--debug        Debug mode\n";
-    echo "  -C|--console      Log on console\n";
+    echo "  -q|--quiet        Quiet mode: nothing log on console (but keep other logging handler)\n";
+    echo "  -d|--debug        Debug mode (set log level to DEBUG, default: WARNING)\n";
+    echo "  -v|--verbose      Verbose mode (set log level to INFO, default: WARNING)\n";
+    echo "  -C|--console      Log on console with same log level as other handlers (otherwise, log only errors)\n";
     echo "  -S|--ldap-server  Connect to a specific LDAP server: you could specify a LDAP\n";
     echo "                    server by its declaration order in configuration (default:\n";
     echo "                    first one).\n";
@@ -126,7 +127,9 @@ class LScli extends LSlog_staticLoggerClass {
       return;
     }
     global $argv;
-    $log_level = 'INFO';
+    $log_level = 'WARNING';
+    $console_log = false;
+    $quiet = false;
     $ldap_server_id = false;
     $command = false;
     $command_args = array();
@@ -148,13 +151,17 @@ class LScli extends LSlog_staticLoggerClass {
           case '--debug':
             $log_level = 'DEBUG';
             break;
+          case '-v':
+          case '--verbose':
+            $log_level = 'INFO';
+            break;
           case '-q':
           case '--quiet':
-            $log_level = 'WARNING';
+            $quiet = true;
             break;
           case '-C':
           case '--console':
-            LSlog :: logOnConsole();
+            $console_log = true;
             break;
           case '-S':
           case '--ldap-server':
@@ -190,6 +197,16 @@ class LScli extends LSlog_staticLoggerClass {
 
     // Set log level
     LSlog :: setLevel($log_level);
+
+    // Enable/disable log on console
+    if ($quiet)
+      // Quiet mode: disable log on console
+      LSlog :: disableLogOnConsole();
+    else
+      // Enable console log:
+      // - if $console_log: use same log level as other handlers
+      // - otherwise: log only errors
+      LSlog :: logOnConsole(($console_log?$log_level:'ERROR'));
 
     if (!$command) {
       self :: log_debug("LScli :: handle_args() : no detected command => show usage");

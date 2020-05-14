@@ -30,6 +30,9 @@ class LSlog_handler {
 	// The handler configuration
 	protected $config;
 
+	// Log level
+	protected $level;
+
 	// Default log formats
 	protected $default_format = '%{requesturi} - %{remoteaddr} - %{ldapservername} - %{authuser} - %{logger} - %{level} - %{message}';
 	protected $default_cli_format = '%{clibinpath} - %{logger} - %{level} - %{message}';
@@ -53,6 +56,7 @@ class LSlog_handler {
 	 **/
 	public function __construct($config) {
 		$this -> config = $config;
+		$this -> level = $this -> getConfig('level', null, 'string');
 		$this -> loggers = $this -> getConfig('loggers', array());
 		if (!is_array($this -> loggers))
 			$this -> loggers = array($this -> loggers);
@@ -91,6 +95,22 @@ class LSlog_handler {
 	}
 
 	/**
+	 * Set log level
+	 *
+	 * @param[in] $level string The level
+	 *
+	 * @retval bool True if log level set, False otherwise
+	 **/
+	public function setLevel($level) {
+		if (!is_null($level) && !LSlog :: checkLevelExists($level)) {
+			LSlog :: error("Invalid log level '$level'");
+			return false;
+		}
+		LSlog :: debug("Log handler ".get_called_class()." level set to ".(is_null($level)?'default':$level));
+		$this -> level = $level;
+	}
+
+	/**
 	 * Check level against configured level
 	 *
 	 * @param[in] $level string The level
@@ -98,7 +118,7 @@ class LSlog_handler {
 	 * @retval bool True if a message with this level have to be logged, False otherwise
 	 **/
 	public function checkLevel($level) {
-		return LSlog :: checkLevel($level, $this -> getConfig('level'));
+		return LSlog :: checkLevel($level, $this -> level);
 	}
 
 	/**
