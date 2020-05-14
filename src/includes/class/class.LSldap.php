@@ -192,12 +192,16 @@ class LSldap extends LSlog_staticLoggerClass {
    *
    * @retval array Tableau associatif des valeurs des attributs avec en clef, le nom de l'attribut.
    */
-  public static function getAttrs($dn) {
+  public static function getAttrs($dn, $filter=null) {
     $infos = ldap_explode_dn($dn,0);
     if((!$infos)||($infos['count']==0))
       return;
-    $return=self :: search('(objectClass=*)',$dn);
-    return $return[0]['attrs'];
+    if (!$filter)
+      $filter = '(objectClass=*)';
+    $return = self :: search($filter, $dn);
+    if (is_array($return) && count($return) == 1)
+      return $return[0]['attrs'];
+    return false;
   }
 
   /**
