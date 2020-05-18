@@ -226,7 +226,7 @@ class LSrelation {
   * @retval void
   */
   public static function displayInLSview($object) {
-    if (($object instanceof LSldapObject) && (is_array($object -> config['LSrelation']))) {
+    if (($object instanceof LSldapObject) && isset($object -> config['LSrelation']) && is_array($object -> config['LSrelation'])) {
       $LSrelations=array();
       $LSrelations_JSparams=array();
       foreach($object -> config['LSrelation'] as $relationName => $relationConf) {

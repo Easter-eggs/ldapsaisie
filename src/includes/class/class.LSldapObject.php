@@ -1806,7 +1806,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
       return $this -> cache['subDnValue'];
     }
     elseif ($key=='subDnName') {
-      if ($this -> cache['subDnName']) {
+      if (isset($this -> cache['subDnName']) && $this -> cache['subDnName']) {
         return $this -> cache['subDnName'];
       }
       $this -> cache['subDnName'] = self :: getSubDnName($this -> dn);
