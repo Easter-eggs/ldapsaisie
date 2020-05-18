@@ -27,7 +27,6 @@
  */
 class LSlog_staticLoggerClass {
 
-
   /*
    * Log a message via class logger
    *
@@ -50,9 +49,7 @@ class LSlog_staticLoggerClass {
 	 * @retval void
 	 **/
 	protected static function log_exception($exception, $prefix=null, $fatal=true) {
-    if (is_null(self :: $logger))
-      self :: $logger = LSlog :: get_logger(get_called_class());
-    self :: $logger -> exception($exception, $prefix, $fatal);
+    LSlog :: get_logger(get_called_class()) -> exception($exception, $prefix, $fatal);
   }
 
   /**
