@@ -1042,17 +1042,21 @@ class LSldapObject extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retourne le label de l'objet
+   * Retreive object type translated label
+   *
+   * @param[in] $type string|null The object type (optional, default: called class name)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval string Le label de l'objet ($this -> config['label'])
+   * @retval string The translated object type label
    */
-  public function getLabel($type=null) {
-    if (is_null($type)) {
-      $type = $this -> type_name;
-    }
-    return __(LSconfig::get("LSobjects.$type.label"));
+  public static function getLabel($type=null) {
+    if (is_null($type))
+      $type = get_called_class();
+    self :: log_debug("getLabel($type): LSobjects.$type.label");
+    $label = LSconfig::get("LSobjects.$type.label");
+    if (!$label) return;
+    return __($label);
   }
 
 
