@@ -38,6 +38,21 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
     ),
   ),
 
+  // LSrelation
+  'LSrelation' => array(
+    'groups' => array(
+      'label' => 'Belongs to groups ...',
+      'emptyText' => "Doesn't belong to any group.",
+      'LSobject' => 'LSgroup',
+      'linkAttribute' => "uniqueMember",
+      'linkAttributeValue' => "dn",
+      'rights' => array(
+        'admin' => 'w',
+        'admingroup' => 'w'
+      ),
+    ),
+  ),
+
   // Attributes
   'attrs' => array (
 

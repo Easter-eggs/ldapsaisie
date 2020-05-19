@@ -101,13 +101,20 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'html_type' => 'select_object',
       'html_options' => array(
         'selectable_object' => array(
-          'object_type' => 'LSpeople',                      // Nom de l'objet à lister
-          'display_name_format' => '%{cn} (%{uidNumber})',      // Spécifie le attributs à lister pour le choix,
+          array(
+            'object_type' => 'LSpeople',                      // Nom de l'objet à lister
+            'display_name_format' => '%{cn} (%{uidNumber})',  // Spécifie le attributs à lister pour le choix,
                                                               // si non définie => utilisation du 'display_name_format'
                                                               // de la définition de l'objet
 
-          'value_attribute' => 'dn',                          // Spécifie le attributs dont la valeur sera retournée par
-        )
+            'value_attribute' => 'dn',                        // Spécifie le attributs dont la valeur sera retournée par
+          ),
+          array(
+            'object_type' => 'LSsysaccount',
+            'value_attribute' => 'dn',
+          )
+        ),
+        'ordered' => true,
       ),
       'required' => 0,
       'multiple' => 1,
