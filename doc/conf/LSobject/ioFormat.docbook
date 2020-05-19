@@ -124,7 +124,7 @@ création du type d'&LSobject;. En conséquence :
 <varlistentry>
   <term>delimiter</term>
   <listitem>
-    <simpara>Le caractère utilisé pour délimiter les champs (Par défault, une virgule).</simpara>
+    <simpara>Le caractère utilisé pour délimiter les champs (Par défaut, une virgule).</simpara>
   </listitem>
 </varlistentry>
 
@@ -142,7 +142,7 @@ création du type d'&LSobject;. En conséquence :
   <term>escape</term>
   <listitem>
     <simpara>Le caractère utilisé pour encadrer les valeurs des champs
-    (Par défault : <literal>"</literal>).</simpara>
+    (Par défaut : <literal>"</literal>).</simpara>
   </listitem>
 </varlistentry>
 

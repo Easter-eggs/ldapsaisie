@@ -5,7 +5,7 @@
   statiques et également des références à d'autres &LSobjects;. La référence à
   un objet correspond à une valeur clé, référente à un objet précis, qui peut être
   soit la valeur d'un de ses attributs, soit son <emphasis>DN</emphasis>.</para>
-  
+
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['html_options' => array (
@@ -63,11 +63,11 @@
     des valeurs clés prisent par l'attribut et en valeurs associées, le &LSformat;
     des noms d'affichage de ces valeurs. Ces &LSformats; sont composés à partir des
     valeurs de l'objet courant (attributs, dn, ...).</para>
-    
+
     <para>Si la valeur clé est égale à <literal>OTHER_OBJECT</literal>, une liste
     d'&LSobject; sera insérée dans la liste des valeurs possibles. La valeur
-    associée est alors un tableau associatif dont les valeurs clés sont les noms 
-    des paramètres de configuration de la recherche de ces &LSobjects; et les 
+    associée est alors un tableau associatif dont les valeurs clés sont les noms
+    des paramètres de configuration de la recherche de ces &LSobjects; et les
     valeurs associées, les valeurs des paramètres.</para>
 
     <para>Il est possible de regrouper des valeurs de l'attribut en plaçant leur
@@ -137,7 +137,9 @@
   <varlistentry>
     <term>onlyAccessible</term>
     <listitem>
-      <simpara>Booléen falcultatif définissant si seul les LSobjets auxquels l'utilisateur connecté à accès doivent être considérés comme sélectionnables (Faux par défault).</simpara>
+      <simpara>Booléen falcultatif définissant si seul les LSobjets auxquels
+      l'utilisateur connecté à accès doivent être considérés comme sélectionnables
+      (Faux par défaut).</simpara>
     </listitem>
   </varlistentry>
 </variablelist>

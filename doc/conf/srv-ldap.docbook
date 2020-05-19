@@ -249,7 +249,7 @@ serveur LDAP.</para>
 <varlistentry>
   <term>defaultView</term>
   <listitem>
-    <para>Définition de la vue par défault de l'application. Par défaut, une page
+    <para>Définition de la vue par défaut de l'application. Par défaut, une page
     blanche est affichée et il est possible de définir à l'aide de ce paramètre la
     vue qui s'affichera. Ce paramètre peut prendre comme valeur :
     <itemizedlist>
