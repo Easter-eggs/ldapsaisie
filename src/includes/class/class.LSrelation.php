@@ -105,7 +105,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       case 'relatedEditableAttribute':
         return $this -> getConfig(
           'canEdit_attribute',
-          $this -> getConfig('linkAttribute', false),
+          $this -> getConfig('linkAttribute', false)
         );
     }
   }
