@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset={$LSencoding}">
-    <title>LdapSaisie{if $pagetitle != ''} - {$pagetitle|escape:"htmlall"}{/if}</title>
+    <title>LdapSaisie{if isset($pagetitle) && $pagetitle} - {$pagetitle|escape:"htmlall"}{/if}</title>
     <base href="{$public_root_url}/"/>
     <link rel="icon" href="image/favicon" />
     {block name="css"}
