@@ -233,7 +233,7 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
       $this -> cache[$key] = $ret;
       return $ret;
     }
-    elseif (in_array($key,array_keys($this -> attrs_list))) {
+    elseif (in_array($key, $this -> attrs_list)) {
       return (isset($this -> attrs[$key])?$this -> attrs[$key]:null);
     }
     elseif (array_key_exists($key,$this->params['customInfos'])) {
