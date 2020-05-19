@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-05-12 19:21+0200\n"
+"PO-Revision-Date: 2020-05-19 18:25+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -213,7 +213,7 @@ msgstr "Entité %{id} (non-reconnue)"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:408
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select.php:58
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:103
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:102
 msgid "%{value} (unrecognized value)"
 msgstr "%{value} (valeur non-reconnue)"
 
@@ -459,9 +459,9 @@ msgstr "Confirmez-vous votre choix ?"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSconfirmBox.php:37
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsmoothbox.php:39
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:568
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1148
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1252
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:573
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1129
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1237
 #: templates/default/recoverpassword.tpl:19
 msgid "Validate"
 msgstr "Valider"
@@ -521,12 +521,12 @@ msgstr ""
 "type de champ."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:106
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:260
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:659
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:62
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:169
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:929
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1087
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:910
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1068
 msgid "Modify"
 msgstr "Modifier"
 
@@ -649,30 +649,55 @@ msgstr ""
 "LStemplate : Erreur durant l'exécution du déclencheur %{callable} lors de "
 "événement %{event}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:237
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:402
 msgid ""
-"LSattr_html_select_object : LSobject type is undefined (attribute : %{attr})."
-msgstr ""
-"LSattr_html_select_objet : Le type d'LSobject n'est pas définie (attritbut : "
+"LSattr_html_select_object : parameter '%{parameter}' is missing (attribute : "
 "%{attr})."
+msgstr ""
+"LSattr_html_select_objet : Le type paramètre %{parameter} n'est pas définie "
+"(attribut : %{attr})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:240
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:405
 msgid ""
 "LSattr_html_select_object : the value of the parameter value_attribute in "
-"the configuration of the attribute %{attrs} is incorrect. This attribute "
-"does not exists."
+"the configuration of the attribute %{attr} is incorrect. Object "
+"%{object_type} have no attribute %{value_attribute}."
 msgstr ""
 "LSattr_html_select_object : La valeur du paramètre value_attribute dans la "
-"configuration de l'attribut %{attr} est incorrecte. Cet attribut n'existe "
-"pas."
+"configuration de l'attribut %{attr} est incorrecte. Les objets "
+"%{object_type} n'ont pas d'attribut %{value_attribute}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:243
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:408
 msgid ""
 "LSattr_html_select_object : more than one object returned corresponding to "
 "value %{val} of attribute %{attr}."
 msgstr ""
 "LSattr_html_select_objet : plus d'un objet retourné en correspondance à la "
 "valeur %{val} de l'attribut %{attr}."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:411
+msgid ""
+"LSattr_html_select_object : selection of object type %{type} is configured "
+"multiple time for attribute %{attr}."
+msgstr ""
+"LSattr_html_select_objet : La sélection du type d'objet %{type} est "
+"configurée plusieurs fois pour l'attribut %{attr}."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:414
+msgid ""
+"LSattr_html_select_object : the value '%{value}' seem to be duplicated in "
+"values of the attribute %{attr}."
+msgstr ""
+"LSattr_html_select_objet : La valeur '%{value}' semble dupliquée dans les "
+"valeurs de l'attribut %{attr}."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_object.php:417
+msgid ""
+"LSattr_html_select_object : selected object %{name} has no attribute %{attr} "
+"value, you can't select it."
+msgstr ""
+"LSattr_html_select_objet : l'objet sélectionné %{name} n'a pas de valeur "
+"dans son attribut %{attr}, vous ne pouvez pas le sélectionner."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:94
 msgid ""
@@ -807,51 +832,51 @@ msgstr ""
 msgid "Clear"
 msgstr "Nettoyer"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1346
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1352
 msgid "Connection"
 msgstr "Connexion"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1368
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1374
 msgid "Recovery of your credentials"
 msgstr "Récupération de votre mot de passe"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1377
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1383
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr ""
 "Merci d'entrer votre identifiant pour poursuivre la procédure de récupération"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1382
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1388
 msgid ""
 "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr ""
 "Un e-mail vient de vous être envoyé à l'adresse %{mail}. Merci de suivre les "
 "indications qu'il contient."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1391
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1397
 msgid "Your new password has been sent to %{mail}."
 msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1542
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1548
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:146
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:423
+#: templates/default/select.tpl:29
 msgid "Refresh"
 msgstr "Rafraîchir"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1579
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1585
 msgid "Connected as"
 msgstr "Connecté en tant que"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2483
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:669
-#: templates/default/login.tpl:16
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2489
+#: templates/default/select.tpl:20 templates/default/login.tpl:16
 msgid "Level"
 msgstr "Niveau"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2629
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2635
 msgid "LSsession : The constant %{const} is not defined."
 msgstr "LSsession : La constante %{const} n'est pas définie."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2632
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2638
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
@@ -859,52 +884,52 @@ msgstr ""
 "LSsession : Le support %{addon} est incertain. Vérifiez la compatibilité du "
 "système et la configuration de l'add-on."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2635
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2641
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 "LSsession : Les données de configuration du serveur LDAP sont invalide. "
 "Impossible de s'y connecter."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2638
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2644
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 "LSsession : Impossible de charger le type d'LSobject %{type} : type inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2641
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2647
 msgid "LSsession : Failed to load LSclass %{class}."
 msgstr "LSsession : Impossible de charger la LSclass %{class}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2644
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2650
 msgid "LSsession : Login or password incorrect."
 msgstr "LSsession : Identifiant ou mot de passe incorrects."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2647
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2653
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr "LSsession : Impossible de vous identifier : Duplication d'identité."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2650
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2656
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 "LSsession : Impossible de charger la classe d'authentification (%{class})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2653
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2659
 msgid "LSsession : Can't connect to LDAP server."
 msgstr "LSsession : Impossible de se connecter au serveur LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2656
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2662
 msgid "LSsession : Impossible to authenticate you."
 msgstr "LSsession : Impossible de vous identifier."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2659
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2665
 msgid "LSsession : Your are not authorized to do this action."
 msgstr "LSsession : Vous n'êtes pas autorisé à faire cette action."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2662
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2668
 msgid "LSsession : Some informations are missing to display this page."
 msgstr "LSsession : Des informations sont manquant pour afficher cette page."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2665
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2671
 msgid ""
 "LSsession : The function of the custom action %{name} does not exists or is "
 "not configured."
@@ -912,24 +937,24 @@ msgstr ""
 "LSsearch : La fonction de l'action personnalisée %{name} n'existe pas ou "
 "n'est pas configurée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2668
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2674
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 "LSsession : Erreur en récupérant les identifiants LDAP de l'utilisateur "
 "depuis LSauth."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2671
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2677
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 "LSsession : Impossible de se reconnecter au serveur LDAP avec les "
 "identifiants de l'utilisateur."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2674
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2680
 msgid "LSsession : No import/export format define for this object type."
 msgstr "LSsession : Aucun format d'entrée/sortie définie pour ce type d'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2677
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2683
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
@@ -937,13 +962,13 @@ msgstr ""
 "LSsession : Erreur durant la création de la liste des niveaux. Contacter les "
 "administrateurs. (Code : %{type})"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2680
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2686
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 "LSsession : La récupération de mot de passe est désactivée pour ce serveur "
 "LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2683
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2689
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
@@ -951,7 +976,7 @@ msgstr ""
 "LSsession : Des informations sont manques pour pouvoir récupérer votre mot "
 "de passe. Contacter les administrateurs."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2686
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2692
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
@@ -959,26 +984,26 @@ msgstr ""
 "LSsession : Erreur durant la récupération de votre mot de passe. Contacter "
 "les administrateurs. (Etape : %{step})"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2689
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2695
 msgid ""
 "LSsession : call function %{func} do not provided from LSaddon %{addon}."
 msgstr ""
 "LSsession : la fonction %{func} n'est pas fournie par le LSaddon %{addon}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2692
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2698
 msgid "LSsession : problem during initialisation."
 msgstr "LSsession : Problème durant l'initialisation."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2695
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2701
 msgid "LSsession : view function %{func} for LSaddon %{addon} doet not exist."
 msgstr ""
 "LSsession : la fonction de vue %{func} du LSaddon %{addon} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2698
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2704
 msgid "LSsession : invalid related object's DN pass in parameter."
 msgstr "LSsession : DN d'objet en relation incorrect dans les paramètres."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2701
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2707
 msgid ""
 "LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please "
 "upgrade it."
@@ -986,7 +1011,7 @@ msgstr ""
 "LSsession : le LSaddon %{addon} utilise toujours l'ancien type d'URL de "
 "vues. Merci de le mettre à jour."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2704
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2710
 msgid ""
 "LSsession : You have been redirect from an old-style URL %{url}. Please "
 "upgrade this link."
@@ -994,7 +1019,7 @@ msgstr ""
 "LSsession : Vous avez été redirigé depuis une ancienne URL %{url}. Merci de "
 "le mettre à jour ce lien."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2707
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2713
 msgid ""
 "LSsession : You still seen use LSsession :: redirect() in your custom code. "
 "Please upgrade it and use LSurl :: redirect()."
@@ -1003,25 +1028,25 @@ msgstr ""
 "code personnalisé. Merci de mettre à jour ce code et d'utiliser LSurl :: "
 "redirect()."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:474
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:484
 msgid "The attribute %{attr} is not valid."
 msgstr "L'attribut %{attr} n'est pas valide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2459
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2485
 msgid "LSldapObject : Object type unknown."
 msgstr "LSldapObject : Type d'objet inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2462
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2488
 msgid "LSldapObject : Update form is not defined for the object %{obj}."
 msgstr ""
 "LSldapObject : Le formulaire de mise à jour n'est pas défini pour l'objet "
 "%{obj}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2465
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2491
 msgid "LSldapObject : No form exists for the object %{obj}."
 msgstr "LSldapObject : Aucun formulaire n'existe pour l'objet %{obj}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2468
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2494
 msgid ""
 "LSldapObject : The function %{func} to validate the attribute %{attr} the "
 "object %{obj} is unknow."
@@ -1029,7 +1054,7 @@ msgstr ""
 "LSldapObject : La fonction %{func} pour valider l'attribut %{attr} de "
 "l'objet %{obj} est inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2471
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2497
 msgid ""
 "LSldapObject : Configuration data are missing to validate the attribute "
 "%{attr} of the object %{obj}."
@@ -1037,7 +1062,7 @@ msgstr ""
 "LSldapObject : Des données de configurations sont manquant pour pouvoir "
 "valider l'attribut %{attr} de l'objet %{obj}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2475
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2501
 msgid ""
 "LSldapObject : The function %{func} to be executed on the object event "
 "%{event} doesn't exist."
@@ -1045,14 +1070,14 @@ msgstr ""
 "LSldapObject : La fonction %{func} devant être exécutée lors de l'évènement "
 "%{event} de l'objet n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2478
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2504
 msgid ""
 "LSldapObject : The %{func} execution on the object event %{event} failed."
 msgstr ""
 "LSldapObject : L'exécution de la fonction %{func} lors de l'évènement "
 "%{event} de l'objet a échouée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2482
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2508
 msgid ""
 "LSldapObject : Class %{class}, which method %{meth} to be executed on the "
 "object event %{event}, doesn't exist."
@@ -1060,7 +1085,7 @@ msgstr ""
 "La classe %{class}, contenant la méthode %{meth} devant être exécutée lors "
 "de l'évènement %{event} de l'objet, n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2485
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2511
 msgid ""
 "LSldapObject : Method %{meth} within %{class} class to be executed on object "
 "event %{event}, doesn't exist."
@@ -1068,7 +1093,7 @@ msgstr ""
 "LSldapObject : La méthode %{meth} de la classe %{class} devant être exécutée "
 "lors de l'évènement %{event} de l'objet n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2488
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2514
 msgid ""
 "LSldapObject : Error during execute %{meth} method within %{class} class, to "
 "be executed on object event %{event}."
@@ -1076,7 +1101,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la méthode %{meth} de la classe "
 "%{class} devant être exécutée lors de l'évènement %{event} de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2492
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2518
 msgid ""
 "LSldapObject : Some configuration data of the object type %{obj} are missing "
 "to generate the DN of the new object."
@@ -1084,7 +1109,7 @@ msgstr ""
 "LSldapObject : Des informations de configuration du type d'objet %{obj} sont "
 "manquantes pour la génération du DN du nouvel objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2495
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2521
 msgid ""
 "LSldapObject : The attibute %{attr} of the object is not yet defined. Can't "
 "generate DN."
@@ -1092,11 +1117,11 @@ msgstr ""
 "LSldapObjet : L'attribut %{attr} de l'objet n'est pas encore défini. "
 "Impossible de générer le DN."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2498
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2524
 msgid "LSldapObject : Without DN, the object could not be changed."
 msgstr "LSldapObject : Sans DN, l'objet ne peut pas être modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2501
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2527
 msgid ""
 "LSldapObject : The attribute %{attr_depend} depending on the attribute "
 "%{attr} doesn't exist."
@@ -1104,39 +1129,39 @@ msgstr ""
 "LSldapObject : L'attritbut %{attr_depend} dépendant de l'attribut %{attr} "
 "n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2504
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2530
 msgid "LSldapObject : Error during deleting the object %{objectname}."
 msgstr "LSldapObject : Erreur durant la suppression de l'objet %{objectname}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2508
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2534
 msgid ""
 "LSldapObject : Error during actions to be executed before renaming the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée avant de "
 "renommer l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2511
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2537
 msgid ""
 "LSldapObject : Error during actions to be executed after renaming the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée après avoir "
 "renommé l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2515
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2541
 msgid ""
 "LSldapObject : Error during actions to be executed before deleting the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée avant de "
 "supprimer l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2518
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2544
 msgid ""
 "LSldapObject : Error during actions to be executed after deleting the objet."
 msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée après avoir "
 "supprimé l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2522
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2548
 msgid ""
 "LSldapObject : Error during the actions to be executed before creating the "
 "object."
@@ -1144,7 +1169,7 @@ msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutée avant de créer "
 "l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2525
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2551
 msgid ""
 "LSldapObject : Error during the actions to be executed after creating the "
 "object. It was created anyway."
@@ -1152,7 +1177,7 @@ msgstr ""
 "LSldapObject : Erreur durant les actions devant être exécutées après la "
 "création de l'objet. Il a tout de même été créé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2529
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2555
 msgid ""
 "LSldapObject : The function %{func} to be executed before creating the "
 "object doesn't exist."
@@ -1160,7 +1185,7 @@ msgstr ""
 "LSldapObject : La fonction %{func} devant être exécutée avant la création de "
 "l'objet n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2532
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2558
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "deleting the object."
@@ -1168,7 +1193,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la fonction %{func} devant être "
 "exécutée après la suppression de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2535
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2561
 msgid ""
 "LSldapObject : The function %{func} to be executed after deleting the object "
 "doesn't exist."
@@ -1176,7 +1201,7 @@ msgstr ""
 "LSldapObject : La fonction %{func} devant être exécutée après la suppression "
 "de l'objet n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2538
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2564
 msgid ""
 "LSldapObject : Error executing the function %{func} to be execute after "
 "creating the object."
@@ -1184,7 +1209,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la fonction %{func} devant être "
 "exécutée après la création de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2542
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2568
 msgid ""
 "LSldapObject : %{func} function, to be executed on object event %{event}, "
 "doesn't exist."
@@ -1192,7 +1217,7 @@ msgstr ""
 "LSldapObject : La fonction %{func}, devant être exécutée lors de l'évènement "
 "%{event} de l'objet, n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2545
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2571
 msgid ""
 "LSldapObject : Error during the execution of %{func} function on object "
 "event %{event}."
@@ -1200,7 +1225,7 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la fonction %{func} lors de "
 "l'évènement %{event} de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2549
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2575
 msgid ""
 "LSldapObject : %{meth} method, to be executed on object event %{event}, "
 "doesn't exist."
@@ -1208,7 +1233,7 @@ msgstr ""
 "LSldapObject : La méthode %{meth}, devant être exécutée lors de l'évènement "
 "%{event} de l'objet, n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2552
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2578
 msgid ""
 "LSldapObject : Error during execution of %{meth} method on object event "
 "%{event}."
@@ -1216,13 +1241,13 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de la méthode %{meth} lors de "
 "l'évènement %{event} de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2555
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2581
 msgid "LSldapObject : Error during generate LDAP filter for %{LSobject}."
 msgstr ""
 "LSldapObject : Erreur durant la génération du filtre LDAP de l'objet "
 "%{LSobject}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2559
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2585
 msgid ""
 "LSldapObject : Error during execution of the custom action %{customAction} "
 "on %{objectname}."
@@ -1230,22 +1255,22 @@ msgstr ""
 "LSldapObject : Erreur durant l'exécution de l'action personnalisée "
 "%{customAction} sur l'objet %{objectname}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2563
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2589
 msgid "LSldapObject : Fail to retrieve container DN."
 msgstr "LSldapObject : Impossible de récupérer le DN parent."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2566
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2592
 msgid ""
 "LSldapObject : The function %{func} to generate container DN is not callable."
 msgstr ""
 "LSldapObject : La fonction %{func} pour générer le DN parent n'est pas "
 "exécutable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2569
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2595
 msgid "LSldapObject : Error during generating container DN : %{error}"
 msgstr "LSldapObject : Erreur durant la génération du DN parent : %{error}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2574
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:2600
 msgid ""
 "LSrelation : Some parameters are missing in the call of methods to handle "
 "standard relations (Method : %{meth})."
@@ -1261,125 +1286,110 @@ msgstr ""
 "LSformRule_password : Regex invalide configurée : %{regex}. Vous devez "
 "utiliser des regex de type PCRE (commencant par le caractère '/')."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:500
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:504
 msgid "LSldap : Error during the LDAP server connection (%{msg})."
 msgstr "LSldap : Erreur durant la connexion au serveur LDAP (%{msg})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:503
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:507
 msgid "LSldap : Error during the LDAP search (%{msg})."
 msgstr "LSldap : Erreur pendant la recherche LDAP (%{msg})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:506
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:510
 msgid "LSldap : Object type unknown."
 msgstr "LSldap : Type d'objet inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:509
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:513
 msgid "LSldap : Error while fetching the LDAP entry."
 msgstr "LSldap : Erreur durant la récupération de l'entrée LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:512
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:516
 msgid "LSldap : Error while changing the LDAP entry (DN : %{dn})."
 msgstr "LSldap : Erreur durant la modification de l'entrée LDAP (DN : %{dn})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:515
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:519
 msgid "LSldap : Error while deleting empty attributes."
 msgstr "LSldap : Erreur durant la suppression des attributs vides."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:518
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:522
 msgid "LSldap : Error while changing the DN of the object."
 msgstr "LSldap : Erreur pendant la modification du DN de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:69
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:76
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:311
 msgid "listing related objects"
 msgstr "énumaration des objets liés"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:103
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:109
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:373
 msgid "getting key value"
 msgstr "récupération de la valeur clé"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:134
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:141
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:174
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:421
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:515
 msgid "checking right on relation with specific object"
 msgstr "vérification des droits sur la relation avec un objet en particulier"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:150
-msgid "deleting"
-msgstr "suppression"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:157
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:466
 msgid "removing relation with specific object"
 msgstr "suppression de la relation avec un object en particulier"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:167
-msgid "renaming"
-msgstr "renommage"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:186
-msgid "updating"
-msgstr "mise à jour"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:192
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:583
 msgid "updating relations"
 msgstr "mise à jour des relations"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:214
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:602
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:220
 msgid "Do you really want to delete"
 msgstr "Voulez-vous vraiment supprimer"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:215
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:603
 msgid "Warning"
 msgstr "Attention"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:216
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:604
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:222
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:69
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:85
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:185
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:945
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1079
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:926
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1060
 msgid "Delete"
 msgstr "Supprimer"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:243
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:365
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:642
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:884
 msgid "No object."
 msgstr "Aucun objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:267
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:667
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:410
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:884
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:865
 msgid "New"
 msgstr "Nouveau"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:453
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:953
 msgid ""
-"LSrelation : The function %{function} for action '%{action}' on the relation "
-"%{relation} is unknown."
+"LSrelation : Invalid parameter '%{parameter}' of the relation %{relation}: "
+"objects %{LSobject} have no function '%{function}'."
 msgstr ""
-"LSrelation : La fonction %{function} pour l'action '%{action}' sur la "
-"relation %{relation} est inconnue."
+"LSrelation : Le paramètre '%{parametre}' de la relation %{relation} est "
+"invalide: les objets %{LSobject} n'ont pas de fonction '%{function}'."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:456
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:956
 msgid "LSrelation : Relation %{relation} of object type %{LSobject} unknown."
 msgstr ""
 "LSrelation : La relation %{relation} du type d'objet %{LSobject} est "
 "inconnue."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:459
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:959
 msgid "LSrelation : Error during relation update of the relation %{relation}."
 msgstr "LSsession : Erreur durant la mise à jour de la relation %{relation}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:462
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:962
 msgid "LSrelation : Object type %{LSobject} unknown (Relation : %{relation})."
 msgstr ""
 "LSsession : La fonction de mise à jour de la relation %{relation} est "
 "inconnue."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:465
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:965
 msgid ""
 "LSrelation : Incomplete configuration for LSrelation %{relation} of object "
 "type %{LSobject} for action : %{action}."
@@ -1387,13 +1397,29 @@ msgstr ""
 "LSrelation : Configuration incomplète de la LSrelation %{relation} du type "
 "d'objet %{LSobject} pour l'action : %{action}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:468
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:968
 msgid ""
 "LSrelation : Invalid editable attribute for LSrelation %{relation} with "
 "LSobject %{LSobject}."
 msgstr ""
 "LSrelation : Attribut éditable invalide pour la LSrelation %{relation} du "
 "type d'objet %{LSobject}."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:971
+msgid ""
+"LSrelation : The configuration parameter '%{parameter}' of the relation "
+"%{relation} of %{LSobject} is missing."
+msgstr ""
+"LSrelation : Le paramètre '%{paramerer}' est manquant dans la configuration "
+"de la relation %{relation} des objets %{LSobject}."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:974
+msgid ""
+"LSrelation : The configuration parameter '%{parameter}' of the relation "
+"%{relation} of %{LSobject} is invalid."
+msgstr ""
+"LSrelation : Le paramètre '%{paramerer}' est invalide dans la configuration "
+"de la relation %{relation} des objets %{LSobject}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:137
 msgid "Generate a password."
@@ -1519,14 +1545,14 @@ msgid "No field."
 msgstr "Aucun champ."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:203
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:564
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:569
 msgid "Do you really want to execute custom action %{title} on this search ?"
 msgstr ""
 "Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée %{title} "
 "sur cette recherche ?"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:209
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1246
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1231
 msgid ""
 "Do you really want to execute custom action %{customAction} on "
 "%{objectname} ?"
@@ -1638,7 +1664,7 @@ msgstr "La page demandée est introuvable."
 msgid "Invalid value"
 msgstr "Valeur invalide"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSauthMethod_HTTP.php:128
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSauthMethod_HTTP.php:136
 msgid "LSauthMethod_HTTP : the %{var} environnement variable is missing."
 msgstr "LSauthMethod_HTTP : la variable d'environnement %{var} est manquante."
 
@@ -1752,39 +1778,39 @@ msgstr "Étape"
 msgid "Pedagogical element"
 msgstr "Élement pédagogique"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1087
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1088
 msgid "Actions"
 msgstr "Actions"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1090
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1091
 #: templates/default/global_search.tpl:24
 msgid "This search didn't get any result."
 msgstr "Cette recherche n'a retournée aucun résultat."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1531
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1532
 msgid "LSsearch : Invalid filter : %{filter}."
 msgstr "LSsearch : Filtre invalide : %{filter}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1534
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1535
 msgid "LSsearch : Invalid basedn : %{basedn}."
 msgstr "LSsearch : Base DN invalide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1537
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1538
 msgid "LSsearch : Invalid value for %{param} parameter."
 msgstr "LSsearch : La valeur du paramètre %{param} est incorrecte."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1540
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1541
 msgid ""
 "LSsearch : Invalid size limit. Must be an integer greater or equal to 0."
 msgstr ""
 "LSsearch : Limite de taille de recherche invalide. Elle doit être un entier "
 "supérieur ou égal à 0."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1543
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1544
 msgid "LSsearch : Invalid parameter %{attr}. Must be an boolean."
 msgstr "LSsearch : Paramètre %{param} invalide. Il doit être un booléen."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1546
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1547
 msgid ""
 "LSsearch : Invalid parameter attributes. Must be an string or an array of "
 "strings."
@@ -1792,13 +1818,13 @@ msgstr ""
 "LSsearch : Paramètre 'attributes' invalide. Il doit être une chaîne de "
 "caractères ou un tableau de chaînes de caractères."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1549
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1550
 msgid "LSsearch : Can't build attributes list for make filter."
 msgstr ""
 "LSsearch : Impossible de construire la liste des attributs pour faire le "
 "filtre."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1552
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1553
 msgid ""
 "LSsearch : Error building filter with attribute '%{attr}' and pattern "
 "'%{pattern}'"
@@ -1806,34 +1832,34 @@ msgstr ""
 "LSsearch : Problème en construisant le filtre avec l'attribut '%{attr}' et "
 "le mot clé '%{pattern}'"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1555
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1556
 msgid "LSsearch : Error combining filters."
 msgstr "LSsearch : Problème en combinant les filtres."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1558
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1559
 msgid "LSsearch : Invalid pattern."
 msgstr "LSsearch : Mot clé invalide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1561
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1562
 msgid "LSsearch : Invalid attribute %{attr} in parameters."
 msgstr "LSsearch : Attribut %{attr} incorrect dans les paramètres."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1564
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1565
 msgid "LSsearch : Error during the search."
 msgstr "LSsearch : Erreur pendant la recherche."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1567
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1568
 msgid "LSsearch : Error sorting the search."
 msgstr "LSsearch : Erreur pendant le trie de la recherche."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1570
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1571
 msgid ""
 "LSsearch : The function of the custum information %{name} is not callable."
 msgstr ""
 "LSsearch : La fonction de l'information personnalisée %{name} n'est pas "
 "exécutable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1573
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1574
 msgid ""
 "LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} "
 "(filter : %{filter})."
@@ -1841,13 +1867,13 @@ msgstr ""
 "LSsearch : PredefinedFilter invalide pour le type d'LSobject %{type} : "
 "%{label} (filtre : %{filter})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1576
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1577
 msgid "LSsearch : Error during execution of the custom action %{customAction}."
 msgstr ""
 "LSldapObject : Erreur durant l'exécution de l'action personnalisée "
 "%{customAction}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1579
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearch.php:1580
 msgid "LSsearch : Invalid search pattern."
 msgstr "LSsearch : Mot clé de recherche invalide."
 
@@ -1984,11 +2010,11 @@ msgstr "Rôle"
 msgid "Entity type"
 msgstr "Type d'entité"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:139
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:142
 msgid "Only one command could be executed !"
 msgstr "Une seule commande peut-être exécutée !"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:185
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:192
 msgid ""
 "Invalid parameter \"%{parameter}\".\n"
 "Note: Command's parameter/argument must be place after the command."
@@ -1997,17 +2023,17 @@ msgstr ""
 "Note: Les paramètres/arguments de la commande doivent être placés après "
 "celle-ci."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:325
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:342
 msgid "LScli : The CLI command '%{command}' already exists."
 msgstr "LScli : La commande CLI '%{command}' existe déjà."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:328
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:345
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 "LScli : La fonction de prise en charge de la commande CLI '%{command}' n'est "
 "pas exécutable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSlog.php:432
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSlog.php:462
 msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr "LSlog : Impossible de charger l'handler %{handler}."
 
@@ -2025,12 +2051,12 @@ msgid "Unknown error : %{error}"
 msgstr "Erreur inconnu : %{error}"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:161
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1071
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1052
 msgid "View"
 msgstr "Voir"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:177
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:937
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:918
 msgid "Copy"
 msgstr "Copier"
 
@@ -2038,7 +2064,7 @@ msgstr "Copier"
 msgid "Unknown property !"
 msgstr "Propriété inconnue !"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:263
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:276
 msgid ""
 "LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns "
 "%{column}."
@@ -2061,7 +2087,7 @@ msgid "You must provide pattern for global search."
 msgstr "Vous devez fournir un mot clé pour les recherches globales."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:416
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:760
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:738
 msgid "Import"
 msgstr "Importer"
 
@@ -2070,61 +2096,60 @@ msgid "Reset"
 msgstr "Réinitialiser"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:466
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:666
-#: templates/default/global_search.tpl:6
+#: templates/default/select.tpl:28 templates/default/global_search.tpl:6
 msgid "Search"
 msgstr "Rechercher"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:467
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:667
+#: templates/default/select.tpl:31
 msgid "Approximative search"
 msgstr "Recherche approximative"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:468
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:668
+#: templates/default/select.tpl:32
 msgid "Recursive search"
 msgstr "Recherche récursive"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:545
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:548
 msgid ""
 "The custom action %{title} have been successfully execute on this search."
 msgstr ""
 "L'action personnalisée %{title} a été correctement exécutée sur cette "
 "recherche."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:843
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:824
 msgid "Data entry form"
 msgstr "Masque de saisie"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:849
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:830
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:976
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:957
 msgid "My account"
 msgstr "Mon compte"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1029
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1010
 msgid "The object has been partially modified."
 msgstr "L'objet a été partiellement modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1032
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1013
 msgid "The object has been modified successfully."
 msgstr "L'objet a bien été modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1136
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1117
 msgid "%{objectname} has been successfully deleted."
 msgstr "%{objectname} a bien été supprimé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1145
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1126
 msgid "Deleting : %{objectname}"
 msgstr "Suppression : %{objectname}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1146
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1127
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr "Voulez-vous vraiment supprimer <strong>%{displayName}</strong> ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1220
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1203
 msgid ""
 "The custom action %{customAction} have been successfully execute on "
 "%{objectname}."
@@ -2282,6 +2307,15 @@ msgstr "non"
 #: templates/default/import.tpl:17 templates/default/import.tpl:20
 msgid "yes"
 msgstr "oui"
+
+#~ msgid "deleting"
+#~ msgstr "suppression"
+
+#~ msgid "renaming"
+#~ msgstr "renommage"
+
+#~ msgid "updating"
+#~ msgstr "mise à jour"
 
 #~ msgid "Deleting"
 #~ msgstr "Suppression"
