@@ -518,7 +518,8 @@ class LSsearch {
         if (is_callable($data['function'])) {
           $this -> params['customInfos'][$name] = array (
             'function' => &$data['function'],
-            'args' => $data['args']
+            'args' => (isset($data['args'])?$data['args']:null),
+            'cache' => (isset($data['cache'])?boolval($data['cache']):true),
           );
         }
         else {

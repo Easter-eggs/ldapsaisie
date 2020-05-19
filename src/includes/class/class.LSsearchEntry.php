@@ -39,7 +39,7 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
   private $dn;
 
   // The parameters of the search
-  private $params=array ();
+  private $params = array();
 
   // The hash of the search parameters
   private $hash = NULL;
@@ -237,21 +237,42 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
       return (isset($this -> attrs[$key])?$this -> attrs[$key]:null);
     }
     elseif (array_key_exists($key,$this->params['customInfos'])) {
-      if(isset($this -> cache['customInfos'][$key])) {
+      $cache = $this -> getConfig("customInfos.$key.cache", true, 'bool');
+      if($cache && isset($this -> cache['customInfos'][$key])) {
+        self :: log_debug("__get($key): custom info retreived from cache");
         return $this -> cache['customInfos'][$key];
       }
       if(is_array($this->params['customInfos'][$key]['function']) && is_string($this->params['customInfos'][$key]['function'][0])) {
+        self :: log_debug("__get($key): load class '".$this->params['customInfos'][$key]['function'][0]."'");
         LSsession::loadLSclass($this->params['customInfos'][$key]['function'][0]);
       }
       if(is_callable($this->params['customInfos'][$key]['function'])) {
-        $this -> cache['customInfos'][$key]=call_user_func($this->params['customInfos'][$key]['function'],$this,$this->params['customInfos'][$key]['args']);
-        return $this -> cache['customInfos'][$key];
+        self :: log_debug("__get($key): call ".varDump($this->params['customInfos'][$key]['function'])."");
+        $value = call_user_func($this->params['customInfos'][$key]['function'], $this, $this->params['customInfos'][$key]['args']);
+        if ($cache)
+          $this -> cache['customInfos'][$key] = $value;
+        return $value;
       }
+      else
+        self :: log_error("__get($key): custom info function is not callable: ".varDump($this->params['customInfos'][$key]['function']));
     }
     else {
       self :: log_warning('LSsearchEntry : '.$this -> dn.' => Unknown property '.$key.' !');
       return __("Unknown property !");
     }
+  }
+
+  /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> params);
   }
 
 }
