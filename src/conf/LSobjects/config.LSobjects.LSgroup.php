@@ -174,7 +174,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
           'msg' => "One or several of these users don't exist."
         )
       ),
-      'multiple' => 1,
+      'multiple' => 0,
       'rights' => array(
         'admin' => 'w'
       ),
