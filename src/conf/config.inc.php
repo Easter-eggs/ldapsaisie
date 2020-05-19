@@ -63,7 +63,8 @@ $GLOBALS['LSconfig'] = array(
         'admin' => array (
           'label' => 'Administrator',
           'o=ls' => array (
-            'uid=eeggs,ou=people,o=ls' => NULL
+            'uid=admin,ou=people,o=ls' => NULL,
+            'uid=eeggs,ou=people,o=ls' => NULL,
           ),
           'ou=people,o=ls' => array (
             'cn=adminldap,ou=groups,o=ls' => array (
