@@ -402,7 +402,7 @@ LSerror :: defineError('LSattr_html_select_object_01',
 _("LSattr_html_select_object : parameter '%{parameter}' is missing (attribute : %{attr}).")
 );
 LSerror :: defineError('LSattr_html_select_object_02',
-_("LSattr_html_select_object : the value of the parameter value_attribute in the configuration of the attribute %{attrs} is incorrect. Object %{object_type} have no attribute %{value_attribute}.")
+_("LSattr_html_select_object : the value of the parameter value_attribute in the configuration of the attribute %{attr} is incorrect. Object %{object_type} have no attribute %{value_attribute}.")
 );
 LSerror :: defineError('LSattr_html_select_object_03',
 _("LSattr_html_select_object : more than one object returned corresponding to value %{val} of attribute %{attr}.")
