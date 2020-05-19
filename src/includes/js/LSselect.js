@@ -1,17 +1,19 @@
 var LSselect = new Class({
     initialize: function(){
-      this.main_page = $('LSobject-select-main-div').getParent();
       this.content = $('content');
 
-      this.multiple = LSselect_multiple;
-
       this.LSselect_search_form = $('LSselect_search_form');
+      this.id = this.LSselect_search_form.getElement('input[name=LSselect_id]').value;
+      this.multiple = this.LSselect_search_form.getElement('input[name=multiple]').value;
+
+      // Add ajax hidden input
       var input = new Element('input');
       input.setProperty('name','ajax');
       input.setProperty('type','hidden');
       input.injectInside(this.LSselect_search_form);
 
       this.tempInput = [];
+      this.lastCheckboxChanged = null;
 
       this.LSselect_search_form.addEvent('submit',this.onSubmitSearchForm.bindWithEvent(this));
 
@@ -24,6 +26,22 @@ var LSselect = new Class({
 
       this.initializeContent();
       varLSdefault.ajaxDisplayDebugAndError();
+
+      this.title = $('LSselect_title');
+      this.tabs_ul = $$('ul.LSselect_selectable_object_types')[0];
+      if (this.tabs_ul) {
+        this.initializeTabs();
+      }
+    },
+
+    initializeTabs: function(ul) {
+      this.tabs_ul.getElements('li').addEvent('click', function (event) {
+        console.log(event.target);
+        this.LSselect_search_form.getElement('input[name=LSobject]').value = event.target.getProperty('data-object-type');
+        this.tabs_ul.getElements('li.current').each(function(li){ console.log(li); li.removeClass('current'); });
+        event.target.addClass('current');
+        this.submitSearchForm();
+      }.bind(this));
     },
 
     initializeContent: function() {
@@ -48,30 +66,48 @@ var LSselect = new Class({
       }, this);
     },
 
+    loadingImgDisplay: function(place, position) {
+      if (!place) {
+        if (this.title) {
+          place = this.title;
+        }
+        else if (this.tabs_ul) {
+          place = this.tabs_ul;
+        }
+      }
+      if (!position) {
+        position = 'inside';
+      }
+      return varLSdefault.loadingImgDisplay(place, position);
+    },
+
     oncheckboxChange: function(checkbox){
+      this.lastCheckboxChanged = checkbox;
+      var url;
       if (checkbox.checked) {
-        var url = 'ajax/class/LSselect/addItem';
-        var data = {
-          objectdn:   checkbox.value,
-          objecttype: $('LSselect-object').getProperties('caption').caption,
-          multiple:   this.multiple
-        };
+        url = 'ajax/class/LSselect/addSelectedObject';
       }
       else {
-        var url = 'ajax/class/LSselect/dropItem';
-        var data = {
-          objectdn:   checkbox.value,
-          objecttype: $('LSselect-object').getProperties('caption').caption,
-          multiple:   this.multiple
-        };
+        url = 'ajax/class/LSselect/dropSelectedObject';
       }
-      data.imgload=varLSdefault.loadingImgDisplay(checkbox.getParent().getNext(),'inside');
+      var data = {
+        LSselect_id:  this.id,
+        object_dn:    checkbox.value,
+        object_type:  $('LSselect-object').getProperties('caption').caption,
+      };
+      data.imgload = this.loadingImgDisplay(checkbox.getParent().getNext(), 'inside');
       new Request({url: url, data: data, onSuccess: this.oncheckboxChangeComplete.bind(this)}).send();
     },
 
     oncheckboxChangeComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
-      varLSdefault.loadingImgHide(data.imgload);
+      var success = false;
+      if(varLSdefault.checkAjaxReturn(data)) {
+        success = data.success;
+      }
+      if (!success && this.lastCheckboxChanged) {
+        this.lastCheckboxChanged.checked = !this.lastCheckboxChanged.checked;
+      }
     },
 
     onChangePageClick: function(event, a) {
@@ -79,7 +115,7 @@ var LSselect = new Class({
       var data = {
         ajax:         true
       };
-      this.searchImgload = varLSdefault.loadingImgDisplay($('LSselect_title'),'inside');
+      this.searchImgload = this.loadingImgDisplay();
       new Request({url: a.href, data: data, onSuccess: this.onChangePageClickComplete.bind(this)}).send();
     },
 
@@ -98,8 +134,8 @@ var LSselect = new Class({
       this.submitSearchForm();
     },
 
-    submitSearchForm: function() {
-      this.searchImgload = varLSdefault.loadingImgDisplay($('LSselect_title'),'inside');
+    submitSearchForm: function(loading_img_place) {
+      this.searchImgload = this.loadingImgDisplay();
       this.LSselect_search_form.set('send',{
         data:         this.LSselect_search_form,
         evalScripts:  true,

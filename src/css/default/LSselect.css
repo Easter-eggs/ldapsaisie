@@ -42,3 +42,29 @@ div.LSselect_search {
 div.LSobject-select {
   width:              620px;
 }
+
+/*
+ * Selectable object types tabs
+ */
+ul.LSselect_selectable_object_types {
+  list-style-type:    none;
+  padding:            0 0 4px 0;
+  margin:             1em;
+  margin-bottom:      0;
+  border-bottom:      1px solid #52BCE5;
+}
+
+ul.LSselect_selectable_object_types li {
+  color:              #fff;
+  background-color:   #52BCE5;
+  -moz-border-radius: 3px 3px 0px 0px;
+  border-radius:      3px 3px 0px 0px;
+  padding:            4px;
+  display:            inline;
+  margin-right:       1px;
+  cursor:             pointer;
+}
+
+ul.LSselect_selectable_object_types li.current {
+ background-color:   #0072B8;
+}

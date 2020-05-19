@@ -190,14 +190,6 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
       $this -> LSsearch -> addResultToCache();
       return $this -> cache['actions'];
     }
-    elseif ($key=='LSselect') {
-      if (is_array($_SESSION['LSselect'][$this -> LSobject])) {
-        if(in_array($this -> dn,$_SESSION['LSselect'][$this -> LSobject])) {
-          return true;
-        }
-      }
-      return;
-    }
     elseif (is_array($this->LSsearch->extraDisplayedColumns) && array_key_exists($key,$this->LSsearch->extraDisplayedColumns)) {
       if(isset($this -> cache[$key])) {
         return $this -> cache[$key];

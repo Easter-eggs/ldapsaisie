@@ -79,20 +79,30 @@ class LSldapObject extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Charge les donnÃ©es de l'objet
+   * Load object data from LDAP
    *
-   * Cette methode dÃ©finis le DN de l'objet et charge les valeurs de attributs de l'objet
-   * Ã  partir de l'annuaire.
+   * This method set object DN and load its data from LDAP
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $dn string Le DN de l'objet.
+   * @param[in] $dn string The object DN
+   * @param[in] $additional_filter string|Net_LDAP2_Filter|null A custom LDAP filter that LDAP object
+   *                                                            must respect to permit its data loading
    *
-   * @retval boolean true si la chargement a rÃ©ussi, false sinon.
+   * @retval boolean True if object data loaded, false otherwise
    */
-  public function loadData($dn) {
+  public function loadData($dn, $additional_filter=null) {
     $this -> dn = $dn;
-    $data = LSldap :: getAttrs($dn, $this -> getObjectFilter());
+    $filter = $this -> getObjectFilter();
+    if ($additional_filter) {
+      if (!is_a($additional_filter, Net_LDAP2_Filter))
+        $additional_filter = Net_LDAP2_Filter :: parse($additional_filter);
+      $filter = Net_LDAP2_Filter :: combine(
+        'and',
+        array ($filter, $additional_filter)
+      );
+    }
+    $data = LSldap :: getAttrs($dn, $filter);
     if(is_array($data) && !empty($data)) {
       foreach($this -> attrs as $attr_name => $attr) {
         if( !$this -> attrs[$attr_name] -> loadData( (isset($data[$attr_name])?$data[$attr_name]:NULL) ) )
@@ -1819,6 +1829,18 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
       return false;
     }
+  }
+
+
+  /**
+   * Check if object type have a specified attribute
+   *
+   * @param[in] $attr_name  string The attribute name
+   * 
+   * @teval boolean True if object type have a attribute of this name, False otherwise
+   */
+  public static function hasAttr($attr_name) {
+    return array_key_exists($attr_name, LSconfig :: get('LSobjects.'.get_called_class().'.attrs', array()));
   }
 
   /**

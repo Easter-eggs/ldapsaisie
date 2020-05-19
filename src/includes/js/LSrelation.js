@@ -75,7 +75,7 @@ var LSrelation = new Class({
 
     deleteFromImgComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
-      if ( varLSdefault.checkAjaxReturn(data) ) {
+      if ( varLSdefault.checkAjaxReturn(data) && data['success']) {
         try  {
           var ul=$('LSrelation_ul_'+data.id);
           var li = $('LSrelation_'+data.id+'_'+data.dn).getParent();
@@ -107,14 +107,14 @@ var LSrelation = new Class({
       LSdebug(data);
       this.refreshRelation=a.id;
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+a.id,'inside');
-      new Request({url: 'ajax/class/LSrelation/refreshSession', data: data, onSuccess: this.onLSrelationModifyBtnClickComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSrelation/initSelection', data: data, onSuccess: this.onLSrelationModifyBtnClickComplete.bind(this)}).send();
     },
 
     onLSrelationModifyBtnClickComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
-      if ( varLSdefault.checkAjaxReturn(data) ) {
+      if ( varLSdefault.checkAjaxReturn(data) && data['success'] ) {
         varLSsmoothbox.asNew();
-        varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
+        varLSsmoothbox.addEvent('valid', this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.openURL(data.href,{startElement: $(data.id), width: 635});
       }
     },
@@ -126,12 +126,12 @@ var LSrelation = new Class({
 
       LSdebug(data);
       data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+this.refreshRelation,'inside');
-      new Request({url: 'ajax/class/LSrelation/refreshList', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSrelation/updateFromSelection', data: data, onSuccess: this.onLSsmoothboxValidComplete.bind(this)}).send();
     },
 
     onLSsmoothboxValidComplete: function(responseText, responseXML) {
       var data = JSON.decode(responseText);
-      if ( varLSdefault.checkAjaxReturn(data) ) {
+      if ( varLSdefault.checkAjaxReturn(data) && data['success'] ) {
         $('LSrelation_ul_'+this.refreshRelation).set('html',data.html);
         this.initializeBtn();
       }

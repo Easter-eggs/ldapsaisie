@@ -4,11 +4,11 @@
     <td class='LSformElement_select_object_searchAdd'>
 {/if}
       <ul class='LSform LSformElement_select_object' id='{$attr_name|escape:"quotes"}'>
-        {foreach from=$values item=txt key=dn}
+        {foreach from=$values item=info key=dn}
           <li>{include file="ls:$fieldTemplate"}</li>
         {foreachelse}
-          {assign var=dn value=""} 
-          {assign var=txt value=""} 
+          {assign var=dn value=""}
+          {assign var=info value=array()} 
           <li>{include file="ls:$fieldTemplate"}</li>
         {/foreach}
       </ul>

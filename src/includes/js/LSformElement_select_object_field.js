@@ -123,21 +123,23 @@ var LSformElement_select_object_field = new Class({
     onAddBtnClick: function(event) {
       new Event(event).stop();
 
-      values = new Array();
+      selected_objects = {};
       var inputname=this.name+'[]';
       this.ul.getElements('input.LSformElement_select_object').each(function(el) {
         if (el.name==inputname) {
-          values.push(el.getProperty('value'));
+          selected_objects[el.getProperty('value')] = {
+            'object_type': el.getProperty('data-object-type'),
+          };
         }
       }, this);
 
       var data = {
-        objecttype: this.params['object_type'],
-        values:     JSON.encode(values)
+        LSselect_id:      this.params['LSselect_id'],
+        selected_objects: JSON.encode(selected_objects)
       };
 
-      data.imgload=varLSdefault.loadingImgDisplay(this.addBtn,'inside');
-      new Request({url: 'ajax/class/LSselect/refreshSession', data: data, onSuccess: this.onAddBtnClickComplete.bind(this)}).send();
+      data.imgload = varLSdefault.loadingImgDisplay(this.addBtn, 'inside');
+      new Request({url: 'ajax/class/LSselect/updateSelectedObjects', data: data, onSuccess: this.onAddBtnClickComplete.bind(this)}).send();
     },
 
     onAddBtnClickComplete: function(responseText, responseXML) {
@@ -146,17 +148,7 @@ var LSformElement_select_object_field = new Class({
         varLSsmoothbox.asNew();
         varLSsmoothbox.addEvent('valid',this.onLSsmoothboxValid.bind(this));
         varLSsmoothbox.displayValidBtn();
-        var url='object/'+this.params['object_type']+'/select';
-        var params = [];
-        if (this.params['multiple']) {
-          params.push('multiple=1');
-        }
-        if (this.params['filter64']) {
-          params.push('filter64='+this.params['filter64']);
-        }
-        if (params) {
-          url=url+'?'+params.join('&');
-        }
+        var url='object/select/'+this.params['LSselect_id'];
         varLSsmoothbox.openURL(url, {width: 635});
       }
     },
@@ -207,7 +199,7 @@ var LSformElement_select_object_field = new Class({
       }
     },
 
-    addLi: function(name,dn) {
+    addLi: function(info, dn) {
       if (this.params.multiple) { // Multiple
         var current = 0;
         this.ul.getElements("input[type=hidden]").each(function(input){
@@ -224,15 +216,16 @@ var LSformElement_select_object_field = new Class({
 
         var a = new Element('a');
         a.addClass('LSformElement_select_object');
-        a.href="object/"+this.params['object_type']+"/"+dn;
-        a.set('html',name);
+        a.href="object/"+info['object_type']+"/"+dn;
+        a.set('html', info['name']);
         a.injectInside(li);
 
         var input = new Element('input');
         input.setProperties({
-          type:   'hidden',
-          value:  dn,
-          name:   this.name+'[]'
+          'type':             'hidden',
+          'value':            dn,
+          'name':             this.name+'[]',
+          'data-object-type': info['object_type'],
         });
         input.addClass('LSformElement_select_object');
         input.injectAfter(a);
@@ -245,14 +238,15 @@ var LSformElement_select_object_field = new Class({
       else { // Non Multiple
         var a = this.ul.getElement('a');
         if ($type(a)) { // Deja initialise
-          a.href="object/"+this.params['object_type']+"/"+dn;
-          a.set('html',name);
+          a.href="object/"+info['object_type']+"/"+dn;
+          a.set('html',info['name']);
           a.removeClass('LSformElement_select_object_deleted');
 
           var input = this.ul.getElement('input');
           input.setProperties({
-            value:  dn,
-            name:   this.name+'[]'
+            'value':            dn,
+            'name':             this.name+'[]',
+            'data-object-type': info['object_type'],
           });
         }
         else { // Non initialise (No Value)
@@ -261,15 +255,16 @@ var LSformElement_select_object_field = new Class({
 
           var a = new Element('a');
           a.addClass('LSformElement_select_object');
-          a.href="object/"+this.params['object_type']+"/"+dn;
-          a.set('html',name);
+          a.href="object/"+info['object_type']+"/"+dn;
+          a.set('html',info['name']);
           a.injectInside(li);
 
           var input = new Element('input');
           input.setProperties({
-            type:   'hidden',
-            value:  dn,
-            name:   this.name+'[]'
+            'type':             'hidden',
+            'value':            dn,
+            'name':             this.name+'[]',
+            'data-object-type': info['object_type'],
           });
           input.addClass('LSformElement_select_object');
           input.injectAfter(a);
@@ -398,7 +393,7 @@ var LSformElement_select_object_field = new Class({
       }
     },
 
-    addSearchAddLi: function(name,dn) {
+    addSearchAddLi: function(info, dn) {
       var current = 0;
       this.ul.getElements("input[type=hidden]").each(function(input){
         if ((input.value==dn)&&(input.name == this.name+'[]')) {
@@ -409,7 +404,11 @@ var LSformElement_select_object_field = new Class({
       var li = new Element('li');
       li.addClass('LSformElement_select_object_searchAdd');
       li.id = dn;
-      li.set('html',name);
+      li.set('html',info['name']);
+      li.setProperties({
+        'data-dn': dn,
+        'data-object-type': info['object_type'],
+      });
       li.addEvent('mouseenter',this.onSearchAddLiMouseEnter.bind(this,li));
       li.addEvent('mouseleave',this.onSearchAddLiMouseLeave.bind(this,li));
       if (current) {
@@ -440,7 +439,13 @@ var LSformElement_select_object_field = new Class({
 
     onSearchAddLiClick: function(li) {
       this.clearUlIfNoValue();
-      this.addLi(li.innerHTML,li.id);
+      this.addLi(
+        {
+          object_type: li.getProperty('data-object-type'),
+          name: li.innerHTML,
+        },
+        li.getProperty('data-dn')
+      );
     },
 
     closeIfOpenSearchAdd: function(event) {

@@ -56,7 +56,7 @@ class LSformElement_select_object extends LSformElement {
   public function getDisplay($refresh=NULL){
     LSsession :: addCssFile('LSformElement_select_object.css');
     if ($refresh) {
-      $this -> values = $this -> getValuesFromSession();
+      $this -> values = $this -> getValuesFromLSselect();
     }
     $return = $this -> getLabelInfos();
 
@@ -64,7 +64,7 @@ class LSformElement_select_object extends LSformElement {
       LSsession :: addJSconfigParam(
         $this -> name,
         array(
-          'object_type' => $this -> selectableObject,
+          'LSselect_id' => $this -> attr_html -> getLSselectId(),
           'addBtn' => _('Modify'),
           'deleteBtns' => _('Delete'),
           'up_label' => _('Move up'),
@@ -88,21 +88,55 @@ class LSformElement_select_object extends LSformElement {
 
       LSsession :: addJSscript('LSformElement_select_object_field.js');
       LSsession :: addJSscript('LSformElement_select_object.js');
-      if (LSsession :: loadLSclass('LSselect')) {
+      if (LSsession :: loadLSclass('LSselect') && $this -> initLSselect()) {
         LSselect :: loadDependenciesDisplay();
       }
     }
 
     if ($this -> getParam('html_options.sort', true) && !$this -> getParam('html_options.ordered', false, 'bool')) {
-      uasort($this -> values,array($this,'_sortTwoValues'));
+      uasort($this -> values, array($this, '_sortTwoValues'));
     }
 
     $return['html'] = $this -> fetchTemplate(NULL,array(
-      'selectableObject' => $this -> selectableObject,
       'unrecognizedValues' => $this -> attr_html -> unrecognizedValues,
       'unrecognizedValueLabel' => _("%{value} (unrecognized value)")
     ));
     return $return;
+  }
+
+  /**
+   * Init LSselect
+   *
+   * @retval boolean True if LSselect is initialized, false otherwise
+   */
+  private function initLSselect() {
+    // Retreive selectable objects configuratio from HTML attr
+    $objs = null;
+    $confs = $this -> attr_html -> getSelectableObjectsConfig($objs);
+    if (!is_array($confs)) {
+      self :: log_warning($this -> name.": html_options.selectable_object not defined");
+      return false;
+    }
+
+    // Build selectable objects type list as required by LSselect
+    $select_conf = array();
+    foreach ($confs as $obj_type => $conf) {
+      $select_conf[$obj_type] = array(
+        'object_type' => $conf['object_type'],
+        'display_name_format' => $conf['display_name_format'],
+        'filter' => $conf['filter'],
+        'onlyAccessible' => $conf['onlyAccessible'],
+      );
+    }
+
+    // Init LSselect
+    LSselect :: init(
+      $this -> attr_html -> getLSselectId(),
+      $select_conf,
+      boolval($this -> getParam('multiple', 0, 'int')),
+      $this -> values
+    );
+    return True;
   }
 
    /**
@@ -121,26 +155,15 @@ class LSformElement_select_object extends LSformElement {
       $dir=1;
     }
     if ($va == $vb) return 0;
-    $val = strcoll(strtolower($va), strtolower($vb));
+    $val = strcoll(strtolower($va['name']), strtolower($vb['name']));
     return $val*$dir;
   }
 
   /*
    * Return the values of the object form the session variable
    */
-  public function getValuesFromSession() {
-    return $this -> attr_html -> getValuesFromSession();
-  }
-
-  /**
-   * Defined the type of object witch is selectionable
-   *
-   * @param[in] $object string The type of object
-   *
-   * @retval void
-   **/
-  public function setSelectableObject($object) {
-    $this -> selectableObject = $object;
+  public function getValuesFromLSselect() {
+    return $this -> attr_html -> getValuesFromLSselect();
   }
 
   /**
@@ -163,8 +186,10 @@ class LSformElement_select_object extends LSformElement {
    * @retval boolean Return True
    */
   public function setValueFromPostData($data) {
-    LSformElement::setValueFromPostData($data);
-    $this -> values = $this -> attr_html -> refreshForm($this -> values,true);
+    parent :: setValueFromPostData($data);
+    self :: log_debug("setValueFromPostData(): input values=".varDump($this -> values));
+    $this -> values = $this -> attr_html -> refreshForm($this -> values, true);
+    self :: log_debug("setValueFromPostData(): final values=".varDump($this -> values));
     return true;
   }
 
@@ -175,33 +200,43 @@ class LSformElement_select_object extends LSformElement {
    *
    * @retval array(dn -> displayName) Found objects
    */
-  public function searchAdd ($pattern) {
-    if ($this -> getParam('html_options.selectable_object')) {
+  public function searchAdd($pattern) {
+    $objs = array();
+    $confs = $this -> attr_html -> getSelectableObjectsConfig($objs);
+    if (!is_array($confs))
+      return;
+    $selectable_objects = array();
+    foreach($confs as $object_type => $conf) {
       $obj_type = $this -> getParam('html_options.selectable_object.object_type');
-      if (LSsession :: loadLSobject($obj_type)) {
-        $obj = new $obj_type();
-        $sparams = array();
-        $sparams['onlyAccessible'] = $this -> getParam('html_options.selectable_object.onlyAccessible', false, 'bool');
-        $ret = $obj -> getSelectArray(
-          $pattern,
-          NULL,
-          $this -> getParam('html_options.selectable_object.display_name_format'),
-          false,
-          true,
-          $this -> getParam('html_options.selectable_object.filter'),
-          $sparams
+      $sparams = array();
+      $sparams['onlyAccessible'] = $conf['onlyAccessible'];
+      $objects = $objs[$object_type] -> getSelectArray(
+        $pattern,
+        NULL,
+        $conf['display_name_format'],
+        false,
+        true,
+        $conf['filter'],
+        $sparams
+      );
+      self :: log_debug($objects);
+      if (!is_array($objects)) {
+        self :: log_warning("searchAdd($pattern): error occured looking for matching $object_type objects");
+        continue;
+      }
+      foreach($objects as $dn => $name) {
+        $selectable_objects[$dn] = array (
+          'object_type' => $object_type,
+          'name' => $name,
         );
-        if (is_array($ret)) {
-          return $ret;
-        }
       }
     }
-    return array();
+    return $selectable_objects;
   }
 
   /**
    * This ajax method is used to refresh the value display
-   * in the form element after the modify window is closed.
+   * in the form element after the modify LSselect window is closed.
    *
    * @param[in] $data The address to the array of data witch will be return by the ajax request
    *
@@ -211,13 +246,15 @@ class LSformElement_select_object extends LSformElement {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
         $object = new $_REQUEST['objecttype']();
-        $form = $object -> getForm($_REQUEST['idform']);
-        $field=$form -> getElement($_REQUEST['attribute']);
-        $val = $field -> getValuesFromSession();
-        if ( $val ) {
-          $data = array(
-            'objects'    => $val
-          );
+        if ($object -> loadData($_REQUEST['objectdn'])) {
+          $form = $object -> getForm($_REQUEST['idform']);
+          $field=$form -> getElement($_REQUEST['attribute']);
+          $val = $field -> getValuesFromLSselect();
+          if ( $val ) {
+            $data = array(
+              'objects'    => $val
+            );
+          }
         }
       }
     }

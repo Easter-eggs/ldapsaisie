@@ -20,186 +20,574 @@
 
 ******************************************************************************/
 
-class LSrelation {
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 
+class LSrelation extends LSlog_staticLoggerClass {
+
+  // Reference to the LSldapObject
   private $obj = null;
-  private $relationName = null;
+
+  // Relation name
+  private $name = null;
+
+  // Relation config
   private $config = null;
 
-  public function __construct(&$obj,$relationName) {
+  /**
+   * LSrelation constructor
+   *
+   * An LSrelation object focus on one type of relations of a specific
+   * object. All non-static method are designed to manipulate this type
+   * of relation of the object specified at constuct time.
+   *
+   * @param[in] &$obj LSldapObject  A reference to the LSldapObject
+   * @param [in] $relationName string The relation name
+   *
+   * @retval void
+   */
+  public function __construct(&$obj, $relationName) {
     $this -> obj =& $obj;
-    $this -> relationName = $relationName;
-    if (isset($obj->config['LSrelation'][$relationName]) && is_array($obj->config['LSrelation'][$relationName])) {
-      $this -> config = $obj->config['LSrelation'][$relationName];
-    }
-    else {
-      LSerror :: addErrorCode('LSrelations_02',array('relation' => $relationName,'LSobject' => $obj -> getType()));
-    }
-  }
-
-  public function exists(&$obj=null,$relationName=null) {
-    if ($obj && $relationName) {
-      return (isset($obj->config['LSrelation'][$relationName]) && is_array($obj->config['LSrelation'][$relationName]));
-    }
-    else {
-      return is_array($this -> config);
+    $this -> name = $relationName;
+    $this -> config = $obj -> getConfig("LSrelation.$relationName");
+    if (!is_array($this -> config) || !$this -> checkConfig()) {
+      $this -> config = null;
+      LSerror :: addErrorCode(
+        'LSrelations_02',
+        array(
+          'relation' => $relationName,
+          'LSobject' => $obj -> getType()
+        )
+      );
     }
   }
 
+  /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  public function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> config);
+  }
+
+  /**
+   * Get relation info
+   *
+   * @param[in] $key string The info name
+   *
+   * @retval mixed The info value
+   */
+  public function __get($key) {
+    switch ($key) {
+      case 'name':
+        return $this -> name;
+      case 'LSobject':
+      case 'linkAttribute':
+      case 'linkAttributeValue':
+      case 'linkAttributeOtherValues':
+      case 'list_function':
+      case 'getkeyvalue_function':
+      case 'update_function':
+      case 'remove_function':
+      case 'rename_function':
+      case 'canEdit_function':
+      case 'canEdit_attribute':
+        return $this -> getConfig($key);
+      case 'linkAttributeValues':
+        $linkAttributeValues = (is_array($this -> linkAttributeOtherValues)?$this -> linkAttributeOtherValues:array());
+        if ($this -> linkAttributeValue)
+          $linkAttributeValues[] = $this -> linkAttributeValue;
+        return $linkAttributeValues;
+      case 'relatedEditableAttribute':
+        return $this -> getConfig(
+          'canEdit_attribute',
+          $this -> getConfig('linkAttribute', false),
+        );
+    }
+  }
+
+  /**
+   * Check relation configuration
+   *
+   * @retval boolean True if relation is properly configured, False otherwise
+   */
+  public function checkConfig() {
+    // Check LSobject parameter
+    if (!$this -> LSobject) {
+      LSerror :: addErrorCode(
+        'LSrelations_07',
+        array(
+          'parameter' => 'LSobject',
+          'relation' => $this -> name,
+          'LSobject' => $this -> LSobject
+        )
+      );
+      return false;
+    }
+
+    // Load related object type
+    if (!LSsession :: loadLSobject($this -> LSobject)) {
+      LSerror :: addErrorCode(
+        'LSrelations_04',
+        array(
+          'relation' => $this -> name,
+          'LSobject' => $this -> LSobject
+        )
+      );
+      return false;
+    }
+
+    // Check if it's a simple relation
+    if ($this -> linkAttribute && $this -> linkAttributeValue) {
+      // Check linkAttribute refered to an existing related object type attribute
+      if (!$this -> LSobject :: hasAttr($this -> linkAttribute)) {
+        LSerror :: addErrorCode(
+          'LSrelations_08',
+          array(
+            'parameter' => 'linkAttribute',
+            'relation' => $this -> name,
+            'LSobject' => $this -> LSobject
+          )
+        );
+        return false;
+      }
+
+      // Check linkAttributeValue
+      if ($this -> linkAttributeValue != 'dn' && !$this -> obj -> hasAttr($this -> linkAttributeValue)) {
+        LSerror :: addErrorCode(
+          'LSrelations_08',
+          array(
+            'parameter' => 'linkAttributeValue',
+            'relation' => $this -> name,
+            'LSobject' => $this -> LSobject
+          )
+        );
+        return false;
+      }
+
+      return true;
+    }
+
+    // Advanced relation: check all required parameters refered to related objects
+    // methods
+    $required_parameters = array(
+      'list_function', 'getkeyvalue_function', 'update_function',
+      'remove_function', 'rename_function', 'canEdit_function',
+    );
+    foreach($required_parameters as $p) {
+      // Check parameter is defined
+      if (!$this -> $p) {
+        LSerror :: addErrorCode(
+          'LSrelations_07',
+          array(
+            'parameter' => $p,
+            'relation' => $this -> name,
+            'LSobject' => $this -> LSobject
+          )
+        );
+        return false;
+      }
+
+      // Check parameter refered to an existing related object class method
+      if (!method_exists($this -> LSobject, $this -> $p)) {
+        LSerror :: addErrorCode(
+          'LSrelations_01',
+          array(
+            'parameter' => $p,
+            'function' => $this -> $p,
+            'LSobject' => $this -> LSobject,
+            'relation' => $this -> name,
+          )
+        );
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check a relation exist
+   *
+   * @param[in] $object_type    string  The object type
+   * @param[in] $relation_name  string  The relation name
+   *
+   * @retval boolean True if relation exist, false otherwise
+   */
+  public static function exists($object_type, $relation_name) {
+    if ($object_type && LSsession :: loadLSobject($object_type)) {
+      return is_array(LSconfig :: get("LSobjects.$object_type.LSrelation.$relation_name"));
+    }
+    return false;
+  }
+
+  /**
+   * Get relation name
+   *
+   * @retval string The relation name
+   */
   public function getName() {
-    return $this -> relationName;
+    return $this -> name;
   }
 
+  /**
+   * Check if user can edit this relation
+   *
+   * @retval boolean True if user can edit this relation, false otherwise
+   */
   public function canEdit() {
-    return LSsession :: relationCanEdit($this -> obj -> getValue('dn'),$this -> obj -> getType(),$this -> relationName);
+    return LSsession :: relationCanEdit($this -> obj -> getValue('dn'),$this -> obj -> getType(),$this -> name);
   }
 
+  /**
+   * Check if user can create a related object
+   *
+   * @retval boolean True if user can create a related object, false otherwise
+   */
   public function canCreate() {
-    return LSsession :: canCreate($this -> config['LSobject']);
+    return LSsession :: canCreate($this -> LSobject);
   }
 
-
+  /**
+   * List related objects
+   *
+   * @retval array|false An array of related objects (LSldapObject), of false in case of error
+   */
   public function listRelatedObjects() {
-    if (LSsession :: loadLSobject($this -> config['LSobject'])) {
-      $objRel = new $this -> config['LSobject']();
-      if (isset($this -> config['list_function'])) {
-        if (method_exists($this -> config['LSobject'],$this -> config['list_function'])) {
-          return call_user_func_array(array($objRel, $this -> config['list_function']), array(&$this -> obj));
-        }
-        LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['list_function'], 'action' =>  _('listing related objects'), 'relation' => $this -> relationName));
-        return False;
-      }
-      elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-        return $objRel -> listObjectsInRelation($this -> obj, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> getLinkAttributeValues());
-      }
-      else {
-        LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('listing related objects')));
-      }
+    // Load related object type
+    if (!LSsession :: loadLSobject($this -> LSobject)) {
+      LSerror :: addErrorCode(
+        'LSrelations_04',
+        array(
+          'relation' => $this -> name,
+          'LSobject' => $this -> LSobject
+        )
+      );
+      return false;
     }
-    else {
-      LSerror :: addErrorCode('LSrelations_04',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject']));
+
+    // Instanciate related object
+    $objRel = new $this -> LSobject();
+
+    // Use list_function
+    if ($this -> list_function) {
+      if (method_exists($this -> LSobject, $this -> list_function)) {
+        return call_user_func_array(
+          array($objRel, $this -> list_function),
+          array(&$this -> obj)
+        );
+      }
+      LSerror :: addErrorCode(
+        'LSrelations_01',
+        array(
+          'parameter' => 'list_function',
+          'function' => $this -> list_function,
+          'LSobject' =>  $objRel -> getType(),
+          'relation' => $this -> name,
+        )
+      );
+      return False;
     }
-    return;
+
+    // Use linkAttribute & linkAttributeValue
+    if ($this -> linkAttribute && $this -> linkAttributeValue) {
+      return $objRel -> listObjectsInRelation(
+        $this -> obj,
+        $this -> linkAttribute,
+        $this -> obj -> getType(),
+        $this -> linkAttributeValues
+      );
+    }
+
+    // Configuration problem
+    LSerror :: addErrorCode(
+      'LSrelations_05',
+      array(
+        'relation' => $this -> name,
+        'LSobject' => $this -> LSobject,
+        'action' => _('listing related objects')
+      )
+    );
+    return false;
   }
 
-  public function getLinkAttributeValues() {
-    if (isset($this -> config['linkAttributeOtherValues'])) {
-      $linkAttributeValues=$this -> config['linkAttributeOtherValues'];
-      $linkAttributeValues[]=$this -> config['linkAttributeValue'];
-      return $linkAttributeValues;
-    }
-    else {
-      return $this -> config['linkAttributeValue'];
-    }
-  }
-
+  /**
+   * Get the value to store to created the relation with $this -> obj
+   *
+   * @retval array List of value of the link attribute
+   */
   public function getRelatedKeyValue() {
-    if (LSsession :: loadLSobject($this -> config['LSobject'])) {
-      $objRel = new $this -> config['LSobject']();
-      if (isset($this -> config['getkeyvalue_function'])) {
-        if (method_exists($this -> config['LSobject'],$this -> config['getkeyvalue_function'])) {
-          return call_user_func_array(array($objRel, $this -> config['getkeyvalue_function']), array(&$this -> obj));
-        }
-        LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['getkeyvalue_function'], 'action' =>  _('getting key value'), 'relation' => $this -> relationName));
-      }
-      elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-        return $objRel -> getObjectKeyValueInRelation($this -> obj, $this -> obj -> getType(), $this -> config['linkAttributeValue']);
-      }
-      else {
-        LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('getting key value')));
-      }
+    // Load related object type
+    if (!LSsession :: loadLSobject($this -> LSobject)) {
+      LSerror :: addErrorCode(
+        'LSrelations_04',
+        array(
+          'relation' => $this -> name,
+          'LSobject' => $this -> LSobject
+        )
+      );
+      return false;
     }
-    else {
-      LSerror :: addErrorCode('LSrelations_04',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject']));
+
+    // Instanciate related object
+    $objRel = new $this -> LSobject();
+
+    // Use getkeyvalue_function
+    if ($this -> getkeyvalue_function) {
+      if (method_exists($this -> LSobject, $this -> getkeyvalue_function)) {
+        return call_user_func_array(
+          array($objRel, $this -> getkeyvalue_function),
+          array(&$this -> obj)
+        );
+      }
+      LSerror :: addErrorCode(
+        'LSrelations_01',
+        array(
+          'parameter' => 'getkeyvalue_function',
+          'function' => $this -> getkeyvalue_function,
+          'LSobject' =>  $objRel -> getType(),
+          'relation' => $this -> name,
+        )
+      );
+      return false;
     }
-    return;
+
+    // Use linkAttribute & linkAttributeValue
+    if ($this -> linkAttribute && $this -> linkAttributeValue) {
+      return $objRel -> getObjectKeyValueInRelation(
+        $this -> obj,
+        $this -> obj -> getType(),
+        $this -> linkAttributeValue
+      );
+    }
+
+    // Configuration problem
+    LSerror :: addErrorCode(
+      'LSrelations_05',
+      array(
+        'relation' => $this -> name,
+        'LSobject' => $this -> LSobject,
+        'action' => _('getting key value')
+      )
+    );
+    return false;
   }
 
-  public function getRelatedEditableAttribute() {
-    if (isset($this -> config['canEdit_attribute'])) {
-      return $this -> config['canEdit_attribute'];
-    }
-    elseif (isset($this -> config['linkAttribute'])) {
-      return $this -> config['linkAttribute'];
-    }
-    return False;
-  }
-
-  public function canEditRelationWithObject($objRel) {
+  /**
+   * Check if user can edit the relation with the specified object
+   *
+   * @param[in] &$objRel LSldapObject A reference to the related object
+   *
+   * @retval boolean True if user can edit the relation with the specified object, false otherwise
+   */
+  public function canEditRelationWithObject(&$objRel) {
     if (!$this -> canEdit()) return;
-    if (isset($this -> config['canEdit_function'])) {
-      if (method_exists($objRel,$this -> config['canEdit_function'])) {
-        return call_user_func(array($objRel, $this -> config['canEdit_function']));
+
+    // Use canEdit_function
+    if ($this -> canEdit_function) {
+      if (method_exists($objRel, $this -> canEdit_function)) {
+        return call_user_func(array($objRel, $this -> canEdit_function));
       }
-      LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['canEdit_function'], 'action' =>  _('checking right on relation with specific object'), 'relation' => $this -> relationName));
+      LSerror :: addErrorCode(
+        'LSrelations_01',
+        array(
+          'parameter' => 'canEdit_function',
+          'function' => $this -> canEdit_function,
+          'LSobject' =>  $objRel -> getType(),
+          'relation' => $this -> name,
+        )
+      );
       return False;
     }
-    elseif ($this -> getRelatedEditableAttribute()) {
-      return LSsession :: canEdit($objRel -> getType(),$objRel -> getDn(),$this -> getRelatedEditableAttribute());
+
+    // Use related editable attribute
+    if ($this -> relatedEditableAttribute) {
+      return LSsession :: canEdit(
+        $objRel -> getType(),
+        $objRel -> getDn(),
+        $this -> relatedEditableAttribute
+      );
     }
-    else {
-      LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('checking right on relation with specific object')));
-    }
+
+    // Configuration problem
+    LSerror :: addErrorCode(
+      'LSrelations_05',
+      array(
+        'relation' => $this -> name,
+        'LSobject' => $this -> LSobject,
+        'action' => _('checking right on relation with specific object')
+      )
+    );
+    return false;
   }
 
-  public function removeRelationWithObject($objRel) {
-    if (isset($this -> config['remove_function'])) {
-      if (method_exists($this -> config['LSobject'],$this -> config['remove_function'])) {
-        return call_user_func_array(array($objRel, $this -> config['remove_function']),array(&$this -> obj));
+  /**
+   * Remove relation with the specified object
+   *
+   * @param[in] &$objRel LSldapObject A reference to the related object
+   *
+   * @retval boolean True if relation removed, false otherwise
+   */
+  public function removeRelationWithObject(&$objRel) {
+    // Use remove_function
+    if ($this -> remove_function) {
+      if (method_exists($this -> LSobject, $this -> remove_function)) {
+        return call_user_func_array(
+          array($objRel, $this -> remove_function),
+          array(&$this -> obj)
+        );
       }
-      LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['remove_function'], 'action' =>  _('deleting'), 'relation' => $this -> relationName));
+      LSerror :: addErrorCode(
+        'LSrelations_01',
+        array(
+          'parameter' => 'remove_function',
+          'function' => $this -> remove_function,
+          'LSobject' =>  $objRel -> getType(),
+          'relation' => $this -> name,
+        )
+      );
       return False;
     }
-    elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-      return $objRel -> deleteOneObjectInRelation($this -> obj, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue'], null, $this -> getLinkAttributeValues());
+
+    // Use linkAttribute & linkAttributeValue
+    if ($this -> linkAttribute && $this -> linkAttributeValue) {
+      return $objRel -> deleteOneObjectInRelation($this -> obj, $this -> linkAttribute, $this -> obj -> getType(), $this -> linkAttributeValue, null, $this -> linkAttributeValues);
     }
-    else {
-      LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('removing relation with specific object')));
-    }
-    return;
+
+    // Configuration problem
+    LSerror :: addErrorCode(
+      'LSrelations_05',
+      array(
+        'relation' => $this -> name,
+        'LSobject' => $this -> LSobject,
+        'action' => _('removing relation with specific object')
+      )
+    );
+    return false;
   }
 
-  public function renameRelationWithObject($objRel,$oldKeyValue) {
-    if (isset($this -> config['rename_function'])) {
-      if (method_exists($objRel,$this -> config['rename_function'])) {
-        return call_user_func_array(array($objRel, $this -> config['rename_function']), array(&$this -> obj, $oldKeyValue));
+  /**
+   * Rename relation with the specified object
+   *
+   * @param[in] &$objRel LSldapObject A reference to the related object
+   * @param[in] $oldKeyValue string The old key value of the relation
+   *
+   * @retval boolean True if relation rename, false otherwise
+   */
+  public function renameRelationWithObject(&$objRel, $oldKeyValue) {
+    // Use rename_function
+    if ($this -> rename_function) {
+      if (method_exists($objRel,$this -> rename_function)) {
+        return call_user_func_array(array($objRel, $this -> rename_function), array(&$this -> obj, $oldKeyValue));
       }
-      LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['rename_function'], 'action' =>  _('renaming'), 'relation' => $this -> relationName));
+      LSerror :: addErrorCode(
+        'LSrelations_01',
+        array(
+          'parameter' => 'rename_function',
+          'function' => $this -> rename_function,
+          'LSobject' =>  $objRel -> getType(),
+          'relation' => $this -> name,
+        )
+      );
       return False;
     }
-    elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-      return $objRel -> renameOneObjectInRelation($this -> obj, $oldKeyValue, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue']);
+
+    // Use linkAttribute & linkAttributeValue
+    if ($this -> linkAttribute && $this -> linkAttributeValue) {
+      return $objRel -> renameOneObjectInRelation(
+        $this -> obj,
+        $oldKeyValue,
+        $this -> linkAttribute,
+        $this -> obj -> getType(),
+        $this -> linkAttributeValue
+      );
     }
-    else {
-      LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('checking right on relation with specific object')));
-    }
-    return;
+
+    // Configuration problem
+    LSerror :: addErrorCode(
+      'LSrelations_05',
+      array(
+        'relation' => $this -> name,
+        'LSobject' => $this -> LSobject,
+        'action' => _('checking right on relation with specific object')
+      )
+    );
+    return false;
   }
 
+  /**
+   * Update relation with the specified DN objects list
+   *
+   * @param[in] $listDns array Array of DN of the related objects
+   *
+   * @retval boolean True if relations updated, false otherwise
+   */
   public function updateRelations($listDns) {
-    if (LSsession :: loadLSobject($this -> config['LSobject'])) {
-      $objRel = new $this -> config['LSobject']();
-      if (isset($this -> config['update_function'])) {
-        if (method_exists($objRel,$this -> config['update_function'])) {
-          return call_user_func_array(array($objRel, $this -> config['update_function']), array(&$this -> obj, $listDns));
-        }
-        LSerror :: addErrorCode('LSrelations_01',array('function' => $this -> config['update_function'], 'action' =>  _('updating'), 'relation' => $this -> relationName));
-      }
-      elseif (isset($this -> config['linkAttribute']) && isset($this -> config['linkAttributeValue'])) {
-        return $objRel -> updateObjectsInRelation($this -> obj, $listDns, $this -> config['linkAttribute'], $this -> obj -> getType(), $this -> config['linkAttributeValue'],null,$this -> getLinkAttributeValues());
-      }
-      else {
-        LSerror :: addErrorCode('LSrelations_05',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject'],'action' => _('updating relations')));
-      }
+    // Load related objects type
+    if (!LSsession :: loadLSobject($this -> LSobject)) {
+      LSerror :: addErrorCode(
+        'LSrelations_04',
+        array(
+          'relation' => $this -> name,
+          'LSobject' => $this -> LSobject
+        )
+      );
+      return false;
     }
-    else {
-      LSerror :: addErrorCode('LSrelations_04',array('relation' => $this -> relationName,'LSobject' => $this -> config['LSobject']));
+
+    // Instanciate related object
+    $objRel = new $this -> LSobject();
+
+    // Use update_function
+    if ($this -> update_function) {
+      if (method_exists($objRel, $this -> update_function)) {
+        return call_user_func_array(
+          array($objRel, $this -> update_function),
+          array(&$this -> obj, $listDns)
+        );
+      }
+      LSerror :: addErrorCode(
+        'LSrelations_01',
+        array(
+          'parameter' => 'update_function',
+          'function' => $this -> update_function,
+          'LSobject' =>  $objRel -> getType(),
+          'relation' => $this -> name,
+        )
+      );
+      return false;
     }
-    return;
+
+    // Use linkAttribute & linkAttributeValue
+    if ($this -> linkAttribute && $this -> linkAttributeValue) {
+      return $objRel -> updateObjectsInRelation(
+        $this -> obj,
+        $listDns,
+        $this -> linkAttribute,
+        $this -> obj -> getType(),
+        $this -> linkAttributeValue,
+        null,
+        $this -> linkAttributeValues
+      );
+    }
+
+    // Configuration problem
+    LSerror :: addErrorCode(
+      'LSrelations_05',
+      array(
+        'relation' => $this -> name,
+        'LSobject' => $this -> LSobject,
+        'action' => _('updating relations')
+      )
+    );
+    return false;
   }
 
  /*
-  * Méthode chargeant les dépendances d'affichage
+  * Load display dependencies
   *
   * @retval void
   */
@@ -218,241 +606,351 @@ class LSrelation {
   }
 
  /*
-  * Méthode chargeant les informations des LSrelations d'un objet et définissant
-  * les variables templates pour l'affichage dans une LSview.
+  * Load LSrelations information of an object to display it on LSview.
   *
-  * @param[in] LSldapObject L'objet dont on cherche les LSrelations
+  * LSrelations information are provided to template by usind LSrelations variable.
+  *
+  * @param[in] $object LSldapObject L'objet dont on cherche les LSrelations
   *
   * @retval void
   */
   public static function displayInLSview($object) {
-    if (($object instanceof LSldapObject) && isset($object -> config['LSrelation']) && is_array($object -> config['LSrelation'])) {
-      $LSrelations=array();
-      $LSrelations_JSparams=array();
-      foreach($object -> config['LSrelation'] as $relationName => $relationConf) {
-        if (LSsession :: relationCanAccess($object -> getValue('dn'),$object->getType(),$relationName)) {
-          $return=array(
-            'label' => __($relationConf['label']),
-            'LSobject' => $relationConf['LSobject']
-          );
+    if (!($object instanceof LSldapObject))
+      return;
 
-          if (isset($relationConf['emptyText'])) {
-            $return['emptyText'] = __($relationConf['emptyText']);
-          }
-          else {
-            $return['emptyText'] = _('No object.');
-          }
+    if (!is_array($object -> getConfig('LSrelation')))
+      return;
 
-          $id=rand();
-          $return['id']=$id;
-          $LSrelations_JSparams[$id]=array(
-            'emptyText' => $return['emptyText']
-          );
-          $_SESSION['LSrelation'][$id] = array(
-            'relationName' => $relationName,
-            'objectType' => $object -> getType(),
-            'objectDn' => $object -> getDn(),
-          );
-          $relation = new LSrelation($object, $relationName);
-
-          if ($relation -> canEdit()) {
-            $return['actions'][] = array(
-              'label' => _('Modify'),
-              'url' => 'object/'.$relationConf['LSobject'].'/select?multiple=1'.($relation -> getRelatedEditableAttribute()?'&amp;editableAttr='.$relation -> getRelatedEditableAttribute():''),
-              'action' => 'modify',
-              'class' => 'LSrelation_modify',
-            );
-          }
-          if ($relation -> canCreate()) {
-             $return['actions'][] = array(
-              'label' => _('New'),
-              'url' => 'object/'.$relationConf['LSobject'].'/create?LSrelation='.$relationName.'&amp;relatedLSobject='.$object->getType().'&amp;relatedLSobjectDN='.urlencode($object -> getValue('dn')),
-              'action' => 'create',
-              'class' => null,
-            );
-          }
-
-          $list = $relation -> listRelatedObjects();
-          if (is_array($list)) {
-            foreach($list as $o) {
-              $return['objectList'][] = array(
-                'text' => $o -> getDisplayName(NULL,true),
-                'dn' => $o -> getDn(),
-                'canEdit' => $relation -> canEditRelationWithObject($o)
-              );
-            }
-          }
-          else {
-            $return['objectList']=array();
-          }
-          $LSrelations[]=$return;
-        }
+    $LSrelations=array();
+    $LSrelations_JSparams=array();
+    foreach($object -> getConfig('LSrelation') as $relationName => $relationConf) {
+      // Check user access
+      if (!LSsession :: relationCanAccess($object -> getValue('dn'), $object->getType(), $relationName)) {
+        self :: log_debug("User have no access to relation $relationName of ".$object->getType());
+        continue;
       }
 
-      self :: loadDependenciesDisplay();
-      LStemplate :: assign('LSrelations',$LSrelations);
-      LSsession :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
-    }
-  }
+      $return=array(
+        'label' => __($relationConf['label']),
+        'LSobject' => $relationConf['LSobject']
+      );
 
-  public static function ajax_refreshSession(&$return) {
-    if ((isset($_REQUEST['id'])) && (isset($_REQUEST['href'])) ) {
-      if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
-        $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
-        if (LSsession ::loadLSobject($conf['objectType'])) {
-          $object = new $conf['objectType']();
-          if (($object -> loadData($conf['objectDn'])) && (isset($object->config['LSrelation'][$conf['relationName']]))) {
-            $relation = new LSrelation($object, $conf['relationName']);
-            $LSobjectInRelation = $object->config['LSrelation'][$conf['relationName']]['LSobject'];
-            if ($relation -> canEdit()) {
-              $list = $relation -> listRelatedObjects();
-              $_SESSION['LSselect'][$LSobjectInRelation]=array();
-              if (is_array($list)) {
-                foreach($list as $o) {
-                  $_SESSION['LSselect'][$LSobjectInRelation][] = $o -> getDn();
-                }
-              }
-              $return = array(
-                'href' => $_REQUEST['href'],
-                'id' => $_REQUEST['id']
-              );
-            }
-            else {
-              LSerror :: addErrorCode('LSsession_11');
-            }
-          }
-          else {
-            LSerror :: addErrorCode('LSsession_12');
-          }
-        }
-        else {
-          LSerror :: addErrorCode('LSsession_12');
+      if (isset($relationConf['emptyText'])) {
+        $return['emptyText'] = __($relationConf['emptyText']);
+      }
+      else {
+        $return['emptyText'] = _('No object.');
+      }
+
+      $id=rand();
+      $return['id']=$id;
+      $LSrelations_JSparams[$id]=array(
+        'emptyText' => $return['emptyText']
+      );
+      $_SESSION['LSrelation'][$id] = array(
+        'relationName' => $relationName,
+        'objectType' => $object -> getType(),
+        'objectDn' => $object -> getDn(),
+      );
+      $relation = new LSrelation($object, $relationName);
+
+      if ($relation -> canEdit()) {
+        $return['actions'][] = array(
+          'label' => _('Modify'),
+          'url' => "object/select/$id",
+          'action' => 'modify',
+          'class' => 'LSrelation_modify',
+        );
+      }
+      if ($relation -> canCreate()) {
+         $return['actions'][] = array(
+          'label' => _('New'),
+          'url' => 'object/'.$relationConf['LSobject'].'/create?LSrelation='.$relationName.'&amp;relatedLSobject='.$object->getType().'&amp;relatedLSobjectDN='.urlencode($object -> getValue('dn')),
+          'action' => 'create',
+          'class' => null,
+        );
+      }
+
+      $list = $relation -> listRelatedObjects();
+      if (is_array($list)) {
+        foreach($list as $o) {
+          $return['objectList'][] = array(
+            'text' => $o -> getDisplayName(NULL,true),
+            'dn' => $o -> getDn(),
+            'canEdit' => $relation -> canEditRelationWithObject($o)
+          );
         }
       }
       else {
-        LSerror :: addErrorCode('LSsession_12');
+        $return['objectList']=array();
       }
+      $LSrelations[]=$return;
     }
+
+    self :: loadDependenciesDisplay();
+    LStemplate :: assign('LSrelations',$LSrelations);
+    LSsession :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
   }
 
-  public static function ajax_refreshList(&$data) {
-    if (isset($_REQUEST['id'])) {
-      if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
-        $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
-        if (LSsession ::loadLSobject($conf['objectType'])) {
-          $object = new $conf['objectType']();
-          if (($object -> loadData($conf['objectDn'])) && (isset($object->config['LSrelation'][$conf['relationName']]))) {
-            $relation = new LSrelation($object, $conf['relationName']);
-            $LSobjectInRelation = $object->config['LSrelation'][$conf['relationName']]['LSobject'];
-            $relationConf = $object->config['LSrelation'][$conf['relationName']];
-            if($relation -> updateRelations($_SESSION['LSselect'][$LSobjectInRelation])) {
-              $list = $relation -> listRelatedObjects();
-              if (is_array($list)&&(!empty($list))) {
-                $data['html']="";
-                foreach($list as $o) {
-                  if ($relation -> canEditRelationWithObject($o)) {
-                    $class=' LSrelation_editable';
-                  }
-                  else {
-                    $class='';
-                  }
-                  $data['html'].= "<li class='LSrelation'><a href='object/$LSobjectInRelation/".urlencode($o -> getDn())."' class='LSrelation$class' id='LSrelation_".$_REQUEST['id']."_".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
-                }
-              }
-              else {
-                if (isset($relationConf['emptyText'])) {
-                  $data['html'] = "<li>".__($relationConf['emptyText'])."</li>\n";
-                }
-                else {
-                  $data['html'] = "<li>"._('No object.')."</li>\n";
-                }
-              }
-              $data['id'] = $_REQUEST['id'];
-            }
-            else {
-              LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
-            }
-          }
-          else {
-            LSerror :: addErrorCode('LSsession_12');
-          }
+  /*
+   * AJAX methods
+   */
+
+  /**
+   * Helper to check AJAX method call and instanciate corresponding
+   * LSldapObject and LSrelation objects.
+   *
+   * @param[in]  &$data array Reference to AJAX returned data array
+   * @param[in]  $additional_parameters array|string|null List of additional required parameter
+   *
+   * @retval array|false Array with LSobject and LSrelation
+   */
+  public static function _ajax_check_call(&$data, &$conf, &$object, &$relation, $additional_required_parameters=null) {
+    $data['success'] = false;
+    // Check parameters
+    if (!isset($_REQUEST['id'])) {
+      self :: log_warning("Parameter 'id' is missing.");
+      LSerror :: addErrorCode('LSsession_12');
+      return false;
+    }
+
+    // Check additional required parameters
+    if ($additional_required_parameters) {
+      if (!is_array($additional_required_parameters))
+        $additional_required_parameters = array($additional_required_parameters);
+      foreach($additional_required_parameters as $p) {
+        if (!isset($_REQUEST[$p])) {
+          self :: log_warning("Parameter '$p' is missing.");
+          LSerror :: addErrorCode('LSsession_12');
+          return false;
+        }
+        $data[$p] = $_REQUEST[$p];
+      }
+    }
+
+    // Check relation exists in session
+    if (!isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
+      self :: log_warning("No relation '".$_REQUEST['id']."' in session");
+      return false;
+    }
+
+    // Load object type
+    $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
+    if (!LSsession ::loadLSobject($conf['objectType'])) {
+      self :: log_warning("Fail to load '".$conf['objectType']."'");
+      return false;
+    }
+    $data['id'] = $_REQUEST['id'];
+
+    // Check relation exists
+    if (!self :: exists($conf['objectType'], $conf['relationName'])) {
+      self :: log_warning("Relation '".$conf['relationName']."' not found in ".$conf['objectType']." configuration");
+      return false;
+    }
+
+    // Instanciate object and load its data
+    $object = new $conf['objectType']();
+    if (!$object -> loadData($conf['objectDn'])) {
+      self :: log_warning("Fail to load data of '".$conf['objectDn']."'");
+      return false;
+    }
+
+    // Instanciate relation
+    $relation = new LSrelation($object, $conf['relationName']);
+
+    // Check user access to it relation
+    if (!$relation -> canEdit()) {
+      LSerror :: addErrorCode('LSsession_11');
+      return false;
+    }
+
+    self :: log_debug("_ajax_check_call(): ok");
+    return true;
+  }
+
+
+  /**
+   * Init LSselect for a relation
+   *
+   * @param[in]  &$data Reference to returned data array
+   *
+   * @retval void
+   */
+  public static function ajax_initSelection(&$data) {
+    $conf = null;
+    $object = null;
+    $relation = null;
+    if (!self :: _ajax_check_call($data, $conf, $object, $relation, 'href')) {
+      return;
+    }
+
+    $LSobjectInRelation = $object->getConfig("LSrelation.".$conf['relationName'].".LSobject");
+
+    // Load LSobject
+    if(!LSsession :: loadLSclass('LSselect', null, true)) {
+      return;
+    }
+
+    // List related objects
+    $list = $relation -> listRelatedObjects();
+    if (!is_array($list)) {
+      self :: log_warning('Fail to list related objects');
+      return;
+    }
+
+    // Forge selected object list for LSselect
+    $selected_objects = array();
+    foreach($list as $o) {
+      $selected_objects[$o -> getDn()] = array(
+        'object_type' => $o -> getType(),
+        'editableAttr' => $relation -> relatedEditableAttribute,
+      );
+    }
+
+    // Init LSselect
+    LSselect :: init(
+      $_REQUEST['id'],
+      array (
+        $conf['objectType'] => array(
+          'object_type' => $conf['objectType']
+        )
+      ),
+      true,
+      $selected_objects
+    );
+
+    // Set success
+    $data['success'] = true;
+  }
+
+  /**
+   * Update related object from LSselect result
+   *
+   * @param[in]  &$data Reference to returned data array
+   *
+   * @retval void
+   */
+  public static function ajax_updateFromSelection(&$data) {
+    $conf = null;
+    $object = null;
+    $relation = null;
+    if (!self :: _ajax_check_call($data, $conf, $object, $relation)) {
+      return;
+    }
+
+    $LSobjectInRelation = $object->getConfig("LSrelation.".$conf['relationName'].".LSobject");
+    $relationConf = $object->getConfig("LSrelation.".$conf['relationName']);
+
+    // Load LSselect
+    if(!LSsession :: loadLSclass('LSselect', null, true)) {
+      return;
+    }
+
+    // Retreive selected object from LSselect
+    $selected_objects = LSselect :: getSelectedObjects($_REQUEST['id']);
+    if (!is_array($selected_objects)) {
+      self :: log_warning("Fail to retreive selected object from LSselect");
+      return;
+    }
+    self :: log_debug('Selected objects: '.varDump($selected_objects));
+
+    // Update related objects
+    if (!$relation -> updateRelations(array_keys($selected_objects))) {
+      LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
+      self :: log_warning("Fail to update objects in relation");
+      return;
+    }
+    self :: log_debug('Related objects updated');
+
+    // List related objects
+    $list = $relation -> listRelatedObjects();
+    if (is_array($list) && !empty($list)) {
+      $data['html']="";
+      foreach($list as $o) {
+        if ($relation -> canEditRelationWithObject($o)) {
+          $class=' LSrelation_editable';
         }
         else {
-          LSerror :: addErrorCode('LSsession_12');
+          $class='';
         }
-      }
-      else {
-        LSerror :: addErrorCode('LSsession_12');
+        $data['html'].= "<li class='LSrelation'><a href='object/$LSobjectInRelation/".urlencode($o -> getDn())."' class='LSrelation$class' id='LSrelation_".$_REQUEST['id']."_".$o -> getDn()."'>".$o -> getDisplayName(NULL,true)."</a></li>\n";
       }
     }
+    else {
+      if (isset($relationConf['emptyText'])) {
+        $data['html'] = "<li>".__($relationConf['emptyText'])."</li>\n";
+      }
+      else {
+        $data['html'] = "<li>"._('No object.')."</li>\n";
+      }
+    }
+    $data['success'] = true;
   }
 
+  /**
+   * Remove related object specify by DN
+   *
+   * @param[in]  &$data Reference to returned data array
+   *
+   * @retval void
+   */
   public static function ajax_deleteByDn(&$data) {
-    if ((isset($_REQUEST['id'])) && (isset($_REQUEST['dn']))) {
-      if (isset($_SESSION['LSrelation'][$_REQUEST['id']])) {
-        $conf = $_SESSION['LSrelation'][$_REQUEST['id']];
-        if (LSsession ::loadLSobject($conf['objectType'])) {
-          $object = new $conf['objectType']();
-          if (($object -> loadData($conf['objectDn'])) && (isset($object->config['LSrelation'][$conf['relationName']]))) {
-            $relation = new LSrelation($object, $conf['relationName']);
-            if ($relation -> canEdit()) {
-              $list = $relation -> listRelatedObjects();
-              if (is_array($list)) {
-                $ok=false;
-                foreach($list as $o) {
-                  if($o -> getDn() == $_REQUEST['dn']) {
-                    if (!$relation -> canEditRelationWithObject($o)) {
-                      LSerror :: addErrorCode('LSsession_11');
-                      return;
-                    }
-                    if (!$relation -> removeRelationWithObject($o)) {
-                      LSerror :: addErrorCode('LSrelations_03',$conf['relationName']);
-                    }
-                    else {
-                      $ok = true;
-                    }
-                    break;
-                  }
-                }
-                if (!$ok) {
-                  LSdebug($_REQUEST['value']." introuvé parmi la liste");
-                  LSerror :: addErrorCode('LSrelations_03',$conf['relationName']);
-                }
-                else {
-                  $data=array(
-                    'dn' => $_REQUEST['dn'],
-                    'id' => $_REQUEST['id']
-                  );
-                }
-              }
-              else {
-                LSerror :: addErrorCode('LSrelations_03',$conf['relationName']);
-              }
-            }
-            else {
-              LSerror :: addErrorCode('LSsession_11');
-            }
-          }
-          else {
-            LSerror :: addErrorCode('LSsession_12');
-          }
+    $conf = null;
+    $object = null;
+    $relation = null;
+    if (!self :: _ajax_check_call($data, $conf, $object, $relation, 'dn')) {
+      return;
+    }
+
+    // List related objects
+    $list = $relation -> listRelatedObjects();
+    if (!is_array($list)) {
+      self :: log_warning('Fail to list related objects');
+      LSerror :: addErrorCode('LSrelations_03',$conf['relationName']);
+      return;
+    }
+
+    // For each related objects:
+    // - check if DN match
+    // - check user can edit relation with specific object
+    // - remove relation
+    $found = false;
+    foreach($list as $o) {
+      if($o -> getDn() == $_REQUEST['dn']) {
+        if (!$relation -> canEditRelationWithObject($o)) {
+          LSerror :: addErrorCode('LSsession_11');
+          return;
+        }
+        if (!$relation -> removeRelationWithObject($o)) {
+          LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
+          return;
         }
         else {
-          LSerror :: addErrorCode('LSsession_12');
+          $found = true;
         }
-      }
-      else {
-        LSerror :: addErrorCode('LSsession_12');
+        break;
       }
     }
+
+    // Check object found
+    if (!$found) {
+      self :: log_warning("Object '".$_REQUEST['dn']."' not found in related objects list.");
+      LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
+      return;
+    }
+
+    // Set success
+    $data['dn'] = $_REQUEST['dn'];
+    $data['success'] = true;
   }
+
 }
 
 /**
  * Error Codes
  **/
 LSerror :: defineError('LSrelations_01',
-_("LSrelation : The function %{function} for action '%{action}' on the relation %{relation} is unknown.")
+_("LSrelation : Invalid parameter '%{parameter}' of the relation %{relation}: objects %{LSobject} have no function '%{function}'.")
 );
 LSerror :: defineError('LSrelations_02',
 _("LSrelation : Relation %{relation} of object type %{LSobject} unknown.")
@@ -468,4 +966,10 @@ _("LSrelation : Incomplete configuration for LSrelation %{relation} of object ty
 );
 LSerror :: defineError('LSrelations_06',
 _("LSrelation : Invalid editable attribute for LSrelation %{relation} with LSobject %{LSobject}.")
+);
+LSerror :: defineError('LSrelations_07',
+_("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is missing.")
+);
+LSerror :: defineError('LSrelations_08',
+_("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is invalid.")
 );

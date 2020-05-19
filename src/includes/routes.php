@@ -605,46 +605,32 @@ LSurl :: add_handler('#^custom_search_action\.php#', 'handle_old_custom_search_a
  * @retval void
 **/
 function handle_LSobject_select($request) {
-  $object = get_LSobject_from_request($request, true);
-  if (!$object)
-   return;
-
-  $LSobject = $object -> getType();
-
-  if (!LSsession :: loadLSclass('LSsearch')) {
+  if (!LSsession :: loadLSclass('LSselect')) {
     LSsession :: addErrorCode('LSsession_05', 'LSsearch');
     LSsession :: displayTemplate();
     return false;
   }
 
+  if (!LSselect :: exists($request->LSselect_id)) {
+    LSurl :: error_404($request);
+    return;
+  }
+
   // Instanciate LSsearch
-  $LSsearch = new LSsearch($LSobject,'LSselect');
+  $LSsearch = LSselect :: getSearch(
+    $request->LSselect_id,
+    (isset($_REQUEST['LSobject'])?$_REQUEST['LSobject']:null)
+  );
+  if (!$LSsearch)
+    LSlog :: fatal('Fail to retreive search from context.');
+
+  $LSobject = $LSsearch -> LSobject;
+  $object = new $LSobject();
+
+  // Handle form POST data
   $LSsearch -> setParamsFormPostData();
-  $LSsearch -> setParam('nbObjectsByPage', NB_LSOBJECT_LIST_SELECT);
+  $LSsearch -> setParam('nbObjectsByPage', 4);
 
-  // Handle parameters
-  $selectablly = (isset($_REQUEST['selectablly'])?$_REQUEST['selectablly']:0);
-
-  if (is_string($_REQUEST['editableAttr'])) {
-    $LSsearch -> setParam(
-      'customInfos',
-      array (
-        'selectablly' => array (
-          'function' => array('LSselect', 'selectablly'),
-          'args' => $_REQUEST['editableAttr']
-        )
-      )
-    );
-    $selectablly=1;
-  }
-
-  if (!empty($_REQUEST['filter64'])) {
-    $filter = base64_decode($_REQUEST['filter64'], 1);
-    if ($filter) {
-      $LSsearch -> setParam('filter', $filter);
-    }
-  }
-  $multiple = (isset($_REQUEST['multiple'])?1:0);
   $page = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
 
   // Run search
@@ -656,23 +642,16 @@ function handle_LSobject_select($request) {
     array(
       array (
         'label' => 'Refresh',
-        'url' => "object/$LSobject/select?refresh",
+        'url' => "object/select/".$request->LSselect_id."?refresh",
         'action' => 'refresh'
       )
     )
   );
   LStemplate :: assign('searchForm',
     array (
-      'action' => "object/$LSobject/select",
+      'action' => "object/select/".$request->LSselect_id,
       'recursive' => (! LSsession :: isSubDnLSobject($LSobject) && LSsession :: subDnIsEnabled() ),
-      'multiple' => $multiple,
-      'selectablly' => $selectablly,
-      'labels' => array (
-        'submit' => _('Search'),
-        'approx' => _('Approximative search'),
-        'recursive' => _('Recursive search'),
-        'level' => _('Level')
-      ),
+      'multiple' => LSselect :: isMultiple($request->LSselect_id),
       'values' => array (
         'pattern' => $LSsearch->getParam('pattern'),
         'approx' => $LSsearch->getParam('approx'),
@@ -685,16 +664,17 @@ function handle_LSobject_select($request) {
       'hiddenFields' => array_merge(
         $LSsearch -> getHiddenFieldForm(),
         array(
-          'ajax' => 1,
-          'filter64' => $_REQUEST['filter64'],
-          'selectablly' => $selectablly,
-          'multiple' => $multiple
+          'LSselect_id' => $request->LSselect_id,
+          'multiple' => LSselect :: isMultiple($request->LSselect_id),
         )
       )
     )
   );
   LStemplate :: assign('page', $LSsearch -> getPage($page));
   LStemplate :: assign('LSsearch', $LSsearch);
+  LStemplate :: assign('LSselect_id', $request->LSselect_id);
+  LStemplate :: assign('selectable_object_types', LSselect :: getSelectableObjectTypes($request->LSselect_id));
+  LStemplate :: assign('selectable_object_type', $LSobject);
   LStemplate :: assign('LSobject_list_objectname', $object -> getLabel());
 
   // Set & display template
@@ -703,7 +683,7 @@ function handle_LSobject_select($request) {
   LSsession :: displayTemplate();
   $LSsearch->afterUsingResult();
 }
-LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/select?$#', 'handle_LSobject_select');
+LSurl :: add_handler('#^object/select/(?P<LSselect_id>[^/]+)/?$#', 'handle_LSobject_select');
 
 /*
  * Handle old select.php request for retro-compatibility
@@ -716,14 +696,7 @@ function handle_old_select_php($request) {
   if (!isset($_GET['LSobject']))
     $url = null;
   else {
-    $url = "object/".$_GET['LSobject']."/select";
-    // Preserve GET parameters
-    $params = array();
-    foreach (array('filter64', 'multiple', 'selectablly', 'editableAttr', 'page', 'ajax', 'refresh') as $param)
-      if (isset($_GET[$param]))
-        $params[] = $param.'='.$_GET[$param];
-    if ($params)
-      $url .= '?'.implode('&', $params);
+    $url = "object/".$_GET['LSobject'];
   }
   LSerror :: addErrorCode('LSsession_26', 'select.php');
   LSurl :: redirect($url);
@@ -818,9 +791,9 @@ function handle_LSobject_create($request) {
       if (LSsession :: loadLSobject($_GET['relatedLSobject']) && LSsession :: loadLSclass('LSrelation')) {
         $obj = new $_GET['relatedLSobject']();
         if ($obj -> loadData(urldecode($_GET['relatedLSobjectDN']))) {
-          $relation = new LSrelation($obj, $_GET['LSrelation']);
-          if ($relation -> exists()) {
-            $attr = $relation -> getRelatedEditableAttribute();
+          if (LSrelation :: exists($_GET['relatedLSobject'], $_GET['LSrelation'])) {
+            $relation = new LSrelation($obj, $_GET['LSrelation']);
+            $attr = $relation -> relatedEditableAttribute;
             if (isset($object -> attrs[$attr])) {
               $value = $relation -> getRelatedKeyValue();
               if (is_array($value)) $value=$value[0];
@@ -829,6 +802,9 @@ function handle_LSobject_create($request) {
             else {
               LSerror :: addErrorCode('LSrelations_06',array('relation' => $relation -> getName(),'LSobject' => $obj -> getType()));
             }
+          }
+          else {
+            LSlog :: warning("Relation '".$_GET['LSrelation']."' of object type '".$_GET['relatedLSobject']."' does not exists.");
           }
         }
         else {
