@@ -784,9 +784,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       return;
     }
 
-    $LSobjectInRelation = $object->getConfig("LSrelation.".$conf['relationName'].".LSobject");
-
-    // Load LSobject
+    // Load LSselect
     if(!LSsession :: loadLSclass('LSselect', null, true)) {
       return;
     }
@@ -811,8 +809,8 @@ class LSrelation extends LSlog_staticLoggerClass {
     LSselect :: init(
       $_REQUEST['id'],
       array (
-        $conf['objectType'] => array(
-          'object_type' => $conf['objectType']
+        $relation -> LSobject => array(
+          'object_type' => $relation -> LSobject,
         )
       ),
       true,
