@@ -184,7 +184,8 @@ LSerror :: defineError('SSH_07',
   *
   * @param[in] $connection_params array Connection parameters
   * @param[in] $dirs array|string The directory/ies to add
-  * @param[in] $mode integer The directory/ies mode (default : default umask on the SSH server)
+  * @param[in] $mode integer The directory/ies mode as an octal number (do not forget leading zero,
+  *                          example: 0755 or 02755, default : default umask on the SSH server)
   * @param[in] $recursive boolean Enable recursive mode (default : false)
   * @param[in] $continue boolean Enable continue mode : do not on error (default : false)
   *
