@@ -17,6 +17,7 @@ $GLOBALS['LSlang'] = array (
   "Autorisie l'utilisateur à se connecter aux systèmes POSIX.",
 
 # LSobjects.LSpeople.LSrelation.groups.label
+# LSobjects.LSsysaccount.LSrelation.groups.label
 "Belongs to groups ..." =>
   "Appartient aux groupes ...",
 
@@ -39,11 +40,13 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.LSpeople.attrs.description.label
 # LSobjects.LSgroup.attrs.description.label
+# LSobjects.LSsysaccount.attrs.description.label
 # LSobjects.LScompany.attrs.description.label
 "Description" =>
   "Description",
 
 # LSobjects.LSpeople.LSrelation.groups.emptyText
+# LSobjects.LSsysaccount.LSrelation.groups.emptyText
 "Doesn't belong to any group." =>
   "N'appartient à aucun groupe.",
 
@@ -71,7 +74,7 @@ $GLOBALS['LSlang'] = array (
 "First Name" =>
   "Prénom",
 
-# templates/default/import.tpl:12
+# templates/default/import.tpl:13
 "Format" =>
   "Format",
 
@@ -100,6 +103,7 @@ $GLOBALS['LSlang'] = array (
   "Dossier personnel",
 
 # LSobjects.LSpeople.attrs.uid.check_data.regex.msg
+# LSobjects.LSsysaccount.attrs.uid.check_data.regex.msg
 "Identifier must contain alphanumeric values, dots (.) and dashes (-) only." =>
   "L'identifiant doit contenir uniquement des valeurs alpha-numériques, avec eventuellement des points (.) et des tirets (-).",
 
@@ -163,7 +167,7 @@ $GLOBALS['LSlang'] = array (
 "Name must contain alphanumeric values only." =>
   "Le nom doit contenir uniquement des valeurs alpha-numériques.",
 
-# templates/default/viewSearch.tpl:133
+# templates/default/viewSearch.tpl:134
 "Nb / page :" =>
   "Nb / page :",
 
@@ -216,6 +220,10 @@ $GLOBALS['LSlang'] = array (
 "Simple" =>
   "Simple",
 
+# LSobjects.LSsysaccount.label
+"System accounts" =>
+  "Comptes systèmes",
+
 # LSobjects.LSpeople.attrs.givenName.check_data.alphanumeric.msg
 "The first name must contain alphanumeric values only." =>
   "Le prénom doit contenir uniquement des caractères alpha-numérique.",
@@ -229,8 +237,13 @@ $GLOBALS['LSlang'] = array (
   "Ce groupe n'existe pas.",
 
 # LSobjects.LSpeople.attrs.uid.validation.0.msg
+# LSobjects.LSsysaccount.attrs.uid.validation.0.msg
 "This identifier is already used." =>
   "Cet identifiant est déjà utilisé.",
+
+# LSobjects.LSsysaccount.attrs.userPassword.check_data.password.msg
+"This password must contain at least 12 characters." =>
+  "Ce mot de passe doit contenir au moins 12 caractères.",
 
 # LSobjects.LSpeople.attrs.uidNumber.validation.0.msg
 "This uid is already used." =>
