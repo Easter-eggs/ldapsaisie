@@ -4,16 +4,19 @@
   des références à d'autres &LSobjects;. Chaque référence à un objet correspond
   à une valeur prise par l'attribut. Les valeurs clés référant à un &LSobject;
   sont soit la valeur d'un de leurs attributs, soit leur <emphasis>DN</emphasis>.</para>
-  
+
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['html_options' => array (
    selectable_object => array (
-     'object_type' => '[Type d'LSobject selectionnable]',
-     'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
-     'value_attribute' => '[Nom de l'attribut clé des LSobjects]',
-     'filter' => '[Filtre de recherche]',
-     'onlyAccessible' => '[Booléen]'
+     array (
+       'object_type' => '[Type d'LSobject selectionnable]',
+       'display_name_format' => '[LSformat du nom d'affichage des LSobjects]',
+       'value_attribute' => '[Nom de l'attribut clé des LSobjects]',
+       'filter' => '[Filtre de recherche]',
+       'onlyAccessible' => '[Booléen]'
+     ),
+     [...]
    ),
    'ordered' => [Booléen],
    'sort' => [Booléen],
@@ -28,23 +31,25 @@
 <varlistentry>
   <term>selectable_object</term>
   <listitem>
-    <simpara>Tableau associatif obligatoire contenant en valeur clé le nom des 
-    paramètres de configuration et dont les valeurs attachées sont les valeurs
-    des paramètres.</simpara>
-    
-    
+    <simpara>Tableau dont chaque valeur correspond à un tableau associatif spécifiant
+    un type d'&LSobject; sélectionnable. Pour chaque type d'objet sélectionnable, les
+    paramètres suivants doivent être renseignés :</simpara>
+
+
 <variablelist>
   <varlistentry>
     <term>object_type</term>
     <listitem>
-      <simpara>Nom du type d'&LSobject; en référence.</simpara>
+      <simpara>Nom du type d'&LSobject; en référence
+      <emphasis>(Paramètre obligatoire)</emphasis>.</simpara>
     </listitem>
   </varlistentry>
 
   <varlistentry>
     <term>display_name_format</term>
     <listitem>
-      <simpara>&LSformat; du nom d'affichage des objets lors de leur sélection.</simpara>
+      <simpara>&LSformat; du nom d'affichage des objets lors de leur sélection
+      <emphasis>(Paramètre facultatif)</emphasis>.</simpara>
     </listitem>
   </varlistentry>
 
@@ -52,23 +57,26 @@
     <term>value_attribute</term>
     <listitem>
       <simpara>Nom de l'attribut des &LSobjects; en référence servant de valeur
-      clé et permettant de les identifier (Exemple : <emphasis>dn</emphasis> ou
-      <emphasis>uid</emphasis>).</simpara>
+      clé et permettant de les identifier <emphasis>(Paramètre obligatoire,
+      exemples : <literal>dn</literal> ou <literal>uid</literal>)</emphasis>.
+      </simpara>
     </listitem>
   </varlistentry>
 
   <varlistentry>
     <term>filter</term>
     <listitem>
-      <simpara>Filtre de recherche (facultatif) qui sera ajouter au filtre par défaut
-      lors de la sélection des objets.</simpara>
+      <simpara>Filtre de recherche qui sera ajouter au filtre par défaut lors de la
+      sélection des objets <emphasis>(Paramètre facultatif)</emphasis>.</simpara>
     </listitem>
   </varlistentry>
 
   <varlistentry>
     <term>onlyAccessible</term>
     <listitem>
-      <simpara>Booléen falcultatif définissant si seul les LSobjets auxquels l'utilisateur connecté à accès doivent être considérés comme sélectionnables (Faux par défault).</simpara>
+      <simpara>Booléen définissant si seul les LSobjets auxquels l'utilisateur connecté
+      à accès doivent être considérés comme sélectionnables <emphasis>(Paramètre facultatif,
+      par défaut: <literal>False</literal>)</emphasis>.</simpara>
     </listitem>
   </varlistentry>
 </variablelist>
@@ -79,10 +87,10 @@
 <varlistentry>
   <term>ordered</term>
   <listitem>
-    <simpara>Booléen définissant si la liste des objets choisis doit être
-    ordonnable ou non (Faux par défaut). Cela aura pour effet d'activer une
-    fonctionnalité dynamique de l'interface permettant de remonter ou descendre
-    dans la liste les objets choisis.</simpara>
+    <simpara>Booléen définissant si la liste des objets choisis doit être ordonnable ou
+    non <emphasis>(Paramètre facultatif, par défaut: <literal>False</literal>)</emphasis>.
+    Cela aura pour effet d'activer une fonctionnalité dynamique de l'interface permettant
+    de remonter ou descendre dans la liste les objets choisis.</simpara>
     <note><simpara>Cette fonctionnalité désactive automatiquement le trie des
     objets à l'affichage.</simpara></note>
   </listitem>
@@ -92,7 +100,8 @@
   <term>sort</term>
   <listitem>
     <simpara>Booléen définissant si la liste des objets choisis doit être
-    triée ou non (Vrai par défaut). Le trie est effectué sur les libellés
+    triée ou non <emphasis>(Paramètre facultatif, par défaut:
+    <literal>True</literal>)</emphasis>. Le trie est effectué sur les libellés
     des objets choisis.</simpara>
   </listitem>
 </varlistentry>
@@ -106,6 +115,6 @@
 </varlistentry>
 
 </variablelist>
-  
-  
+
+
 </sect4>
