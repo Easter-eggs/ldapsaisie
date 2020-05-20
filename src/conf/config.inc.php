@@ -253,7 +253,7 @@ $GLOBALS['LSlog']['level'] = 'INFO';  // DEBUG, INFO, WARNING, ERROR, FATAL
 $GLOBALS['LSlog']['enable'] = true;
 
 define('NB_LSOBJECT_LIST',30);
-define('NB_LSOBJECT_LIST_SELECT',11);
+define('NB_LSOBJECT_LIST_SELECT',20);
 $GLOBALS['NB_LSOBJECT_LIST_CHOICES'] = array(30, 60, 100);
 
 define('MAX_SEND_FILE_SIZE',2000000);

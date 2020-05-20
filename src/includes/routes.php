@@ -629,7 +629,7 @@ function handle_LSobject_select($request) {
 
   // Handle form POST data
   $LSsearch -> setParamsFormPostData();
-  $LSsearch -> setParam('nbObjectsByPage', 4);
+  $LSsearch -> setParam('nbObjectsByPage', NB_LSOBJECT_LIST_SELECT);
 
   $page = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
 
