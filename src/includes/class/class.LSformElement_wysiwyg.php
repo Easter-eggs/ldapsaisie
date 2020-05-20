@@ -43,7 +43,7 @@ class LSformElement_wysiwyg extends LSformElement {
   public function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
-      LSsession :: addJSscript('tinymce.min.js', 'includes/libs/tinymce/js/tinymce');
+      LSsession :: addLibJSscript('tinymce/js/tinymce/tinymce.min.js');
       LSsession :: addJSconfigParam(
         $this -> name,
         array(
