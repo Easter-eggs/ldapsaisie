@@ -54,9 +54,9 @@
           {tr msg="Relations / Profiles"}
           <div id="LSaccessRightsMatrixView_legend">
             <label>{tr msg="Legend:"}</label>
-            <span class='LSaccessRightsMatrixView_readable'>R</span> = {tr msg="Readable"}
+            <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span> = {tr msg="Readable"}
             |
-            <span class='LSaccessRightsMatrixView_writable'>R/W</span> = {tr msg="Readable / Writable"}
+            <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span> = {tr msg="Readable / Writable"}
           </div>
         </th>
         {foreach $LSprofiles as $name => $label}
