@@ -72,8 +72,35 @@ function LSaccessRightsMatrixView() {
 		foreach(LSsession :: $ldapServer["LSprofiles"] as $LSprofile => $LSprofile_conf)
 			$LSprofiles[$LSprofile] = (isset($LSprofile_conf['label'])?__($LSprofile_conf['label']):$LSprofile);
 
+  // List object types
+  $objectTypes = array();
+
+  // Handle LSaccess parameter
+  if (isset(LSsession :: $ldapServer["LSaccess"]) && is_array(LSsession :: $ldapServer["LSaccess"]))
+    foreach (LSsession :: $ldapServer["LSaccess"] as $LSobject)
+      if (!in_array($LSobject, $objectTypes))
+        $objectTypes[] = $LSobject;
+
+  // Handle subDn access
+  if (isset(LSsession :: $ldapServer["subDn"]) && is_array(LSsession :: $ldapServer["subDn"])) {
+    // SubDn object types
+    foreach (LSsession :: $ldapServer["subDn"] as $subDn_name => $subDn_conf) {
+      if (isset($subDn_conf['LSobjects']) && is_array($subDn_conf['LSobjects']))
+        foreach ($subDn_conf['LSobjects'] as $LSobject)
+          if (!in_array($LSobject, $objectTypes))
+            $objectTypes[] = $LSobject;
+      // SubDn by list of objects
+      if (isset($subDn_conf['LSobject']) && is_array($subDn_conf['LSobject']))
+        foreach ($subDn_conf['LSobject'] as $objType => $objTypeConf)
+          if (isset($objTypeConf['LSobjects']) && is_array($objTypeConf['LSobjects']))
+            foreach ($objTypeConf['LSobjects'] as $LSobject)
+            if (!in_array($LSobject, $objectTypes))
+              $objectTypes[] = $LSobject;
+    }
+  }
+
 	$LSobjects = array();
-	foreach (LSsession :: $ldapServer["LSaccess"] as $LSobject) {
+	foreach ($objectTypes as $LSobject) {
 		if (!LSsession :: loadLSobject($LSobject))
 			continue;
 
