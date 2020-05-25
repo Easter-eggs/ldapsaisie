@@ -246,18 +246,26 @@ class LSformElement_select_object extends LSformElement {
     if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
         $object = new $_REQUEST['objecttype']();
-        if ($object -> loadData($_REQUEST['objectdn'])) {
+        if ($_REQUEST['idform'] == 'create' || ($_REQUEST['objectdn'] && $object -> loadData($_REQUEST['objectdn']))) {
           $form = $object -> getForm($_REQUEST['idform']);
-          $field=$form -> getElement($_REQUEST['attribute']);
+          $field = $form -> getElement($_REQUEST['attribute']);
           $val = $field -> getValuesFromLSselect();
-          if ( $val ) {
+          if ( is_array($val) ) {
             $data = array(
               'objects'    => $val
             );
           }
+          else
+            self :: log_debug('ajax_refresh(): invalid return of $field -> getValuesFromLSselect()');
         }
+        else
+          self :: log_error("ajax_refresh(): Fail to load data of object ".$_REQUEST['objecttype']." from DN '".$_REQUEST['objectdn']."'");
       }
+      else
+        self :: log_error("ajax_refresh(): Fail to load object type '".$_REQUEST['objecttype']."'");
     }
+    else
+      self :: log_error("ajax_refresh(): some parameter(s) are missing");
   }
 
   /**
