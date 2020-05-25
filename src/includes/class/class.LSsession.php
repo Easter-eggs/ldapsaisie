@@ -1896,9 +1896,10 @@ class LSsession {
         $access=array();
         foreach(self :: $ldapServer['LSaccess'] as $objectType) {
           if (self :: loadLSobject($objectType)) {
-            if (self :: canAccess($objectType)) {
-                $access[$objectType] = LSconfig :: get('LSobjects.'.$objectType.'.label');
-            }
+            if (self :: canAccess($objectType))
+              $access[$objectType] = $objectType :: getLabel();
+            else
+              self :: log_debug("loadLSaccess(): authenticated user have no access to $objectType");
           }
         }
         $LSaccess[self :: $topDn] = $access;
@@ -2004,6 +2005,9 @@ class LSsession {
    */
   public static function whoami($dn) {
     $retval = array('user');
+
+    if (self :: $LSuserObjectType)
+      $retval[] = self :: $LSuserObjectType;
 
     foreach(self :: $LSprofiles as $profile => $infos) {
       if(self :: isLSprofile($dn,$profile)) {

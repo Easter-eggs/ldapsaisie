@@ -24,5 +24,6 @@ $GLOBALS['LSaddons']['loads'] = array (
   'samba',
   'posix',
   'ftp',
-  'maildir'
+  'maildir',
+  'LSaccessRightsMatrixView'
 );

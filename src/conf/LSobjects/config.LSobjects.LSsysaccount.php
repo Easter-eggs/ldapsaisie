@@ -48,7 +48,8 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       'linkAttributeValue' => "dn",
       'rights' => array(
         'admin' => 'w',
-        'admingroup' => 'w'
+        'admingroup' => 'w',
+        'LSsysaccount' => 'r',
       ),
     ),
   ),
@@ -78,6 +79,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       ),
       'rights' => array(
         'self' => 'r',
+        'LSsysaccount' => 'r',
         'admin' => 'w',
       ),
       'view' => 1,
@@ -139,6 +141,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       'multiple' => 1,
       'rights' => array(
         'self' => 'r',
+        'LSsysaccount' => 'r',
         'admin' => 'w',
       ),
       'view' => 1,
