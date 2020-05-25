@@ -144,7 +144,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     // Check if it's a simple relation
     if ($this -> linkAttribute && $this -> linkAttributeValue) {
       // Check linkAttribute refered to an existing related object type attribute
-      if (!$this -> LSobject :: hasAttr($this -> linkAttribute)) {
+      if (!call_user_func(array($this -> LSobject, 'hasAttr'), $this -> linkAttribute)) {
         LSerror :: addErrorCode(
           'LSrelations_08',
           array(

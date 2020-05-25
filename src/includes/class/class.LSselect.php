@@ -449,7 +449,7 @@ class LSselect extends LSlog_staticLoggerClass {
     $editableAttr = self :: getConfig($id, "LSobjects.".$obj->type.".editableAttr");
     if (!$editableAttr)
       return true;
-    if ($editableAttr && $obj->type :: hasAttr($editableAttr)) {
+    if ($editableAttr && call_user_func(array($obj->type, 'hasAttr'), $editableAttr)) {
       return (LSsession::canEdit($obj->type, $obj->dn, $editableAttr))?1:0;
     }
     return false;
