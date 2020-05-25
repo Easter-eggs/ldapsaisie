@@ -43,7 +43,12 @@ ldapsaisie (3.0.0-1) unstable; urgency=medium
         deprioritized in favor of using LSlog :: debug().
       - It's now possible to configure more than one LSobject type that can connect on
         application as user. Consequently, if your LDAP directory contains more than one
-        type of users, LdapSaisie can now handle it.
+        type of users, LdapSaisie can now handle it. Furthermore, a new default LSprofile
+        is added for each authenticable object type to easily allow all users of one type
+        to do something.
+      - LSselect and select_object attributes permit to selection of multiple object types.
+        Consequently and for instance, its now possible to have group of multiple object
+        types (group of users & groups, group of multiple user object types, ...).
     Please see /usr/share/doc/ldapsaisie/changelog.Debian.gz for complete list of
     changes.
 

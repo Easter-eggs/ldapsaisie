@@ -1,7 +1,7 @@
 ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
 
   * A lot of code cleaning and PHP notices fixes
-  * Introduce LSurl, a new URL routing manager for LdapSaisie : all pages
+  * Introduce LSurl, a new URL routing manager for LdapSaisie: all pages
     and files served by the application is now outside the web root directory.
   * Define base URL in page templates by using public_root_url parameter
   * Add a CLI commands manager and the ldapsaisie CLI tool that currently
@@ -12,39 +12,49 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
   * Replace generate_lang_file.php and generate_ldapsaisie.pot.sh script by
     CLI commands generate_lang_file and generate_ldapsaisie_pot
   * LSsession:
-     * includeFile() : allow inclusion of external file with include path search
+     * includeFile(): allow inclusion of external file with include path search
        support (see $external parameter).
      * deprecate redirect() method in favor of LSurl :: redirect()
      * move lang stuff to a dedicated LSlang class
+     * keep trace of already loaded addon to avoid loading it more than once
+     * add default LSprofiles with the name of authenticable object types
   * LSsearch:
      * fix handling approx parameter
      * fix possibility to specify a filter and a pattern (in the same time)
      * fix sorting by extraDisplayedColumns (on one setParams() call)
      * fix search customActions JS validation
+     * add option to disable cache on customInfos
   * LdapObject:
      * add __toString() method to fix password recovery bug
        (report by Adrien Malgoyre <adrien.malgoyre@osupytheas.fr>)
      * change getDisplayName $spe parameter default value from empty string to
        null
-  * LSlog :
+    *  specify object type filter on loading data
+  * LSrelation: globally rework and improve it
+  * LSlog:
     - fix handling non-string message
     - add loggers, filters and format message by handlers
-  * LSauth :
+  * LSauth:
     - Add possibility to configure more than one LSobject type as user
     - Add possibility to handle duplicated identifier
-  * LSauthMethod::CAS : Remove deprecated LSAUTH_CAS_SERVER_SSL_CERT parameter
+  * LSauthMethod::CAS: Remove deprecated LSAUTH_CAS_SERVER_SSL_CERT parameter
     (since corresponding bogus setCasServerCert() method has been remove in
     phpCAS)
   * LSaddon :: mail: Improve mail forging method by using PEAR Mail_mime lib
-  * LSattr_html :: mail : add autocomplete feature
-  * LSformRile :: imagesize : fix parameters handling problem
-  * LSformRule :: filesize : improve by avoiding to create a temporary file
+  * LSaddon :: LSaccessRigthsMatrixView: fix handling subDn LDAP servers
+    configuration
+  * LSattr_html :: mail: add autocomplete feature
+  * LSattr_html :: select_object: Allow multiple type of objects selection
+  * LSformRile :: imagesize: fix parameters handling problem
+  * LSformRule :: filesize: improve by avoiding to create a temporary file
+  * LSformRule :: email: fix handling domain parameter if its an array
   * Add ___() function to allow declaration of messages that will be translated
     at display time
   * LSimport: fix data removing on LSobject import
-  * Templates :
+  * LSselect: Allow multiple type of objects selection
+  * Templates:
      * Globally rework on templates files to use blocks. Common basic templates
-       files are now deprecated in favor to base.tpl and base_connected.tpl :
+       files are now deprecated in favor to base.tpl and base_connected.tpl:
        accueil.tpl, blank.tpl, empty.tpl, top.tpl, bottom.tpl
      * Add var_dump template function helper
 
