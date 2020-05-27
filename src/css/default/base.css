@@ -272,6 +272,11 @@ strong.LSobject-list-page, strong.LSobject-list-nb-by-page {
  * LSview-actions
  *******************
  */
+#LSview_title, #LSform_title {
+  clear:              both;
+  margin-bottom:      0;
+}
+
 a.LSview-actions {
   text-decoration:    none;
   color:              #000;
@@ -279,12 +284,12 @@ a.LSview-actions {
 
 ul.LSview-actions {
   clear:              both;
+  float: right;
   text-align:         right;
   font-size:          0.8em;
   margin:             0;
-  margin-top:         0.4em;
-  margin-right:       3em;
-  margin-bottom:      0.8em;
+  margin-right:       3rem;
+  margin-bottom:      0.8rem;
   color:              #0072b8;
 }
 
@@ -293,9 +298,9 @@ li.LSview-actions {
   color:              #000;
   border:             1px solid #0072b8;
   border-top:         0;
-  padding:            0.4em;
-  display:            inline;
-  margin-right:       1px;
+  padding:            0.4rem;
+  display:            inline-block;
+  margin-right:       0.1rem;
 }
 
 /*
@@ -321,8 +326,9 @@ a.question {
 div.LSview_search {
   float:              right;
   margin:             0;
-  margin-top:         -0.5em;
+  margin-top:         0.5rem;
   margin-right:       2em;
+  margin-bottom:      -2rem;
 }
 
 #LSview_search_param {
@@ -341,16 +347,16 @@ input[type='text'].LSview_search {
 
 input[type='submit'].LSview_search {
   border:             1px solid #0072b8;
-  width:              8em;
+  width:              8rem;
   background-color:   #0072b8;
   color:              #fff;
 }
 
 #LSview_search_predefinedFilter {
   float:              left;
-  margin-top:         -1.8em;
+  margin-top:         0.2rem;
   margin-bottom:      0;
-  margin-left:        1.2em;
+  margin-left:        1.2rem;
 }
 
 /*

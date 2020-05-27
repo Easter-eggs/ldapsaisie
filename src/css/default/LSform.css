@@ -102,10 +102,15 @@ ul.LSform li {
 /*
  * Champs du formulaire
  */
-.LSform input[type=text], .LSform input[type=file], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea {
+.LSform input[type=text], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea {
   border:                     1px solid #ccc;
   width:                      200px;
   background-color:           #b5e4f6;
+  box-sizing:                 border-box;
+}
+
+.LSform input[type=file] {
+  background:                 transparent;
 }
 
 .LSform input[type=radio] {

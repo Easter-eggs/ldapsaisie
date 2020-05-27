@@ -37,6 +37,7 @@ form.LSselect_search {
 
 div.LSselect_search {
   float:              right;
+  margin-bottom:      0.5em;
 }
 
 div.LSobject-select {

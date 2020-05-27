@@ -1,3 +1,15 @@
+/* ---- Colors ---- */
+:root {
+	--light-color: #d6edf6;
+	--medium-color: #7fcadb;
+	--dark-color: #0097c4;
+	--light-grey: #ccc;
+	--medium-grey: #999;
+	--dark-grey: #4d4d4d;
+	--error-color: #f59a67;
+	--contrasted-text-color: #fff;
+}
+
 /* ---- Main interface elements ---- */
 #main {
 	width:			98%;
@@ -26,7 +38,7 @@
 ul.menu {
 	padding: 0;
 	list-style-type: none;
-	border-top: 1px dotted #7fcadb;
+	border-top: 1px dotted var(--medium-color);
 }
 
 li.menu {
@@ -35,7 +47,7 @@ li.menu {
 }
 
 li.menu {
-	border-bottom: 1px dotted #7fcadb;
+	border-bottom: 1px dotted var(--medium-color);
 	line-height: 20px;
 	padding: 2px 0 3px 0;
 }
@@ -57,6 +69,7 @@ th.LSobject-list {
 	font-weight: bold;
 	font-size: 0.9em;
 	border: none;
+	background-color: transparent;
 }
 
 td.LSobject-list, tr.LSobject-list {
@@ -64,13 +77,76 @@ td.LSobject-list, tr.LSobject-list {
 	transition: all 0.25s linear;
 }
 
-/* ---- LSsmoothbox ---- */
+/* ---- LSsmoothbox / LSconfirmbox ---- */
 #frame-LSsmoothbox .LSform dt {
 	width: 11em;
 }
 
 #frame-LSsmoothbox .LSform dd {
 	margin-left: 11em;
+}
+
+#win-LSsmoothbox, #box-LSconfirmBox {
+	border: 1px solid var(--dark-grey);
+	border-radius: 0px;
+}
+
+#box-LSconfirmBox {
+	background-color: white;
+	padding: 0.5em;
+}
+
+#title-LSconfirmBox, #text-LSconfirmBox {
+	color: var(--dark-grey);
+}
+
+#btnsBox-LSconfirmBox {
+	margin: 0.3em;
+}
+
+#closeBtn-LSsmoothbox, #closeBtn-LSconfirmBox {
+	background: transparent;
+	top: 0.3em;
+	right: 0.3em;
+}
+
+#closeBtn-LSsmoothbox:after, #closeBtn-LSconfirmBox:after {
+	background: rgba(255, 255, 255, 0.8);;
+  position: relative;
+  top: 0;
+  left: -0.2em;
+	font-size: 1.2em;
+  content: '🗙';
+  height: 1em;
+  width: 1em;
+  color: var(--medium-grey);
+	padding: 0 0.2em;
+}
+#closeBtn-LSsmoothbox:hover:before, #closeBtn-LSsmoothbox:hover:after, #closeBtn-LSconfirmBox:hover:before, #closeBtn-LSconfirmBox:hover:after {
+  color: var(--dark-grey);
+}
+
+#closeBtn-LSconfirmBox {
+	top: 0;
+	right: 0;
+}
+
+#validBtn-LSsmoothbox, .btn-LSconfirmBox {
+	border-radius: 0px;
+	background-color: var(--medium-grey);
+	border-radius: 0;
+	color: var(--contrasted-text-color);
+	padding: 2px 15px;
+	font-weight: normal;
+}
+
+#validBtn-LSsmoothbox {
+	bottom: 0.5em;
+	right: 0.5em;
+}
+
+#validBtn-LSsmoothbox:hover, .btn-LSconfirmBox:hover {
+	background-color: var(--dark-grey);
 }
 
 /* ---- LSform ---- */
@@ -83,78 +159,129 @@ dd.LSform {
 	margin-left:		24em;
 }
 
-li.LSform_layout_current {
-	color: #fff;
-	background-color: #ccc;
-}
-
 li.LSform_layout_active {
 	border-radius: 0px;
 	border: none;
 }
 
+.LSform input[type=submit] {
+	border: none;
+	width: 12em;
+}
+
+div.LSformElement_image {
+	background: white;
+	border: 1px solid;
+	padding: 0;
+	border-radius: 0;
+	-moz-border-radius: 0;
+}
+
+.LSform input[type=text], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit {
+	width: 32rem;
+}
 
 /*
  * Colors
  */
 
 
-/*  ---- Moyen ---- */
-li.LSform_layout_active, tr.LSobject-list:hover, div.LSformElement_image {
-	background-color:	#7fcadb;
+/*  ---- Medium ---- */
+li.LSform_layout_active, tr.LSobject-list:hover {
+	background-color:	var(--medium-color);
 }
 
-li.LSview-actions, div.LSform_layout, h1 {
-	border-color:		#7fcadb;
+li.LSview-actions, div.LSform_layout, h1, form.LSglobal_search, div.LSformElement_image {
+	border-color:		var(--medium-color);
 }
 
 h1, li.LSview-actions, li.menu a:hover {
-	color: #7fcadb;
+	color: var(--medium-color);
 }
 
-/* ---- Clair ---- */
-ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobject-list, td.LSobject-list, div.LSinfosBox {
-	border-color:		#d6edf6;
+/* ---- Light ---- */
+ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobject-list, td.LSobject-list, div.LSinfosBox, .LSform select, select#LSview_search_predefinedFilter {
+	border-color:		var(--light-color);
 }
 
-tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=file], .LSform input[type=password], .LSform select, .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox {
-	background-color:	#d6edf6;
+tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox {
+	background-color:	var(--light-color);
+}
+
+.LSform select, select#LSview_search_predefinedFilter {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background: var(--light-color) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 5px center/8px 10px;
+	border: 1px solid var(--medium-color);
 }
 
 
-/* ---- Fonce ---- */
+/* ---- Dark ---- */
 li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search {
-	background-color:	#0097c4;
+	background-color:	var(--dark-color);
 }
 
 li.menu a, a.menu, h1 {
-	color:				#0097c4;
+	color:				var(--dark-color);
 }
 
 input[type='submit'].LSview_search, input[type='text'].LSview_search  {
-	border-color:		#0097c4;
+	border-color:		var(--dark-color);
 }
 
-/* ---- Gris clair ---- */
+/* ---- Light grey ---- */
 a.LSsession_recoverPassword, a.LSobject-list-page, a.LSobject-list-nb-by-page, h2 {
-	color:			#999;
+	color:			var(--medium-grey);
 }
 
-/* ---- Gris fonce ---- */
+/* ---- Dark grey ---- */
 #status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover {
-	color:			#4d4d4d;
+	color:			var(--dark-grey);
 }
 
-/* ---- Blanc ---- */
-tr.LSobject-list:hover, .LSform input[type=submit], input[type='submit'].LSview_search {
-	color: #fff;
+/* ---- Contrasted grey ---- */
+tr.LSobject-list:hover, .LSform input[type=submit], input[type='submit'].LSview_search, li.LSform_layout_current {
+	color: var(--contrasted-text-color);
 }
 
-th.LSobject-list {
-	background-color: transparent;
-}
-
-/* ---- Autre ---- */
+/* ---- Errors ---- */
 li.LSform_layout_errors {
-	background-color:	#f59a67;
+	background-color:	var(--error-color);
+}
+
+/* ---- Custom checkbox/radiobox ---- */
+input[type=checkbox], input[type=radio] {
+	background-color: white;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--dark-color);
+  width: 1em;
+  height: 1em;
+	font-size: 1em;
+	display: inline-block;
+}
+
+input[type=radio] {
+  border-radius: 0.5em;
+}
+
+input[type=checkbox]:before {
+	display: block;
+	width: 100%;
+	height: 100%;
+  font-size: 0.8em;
+	text-align: center;
+  color: var(--dark-color);
+	content: "\2713";
+	visibility: hidden;
+}
+
+input[type=checkbox]:checked:before {
+  visibility: visible;
+}
+
+input[type=radio]:checked {
+	background-color: var(--dark-color);
 }

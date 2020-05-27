@@ -33,7 +33,7 @@ ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobj
 	border-color:		#ddd;
 }
 
-tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=file], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox {
+tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox {
 	background-color:	#ddd;
 }
 
