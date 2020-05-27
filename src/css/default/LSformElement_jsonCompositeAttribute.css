@@ -49,3 +49,7 @@ div.jsonCompositeAttribute_possibleValues li:hover {
 	background-color: #CCC;
 	cursor: pointer;
 }
+
+ul.LSformElement_jsonCompositeAttribute div select {
+	margin: 2px;
+}
