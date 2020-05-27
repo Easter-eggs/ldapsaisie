@@ -1,3 +1,7 @@
+div.LSformElement_wysiwyg_container {
+	width: 32rem;
+}
+
 iframe.LSformElement_wysiwyg {
 	width: 100%;
 	border: 1px dotted #999;
