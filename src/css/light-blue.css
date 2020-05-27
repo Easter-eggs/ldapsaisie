@@ -258,7 +258,7 @@ a.LSsession_recoverPassword, a.LSobject-list-page, a.LSobject-list-nb-by-page, h
 }
 
 /* ---- Dark grey ---- */
-#status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover {
+#status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label {
 	color:			var(--dark-grey);
 }
 
