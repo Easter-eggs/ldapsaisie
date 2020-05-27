@@ -208,7 +208,7 @@ input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_sear
 
 
 /*  ---- Medium ---- */
-li.LSform_layout_active, tr.LSobject-list:hover {
+li.LSform_layout_active, tr.LSobject-list:hover, ul.LSaccessRightsMatrixView_tabs li {
 	background-color:	var(--medium-color);
 }
 
@@ -239,7 +239,7 @@ tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .L
 
 
 /* ---- Dark ---- */
-li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search {
+li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search, ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab {
 	background-color:	var(--dark-color);
 }
 
@@ -247,7 +247,7 @@ li.menu a, a.menu, h1 {
 	color:				var(--dark-color);
 }
 
-input[type='submit'].LSview_search, input[type='text'].LSview_search  {
+input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSaccessRightsMatrixView_tab_content  {
 	border-color:		var(--dark-color);
 }
 
