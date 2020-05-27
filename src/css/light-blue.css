@@ -152,11 +152,11 @@ td.LSobject-list, tr.LSobject-list {
 /* ---- LSform ---- */
 
 .LSform dt {
-	width:			24em;
+	width:			24vw;
 }
 
 dd.LSform {
-	margin-left:		24em;
+	margin-left:		24vw;
 }
 
 li.LSform_layout_active {
@@ -175,10 +175,31 @@ div.LSformElement_image {
 	padding: 0;
 	border-radius: 0;
 	-moz-border-radius: 0;
+	width: 10vw;
+	margin: 1vw;
 }
 
-.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit {
-	width: 32rem;
+img.LSformElement_image {
+	width: 100%;
+	margin: 0;
+	border: none;
+}
+
+ul.LSformElement_image_actions {
+	margin-top: 0;
+	margin-left: calc(10vw - 16px - 0.5vw);
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 3px;
+	padding: 2px;
+}
+
+.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit, div.LSformElement_wysiwyg_container {
+	width: 32vw;
+}
+
+input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_searchAdd {
+	width: 17vw!important;
+	box-sizing: border-box;
 }
 
 /*
