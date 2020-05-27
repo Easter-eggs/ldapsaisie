@@ -307,3 +307,23 @@ input[type=checkbox]:checked:before {
 input[type=radio]:checked {
 	background-color: var(--dark-color);
 }
+
+/* --- Error page --- */
+#error pre {
+	color: var(--dark-grey);
+	background-color: #eee;
+	margin-top: 4em;
+	padding: 0.5em;
+	border-color: var(--medium-grey);
+	border-radius: 0;
+}
+
+#error pre em {
+	border-radius: 0;
+	background-color: transparent;
+	padding: .3rem;
+	margin: 0.2rem;
+	margin-top: -2.5rem;
+	margin-left: -.7rem;
+	margin-bottom: 1.3rem;
+}
