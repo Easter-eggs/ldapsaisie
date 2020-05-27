@@ -166,7 +166,7 @@ li.LSform_layout_active {
 
 .LSform input[type=submit] {
 	border: none;
-	width: 12em;
+	width: 12rem;
 }
 
 div.LSformElement_image {
@@ -177,7 +177,7 @@ div.LSformElement_image {
 	-moz-border-radius: 0;
 }
 
-.LSform input[type=text], .LSform input[type=submit], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit {
+.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit {
 	width: 32rem;
 }
 
