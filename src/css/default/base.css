@@ -379,6 +379,7 @@ input[type='submit'].LSview_search {
 	text-align: left;
 	background-color: #eee;
 	width: 80%;
+  white-space: pre-wrap;
 	margin: auto;
 	margin-top: 3em;
 	padding: 0.5em;
