@@ -29,6 +29,10 @@ ldapsaisie (3.0.0-1) unstable; urgency=medium
         create custom theme. Common basic templates files are now deprecated in favor
         to base.tpl and base_connected.tpl : accueil.tpl, blank.tpl, empty.tpl, top.tpl
         and bottom.tpl.
+      - The default loaded CSS file light-blue.css evolve to defined color used as CSS
+        variables. All other light-*.css files now have to be used in addition of the
+        file light-blue.css (to load first). This files now only overide defined colors
+        variables.
       - A CLI tool is now provided with the application : its currently permit
         to search/list, show, create, modify and delete LSobject as its possible in web
         interface. You also could run procedure implemented in LdapSaisie (useful to run
@@ -49,6 +53,7 @@ ldapsaisie (3.0.0-1) unstable; urgency=medium
       - LSselect and select_object attributes permit to selection of multiple object types.
         Consequently and for instance, its now possible to have group of multiple object
         types (group of users & groups, group of multiple user object types, ...).
+      - LSsession methods to manage custom JS & CSS are now handle and expose by LStemplate
     Please see /usr/share/doc/ldapsaisie/changelog.Debian.gz for complete list of
     changes.
 
