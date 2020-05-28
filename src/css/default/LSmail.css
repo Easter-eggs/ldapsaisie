@@ -1,16 +1,32 @@
-#LSmail_msg {
-	height:		22em;
-	width:		50em;
-}
-
-dl.LSmail dd {
-	margin-left:	7em;
+dl.LSmail {
+	margin: 0 10px;
+	padding: 0;
 }
 
 dl.LSmail dt {
-	width:		7em;
+	width: 158px;
+	box-sizing: border-box;
+	position: relative;
+	left: 0.2em;
+	top: 1.2em;
+	font-weight: bold;
+	font-size: 0.9em;
+	color: #0072b8;
 }
 
-#LSmail_mail, #LSmail_subject {
-	width:		50.3em;
+
+dl.LSmail dd {
+	margin-left: 158px;
+	padding: 0;
+}
+
+dl.LSmail input, dl.LSmail textarea {
+	border:                     1px solid #ccc;
+	width:                      600px;
+	background-color:           #b5e4f6;
+	box-sizing:                 border-box;
+}
+
+dl.LSmail textarea {
+	height:		254px;
 }

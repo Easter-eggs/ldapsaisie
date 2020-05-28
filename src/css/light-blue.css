@@ -79,14 +79,6 @@ td.LSobject-list, tr.LSobject-list {
 }
 
 /* ---- LSsmoothbox / LSconfirmbox ---- */
-#frame-LSsmoothbox .LSform dt {
-	width: 11em;
-}
-
-#frame-LSsmoothbox .LSform dd {
-	margin-left: 11em;
-}
-
 #win-LSsmoothbox, #box-LSconfirmBox {
 	border: 1px solid var(--dark-grey);
 	border-radius: 0px;
@@ -226,7 +218,7 @@ ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobj
 	border-color:		var(--light-color);
 }
 
-tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox {
+tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox, dl.LSmail input, dl.LSmail textarea {
 	background-color:	var(--light-color);
 }
 
@@ -253,12 +245,17 @@ input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSacce
 }
 
 /* ---- Light grey ---- */
+.LSform input[type=text], .LSform input[type=password], .LSform textarea, dl.LSmail input, dl.LSmail textarea {
+	border-color: var(--light-grey);
+}
+
+/* ---- Medium grey ---- */
 a.LSsession_recoverPassword, a.LSobject-list-page, a.LSobject-list-nb-by-page, h2 {
 	color:			var(--medium-grey);
 }
 
 /* ---- Dark grey ---- */
-#status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label {
+#status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, dl.LSmail dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label {
 	color:			var(--dark-grey);
 }
 
