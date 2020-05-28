@@ -119,7 +119,6 @@ class LSform {
     if (!isset($this -> dataEntryFormConfig['disabledLayout']) || $this -> dataEntryFormConfig['disabledLayout']==false) {
       if (is_array($layout_config)) {
         LStemplate :: assign('LSform_layout',$layout_config);
-        LStemplate :: assign('LSform_layout_nofield_label',_('No field.'));
       }
     }
 
@@ -252,7 +251,6 @@ class LSform {
     $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
     if (is_array($layout_config)) {
       LStemplate :: assign('LSform_layout',$layout_config);
-      LStemplate :: assign('LSform_layout_nofield_label',_('No field.'));
     }
   }
 

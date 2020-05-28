@@ -60,9 +60,6 @@ class LSmail {
     else if(empty($_REQUEST['mails'])) {
       LStemplate :: assign('LSmail_mails',array($_REQUEST['mails']));
     }
-    LStemplate :: assign('LSmail_mail_label',_('Email'));
-    LStemplate :: assign('LSmail_subject_label',_('Title'));
-    LStemplate :: assign('LSmail_msg_label',_('Message'));
 
     $data = array(
       'html' => LSsession :: fetchTemplate('LSmail.tpl')

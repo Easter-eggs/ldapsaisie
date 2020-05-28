@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-05-28 19:47+0200\n"
+"PO-Revision-Date: 2020-05-28 20:22+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -368,19 +368,7 @@ msgstr ""
 "Asterisk : Le mot de passe en clair est indisponible. Impossible de générer "
 "le mot de passe haché en MD5."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSmail.php:63
-msgid "Email"
-msgstr "E-mail"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSmail.php:64
-msgid "Title"
-msgstr "Titre"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSmail.php:65
-msgid "Message"
-msgstr "Message"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSmail.php:77
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSmail.php:74
 msgid "Your message has been sent successfully."
 msgstr "Votre message a bien été envoyé."
 
@@ -1335,7 +1323,7 @@ msgid "updating relations"
 msgstr "mise à jour des relations"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:602
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:220
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:219
 msgid "Do you really want to delete"
 msgstr "Voulez-vous vraiment supprimer"
 
@@ -1344,7 +1332,7 @@ msgid "Warning"
 msgstr "Attention"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:604
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:222
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:221
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:69
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:85
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:185
@@ -1538,19 +1526,14 @@ msgstr "Ajouter une autre valeur à ce champ."
 msgid "Delete this field."
 msgstr "Supprimer cette valeur."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:122
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:255
-msgid "No field."
-msgstr "Aucun champ."
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:203
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:202
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:569
 msgid "Do you really want to execute custom action %{title} on this search ?"
 msgstr ""
 "Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée %{title} "
 "sur cette recherche ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:209
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:208
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1231
 msgid ""
 "Do you really want to execute custom action %{customAction} on "
@@ -1559,49 +1542,49 @@ msgstr ""
 "Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée "
 "%{customAction} sur %{objectname} ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:221
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:220
 msgid "Caution"
 msgstr "Attention"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:276
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:274
 msgid "%{label} attribute data is not valid."
 msgstr "Les données de l'attribut %{label} sont incorrectes."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:356
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:354
 msgid "Mandatory field"
 msgstr "Champ obligatoire"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:790
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:788
 msgid "LSform : Error during the recovery of the values of the form."
 msgstr "LSform : Erreur durant la récupération des valeurs du formulaire."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:793
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:791
 msgid ""
 "LSform : Error durring the recovery of the value of the field '%{element}'."
 msgstr ""
 "LSform : Erreur durant la recupération de la valeur du champ %{element}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:800
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:798
 msgid "LSform : The field %{element} doesn't exist."
 msgstr "LSform : Le champ %{element} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:803
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:801
 msgid "LSfom : Field type unknow (%{type})."
 msgstr "LSform : Type de champ inconnu (%{type})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:806
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:804
 msgid "LSform : Error during the creation of the element '%{element}'."
 msgstr "LSform : Erreur durant la création de l'élément %{element}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:809
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:807
 msgid "LSform : The data entry form %{name} doesn't exist."
 msgstr "LSform : Le masque de saisie %{name} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:812
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:810
 msgid "LSform : The data entry form %{name} is not correctly configured."
 msgstr "LSform : Le masque de saisie %{name} n'est pas correctement configuré."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:815
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:813
 msgid ""
 "LSform : The element %{name}, listed as displayed in data entry form "
 "configuration, doesn't exist."
@@ -2193,6 +2176,10 @@ msgstr "Connecté en tant que"
 msgid "Details"
 msgstr "Détails"
 
+#: templates/default/LSmail.tpl:3
+msgid "Email"
+msgstr "E-mail"
+
 #: templates/default/import.tpl:10
 msgid "File"
 msgstr "Fichier"
@@ -2233,9 +2220,21 @@ msgstr "Langue"
 msgid "Legend:"
 msgstr "Légende :"
 
+#: templates/default/base_connected.tpl:50
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: templates/default/LSmail.tpl:28
+msgid "Message"
+msgstr "Message"
+
 #: templates/default/viewSearch.tpl:134
 msgid "Nb / page :"
 msgstr "Nb / page :"
+
+#: templates/default/LSform_view.tpl:34
+msgid "No field."
+msgstr "Aucun champ."
 
 #: templates/default/import.tpl:76
 msgid "No imported object"
@@ -2289,6 +2288,10 @@ msgstr "Relations / Profils"
 msgid "Result"
 msgstr "Résultat"
 
+#: templates/default/LSmail.tpl:21
+msgid "Subject"
+msgstr "Sujet"
+
 #: templates/default/LSaccessRightsMatrixView.tpl:49
 msgid "Their relations with other objects"
 msgstr "Leurs relations avec les autres objets"
@@ -2316,6 +2319,9 @@ msgstr "non"
 #: templates/default/import.tpl:17 templates/default/import.tpl:20
 msgid "yes"
 msgstr "oui"
+
+#~ msgid "Title"
+#~ msgstr "Titre"
 
 #~ msgid "deleting"
 #~ msgstr "suppression"

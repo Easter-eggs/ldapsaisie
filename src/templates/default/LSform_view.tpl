@@ -31,7 +31,7 @@
           {/if}
         {/foreach}
         {if $field=='non'}
-          <dd class='LSform'>{$LSform_layout_nofield_label|escape:"htmlall"}</dd>
+          <dd class='LSform'>{tr msg="No field."|escape:"htmlall"}</dd>
         {/if}
       </dl>
 
