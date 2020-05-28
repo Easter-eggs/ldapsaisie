@@ -34,57 +34,66 @@ class LSerror {
   );
 
   /**
-   * Défini une erreur
+   * Define an error
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $code numeric Le code de l'erreur
-   * @param[in] $msg LSformat Le format paramètrable du message de l'erreur
+   * @param[in] $code string The error code
+   * @param[in] $msg LSformat The LSformat of the error message
+   * @param[in] $escape boolean Set to false if you don't want the message
+   *                            to be escaped on display (Default: true)
    *
    * @retval void
    */
-  public static function defineError($code=-1,$msg='') {
+  public static function defineError($code=-1, $msg='', $escape=True) {
     self :: $_errorCodes[$code] = array(
-      'msg' => $msg
+      'msg' => $msg,
+      'escape' => boolval($escape),
     );
   }
 
   /**
-   * Ajoute une erreur
+   * Add an error
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $code numeric Le code de l'erreur
-   * @param[in] $msg mixed Un tableau ou une chaine pour la construction du message d'erreur
-   *                       Tableau : '[clef]' => 'valeur'
-   *                                    La clef sera utilisé dans le format de message d'erreur
-   *                                    dans le fichier 'error_code.php'.
+   * @param[in] $code string The error code
+   * @param[in] $msg mixed If error code is not specified (or not defined), it could content the
+   *                       the error message. If error code is provided (and defined), this parameter
+   *                       will be used to format registred error message (as LSformat). In this case,
+   *                       it could be any of data support by getFData function as $data parameter.
+   *
+   * @param[in] $escape boolean Set to false if you don't want the message
+   *                            to be escaped on display (Default: true)
    *
    * @retval void
    */
-  public static function addErrorCode($code=-1,$msg='') {
-    $_SESSION['LSerror'][] = array($code,$msg);
+  public static function addErrorCode($code=null, $msg=null, $escape=true) {
+    $_SESSION['LSerror'][] = array($code, $msg, $escape);
     if (class_exists('LSlog'))
-      LSlog :: error(self::getError(array($code,$msg)));
+      LSlog :: error(self :: formatError($code, $msg, $escape, 'addslashes'));
   }
 
   /**
-   * Affiche les erreurs
+   * Show errors
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $return boolean True pour que le texte d'erreurs soit retourné
+   * @param[in] $return boolean True if you want to retreived errors message. If false,
+   *                            (default), LSerrors template variable will be assigned
+   *                            with errors message.
    *
-   * @retval void
+   * @retval string|null
    */
   public static function display($return=False) {
-    $errors = self::getErrors();
+    $errors = self :: getErrors();
     if ($errors) {
       if ($return) {
         return $errors;
       }
-      LStemplate :: assign('LSerrors',$errors);
+      LStemplate :: assign('LSerrors', $errors);
     }
+    return;
   }
 
   /**
@@ -92,22 +101,23 @@ class LSerror {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $code Error code (Goto : addErrorCode())
-   * @param[in] $msg Error msg (Goto : addErrorCode())
+   * @param[in] $code Error code (see addErrorCode())
+   * @param[in] $msg Error msg (see addErrorCode())
+   * @param[in] $escape boolean (see addErrorCode())
    *
    * @retval void
    */
-  public static function stop($code=-1,$msg='') {
+  public static function stop($code=-1, $msg='', $escape=true) {
     if(!empty($_SESSION['LSerror'])) {
       print "<h1>"._('Errors')."</h1>\n";
-      print self::display(true);
+      print self :: display(true);
     }
     print "<h1>"._('Stop')."</h1>\n";
-    exit (self::getError(array($code,$msg)));
+    exit (self :: formatError($code, $msg, $escape));
   }
 
  /**
-  * Retourne le texte des erreurs
+  * Format current errors message
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
@@ -115,29 +125,47 @@ class LSerror {
   */
   public static function getErrors() {
     if(!empty($_SESSION['LSerror'])) {
-      $txt='';
-      foreach ($_SESSION['LSerror'] as $error) {
-        $txt.=self::getError($error)."<br />\n";
-      }
-      self::resetError();
+      $txt = '';
+      foreach ($_SESSION['LSerror'] as $error)
+        $txt .= call_user_func_array(array(self, 'formatError'), $error)."<br />\n";
+      self :: resetError();
       return $txt;
     }
     return;
   }
 
  /**
-  * Retourne le texte d'une erreur
+  * Format error message
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
   * @retvat string Le texte des erreurs
   */
-  private static function getError($error) {
-    return ($error[0]?"(Code ".htmlentities($error[0]).") ":"").htmlentities(getFData(self :: $_errorCodes[$error[0]]['msg'],$error[1]));
+  private static function formatError($code=null, $message=null, $escape=True, $escape_method=null) {
+    if ($code && array_key_exists($code, self :: $_errorCodes)) {
+      $message = getFData(self :: $_errorCodes[$code]['msg'], $message);
+      if (!self :: $_errorCodes[$code]['escape'] === false)
+        $escape = false;
+    }
+    else if (!$message) {
+      if ($code)
+        $message = $code;
+      else
+        $message = _("Unknown error");
+    }
+
+    if ($escape !== false) {
+      if (is_null($escape_method) || !is_callable($escape_method))
+        $escape_method = 'htmlentities';
+      $code = call_user_func($escape_method, $code);
+      $message = call_user_func($escape_method, $message);
+    }
+
+    return ($code?"(Code $code) ":"").$message;
   }
 
  /**
-  * Définir si il y a des erreurs
+  * Check if some errors are defined
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
@@ -148,7 +176,7 @@ class LSerror {
   }
 
  /**
-  * Efface les erreurs sotckés
+  * Clear current errors
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
@@ -167,10 +195,10 @@ class LSerror {
    **/
   public static function isLdapError($data) {
     if (Net_LDAP2::isError($data)) {
-      LSerror :: addErrorCode(0,$data -> getMessage());
+      LSerror :: addErrorCode(0, $data -> getMessage());
       return true;
     }
-    return;
+    return false;
   }
 
 }
