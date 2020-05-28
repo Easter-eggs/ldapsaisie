@@ -172,7 +172,7 @@ msgid "Access Right Matrix Support : The global array %{array} is not defined."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:52
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:120
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:155
 msgid "Access rights matrix"
 msgstr ""
 
@@ -180,7 +180,7 @@ msgstr ""
 msgid "All connected users"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:116
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:151
 msgid "The user him-self"
 msgstr ""
 
@@ -492,59 +492,59 @@ msgstr ""
 msgid "Today."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:101
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:116
 msgid "LStemplate : compile directory is not writable (dir : %{dir})"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:120
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:135
 msgid "LStemplate : Can't load Smarty 2 support file"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:127
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:142
 msgid "LStemplate : Can't load Smarty 3 support file"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:131
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:146
 msgid "LStemplate : Smarty version not recognized."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:154
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:169
 msgid "LStemplate : Can't load Smarty."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:281
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:296
 msgid ""
 "LStemplate : Request template '%{tpl}' is now deprecated. Please refer to "
 "upgrade documentation to adapt your templates."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:368
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:426
 msgid "Smarty - An exception occured displaying template '%{template}'"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:388
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:446
 msgid "Smarty - An exception occured fetching template '%{template}'"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:400
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:458
 msgid "A fatal error occured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:401
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:459
 msgid "A fatal error occured. If problem persist, please contact support."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:500
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:629
 msgid "LStemplate : Template %{file} not found."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:503
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:632
 msgid ""
 "LStemplate : Fail to execute trigger %{callable} on event %{event} : is not "
 "callable."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:506
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:635
 msgid ""
 "LStemplate : Error during the execution of the trigger %{callable} on event "
 "%{event}."
@@ -713,147 +713,145 @@ msgstr ""
 msgid "Your new password has been sent to %{mail}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1548
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1566
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:146
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:423
 #: templates/default/select.tpl:29
 msgid "Refresh"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1585
-msgid "Connected as"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2489
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2509
 #: templates/default/select.tpl:20 templates/default/login.tpl:16
 msgid "Level"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2635
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2662
 msgid "LSsession : The constant %{const} is not defined."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2638
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2665
 msgid ""
 "LSsession : The %{addon} support is uncertain. Verify system compatibility "
 "and the add-on configuration."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2641
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2668
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2644
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2671
 msgid "LSsession : Failed to load LSobject type %{type} : unknon type."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2647
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2674
 msgid "LSsession : Failed to load LSclass %{class}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2650
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2677
 msgid "LSsession : Login or password incorrect."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2653
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2680
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2656
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2683
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2659
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2686
 msgid "LSsession : Can't connect to LDAP server."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2662
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2689
 msgid "LSsession : Impossible to authenticate you."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2665
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2692
 msgid "LSsession : Your are not authorized to do this action."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2668
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2695
 msgid "LSsession : Some informations are missing to display this page."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2671
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2698
 msgid ""
 "LSsession : The function of the custom action %{name} does not exists or is "
 "not configured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2674
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2701
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2677
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2704
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2680
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2707
 msgid "LSsession : No import/export format define for this object type."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2683
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2710
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2686
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2713
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2689
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2716
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2692
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2719
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2695
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2722
 msgid ""
 "LSsession : call function %{func} do not provided from LSaddon %{addon}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2698
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2725
 msgid "LSsession : problem during initialisation."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2701
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2728
 msgid "LSsession : view function %{func} for LSaddon %{addon} doet not exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2704
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2731
 msgid "LSsession : invalid related object's DN pass in parameter."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2707
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2734
 msgid ""
 "LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please "
 "upgrade it."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2710
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2737
 msgid ""
 "LSsession : You have been redirect from an old-style URL %{url}. Please "
 "upgrade this link."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2713
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2740
 msgid ""
-"LSsession : You still seen use LSsession :: redirect() in your custom code. "
-"Please upgrade it and use LSurl :: redirect()."
+"LSsession : You always seem to use %{old} in your custom code: Please "
+"upgrade it and use %{new}.<pre>\n"
+"Context:\n"
+"%{context}</pre>"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldapObject.php:484
@@ -1123,7 +1121,7 @@ msgid "Delete"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:642
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:884
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:882
 msgid "No object."
 msgstr ""
 
@@ -1133,43 +1131,43 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:953
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:951
 msgid ""
 "LSrelation : Invalid parameter '%{parameter}' of the relation %{relation}: "
 "objects %{LSobject} have no function '%{function}'."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:956
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:954
 msgid "LSrelation : Relation %{relation} of object type %{LSobject} unknown."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:959
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:957
 msgid "LSrelation : Error during relation update of the relation %{relation}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:962
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:960
 msgid "LSrelation : Object type %{LSobject} unknown (Relation : %{relation})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:965
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:963
 msgid ""
 "LSrelation : Incomplete configuration for LSrelation %{relation} of object "
 "type %{LSobject} for action : %{action}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:968
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:966
 msgid ""
 "LSrelation : Invalid editable attribute for LSrelation %{relation} with "
 "LSobject %{LSobject}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:971
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:969
 msgid ""
 "LSrelation : The configuration parameter '%{parameter}' of the relation "
 "%{relation} of %{LSobject} is missing."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:974
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:972
 msgid ""
 "LSrelation : The configuration parameter '%{parameter}' of the relation "
 "%{relation} of %{LSobject} is invalid."
@@ -1711,20 +1709,24 @@ msgstr ""
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSlog.php:462
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSlog.php:464
 msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:102
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:112
 #: templates/default/import.tpl:29
 msgid "Errors"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:105
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:115
 msgid "Stop"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:181
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:154
+msgid "Unknown error"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSerror.php:209
 msgid "Unknown error : %{error}"
 msgstr ""
 
@@ -1852,6 +1854,10 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
+#: templates/default/base_connected.tpl:48
+msgid "Connected as"
+msgstr ""
+
 #: templates/default/error.tpl:16
 msgid "Details"
 msgstr ""
@@ -1918,12 +1924,14 @@ msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:21
 #: templates/default/LSaccessRightsMatrixView.tpl:38
+#: templates/default/LSaccessRightsMatrixView.tpl:57
 #: templates/default/LSaccessRightsMatrixView.tpl:73
 msgid "R"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:23
 #: templates/default/LSaccessRightsMatrixView.tpl:40
+#: templates/default/LSaccessRightsMatrixView.tpl:59
 #: templates/default/LSaccessRightsMatrixView.tpl:75
 msgid "R/W"
 msgstr ""
