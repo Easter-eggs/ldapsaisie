@@ -286,12 +286,14 @@ class LSlog {
 	 **/
 	public static function get_debug_backtrace_context() {
 		$traces = debug_backtrace();
-		if (!is_array($traces) || count($traces) <= 2)
-			return "";
+		if (!is_array($traces) || count($traces) < 2)
+			return "unknown context";
 
 		$msg = array();
-		for ($i=2; $i < count($traces); $i++) {
-			$trace = array("#$i");
+		$j=0;
+		for ($i=count($traces)-1; $i >= 1; $i--) {
+			$j += 1;
+			$trace = array("#$j");
 			if (isset($traces[$i]['file']))
 				$trace[] = $traces[$i]['file'].(isset($traces[$i]['line'])?":".$traces[$i]['line']:"");
 			if (isset($traces[$i]['class']) && isset($traces[$i]['function']))
