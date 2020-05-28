@@ -82,7 +82,7 @@ class LSformElement_quota extends LSformElement {
       }
     }
 
-    LSsession :: addCssFile('LSformElement_quota.css');
+    LStemplate :: addCssFile('LSformElement_quota.css');
 
     $return['html'] = $this -> fetchTemplate(
       NULL,

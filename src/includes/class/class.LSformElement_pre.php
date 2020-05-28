@@ -41,7 +41,7 @@ class LSformElement_pre extends LSformElement_textarea {
   */
   public function getDisplay(){
     $return = parent :: getDisplay();
-    LSsession :: addCssFile('LSformElement_pre.css');
+    LStemplate :: addCssFile('LSformElement_pre.css');
     return $return;
   }
 

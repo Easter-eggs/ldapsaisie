@@ -9,7 +9,7 @@
     {block name="css"}
     <link rel="stylesheet" type="text/css" href="{css name='base.css'}" title="Normal" />
     <link rel="stylesheet" type="text/css" href="{css name='base_print.css'}" media='print' title="Normal" />
-    {include file='ls:LSsession_css.tpl'}
+    {include file='ls:css.tpl'}
     {/block}
     {block name="head"}{/block}
   </head>
@@ -19,7 +19,7 @@
 
 {block name="body"}{/block}
 
-{include file='ls:LSsession_js.tpl'}
+{include file='ls:js.tpl'}
 {block name="js"}{/block}
 </body>
 </html>

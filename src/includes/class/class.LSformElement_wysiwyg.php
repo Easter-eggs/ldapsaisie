@@ -43,17 +43,17 @@ class LSformElement_wysiwyg extends LSformElement {
   public function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
-      LSsession :: addLibJSscript('tinymce/js/tinymce/tinymce.min.js');
-      LSsession :: addJSconfigParam(
+      LStemplate :: addLibJSscript('tinymce/js/tinymce/tinymce.min.js');
+      LStemplate :: addJSconfigParam(
         $this -> name,
         array(
           'extra_options' => $this -> getParam('html_options.extra_options', array()),
         )
       );
     }
-    LSsession :: addJSscript('LSformElement_wysiwyg_field.js');
-    LSsession :: addJSscript('LSformElement_wysiwyg.js');
-    LSsession :: addCssFile('LSformElement_wysiwyg.css');
+    LStemplate :: addJSscript('LSformElement_wysiwyg_field.js');
+    LStemplate :: addJSscript('LSformElement_wysiwyg.js');
+    LStemplate :: addCssFile('LSformElement_wysiwyg.css');
     $return['html'] = $this -> fetchTemplate();
     return $return;
   }

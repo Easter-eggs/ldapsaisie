@@ -212,11 +212,11 @@ grep -Er 'LSsession *:: *addCssFile\(.*\.\.\/' /etc/ldapsaisie/local/</programli
     le block <literal>css</literal> :
 <programlisting><![CDATA[{block name="css"}
   <link rel="stylesheet" type="text/css" href="{css name='custom.css'}" media="screen" title="Normal" />
-  {include file='ls:LSsession_css.tpl'}
+  {include file='ls:css.tpl'}
 {/block}]]></programlisting>
   </para>
   <note><simpara>Ce block contient tous les CSS, y compris ceux gérés par <literal>LSsession :: addCssFile()</literal>.
-  Pensez à ajouter <literal>{include file='ls:LSsession_css.tpl'}</literal> pour conserver ces derniers.</simpara></note>
+  Pensez à ajouter <literal>{include file='ls:css.tpl'}</literal> pour conserver ces derniers.</simpara></note>
 </listitem>
 
 <listitem>
@@ -286,12 +286,12 @@ grep -Er '\.(png|gif|jpg)' /etc/ldapsaisie/local/templates</programlisting>
   <itemizedlist>
     <listitem>
       <simpara>
-        <literal>{$LSsession_css}</literal> doit être remplacé par <literal>{include file='ls:LSsession_css.tpl'}</literal>
+        <literal>{$LSsession_css}</literal> doit être remplacé par <literal>{include file='ls:css.tpl'}</literal>
       </simpara>
     </listitem>
     <listitem>
       <simpara>
-        <literal>{$LSsession_js}</literal> doit être remplacé par <literal>{include file='ls:LSsession_js.tpl'}</literal>
+        <literal>{$LSsession_js}</literal> doit être remplacé par <literal>{include file='ls:js.tpl'}</literal>
       </simpara>
     </listitem>
   </itemizedlist>

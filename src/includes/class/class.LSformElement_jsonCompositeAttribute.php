@@ -97,19 +97,19 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
         'parseValues' => $parseValues,
       )
     );
-    LSsession :: addCssFile('LSformElement_jsonCompositeAttribute.css');
+    LStemplate :: addCssFile('LSformElement_jsonCompositeAttribute.css');
     if (!$this -> isFreeze()) {
-        LSsession :: addJSconfigParam(
+        LStemplate :: addJSconfigParam(
             $this -> name,
             array (
                 'components' => $this -> components,
             )
         );
-        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field_value_component_text_value.js');
-        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field_value_component.js');
-        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field_value.js');
-        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute_field.js');
-        LSsession :: addJSscript('LSformElement_jsonCompositeAttribute.js');
+        LStemplate :: addJSscript('LSformElement_jsonCompositeAttribute_field_value_component_text_value.js');
+        LStemplate :: addJSscript('LSformElement_jsonCompositeAttribute_field_value_component.js');
+        LStemplate :: addJSscript('LSformElement_jsonCompositeAttribute_field_value.js');
+        LStemplate :: addJSscript('LSformElement_jsonCompositeAttribute_field.js');
+        LStemplate :: addJSscript('LSformElement_jsonCompositeAttribute.js');
     }
 
     return $return;

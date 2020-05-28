@@ -98,9 +98,9 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 			'components' => $this -> components
 		)
 	);
-	LSsession :: addCssFile('LSformElement_supannCompositeAttribute.css');
+	LStemplate :: addCssFile('LSformElement_supannCompositeAttribute.css');
 	if (!$this -> isFreeze()) {
-		LSsession :: addJSconfigParam(
+		LStemplate :: addJSconfigParam(
 			$this -> name,
 			array(
 				'searchBtn' => _('Modify'),
@@ -109,10 +109,10 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 				'components' => $this->components
 			)
 		);
-		LSsession :: addJSscript('LSformElement_supannCompositeAttribute_field_value_component.js');
-		LSsession :: addJSscript('LSformElement_supannCompositeAttribute_field_value.js');
-		LSsession :: addJSscript('LSformElement_supannCompositeAttribute_field.js');
-		LSsession :: addJSscript('LSformElement_supannCompositeAttribute.js');
+		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field_value_component.js');
+		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field_value.js');
+		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field.js');
+		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute.js');
 	}
     return $return;
   }

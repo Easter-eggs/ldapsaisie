@@ -54,9 +54,9 @@ class LSformElement_supannLabeledValue extends LSformElement {
       $parseValues[]=$this -> parseValue($val);
     }
     $return['html'] = $this -> fetchTemplate(NULL,array('parseValues' => $parseValues));
-    LSsession :: addCssFile('LSformElement_supannLabeledValue.css');
+    LStemplate :: addCssFile('LSformElement_supannLabeledValue.css');
     if (!$this -> isFreeze()) {
-      LSsession :: addJSconfigParam(
+      LStemplate :: addJSconfigParam(
         $this -> name,
         array(
           'searchBtn' => _('Modify'),
@@ -65,9 +65,9 @@ class LSformElement_supannLabeledValue extends LSformElement {
           'components' => $this->components
         )
       );
-      LSsession :: addJSscript('LSformElement_supannLabeledValue_field_value.js');
-      LSsession :: addJSscript('LSformElement_supannLabeledValue_field.js');
-      LSsession :: addJSscript('LSformElement_supannLabeledValue.js');
+      LStemplate :: addJSscript('LSformElement_supannLabeledValue_field_value.js');
+      LStemplate :: addJSscript('LSformElement_supannLabeledValue_field.js');
+      LStemplate :: addJSscript('LSformElement_supannLabeledValue.js');
     }
     return $return;
   }

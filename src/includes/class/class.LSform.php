@@ -87,10 +87,10 @@ class LSform {
       self :: loadDependenciesDisplayView($this -> $ldapObject);
     }
     else {
-      LSsession :: addJSscript('LSformElement_field.js');
-      LSsession :: addJSscript('LSformElement.js');
-      LSsession :: addJSscript('LSform.js');
-      LSsession :: addCssFile('LSform.css');
+      LStemplate :: addJSscript('LSformElement_field.js');
+      LStemplate :: addJSscript('LSformElement.js');
+      LStemplate :: addJSscript('LSform.js');
+      LStemplate :: addCssFile('LSform.css');
     }
 
     LSsession :: addHelpInfos(
@@ -177,7 +177,7 @@ class LSform {
       $JSconfig['warnings']=$this -> warnings;
     }
 
-    LSsession :: addJSconfigParam('LSform_'.$this -> idForm,$JSconfig);
+    LStemplate :: addJSconfigParam('LSform_'.$this -> idForm,$JSconfig);
     LStemplate :: assign('LSform_submittxt',$this -> submit);
   }
 
@@ -187,8 +187,8 @@ class LSform {
   * @retval void
   */
   public static function loadDependenciesDisplayView($ldapObject=false, $search_view=false) {
-    LSsession :: addCssFile('LSform.css');
-    LSsession :: addJSscript('LSform.js');
+    LStemplate :: addCssFile('LSform.css');
+    LStemplate :: addJSscript('LSform.js');
     $customActionLabels = array ();
     if (is_a($ldapObject,'LSldapObject')) {
       $objectname=($search_view?$ldapObject -> getLabel():$ldapObject -> getDisplayName());
@@ -216,7 +216,7 @@ class LSform {
         }
       }
     }
-    LSsession :: addJSconfigParam('LSview_labels', array_merge(array(
+    LStemplate :: addJSconfigParam('LSview_labels', array_merge(array(
       'delete_confirm_text'     => _("Do you really want to delete"),
       'delete_confirm_title'    => _("Caution"),
       'delete_confirm_validate'  => _("Delete")
@@ -224,7 +224,7 @@ class LSform {
     if (LSsession :: loadLSclass('LSconfirmBox')) {
       LSconfirmBox :: loadDependenciesDisplay();
     }
-    LSsession :: addJSscript('LSview.js');
+    LStemplate :: addJSscript('LSview.js');
   }
 
   /**

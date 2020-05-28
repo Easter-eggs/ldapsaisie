@@ -157,6 +157,6 @@ function LSaccessRightsMatrixView() {
 	LStemplate :: assign('LSobjects', $LSobjects);
 	LStemplate :: assign('LSobject', $LSobject);
 
-	LSsession :: addCssFile('LSaccessRightsMatrixView.css');
+	LStemplate :: addCssFile('LSaccessRightsMatrixView.css');
 	LSsession :: setTemplate('LSaccessRightsMatrixView.tpl');
 }

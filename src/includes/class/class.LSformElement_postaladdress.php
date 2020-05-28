@@ -63,7 +63,7 @@ class LSformElement_postaladdress extends LSformElement_textarea {
         else {
           $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern', LSformElement_postaladdress__generate_pattern($this));
         }
-        LSsession :: addJSconfigParam('LSformElement_postaladdress_'.$this -> name, array (
+        LStemplate :: addJSconfigParam('LSformElement_postaladdress_'.$this -> name, array (
             'map_url' => $this -> attr_html -> attribute -> ldapObject -> getFData($map_url_format)
           )
         );
@@ -73,7 +73,7 @@ class LSformElement_postaladdress extends LSformElement_textarea {
               'viewOnMap' => _('View on map')
             )
         );
-        LSsession :: addJSscript('LSformElement_postaladdress.js');
+        LStemplate :: addJSscript('LSformElement_postaladdress.js');
       }
     }
     return $return;

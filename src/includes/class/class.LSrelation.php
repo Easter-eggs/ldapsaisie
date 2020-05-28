@@ -595,10 +595,10 @@ class LSrelation extends LSlog_staticLoggerClass {
     if (LSsession :: loadLSclass('LSselect')) {
       LSselect :: loadDependenciesDisplay();
     }
-    LSsession :: addJSscript('LSrelation.js');
-    LSsession :: addCssFile('LSrelation.css');
+    LStemplate :: addJSscript('LSrelation.js');
+    LStemplate :: addCssFile('LSrelation.css');
 
-    LSsession :: addJSconfigParam('LSrelation_labels', array(
+    LStemplate :: addJSconfigParam('LSrelation_labels', array(
       'close_confirm_text'      => _('Do you really want to delete'),
       'close_confirm_title'     => _('Warning'),
       'close_confirm_validate'  => _('Delete')
@@ -689,7 +689,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     self :: loadDependenciesDisplay();
     LStemplate :: assign('LSrelations',$LSrelations);
-    LSsession :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
+    LStemplate :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
   }
 
   /*

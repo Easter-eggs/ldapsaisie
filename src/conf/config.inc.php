@@ -259,14 +259,6 @@ $GLOBALS['NB_LSOBJECT_LIST_CHOICES'] = array(30, 60, 100);
 define('MAX_SEND_FILE_SIZE',2000000);
 
 
-// Javascript
-$GLOBALS['defaultJSscipts']=array(
-  'mootools-core.js',
-  'mootools-more.js',
-  'functions.js',
-  'LSdefault.js',
-  'LSinfosBox.js'
-);
-
-// CSS
+// Default Javascript & CSS to include on all pages
+$GLOBALS['defaultJSscipts']=array();
 $GLOBALS['defaultCSSfiles']=array('light-blue.css');

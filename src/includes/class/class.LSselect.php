@@ -33,8 +33,8 @@ class LSselect extends LSlog_staticLoggerClass {
     if (LSsession :: loadLSclass('LSsmoothbox')) {
       LSsmoothbox :: loadDependenciesDisplay();
     }
-    LSsession :: addJSscript('LSselect.js');
-    LSsession :: addCssFile('LSselect.css');
+    LStemplate :: addJSscript('LSselect.js');
+    LStemplate :: addCssFile('LSselect.css');
   }
 
   /**

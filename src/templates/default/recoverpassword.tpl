@@ -1,7 +1,7 @@
 {extends file='ls:base.tpl'}
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="{css name='recoverpassword.css'}" media="screen" title="Normal" />
-{include file='ls:LSsession_css.tpl'}
+{include file='ls:css.tpl'}
 {/block}
 {block name="body"}
 <div class='recoverpasswordform'>

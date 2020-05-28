@@ -111,7 +111,7 @@ class LSformElement_valueWithUnit extends LSformElement {
       }
     }
 
-    LSsession :: addCssFile('LSformElement_valueWithUnit.css');
+    LStemplate :: addCssFile('LSformElement_valueWithUnit.css');
 
     $return['html']=$this -> fetchTemplate(
       NULL,

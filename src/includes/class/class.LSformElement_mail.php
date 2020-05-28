@@ -60,7 +60,7 @@ class LSformElement_mail extends LSformElement_text {
       LSmail :: loadDependenciesDisplay();
     }
     if (!$this -> isFreeze() && $this -> getParam('html_options.autocomplete')) {
-      LSsession :: addJSconfigParam('LSformElement_mail_autocomplete_noResultLabel', _('No result'));
+      LStemplate :: addJSconfigParam('LSformElement_mail_autocomplete_noResultLabel', _('No result'));
     }
     return parent :: getDisplay();
   }

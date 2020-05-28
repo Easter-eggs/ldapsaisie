@@ -1356,7 +1356,7 @@ class LSsession {
     LStemplate :: assign('ldapservers', $ldapservers);
     LStemplate :: assign('ldapServerId', (self :: $ldapServerId?self :: $ldapServerId:0));
     self :: setTemplate('login.tpl');
-    self :: addJSscript('LSsession_login.js');
+    LStemplate :: addJSscript('LSsession_login.js');
   }
 
  /**
@@ -1403,7 +1403,7 @@ class LSsession {
     LStemplate :: assign('recoverpassword_msg', $recoverpassword_msg);
 
     self :: setTemplate('recoverpassword.tpl');
-    self :: addJSscript('LSsession_recoverPassword.js');
+    LStemplate :: addJSscript('LSsession_recoverPassword.js');
   }
 
  /**
@@ -1425,28 +1425,44 @@ class LSsession {
    *
    * @param[in] $file string The JS filename
    * @param[in] $path string|null The sub-directory path that contain this file.
-   *                              Keep for retro-compatibility : you could just
-   *                              prefix the file name.
+   * @deprecated
+   * @see LStemplate :: addJSscript()
    *
    * @retval void
    */
   public static function addJSscript($file, $path=NULL) {
     if ($path)
       $file = $path.$file;
-    if (!in_array($file, self :: $JSscripts))
-      self :: $JSscripts[] = $file;
+    LStemplate :: addJSscript($file);
+    LSerror :: addErrorCode(
+      'LSsession_27',
+      array(
+        'old' => 'LStemplate :: addJSscript()',
+        'new' => 'LStemplate :: addJSscript()',
+        'context' => LSlog :: get_debug_backtrace_context(),
+      )
+    );
   }
 
   /**
    * Add a library JS file to load on page
    *
    * @param[in] $file string The JS filename
+   * @deprecated
+   * @see LStemplate :: addLibJSscript()
    *
    * @retval void
    */
   public static function addLibJSscript($file) {
-    if (!in_array($file, self :: $LibsJSscripts))
-      self :: $LibsJSscripts[] = $file;
+    LStemplate :: addLibJSscript($file);
+    LSerror :: addErrorCode(
+      'LSsession_27',
+      array(
+        'old' => 'LStemplate :: addLibJSscript()',
+        'new' => 'LStemplate :: addLibJSscript()',
+        'context' => LSlog :: get_debug_backtrace_context(),
+      )
+    );
   }
 
  /**
@@ -1454,11 +1470,22 @@ class LSsession {
   *
   * @param[in] $name string Nom de la variable de configuration
   * @param[in] $val mixed Valeur de la variable de configuration
+  * @deprecated
+  * @see LStemplate :: addJSconfigParam()
   *
   * @retval void
   */
-  public static function addJSconfigParam($name,$val) {
-    self :: $_JSconfigParams[$name]=$val;
+  public static function addJSconfigParam($name, $val) {
+    LStemplate :: addJSconfigParam($name, $val);
+    LSerror :: addErrorCode(
+      'LSsession_27',
+      array(
+        'old' => 'LStemplate :: addJSconfigParam()',
+        'new' => 'LStemplate :: addJSconfigParam()',
+        'context' => LSlog :: get_debug_backtrace_context(),
+      ),
+      false
+    );
   }
 
  /**
@@ -1466,28 +1493,44 @@ class LSsession {
   *
   * @param[in] $file string The CSS filename
   * @param[in] $path string|null The sub-directory path that contain this file.
-  *                              Keep for retro-compatibility : you could just
-  *                              prefix the file name.
+  * @deprecated
+  * @see LStemplate :: addCssFile()
   *
   * @retval void
   */
   public static function addCssFile($file, $path=NULL) {
     if ($path)
       $file = $path.$file;
-    if (!in_array($file, self :: $CssFiles))
-      self :: $CssFiles[] = $file;
+    LStemplate :: addCssFile($file);
+    LSerror :: addErrorCode(
+      'LSsession_27',
+      array(
+        'old' => 'LStemplate :: addCssFile()',
+        'new' => 'LStemplate :: addCssFile()',
+        'context' => LSlog :: get_debug_backtrace_context(),
+      )
+    );
   }
 
  /**
   * Add a library CSS file to load on page
   *
   * @param[in] $file string The CSS filename
+  * @deprecated
+  * @see LStemplate :: addLibCssFile()
   *
   * @retval void
   */
   public static function addLibCssFile($file) {
-    if (!in_array($file, self :: $LibsCssFiles))
-      self :: $LibsCssFiles[] = $file;
+    LStemplate :: addLibCssFile($file);
+    LSerror :: addErrorCode(
+      'LSsession_27',
+      array(
+        'old' => 'LStemplate :: addLibCssFile()',
+        'new' => 'LStemplate :: addLibCssFile()',
+        'context' => LSlog :: get_debug_backtrace_context(),
+      )
+    );
   }
 
  /**
@@ -1508,37 +1551,12 @@ class LSsession {
           ||
           (self :: $ldapServer['keepLSsessionActive'])
         ) {
-      self :: addJSconfigParam('keepLSsessionActive',ini_get('session.gc_maxlifetime'));
+      LStemplate :: addJSconfigParam('keepLSsessionActive',ini_get('session.gc_maxlifetime'));
     }
-
-    LStemplate :: assign('LSjsConfig',base64_encode(json_encode(self :: $_JSconfigParams)));
-
-    // JS files
-    $JSscripts = array();
-    if (isset($GLOBALS['defaultJSscipts']) && is_array($GLOBALS['defaultJSscipts']))
-      foreach ($GLOBALS['defaultJSscipts'] as $script)
-        if (!in_array($script, $JSscripts))
-          $JSscripts[] = $script;
-
-    foreach (self :: $JSscripts as $script)
-      if (!in_array($script, $JSscripts))
-        $JSscripts[] = $script;
-    LStemplate :: assign('JSscripts', $JSscripts);
-    LStemplate :: assign('LibsJSscripts', self :: $LibsJSscripts);
-    LStemplate :: assign('LSdebug', boolval(LSdebug));
-
-    // CSS files
-    self :: addCssFile("LSdefault.css");
-    if (isset($GLOBALS['defaultCSSfiles']) && is_array($GLOBALS['defaultCSSfiles']))
-      foreach ($GLOBALS['defaultCSSfiles'] as $file)
-        if (!in_array($script, self :: $CssFiles))
-          self :: addCssFile($file);
-    LStemplate :: assign('CssFiles', self :: $CssFiles);
-    LStemplate :: assign('LibsCssFiles', self :: $LibsCssFiles);
 
     // Access
     LStemplate :: assign('LSaccess', self :: getLSaccess());
-    LStemplate :: assign('LSaddonsViewsAccess',self :: $LSaddonsViewsAccess);
+    LStemplate :: assign('LSaddonsViewsAccess', self :: $LSaddonsViewsAccess);
 
     // Niveau
     $listTopDn = self :: getSubDnLdapServer();
@@ -2574,7 +2592,14 @@ class LSsession {
    * @retval void
    */
   public static function redirect($url, $exit=true) {
-    LSerror :: addErrorCode('LSsession_27');
+    LSerror :: addErrorCode(
+      'LSsession_27',
+      array(
+        'old' => 'LSsession :: redirect()',
+        'new' => 'LSurl :: redirect()',
+        'context' => LSlog :: get_debug_backtrace_context(),
+      )
+    );
     LSurl :: redirect($url);
   }
 
@@ -2714,7 +2739,7 @@ class LSsession {
     _("LSsession : You have been redirect from an old-style URL %{url}. Please upgrade this link.")
     );
     LSerror :: defineError('LSsession_27',
-    _("LSsession : You still seen use LSsession :: redirect() in your custom code. Please upgrade it and use LSurl :: redirect().")
+    _("LSsession : You always seem to use %{old} in your custom code: Please upgrade it and use %{new}.<pre>\nContext:\n%{context}</pre>")
     );
   }
 

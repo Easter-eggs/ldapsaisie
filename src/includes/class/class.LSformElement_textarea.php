@@ -51,9 +51,9 @@ class LSformElement_textarea extends LSformElement {
           'clear' => _('Clear')
         )
       );
-      LSsession :: addJSscript('LSformElement_textarea.js');
+      LStemplate :: addJSscript('LSformElement_textarea.js');
     }
-    LSsession :: addCssFile('LSformElement_textarea.css');
+    LStemplate :: addCssFile('LSformElement_textarea.css');
     $return['html'] = $this -> fetchTemplate(
       NULL,
       array (

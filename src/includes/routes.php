@@ -742,8 +742,8 @@ function handle_LSobject_import($request) {
 
   // Set & display template
   LSsession :: setTemplate('import.tpl');
-  LSsession :: addCssFile('LSform.css');
-  LSsession :: addCssFile('LSimport.css');
+  LStemplate :: addCssFile('LSform.css');
+  LStemplate :: addCssFile('LSimport.css');
   LSsession :: displayTemplate();
 }
 LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/import/?$#', 'handle_LSobject_import');

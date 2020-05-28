@@ -52,7 +52,7 @@ class LSformElement_boolean extends LSformElement {
           'clear' => _('Reset the choice.')
         )
       );
-      LSsession :: addJSscript('LSformElement_boolean.js');
+      LStemplate :: addJSscript('LSformElement_boolean.js');
     }
     $return['html'] = $this -> fetchTemplate(
       NULL,

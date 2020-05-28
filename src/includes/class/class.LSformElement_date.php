@@ -162,18 +162,18 @@ class LSformElement_date extends LSformElement {
         'showNowButton' => $this -> getParam('html_options.showNowButton', true, 'bool'),
         'showTodayButton' => $this -> getParam('html_options.showTodayButton', true, 'bool'),
       );
-      LSsession :: addJSconfigParam($this -> name, $params);
+      LStemplate :: addJSconfigParam($this -> name, $params);
 
       $codeLang = str_replace('_','-',preg_replace('/\..*$/','', LSlang :: getLang()));
 
-      LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.js');
-      LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.Attach.js');
-      LSsession :: addLibJSscript('arian-mootools-datepicker/Picker.Date.js');
-      LSsession :: addLibJSscript('arian-mootools-datepicker/Locale.'.$codeLang.'.DatePicker.js');
-      LSsession :: addLibCssFile('arian-mootools-datepicker/datepicker_'.$params['style'].'/datepicker_'.$params['style'].'.css');
+      LStemplate :: addLibJSscript('arian-mootools-datepicker/Picker.js');
+      LStemplate :: addLibJSscript('arian-mootools-datepicker/Picker.Attach.js');
+      LStemplate :: addLibJSscript('arian-mootools-datepicker/Picker.Date.js');
+      LStemplate :: addLibJSscript('arian-mootools-datepicker/Locale.'.$codeLang.'.DatePicker.js');
+      LStemplate :: addLibCssFile('arian-mootools-datepicker/datepicker_'.$params['style'].'/datepicker_'.$params['style'].'.css');
 
-      LSsession :: addJSscript('LSformElement_date_field.js');
-      LSsession :: addJSscript('LSformElement_date.js');
+      LStemplate :: addJSscript('LSformElement_date_field.js');
+      LStemplate :: addJSscript('LSformElement_date.js');
     }
     $return['html'] = $this -> fetchTemplate();
     return $return;

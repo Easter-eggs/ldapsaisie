@@ -122,7 +122,7 @@ class LSformElement_password extends LSformElement {
   * @retval array
   */
   public function getDisplay(){
-    LSsession :: addCssFile('LSformElement_password.css');
+    LStemplate :: addCssFile('LSformElement_password.css');
     $return = $this -> getLabelInfos();
     $pwd = "";
     if ($this -> getParam('html_options.clearView') or $this -> getParam('html_options.clearEdit')) {
@@ -160,10 +160,10 @@ class LSformElement_password extends LSformElement {
         $params['mail'] = $this -> getParam('html_options.mail');
         $params['mail']['mail_attr'] = $this -> getMailAttrs();
       }
-      LSsession :: addJSconfigParam($this -> name, $params);
+      LStemplate :: addJSconfigParam($this -> name, $params);
 
-      LSsession :: addJSscript('LSformElement_password_field.js');
-      LSsession :: addJSscript('LSformElement_password.js');
+      LStemplate :: addJSscript('LSformElement_password_field.js');
+      LStemplate :: addJSscript('LSformElement_password.js');
     }
     $return['html'] = $this -> fetchTemplate (
       NULL,

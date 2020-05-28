@@ -1,4 +1,11 @@
-{if isset($JSscripts) && is_array($JSscripts)}
+{if isset($defaultJSscripts) && is_array($defaultJSscripts) && !empty($defaultJSscripts)}
+<!-- JS files -->
+{foreach $defaultJSscripts as $file}
+<script src="js/{$file}" type="text/javascript"></script>
+{/foreach}
+{/if}
+
+{if isset($JSscripts) && is_array($JSscripts) && !empty($JSscripts)}
 <!-- JS files -->
 {foreach $JSscripts as $file}
 <script src="js/{$file}" type="text/javascript"></script>
@@ -8,7 +15,7 @@
 <!-- Set LSdebug status -->
 <script type='text/javascript'>LSdebug_active = {if $LSdebug}1{else}0{/if};</script>
 
-{if isset($LibsJSscripts) && is_array($LibsJSscripts)}
+{if isset($LibsJSscripts) && is_array($LibsJSscripts) && !empty($LibsJSscripts)}
 <!-- Additional libraries JS files -->
 {foreach $LibsJSscripts as $file}
 <script src="libs/{$file}" type="text/javascript"></script>

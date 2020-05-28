@@ -32,8 +32,8 @@ class LSmail {
       LSsmoothbox :: loadDependenciesDisplay();
     }
 
-    LSsession :: addJSscript('LSmail.js');
-    LSsession :: addCssFile('LSmail.css');
+    LStemplate :: addJSscript('LSmail.js');
+    LStemplate :: addCssFile('LSmail.css');
   }
 
   public static function ajax_display(&$data) {

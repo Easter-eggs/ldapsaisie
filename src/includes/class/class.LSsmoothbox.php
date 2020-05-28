@@ -31,10 +31,10 @@ class LSsmoothbox {
     if (LSsession :: loadLSclass('LSconfirmBox')) {
       LSconfirmBox :: loadDependenciesDisplay();
     }
-    LSsession :: addJSscript('LSsmoothbox.js');
-    LSsession :: addCssFile('LSsmoothbox.css');
+    LStemplate :: addJSscript('LSsmoothbox.js');
+    LStemplate :: addCssFile('LSsmoothbox.css');
 
-    LSsession :: addJSconfigParam('LSsmoothbox_labels', array(
+    LStemplate :: addJSconfigParam('LSsmoothbox_labels', array(
       'close_confirm_text'    => _('Are you sure to want to close this window and lose all changes ?'),
       'validate'              => _('Validate')
     ));

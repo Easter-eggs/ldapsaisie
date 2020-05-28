@@ -54,14 +54,14 @@ class LSformElement_select_object extends LSformElement {
   * @retval array
   */
   public function getDisplay($refresh=NULL){
-    LSsession :: addCssFile('LSformElement_select_object.css');
+    LStemplate :: addCssFile('LSformElement_select_object.css');
     if ($refresh) {
       $this -> values = $this -> getValuesFromLSselect();
     }
     $return = $this -> getLabelInfos();
 
     if (!$this -> isFreeze()) {
-      LSsession :: addJSconfigParam(
+      LStemplate :: addJSconfigParam(
         $this -> name,
         array(
           'LSselect_id' => $this -> attr_html -> getLSselectId(),
@@ -86,8 +86,8 @@ class LSformElement_select_object extends LSformElement {
         )
       );
 
-      LSsession :: addJSscript('LSformElement_select_object_field.js');
-      LSsession :: addJSscript('LSformElement_select_object.js');
+      LStemplate :: addJSscript('LSformElement_select_object_field.js');
+      LStemplate :: addJSscript('LSformElement_select_object.js');
       if (LSsession :: loadLSclass('LSselect') && $this -> initLSselect()) {
         LSselect :: loadDependenciesDisplay();
       }

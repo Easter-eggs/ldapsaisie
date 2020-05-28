@@ -43,7 +43,7 @@ class LSformElement_image extends LSformElement {
   * @retval array
   */
   public function getDisplay(){
-    LSsession :: addCssFile('LSformElement_image.css');
+    LStemplate :: addCssFile('LSformElement_image.css');
     $return = true;
     $id=$this -> name.'_'.rand();
     if (!$this -> isFreeze()) {
@@ -75,7 +75,7 @@ class LSformElement_image extends LSformElement {
       if (LSsession :: loadLSclass('LSsmoothbox')) {
         LSsmoothbox :: loadDependenciesDisplay();
       }
-      LSsession :: addJSscript('LSformElement_image.js');
+      LStemplate :: addJSscript('LSformElement_image.js');
     }
     return $return;
   }

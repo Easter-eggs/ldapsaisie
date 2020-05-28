@@ -31,6 +31,21 @@ LSsession :: loadLSclass('LSlog_staticLoggerClass');
  */
 class LStemplate extends LSlog_staticLoggerClass {
 
+  // Javascript files to load on page
+  private static $JSscripts = array();
+
+  // Libs JS files to load on page
+  private static $LibsJSscripts = array();
+
+  // Javascript configuration parameter to set on page
+  private static $JSconfigParams = array();
+
+  // CSS files to load on page
+  private static $CssFiles = array();
+
+  // Libs CSS files to load on page
+  private static $LibsCssFiles = array();
+
   /**
    * LStemplate configuration
    *
@@ -350,6 +365,48 @@ class LStemplate extends LSlog_staticLoggerClass {
     return self :: $_smarty -> assign($name,$value);
   }
 
+  /**
+   * Assign common template variables
+   *
+   * @retval void
+   **/
+  public static function assignCommonVars() {
+    // JS config
+    LStemplate :: assign('LSjsConfig', base64_encode(json_encode(self :: $JSconfigParams)));
+
+    // JS files
+    $defaultJSscripts = array(
+      'mootools-core.js',
+      'mootools-more.js',
+      'functions.js',
+      'LSdefault.js',
+      'LSinfosBox.js',
+    );
+    if (isset($GLOBALS['defaultJSscripts']) && is_array($GLOBALS['defaultJSscripts']))
+      foreach ($GLOBALS['defaultJSscripts'] as $file)
+        if (!in_array($file, $defaultJSscripts))
+          $defaultJSscripts[] = $file;
+    LStemplate :: assign('defaultJSscripts', $defaultJSscripts);
+
+    $JSscripts = array();
+    foreach (self :: $JSscripts as $script)
+      if (!in_array($script, $JSscripts) && !in_array($script, $defaultJSscripts))
+        $JSscripts[] = $script;
+    LStemplate :: assign('JSscripts', $JSscripts);
+    LStemplate :: assign('LibsJSscripts', self :: $LibsJSscripts);
+    LStemplate :: assign('LSdebug', boolval(LSdebug));
+
+    // CSS files
+    $defaultCssFiles = array("LSdefault.css");
+    if (isset($GLOBALS['defaultCSSfiles']) && is_array($GLOBALS['defaultCSSfiles']))
+      foreach ($GLOBALS['defaultCSSfiles'] as $file)
+        if (!in_array($file, $defaultCssFiles))
+          $defaultCssFiles[] = $file;
+    LStemplate :: assign('defaultCssFiles', $defaultCssFiles);
+    LStemplate :: assign('CssFiles', self :: $CssFiles);
+    LStemplate :: assign('LibsCssFiles', self :: $LibsCssFiles);
+  }
+
  /**
   * Display a template
   *
@@ -362,6 +419,7 @@ class LStemplate extends LSlog_staticLoggerClass {
     self :: fireEvent('displaying');
 
     try {
+      self :: assignCommonVars();
       self :: $_smarty -> display("ls:$template");
     }
     catch (Exception $e) {
@@ -462,6 +520,77 @@ class LStemplate extends LSlog_staticLoggerClass {
     }
 
     return $return;
+  }
+
+  /*
+   * Javascript & CSS files helpers methods
+   */
+
+
+  /**
+   * Add a JS script to load on page
+   *
+   * @param[in] $file string The JS filename
+   *
+   * Note: about old $path of the LStemplate :: addJSscript() method, corresponding to
+   * the sub-directory path that contain the file, you could just prefix the file name.
+   *
+   * @retval void
+   */
+  public static function addJSscript($file) {
+   if (!in_array($file, self :: $JSscripts))
+     self :: $JSscripts[] = $file;
+  }
+
+  /**
+   * Add a library JS file to load on page
+   *
+   * @param[in] $file string The JS filename
+   *
+   * @retval void
+   */
+  public static function addLibJSscript($file) {
+   if (!in_array($file, self :: $LibsJSscripts))
+     self :: $LibsJSscripts[] = $file;
+  }
+
+  /**
+   * Add Javascript configuration parameter
+   *
+   * @param[in] $name string Name of the configuration parameter
+   * @param[in] $val mixed Value of the configuration parameter
+   *
+   * @retval void
+   */
+  public static function addJSconfigParam($name,$val) {
+    self :: $JSconfigParams[$name]=$val;
+  }
+
+  /**
+   * Add a CSS file to load on page
+   *
+   * @param[in] $file string The CSS filename
+  *
+  * Note: about old $path of the LStemplate :: addCssFile() method, corresponding to
+  * the sub-directory path that contain the file, you could just prefix the file name.
+  *
+  * @retval void
+  */
+  public static function addCssFile($file) {
+   if (!in_array($file, self :: $CssFiles))
+     self :: $CssFiles[] = $file;
+  }
+
+  /**
+   * Add a library CSS file to load on page
+   *
+   * @param[in] $file string The CSS filename
+   *
+   * @retval void
+   */
+  public static function addLibCssFile($file) {
+   if (!in_array($file, self :: $LibsCssFiles))
+     self :: $LibsCssFiles[] = $file;
   }
 
 }

@@ -49,7 +49,7 @@ class LSformElement_text extends LSformElement {
     // value
     if (!$this -> isFreeze()) {
       if ($this -> getParam('html_options')) {
-        LSsession :: addJSconfigParam($this -> name, $this -> getParam('html_options'));
+        LStemplate :: addJSconfigParam($this -> name, $this -> getParam('html_options'));
       }
       LSsession :: addHelpInfos(
         'LSformElement_text',
@@ -57,14 +57,14 @@ class LSformElement_text extends LSformElement {
           'generate' => _('Generate the value')
         )
       );
-      LSsession :: addJSscript('LSformElement_text_field.js');
-      LSsession :: addJSscript('LSformElement_text.js');
+      LStemplate :: addJSscript('LSformElement_text_field.js');
+      LStemplate :: addJSscript('LSformElement_text.js');
     }
     foreach ($this -> JSscripts as $js) {
-      LSsession :: addJSscript($js);
+      LStemplate :: addJSscript($js);
     }
     foreach ($this -> CSSfiles as $css) {
-      LSsession :: addCssFile($css);
+      LStemplate :: addCssFile($css);
     }
     $return['html'] = $this -> fetchTemplate();
     return $return;

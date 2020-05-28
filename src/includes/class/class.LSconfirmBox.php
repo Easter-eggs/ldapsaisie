@@ -28,10 +28,10 @@ class LSconfirmBox {
   * @retval void
   */
   public static function loadDependenciesDisplay() {
-    LSsession :: addJSscript('LSconfirmBox.js');
-    LSsession :: addCssFile('LSconfirmBox.css');
+    LStemplate :: addJSscript('LSconfirmBox.js');
+    LStemplate :: addCssFile('LSconfirmBox.css');
 
-    LSsession :: addJSconfigParam('LSconfirmBox_labels', array(
+    LStemplate :: addJSconfigParam('LSconfirmBox_labels', array(
       'title' => _('Confirmation'),
       'text' => _('You confirm your choice ?'),
       'validate' => _('Validate'),
