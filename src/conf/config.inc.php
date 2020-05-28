@@ -260,5 +260,5 @@ define('MAX_SEND_FILE_SIZE',2000000);
 
 
 // Default Javascript & CSS to include on all pages
-$GLOBALS['defaultJSscipts']=array();
+$GLOBALS['defaultJSscripts']=array();
 $GLOBALS['defaultCSSfiles']=array('light-blue.css');

@@ -90,8 +90,11 @@ sur votre configuration et votre code personnalisé.</para>
   [...]
 ),</programlisting>
     </para></listitem>
+    <listitem><simpara>Une erreur de frappe historique a été corrigé dans le nom de la variable
+    <literal>$GLOBALS['defaultJSscripts']</literal>, à savoir un <emphasis>"R"</emphasis> manquant.</simpara>
+    </listitem>
     <listitem><simpara>Les fichiers Javascript utilisés par défaut par l'application ne sont désormais plus
-    listés dans la variable <literal>$GLOBALS['defaultJSscipts']</literal>. Seul doit y demeurer vos propres
+    listés dans la variable <literal>$GLOBALS['defaultJSscripts']</literal>. Seul doit y demeurer vos propres
     fichiers. Voici la liste des fichiers concernés et qui n'ont plus à être inclus via ce paramètre :</simpara>
     <itemizedlist>
       <listitem><simpara><literal>mootools-core.js</literal></simpara></listitem>

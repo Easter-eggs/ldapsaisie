@@ -257,7 +257,7 @@ define('CONST2','val2')
 </varlistentry>
 
 <varlistentry>
-  <term>$GLOBALS['defaultJSscipts']</term>
+  <term>$GLOBALS['defaultJSscripts']</term>
   <listitem>
     <simpara>Tableau déterminant les fichiers Javascript à charger sur toute les pages.</simpara>
   </listitem>
