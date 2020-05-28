@@ -1600,8 +1600,6 @@ class LSsession {
     if (!self :: $template)
       self :: setTemplate('base_connected.tpl');
 
-    LStemplate :: assign('connected_as',_("Connected as"));
-
     LStemplate :: display(self :: $template);
   }
 
