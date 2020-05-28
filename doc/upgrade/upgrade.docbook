@@ -95,7 +95,20 @@ sur votre configuration et votre code personnalisé.</para>
 
 <sect2>
   <title>Fichiers CSS</title>
+  <note><para>Les fichiers <literal>light-*.css</literal> ont été retravaillés pour tous <emphasis>hériter
+  </emphasis> du fichier <literal>light-blue.css</literal> qui défini les couleurs de l'interface au travers
+  des variables. Ainsi, il est très simple d'ajuster ce thème à vos couleurs. Si cela vous intéresse, vous
+  pouvez prendre exemple sur les autres fichiers <literal>light-*.css</literal>.</para>
+  <para>Au passage, ce thème a été retravaillé pour prendre en compte la mise en forme d'un maximum de
+  composants de l'application. Si vous avez un thème personnalisé, il est conseillé de regarder si celui-ci
+  ne pourrait pas tirer partie du fichier <literal>light-blue.css</literal> en le surchargeant. À minima,
+  vous pouvez analyser les évolutions de ce fichier pour identifier les modifications intéressantes à reporter
+  sur votre thème personnel.</para>
+  </note>
   <itemizedlist>
+    <listitem><simpara>Si vous utilisez un des fichiers <literal>light-*.css</literal> autre que le fichier
+    <literal>light-blue.css</literal>, vous devez désormais également charger ce dernier en premier.</simpara>
+    </listitem>
     <listitem><para>corriger les URL des images : <literal>url(../../images/default/find.png)</literal> devient
     <literal>url(../image/find)</literal>. Pour identifier les fichiers CSS concernés, vous pouvez utiliser les
     commandes suivantes :<programlisting>grep -Er 'url\(.*images' /etc/ldapsaisie/local/css
@@ -112,29 +125,52 @@ grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></pa
     Pour identifier les fichiers CSS concernés, vous pouvez utiliser la commande suivante :
     <programlisting>grep -Er 'LSsession *:: *redirect *\(' /etc/ldapsaisie/local/</programlisting></para></listitem>
     <listitem>
-      <para>Les inclusions de fichiers Javascript via <literal>LSsession :: addJSscript()</literal> doivent
-      être adaptées :
+      <para>Les méthodes de gestion des Javascript et CSS additionels ont été migrées de la classe <literal>LSsession
+      </literal> vers la classe <literal>LStemplate</literal> :
       <itemizedlist>
-        <listitem><simpara><literal>LSsession :: addJSscript('../../local/includes/js/LSformElement_eetelephone.js');</literal>
-        devient <literal>LSsession :: addJSscript('LSformElement_eetelephone.js');</literal></simpara></listitem>
-        <listitem><simpara><literal>LSsession :: addJSscript('../../local/includes/js/LSformElement_eetelephone.js');</literal>
-        devient <literal>LSsession :: addJSscript('LSformElement_eetelephone.js');</literal></simpara></listitem>
-        <listitem><simpara><literal>LSsession :: addJSscript('click-to-dial_view.js', 'local/includes/js/');</literal>
-        devient <literal>LSsession :: addJSscript('click-to-dial_view.js');</literal></simpara></listitem>
+        <listitem><para><literal>LSsession :: addJSscript()</literal> devient <literal>LStemplate :: addJSscript()</literal>.
+        </para>
+        <para>Par ailleurs le paramètre <literal>$path</literal> disparait et la méthode <literal>addLibJSscript</literal>
+        à été ajoutée pour permettre spécifiquement l'inclusion des fichiers Javascript des librairies. Voici quelques
+        exemples d'utilisation et leur équivalent à présent:</para>
+        <itemizedlist>
+          <listitem><simpara><literal>LSsession :: addJSscript('../../local/includes/js/LSformElement_eetelephone.js');</literal>
+          devient <literal>LStemplate :: addJSscript('LSformElement_eetelephone.js');</literal></simpara></listitem>
+          <listitem><simpara><literal>LSsession :: addJSscript('../../local/includes/js/LSformElement_eetelephone.js');</literal>
+          devient <literal>LStemplate :: addJSscript('LSformElement_eetelephone.js');</literal></simpara></listitem>
+          <listitem><simpara><literal>LSsession :: addJSscript('click-to-dial_view.js', 'local/includes/js/');</literal>
+          devient <literal>LStemplate :: addJSscript('click-to-dial_view.js');</literal></simpara></listitem>
+          <listitem><simpara><literal>LSsession :: addJSscript('Picker.js',LS_LIB_DIR.'arian-mootools-datepicker/');</literal>
+          devient <literal>LStemplate :: addLibJSscript('arian-mootools-datepicker/Picker.js');</literal></simpara></listitem>
+        </itemizedlist>
+        </listitem>
+        <listitem><simpara><literal>LSsession :: addJSconfigParam()</literal> devient
+        <literal>LStemplate :: addJSconfigParam()</literal>.</simpara></listitem>
+        <listitem><para><literal>LSsession :: addCssFile()</literal> devient
+        <literal>LStemplate :: addCssFile()</literal>.</para>
+        <para>Par ailleurs le paramètre <literal>$path</literal> disparait et la méthode <literal>addLibCssFile</literal>
+        à été ajoutée pour permettre spécifiquement l'inclusion des fichiers CSS des librairies. Voici quelques exemples
+        d'utilisation et leur équivalent à présent:</para>
+        <itemizedlist>
+          <listitem><simpara><literal>LSsession :: addCssFile('test.css', '../../local/css/');</literal>
+          devient <literal>LStemplate :: addCssFile('test.css');</literal>. Doit donc être conservé, que
+          le nom du fichier CSS, pas de chemin vers celui-ci.</simpara></listitem>
+          <listitem><simpara><literal>LSsession :: addCssFile('datepicker_vista.css',LS_LIB_DIR.'arian-mootools-datepicker/datepicker_vista/');</literal>
+          devient <literal>LStemplate :: addLibCssFile('arian-mootools-datepicker/datepicker_vista/datepicker_vista.css');</literal>
+          </simpara></listitem>
+        </itemizedlist>
+        </listitem>
       </itemizedlist>
       </para>
       <para>
         Pour identifier les fichiers concernés, vous pouvez utiliser les commandes suivantes :
-        <programlisting>grep -Er 'LSsession *:: *addJSscript\(.*local' /etc/ldapsaisie/local/
-grep -Er 'LSsession *:: *addJSscript\(.*\.\.\/' /etc/ldapsaisie/local/</programlisting>
+        <programlisting>grep -Er 'LSsession *:: *(addJSscript|addLibJSscript|addJSconfigParam|addCssFile|addLibCssFile) *\(' /etc/ldapsaisie/local/
+grep -Er '(LSsession|LStemplate) *:: *addJSscript\(.*local' /etc/ldapsaisie/local/
+grep -Er '(LSsession|LStemplate) *:: *addJSscript\(.*\.\.\/' /etc/ldapsaisie/local/
+grep -Er '(LSsession|LStemplate) *:: *addCssFile\(.*local' /etc/ldapsaisie/local/
+grep -Er '(LSsession|LStemplate) *:: *addCssFile\(.*\.\.\/' /etc/ldapsaisie/local/</programlisting>
       </para>
     </listitem>
-    <listitem><para>Les inclusions de fichiers CSS via <literal>LSsession :: addCssFile()</literal> doivent
-    être adaptées : le nom du fichier CSS uniquememnt doit être conservé (pas de chemin vers le fichier).</para>
-    <para>Pour identifier les fichiers concernés, vous pouvez utiliser les commandes suivantes :
-    <programlisting>grep -Er 'LSsession *:: *addCssFile\(.*local' /etc/ldapsaisie/local/
-grep -Er 'LSsession *:: *addCssFile\(.*\.\.\/' /etc/ldapsaisie/local/</programlisting>
-    </para></listitem>
     <listitem>
       <para><literal>LSlog</literal> vs <literal>LSdebug</literal> : L’utilisation de <literal>LSdebug</literal>
       est dépriorisée en faveur de <literal>LSlog</literal>. Ce dernier ajoute désormais la notion de
