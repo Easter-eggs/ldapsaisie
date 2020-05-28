@@ -455,10 +455,10 @@ class LStemplate extends LSlog_staticLoggerClass {
    * @retval void
    **/
   public static function fatal_error($error=null) {
-    self :: $_smarty -> assign('pagetitle', _("A fatal error occured."));
-    self :: $_smarty -> assign('error', _("A fatal error occured. If problem persist, please contact support."));
-    self :: $_smarty -> assign('details', $error);
-    self :: $_smarty -> display("ls:error.tpl");
+    self :: assign('pagetitle', _("A fatal error occured."));
+    self :: assign('error', _("A fatal error occured. If problem persist, please contact support."));
+    self :: assign('details', $error);
+    self :: display("error.tpl");
     exit();
   }
 
