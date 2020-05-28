@@ -13,7 +13,8 @@ var LSdefault = new Class({
       this.LSerror = new LSinfosBox({
         name: 'LSerror',
         opacity: 0.9,
-        autoClose: 10000
+        closeBtn: 1,
+        autoClose: 0
       });
       this.LSerror_div = $('LSerror_txt');
 
