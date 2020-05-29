@@ -1,3 +1,8 @@
+// Check IE
+if (window.navigator.userAgent.indexOf("MSIE ") >= 0) {
+  alert('Internet Explorer is no longer supported. Thank you for using or installing a browser of our time :)');
+}
+
 var LSdefault = new Class({
     initialize: function(){
       // LSdebug
