@@ -228,6 +228,12 @@ li.LSview-actions, div.LSform_layout, h1, form.LSglobal_search, div.LSformElemen
 	border-color:		var(--medium-color);
 }
 
+@media (max-width: 1024px) {
+  ul.LSview-actions-dropdown-opened li.LSview-actions:first-of-type {
+    border-color: var(--medium-color);
+  }
+}
+
 h1, li.LSview-actions, li.menu a:hover {
 	color: var(--medium-color);
 }
