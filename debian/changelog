@@ -66,6 +66,7 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
       addJSscript(), addLibJSscript(), addJSconfigParam(), addCssFile() and addLibCssFile()
     - fatal_error() method now use LStemplate methods to assign variables and display
       template instead of directly use Smarty methods.
+  * Interface is now responsive
   * Templates:
      * Globally rework on templates files to use blocks. Common basic templates
        files are now deprecated in favor to base.tpl and base_connected.tpl:

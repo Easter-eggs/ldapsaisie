@@ -114,10 +114,11 @@ sur votre configuration et votre code personnalisé.</para>
   des variables. Ainsi, il est très simple d'ajuster ce thème à vos couleurs. Si cela vous intéresse, vous
   pouvez prendre exemple sur les autres fichiers <literal>light-*.css</literal>.</para>
   <para>Au passage, ce thème a été retravaillé pour prendre en compte la mise en forme d'un maximum de
-  composants de l'application. Si vous avez un thème personnalisé, il est conseillé de regarder si celui-ci
-  ne pourrait pas tirer partie du fichier <literal>light-blue.css</literal> en le surchargeant. À minima,
-  vous pouvez analyser les évolutions de ce fichier pour identifier les modifications intéressantes à reporter
-  sur votre thème personnel.</para>
+  composants de l'application tout en profitant du côté responsive de l'interface apporter par cette
+  mise à jour. Si vous avez un thème personnalisé, il est conseillé de regarder si celui-ci ne pourrait pas
+  tirer partie du fichier <literal>light-blue.css</literal> en le surchargeant. À minima, vous pouvez analyser
+  les évolutions de ce fichier pour identifier les modifications intéressantes à reporter sur votre thème
+  personnel.</para>
   </note>
   <itemizedlist>
     <listitem><simpara>Si vous utilisez un des fichiers <literal>light-*.css</literal> autre que le fichier

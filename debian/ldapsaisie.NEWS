@@ -23,6 +23,8 @@ ldapsaisie (3.0.0-1) unstable; urgency=medium
         Necessarily, a lot of small change have been made in templates and CSS files.
         If you customize your web interface, please refer to default files delivered
         with the application to correctly reintroduce your changes.
+      - Interface is now responsive. To take advantage of this, however, you may need
+        to update your graphic adaptations as well as your custom code.
       - Templates files of the application evolve to use blocks. Blocks permit to
         extends templates from another and just add/replace some blocks of the extended
         template. This permit to avoid template code duplication and make easier to
