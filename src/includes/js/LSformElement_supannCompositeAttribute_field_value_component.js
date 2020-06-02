@@ -30,7 +30,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 				'title': this.params.searchBtn,
 			}
 		  );
-		  this.searchBtn.addEvent('click',this.toogleInputSearch.bind(this));
+		  this.searchBtn.addEvent('click',this.toggleInputSearch.bind(this));
 		  this.searchBtn.injectBefore(this.inputSearch);
 
 		  this._lastSearch=null;
@@ -38,7 +38,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 	  }
     },
 
-    toogleInputSearch: function() {
+    toggleInputSearch: function() {
 		if (this.inputSearch.getStyle('display')=='none') {
 			this.inputSearch.setStyle('display','block');
 			this.inputSearch.focus();
@@ -61,7 +61,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
       }
 
       if (event.key=='esc') {
-        this.toogleInputSearch();
+        this.toggleInputSearch();
       }
     },
 
@@ -157,7 +157,7 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
 		}
 		this.span.set('html',li.get('data-translated'));
 		this.span.set('title',li.get('data-value'));
-		this.toogleInputSearch();
+		this.toggleInputSearch();
 	},
 
 	clear: function() {

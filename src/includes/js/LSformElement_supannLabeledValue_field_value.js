@@ -29,14 +29,14 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 				'title': this.params.searchBtn,
 			}
 		);
-		this.searchBtn.addEvent('click',this.toogleInputSearch.bind(this));
+		this.searchBtn.addEvent('click',this.toggleInputSearch.bind(this));
 		this.searchBtn.injectAfter(this.span);
 
 		this._lastSearch=null;
 		this._possibleValues=null;
     },
 
-    toogleInputSearch: function() {
+    toggleInputSearch: function() {
 		if (this.inputSearch.getStyle('display')=='none') {
 			this.inputSearch.setStyle('display','block');
 			this.inputSearch.focus();
@@ -59,7 +59,7 @@ var LSformElement_supannLabeledValue_field_value = new Class({
       }
 
       if (event.key=='esc') {
-        this.toogleInputSearch();
+        this.toggleInputSearch();
       }
     },
 
@@ -154,7 +154,7 @@ var LSformElement_supannLabeledValue_field_value = new Class({
 		}
 		this.span.set('html',li.get('data-translated'));
 		this.span.set('title',li.get('data-value'));
-		this.toogleInputSearch();
+		this.toggleInputSearch();
 	},
 
 	clear: function() {
