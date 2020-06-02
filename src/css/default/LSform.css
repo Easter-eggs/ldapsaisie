@@ -12,6 +12,7 @@ ul.LSform_layout_active {
   padding:            0;
   margin:             1em;
   margin-bottom:      0;
+  clear:              both;
 }
 
 li.LSform_layout a {
@@ -159,4 +160,39 @@ p.LSform_listAvailableDataEntryForm {
   margin-right:             1em;
   color:                    #0072b8;
   float:                    right;
+}
+
+@media (max-width: 1024px) {
+  div.LSform {
+    margin-left: 0.5rem;
+  }
+
+  ul.LSform_layout_active {
+    margin-left: 0.5rem;
+  }
+
+  dt.LSform {
+    width: 34vw;
+  }
+
+  .LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea {
+  	width: 40vw;
+  }
+}
+
+@media (max-width: 400px) {
+  dt.LSform {
+    position: initial;
+    width: 100%;
+  }
+
+  dd.LSform {
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+    width: 100%;
+  }
+
+  .LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea {
+  	width: calc(100% - 1em);
+  }
 }

@@ -3,6 +3,8 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset={$LSencoding}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LdapSaisie{if isset($pagetitle) && $pagetitle} - {$pagetitle|escape:"htmlall"}{/if}</title>
     <base href="{$public_root_url}/"/>
     <link rel="icon" href="image/favicon" />

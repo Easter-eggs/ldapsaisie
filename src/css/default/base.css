@@ -104,6 +104,10 @@ a img {
  * Menu
  ******************
  */
+#toggle-menu {
+  display: none;
+}
+
 form.LSglobal_search {
   margin-top: 0.8em;
   border: 1px solid #0097c4;
@@ -401,4 +405,105 @@ input[type='submit'].LSview_search {
 	border-radius: 1em;
 	font-weight: bold;
   white-space: pre-wrap;
+}
+
+@media (max-width: 1024px) {
+  #main {
+    margin: 0;
+    border: none;
+    width: 100vw;
+  }
+
+  #left {
+    display: block;
+    position: fixed;
+    z-index: 1001;
+    top: 0px;
+    height: 100%;
+  }
+
+  #status {
+    width: 100vw;
+    display: block;
+    padding-left: 22px;
+    z-index: 1000;
+    height: auto;
+    min-height: 26px;
+    box-sizing: border-box;
+  }
+
+  #main tr:first-of-type {
+    height: 1px;
+  }
+
+  #right {
+    width: 100vw;
+    display: block;
+  }
+
+  h1 {
+    margin-left: 0;
+  }
+
+  table.LSobject-list {
+    width: 98vw;
+    margin-left: 1vw;
+  }
+
+  ul.LSview-actions {
+    margin-right: 1.5em;
+  }
+
+  /*
+   * Manage menu toggle
+   */
+  #toggle-menu {
+   display: block;
+   float: right;
+   display: block;
+   background: white;
+   border: none;
+   cursor: pointer;
+   padding: 0;
+   margin: 0;
+  }
+
+  #toggle-menu img {
+    margin: 3px;
+    height: 16px;
+  }
+
+  #main:not(.menu-visible) #left > :not(#toggle-menu) {
+    display: none;
+  }
+
+  #main:not(.menu-visible) #left {
+    width: 22px;
+    height: 22px;
+    top: 1px;
+    background: transparent;
+  }
+
+  ul.LSview-actionse:not(.LSview-actions-visible) {
+    background: url('../image/generate') center no-repeat;
+    width: 22px;
+    height: 22px;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  ul.LSview-actionse:not(.LSview-actions-visible) li {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 {
+    margin-top: 0;
+  }
+
+  div.LSview_search {
+    float: none;
+    margin-bottom: 0.5rem;
+  }
 }

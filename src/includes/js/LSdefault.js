@@ -73,6 +73,9 @@ var LSdefault = new Class({
       }
 
       this.initializeLang();
+
+      this.toggle_menu = $('toggle-menu');
+      this.toggle_menu.addEvent('click', this.toggleMenu.bind(this));
     },
 
     initializeLang: function() {
@@ -279,6 +282,10 @@ var LSdefault = new Class({
 
     log: function(data) {
       this.LSdebug.addInfo(data);
+    },
+
+    toggleMenu: function() {
+      $('main').toggleClass('menu-visible');
     }
 
 });

@@ -12,14 +12,16 @@
 
 /* ---- Main interface elements ---- */
 #main {
-	width:			98%;
+	box-sizing: border-box;
+	width: 100vw;
 	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	border: none;
+	margin: 0;
 }
 
 #left {
 	width: 165px;
-	background-color: transparent;
+	background-color: white;
 }
 
 #logo {
@@ -27,6 +29,7 @@
 	border: none;
 	margin-top: 6px;
 	margin-left: 3px;
+	background: transparent;
 }
 
 #status {
@@ -59,12 +62,13 @@ li.menu a {
 
 /* ---- Objects list ---- */
 
-table.LSobject-list {
-	width: 98%;
-	border: none;
-	margin-top: 1.8em;
+@media (min-width: 1024px) {
+	table.LSobject-list {
+		width: 98%;
+		border: none;
+		margin-top: 1.8em;
+	}
 }
-
 
 th.LSobject-list {
 	font-weight: bold;
@@ -145,12 +149,41 @@ td.LSobject-list, tr.LSobject-list {
 
 /* ---- LSform ---- */
 
-.LSform dt {
-	width:			24vw;
-}
+@media (min-width: 1024px) {
+	.LSform dt {
+		width:			24vw;
+	}
 
-dd.LSform {
-	margin-left:		24vw;
+	dd.LSform {
+		margin-left:		24vw;
+	}
+
+	div.LSformElement_image {
+		width: 10vw;
+		margin: 1vw;
+	}
+
+	img.LSformElement_image {
+		width: 100%;
+		margin: 0;
+		border: none;
+	}
+
+	ul.LSformElement_image_actions {
+		margin-top: 0;
+		margin-left: calc(10vw - 16px - 0.5vw);
+		border-radius: 3px;
+		padding: 2px;
+	}
+
+	.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit, div.LSformElement_wysiwyg_container {
+		width: 32vw;
+	}
+
+	input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_searchAdd {
+		width: 17vw!important;
+		box-sizing: border-box;
+	}
 }
 
 li.LSform_layout_active {
@@ -169,8 +202,6 @@ div.LSformElement_image {
 	padding: 0;
 	border-radius: 0;
 	-moz-border-radius: 0;
-	width: 10vw;
-	margin: 1vw;
 }
 
 img.LSformElement_image {
@@ -180,20 +211,7 @@ img.LSformElement_image {
 }
 
 ul.LSformElement_image_actions {
-	margin-top: 0;
-	margin-left: calc(10vw - 16px - 0.5vw);
 	background-color: rgba(255, 255, 255, 0.5);
-	border-radius: 3px;
-	padding: 2px;
-}
-
-.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit, div.LSformElement_wysiwyg_container {
-	width: 32vw;
-}
-
-input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_searchAdd {
-	width: 17vw!important;
-	box-sizing: border-box;
 }
 
 /*
@@ -328,4 +346,11 @@ input[type=radio]:checked {
 	margin-top: -2.5rem;
 	margin-left: -.7rem;
 	margin-bottom: 1.3rem;
+}
+
+@media (max-width: 1024px) {
+  table.LSobject-list {
+    width: 98vw;
+    margin-left: 1vw;
+  }
 }

@@ -55,6 +55,7 @@ ul.LSformElement_select_object_searchAdd {
   overflow:                   auto;
   padding:                    0;
   list-style-type:            none;
+  background:                 white;
 }
 
 li.LSformElement_select_object_searchAdd {
@@ -76,4 +77,28 @@ table.LSformElement_select_object_searchAdd, tr.LSformElement_select_object_sear
   margin:                     0;
   padding:                    0;
   vertical-align:             top;
+}
+
+@media (max-width: 1024px) {
+  ul.LSformElement_select_object_edit {
+  	width: 40vw;
+  }
+
+  input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_searchAdd {
+    width: calc(20vw - 1rem)!important;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 400px) {
+  ul.LSformElement_select_object_edit {
+  	width: 80vw;
+  }
+
+  input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_searchAdd {
+    display: block;
+    position: relative;
+    left: calc(-80vw - 6px);
+    width: calc(80vw + 2px)!important;
+  }
 }

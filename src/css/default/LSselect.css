@@ -69,3 +69,15 @@ ul.LSselect_selectable_object_types li {
 ul.LSselect_selectable_object_types li.current {
  background-color:   #0072B8;
 }
+
+@media (max-width: 1024px) {
+  div.LSobject-select {
+    width: 100%;
+  }
+
+  #LSselect-object {
+    width: calc(98% - 1rem);
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}

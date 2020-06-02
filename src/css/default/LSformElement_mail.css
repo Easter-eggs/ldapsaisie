@@ -27,3 +27,16 @@ li.LSformElement_mail_autocomplete_current {
   font-style:                 italic;
   color:                      #777;
 }
+
+@media (max-width: 1024px) {
+  ul.LSformElement_mail_autocomplete {
+  	width: 40vw;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 400px) {
+  ul.LSformElement_mail_autocomplete {
+  	width: calc(100% - 1em);
+  }
+}

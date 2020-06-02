@@ -1,8 +1,22 @@
 div.LSformElement_wysiwyg_container {
 	width: 32rem;
+	max-width: 80vw;
 }
 
 iframe.LSformElement_wysiwyg {
 	width: 100%;
 	border: 1px dotted #999;
+}
+
+
+@media (max-width: 1024px) {
+	div.LSformElement_wysiwyg_container {
+		max-width: 59vw;
+	}
+}
+
+@media (max-width: 400px) {
+	div.LSformElement_wysiwyg_container {
+		max-width: calc(100% - 1rem);
+	}
 }

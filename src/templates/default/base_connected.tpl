@@ -3,6 +3,7 @@
 <table id='main'>
   <tr>
     <td rowspan=2 id='left'>
+      <button id="toggle-menu"><img src="{img name='toggle-menu'}" alt='{tr msg="Show/hide menu"}' title='{tr msg="Show/hide menu"}'/></button>
       <a href=''><img src='{img name='logo'}' alt='Logo' id='logo'/></a>
 
       {if isset($LSsession_subDn) && $LSsession_subDn!=""}
