@@ -33,6 +33,36 @@ var LSview = new Class({
       if($type(this.LSsearchPredefinedFilter) && $type('LSsearch_form')) {
         this.LSsearchPredefinedFilter.addEvent('change',this.onLSsearchPredefinedFilterChange.bind(this));
       }
+
+      $$('ul.LSview-actions').each(function(ul) {
+        ul.addEvent('click', this.toggleLSviewActions.bind(this, ul));
+      }, this);
+      this.onWindowResized();
+      window.addEvent('resize', this.onWindowResized.bind(this));
+    },
+
+    onWindowResized: function() {
+      var window_width = window.getWidth().toInt();
+      if ($('LSview_title')) {
+        window_width = $('LSview_title').getWidth().toInt();
+      }
+      if ($('LSview_search_predefinedFilter')) {
+        window_width -= $('LSview_search_predefinedFilter').getWidth().toInt();
+      }
+      $$('ul.LSview-actions').each(function(ul) {
+        // Calculte menu width
+        var actions_width = 0;
+        ul.getElements('li').each(function (li) {
+          actions_width += li.getWidth().toInt() + 10; // Add 10 for margin/space between li
+        });
+
+        if (window.getWidth() < actions_width) {
+          ul.addClass('LSview-actions-dropdown');
+        }
+        else {
+          ul.removeClass('LSview-actions-dropdown');
+        }
+      });
     },
 
     onLSsearchPredefinedFilterChange: function() {
@@ -114,6 +144,12 @@ var LSview = new Class({
 
     executeCustomActionFromA: function(a) {
       document.location = a.href+'&valid';
+    },
+
+    toggleLSviewActions: function(ul) {
+      if (ul.hasClass('LSview-actions-dropdown')) {
+        ul.toggleClass('LSview-actions-dropdown-opened');
+      }
     }
 
 });

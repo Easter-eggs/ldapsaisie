@@ -295,6 +295,7 @@ ul.LSview-actions {
   margin-right:       3rem;
   margin-bottom:      0.8rem;
   color:              #0072b8;
+  padding-left:       0;
 }
 
 li.LSview-actions {
@@ -484,16 +485,38 @@ input[type='submit'].LSview_search {
     background: transparent;
   }
 
-  ul.LSview-actionse:not(.LSview-actions-visible) {
+  ul.LSview-actions-dropdown {
     background: url('../image/generate') center no-repeat;
     width: 22px;
     height: 22px;
-    margin-right: 1rem;
+    margin-right: 1em;
     cursor: pointer;
   }
 
-  ul.LSview-actionse:not(.LSview-actions-visible) li {
+  ul.LSview-actions-dropdown-opened) {
+    margin-top: 22px;
+  }
+
+  ul.LSview-actions-dropdown:not(.LSview-actions-dropdown-opened) li {
     display: none;
+  }
+
+  ul.LSview-actions-dropdown-opened li.LSview-actions {
+    background: white;
+    position: relative;
+    width: 30vw;
+    right: 29vw;
+    text-align: left;
+  }
+
+  ul.LSview-actions-dropdown-opened li.LSview-actions a {
+    display: inline-block;
+    width: 100%;
+  }
+
+  ul.LSview-actions-dropdown-opened li.LSview-actions:first-of-type {
+    margin-top: 22px;
+    border-top: 1px solid;
   }
 }
 
