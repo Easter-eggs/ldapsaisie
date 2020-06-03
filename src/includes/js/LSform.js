@@ -86,6 +86,9 @@ var LSform = new Class({
           }
         }
 
+        // Remove corresponding anchor to avoid scrolling on tab change
+        $$('a[name='+this.getLayoutNameFromBtn(li)+']').dispose();
+
         li.getFirst('a').addEvent('click',this.onTabBtnClick.bindWithEvent(this,li));
       },this);
 
@@ -182,7 +185,10 @@ var LSform = new Class({
         li.addClass('LSform_layout_current');
         var a=li.getElement('a');
         if ($type(a)) {
-          location.hash='#'+this.getLayoutNameFromBtn(li);
+          var layout_name = this.getLayoutNameFromBtn(li);
+          if (layout_name) {
+            location.hash='#'+layout_name;
+          }
         }
         var div = this.getLayout(li);
         if ($type(div)) {
