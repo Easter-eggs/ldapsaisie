@@ -3,7 +3,6 @@ var LSform = new Class({
       this._modules=[];
       this._fields=[];
       this._elements=[];
-      this._tabBtns=[];
       this.listeners = {
         init:    new Array(),
         submit:  new Array()
@@ -86,26 +85,28 @@ var LSform = new Class({
             }
           }
         }
+
         li.getFirst('a').addEvent('click',this.onTabBtnClick.bindWithEvent(this,li));
       },this);
 
-      $$('li.LSform_layout a').each(function(a) {
-        this._tabBtns[a.href]=a;
-      },this);
-
       if (LIs.length != 0) {
-        if ($type(this._tabBtns[window.location])) {
-          this._currentTab = 'default_value';
-          this._tabBtns[window.location].fireEvent('click');
-          byDefault=0;
+        var defaut_on_first = true;
+        this._currentTab = 'default_value';
+        if (window.location.hash) {
+          var li = $('LSform_layout_btn_'+window.location.hash.substr(1));
+          if (li) {
+            defaut_on_first = false;
+            li.getFirst('a').fireEvent('click');
+            // Scroll on top of the page
+            window.scroll(0, 0);
+          }
         }
-        else {
-          this._currentTab = 'default_value';
+        if (defaut_on_first) {
           document.getElement('li.LSform_layout').getFirst('a').fireEvent('click');
         }
       }
 
-      var checkUrl = new RegExp('^(modify|create|view).php');
+      var checkUrl = new RegExp('^object/[^/]+/(create|[^/]+(%3D|=)[^/]+(/modify)?)$');
       document.getElements('a.LSview-actions').each(function(a) {
         if (checkUrl.exec(a.get('href'))) {
           a.addEvent('click',this.onActionBtnClick.bindWithEvent(this,a));
