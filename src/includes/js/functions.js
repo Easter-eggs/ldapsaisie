@@ -289,13 +289,12 @@ function generate_uuid() {
  *
  * Source : http://ntt.cc/2008/01/19/base64-encoder-decoder-with-javascript.html
  */
+var B64keyStr = "ABCDEFGHIJKLMNOP" +
+                "QRSTUVWXYZabcdef" +
+                "ghijklmnopqrstuv" +
+                "wxyz0123456789+/" +
+                "=";
 if ($type(atob) != 'function') {
-  var B64keyStr = "ABCDEFGHIJKLMNOP" +
-                  "QRSTUVWXYZabcdef" +
-                  "ghijklmnopqrstuv" +
-                  "wxyz0123456789+/" +
-                  "=";
-
   function btoa(input) {
      input = escape(input);
      var output = "";
