@@ -175,8 +175,18 @@ p.LSform_listAvailableDataEntryForm {
     width: 34vw;
   }
 
-  .LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea {
+  dd.LSform {
+    margin-left: 34vw;
+  }
+
+  .LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, .LSform input[type=file] {
   	width: 40vw;
+  }
+
+  .LSform input[type=submit].LSform {
+    width: 40vw;
+    margin-left: 3px;
+    box-sizing: border-box;
   }
 }
 
@@ -192,7 +202,12 @@ p.LSform_listAvailableDataEntryForm {
     width: 100%;
   }
 
-  .LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea {
+  .LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, .LSform input[type=file] {
   	width: calc(100% - 1em);
+  }
+
+  .LSform input[type=submit].LSform {
+    width: 50%;
+    margin-left: calc(25% - 0.5em);
   }
 }
