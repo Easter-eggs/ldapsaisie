@@ -20,3 +20,15 @@
 textarea.LSformElement_ssh_key {
   height:             10em;
 }
+
+@media (max-width: 1024px) {
+	.LSformElement_ssh_key_value {
+		width: 40vw;
+	}
+}
+
+@media (max-width: 400px) {
+	.LSformElement_ssh_key_value {
+		width: calc(100% - 1em);
+	}
+}
