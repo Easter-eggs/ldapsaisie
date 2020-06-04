@@ -194,7 +194,7 @@ td.LSobject-list, tr.LSobject-list {
 	}
 }
 
-li.LSform_layout_active {
+li.LSform_layout_active, ul.LSselect_selectable_object_types li, ul.LSaccessRightsMatrixView_tabs li {
 	border-radius: 0px;
 	border: none;
 }
@@ -365,6 +365,5 @@ input[type=radio]:checked {
 @media (max-width: 1024px) {
   table.LSobject-list {
     width: 98vw;
-    margin-left: 1vw;
   }
 }

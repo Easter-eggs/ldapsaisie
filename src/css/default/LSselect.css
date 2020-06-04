@@ -49,10 +49,13 @@ div.LSobject-select {
  */
 ul.LSselect_selectable_object_types {
   list-style-type:    none;
-  padding:            0 0 4px 0;
+  padding:            0;
   margin:             1em;
   margin-bottom:      0;
   border-bottom:      1px solid #52BCE5;
+  display:            flex;
+  flex-wrap:          nowrap;
+  overflow:           auto;
 }
 
 ul.LSselect_selectable_object_types li {
@@ -62,7 +65,7 @@ ul.LSselect_selectable_object_types li {
   border-radius:      3px 3px 0px 0px;
   padding:            4px;
   display:            inline;
-  margin-right:       1px;
+  margin-right:       0.3rem;
   cursor:             pointer;
 }
 
@@ -76,8 +79,14 @@ ul.LSselect_selectable_object_types li.current {
   }
 
   #LSselect-object {
-    width: calc(98% - 1rem);
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    width: calc(98% - 1vw);
+    margin-left: 1vw;
+    margin-right: 1vw;
+  }
+
+  ul.LSselect_selectable_object_types {
+    margin-left: 1vw;
+    margin-top: 1vw;
+    margin-right: 1vw;
   }
 }

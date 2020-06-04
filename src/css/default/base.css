@@ -444,19 +444,26 @@ input[type='submit'].LSview_search {
   #right {
     width: 100vw;
     display: block;
+    padding: 1vw;
+    box-sizing: border-box;
   }
 
   h1 {
     margin-left: 0;
+    width: 98vw;
   }
 
   table.LSobject-list {
     width: 98vw;
-    margin-left: 1vw;
+    margin-left: 0;
+  }
+
+  select#LSview_search_predefinedFilter {
+    margin-left: 0;
   }
 
   ul.LSview-actions {
-    margin-right: 1.5em;
+    margin-right: 1vw;
   }
 
   /*
@@ -493,7 +500,7 @@ input[type='submit'].LSview_search {
     background: url('../image/generate') center no-repeat;
     width: 22px;
     height: 22px;
-    margin-right: 1em;
+    margin-right: 0;
     cursor: pointer;
   }
 

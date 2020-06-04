@@ -167,11 +167,12 @@ p.LSform_listAvailableDataEntryForm {
 
 @media (max-width: 1024px) {
   div.LSform {
-    margin-left: 0.5rem;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   ul.LSform_layout_active {
-    margin-left: 0.5rem;
+    margin-left: 0;
   }
 
   dl.LSform {
