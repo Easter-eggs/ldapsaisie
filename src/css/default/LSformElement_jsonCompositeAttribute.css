@@ -18,6 +18,7 @@ ul.LSformElement_jsonCompositeAttribute div label {
 	vertical-align: top;
 	width: 10em;
 	font-weight: bold;
+	color: #666;
 }
 
 ul.LSformElement_jsonCompositeAttribute div ul {
@@ -52,4 +53,37 @@ div.jsonCompositeAttribute_possibleValues li:hover {
 
 ul.LSformElement_jsonCompositeAttribute div select {
 	margin: 2px;
+}
+
+@media (max-width: 1024px) {
+	ul.LSformElement_jsonCompositeAttribute {
+		width: 40vw;
+	}
+
+	ul.LSformElement_jsonCompositeAttribute div label {
+		width: auto;
+	}
+
+	ul.LSformElement_jsonCompositeAttribute div input[type=text], ul.LSformElement_jsonCompositeAttribute div select {
+		width: calc(40vw - 10px);
+		box-sizing: border-box;
+	}
+}
+
+@media (max-width: 400px) {
+	ul.LSformElement_jsonCompositeAttribute {
+		width: calc(100% - 1em);
+	}
+
+	ul.LSformElement_jsonCompositeAttribute div ul {
+		width: 100%;
+	}
+
+	ul.LSformElement_jsonCompositeAttribute div ul input[type=text] {
+		width: 100%;
+	}
+
+	ul.LSformElement_jsonCompositeAttribute div select {
+		width: calc(100% - 4px);
+	}
 }
