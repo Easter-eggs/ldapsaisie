@@ -75,7 +75,9 @@ var LSdefault = new Class({
       this.initializeLang();
 
       this.toggle_menu = $('toggle-menu');
-      this.toggle_menu.addEvent('click', this.toggleMenu.bind(this));
+      if (this.toggle_menu) {
+        this.toggle_menu.addEvent('click', this.toggleMenu.bind(this));
+      }
     },
 
     initializeLang: function() {
