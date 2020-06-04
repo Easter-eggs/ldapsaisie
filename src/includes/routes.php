@@ -1128,6 +1128,24 @@ function handle_LSobject_remove($request) {
   LStemplate :: assign('validation_url', "object/$LSobject/".urlencode($dn)."/remove?valid");
   LStemplate :: assign('validation_label', _('Validate'));
 
+  // List user available actions for this LSobject
+  $LSview_actions = array(
+    array(
+      'label' => _('View'),
+      'url' => "object/$LSobject/".urlencode($dn),
+      'action' => 'view'
+    ),
+  );
+
+  if (LSsession :: canEdit($LSobject, $dn)) {
+    $LSview_actions[] = array(
+      'label' => _('Modify'),
+      'url' => "object/$LSobject/".urlencode($dn)."/modify",
+      'action' => 'modify'
+    );
+  }
+  LStemplate :: assign('LSview_actions',$LSview_actions);
+
   // Set & display template
   LSsession :: setTemplate('question.tpl');
   LSsession :: displayTemplate();
