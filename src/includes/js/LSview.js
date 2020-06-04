@@ -3,10 +3,21 @@ var LSview = new Class({
       this.labels = varLSdefault.LSjsConfig['LSview_labels'];
       if (!$type(this.labels)) {
         this.labels = {
-          delete_confirm_text:      "Do you really want to delete",
+          delete_confirm_text:      'Do you really want to delete "%{name}"?',
           delete_confirm_title:     "Caution",
           delete_confirm_validate:  "Delete"
         };
+      }
+
+      this.title = $('LSview_title');
+      if (this.title) {
+        this.object_name = this.title.innerHTML;
+      }
+      else {
+        this.title = $('LSform_title');
+        if (this.title) {
+          this.object_name = this.title.getProperty('data-object-name');
+        }
       }
 
       $$('td.LSobject-list-names').each(function(el) {
@@ -43,11 +54,11 @@ var LSview = new Class({
 
     onWindowResized: function() {
       var window_width = window.getWidth().toInt();
-      if ($('LSview_title')) {
-        window_width = $('LSview_title').getWidth().toInt();
+      if (this.title) {
+        window_width = this.title.getWidth().toInt();
       }
       if ($('LSview_search_predefinedFilter')) {
-        window_width -= $('LSview_search_predefinedFilter').getWidth().toInt();
+        window_width -= $('LSview_search_predefinedFilter').getWidth().toInt() + $('LSview_search_predefinedFilter').getPosition().x;
       }
       $$('ul.LSview-actions').each(function(ul) {
         // Calculte menu width
@@ -81,7 +92,7 @@ var LSview = new Class({
         this._confirmBoxOpen = 1;
         var name = a.getParent().getParent().getFirst('td').getElement('a').innerHTML;
         this.confirmBox = new LSconfirmBox({
-          text:         this.labels.delete_confirm_text + ' "'+name+'" ?',
+          text:         getFData(this.labels.delete_confirm_text, name),
           startElement: a,
           onConfirm:    this.removeFromA.bind(this,a),
           onClose:      this.onConfirmBoxClose.bind(this)
@@ -93,9 +104,9 @@ var LSview = new Class({
       Event(event).stop();
       if (!this._confirmBoxOpen) {
         this._confirmBoxOpen = 1;
-        var name = $('LSview_title').innerHTML;
+        var name = this.object_name;
         this.confirmBox = new LSconfirmBox({
-          text:           this.labels.delete_confirm_text + ' "'+name+'" ?',
+          text:           getFData(this.labels.delete_confirm_text, name),
           title:          this.labels.delete_confirm_title,
           validate_label: this.labels.delete_confirm_yes_btn,
           startElement:   a,
@@ -128,8 +139,7 @@ var LSview = new Class({
             var text = this.labels['custom_action_'+name+'_confirm_text']
           }
           else {
-            var objectname = $('LSview_title').innerHTML;
-            var text = getFData('Do you really want to execute custom action %{customAction} on %{objectname} ?',{customAction: name, objectname: objectname });
+            var text = getFData('Do you really want to execute custom action %{customAction} on %{objectname} ?',{customAction: name, objectname: this.object_name });
           }
           this.confirmBox = new LSconfirmBox({
             text:           text,

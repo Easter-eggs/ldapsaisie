@@ -1066,6 +1066,7 @@ function handle_LSobject_modify($request) {
 
   // Define page title
   LStemplate :: assign('pagetitle',_('Modify').' : '.$object -> getDisplayName());
+  LStemplate :: assign('object_name', $object -> getDisplayName());
   $form -> display("object/$LSobject/".urlencode($object -> getDn())."/modify");
 
   // Set & display template

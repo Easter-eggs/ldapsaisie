@@ -83,15 +83,12 @@ class LSform {
    * @retval void
    */
   public function display($LSform_action=null){
-    if ($this -> idForm == 'view') {
-      self :: loadDependenciesDisplayView($this -> $ldapObject);
-    }
-    else {
-      LStemplate :: addJSscript('LSformElement_field.js');
-      LStemplate :: addJSscript('LSformElement.js');
-      LStemplate :: addJSscript('LSform.js');
-      LStemplate :: addCssFile('LSform.css');
-    }
+    // Load view dependencies
+    self :: loadDependenciesDisplayView();
+
+    // Load form dependencies
+    LStemplate :: addJSscript('LSformElement_field.js');
+    LStemplate :: addJSscript('LSformElement.js');
 
     LSsession :: addHelpInfos(
       'LSform',
@@ -216,7 +213,7 @@ class LSform {
       }
     }
     LStemplate :: addJSconfigParam('LSview_labels', array_merge(array(
-      'delete_confirm_text'     => _("Do you really want to delete"),
+      'delete_confirm_text'     => _('Do you really want to delete "%{name}"?'),
       'delete_confirm_title'    => _("Caution"),
       'delete_confirm_validate'  => _("Delete")
     ),$customActionLabels));
