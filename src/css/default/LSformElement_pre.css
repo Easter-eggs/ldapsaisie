@@ -8,3 +8,20 @@ textarea.LSformElement_pre {
   height: 20em;
   width: 38.5em;
 }
+
+@media (max-width: 1024px) {
+	textarea.LSformElement_pre {
+		width: 40vw;
+
+	}
+  p.LSformElement_pre {
+    width: 60vw;
+    overflow: scroll;
+  }
+}
+
+@media (max-width: 400px) {
+	p.LSformElement_pre, textarea.LSformElement_pre {
+		width: calc(100% - 1em);
+	}
+}
