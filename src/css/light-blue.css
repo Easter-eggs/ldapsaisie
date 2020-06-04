@@ -239,7 +239,7 @@ h1, li.LSview-actions, li.menu a:hover {
 }
 
 /* ---- Light ---- */
-ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobject-list, td.LSobject-list, div.LSinfosBox, .LSform select, select#LSview_search_predefinedFilter {
+ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobject-list, td.LSobject-list, div.LSinfosBox, select#LSview_search_predefinedFilter {
 	border-color:		var(--light-color);
 }
 
@@ -270,7 +270,7 @@ input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSacce
 }
 
 /* ---- Light grey ---- */
-.LSform input[type=text], .LSform input[type=password], .LSform textarea, dl.LSmail input, dl.LSmail textarea {
+.LSform input[type=text], .LSform input[type=password], .LSform textarea, .LSform select, dl.LSmail input, dl.LSmail textarea {
 	border-color: var(--light-grey);
 }
 
