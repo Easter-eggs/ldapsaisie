@@ -1434,7 +1434,7 @@ class LSsession {
     LSerror :: addErrorCode(
       'LSsession_27',
       array(
-        'old' => 'LStemplate :: addJSscript()',
+        'old' => 'LSsession :: addJSscript()',
         'new' => 'LStemplate :: addJSscript()',
         'context' => LSlog :: get_debug_backtrace_context(),
       )
@@ -1455,7 +1455,7 @@ class LSsession {
     LSerror :: addErrorCode(
       'LSsession_27',
       array(
-        'old' => 'LStemplate :: addLibJSscript()',
+        'old' => 'LSsession :: addLibJSscript()',
         'new' => 'LStemplate :: addLibJSscript()',
         'context' => LSlog :: get_debug_backtrace_context(),
       )
@@ -1477,7 +1477,7 @@ class LSsession {
     LSerror :: addErrorCode(
       'LSsession_27',
       array(
-        'old' => 'LStemplate :: addJSconfigParam()',
+        'old' => 'LSsession :: addJSconfigParam()',
         'new' => 'LStemplate :: addJSconfigParam()',
         'context' => LSlog :: get_debug_backtrace_context(),
       ),
@@ -1502,7 +1502,7 @@ class LSsession {
     LSerror :: addErrorCode(
       'LSsession_27',
       array(
-        'old' => 'LStemplate :: addCssFile()',
+        'old' => 'LSsession :: addCssFile()',
         'new' => 'LStemplate :: addCssFile()',
         'context' => LSlog :: get_debug_backtrace_context(),
       )
@@ -1523,7 +1523,7 @@ class LSsession {
     LSerror :: addErrorCode(
       'LSsession_27',
       array(
-        'old' => 'LStemplate :: addLibCssFile()',
+        'old' => 'LSsession :: addLibCssFile()',
         'new' => 'LStemplate :: addLibCssFile()',
         'context' => LSlog :: get_debug_backtrace_context(),
       )
