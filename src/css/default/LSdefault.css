@@ -76,3 +76,26 @@ div.LSerror {
   max-width:        500px;
   text-align:       justify;
 }
+
+@media (max-width: 1024px) {
+  div.LSinfosBox {
+    width: 80vw;
+    left: 10vw;
+    z-index: 1002;
+  }
+
+  div.LSerror {
+    left: 3vw;
+  }
+}
+
+@media (max-width: 400px) {
+  div.LSinfosBox {
+    width: 94vw;
+    left: 3vw;
+  }
+
+  div.LSerror {
+    left: 3vw;
+  }
+}
