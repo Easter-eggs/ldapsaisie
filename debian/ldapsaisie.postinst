@@ -13,5 +13,8 @@ case "$1" in
 		then
 			mv /usr/local/share/ldapsaisie/conf/config.inc.php.dpkg-move /usr/local/share/ldapsaisie/conf/config.inc.php
 		fi
+
+		# Purge Smarty templates cache
+		rm -f /var/cache/ldapsaisie/*.php
 	;;
 esac
