@@ -1,12 +1,12 @@
 {if isset($defaultJSscripts) && is_array($defaultJSscripts) && !empty($defaultJSscripts)}
-<!-- JS files -->
+<!-- Default JS files -->
 {foreach $defaultJSscripts as $file}
 <script src="js/{$file}" type="text/javascript"></script>
 {/foreach}
 {/if}
 
 {if isset($JSscripts) && is_array($JSscripts) && !empty($JSscripts)}
-<!-- JS files -->
+<!-- Additional JS files -->
 {foreach $JSscripts as $file}
 <script src="js/{$file}" type="text/javascript"></script>
 {/foreach}
