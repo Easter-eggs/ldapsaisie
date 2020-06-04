@@ -117,6 +117,9 @@ ul.LSaccessRightsMatrixView_tabs {
   padding:            0;
   margin:             1em;
   margin-bottom:      0;
+  display:            flex;
+  flex-wrap:          nowrap;
+  overflow:           auto;
 }
 
 ul.LSaccessRightsMatrixView_tabs li a {
@@ -131,7 +134,7 @@ ul.LSaccessRightsMatrixView_tabs li {
   border-radius:      3px 3px 0px 0px;
   padding:            4px;
   display:            inline;
-  margin-right:       1px;
+  margin-right:       0.3rem;
 }
 
 ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab {
@@ -143,7 +146,7 @@ div.LSaccessRightsMatrixView_tab_content {
   border:             1px solid #0072B8;
   margin:             1em;
   padding:            0.5em;
-  margin-top:         4px;
+  margin-top:         0;
 }
 
 div.LSaccessRightsMatrixView_tab_content h2 {
@@ -157,4 +160,20 @@ div.LSaccessRightsMatrixView_tab_content h2 {
   padding-top: 1em;
   font-style: italic;
   font-weight: normal;
+}
+
+
+@media (max-width: 1024px) {
+  div.LSaccessRightsMatrixView_tab_content {
+    margin: 0;
+  }
+
+  ul.LSaccessRightsMatrixView_tabs {
+    margin: 0;
+    margin-top: 0.3rem;
+  }
+
+  #LSaccessRightsMatrixView table thead th:first-of-type, #LSaccessRightsMatrixView table tbody th {
+    max-width: 25vw;
+  }
 }
