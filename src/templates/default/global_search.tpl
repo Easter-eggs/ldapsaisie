@@ -8,15 +8,7 @@
 
 <h1>{tr msg="Global search"}</h1>
 
-{if $LSview_actions != ''}
-<ul class='LSview-actions LSview_search'>
-  {foreach from=$LSview_actions item=item}
-    {if is_array($item)}
-      <li class='LSview-actions'><a href='{$item.url}' class='LSview-actions'><img src='{img name=$item.action}' alt='{$item.label|escape:"htmlall"}' title='{$item.label|escape:"htmlall"}' /> {$item.label|escape:"htmlall"}</a></li>
-    {/if}
-  {/foreach}
-</ul>
-{/if}
+{include file='ls:LSview_actions.tpl'}
 
 {foreach from=$pages item=page}
 {$page}

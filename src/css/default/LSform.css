@@ -13,6 +13,9 @@ ul.LSform_layout_active {
   margin:             1em;
   margin-bottom:      0;
   clear:              both;
+  display:            flex;
+  flex-wrap:          nowrap;
+  overflow:           auto;
 }
 
 li.LSform_layout a {
@@ -32,7 +35,7 @@ li.LSform_layout_active {
   border-radius:      3px 3px 0px 0px;
   padding:            4px;
   display:            inline;
-  margin-right:       1px;
+  margin-right:       0.3rem;
 }
 
 li.LSform_layout_current {
@@ -56,7 +59,7 @@ div.LSform_layout {
 
 div.LSform_layout_active {
   display:            none;
-  margin-top:         4px;
+  margin-top:         0;
 }
 
 div.LSform_layout_current {
@@ -169,6 +172,10 @@ p.LSform_listAvailableDataEntryForm {
 
   ul.LSform_layout_active {
     margin-left: 0.5rem;
+  }
+
+  dl.LSform {
+    clear: both;
   }
 
   dt.LSform {

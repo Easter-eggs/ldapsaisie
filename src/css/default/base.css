@@ -308,6 +308,10 @@ li.LSview-actions {
   margin-right:       0.1rem;
 }
 
+li.LSview-actions-hidden-label a span {
+  display: none;
+}
+
 /*
  *******************
  * question
@@ -517,6 +521,10 @@ input[type='submit'].LSview_search {
   ul.LSview-actions-dropdown-opened li.LSview-actions:first-of-type {
     margin-top: 22px;
     border-top: 1px solid #0072b8;
+  }
+
+  ul.LSview-actions-dropdown li.LSview-actions-hidden-label a span {
+    display: initial;
   }
 }
 
