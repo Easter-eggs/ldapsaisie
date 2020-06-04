@@ -75,9 +75,6 @@ class LSsession {
   // Libs JS files to load on page
   private static $LibsJSscripts = array();
 
-  // Les paramètres JS à communiquer dans la page
-  private static $_JSconfigParams = array();
-
   // Les fichiers CSS à charger dans la page
   private static $CssFiles = array();
 
@@ -1625,7 +1622,8 @@ class LSsession {
       return;
     }
 
-    $data['LSjsConfig'] = self :: $_JSconfigParams;
+    if (class_exists('LStemplate'))
+      $data['LSjsConfig'] = LStemplate :: getJSconfigParam();
 
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
@@ -2630,23 +2628,23 @@ class LSsession {
   }
 
   /**
-   * Ajout d'une information d'aide
+   * Add help info
    *
-   * @param[in] $group string Le nom du groupe d'infos dans lequels ajouter
-   *                          celle-ci
-   * @param[in] $infos array  Tableau array(name => value) des infos
+   * @param[in] $group string The group name of this information
+   * @param[in] $info array Array of the information to add (name => value)
    *
    * @retval void
    */
-  public static function addHelpInfos($group,$infos) {
-    if (is_array($infos)) {
-      if (isset(self :: $_JSconfigParams['helpInfos'][$group]) && is_array(self :: $_JSconfigParams['helpInfos'][$group])) {
-        self :: $_JSconfigParams['helpInfos'][$group] = array_merge(self :: $_JSconfigParams['helpInfos'][$group],$infos);
-      }
-      else {
-        self :: $_JSconfigParams['helpInfos'][$group] = $infos;
-      }
-    }
+  public static function addHelpInfos($group, $info) {
+    LStemplate :: addHelpInfo($group, $info);
+    LSerror :: addErrorCode(
+      'LSsession_27',
+      array(
+        'old' => 'LStemplate :: addHelpInfo()',
+        'new' => 'LStemplate :: addHelpInfo()',
+        'context' => LSlog :: get_debug_backtrace_context(),
+      )
+    );
   }
 
  /**

@@ -131,7 +131,7 @@ class LSformElement_password extends LSformElement {
     if (!$this -> isFreeze()) {
 
       // Help Infos
-      LSsession :: addHelpInfos(
+      LStemplate :: addHelpInfo(
         'LSformElement_password',
         array(
           'generate' => _('Generate a password.'),

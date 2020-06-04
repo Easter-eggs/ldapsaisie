@@ -77,7 +77,7 @@ class LSformElement_select_object extends LSformElement {
         )
       );
 
-      LSsession :: addHelpInfos (
+      LStemplate :: addHelpInfo(
         'LSformElement_select_object',
         array(
           'searchAdd' => _("Fast Add"),

@@ -46,7 +46,7 @@ class LSformElement_select extends LSformElement {
     $return = $this -> getLabelInfos();
     $params = array();
     if (!$this -> isFreeze()) {
-      LSsession :: addHelpInfos (
+      LStemplate :: addHelpInfo(
         'LSformElement_select',
         array(
           'clear' => _("Reset selection.")

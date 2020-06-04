@@ -567,6 +567,34 @@ class LStemplate extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Get Javascript configuration parameters
+   *
+   * @retval array Javascript configuration parameters
+   */
+  public static function getJSconfigParam() {
+    return self :: $JSconfigParams;
+  }
+
+  /**
+   * Add help info
+   *
+   * @param[in] $group string The group name of this information
+   * @param[in] $info array Array of the information to add (name => value)
+   *
+   * @retval void
+   */
+  public static function addHelpInfo($group, $info) {
+    if (is_array($info)) {
+      if (isset(self :: $JSconfigParams['helpInfo'][$group]) && is_array(self :: $JSconfigParams['helpInfo'][$group])) {
+        self :: $JSconfigParams['helpInfo'][$group] = array_merge(self :: $JSconfigParams['helpInfo'][$group],$info);
+      }
+      else {
+        self :: $JSconfigParams['helpInfo'][$group] = $info;
+      }
+    }
+  }
+
+  /**
    * Add a CSS file to load on page
    *
    * @param[in] $file string The CSS filename

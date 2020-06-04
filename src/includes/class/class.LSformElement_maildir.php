@@ -62,7 +62,7 @@ class LSformElement_maildir extends LSformElement_text {
   var $fieldTemplate = 'LSformElement_maildir_field.tpl';
 
   public function getDisplay() {
-    LSsession :: addHelpInfos (
+    LStemplate :: addHelpInfo(
       'LSformElement_maildir',
       array(
         'do' => _("Maildir creation/modification on user creation/modification is enabled. Click to disable."),

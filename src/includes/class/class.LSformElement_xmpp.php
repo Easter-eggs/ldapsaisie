@@ -44,7 +44,7 @@ class LSformElement_xmpp extends LSformElement_text {
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
   public function getDisplay() {
-    LSsession :: addHelpInfos (
+    LStemplate :: addHelpInfo(
       'LSformElement_xmpp',
       array(
         'chat' => _("Chat with this person.")

@@ -146,7 +146,7 @@ class LSformElement_date extends LSformElement {
     // value
     if (!$this -> isFreeze()) {
       // Help Infos
-      LSsession :: addHelpInfos(
+      LStemplate :: addHelpInfo(
         'LSformElement_date',
         array(
           'now' => _('Now.'),

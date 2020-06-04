@@ -240,12 +240,12 @@ var LSdefault = new Class({
     },
 
     addHelpInfo: function(el,group,name) {
-      if ($type(this.LSjsConfig['helpInfos'])) {
+      if ($type(this.LSjsConfig['helpInfo'])) {
         if ($type(el)=='element') {
-          if ($type(this.LSjsConfig['helpInfos'][group])) {
-            if ($type(this.LSjsConfig['helpInfos'][group][name])) {
+          if ($type(this.LSjsConfig['helpInfo'][group])) {
+            if ($type(this.LSjsConfig['helpInfo'][group][name])) {
               this.addTip(el);
-              el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
+              el.store('tip:title',this.LSjsConfig['helpInfo'][group][name]);
             }
           }
         }
@@ -253,11 +253,11 @@ var LSdefault = new Class({
     },
 
     setHelpInfo: function(el,group,name) {
-      if ($type(this.LSjsConfig['helpInfos'])) {
+      if ($type(this.LSjsConfig['helpInfo'])) {
         if ($type(el)=='element') {
-          if ($type(this.LSjsConfig['helpInfos'][group])) {
-            if ($type(this.LSjsConfig['helpInfos'][group][name])) {
-              el.store('tip:title',this.LSjsConfig['helpInfos'][group][name]);
+          if ($type(this.LSjsConfig['helpInfo'][group])) {
+            if ($type(this.LSjsConfig['helpInfo'][group][name])) {
+              el.store('tip:title',this.LSjsConfig['helpInfo'][group][name]);
             }
           }
         }

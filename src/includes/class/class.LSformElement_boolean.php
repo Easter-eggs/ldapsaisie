@@ -46,7 +46,7 @@ class LSformElement_boolean extends LSformElement {
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
       // Help Infos
-      LSsession :: addHelpInfos(
+      LStemplate :: addHelpInfo(
         'LSformElement_boolean',
         array(
           'clear' => _('Reset the choice.')

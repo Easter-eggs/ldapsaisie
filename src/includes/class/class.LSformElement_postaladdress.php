@@ -67,7 +67,7 @@ class LSformElement_postaladdress extends LSformElement_textarea {
             'map_url' => $this -> attr_html -> attribute -> ldapObject -> getFData($map_url_format)
           )
         );
-        LSsession :: addHelpInfos(
+        LStemplate :: addHelpInfo(
           'LSformElement_postaladdress',
             array(
               'viewOnMap' => _('View on map')

@@ -64,7 +64,8 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
   * LSselect: Allow multiple type of objects selection
   * LStemplate:
     - Now offer some new methods moved from LSsession to handle custom JS & CSS:
-      addJSscript(), addLibJSscript(), addJSconfigParam(), addCssFile() and addLibCssFile()
+      addJSscript(), addLibJSscript(), addJSconfigParam(), addHelpInfos() (renamed as
+      addHelpInfo()), addCssFile() and addLibCssFile()
     - fatal_error() method now use LStemplate methods to assign variables and display
       template instead of directly use Smarty methods.
   * Interface is now responsive

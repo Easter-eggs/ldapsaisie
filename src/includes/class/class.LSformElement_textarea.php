@@ -45,7 +45,7 @@ class LSformElement_textarea extends LSformElement {
   public function getDisplay(){
     $return = $this -> getLabelInfos();
     if (!$this -> isFreeze()) {
-      LSsession :: addHelpInfos(
+      LStemplate :: addHelpInfo(
         'LSformElement_textarea',
         array(
           'clear' => _('Clear')

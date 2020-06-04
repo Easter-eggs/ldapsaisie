@@ -161,6 +161,8 @@ grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></pa
         </listitem>
         <listitem><simpara><literal>LSsession :: addJSconfigParam()</literal> devient
         <literal>LStemplate :: addJSconfigParam()</literal>.</simpara></listitem>
+        <listitem><simpara><literal>LSsession :: addHelpInfos()</literal> devient
+        <literal>LStemplate :: addHelpInfo()</literal>.</simpara></listitem>
         <listitem><para><literal>LSsession :: addCssFile()</literal> devient
         <literal>LStemplate :: addCssFile()</literal>.</para>
         <para>Par ailleurs le paramètre <literal>$path</literal> disparait et la méthode <literal>addLibCssFile</literal>
@@ -179,7 +181,7 @@ grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></pa
       </para>
       <para>
         Pour identifier les fichiers concernés, vous pouvez utiliser les commandes suivantes :
-        <programlisting>grep -Er 'LSsession *:: *(addJSscript|addLibJSscript|addJSconfigParam|addCssFile|addLibCssFile) *\(' /etc/ldapsaisie/local/
+        <programlisting>grep -Er 'LSsession *:: *(addJSscript|addLibJSscript|addJSconfigParam|addHelpInfos|addCssFile|addLibCssFile) *\(' /etc/ldapsaisie/local/
 grep -Er '(LSsession|LStemplate) *:: *addJSscript\(.*local' /etc/ldapsaisie/local/
 grep -Er '(LSsession|LStemplate) *:: *addJSscript\(.*\.\.\/' /etc/ldapsaisie/local/
 grep -Er '(LSsession|LStemplate) *:: *addCssFile\(.*local' /etc/ldapsaisie/local/

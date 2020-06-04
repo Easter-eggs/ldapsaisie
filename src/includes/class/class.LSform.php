@@ -90,7 +90,7 @@ class LSform {
     LStemplate :: addJSscript('LSformElement_field.js');
     LStemplate :: addJSscript('LSformElement.js');
 
-    LSsession :: addHelpInfos(
+    LStemplate :: addHelpInfo(
       'LSform',
       array(
         'addFieldBtn' => _('Add a field to add another values.'),

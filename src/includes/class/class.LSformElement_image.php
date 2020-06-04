@@ -47,7 +47,7 @@ class LSformElement_image extends LSformElement {
     $return = true;
     $id=$this -> name.'_'.rand();
     if (!$this -> isFreeze()) {
-      LSsession :: addHelpInfos(
+      LStemplate :: addHelpInfo(
         'LSformElement_date',
         array(
           'zoom' => _('Click to enlarge.'),

@@ -50,7 +50,7 @@ class LSformElement_mail extends LSformElement_text {
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
   public function getDisplay() {
-    LSsession :: addHelpInfos (
+    LStemplate :: addHelpInfo(
       'LSformElement_mail',
       array(
         'mail' => _("Send a mail from here.")

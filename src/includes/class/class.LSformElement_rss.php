@@ -44,7 +44,7 @@ class LSformElement_rss extends LSformElement_text {
   var $fieldTemplate = 'LSformElement_uri_field.tpl';
 
   public function getDisplay() {
-    LSsession :: addHelpInfos (
+    LStemplate :: addHelpInfo(
       'LSformElement_rss',
       array(
         'display' => _("Display RSS stack.")

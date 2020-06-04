@@ -51,7 +51,7 @@ class LSformElement_text extends LSformElement {
       if ($this -> getParam('html_options')) {
         LStemplate :: addJSconfigParam($this -> name, $this -> getParam('html_options'));
       }
-      LSsession :: addHelpInfos(
+      LStemplate :: addHelpInfo(
         'LSformElement_text',
         array(
           'generate' => _('Generate the value')

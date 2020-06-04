@@ -51,7 +51,7 @@ class LSformElement_ssh_key extends LSformElement {
     }
     else {
       LStemplate :: addJSscript('LSformElement_ssh_key.js');
-      LSsession :: addHelpInfos (
+      LStemplate :: addHelpInfo(
         'LSformElement_ssh_key',
         array(
           'display' => _("Display the full key.")
