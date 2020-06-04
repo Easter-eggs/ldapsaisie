@@ -660,6 +660,9 @@ class LSrelation extends LSlog_staticLoggerClass {
           'url' => "object/select/$id",
           'action' => 'modify',
           'class' => 'LSrelation_modify',
+          'data' => array(
+            'relation-id' => $id,
+          )
         );
       }
       if ($relation -> canCreate()) {

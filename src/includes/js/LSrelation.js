@@ -98,15 +98,15 @@ var LSrelation = new Class({
 
     onLSrelationModifyBtnClick: function(event,a) {
       new Event(event).stop();
-
+      var relation_id = a.getProperty('data-relation-id');
       var data = {
-        id:         a.id,
+        id:         relation_id,
         href:       a.href
       };
 
       LSdebug(data);
-      this.refreshRelation=a.id;
-      data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+a.id,'inside');
+      this.refreshRelation=relation_id;
+      data.imgload=varLSdefault.loadingImgDisplay('LSrelation_title_'+relation_id,'inside');
       new Request({url: 'ajax/class/LSrelation/initSelection', data: data, onSuccess: this.onLSrelationModifyBtnClickComplete.bind(this)}).send();
     },
 
@@ -115,7 +115,7 @@ var LSrelation = new Class({
       if ( varLSdefault.checkAjaxReturn(data) && data['success'] ) {
         varLSsmoothbox.asNew();
         varLSsmoothbox.addEvent('valid', this.onLSsmoothboxValid.bind(this));
-        varLSsmoothbox.openURL(data.href,{startElement: $(data.id), width: 635});
+        varLSsmoothbox.openURL(data.href,{startElement: $$('a.LSrelation_modify[data-relation-id='+data.id+']').getFirst(), width: 635});
       }
     },
 

@@ -1,10 +1,7 @@
 <h1 id='LSrelation_title_{$item.id|escape:"quotes"}' class='LSrelation'>{$item.label|escape:"htmlall"}</h1>
-{if $item.actions!=''}
-  <ul class='LSview-actions'>
-  {foreach from=$item.actions item=action}
-    <li class='LSview-actions'><a href='{$action.url}' class='LSview-actions{if $action.class} {$action.class}{/if}' id='{$item.id|escape:"quotes"}'><img src='{img name=$action.action}' alt='{$action.label|escape:"htmlall"}' title='{$action.label|escape:"htmlall"}' /> {$action.label|escape:"htmlall"}</a></li>
-  {/foreach}
-  </ul>
+{if $item.actions}
+  {assign var=LSview_actions value=$item.actions}
+  {include file='ls:LSview_actions.tpl'}
 {/if}
 <ul id='LSrelation_ul_{$item.id|escape:"quotes"}' class='LSrelation'>
 {if isset($item['objectList']) && !empty($item.objectList)}

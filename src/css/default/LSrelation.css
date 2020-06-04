@@ -17,3 +17,9 @@ a.LSrelation {
   color:              #000;
   font-weight:        normal;
 }
+
+@media (max-width: 400px) {
+  ul.LSrelation {
+    clear: both
+  }
+}
