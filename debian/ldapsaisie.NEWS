@@ -56,6 +56,8 @@ ldapsaisie (3.0.0-1) unstable; urgency=medium
         Consequently and for instance, its now possible to have group of multiple object
         types (group of users & groups, group of multiple user object types, ...).
       - LSsession methods to manage custom JS & CSS are now handle and expose by LStemplate
+      - Internet Explorer is now officially unsupported and an error popup is now displayed
+        when users try to access LdapSaisie with this browser.
     Please see /usr/share/doc/ldapsaisie/changelog.Debian.gz for complete list of
     changes.
 

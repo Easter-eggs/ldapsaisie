@@ -53,6 +53,7 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
     - mail: add autocomplete feature
     - select_object: Allow multiple type of objects selection
     - wysiwyg: adjust width
+  * LSform: Avoid page scrolling on tab change
   * LSformRule:
     - imagesize: fix parameters handling problem
     - filesize: improve by avoiding to create a temporary file
@@ -77,6 +78,8 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
     All other light-*.css file now only override some CSS variables to change base
     colors.
   * LSmail: fix/improve CSS
+  * Fix historical typo in configuration variable name defaultJSscipts vs defaultJSscripts
+  * Fix compatibility with Safari and add error popup on Internet Explorer
 
  -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 06 May 2020 14:21:48 +0200
 
