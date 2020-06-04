@@ -1254,6 +1254,24 @@ function handle_LSobject_customAction($request) {
   LStemplate :: assign('validation_url', "object/$LSobject/".urlencode($dn)."/customAction/".urlencode($customAction)."?valid");
   LStemplate :: assign('validation_label', _('Validate'));
 
+  // List user available actions for this LSobject
+  $LSview_actions = array(
+    array(
+      'label' => _('View'),
+      'url' => "object/$LSobject/".urlencode($dn),
+      'action' => 'view'
+    ),
+  );
+
+  if (LSsession :: canEdit($LSobject, $dn)) {
+    $LSview_actions[] = array(
+      'label' => _('Modify'),
+      'url' => "object/$LSobject/".urlencode($dn)."/modify",
+      'action' => 'modify'
+    );
+  }
+  LStemplate :: assign('LSview_actions',$LSview_actions);
+
   // Set & display template
   LSsession :: setTemplate('question.tpl');
   LSsession :: displayTemplate();
