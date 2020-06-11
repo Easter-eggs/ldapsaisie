@@ -18,7 +18,7 @@ var LSform = new Class({
         this.idform = $('LSform_idform').value;
       }
 
-      this.submiting = false;
+      this.submitting = false;
 
       this.initializeLSform();
       this.initializeLSformLayout();
@@ -281,22 +281,22 @@ var LSform = new Class({
 
     onSubmit: function(event) {
       if (this.submit_confirmed) {
-        // On non-ajax form, leave form submiting if already confirmed
+        // On non-ajax form, leave form submitting if already confirmed
         LSdebug('onSubmit(): form submission already confirmed');
         return;
       }
 
-      // Stop form submiting event
+      // Stop form submitting event
       event = new Event(event);
       event.stop();
 
       // Check if form is already submitting
-      if (this.submiting) {
+      if (this.submitting) {
         // Form is already submitting: stop
-        LSdebug('onSubmit(): form already submiting...');
+        LSdebug('onSubmit(): form already submitting...');
         return;
       }
-      this.submiting = true;
+      this.submitting = true;
 
       // Fire
       LSdebug('onSubmit(): fire submit event');
@@ -305,7 +305,7 @@ var LSform = new Class({
 
     onSubmitConfirm: function (confirmed, event) {
       if (!confirmed) {
-        this.submiting = false;
+        this.submitting = false;
         return;
       }
 
@@ -347,7 +347,7 @@ var LSform = new Class({
     },
 
     onAjaxSubmitComplete: function(responseText, responseXML) {
-      this.submiting = false;
+      this.submitting = false;
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         this.resetErrors();
