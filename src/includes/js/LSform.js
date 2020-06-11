@@ -297,6 +297,8 @@ var LSform = new Class({
         return;
       }
       this.submitting = true;
+      console.log(this.LSform);
+      this.LSform.addClass('submitting');
 
       // Fire
       LSdebug('onSubmit(): fire submit event');
@@ -306,6 +308,7 @@ var LSform = new Class({
     onSubmitConfirm: function (confirmed, event) {
       if (!confirmed) {
         this.submitting = false;
+        this.LSform.removeClass('submitting');
         return;
       }
 
@@ -348,6 +351,7 @@ var LSform = new Class({
 
     onAjaxSubmitComplete: function(responseText, responseXML) {
       this.submitting = false;
+      this.LSform.removeClass('submitting');
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         this.resetErrors();

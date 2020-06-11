@@ -66,6 +66,10 @@ div.LSform_layout_current {
   display:            block;
 }
 
+form.submitting div.LSform_layout_current, form.submitting ul.LSform_layout_active {
+  opacity:            0.4;
+}
+
 /*
  * Architecture
  */
