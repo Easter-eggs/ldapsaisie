@@ -16,6 +16,7 @@ ul.LSform_layout_active {
   display:            flex;
   flex-wrap:          nowrap;
   overflow:           auto;
+  transition:         opacity 0.5s linear;
 }
 
 li.LSform_layout a {
@@ -64,6 +65,7 @@ div.LSform_layout_active {
 
 div.LSform_layout_current {
   display:            block;
+  transition:         opacity 0.5s linear;
 }
 
 form.submitting div.LSform_layout_current, form.submitting ul.LSform_layout_active {
