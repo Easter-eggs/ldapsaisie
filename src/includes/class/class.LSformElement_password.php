@@ -153,8 +153,13 @@ class LSformElement_password extends LSformElement {
         'generate' => $this -> getParam('html_options.generationTool', true, 'bool'),
         'clearEdit' => $this -> getParam('html_options.clearEdit', false, 'bool'),
         'viewHash' => $this -> getParam('html_options.viewHash', false, 'bool'),
-        'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && $this -> getParam('html_options.verify', True, 'bool') )
+        'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && $this -> getParam('html_options.verify', True, 'bool') ),
+        'confirmChange' => (!$this -> attr_html -> attribute -> ldapObject-> isNew() && $this -> getParam('html_options.confirmChange', False, 'bool')),
       );
+
+      if ($params['confirmChange']) {
+        $params['confirmChangeQuestion'] = getFData(_('%{label}: Do you confirm the password change?'), $this -> label);
+      }
 
       if ($this -> getParam('html_options.mail')) {
         $params['mail'] = $this -> getParam('html_options.mail');

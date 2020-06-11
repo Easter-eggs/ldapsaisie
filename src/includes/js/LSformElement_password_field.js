@@ -88,6 +88,14 @@ var LSformElement_password_field = new Class({
       }
 
       this.initialize_input();
+
+      if (this.params['confirmChange']) {
+        varLSform.addEvent(
+          'submit',
+          this.onLSformSubmit.bind(this),
+          'LSformElement_password('+this.name+') :: confirmChange',
+        );
+      }
     },
 
     initialize_input: function() {
@@ -250,5 +258,24 @@ var LSformElement_password_field = new Class({
           this.changeInputType('view');
         }
       }
+    },
+
+    onLSformSubmit: function(form, on_confirm, on_cancel) {
+      // If no new password set, just confirm
+      if (!this.input.value) {
+        on_confirm();
+        return;
+      }
+
+      // Otherwise, ask user confirmation
+      this.confirmBox = new LSconfirmBox({
+        text:           this.params.confirmChangeQuestion,
+        startElement:   this.input,
+        onConfirm:      on_confirm,
+        onCancel:       (function(){
+          this.confirmBox=false;
+          on_cancel();
+        }).bind(this)
+      });
     }
 });
