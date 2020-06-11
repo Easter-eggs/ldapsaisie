@@ -3,16 +3,22 @@ var LSform = new Class({
       this._modules=[];
       this._fields=[];
       this._elements=[];
-      this.listeners = {
-        init:    new Array(),
-        submit:  new Array()
-      };
+      this.listeners = new Hash({
+        init:    new Hash(),
+        submit:  new Hash()
+      });
+      this.listeners_answers = new Hash();
+
+      // On non-ajax submit form, store confirmation status;
+      this.submit_confirmed = false;
 
       if ($type($('LSform_idform'))) {
         this.objecttype = $('LSform_objecttype').value;
         this.objectdn = $('LSform_objectdn').value;
         this.idform = $('LSform_idform').value;
       }
+
+      this.submiting = false;
 
       this.initializeLSform();
       this.initializeLSformLayout();
@@ -59,7 +65,7 @@ var LSform = new Class({
       LSforms = $$('form.LSform');
       if ($type(LSforms[0])) {
         this.LSform = LSforms[0];
-        this.LSform.addEvent('submit',this.ajaxSubmit.bindWithEvent(this));
+        this.LSform.addEvent('submit',this.onSubmit.bindWithEvent(this));
       }
 
       this.fireEvent.bind(this)('init');
@@ -273,15 +279,40 @@ var LSform = new Class({
       return retVal;
     },
 
-    ajaxSubmit: function(event) {
+    onSubmit: function(event) {
+      if (this.submit_confirmed) {
+        // On non-ajax form, leave form submiting if already confirmed
+        LSdebug('onSubmit(): form submission already confirmed');
+        return;
+      }
+
+      // Stop form submiting event
+      event = new Event(event);
+      event.stop();
+
+      // Check if form is already submitting
+      if (this.submiting) {
+        // Form is already submitting: stop
+        LSdebug('onSubmit(): form already submiting...');
+        return;
+      }
+      this.submiting = true;
+
+      // Fire
+      LSdebug('onSubmit(): fire submit event');
+      this.fireEvent.bind(this)('submit', this.onSubmitConfirm.bind(this));
+    },
+
+    onSubmitConfirm: function (confirmed, event) {
+      if (!confirmed) {
+        this.submiting = false;
+        return;
+      }
+
+      // Check file upload to disable ajax submission in this case
       this.checkUploadFileDefined();
 
       if (this._ajaxSubmit) {
-        event = new Event(event);
-        event.stop();
-
-        this.fireEvent.bind(this)('submit');
-
         this.LSformAjaxInput = new Element('input');
         this.LSformAjaxInput.setProperties ({
           type:   'hidden',
@@ -302,6 +333,8 @@ var LSform = new Class({
         if($type(this.LSformAjaxInput)) {
           this.LSformAjaxInput.dispose();
         }
+        this.submit_confirmed = true;
+        this.LSform.fireEvent('submit');
       }
     },
 
@@ -314,6 +347,7 @@ var LSform = new Class({
     },
 
     onAjaxSubmitComplete: function(responseText, responseXML) {
+      this.submiting = false;
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         this.resetErrors();
@@ -381,27 +415,95 @@ var LSform = new Class({
       document.location=url;
     },
 
-    addEvent: function(event,fnct) {
+    addEvent: function(event,fnct,fnct_name) {
       if ($type(this.listeners[event])) {
         if ($type(fnct)=="function") {
-          this.listeners[event].include(fnct);
+          if ($type(fnct_name)!="string") {
+            fnct_name = generate_uuid();
+          }
+          else if (this.listeners[event].has(fnct_name)) {
+            fnct_name = fnct_name+"_"+generate_uuid();
+          }
+          this.listeners[event].set(fnct_name, fnct);
         }
       }
     },
 
-    fireEvent: function(event) {
+    fireEvent: function(event, callback) {
       LSdebug('LSform :: fireEvent('+event+')');
-      if ($type(this.listeners[event])) {
-        this.listeners[event].each(function(fnct) {
+      if (this.listeners.has(event)) {
+        // If no listener configured, considered as confirmed and run callback
+        if ($type(callback) == "function" && this.listeners[event].getLength() == 0) {
+          callback(true, event);
+          return;
+        }
+
+        // Reset listeners answers state
+        this.listeners_answers[event] = new Hash();
+
+        // Run listeners callback
+        this.listeners[event].each(function(fnct, listener_uuid) {
+          var result;
           try {
-            fnct(this);
+            fnct(
+              this,
+              function() {
+                LSdebug('Listener '+listener_uuid+' confirmed');
+                this.eventListenerCallback.bind(this)(event, listener_uuid, true, callback);
+              }.bind(this),
+              function() {
+                LSdebug('Listener '+listener_uuid+' cancel');
+                this.eventListenerCallback.bind(this)(event, listener_uuid, false, callback);
+              }.bind(this)
+            );
           }
           catch(e) {
-            LSdebug('LSform :: '+event+'() -> rater');
+            LSdebug('LSform :: fireEvent('+event+') :: exception occured running listener '+listener_uuid+' => considered as not-confirmed.');
+            LSdebug(e);
+            result = false;
           }
         },this);
       }
-    }
+    },
+
+    eventListenerCallback: function(event, listener_uuid, listener_answer, final_callback) {
+      // Check event & listener_uuid
+      if (!this.listeners.has(event) || !this.listeners[event].has(listener_uuid))
+        return;
+
+
+
+      // Set listener answers
+      this.listeners_answers[event].set(listener_uuid, listener_answer);
+      LSdebug('LSform :: eventListenerCallback('+event+', '+listener_uuid+', '+listener_answer+')');
+
+      // Check all listeners have answered
+      if (this.listeners_answers[event].getLength() != this.listeners[event].getLength())
+        return;
+
+      // Run final callback
+      this.onFinalEventListenerCallback.bind(this)(event, final_callback);
+    },
+
+    onFinalEventListenerCallback: function(event, final_callback) {
+      LSdebug('LSform :: onFinalEventListenerCallback('+event+')');
+      if ($type(final_callback) != "function") {
+        LSdebug('LSform :: onFinalEventListenerCallback('+event+') : final_callback is not a function, stop.');
+        return;
+      }
+
+      // Combine all listeners answers
+      var final_result = true;
+      this.listeners[event].each(function(fnct, listener_uuid) {
+        if (!this.listeners_answers[event].has(listener_uuid) || !this.listeners_answers[event][listener_uuid]) {
+          final_result = false;
+        }
+      }, this);
+      LSdebug('LSform :: onFinalEventListenerCallback('+event+'): final result = '+final_result);
+
+      // Run final callback
+      final_callback(final_result, event);
+    },
 
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {

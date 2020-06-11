@@ -4,7 +4,7 @@ var LSformElement_wysiwyg = new Class({
       this.initialiseLSformElement_wysiwyg();
       if ($type(varLSform)) {
         varLSform.addModule("LSformElement_wysiwyg",this);
-        varLSform.addEvent("submit",this.onLSformSubmit.bind(this));
+        varLSform.addEvent("submit", this.onLSformSubmit.bind(this), 'LSformElement_wysiwyg :: tinyMCE.triggerSave()');
       }
     },
 
@@ -47,8 +47,10 @@ var LSformElement_wysiwyg = new Class({
       this.initialiseLSformElement_wysiwyg(el);
     },
 
-    onLSformSubmit: function(form) {
+    onLSformSubmit: function(form, on_confirm, on_cancel) {
       tinyMCE.triggerSave();
+      if ($type(on_confirm) == 'function')
+        on_confirm();
     }
 });
 window.addEvent(window.ie ? 'load' : 'domready', function() {
