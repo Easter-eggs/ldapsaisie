@@ -306,6 +306,10 @@ li.LSform_layout_errors {
 	background-color:	var(--error-color);
 }
 
+dt.LSform-errors {
+	color: var(--error-color);
+}
+
 /* ---- Custom checkbox/radiobox ---- */
 input[type=checkbox], input[type=radio] {
 	background-color: white;
