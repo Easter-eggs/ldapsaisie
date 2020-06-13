@@ -571,7 +571,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'subject' => "LSexample : Your new credentials.",
           'msg' => "Your password has been changed.\nLogin : %{uid}\nNew password : %{password}",
           'mail_attr' => 'mail'
-        )
+        ),
+        'confirmChange' => True,
+        'confirmChangeQuestion' => "Do you confirm change of this user's password?",
       ),
       'check_data' => array(
         'password' => array(

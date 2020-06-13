@@ -158,7 +158,7 @@ class LSformElement_password extends LSformElement {
       );
 
       if ($params['confirmChange']) {
-        $params['confirmChangeQuestion'] = getFData(_('%{label}: Do you confirm the password change?'), $this -> label);
+        $params['confirmChangeQuestion'] = getFData(__($this -> getParam('html_options.confirmChangeQuestion', '%{label}: Do you confirm the password change?')), $this -> label);
       }
 
       if ($this -> getParam('html_options.mail')) {

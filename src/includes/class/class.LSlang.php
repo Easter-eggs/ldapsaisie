@@ -570,6 +570,7 @@ function cli_generate_lang_file($command_args) {
           case 'password':
             addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.mail.subject");
             addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.mail.msg");
+            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.confirmChangeQuestion");
             break;
           case 'select_list':
           case 'select_box':

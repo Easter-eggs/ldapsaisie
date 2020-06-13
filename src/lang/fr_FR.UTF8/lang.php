@@ -45,6 +45,10 @@ $GLOBALS['LSlang'] = array (
 "Description" =>
   "Description",
 
+# LSobjects.LSpeople.attrs.userPassword.html_options.confirmChangeQuestion
+"Do you confirm change of this user's password?" =>
+  "Confirmez-vous le changement du mot de passe de cet utilisateur ?",
+
 # LSobjects.LSpeople.LSrelation.groups.emptyText
 # LSobjects.LSsysaccount.LSrelation.groups.emptyText
 "Doesn't belong to any group." =>
