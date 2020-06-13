@@ -577,7 +577,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
       'check_data' => array(
         'password' => array(
-          'msg' => 'Your password must contain from 8 to 10 characters.',
+          'msg' => 'Your password must contain from 8 to 10 characters and contains at least one caracter that match with 3 of this types :<ul><li>Uppercase unaccent character</li><li>Lowercase unaccent character</li><li>Digit</li><li>Anything that is not a letter or a digit</li></ul>',
           'params' => array(
             'minLength' => 8,
             'maxLength' => 10,

@@ -286,7 +286,7 @@ Identifiant : %{uid}
 Nouveau mot de passe : %{password}",
 
 # LSobjects.LSpeople.attrs.userPassword.check_data.password.msg
-"Your password must contain from 8 to 10 characters." =>
-  "Votre mot de passe doit contenir entre 8 et 10 caractères.",
+"Your password must contain from 8 to 10 characters and contains at least one caracter that match with 3 of this types :<ul><li>Uppercase unaccent character</li><li>Lowercase unaccent character</li><li>Digit</li><li>Anything that is not a letter or a digit</li></ul>" =>
+  "Votre mot de passe doit contenir entre 8 et 10 caractères et comprendre au moins un caractère correspondant à au moins trois des types suivant :<ul><li>Une lettre majuscule sans accent</li><li>Une lettre minuscule sans accent</li><li>Un chiffre</li><li>Un caractère autre qu'une lettre ou un chiffre</li></ul>",
 
 );
