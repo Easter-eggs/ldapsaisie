@@ -38,19 +38,22 @@ class LScli extends LSlog_staticLoggerClass {
   /**
    * Add a CLI command
    *
-   * @param[in] $command        string        The CLI command name (required)
-   * @param[in] $handler        callable      The CLI command handler (must be callable, required)
-   * @param[in] $short_desc     string|false  A short description of what this command does (required)
-   * @param[in] $usage_args     string|false  A short list of commands available arguments show in usage message
-   *                                          (optional, default: false)
-   * @param[in] $long_desc      string|false  A long description of what this command does (optional, default: false)
-   * @param[in] $need_ldap_con  boolean       Permit to define if this command need connection to LDAP server (optional,
-   *                                          default: true)
-   * @param[in] $override       boolean       Allow override if a command already exists with the same name (optional,
-   *                                          default: false)
+   * @param[in] $command            string          The CLI command name (required)
+   * @param[in] $handler            callable        The CLI command handler (must be callable, required)
+   * @param[in] $short_desc         string|false    A short description of what this command does (required)
+   * @param[in] $usage_args         string|false    A short list of commands available arguments show in usage message
+   *                                                (optional, default: false)
+   * @param[in] $long_desc          string|false    A long description of what this command does (optional, default: false)
+   * @param[in] $need_ldap_con      boolean         Permit to define if this command need connection to LDAP server (optional,
+   *                                                default: true)
+   * @param[in] $args_autocompleter callable|null   Allow override if a command already exists with the same name (optional,
+   * @param[in] $override       boolean             Allow override if a command already exists with the same name (optional,
+   *                                                default: false)
+   *
+   * @retval void
    **/
   public static function add_command($command, $handler, $short_desc, $usage_args=false, $long_desc=false,
-                                     $need_ldap_con=true, $override=false) {
+                                     $need_ldap_con=true, $args_autocompleter=null, $override=false) {
     if (array_key_exists($command, self :: $commands) && !$override) {
       LSerror :: addErrorCode('LScli_01', $command);
       return False;
@@ -67,6 +70,7 @@ class LScli extends LSlog_staticLoggerClass {
       'usage_args' => $usage_args,
       'long_desc' => $long_desc,
       'need_ldap_con' => boolval($need_ldap_con),
+      'args_autocompleter' => $args_autocompleter,
     );
     return True;
   }
@@ -139,7 +143,7 @@ class LScli extends LSlog_staticLoggerClass {
         if (!$command)
                 self :: $current_command = $command = $argv[$i];
         else
-                self :: usage(_("Only one command could be executed !"));
+                $command_args[] = $argv[$i];
       }
       else {
         switch($argv[$i]) {
@@ -183,6 +187,10 @@ class LScli extends LSlog_staticLoggerClass {
             $addon = $argv[$i];
             if(!LSsession :: loadLSaddon($addon))
               self :: usage("Fail to load addon '$addon'.");
+            break;
+          case '--':
+            $command_args = array_merge($command_args, array_slice($argv, $i));
+            $i = count($argv);
             break;
           default:
             if ($command)
@@ -333,6 +341,196 @@ class LScli extends LSlog_staticLoggerClass {
     return true;
   }
 
+  /**
+   * CLI command to handle BASH command autocompleter
+   *
+   * @param[in] $command_args array Command arguments
+   *
+   * @retval boolean True on succes, false otherwise
+   **/
+  public static function bash_autocomplete($command_args) {
+    if (count($command_args) < 3)
+      return;
+    $comp_word_num = intval($command_args[0]);
+    if ($comp_word_num <= 0) return;
+    if ($command_args[1] != '--') return;
+
+    $comp_words = array_slice($command_args, 2);
+    $comp_word = (isset($comp_words[$comp_word_num])?$comp_words[$comp_word_num]:'');
+    self :: log_debug("bash_autocomplete: words = '".implode("', '", $comp_words)."' | word to complete = #$comp_word_num == '$comp_word'");
+
+    // Detect if command already enter, if LDAP server is selected and load specified class/addon
+    $command = null;
+    for ($i=1; $i < count($comp_words); $i++) {
+      if (array_key_exists($comp_words[$i], self :: $commands)) {
+        if (!$command)
+          $command = $comp_words[$i];
+      }
+      else {
+        switch($comp_words[$i]) {
+          case '-S':
+          case '--ldap-server':
+            $i++;
+            if ($i == $comp_word_num) {
+              return self :: return_bash_autocomplete_list(
+                self :: autocomplete_opts(array_keys(LSconfig :: get("ldap_servers", array())), $comp_word)
+              );
+            }
+            if (!isset($comp_words[$i]))
+              break;
+            if (isset($comp_words[$i])) {
+              $ldap_server_id = intval($comp_words[$i]);
+              if(!LSsession :: setLdapServer($ldap_server_id))
+                self :: usage("Fail to select LDAP server #$ldap_server_id.");
+            }
+            break;
+          case '-L':
+          case '--load-class':
+            $i++;
+            if ($i == $comp_word_num) {
+              return self :: return_bash_autocomplete_list(
+                self :: autocomplete_class_name($comp_word)
+              );
+            }
+            if (!isset($comp_words[$i]))
+              break;
+            $class = $comp_words[$i];
+            if(!LSsession :: loadLSclass($class))
+              self :: usage("Fail to load class '$class'.");
+            break;
+          case '-A':
+          case '--load-addon':
+            $i++;
+            if ($i == $comp_word_num) {
+              return self :: return_bash_autocomplete_list(
+                self :: autocomplete_addon_name($comp_word)
+              );
+            }
+            if (!isset($comp_words[$i]))
+              break;
+            $addon = $comp_words[$i];
+            if(!LSsession :: loadLSaddon($addon))
+              self :: usage("Fail to load addon '$addon'.");
+            break;
+        }
+      }
+    }
+
+    // List available options
+    $opts = array(
+      '-h', '--help',
+      '-d', '--debug',
+      '-v', '--verbose',
+      '-q', '--quiet',
+      '-C', '--console',
+      '-S', '--ldap-server',
+      '-L', '--load-class',
+      '-A', '--load-addon',
+    );
+
+    // If command set and args autocompleter defined, use it
+    if ($command && is_callable(self :: $commands[$command]['args_autocompleter'])) {
+      return self :: return_bash_autocomplete_list(
+        call_user_func(
+          self :: $commands[$command]['args_autocompleter'],
+          $comp_words,
+          $comp_word_num,
+          $comp_word,
+          $opts
+        )
+      );
+    }
+
+    // If command not already choiced, add commands name to available options list
+    if (!$command)
+      $opts = array_merge($opts, array_keys(self :: $commands));
+
+    return self :: return_bash_autocomplete_list(
+      self :: autocomplete_opts($opts, $comp_word, true)
+    );
+  }
+
+  /**
+   * Print list of available autocomplete options as required by BASH
+   *
+   * @param[in] $list mixed List of available autocomplete options if it's an array
+   *
+   * @retval boolean True if $list is an array, false otherwise
+   **/
+  public static function return_bash_autocomplete_list($list) {
+    if (is_array($list)) {
+      echo implode("\n", $list);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Autocomplete class name
+   *
+   * @param[in] $prefix string Class name prefix (optional, default=empty string)
+   *
+   * @retval array List of matched class names
+   **/
+  public static function autocomplete_class_name($prefix='') {
+    $classes = array();
+    $regex = "/^class\.($prefix.*)\.php$/";
+    foreach(array(LS_ROOT_DIR."/".LS_CLASS_DIR, LS_ROOT_DIR."/".LS_LOCAL_DIR."/".LS_CLASS_DIR) as $dir_path) {
+      foreach (listFiles($dir_path, $regex) as $file) {
+        $class = $file[1];
+        if (!in_array($class, $classes))
+          $classes[] = $class;
+      }
+    }
+    return $classes;
+  }
+
+  /**
+   * Autocomplete addon name
+   *
+   * @param[in] $prefix string Addon name prefix (optional, default=empty string)
+   *
+   * @retval array List of matched addon names
+   **/
+  public static function autocomplete_addon_name($prefix='') {
+    $addons = array();
+    $regex = "/^LSaddons\.($prefix.*)\.php$/";
+    foreach(array(LS_ROOT_DIR."/".LS_ADDONS_DIR, LS_ROOT_DIR."/".LS_LOCAL_DIR."/".LS_ADDONS_DIR) as $dir_path) {
+      foreach (listFiles($dir_path, $regex) as $file) {
+        $addon = $file[1];
+        if (!in_array($addon, $addons))
+          $addons[] = $addon;
+      }
+    }
+    return $addons;
+  }
+
+  /**
+   * Autocomplete options
+   *
+   * @param[in] $opts           array     Available options
+   * @param[in] $prefix         string    Option name prefix (optional, default=empty string)
+   * @param[in] $case_sensitive boolean   Set to false if options are case insensitive (optional, default=true)
+   *
+   * @retval array List of matched options
+   **/
+  public static function autocomplete_opts($opts, $prefix='', $case_sensitive=true) {
+    if (!is_string($prefix) || strlen($prefix)==0)
+      return $opts;
+
+    if (!$case_sensitive)
+      $prefix = strtolower($prefix);
+    $matched_opts = array();
+    foreach($opts as $key => $opt) {
+      if (!$case_sensitive)
+        $opt = strtolower($opt);
+      if (substr($opt, 0, strlen($prefix)) == $prefix)
+        $matched_opts[] = $opts[$key];
+    }
+    self :: log_debug("autocomplete_opts(".implode('|', $opts).", $prefix, case ".($case_sensitive?"sensitive":"insensitive").") : matched opts: ".print_r($matched_opts, true));
+    return $matched_opts;
+  }
+
 }
 
 /*
@@ -343,4 +541,16 @@ _("LScli : The CLI command '%{command}' already exists.")
 );
 LSerror :: defineError('LScli_02',
 _("LScli : The CLI command '%{command}' handler is not callable.")
+);
+
+/*
+ * Register LScli commands
+ */
+LScli :: add_command(
+  'bash_autocomplete',
+  array('LScli', 'bash_autocomplete'),
+  'Handle BASH completion',
+  '[arg num to autocomplete] -- [command args]',
+  null,
+  false
 );

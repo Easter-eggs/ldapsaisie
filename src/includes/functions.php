@@ -626,8 +626,8 @@ function LSdebugDefined() {
       $d = dir($dir);
       while (false !== ($file = $d->read())) {
         if (is_file("$dir/$file")) {
-          if (preg_match($regex,$file)) {
-            $retval[]=$file;
+          if (preg_match($regex, $file, $m)) {
+            $retval[]=((is_array($m) && count($m)>1)?$m:$file);
           }
         }
       }

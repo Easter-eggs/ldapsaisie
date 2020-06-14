@@ -1,0 +1,5 @@
+_ldapsaisie()
+{
+    COMPREPLY=( $(/usr/sbin/ldapsaisie bash_autocomplete ${COMP_CWORD} -- ${COMP_WORDS[@]}) )
+}
+complete -o default -F _ldapsaisie ldapsaisie
