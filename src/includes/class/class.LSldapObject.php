@@ -2162,6 +2162,58 @@ class LSldapObject extends LSlog_staticLoggerClass {
     }
 
     /**
+     * Args autocompleter for CLI remove command
+     *
+     * @param[in] $command_args array List of already typed words of the command
+     * @param[in] $comp_word_num int The command word number to autocomplete
+     * @param[in] $comp_word string The command word to autocomplete state
+     * @param[in] $opts array List of global available options
+     *
+     * @retval array List of available options for the word to autocomplete
+     **/
+    public static function cli_remove_args_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
+      $opts = array_merge($opts, array ('-N', '--no-confirm'));
+
+      // Handle positional args
+      $objType = null;
+      $objType_arg_num = null;
+      $dn = null;
+      $dn_arg_num = null;
+      for ($i=0; $i < count($command_args); $i++) {
+        if (!in_array($command_args[$i], $opts)) {
+          // If object type not defined
+          if (is_null($objType)) {
+            // Check object type exists
+            $objTypes = LScli :: autocomplete_LSobject_types($command_args[$i]);
+
+            // Load it if exist and not trying to complete it
+            if (in_array($command_args[$i], $objTypes) && $i != $comp_word_num) {
+              LSsession :: loadLSobject($command_args[$i], false);
+            }
+
+            // Defined it
+            $objType = $command_args[$i];
+            $objType_arg_num = $i;
+          }
+          elseif (is_null($dn)) {
+            $dn = $command_args[$i];
+            $dn_arg_num = $i;
+          }
+        }
+      }
+
+      // If objType not already choiced (or currently autocomplete), add LSobject types to available options
+      if (!$objType || $objType_arg_num == $comp_word_num)
+        $opts = array_merge($opts, LScli :: autocomplete_LSobject_types($comp_word));
+
+      // If dn not alreay choiced (or currently autocomplete), try autocomplete it
+      elseif (!$dn || $dn_arg_num == $comp_word_num)
+        $opts = array_merge($opts, LScli :: autocomplete_LSobject_dn($objType, $comp_word));
+
+      return LScli :: autocomplete_opts($opts, $comp_word);
+    }
+
+    /**
      * CLI helper to parse attribute values given via command argument in format :
      *
      *    attr=value1|value2
@@ -2720,7 +2772,10 @@ LScli :: add_command(
     'remove',
     array('LSldapObject', 'cli_remove'),
     'Remove an LSobject',
-    '[object type] [dn] [-N|--no-confirm]'
+    '[object type] [dn] [-N|--no-confirm]',
+    null,
+    true,
+    array('LSldapObject', 'cli_remove_args_autocompleter')
 );
 
 LScli :: add_command(
