@@ -359,12 +359,30 @@ class LScli extends LSlog_staticLoggerClass {
     $comp_word = (isset($comp_words[$comp_word_num])?$comp_words[$comp_word_num]:'');
     self :: log_debug("bash_autocomplete: words = '".implode("', '", $comp_words)."' | word to complete = #$comp_word_num == '$comp_word'");
 
+    // List available options
+    $opts = array(
+      '-h', '--help',
+      '-d', '--debug',
+      '-v', '--verbose',
+      '-q', '--quiet',
+      '-C', '--console',
+      '-S', '--ldap-server',
+      '-L', '--load-class',
+      '-A', '--load-addon',
+    );
+
     // Detect if command already enter, if LDAP server is selected and load specified class/addon
     $command = null;
+    $command_arg_num = null;
+    $command_args = array();
     for ($i=1; $i < count($comp_words); $i++) {
       if (array_key_exists($comp_words[$i], self :: $commands)) {
-        if (!$command)
+        if (!$command) {
           $command = $comp_words[$i];
+          $command_arg_num = $i;
+        }
+        else
+          $command_args[] = $comp_words[$i];
       }
       else {
         switch($comp_words[$i]) {
@@ -412,29 +430,23 @@ class LScli extends LSlog_staticLoggerClass {
             if(!LSsession :: loadLSaddon($addon))
               self :: usage("Fail to load addon '$addon'.");
             break;
+          default:
+            if (!in_array($comp_words[$i], $opts)) {
+              $command_args[] = $comp_words[$i];
+            }
         }
       }
     }
 
-    // List available options
-    $opts = array(
-      '-h', '--help',
-      '-d', '--debug',
-      '-v', '--verbose',
-      '-q', '--quiet',
-      '-C', '--console',
-      '-S', '--ldap-server',
-      '-L', '--load-class',
-      '-A', '--load-addon',
-    );
-
     // If command set and args autocompleter defined, use it
     if ($command && is_callable(self :: $commands[$command]['args_autocompleter'])) {
+      $command_comp_word_num = $comp_word_num-$command_arg_num-1;
+      self :: log_debug("Run CLI command $command autocompleter with cmd args='".implode("', '", $command_args)."', comp word #$command_comp_word_num = '$comp_word'");
       return self :: return_bash_autocomplete_list(
         call_user_func(
           self :: $commands[$command]['args_autocompleter'],
-          $comp_words,
-          $comp_word_num,
+          $command_args,
+          $command_comp_word_num,
           $comp_word,
           $opts
         )
