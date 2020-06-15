@@ -600,6 +600,41 @@ class LScli extends LSlog_staticLoggerClass {
     return self :: autocomplete_opts($types, $prefix, false);
   }
 
+  /**
+   * Autocomplete LSobject DN option
+   *
+   * @param[in] $objType        string    LSobject type
+   * @param[in] $prefix         string    Option prefix (optional, default=empty string)
+   *
+   * @retval array List of available options
+   **/
+  public static function autocomplete_LSobject_dn($objType, $prefix='') {
+    if (!$prefix || !LSsession ::loadLSobject($objType, false))
+      return array();
+    self :: need_ldap_con();
+    $rdn_attr = LSconfig :: get("LSobjects.$objType.rdn");
+    if (!$rdn_attr || strlen($prefix) < (strlen($rdn_attr)+1) || substr($prefix, 0, (strlen($rdn_attr)+1)) != "$rdn_attr=")
+      return array();
+
+    // Split prefix by comma to keep only RDN
+    $prefix_parts = explode(',', $prefix);
+    $prefix_rdn = $prefix_parts[0];
+
+    // Search objects
+    $obj = new $objType();
+    $objs = $obj -> listObjectsName("($prefix_rdn*)");
+    if (is_array($objs)) {
+      $dns = array_keys($objs);
+      self :: log_debug("Matching $objType DNs with prefix '$prefix_rdn': ".implode(', ', $dns));
+      // If prefix have been reduced for the search, use self :: autocomplete_opts() to keep only
+      // full match
+      if ($prefix_rdn != $prefix)
+        return self :: autocomplete_opts($dns, $prefix);
+      return $dns;
+    }
+    return array();
+  }
+
 }
 
 /*
