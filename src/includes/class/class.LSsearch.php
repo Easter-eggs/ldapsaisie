@@ -1523,6 +1523,120 @@ class LSsearch {
     echo "Page ".($page['nb']+1)." on ".$page['nbPages']."\n";
     return true;
   }
+
+  /**
+   * Args autocompleter for CLI command search
+   *
+   * @param[in] $command_args array List of already typed words of the command
+   * @param[in] $comp_word_num int The command word number to autocomplete
+   * @param[in] $comp_word string The command word to autocomplete state
+   * @param[in] $opts array List of global available options
+   *
+   * @retval array List of available options for the word to autocomplete
+   **/
+  public static function cli_search_args_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
+    $command_opts = array (
+      '-f', '--filter',
+      '-b', '--basedn',
+      '--subdn',
+      '-s', '--scope',
+      '-l', '--limit',
+      '-a', '--approx',
+      '-r', '--recursive',
+      '--sort-by',
+      '-R', '--reverse',
+      '--sort-limit',
+      '--display-subdn',
+      '--display-format',
+      '-N', '--nb-obj-by-page',
+      '-W', '--without-cache',
+      '-e', '--extra-columns',
+      '-p', '--page',
+    );
+
+    // Detect positional args
+    $objType = null;
+    $objType_arg_num = null;
+    $patterns = array();
+    $extra_columns = false;
+    for ($i=0; $i < count($command_args); $i++) {
+      if (!in_array($command_args[$i], $command_opts) || in_array($command_args[$i], $opts)) {
+        // If object type not defined
+        if (is_null($objType)) {
+          // Check object type exists
+          $objTypes = LScli :: autocomplete_LSobject_types($command_args[$i]);
+
+          // Load it if exist and not trying to complete it
+          if (in_array($command_args[$i], $objTypes) && $i != $comp_word_num) {
+            LSsession :: loadLSobject($command_args[$i], false);
+          }
+
+          // Defined it
+          $objType = $command_args[$i];
+          $objType_arg_num = $i;
+        }
+        else
+          $patterns[] = $command_args[$i];
+      }
+      else {
+        switch ($command_args[$i]) {
+          case '-e':
+          case '--extra-columns':
+            $extra_columns = true;
+            LSlog :: debug('Extra columns enabled');
+            break;
+        }
+      }
+    }
+
+    // Handle completion of args value
+    LSlog :: debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
+    switch ($command_args[$comp_word_num-1]) {
+      case '--subdn':
+        LScli :: need_ldap_con();
+        $subDns = LSsession :: getSubDnLdapServer();
+        if (is_array($subDns)) {
+          $subDns = array_keys($subDns);
+          LSlog :: debug('List of available subDns: '.implode(', ', $subDns));
+        }
+        else
+          $subDns = array();
+        return LScli :: autocomplete_opts($subDns, $comp_word);
+      case '-s':
+      case '--scope':
+        return LScli :: autocomplete_opts(array('sub', 'one', 'base'), $comp_word);
+      case '-f':
+      case '--filter':
+      case '-b':
+      case '--basedn':
+        // This args need string value that can't be autocomplete: stop autocompletion
+        return array();
+      case '-l':
+      case '--limit':
+      case '--sort-limit':
+      case '-N':
+      case '--nb-obj-by-page':
+      case '-p':
+      case '--page':
+        return LScli :: autocomplete_int($comp_word);
+      case '--sort-by':
+        $bys = array('displayName', 'subDn');
+        if ($objType && $extra_columns) {
+          $extraDisplayedColumns = LSconfig::get("LSobjects.$objType.LSsearch.extraDisplayedColumns", array());
+          if (is_array($extraDisplayedColumns))
+            $bys = array_merge($bys, array_keys($extraDisplayedColumns));
+        }
+        LSlog :: debug('Available sort-bys clauses: '.implode(', ', $bys));
+        return LScli :: autocomplete_opts($bys, $comp_word);
+    }
+    $opts = array_merge($opts, $command_opts);
+
+    // If objType not already choiced (or currently autocomplete), add LSobject types to available options
+    if (!$objType || $objType_arg_num == $comp_word_num)
+      $opts = array_merge($opts, LScli :: autocomplete_LSobject_types($comp_word));
+
+    return LScli :: autocomplete_opts($opts, $comp_word);
+  }
 }
 
 /**
@@ -1608,5 +1722,7 @@ LScli :: add_command(
     '     - -W|--without-cache : Disable cache',
     '     - -e|--extra-columns : Display extra columns',
     '     - -p|--page : page number to show (starting by 1, default: first one)',
-  )
+  ),
+  true,
+  array('LSsearch', 'cli_search_args_autocompleter'),
 );

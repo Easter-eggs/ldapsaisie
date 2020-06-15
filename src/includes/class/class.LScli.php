@@ -250,9 +250,7 @@ class LScli extends LSlog_staticLoggerClass {
 
     // Connect to LDAP server (if command need)
     if (self :: $commands[$command]['need_ldap_con']) {
-      if (!class_exists('LSldap') || !LSldap :: isConnected())
-        if (!LSsession :: LSldapConnect())
-          self :: log_fatal('Fail to connect to LDAP server.');
+      self :: need_ldap_con();
     }
 
     // Run command
@@ -270,6 +268,19 @@ class LScli extends LSlog_staticLoggerClass {
     if ($exit)
       exit(1);
     return false;
+  }
+
+  /**
+   * Start LDAP connection (if not already connected)
+   *
+   * @retval void
+   **/
+  public static function need_ldap_con() {
+    // Connect to LDAP server (if not already the case)
+    if (!class_exists('LSldap') || !LSldap :: isConnected()) {
+      if (!LSsession :: LSldapConnect())
+        self :: log_fatal('Fail to connect to LDAP server.');
+    }
   }
 
   /**
@@ -541,6 +552,52 @@ class LScli extends LSlog_staticLoggerClass {
     }
     self :: log_debug("autocomplete_opts(".implode('|', $opts).", $prefix, case ".($case_sensitive?"sensitive":"insensitive").") : matched opts: ".print_r($matched_opts, true));
     return $matched_opts;
+  }
+
+  /**
+   * Autocomplete integer option
+   *
+   * @param[in] $prefix         string    Option prefix (optional, default=empty string)
+   *
+   * @retval array List of available options
+   **/
+  public static function autocomplete_int($prefix='') {
+    $opts = array();
+    for ($i=0; $i < 10; $i++) {
+      $opts[] = "$prefix$i";
+    }
+    return $opts;
+  }
+
+  /**
+   * Autocomplete LSobject type option
+   *
+   * @param[in] $prefix         string    Option prefix (optional, default=empty string)
+   *
+   * @retval array List of available options
+   **/
+  public static function autocomplete_LSobject_types($prefix='') {
+    $types = LSconfig :: get('LSaccess', array(), null, LSsession :: $ldapServer);
+    $subdn_config = LSconfig :: get('subDn', null, null, LSsession :: $ldapServer);
+    if (is_array($subdn_config)) {
+      foreach ($subdn_config as $key => $value) {
+        if (!is_array($value)) continue;
+        if ($key == 'LSobject') {
+          if (isset($value['LSobjects']) && is_array($value['LSobjects']))
+            foreach ($value['LSobjects'] as $type)
+              if (!in_array($type, $types))
+                $types[] = $type;
+        }
+        else {
+          foreach ($value as $objConfig)
+            if (is_array($objConfig) && isset($objConfig['LSobjets']) && is_array($objConfig['LSobjects']))
+              foreach ($objConfig['LSobjects'] as $type)
+                if (!in_array($type, $types))
+                  $types[] = $type;
+        }
+      }
+    }
+    return self :: autocomplete_opts($types, $prefix, false);
   }
 
 }

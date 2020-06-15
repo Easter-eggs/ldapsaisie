@@ -403,13 +403,14 @@ class LSsession {
   }
 
  /**
-  * Chargement d'un object LdapSaisie
+  * Load LSobject type
   *
-  * @param[in] $object Nom de l'objet Ã  charger
+  * @param[in] $object string Name of the LSobject type
+  * @param[in] $warn boolean Set to false to avoid warning in case of loading error (optional, default: true)
   *
-  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
+  * @retval boolean True if LSobject type loaded, false otherwise
   */
-  public static function loadLSobject($object) {
+  public static function loadLSobject($object, $warn=true) {
     if(class_exists($object)) {
       return true;
     }
@@ -445,7 +446,7 @@ class LSsession {
         }
       }
     }
-    if ($error) {
+    if ($error && $warn) {
       LSerror :: addErrorCode('LSsession_04',$object);
       return;
     }
@@ -1158,6 +1159,9 @@ class LSsession {
   * @retval boolean True sinon false.
   */
   public static function LSldapConnect() {
+    if (!self :: $ldapServer && !self :: setLdapServer(0)) {
+      return;
+    }
     if (self :: $ldapServer) {
       self :: includeFile(LSconfig :: get('NetLDAP2'), true);
       if (!self :: loadLSclass('LSldap')) {
