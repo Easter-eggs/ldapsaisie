@@ -121,16 +121,33 @@ class LSlang extends LSlog_staticLoggerClass {
   /**
    * Return list of available languages
    *
+   * @param[in] $encoding  string|null  Specify encoding for lang selection. If null, use self :: encoding value,
+   *                                    if false, do not filter on encoding, otherwise filter available lang for
+   *                                    specified encoding (optional, default: null)
+   * @params[in] $with_encoding         Return available lang list with encoding (optional, default: false)
+   *
    * @retval array List of available languages.
    **/
-   public static function getLangList() {
-     $list = array('en_US');
-     if (self :: $encoding) {
-       $regex = '/^([a-zA-Z_]*)\.'.self :: $encoding.'$/';
+   public static function getLangList($encoding=null, $with_encoding=false) {
+     if (is_null($encoding))
+      $encoding = self :: $encoding;
+     if ($with_encoding)
+       $list = array('en_US.UTF8');
+     else
+       $list = array('en_US');
+     if ($encoding) {
+       if ($with_encoding)
+        $regex = '/^([a-zA-Z_]*\.'.$encoding.')$/';
+      else
+        $regex = '/^([a-zA-Z_]*)\.'.$encoding.'$/';
      }
      else {
-       $regex = '/^([a-zA-Z_]*)$/';
+       if ($with_encoding)
+        $regex = '/^([a-zA-Z_]+\.[a-zA-Z0-9\-]+)$/';
+       else
+        $regex = '/^([a-zA-Z_]+)\.[a-zA-Z0-9\-]+$/';
      }
+     self :: log_debug("getLangList(".varDump($encoding).", $with_encoding) : regex='$regex'");
      foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir) {
        if (!is_dir($lang_dir))
        continue;
@@ -835,6 +852,57 @@ function cli_generate_lang_file($command_args) {
 
   return true;
 }
+
+/**
+ * Args autocompleter for CLI command generate_lang_file
+ *
+ * @param[in] $comp_words array List of already typed words of the command
+ * @param[in] $comp_word_num int The command word number to autocomplete
+ * @param[in] $comp_word string The command word to autocomplete state
+ * @param[in] $opts array List of global available options
+ *
+ * @retval array List of available options for the word to autocomplete
+ **/ 
+function cli_generate_lang_file_args_autocompleter($comp_words, $comp_word_num, $comp_word, $opts) {
+  global $available_withouts, $available_onlys;
+  switch ($comp_words[$comp_word_num-1]) {
+    case '-W':
+    case '--without':
+      return LScli :: autocomplete_opts($available_withouts, $comp_word);
+      break;
+    case '-O':
+    case '--only':
+      return LScli :: autocomplete_opts($available_onlys, $comp_word);
+      break;
+    case '-l':
+    case '--lang':
+      return LScli :: autocomplete_opts(LSlang :: getLangList(false, true), $comp_word);
+      break;
+    case '-o':
+    case '--output':
+      return array();
+      break;
+    case '-f':
+    case '--format':
+      return LScli :: autocomplete_opts(array('php', 'pot'), $comp_word);
+      break;
+  }
+  $opts = array_merge(
+    $opts,
+    array (
+      '-W', '--without',
+      '-O', '--only',
+      '-c', '--copy-original-value',
+      '-i', '--interactive',
+      '-a', '--additional-file-format',
+      '-l', '--lang',
+      '-o', '--output',
+      '-f', '--format',
+    )
+  );
+  return LScli :: autocomplete_opts($opts, $comp_word);
+}
+
 LScli :: add_command(
   'generate_lang_file',
   'cli_generate_lang_file',
@@ -858,7 +926,8 @@ LScli :: add_command(
     "  -f/--format                 Output file format : php or pot",
     "                              (default: php)",
   ),
-  false   // This command does not need LDAP connection
+  false,  // This command does not need LDAP connection
+  'cli_generate_lang_file_args_autocompleter'
 );
 
 /**
