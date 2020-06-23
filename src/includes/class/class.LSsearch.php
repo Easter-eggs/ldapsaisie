@@ -1580,6 +1580,24 @@ class LSsearch {
       }
       else {
         switch ($command_args[$i]) {
+          case '--subdn':
+          case '-s':
+          case '--scope':
+          case '-f':
+          case '--filter':
+          case '-b':
+          case '--basedn':
+          case '-l':
+          case '--limit':
+          case '--sort-limit':
+          case '-N':
+          case '--nb-obj-by-page':
+          case '-p':
+          case '--page':
+          case '--sort-by':
+            // This args accept options => increase $i
+            $i++;
+            break;
           case '-e':
           case '--extra-columns':
             $extra_columns = true;
