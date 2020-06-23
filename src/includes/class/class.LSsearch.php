@@ -1742,5 +1742,5 @@ LScli :: add_command(
     '     - -p|--page : page number to show (starting by 1, default: first one)',
   ),
   true,
-  array('LSsearch', 'cli_search_args_autocompleter'),
+  array('LSsearch', 'cli_search_args_autocompleter')
 );
