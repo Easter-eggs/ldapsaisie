@@ -609,18 +609,19 @@ class LScli extends LSlog_staticLoggerClass {
    * @retval array List of available options
    **/
   public static function autocomplete_LSobject_dn($objType, $prefix='') {
-    if (!$prefix || !LSsession ::loadLSobject($objType, false))
+    if (!LSsession ::loadLSobject($objType, false))
       return array();
-    self :: need_ldap_con();
+
     $rdn_attr = LSconfig :: get("LSobjects.$objType.rdn");
-    if (!$rdn_attr || strlen($prefix) < (strlen($rdn_attr)+1) || substr($prefix, 0, (strlen($rdn_attr)+1)) != "$rdn_attr=")
-      return array();
+    if (!$rdn_attr || strlen($prefix) < (strlen($rdn_attr)+2) || substr($prefix, 0, (strlen($rdn_attr)+1)) != "$rdn_attr=")
+      return array("$rdn_attr=a", "$rdn_attr=*");
 
     // Split prefix by comma to keep only RDN
     $prefix_parts = explode(',', $prefix);
     $prefix_rdn = $prefix_parts[0];
 
     // Search objects
+    self :: need_ldap_con();
     $obj = new $objType();
     $objs = $obj -> listObjectsName("($prefix_rdn*)");
     if (is_array($objs)) {
@@ -632,7 +633,7 @@ class LScli extends LSlog_staticLoggerClass {
         return self :: autocomplete_opts($dns, $prefix);
       return $dns;
     }
-    return array();
+    return array("$rdn_attr=a", "$rdn_attr=*");
   }
 
 }
