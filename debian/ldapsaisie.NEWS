@@ -38,7 +38,8 @@ ldapsaisie (3.0.0-1) unstable; urgency=medium
       - A CLI tool is now provided with the application : its currently permit
         to search/list, show, create, modify and delete LSobject as its possible in web
         interface. You also could run procedure implemented in LdapSaisie (useful to run
-        it as cron for instance).
+        it as cron for instance). BASH autocompletion is provided but support need to be
+        extended to all provided commands.
         Furthermore, the generate_lang_file.php and generate_ldapsaisie.pot.sh scripts
         are replaced by LScli commands generate_lang_file and generate_ldapsaisie_pot.
       - LSlog, the logging manager, have also gain flexibility: it's now possible to
