@@ -1,5 +1,22 @@
 _ldapsaisie()
 {
-    COMPREPLY=( $(/usr/sbin/ldapsaisie bash_autocomplete ${COMP_CWORD} -- ${COMP_WORDS[@]}) )
+    # Retrieve cur, words and cword variables by using _get_comp_words_by_ref helper
+    # and excluding "=" char as break-word
+    local cur words cword
+    _get_comp_words_by_ref -n "=" cur words cword
+
+    # Retreive COMPREPLY using bash_autocomplete ldapsaisie CLI command
+    COMPREPLY=( $(/usr/sbin/ldapsaisie bash_autocomplete ${cword} -- ${words[@]}) )
+
+    # If current word to complete contain '=' and if it's a word-break char
+    # Note: This method was inspired by __ltrim_colon_completions helper.
+    if [[ $cur == *=* && $COMP_WORDBREAKS == *=* ]]; then
+        # Remove equal_word prefix from COMPREPLY items
+        local equal_word=${cur%"${cur##*=}"}
+        local i=${#COMPREPLY[*]}
+        while ((i-- > 0)); do
+            COMPREPLY[i]=${COMPREPLY[i]#"$equal_word"}
+        done
+    fi
 }
 complete -o default -F _ldapsaisie ldapsaisie
