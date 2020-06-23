@@ -2580,6 +2580,92 @@ class LSldapObject extends LSlog_staticLoggerClass {
       self :: log_error("Fail to update objects in relation");
       return False;
     }
+
+    /**
+     * Args autocompleter for CLI relation command
+     *
+     * @param[in] $command_args array List of already typed words of the command
+     * @param[in] $comp_word_num int The command word number to autocomplete
+     * @param[in] $comp_word string The command word to autocomplete state
+     * @param[in] $opts array List of global available options
+     *
+     * @retval array List of available options for the word to autocomplete
+     **/
+    public static function cli_relation_args_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
+      $opts = array_merge($opts, array ('-a', '--add', '-r', '--remove'));
+
+      // Handle positional args
+      $objType = null;
+      $objType_arg_num = null;
+      $dn = null;
+      $dn_arg_num = null;
+      $relation_id = null;
+      $relation_id_arg_num = null;
+      for ($i=0; $i < count($command_args); $i++) {
+        if (!in_array($command_args[$i], $opts)) {
+          // If object type not defined
+          if (is_null($objType)) {
+            // Check object type exists
+            $objTypes = LScli :: autocomplete_LSobject_types($command_args[$i]);
+
+            // Load it if exist and not trying to complete it
+            if (in_array($command_args[$i], $objTypes) && $i != $comp_word_num) {
+              LSsession :: loadLSobject($command_args[$i], false);
+            }
+
+            // Defined it
+            $objType = $command_args[$i];
+            $objType_arg_num = $i;
+          }
+          elseif (is_null($dn)) {
+            $dn = $command_args[$i];
+            $dn_arg_num = $i;
+          }
+          elseif (is_null($relation_id)) {
+            $relation_id = $command_args[$i];
+            $relation_id_arg_num = $i;
+          }
+        }
+        else {
+          // All args accept option, increase $i
+          $i++;
+        }
+      }
+      LSlog :: debug("obj type :'$objType' (#$objType_arg_num) / dn :'$dn' (#$dn_arg_num) / relation_id:'$relation_id' (#$relation_id_arg_num)");
+
+      // Handle completion of args value
+      LSlog :: debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
+      switch ($command_args[$comp_word_num-1]) {
+        case '-a':
+        case '--add':
+        case '-r':
+        case '-remove':
+          if (!$objType || !$dn || !$relation_id)
+            return array();
+          $related_obj_type = LSconfig :: get("LSobjects.$objType.LSrelation.$relation_id.LSobject");
+          self :: log_debug("Related obj type='$related_obj_type'");
+          if ($related_obj_type)
+            return LScli :: autocomplete_LSobject_dn($related_obj_type, $comp_word);
+          return array();
+      }
+
+      // If objType not already choiced (or currently autocomplete), add LSobject types to available options
+      if (!$objType || $objType_arg_num == $comp_word_num)
+        $opts = array_merge($opts, LScli :: autocomplete_LSobject_types($comp_word));
+
+      // If dn not already choiced (or currently autocomplete), try autocomplete it
+      elseif (!$dn || $dn_arg_num == $comp_word_num)
+        $opts = array_merge($opts, LScli :: autocomplete_LSobject_dn($objType, $comp_word));
+
+      // If relation_id not already choiced (or currently autocomplete), try autocomplete it
+      elseif (!$relation_id || $relation_id_arg_num == $comp_word_num) {
+        $relations = LSconfig :: get("LSobjects.$objType.LSrelation");
+        if (is_array($relations))
+          $opts = array_merge($opts, array_keys($relations));
+      }
+
+      return LScli :: autocomplete_opts($opts, $comp_word);
+    }
 }
 
 /**
@@ -2782,5 +2868,8 @@ LScli :: add_command(
     'relation',
     array('LSldapObject', 'cli_relation'),
     'Manage LSobject related objects',
-    '[object type] [dn] [relation ID] [-a|--add DN] [-r|--remove DN]'
+    '[object type] [dn] [relation ID] [-a|--add DN] [-r|--remove DN]',
+    null,
+    true,
+    array('LSldapObject', 'cli_relation_args_autocompleter')
 );
