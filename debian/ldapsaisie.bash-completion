@@ -6,7 +6,7 @@ _ldapsaisie()
     _get_comp_words_by_ref -n "=" cur words cword
 
     # Retreive COMPREPLY using bash_autocomplete ldapsaisie CLI command
-    COMPREPLY=( $(/usr/sbin/ldapsaisie bash_autocomplete ${cword} -- ${words[@]}) )
+    COMPREPLY=( $(ldapsaisie bash_autocomplete ${cword} -- ${words[@]}) )
 
     # If current word to complete contain '=' and if it's a word-break char
     # Note: This method was inspired by __ltrim_colon_completions helper.
