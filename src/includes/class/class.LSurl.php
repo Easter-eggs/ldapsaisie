@@ -54,9 +54,6 @@ class LSurl extends LSlog_staticLoggerClass {
    */
   private static $patterns = array();
 
-  // Rewrited request param
-  const REWRITED_REQUEST_PARAM = 'REQUESTED_URL';
-
   /**
    * Add an URL pattern
    *
@@ -159,18 +156,6 @@ class LSurl extends LSlog_staticLoggerClass {
       return $m;
     }
     return False;
-  }
-
-  /**
-   * Get the current requested URL
-   *
-   * @retval string The current requested URL
-   **/
-  public static function get_current_url() {
-    if (array_key_exists(self :: REWRITED_REQUEST_PARAM, $_REQUEST))
-      return $_REQUEST[self :: REWRITED_REQUEST_PARAM];
-    self :: log_warning('LSurl : Rewrite request param not present, try to detect current URL.');
-    return self :: detect_current_url();
   }
 
   /**
@@ -283,15 +268,15 @@ class LSurl extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Helpers to detect current requested URL
+   * Helpers to retreive current requested URL
    */
 
   /*
-   * Try to detect current requested URL
+   * Try to detect current requested URL and return it
    *
    * @retval string|false The current request URL or false if detection fail
    **/
-  private static function detect_current_url() {
+  private static function get_current_url() {
     self :: log_debug("URL : request URI = '".$_SERVER['REQUEST_URI']."'");
 
     $base = self :: get_rewrite_base();
