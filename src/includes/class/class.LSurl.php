@@ -314,10 +314,10 @@ class LSurl extends LSlog_staticLoggerClass {
    **/
   private static function get_rewrite_base() {
     $public_root_url = LSconfig :: get('public_root_url', '/', 'string');
-    if (preg_match('|^https?://[^/]+/(.*)$|', $public_root_url, $m))
-      return '/'.self :: remove_trailing_slash($m[1]).'/';
-    elseif (preg_match('|^/(.+)$|', $public_root_url, $m))
-      return '/'.self :: remove_trailing_slash($m[1]).'/';
+    if (preg_match('|^https?://[^/]+(/.*)$|', $public_root_url, $m))
+      return self :: remove_trailing_slash($m[1]).'/';
+    elseif (preg_match('|^(/.+)$|', $public_root_url, $m))
+      return self :: remove_trailing_slash($m[1]).'/';
     return '/';
   }
 
