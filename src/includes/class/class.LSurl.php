@@ -106,7 +106,7 @@ class LSurl extends LSlog_staticLoggerClass {
       exit();
     }
     if (!is_array(self :: $patterns)) {
-      self :: log_fatal('No URL patterns configured !');
+      self :: log_fatal(_("No URL patterns configured !"));
       exit();
     }
 
@@ -246,7 +246,7 @@ class LSurl extends LSlog_staticLoggerClass {
 
     if (!is_callable($request -> handler)) {
       self :: log_error("URL handler function ".$request -> handler."() does not exists !");
-      self :: log_fatal("This request could not be handled.");
+      self :: log_fatal(_("This request could not be handled."));
     }
 
     if (class_exists('LStemplate'))
@@ -263,7 +263,7 @@ class LSurl extends LSlog_staticLoggerClass {
     }
     catch (Exception $e) {
       self :: log_exception($e, "An exception occured running URL handler function ".$request -> handler."()");
-      self :: log_fatal("This request could not be processed correctly.");
+      self :: log_fatal(_("This request could not be processed correctly."));
     }
   }
 
