@@ -263,6 +263,18 @@ function handle_static_file($request) {
 LSurl :: add_handler('#^(?P<type>image|css|js)/(?P<file>[^/]+)$#', 'handle_static_file', false);
 
 /*
+ * Handle default browser favicon.ico request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+ */
+function handle_favicon_ico_view($request) {
+  LSurl :: redirect('image/favicon');
+}
+LSurl :: add_handler('#^favicon\.ico#', 'handle_favicon_ico_view', false);
+
+/*
  * Handle libs file request
  *
  * @param[in] $request LSurlRequest The request
