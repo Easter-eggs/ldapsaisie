@@ -88,20 +88,15 @@ var LSformElement_password_field = new Class({
       }
 
       this.initialize_input();
-      if (this.params.confirmInput) {
-        this.input_confirm = this.input.getNext('div.LSformElement_password_confirm').getElement('input');
-        varLSform.addEvent(
-          'submit',
-          this.onLSformSubmit_confirmInput.bind(this),
-          'LSformElement_password('+this.name+') :: confirmInput'
-        );
-      }
 
-      if (this.params.confirmChange) {
+      if (this.params.confirmInput || this.params.confirmChange) {
+        if (this.params.confirmInput) {
+          this.input_confirm = this.input.getNext('div.LSformElement_password_confirm').getElement('input');
+        }
         varLSform.addEvent(
           'submit',
-          this.onLSformSubmit_confirmChange.bind(this),
-          'LSformElement_password('+this.name+') :: confirmChange'
+          this.onLSformSubmit.bind(this),
+          'LSformElement_password('+this.name+') :: onLSformSubmit'
         );
       }
     },
@@ -269,14 +264,21 @@ var LSformElement_password_field = new Class({
       }
     },
 
-    onLSformSubmit_confirmChange: function(form, on_confirm, on_cancel) {
-      // If no new password set, just confirm
-      if (!this.input.value) {
+    onLSformSubmit: function(form, on_confirm, on_cancel) {
+      // Handle confirmInput feature
+      if (this.params.confirmInput && this.input.value != this.input_confirm.value) {
+        varLSform.addError(this.params.confirmInputError, this.name);
+        on_cancel();
+        return;
+      }
+
+      // If confirmChange feature not enabled or no new password set, just confirm
+      if (!this.params.confirmChange || !this.input.value) {
         on_confirm();
         return;
       }
 
-      // Otherwise, ask user confirmation
+      // Otherwise, ask user confirmation for password change
       this.confirmBox = new LSconfirmBox({
         text:           this.params.confirmChangeQuestion,
         startElement:   this.input,
@@ -288,13 +290,4 @@ var LSformElement_password_field = new Class({
       });
     },
 
-    onLSformSubmit_confirmInput: function(form, on_confirm, on_cancel) {
-      if (this.input.value == this.input_confirm.value) {
-        on_confirm();
-      }
-      else {
-        varLSform.addError(this.params.confirmInputError, this.name);
-        on_cancel();
-      }
-    }
 });
