@@ -62,6 +62,15 @@ class LSformElement_password extends LSformElement {
         return true;
       }
 
+      if ($this -> getParam('html_options.confirmInput', False, 'bool')) {
+        $confirm_name = $this -> name . '_confirm';
+        if (!isset($_POST[$confirm_name]) || !$_POST[$confirm_name] || $_POST[$confirm_name] != $return[$this -> name]) {
+          unset($return[$this -> name]);
+          $this -> form -> setElementError($this -> attr_html, _('%{label}: passwords entered did not match.'));
+          return true;
+        }
+      }
+
       if ($this -> verifyPassword($return[$this -> name][0]) || (empty($return[$this -> name][0]) && empty($val))) {
         LSdebug("Password : no change");
         unset($return[$this -> name]);
@@ -155,10 +164,15 @@ class LSformElement_password extends LSformElement {
         'viewHash' => $this -> getParam('html_options.viewHash', false, 'bool'),
         'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && $this -> getParam('html_options.verify', True, 'bool') ),
         'confirmChange' => (!$this -> attr_html -> attribute -> ldapObject-> isNew() && $this -> getParam('html_options.confirmChange', False, 'bool')),
+        'confirmInput' => $this -> getParam('html_options.confirmInput', False, 'bool'),
       );
 
       if ($params['confirmChange']) {
         $params['confirmChangeQuestion'] = getFData(__($this -> getParam('html_options.confirmChangeQuestion', '%{label}: Do you confirm the password change?')), $this -> label);
+
+      if ($params['confirmInput']) {
+        $defaultConfirmInputError = ___('Passwords entered did not match.');
+        $params['confirmInputError'] = getFData(__($this -> getParam('html_options.confirmInputError', $defaultConfirmInputError)), $this -> label);
       }
 
       if ($this -> getParam('html_options.mail')) {
@@ -176,6 +190,7 @@ class LSformElement_password extends LSformElement {
         'pwd' => $pwd,
         'clearView' => $this -> getParam('html_options.clearView'),
         'clearEdit' => $this -> getParam('html_options.clearEdit'),
+        'confirmInput' => $this -> getParam('html_options.confirmInput', False, 'bool'),
       )
     );
     return $return;

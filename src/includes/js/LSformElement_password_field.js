@@ -88,12 +88,20 @@ var LSformElement_password_field = new Class({
       }
 
       this.initialize_input();
-
-      if (this.params['confirmChange']) {
+      if (this.params.confirmInput) {
+        this.input_confirm = this.input.getNext('div.LSformElement_password_confirm').getElement('input');
         varLSform.addEvent(
           'submit',
-          this.onLSformSubmit.bind(this),
-          'LSformElement_password('+this.name+') :: confirmChange',
+          this.onLSformSubmit_confirmInput.bind(this),
+          'LSformElement_password('+this.name+') :: confirmInput'
+        );
+      }
+
+      if (this.params.confirmChange) {
+        varLSform.addEvent(
+          'submit',
+          this.onLSformSubmit_confirmChange.bind(this),
+          'LSformElement_password('+this.name+') :: confirmChange'
         );
       }
     },
@@ -181,6 +189,9 @@ var LSformElement_password_field = new Class({
       var data = JSON.decode(responseText);
       if ( varLSdefault.checkAjaxReturn(data) ) {
         this.input.value=data.generatePassword;
+        if (this.input_confirm) {
+          this.input_confirm.value = data.generatePassword;
+        }
         this.changeInputType('view');
       }
     },
@@ -189,26 +200,24 @@ var LSformElement_password_field = new Class({
       if (((this.input.type=='password')&&(state=='hide'))||((this.input.type=='text')&&(state=='view'))) {
         return this.input;
       }
+
+      var newType;
       if (this.input.type=='password') {
-        var newType = 'text';
+        newType = 'text';
         this.viewBtn.src=varLSdefault.imagePath('hide');
         varLSdefault.setHelpInfo(this.viewBtn,'LSformElement_password','hide');
       }
       else {
-        var newType = 'password';
+        newType = 'password';
         this.viewBtn.src=varLSdefault.imagePath('view');
         varLSdefault.setHelpInfo(this.viewBtn,'LSformElement_password','view');
       }
-      var newInput = new Element('input');
-      newInput.setProperty('name',this.input.getProperty('name'));
-      newInput.setProperty('type',newType);
-      newInput.setProperty('class',this.input.getProperty('class'));
-      newInput.setProperty('value',this.input.getProperty('value'));
-      newInput.injectAfter(this.input);
-      this.input.destroy();
-      this.input = newInput;
-      this.initialize_input();
-      return newInput;
+
+      this.input.setProperty('type', newType);
+      if (this.input_confirm) {
+        this.input_confirm.setProperty('type', newType);
+      }
+      return this.input;
     },
 
     onVerifyBtnClick: function() {
@@ -260,7 +269,7 @@ var LSformElement_password_field = new Class({
       }
     },
 
-    onLSformSubmit: function(form, on_confirm, on_cancel) {
+    onLSformSubmit_confirmChange: function(form, on_confirm, on_cancel) {
       // If no new password set, just confirm
       if (!this.input.value) {
         on_confirm();
@@ -277,5 +286,15 @@ var LSformElement_password_field = new Class({
           on_cancel();
         }).bind(this)
       });
+    },
+
+    onLSformSubmit_confirmInput: function(form, on_confirm, on_cancel) {
+      if (this.input.value == this.input_confirm.value) {
+        on_confirm();
+      }
+      else {
+        varLSform.addError(this.params.confirmInputError, this.name);
+        on_cancel();
+      }
     }
 });
