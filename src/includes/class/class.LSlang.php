@@ -862,7 +862,7 @@ function cli_generate_lang_file($command_args) {
  * @param[in] $opts array List of global available options
  *
  * @retval array List of available options for the word to autocomplete
- **/ 
+ **/
 function cli_generate_lang_file_args_autocompleter($comp_words, $comp_word_num, $comp_word, $opts) {
   global $available_withouts, $available_onlys;
   switch ($comp_words[$comp_word_num-1]) {
@@ -973,7 +973,7 @@ function cli_generate_ldapsaisie_pot($command_args) {
       "-o", LS_I18N_DIR_PATH."/ldapsaisie-main.pot",      // Output
       "--omit-header",                                    // No POT header
       "--keyword=__",                                     // Handle custom __() translation function
-      "--keyword=___,",                                   // Handle custom ___() translation function
+      "--keyword=___",                                    // Handle custom ___() translation function
       "--files=-"                                         // Read files to parse from STDIN
     ),
     $php_files[1]                                         // Pass PHP files list via STDIN
