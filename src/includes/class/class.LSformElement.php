@@ -220,26 +220,42 @@ class LSformElement extends LSlog_staticLoggerClass {
     if($this -> isFreeze()) {
       return true;
     }
-    if (isset($_POST[$this -> name])) {
-      $return[$this -> name]=array();
-      if(!is_array($_POST[$this -> name])) {
-        $_POST[$this -> name] = array($_POST[$this -> name]);
+    $return[$this -> name] = self :: getData($_POST, $this -> name);
+    if (!is_array($return[$this -> name])) {
+      if ($onlyIfPresent) {
+        self :: log_debug($this -> name.": not in POST data => ignore it");
+        unset($return[$this -> name]);
       }
-      foreach($_POST[$this -> name] as $key => $val) {
+      else {
+        $return[$this -> name] = array();
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Retreive the value of the element specified by its name ($name)
+   * from POST data (provided as $post).
+   *
+   * @param[in] &$post array Reference of the array for input POST data
+   * @param[in] $name string POST data element name
+   *
+   * @retval mixed Array of POST data value if present, false otherwise
+   */
+  protected static function getData(&$post, $name) {
+    if (isset($post[$name])) {
+      $return=array();
+      if(!is_array($post[$name])) {
+        $post[$name] = array($post[$name]);
+      }
+      foreach($post[$name] as $key => $val) {
         if (!empty($val)||(is_string($val)&&($val=="0"))) {
-          $return[$this -> name][$key] = $val;
+          $return[$key] = $val;
         }
       }
-      return true;
+      return $return;
     }
-    elseif ($onlyIfPresent) {
-      self :: log_debug($this -> name.": not in POST data => ignore it");
-      return true;
-    }
-    else {
-      $return[$this -> name] = array();
-      return true;
-    }
+    return false;
   }
 
   /**

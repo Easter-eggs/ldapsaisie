@@ -63,16 +63,28 @@ class LSformElement_password extends LSformElement {
       }
 
       if ($this -> getParam('html_options.confirmInput', False, 'bool')) {
-        $confirm_name = $this -> name . '_confirm';
-        if (!isset($_POST[$confirm_name]) || !$_POST[$confirm_name] || $_POST[$confirm_name] != $return[$this -> name]) {
+        $confirm_data = self :: getData($_POST, $this -> name . '_confirm');
+        $confirmed = false;
+        if (!is_array($confirm_data)) {
+          if (!isset($return[$this -> name]) || empty($return[$this -> name]) || empty($return[$this -> name][0])) {
+            self :: log_debug('getPostData('.$this -> name.'): no confirm data, but empty password provided => confirmed');
+            $confirmed = true;
+          }
+        }
+        elseif ($confirm_data == $return[$this -> name]) {
+          self :: log_debug('getPostData('.$this -> name.'): confirm password value matched with new password');
+          $confirmed = true;
+        }
+        if (!$confirmed) {
           unset($return[$this -> name]);
+          self :: log_debug('getPostData('.$this -> name.'): '.varDump($return[$this -> name])." != ".varDump($confirm_data));
           $this -> form -> setElementError($this -> attr_html, _('%{label}: passwords entered did not match.'));
           return true;
         }
       }
 
       if ($this -> verifyPassword($return[$this -> name][0]) || (empty($return[$this -> name][0]) && empty($val))) {
-        LSdebug("Password : no change");
+        self :: log_debug('getPostData('.$this -> name.'): no change');
         unset($return[$this -> name]);
         $this -> form -> _notUpdate[$this -> name] = true;
         return true;
