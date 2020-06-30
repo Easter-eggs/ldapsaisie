@@ -36,6 +36,7 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
     - fix handling non-string message
     - add loggers, filters and format message by handlers
     - some fixes and improvements on get_debug_backtrace_context() method
+    - add enabled parameter for handlers
   * LSerror:
     - permit to control message escape method by adding a $escape parameter to all
       accessible methods

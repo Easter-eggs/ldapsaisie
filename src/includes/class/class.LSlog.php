@@ -103,6 +103,8 @@ class LSlog {
 	 * @retval boolean True if handler added, false otherwise
 	 **/
 	public static function add_handler($handler, $handler_config = array()) {
+		if (!LSconfig :: get('enabled', true, 'bool', $handler_config))
+			return true;
 		$handler_class = "LSlog_$handler";
 
 		// Load handler class

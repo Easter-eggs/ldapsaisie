@@ -203,6 +203,7 @@ $GLOBALS['LSlog']['handlers'] = array (
     'handler' => 'file',
     'path' => 'tmp/LS.log',
     //'level' => 'DEBUG',
+    //'enabled' => false, // Uncomment to disable this handler
     // Filter on specific loggers
     //'loggers' => array('LSurl', 'LSlang'),
     'excluded_loggers' => array('generate_lang_file', 'generate_ldapsaisie_pot'),

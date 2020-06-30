@@ -14,6 +14,7 @@ de l'application.</para>
     '[handler 1]',
     array (
       'handler' => [handler 2],
+      'enabled' => [booléen],
       'level' => '[niveau]',
       'loggers' => array('logger1', [...]),
       'excluded_loggers' => array('logger2', [...]),
@@ -118,6 +119,14 @@ de l'application.</para>
     le niveau global sera utilisé. Les valeurs possibles de ce paramètre
     sont les mêmes que pour le paramètre <literal>$GLOBALS['LSlog']['level']
     </literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>enabled</term>
+  <listitem>
+    <simpara>Booléen permettant d'activer ou désactiver cet <emphasis>handler</emphasis>
+    (paramètre facultatif, par défaut : <literal>True</literal>).</simpara>
   </listitem>
 </varlistentry>
 
