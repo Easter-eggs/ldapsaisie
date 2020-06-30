@@ -555,7 +555,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'generationTool' => true,
         'viewHash' => true,
         'autoGenerate' => false,
-        'confirmChange' => true,
+        'confirmInput' => true,
         'lenght' => 8,
         'chars' => array (
           array(
