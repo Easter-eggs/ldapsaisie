@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-06-25 16:03+0200\n"
+"PO-Revision-Date: 2020-06-30 10:00+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -1409,27 +1409,31 @@ msgstr ""
 "LSrelation : Le paramètre '%{paramerer}' est invalide dans la configuration "
 "de la relation %{relation} des objets %{LSobject}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:137
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:69
+msgid "%{label}: passwords entered did not match."
+msgstr "%{label} : les mots de passe saisies ne correspondent pas."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:146
 msgid "Generate a password."
 msgstr "Générer un mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:138
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:147
 msgid "Compare with stored password."
 msgstr "Comparer avec le mot de passe stocké."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:139
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:148
 msgid "Display password."
 msgstr "Afficher le mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:140
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:149
 msgid "Display hashed password."
 msgstr "Afficher le mot de passe haché."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:141
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:150
 msgid "Hide password."
 msgstr "Cacher le mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:142
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:151
 msgid ""
 "The password will be sent by mail if changed. Click to disable automatic "
 "notification."
@@ -1437,7 +1441,7 @@ msgstr ""
 "Le mot de passe sera envoyé par e-mail en cas de modification. Cliquer pour "
 "désactiver la notification."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:143
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:152
 msgid ""
 "The password will not be sent if changed. Click to enable automatic "
 "notification."
@@ -1445,35 +1449,43 @@ msgstr ""
 "Le mot de passe ne sera pas envoyé en cas de modification. Cliquer pour "
 "activer la notification automatique."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:144
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:153
 msgid "Modify the mail sent to notice the user"
 msgstr "Modifier mail de notification de l'utilisateur"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:278
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:171
+msgid "%{label}: Do you confirm the password change?"
+msgstr "%{label} : Confirmez-vous la modification du mot de passe ?"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:176
+msgid "Passwords entered did not match."
+msgstr "Les mots de passe saisies ne correspondent pas."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:295
 msgid "Notice mail sent."
 msgstr "Le mail de notification a été envoyé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:355
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:372
 msgid "LSformElement_password : No contact mail available to send password."
 msgstr ""
 "LSformElement_password : Aucun mail de contact disponible pour envoyer le "
 "mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:358
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:375
 msgid ""
 "LSformElement_password : Contact mail invalid (%{mail}). Can't send password."
 msgstr ""
 "LSformElement_password : Mail de contact invalide (%{mail}). Impossible "
 "d'envoyer le mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:361
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:378
 msgid ""
 "LSformElement_password : Fail to exec pwgen. Check it's correctly installed."
 msgstr ""
 "LSformElement_password : Impossible d'exécuter pwgen. Vérifier qu'il est "
 "bien installé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:364
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:381
 msgid ""
 "LSformElement_password : Fail to determine witch e-mail attribute to use to "
 "send new password : get_mail_attr_function parameter not refer to a valid "
@@ -1483,7 +1495,7 @@ msgstr ""
 "être utilisé pour l'envoi du mot de passe : le paramètre "
 "get_mail_attr_function ne fait pas référence à une fonction valide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:367
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:384
 msgid ""
 "LSformElement_password : Fail to determine witch e-mail attribute to use to "
 "send new password : get_mail_attr_function throwed an exception : %{msg}"
@@ -1555,41 +1567,41 @@ msgstr "Attention"
 msgid "%{label} attribute data is not valid."
 msgstr "Les données de l'attribut %{label} sont incorrectes."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:351
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:354
 msgid "Mandatory field"
 msgstr "Champ obligatoire"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:785
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:788
 msgid "LSform : Error during the recovery of the values of the form."
 msgstr "LSform : Erreur durant la récupération des valeurs du formulaire."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:788
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:791
 msgid ""
 "LSform : Error durring the recovery of the value of the field '%{element}'."
 msgstr ""
 "LSform : Erreur durant la recupération de la valeur du champ %{element}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:795
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:798
 msgid "LSform : The field %{element} doesn't exist."
 msgstr "LSform : Le champ %{element} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:798
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:801
 msgid "LSfom : Field type unknow (%{type})."
 msgstr "LSform : Type de champ inconnu (%{type})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:801
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:804
 msgid "LSform : Error during the creation of the element '%{element}'."
 msgstr "LSform : Erreur durant la création de l'élément %{element}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:804
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:807
 msgid "LSform : The data entry form %{name} doesn't exist."
 msgstr "LSform : Le masque de saisie %{name} n'existe pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:807
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:810
 msgid "LSform : The data entry form %{name} is not correctly configured."
 msgstr "LSform : Le masque de saisie %{name} n'est pas correctement configuré."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:810
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:813
 msgid ""
 "LSform : The element %{name}, listed as displayed in data entry form "
 "configuration, doesn't exist."
@@ -2267,6 +2279,10 @@ msgstr "Validation des données uniquement"
 msgid "Password"
 msgstr "Mot de passe"
 
+#: templates/default/LSformElement_password_field.tpl:14
+msgid "Please confirm new password:"
+msgstr "Merci de confirmer le nouveau mot de passe :"
+
 #: templates/default/LSaccessRightsMatrixView.tpl:21
 #: templates/default/LSaccessRightsMatrixView.tpl:38
 #: templates/default/LSaccessRightsMatrixView.tpl:57
@@ -2338,9 +2354,6 @@ msgstr "non"
 #: templates/default/import.tpl:17 templates/default/import.tpl:20
 msgid "yes"
 msgstr "oui"
-
-#~ msgid "%{label}: Do you confirm the password change?"
-#~ msgstr "%{label} : Confirmez-vous le changement de ce mot de passe ?"
 
 #~ msgid "Only one command could be executed !"
 #~ msgstr "Une seule commande peut-être exécutée !"
