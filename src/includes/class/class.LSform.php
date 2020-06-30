@@ -318,6 +318,9 @@ class LSform {
         LSerror :: addErrorCode('LSform_01');
         return;
       }
+      // Check getPostData do not trigger fields errors
+      if(!$this -> can_validate)
+        return;
       $this -> setValuesFromPostData();
       //Validation des données ici !!! ///
       if (!$this -> checkData()) {
