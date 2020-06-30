@@ -168,7 +168,9 @@ class LSformElement_password extends LSformElement {
       );
 
       if ($params['confirmChange']) {
-        $params['confirmChangeQuestion'] = getFData(__($this -> getParam('html_options.confirmChangeQuestion', '%{label}: Do you confirm the password change?')), $this -> label);
+        $defaultConfirmChangeQuestion = ___('%{label}: Do you confirm the password change?');
+        $params['confirmChangeQuestion'] = getFData(__($this -> getParam('html_options.confirmChangeQuestion', $defaultConfirmChangeQuestion)), $this -> label);
+      }
 
       if ($params['confirmInput']) {
         $defaultConfirmInputError = ___('Passwords entered did not match.');
