@@ -53,11 +53,12 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
     - mail: add autocomplete feature
     - select_object: Allow multiple type of objects selection
     - wysiwyg: adjust width
-    - password: add confirmChange feature
+    - password: add confirmInput and confirmChange features
   * LSform:
     - Avoid page scrolling on tab change
     - Add possibility to set callback to confirm/cancel event
     - Add CSS class on submitting form to permit visual adaptation
+    - validate(): fix checking elements's errors after getPostData()
   * LSformRule:
     - imagesize: fix parameters handling problem
     - filesize: improve by avoiding to create a temporary file
