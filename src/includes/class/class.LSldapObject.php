@@ -1967,20 +1967,22 @@ class LSldapObject extends LSlog_staticLoggerClass {
       if (!in_array($command_args[$i], $opts)) {
         // If object type not defined
         if (is_null($objType)) {
-          // Check object type exists
-          $objTypes = LScli :: autocomplete_LSobject_types($command_args[$i]);
-
-          // Load it if exist and not trying to complete it
-          if (in_array($command_args[$i], $objTypes) && $i != $comp_word_num) {
-            LSsession :: loadLSobject($command_args[$i], false);
-          }
-
           // Defined it
           $objType = $command_args[$i];
+          LScli :: unquote_word($objType);
           $objType_arg_num = $i;
+
+          // Check object type exists
+          $objTypes = LScli :: autocomplete_LSobject_types($objType);
+
+          // Load it if exist and not trying to complete it
+          if (in_array($objType, $objTypes) && $i != $comp_word_num) {
+            LSsession :: loadLSobject($objType, false);
+          }
         }
         elseif (is_null($dn)) {
           $dn = $command_args[$i];
+          LScli :: unquote_word($dn);
           $dn_arg_num = $i;
         }
       }
@@ -2183,20 +2185,22 @@ class LSldapObject extends LSlog_staticLoggerClass {
         if (!in_array($command_args[$i], $opts)) {
           // If object type not defined
           if (is_null($objType)) {
-            // Check object type exists
-            $objTypes = LScli :: autocomplete_LSobject_types($command_args[$i]);
-
-            // Load it if exist and not trying to complete it
-            if (in_array($command_args[$i], $objTypes) && $i != $comp_word_num) {
-              LSsession :: loadLSobject($command_args[$i], false);
-            }
-
             // Defined it
             $objType = $command_args[$i];
+            LScli :: unquote_word($objType);
             $objType_arg_num = $i;
+
+            // Check object type exists
+            $objTypes = LScli :: autocomplete_LSobject_types($objType);
+
+            // Load it if exist and not trying to complete it
+            if (in_array($objType, $objTypes) && $i != $comp_word_num) {
+              LSsession :: loadLSobject($objType, false);
+            }
           }
           elseif (is_null($dn)) {
             $dn = $command_args[$i];
+            LScli :: unquote_word($dn);
             $dn_arg_num = $i;
           }
         }
@@ -2605,24 +2609,27 @@ class LSldapObject extends LSlog_staticLoggerClass {
         if (!in_array($command_args[$i], $opts)) {
           // If object type not defined
           if (is_null($objType)) {
-            // Check object type exists
-            $objTypes = LScli :: autocomplete_LSobject_types($command_args[$i]);
-
-            // Load it if exist and not trying to complete it
-            if (in_array($command_args[$i], $objTypes) && $i != $comp_word_num) {
-              LSsession :: loadLSobject($command_args[$i], false);
-            }
-
             // Defined it
             $objType = $command_args[$i];
+            LScli :: unquote_word($objType);
             $objType_arg_num = $i;
+
+            // Check object type exists
+            $objTypes = LScli :: autocomplete_LSobject_types($objType);
+
+            // Load it if exist and not trying to complete it
+            if (in_array($objType, $objTypes) && $i != $comp_word_num) {
+              LSsession :: loadLSobject($objType, false);
+            }
           }
           elseif (is_null($dn)) {
             $dn = $command_args[$i];
+            LScli :: unquote_word($dn);
             $dn_arg_num = $i;
           }
           elseif (is_null($relation_id)) {
             $relation_id = $command_args[$i];
+            LScli :: unquote_word($relation_id);
             $relation_id_arg_num = $i;
           }
         }

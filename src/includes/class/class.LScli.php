@@ -387,16 +387,19 @@ class LScli extends LSlog_staticLoggerClass {
     $command_arg_num = null;
     $command_args = array();
     for ($i=1; $i < count($comp_words); $i++) {
-      if (array_key_exists($comp_words[$i], self :: $commands)) {
+      $unescaped_comp_word = $comp_words[$i];
+      self :: unquote_word($unescaped_comp_word);
+      if (array_key_exists($unescaped_comp_word, self :: $commands)) {
         if (!$command) {
           $command = $comp_words[$i];
+          self :: unquote_word($command);
           $command_arg_num = $i;
         }
         else
           $command_args[] = $comp_words[$i];
       }
       else {
-        switch($comp_words[$i]) {
+        switch($unescaped_comp_word) {
           case '-S':
           case '--ldap-server':
             $i++;
@@ -409,6 +412,7 @@ class LScli extends LSlog_staticLoggerClass {
               break;
             if (isset($comp_words[$i])) {
               $ldap_server_id = intval($comp_words[$i]);
+              self :: unquote_word($ldap_server_id);
               if(!LSsession :: setLdapServer($ldap_server_id))
                 self :: usage("Fail to select LDAP server #$ldap_server_id.");
             }
@@ -424,6 +428,7 @@ class LScli extends LSlog_staticLoggerClass {
             if (!isset($comp_words[$i]))
               break;
             $class = $comp_words[$i];
+            self :: unquote_word($class);
             if(!LSsession :: loadLSclass($class))
               self :: usage("Fail to load class '$class'.");
             break;
@@ -438,6 +443,7 @@ class LScli extends LSlog_staticLoggerClass {
             if (!isset($comp_words[$i]))
               break;
             $addon = $comp_words[$i];
+            self :: unquote_word($addon);
             if(!LSsession :: loadLSaddon($addon))
               self :: usage("Fail to load addon '$addon'.");
             break;
@@ -497,12 +503,13 @@ class LScli extends LSlog_staticLoggerClass {
    **/
   public static function autocomplete_class_name($prefix='') {
     $classes = array();
+    $quote_char = self :: unquote_word($prefix);
     $regex = "/^class\.($prefix.*)\.php$/";
     foreach(array(LS_ROOT_DIR."/".LS_CLASS_DIR, LS_ROOT_DIR."/".LS_LOCAL_DIR."/".LS_CLASS_DIR) as $dir_path) {
       foreach (listFiles($dir_path, $regex) as $file) {
         $class = $file[1];
         if (!in_array($class, $classes))
-          $classes[] = $class;
+          $classes[] = self :: quote_word($class, $quote_char);
       }
     }
     return $classes;
@@ -517,12 +524,13 @@ class LScli extends LSlog_staticLoggerClass {
    **/
   public static function autocomplete_addon_name($prefix='') {
     $addons = array();
+    $quote_char = self :: unquote_word($prefix);
     $regex = "/^LSaddons\.($prefix.*)\.php$/";
     foreach(array(LS_ROOT_DIR."/".LS_ADDONS_DIR, LS_ROOT_DIR."/".LS_LOCAL_DIR."/".LS_ADDONS_DIR) as $dir_path) {
       foreach (listFiles($dir_path, $regex) as $file) {
         $addon = $file[1];
         if (!in_array($addon, $addons))
-          $addons[] = $addon;
+          $addons[] = self :: quote_word($addon, $quote_char);
       }
     }
     return $addons;
@@ -534,12 +542,16 @@ class LScli extends LSlog_staticLoggerClass {
    * @param[in] $opts           array     Available options
    * @param[in] $prefix         string    Option name prefix (optional, default=empty string)
    * @param[in] $case_sensitive boolean   Set to false if options are case insensitive (optional, default=true)
+   * @param[in] $quote_char     boolean   Quote character (optional, if not set, $prefix will be unquoted and its
+   *                                      quote char (if detected) will be used to quote options)
    *
    * @retval array List of matched options
    **/
-  public static function autocomplete_opts($opts, $prefix='', $case_sensitive=true) {
+  public static function autocomplete_opts($opts, $prefix='', $case_sensitive=true, $quote_char='') {
     if (!is_string($prefix) || strlen($prefix)==0)
       return $opts;
+    if (!$quote_char)
+      $quote_char = self :: unquote_word($prefix);
 
     if (!$case_sensitive)
       $prefix = strtolower($prefix);
@@ -547,8 +559,9 @@ class LScli extends LSlog_staticLoggerClass {
     foreach($opts as $key => $opt) {
       if (!$case_sensitive)
         $opt = strtolower($opt);
+      self :: unquote_word($opt);
       if (substr($opt, 0, strlen($prefix)) == $prefix)
-        $matched_opts[] = $opts[$key];
+        $matched_opts[] = LScli :: quote_word($opt, $quote_char);
     }
     self :: log_debug("autocomplete_opts(".implode('|', $opts).", $prefix, case ".($case_sensitive?"sensitive":"insensitive").") : matched opts: ".print_r($matched_opts, true));
     return $matched_opts;
@@ -573,10 +586,13 @@ class LScli extends LSlog_staticLoggerClass {
    * Autocomplete LSobject type option
    *
    * @param[in] $prefix         string    Option prefix (optional, default=empty string)
+   * @param[in] $case_sensitive boolean   Set to false if options are case insensitive (optional, default=true)
+   * @param[in] $quote_char     boolean   Quote character (optional, if not set, $prefix will be unquoted and its
+   *                                      quote char (if detected) will be used to quote options)
    *
    * @retval array List of available options
    **/
-  public static function autocomplete_LSobject_types($prefix='') {
+  public static function autocomplete_LSobject_types($prefix='', $case_sensitive=true, $quote_char='') {
     $types = LSconfig :: get('LSaccess', array(), null, LSsession :: $ldapServer);
     $subdn_config = LSconfig :: get('subDn', null, null, LSsession :: $ldapServer);
     if (is_array($subdn_config)) {
@@ -597,7 +613,7 @@ class LScli extends LSlog_staticLoggerClass {
         }
       }
     }
-    return self :: autocomplete_opts($types, $prefix, false);
+    return self :: autocomplete_opts($types, $prefix, $case_sensitive, $quote_char);
   }
 
   /**
@@ -605,16 +621,23 @@ class LScli extends LSlog_staticLoggerClass {
    *
    * @param[in] $objType        string    LSobject type
    * @param[in] $prefix         string    Option prefix (optional, default=empty string)
+   * @param[in] $case_sensitive boolean   Set to false if options are case insensitive (optional, default=true)
+   * @param[in] $quote_char     boolean   Quote character (optional, if not set, $prefix will be unquoted and its
+   *                                      quote char (if detected) will be used to quote options)
    *
    * @retval array List of available options
    **/
-  public static function autocomplete_LSobject_dn($objType, $prefix='') {
+  public static function autocomplete_LSobject_dn($objType, $prefix='', $case_sensitive=true, $quote_char='') {
     if (!LSsession ::loadLSobject($objType, false))
       return array();
 
+    // Make sure to unquote prefix
+    if (!$quote_char && $prefix)
+      $quote_char = self :: unquote_word($prefix);
+
     $rdn_attr = LSconfig :: get("LSobjects.$objType.rdn");
     if (!$rdn_attr || strlen($prefix) < (strlen($rdn_attr)+2) || substr($prefix, 0, (strlen($rdn_attr)+1)) != "$rdn_attr=")
-      return array("$rdn_attr=a", "$rdn_attr=*");
+      return array(LScli :: quote_word("$rdn_attr=", $quote_char));
 
     // Split prefix by comma to keep only RDN
     $prefix_parts = explode(',', $prefix);
@@ -627,13 +650,41 @@ class LScli extends LSlog_staticLoggerClass {
     if (is_array($objs)) {
       $dns = array_keys($objs);
       self :: log_debug("Matching $objType DNs with prefix '$prefix_rdn': ".implode(', ', $dns));
-      // If prefix have been reduced for the search, use self :: autocomplete_opts() to keep only
-      // full match
-      if ($prefix_rdn != $prefix)
-        return self :: autocomplete_opts($dns, $prefix);
-      return $dns;
+      return self :: autocomplete_opts($dns, $prefix, $case_sensitive, $quote_char);
     }
-    return array("$rdn_attr=a", "$rdn_attr=*");
+    return array(LScli :: quote_word("$rdn_attr=", $quote_char));
+  }
+
+  /**
+   * Unquote a word
+   *
+   * @param[in] &$word string  Reference of the word to unquote
+   *
+   * @retval string The quote character or an empty string if word if not quoted
+   */
+  public static function unquote_word(&$word) {
+    if (in_array($word[0], array('"', "'"))) {
+      $quote_char = $word[0];
+      $word = substr($word, 1);
+      if ($word[strlen($word)-1] == $quote_char)
+        $word = substr($word, 0, -1);
+      return $quote_char;
+    }
+    return '';
+  }
+
+  /**
+   * Quote a word
+   *
+   * @param[in] $word string  The word to quote
+   * @param[in] $quote_char string  The quote character. If not defined or empty, the input word
+   *                                will be returned unmodified.
+   *
+   * @retval string The quoted word
+   */
+  public static function quote_word($word, $quote_char) {
+    if (!$quote_char) return $word;
+    return $quote_char . str_replace($quote_char, "\\$quote_char", $word) . $quote_char;
   }
 
 }

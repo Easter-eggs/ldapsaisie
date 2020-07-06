@@ -18,5 +18,9 @@ _ldapsaisie()
             COMPREPLY[i]=${COMPREPLY[i]#"$equal_word"}
         done
     fi
+    # If only one answer and it ending by "=", do not add space
+    if [[ ${#COMPREPLY[@]} -eq 1 ]] && [[ ${COMPREPLY[0]} == *= || ${COMPREPLY[0]} == *=\' || ${COMPREPLY[0]} == *=\" ]]; then
+        compopt -o nospace
+    fi
 }
 complete -o default -F _ldapsaisie ldapsaisie
