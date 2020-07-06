@@ -2638,8 +2638,6 @@ class LSldapObject extends LSlog_staticLoggerClass {
       switch ($command_args[$comp_word_num-1]) {
         case '-a':
         case '--add':
-        case '-r':
-        case '-remove':
           if (!$objType || !$dn || !$relation_id)
             return array();
           $related_obj_type = LSconfig :: get("LSobjects.$objType.LSrelation.$relation_id.LSobject");
@@ -2647,6 +2645,44 @@ class LSldapObject extends LSlog_staticLoggerClass {
           if ($related_obj_type)
             return LScli :: autocomplete_LSobject_dn($related_obj_type, $comp_word);
           return array();
+        case '-r':
+        case '-remove':
+          if (!$objType || !$dn || !$relation_id)
+            return array();
+          if (!LSsession :: loadLSobject($objType)) {
+            self :: log_error("Invalid object type $objType");
+            return array();
+          }
+
+          LScli :: need_ldap_con();
+
+          $obj = new $objType();
+          if (!$obj->loadData($dn)) {
+            self :: log_error("Fail to load object $dn data from LDAP");
+            return array();
+          }
+
+          if (!LSsession :: loadLSclass('LSrelation')) {
+            self :: log_error("Fail to load LSrelation class.");
+            return array();
+          }
+
+          if (!is_array($obj -> getConfig("LSrelation.$relation_id"))) {
+            self :: log_error("LSobject $objType have no relation '$relation_id'.");
+            return array();
+          }
+
+          $relation = new LSrelation($obj, $relation_id);
+
+          // List current related objects
+          $list = $relation -> listRelatedObjects();
+          $listDns = array();
+          if (is_array($list)) {
+            foreach($list as $o) {
+              $listDns[] = $o -> getDn();
+            }
+          }
+          return LScli :: autocomplete_opts($listDns, $comp_word, false);
       }
 
       // If objType not already choiced (or currently autocomplete), add LSobject types to available options
