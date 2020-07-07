@@ -3,7 +3,7 @@
   <para>Cette règle vérifie que la valeur saisie est bien une adresse e-mail. Il
   est possible de vérifier si elle appartient bien à un domaine en particulier ou
   encore de vérifier si le domaine existe et qu'il possède un serveur de mail(MX).</para>
-  
+
 <variablelist>
 <title>Paramètres de configuration</title>
 
@@ -20,7 +20,7 @@
   <term>checkDomain</term>
   <listitem>
     <simpara>Booléen définissant si le domaine de l'adresse mail doit être
-    validé.</simpara>
+    validée.</simpara>
   </listitem>
 </varlistentry>
 

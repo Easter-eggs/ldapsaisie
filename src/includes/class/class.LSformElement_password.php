@@ -104,12 +104,12 @@ class LSformElement_password extends LSformElement {
       if (isset($_POST['LSformElement_password_'.$this -> name.'_send'])) {
         if ($_POST['LSformElement_password_'.$this -> name.'_send']==1) {
           $this -> sendMail = true;
-          LSdebug ('send by form');
+          self :: log_debug('getPostData('.$this -> name.'): send new password enabled by form');
         }
       }
       else if ($this -> getParam('html_options.mail.send')) {
         $this -> sendMail = true;
-        LSdebug ('send by config');
+        self :: log_debug('getPostData('.$this -> name.'): send new password enabled by config');
       }
       if ($this -> sendMail && LSsession :: loadLSaddon('mail')) {
         $msg = $this -> getParam('html_options.mail.msg');
@@ -125,6 +125,14 @@ class LSformElement_password extends LSformElement {
           }
           if ($msgInfos -> mail) {
             $mail = $msgInfos -> mail;
+            if (!checkEmail(
+              $mail,
+              $this -> getParam('html_options.mail.domain'),
+              $this -> getParam('html_options.mail.checkDomain', true, 'bool')
+            )) {
+              $this -> form -> setElementError($this -> attr_html, _('%{label}: invalid email address provided to send new password.'));
+              return true;
+            }
           }
         }
         $this -> sendMail = array (
@@ -268,51 +276,59 @@ class LSformElement_password extends LSformElement {
   public function send($params) {
     if (is_array($this -> sendMail)) {
       $mail = (String)$this -> sendMail['mail'];
-      Lsdebug($mail);
-      if ($mail=="") {
+      self :: log_debug("send(): mail from params: '$mail'");
+      if (!$mail) {
         $mail_attrs = $this -> getMailAttrs();
         if (!is_array($mail_attrs)) {
           $mail_attrs=array($mail_attrs);
         }
+        self :: log_debug('send(): mail attrs: '.varDump($mail_attrs));
+        $checkDomainsList = $this -> getParam('html_options.mail.domain');
+        $checkDomain = $this -> getParam('html_options.mail.checkDomain', true, 'bool');
         foreach($mail_attrs as $attr) {
           $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$attr];
           if ($mail_attr instanceOf LSattribute) {
-            $mail = $mail_attr -> getValue();
-            if (!empty($mail) && checkEmail($mail[0],NULL,true)) {
-              $mail=$mail[0];
+            $mail_values = $mail_attr -> getValue();
+            if (!is_array($mail_values))
+              $mail_values = array($mail_values);
+            foreach($mail_values as $mail_value) {
+              if ($mail_value && checkEmail($mail_value, $checkDomainsList, $checkDomain)) {
+                $mail = $mail_value;
+                break;
+              }
+            }
+            if ($mail)
               break;
-            }
-            else {
-              $mail="";
-            }
+            else
+              self :: log_debug("send(): $attr attribute empty (or does not contain valid email)");
           }
           else {
-            LSdebug("L'attribut $mail_attr pour l'envoie du nouveau mot de passe n'existe pas.");
+            self :: log_warning("send(): '$attr' attribute to send new password does not exists.");
           }
         }
-        if ($mail=="") {
+        if (!$mail) {
           LSerror :: addErrorCode('LSformElement_password_01');
           return;
         }
       }
 
-      if (checkEmail($mail,NULL,true)) {
-        $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password',$this -> sendMail['pwd']);
-        $msg = $this -> attr_html -> attribute -> ldapObject -> getFData($this -> sendMail['msg']);
-        $headers = $this -> getParam('html_options.mail.headers', array());
-        $bcc = $this -> getParam('html_options.mail.bcc');
-        if ($bcc) $headers['Bcc'] = $bcc;
-        if (sendMail(
-          $mail,
-          $this -> sendMail['subject'],
-          $msg,
-          $headers
-        )) {
-          LSsession :: addInfo(_('Notice mail sent.'));
-        }
+      self :: log_info($this -> attr_html -> attribute -> ldapObject -> getDn().": send new '".$this -> name."' to '$mail'.");
+      $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password', $this -> sendMail['pwd']);
+      $msg = $this -> attr_html -> attribute -> ldapObject -> getFData($this -> sendMail['msg']);
+      $headers = $this -> getParam('html_options.mail.headers', array());
+      $bcc = $this -> getParam('html_options.mail.bcc');
+      if ($bcc)
+        $headers['Bcc'] = $bcc;
+      if (sendMail(
+        $mail,
+        $this -> sendMail['subject'],
+        $msg,
+        $headers
+      )) {
+        LSsession :: addInfo(_('Notice mail sent.'));
       }
       else {
-        LSerror :: addErrorCode('LSformElement_password_02',$mail);
+        LSerror :: addErrorCode('LSformElement_password_02', $mail);
         return;
       }
     }
@@ -404,10 +420,10 @@ class LSformElement_password extends LSformElement {
  * Error Codes
  */
 LSerror :: defineError('LSformElement_password_01',
-_("LSformElement_password : No contact mail available to send password.")
+_("LSformElement_password : No valid contact mail address available : Can't send new password.")
 );
 LSerror :: defineError('LSformElement_password_02',
-_("LSformElement_password : Contact mail invalid (%{mail}). Can't send password.")
+_("LSformElement_password : Fail to send new password by email to %{mail}.")
 );
 LSerror :: defineError('LSformElement_password_03',
 _("LSformElement_password : Fail to exec pwgen. Check it's correctly installed.")
