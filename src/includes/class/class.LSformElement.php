@@ -334,4 +334,69 @@ class LSformElement extends LSlog_staticLoggerClass {
     return LSconfig :: get($param, $default, $cast, $this -> params);
   }
 
+  /**
+   * CLI autocompleter for form element attribute values
+   *
+   * @param[in] &$opts      array                 Reference of array of avalaible autocomplete options
+   * @param[in] $comp_word  string                The (unquoted) command word to autocomplete
+   * @param[in] $attr_value string                The current attribute value in command word to autocomplete
+   *                                              (optional, default: empty string)
+   * @param[in] $multiple_value_delimiter string  The multiple value delimiter (optional, default: "|")
+   * @param[in] $quote_char string                The quote character detected (optional, default: empty string)
+   *
+   * @retval void
+   */
+  public function autocomplete_attr_values(&$opts, $comp_word, $attr_value="", $multiple_value_delimiter="|", $quote_char='') {
+    return;
+  }
+
+  /**
+   * CLI autocompleter helper to split form element attribute values
+   *
+   * @param[in] $attr_value string                    The current attribute value in command word to autocomplete
+   *                                                  (optional, default: empty string)
+   * @param[in] $multiple_value_delimiter string      The multiple value delimiter (optional, default: "|")
+   * @param[in] &$attr_values Reference of array      Reference of array that will contain splited attribute
+   *                                                  values without last-one
+   * @param[in] &$last_attr_value Reference of string Reference of array that will contain the last splited attribute
+   *                                                  value
+   *
+   * @retval boolean True on success, False otherwise
+   */
+  protected function split_autocomplete_attr_values($attr_value="", $multiple_value_delimiter="|", &$attr_values, &$last_attr_value) {
+    $attr_values = explode($multiple_value_delimiter, $attr_value);
+    if (count($attr_values) > 1 && !$this -> getParam('multiple', false, 'bool')) {
+      self :: log_error("The attribute ".$this -> name." is not multivalued.");
+      return;
+    }
+    self :: log_debug("split_autocomplete_attr_values('$attr_value', '$multiple_value_delimiter'): values = '".implode("', '", $attr_values)."'");
+    $last_attr_value = array_pop($attr_values);
+    self :: log_debug("split_autocomplete_attr_values('$attr_value', '$multiple_value_delimiter'): last value = '$last_attr_value'");
+    return true;
+  }
+
+  /**
+   * CLI autocompleter helper to format and add form element attribute value option
+   *
+   * @param[in] &$opts        array                     Reference of array of avalaible autocomplete options
+   * @param[in] &$attr_values Reference of array        Reference of array of splited attribute values without last-one
+   * @param[in] $value        string                    The attribute value to add as option
+   * @param[in] $multiple_value_delimiter string        The multiple value delimiter (optional, default: "|")
+   * @param[in] $quote_char string                      The quote character (optional, default: empty string)
+   *
+   * @retval boolean True on success, False otherwise
+   */
+  protected function add_autocomplete_attr_value_opts(&$opts, &$attr_values, $value, $multiple_value_delimiter='|', $quote_char='') {
+    if (in_array($value, $attr_values)) {
+      self :: log_debug("LSformElement :: autocomplete_opts(): '$value' already one of selected value, ignore it");
+      return;
+    }
+    $opt = $this -> name . "=" .implode($multiple_value_delimiter, array_merge($attr_values, array($value)));
+    self :: log_debug("LSformElement :: add_autocomplete_attr_value_opts(): option=$opt");
+    if ($quote_char)
+      $opt = LScli :: quote_word($opt, $quote_char);
+    if (!in_array($opt, $opts))
+      $opts[] = $opt;
+  }
+
 }

@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 
 /**
  * Formulaire pour LdapSaisie
@@ -29,7 +30,7 @@
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 
-class LSform {
+class LSform extends LSlog_staticLoggerClass {
   var $ldapObject;
   var $idForm;
   var $can_validate = true;
@@ -775,6 +776,44 @@ class LSform {
             'fieldtype' => get_class($form -> getElement($_REQUEST['attribute']))
           );
         }
+      }
+    }
+  }
+
+  /**
+   * CLI autocompleter for form attributes values
+   *
+   * @param[in] &$opts      array                 Reference of array of avalaible autocomplete options
+   * @param[in] $comp_word  string                The command word to autocomplete
+   * @param[in] $multiple_value_delimiter string  The multiple value delimiter (optional, default: "|")
+   *
+   * @retval void
+   */
+  public function autocomplete_attrs_values(&$opts, $comp_word, $multiple_value_delimiter='|') {
+    if ($comp_word && strpos($comp_word, '=') !== false) {
+      // Check if $comp_word is quoted
+      $quote_char = LScli :: unquote_word($comp_word);
+
+      // Attribute name already entered: check it and autocomplete using LSformElement -> autocomplete_opts()
+      $comp_word_parts = explode('=', $comp_word);
+      $attr_name = trim($comp_word_parts[0]);
+      $attr_value = (count($comp_word_parts) > 1?implode('=', array_slice($comp_word_parts, 1)):'');
+      if (!$this -> hasElement($attr_name)) {
+        self :: log_error("Attribute '$attr_name' does not exist or not present in modify form.");
+        return;
+      }
+      $this -> elements[$attr_name] -> autocomplete_attr_values($opts, $comp_word, $attr_value, $multiple_value_delimiter, $quote_char);
+    }
+    else {
+      // Attribute name not already entered: add attribute name options
+      // Check if $comp_word is quoted and retreived quote char
+      if ($comp_word) {
+        $quote_char = LScli :: unquote_word($comp_word);
+      }
+      else
+        $quote_char = '';
+      foreach (array_keys($this -> elements) as $attr_name) {
+        $opts[] = LScli :: quote_word("$attr_name=", $quote_char);
       }
     }
   }

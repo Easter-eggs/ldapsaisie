@@ -286,4 +286,40 @@ class LSformElement_select_object extends LSformElement {
     }
   }
 
+  /**
+   * CLI autocompleter for form element attribute values
+   *
+   * @param[in] &$opts      array                 Reference of array of avalaible autocomplete options
+   * @param[in] $comp_word  string                The (unquoted) command word to autocomplete
+   * @param[in] $attr_value string                The current attribute value in command word to autocomplete (optional, default: empty string)
+   * @param[in] $multiple_value_delimiter string  The multiple value delimiter (optional, default: "|")
+   * @param[in] $quote_char string                The quote character detected (optional, default: empty string)
+   *
+   * @retval void
+   */
+  public function autocomplete_attr_values(&$opts, $comp_word, $attr_value="", $multiple_value_delimiter="|", $quote_char='') {
+    self :: log_debug("LSformElement :: autocomplete_opts([...], '$comp_word', '$attr_value', '$multiple_value_delimiter', '$quote_char')");
+
+    // Split attribute values and retreived splited value in $attr_values and $last_attr_value
+    if (!$this -> split_autocomplete_attr_values($attr_value, $multiple_value_delimiter, $attr_values, $last_attr_value))
+      return;
+
+    // Retreive selectable objects configuration
+    $objs = null;
+    $confs = $this -> attr_html -> getSelectableObjectsConfig($objs);
+    if (!is_array($confs))
+      return;
+
+    // Iter on selectable object types to retreived available autocomplete options
+    foreach($confs as $object_type => $conf) {
+      $dns = LScli :: autocomplete_LSobject_dn($object_type, $last_attr_value);
+      self :: log_debug("LScli :: autocomplete_LSobject_dn($object_type, $last_attr_value) : ".varDump($dns));
+      if (is_array($dns)) {
+        foreach ($dns as $dn) {
+          $this -> add_autocomplete_attr_value_opts($opts, $attr_values, $dn, $multiple_value_delimiter, $quote_char);
+        }
+      }
+    }
+  }
+
 }
