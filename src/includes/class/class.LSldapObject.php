@@ -2499,10 +2499,10 @@ class LSldapObject extends LSlog_staticLoggerClass {
           $i++;
         }
       }
-      LSlog :: debug("obj type :'$objType' (#$objType_arg_num) / dn :'$dn' (#$dn_arg_num)");
+      self :: log_debug("obj type :'$objType' (#$objType_arg_num) / dn :'$dn' (#$dn_arg_num)");
 
       // Handle completion of args value
-      LSlog :: debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
+      self :: log_debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
       switch ($command_args[$comp_word_num-1]) {
         case '-D':
         case '--delimiter':
@@ -2718,10 +2718,10 @@ class LSldapObject extends LSlog_staticLoggerClass {
           $i++;
         }
       }
-      LSlog :: debug("obj type :'$objType' (#$objType_arg_num) / dn :'$dn' (#$dn_arg_num) / relation_id:'$relation_id' (#$relation_id_arg_num)");
+      self :: log_debug("obj type :'$objType' (#$objType_arg_num) / dn :'$dn' (#$dn_arg_num) / relation_id:'$relation_id' (#$relation_id_arg_num)");
 
       // Handle completion of args value
-      LSlog :: debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
+      self :: log_debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
       switch ($command_args[$comp_word_num-1]) {
         case '-a':
         case '--add':
