@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Object LSsearch
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSsearch {
+class LSsearch extends LSlog_staticLoggerClass {
 
   // The LdapObject type of search
   private $LSobject=NULL;
@@ -77,9 +79,6 @@ class LSsearch {
   // Caches
   private $_canCopy=NULL;
 
-  // Logger
-  private $logger = null;
-
   /**
    * Constructor
    *
@@ -90,7 +89,6 @@ class LSsearch {
    *
    **/
   public function __construct($LSobject,$context,$params=null,$purgeParams=false) {
-    $this -> logger = LSlog :: get_logger(get_called_class());
     if (!LSsession :: loadLSobject($LSobject)) {
       return;
     }
@@ -106,7 +104,7 @@ class LSsearch {
 
     if (!$purgeParams) {
       if (! $this -> loadParamsFromSession()) {
-        $this -> logger -> debug('LSsearch : load default parameters');
+        self :: log_debug('LSsearch : load default parameters');
         $this -> loadDefaultParameters();
       }
     }
@@ -156,7 +154,7 @@ class LSsearch {
    * @retval boolean True if params has been loaded from session or False
    */
   private function loadParamsFromSession() {
-    $this -> logger -> debug('LSsearch : load context params session '.$this -> context);
+    self :: log_debug('LSsearch : load context params session '.$this -> context);
     if (isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context]) && is_array($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context])) {
       $params = $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context];
 
@@ -176,7 +174,7 @@ class LSsearch {
    * @retval void
    */
   private function saveParamsInSession() {
-    $this -> logger -> debug('LSsearch : save context params session '.$this -> context);
+    self :: log_debug('LSsearch : save context params session '.$this -> context);
     $params = $this -> params;
     if ($params['filter'] instanceof Net_LDAP2_Filter) {
       $params['filter'] = $params['filter'] -> asString();
@@ -184,7 +182,7 @@ class LSsearch {
 
     foreach ($params as $param => $value) {
       if ( !isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]) || $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]!=$value) {
-        $this -> logger -> debug("S: $param => ".varDump($value));
+        self :: log_debug("S: $param => ".varDump($value));
         $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]=$value;
       }
     }
@@ -890,21 +888,21 @@ class LSsearch {
   public function run($cache=true) {
     $this -> generateSearchParams();
     if ($this -> _searchParams['filter'] instanceof Net_LDAP2_Filter) {
-      $this -> logger -> debug('LSsearch : filter : '.$this -> _searchParams['filter']->asString());
+      self :: log_debug('LSsearch : filter : '.$this -> _searchParams['filter']->asString());
     }
-    $this -> logger -> debug('LSsearch : basedn : '.$this -> _searchParams['basedn'].' - scope : '.$this -> _searchParams['scope']);
+    self :: log_debug('LSsearch : basedn : '.$this -> _searchParams['basedn'].' - scope : '.$this -> _searchParams['scope']);
 
     if( $cache && (!isset($_REQUEST['refresh'])) && (!$this -> params['withoutCache']) ) {
-      $this -> logger -> debug('LSsearch : with the cache');
+      self :: log_debug('LSsearch : with the cache');
       $this -> result = $this -> getResultFromCache();
     }
     else {
-      $this -> logger -> debug('LSsearch : without the cache');
+      self :: log_debug('LSsearch : without the cache');
       $this -> setParam('withoutCache',false);
     }
 
     if (!$this -> result) {
-      $this -> logger -> debug('LSsearch : Not in cache');
+      self :: log_debug('LSsearch : Not in cache');
       $this -> result=array(
         'sortBy' => NULL,
         'sortDirection' => NULL
@@ -972,7 +970,7 @@ class LSsearch {
    **/
   public function addResultToCache() {
     if ($this -> cacheIsEnabled()) {
-      $this -> logger -> debug('LSsearch : Save result in cache.');
+      self :: log_debug('LSsearch : Save result in cache.');
       $hash=$this->getHash();
       $_SESSION['LSsession']['LSsearch'][$this -> LSobject][$hash]=$this->result;
     }
@@ -987,7 +985,7 @@ class LSsearch {
     if ($this -> cacheIsEnabled()) {
       $hash=$this->getHash();
       if (isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject][$hash])) {
-        $this -> logger -> debug('LSsearch : Load result from cache.');
+        self :: log_debug('LSsearch : Load result from cache.');
         return $_SESSION['LSsession']['LSsearch'][$this -> LSobject][$hash];
       }
     }
@@ -1016,7 +1014,7 @@ class LSsearch {
     );
 
     if ($retval['total']>0) {
-      $this -> logger -> debug('Total : '.$retval['total']);
+      self :: log_debug('Total : '.$retval['total']);
 
       if (!$this->params['nbObjectsByPage']) {
         $this->params['nbObjectsByPage']=NB_LSOBJECT_LIST;
@@ -1214,7 +1212,7 @@ class LSsearch {
    **/
   private function doSort() {
     if (!$this -> sort) {
-      $this -> logger -> debug('doSort : sort is disabled');
+      self :: log_debug('doSort : sort is disabled');
       return true;
     }
     if (is_null($this -> params['sortBy'])) {
@@ -1229,11 +1227,11 @@ class LSsearch {
     }
 
     if (isset($this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']])) {
-      $this -> logger -> debug('doSort : from cache');
+      self :: log_debug('doSort : from cache');
       return true;
     }
 
-    $this -> logger -> debug('doSort : '.$this -> params['sortBy'].' - '.$this -> params['sortDirection']);
+    self :: log_debug('doSort : '.$this -> params['sortBy'].' - '.$this -> params['sortDirection']);
 
     $this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']]=range(0,($this -> total-1));
 
@@ -1362,7 +1360,6 @@ class LSsearch {
    * @retval boolean True on succes, false otherwise
    **/
   public static function cli_search($command_args) {
-    $logger = LSlog :: get_logger(get_called_class());
     $objType = null;
     $patterns = array();
     $params = array(
@@ -1457,7 +1454,7 @@ class LSsearch {
     // Load Console Table lib
     $console_table_path = LSconfig :: get('ConsoleTable', 'Console/Table.php', 'string');
     if (!LSsession :: includeFile($console_table_path, true))
-      $logger -> fatal('Fail to load ConsoleTable library.');
+      self :: log_fatal('Fail to load ConsoleTable library.');
 
     if (!empty($patterns))
       $params['pattern'] = implode(' ', $patterns);
@@ -1465,13 +1462,13 @@ class LSsearch {
     $search = new LSsearch($objType, 'CLI', array(), true);
 
     // Set search params
-    $logger -> debug('Search parameters : '.varDump($params));
+    self :: log_debug('Search parameters : '.varDump($params));
     if (!$search -> setParams($params))
-      $logger -> fatal('Fail to set search parameters.');
+      self :: log_fatal('Fail to set search parameters.');
 
     // Run search
     if (!$search -> run())
-      $logger -> fatal('Fail to run search.');
+      self :: log_fatal('Fail to run search.');
 
     // Retrieve page
     $page = $search -> getPage(($page_nb-1));
@@ -1486,7 +1483,7 @@ class LSsearch {
 
     // Check page
     if (!is_array($page) || $page_nb > $page['nbPages'])
-      $logger -> fatal("Fail to retreive page #$page_nb.");
+      self :: log_fatal("Fail to retreive page #$page_nb.");
     if (empty($page['list'])) {
       echo "No $objType object found.\n";
       exit(0);
