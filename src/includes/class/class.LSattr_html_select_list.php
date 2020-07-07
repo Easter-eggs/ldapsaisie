@@ -84,9 +84,9 @@ class LSattr_html_select_list extends LSattr_html{
   /**
    * Retourne un tableau des valeurs possibles de la liste
    *
-   * @param[in] $options Attribute options (optinal)
+   * @param[in] $options Attribute options (optional)
    * @param[in] $name Attribute name (optional)
-   * @param[in] &$ldapObject Related LSldapObject (optinal)
+   * @param[in] &$ldapObject Related LSldapObject (optional)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *

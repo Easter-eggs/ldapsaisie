@@ -157,7 +157,7 @@ class LSlog {
 	/**
 	 * Set log level
 	 *
-	 * @param[in] $level string|null The log level (optinal, default: from configuration or 'WARNING')
+	 * @param[in] $level string|null The log level (optional, default: from configuration or 'WARNING')
 	 *
 	 * @retval boolean True if log level set, false otherwise
 	 **/

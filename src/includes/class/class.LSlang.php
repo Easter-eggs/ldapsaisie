@@ -858,7 +858,7 @@ function cli_generate_lang_file($command_args) {
  *
  * @param[in] $comp_words array List of already typed words of the command
  * @param[in] $comp_word_num int The command word number to autocomplete
- * @param[in] $comp_word string The command word to autocomplete state
+ * @param[in] $comp_word string The command word to autocomplete
  * @param[in] $opts array List of global available options
  *
  * @retval array List of available options for the word to autocomplete
