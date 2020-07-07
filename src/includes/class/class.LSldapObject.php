@@ -2350,6 +2350,70 @@ class LSldapObject extends LSlog_staticLoggerClass {
     }
 
     /**
+     * Args autocompleter for CLI create command
+     *
+     * @param[in] $command_args array List of already typed words of the command
+     * @param[in] $comp_word_num int The command word number to autocomplete
+     * @param[in] $comp_word string The command word to autocomplete
+     * @param[in] $opts array List of global available options
+     *
+     * @retval array List of available options for the word to autocomplete
+     **/
+    public static function cli_create_args_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
+      $opts = array_merge($opts, array ('-j', '--just-try', '-D', '--delimiter', '-N', '--no-confirm'));
+
+      // Handle positional args
+      $objType = null;
+      $objType_arg_num = null;
+      for ($i=0; $i < count($command_args); $i++) {
+        if (!in_array($command_args[$i], $opts)) {
+          // If object type not defined
+          if (is_null($objType)) {
+            // Defined it
+            $objType = $command_args[$i];
+            LScli :: unquote_word($objType);
+            $objType_arg_num = $i;
+
+            // Check object type exists
+            $objTypes = LScli :: autocomplete_LSobject_types($objType);
+
+            // Load it if exist and not trying to complete it
+            if (in_array($objType, $objTypes) && $i != $comp_word_num) {
+              LSsession :: loadLSobject($objType, false);
+            }
+          }
+        }
+        else {
+          // All args accept option, increase $i
+          $i++;
+        }
+      }
+      self :: log_debug("obj type :'$objType' (#$objType_arg_num)");
+
+      // Handle completion of args value
+      self :: log_debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
+      switch ($command_args[$comp_word_num-1]) {
+        case '-D':
+        case '--delimiter':
+          return array('|', ';');
+      }
+
+      // If objType not already choiced (or currently autocomplete), add LSobject types to available options
+      if (!$objType || $objType_arg_num == $comp_word_num)
+        $opts = array_merge($opts, LScli :: autocomplete_LSobject_types($comp_word));
+
+      // Otherwise, autocomplete on attribute=value
+      elseif ($objType && class_exists($objType)) {
+        LScli :: need_ldap_con();
+        $obj = new $objType();
+        $form = $obj -> getForm('create');
+        $form -> autocomplete_attrs_values($opts, $comp_word);
+      }
+
+      return LScli :: autocomplete_opts($opts, $comp_word);
+    }
+
+    /**
      * CLI modify command
      *
      * @param[in] $command_args array Command arguments :
@@ -2947,7 +3011,9 @@ LScli :: add_command(
       '     -D|--delimiter        Delimiter for multiple values attributes',
       '                           (default: "|")',
       '     -N|--no-confirm       Do not ask for confirmation',
-    )
+    ),
+    true,
+    array('LSldapObject', 'cli_create_args_autocompleter')
 );
 
 LScli :: add_command(
