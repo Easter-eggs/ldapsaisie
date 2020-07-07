@@ -66,7 +66,7 @@ class LSformElement_password extends LSformElement {
         $confirm_data = self :: getData($_POST, $this -> name . '_confirm');
         $confirmed = false;
         if (!is_array($confirm_data)) {
-          if (!isset($return[$this -> name]) || empty($return[$this -> name]) || empty($return[$this -> name][0])) {
+          if (!isset($return[$this -> name]) || empty($return[$this -> name]) || empty($return[$this -> name][0])) {
             self :: log_debug('getPostData('.$this -> name.'): no confirm data, but empty password provided => confirmed');
             $confirmed = true;
           }
