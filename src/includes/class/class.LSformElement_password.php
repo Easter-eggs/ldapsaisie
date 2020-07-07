@@ -87,7 +87,7 @@ class LSformElement_password extends LSformElement {
         }
       }
 
-      if ($this -> verifyPassword($return[$this -> name][0]) || (empty($return[$this -> name][0]) && empty($val))) {
+      if (($return[$this -> name] && $this -> verifyPassword($return[$this -> name][0])) || ((empty($return[$this -> name][0])) && empty($val))) {
         self :: log_debug('getPostData('.$this -> name.'): no change');
         unset($return[$this -> name]);
         $this -> form -> _notUpdate[$this -> name] = true;
