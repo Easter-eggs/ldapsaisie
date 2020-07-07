@@ -70,6 +70,10 @@ class LSformElement_password extends LSformElement {
             self :: log_debug('getPostData('.$this -> name.'): no confirm data, but empty password provided => confirmed');
             $confirmed = true;
           }
+          elseif ($onlyIfPresent) {
+            self :: log_debug('getPostData('.$this -> name.'): no confirm data, but onlyIfPresent mode => confirmed');
+            $confirmed = true;
+          }
         }
         elseif ($confirm_data == $return[$this -> name]) {
           self :: log_debug('getPostData('.$this -> name.'): confirm password value matched with new password');
