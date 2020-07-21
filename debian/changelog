@@ -1,4 +1,4 @@
-ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
+ldapsaisie (3.0.0-1) unstable; urgency=medium
 
   * A lot of code cleaning and PHP notices fixes
   * Introduce LSurl, a new URL routing manager for LdapSaisie: all pages
@@ -91,7 +91,7 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
   * Fix historical typo in configuration variable name defaultJSscipts vs defaultJSscripts
   * Fix compatibility with Safari and add error popup on Internet Explorer
 
- -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 06 May 2020 14:21:48 +0200
+ -- Benjamin Renard <brenard@easter-eggs.com>  Tue, 21 Jul 2020 14:13:30 +0200
 
 ldapsaisie (2.4.1-0) unstable; urgency=medium
 
