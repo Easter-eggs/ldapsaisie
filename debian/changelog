@@ -9,6 +9,7 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
      * search/list, show, create, modify and remove LSobject
      * run procedure implemented in LdapSaisie (useful to run it as cron for
       instance).
+  * Provide  BASH autocompletion mechanisms for ldapsaisie CLI tool
   * Replace generate_lang_file.php and generate_ldapsaisie.pot.sh script by
     CLI commands generate_lang_file and generate_ldapsaisie_pot
   * LSsession:
@@ -34,6 +35,7 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
   * LSrelation: globally rework and improve it
   * LSlog:
     - fix handling non-string message
+    - console handler: fix stderr switching on message other than INFO / DEBUG
     - add loggers, filters and format message by handlers
     - some fixes and improvements on get_debug_backtrace_context() method
     - add enabled parameter for handlers
@@ -54,7 +56,8 @@ ldapsaisie (3.0.0-1) UNRELEASED; urgency=medium
     - mail: add autocomplete feature
     - select_object: Allow multiple type of objects selection
     - wysiwyg: adjust width
-    - password: add confirmInput and confirmChange features
+    - password: add confirmInput and confirmChange features and fix/improve send
+      new password feature
   * LSform:
     - Avoid page scrolling on tab change
     - Add possibility to set callback to confirm/cancel event
