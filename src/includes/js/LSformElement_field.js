@@ -36,6 +36,7 @@ var LSformElement_field = new Class({
     clearValue: function() {
       if ($type(this.getFormField())) {
         this.getFormField().value='';
+        this.getFormField().fireEvent('change');
       }
       varLSform.clearFieldValue(this.field_name);
     },
