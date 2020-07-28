@@ -121,7 +121,9 @@ var LSview = new Class({
     },
 
     removeFromA: function(a) {
-      document.location = a.href+'?valid';
+      var validatedURL = new URL(a.href);
+      validatedURL.searchParams.set('valid', '1');
+      document.location = validatedURL.href;
     },
 
     onCustomActionBtnClick: function(event,a) {
@@ -153,7 +155,9 @@ var LSview = new Class({
     },
 
     executeCustomActionFromA: function(a) {
-      document.location = a.href+'&valid';
+      var validatedURL = new URL(a.href);
+      validatedURL.searchParams.set('valid', '1');
+      document.location = validatedURL.href;
     },
 
     toggleLSviewActions: function(ul) {
