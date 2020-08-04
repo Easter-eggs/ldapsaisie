@@ -1412,6 +1412,14 @@ msgstr ""
 msgid "Reset the choice."
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:60
+msgid "Yes"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:61
+msgid "No"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_rss.php:50
 msgid "Display RSS stack."
 msgstr ""
@@ -1708,17 +1716,17 @@ msgstr ""
 msgid "Entity type"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:202
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:200
 msgid ""
 "Invalid parameter \"%{parameter}\".\n"
 "Note: Command's parameter/argument must be place after the command."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:700
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:696
 msgid "LScli : The CLI command '%{command}' already exists."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:703
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:699
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 

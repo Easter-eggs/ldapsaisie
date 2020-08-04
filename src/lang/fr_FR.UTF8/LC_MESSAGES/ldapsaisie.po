@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-07-07 16:02+0200\n"
+"PO-Revision-Date: 2020-08-04 10:28+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -1694,6 +1694,14 @@ msgstr "Envoyer un mail depuis l'interface."
 msgid "Reset the choice."
 msgstr "Réinitialiser le choix."
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:60
+msgid "Yes"
+msgstr "Oui"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:61
+msgid "No"
+msgstr "Non"
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_rss.php:50
 msgid "Display RSS stack."
 msgstr "Afficher la file RSS."
@@ -2028,7 +2036,7 @@ msgstr "Rôle"
 msgid "Entity type"
 msgstr "Type d'entité"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:202
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:200
 msgid ""
 "Invalid parameter \"%{parameter}\".\n"
 "Note: Command's parameter/argument must be place after the command."
@@ -2037,11 +2045,11 @@ msgstr ""
 "Note: Les paramètres/arguments de la commande doivent être placés après "
 "celle-ci."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:700
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:696
 msgid "LScli : The CLI command '%{command}' already exists."
 msgstr "LScli : La commande CLI '%{command}' existe déjà."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:703
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:699
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 "LScli : La fonction de prise en charge de la commande CLI '%{command}' n'est "
@@ -2399,12 +2407,6 @@ msgstr "oui"
 #~ msgid "SSH Support : Unable to connect to SSH Server (%{host}:%{port})."
 #~ msgstr ""
 #~ "Support SSH : Impossible de se connecter au serveur SSH (%{host}:%{port})."
-
-#~ msgid "Yes"
-#~ msgstr "Oui"
-
-#~ msgid "No"
-#~ msgstr "Non"
 
 #, fuzzy
 #~ msgid "delete"
