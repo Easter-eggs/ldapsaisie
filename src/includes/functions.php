@@ -97,7 +97,7 @@ function getFData($format,$data,$meth=NULL) {
           if (is_array($value)) {
             $value = $value[0];
           }
-	  $value=_getFData_extractAndModify($value,$ch);
+          $value=_getFData_extractAndModify($value,$ch);
           $format[$i]=str_replace($ch[0],$value,$format[$i]);
         }
       }
@@ -108,7 +108,7 @@ function getFData($format,$data,$meth=NULL) {
             if (is_array($value)) {
               $value = $value[0];
             }
-	    $value=_getFData_extractAndModify($value,$ch);
+	          $value=_getFData_extractAndModify($value,$ch);
             $format[$i]=str_replace($ch[0],$value,$format[$i]);
           }
           else {
@@ -120,7 +120,7 @@ function getFData($format,$data,$meth=NULL) {
     }
     else {
       while (preg_match($expr,$format[$i],$ch)) {
-	$val=_getFData_extractAndModify($data,$ch);
+	      $val=_getFData_extractAndModify($data,$ch);
         $format[$i]=str_replace($ch[0],$val,$format[$i]);
       }
     }
