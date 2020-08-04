@@ -4,7 +4,7 @@
   <h1>{$pagetitle}</h1>
   <ul class="LSaccessRightsMatrixView_tabs">
   {foreach $LSobjects as $obj => $obj_conf}
-    <li{if $LSobject==$obj} class="LSaccessRightsMatrixView_active_tab"{/if}><a href="addon/LSaccessRightsMatrixView/accessRightsMatrix&LSobject={$obj}">{$obj_conf.label}</a></li>
+    <li{if $LSobject==$obj} class="LSaccessRightsMatrixView_active_tab"{/if}><a href="addon/LSaccessRightsMatrixView/accessRightsMatrix?LSobject={$obj}">{$obj_conf.label}</a></li>
   {/foreach}
   </ul>
 
