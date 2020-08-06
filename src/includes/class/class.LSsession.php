@@ -708,10 +708,10 @@ class LSsession {
 
         // topDn
         if (isset($_POST['LSsession_topDn']) && $_POST['LSsession_topDn'] != '' ){
-          self :: $topDn = $_POST['LSsession_topDn'];
+          self :: setSubDn($_POST['LSsession_topDn']);
         }
         else {
-          self :: $topDn = self :: $ldapServer['ldap_config']['basedn'];
+          self :: setSubDn(self :: $ldapServer['ldap_config']['basedn']);
         }
         $_SESSION['LSsession_topDn']=self :: $topDn;
 
@@ -831,6 +831,8 @@ class LSsession {
     }
     elseif (!empty($username)) {
       $users = LSauth :: username2LSobjects($username);
+      if (!is_array($users))
+        return;
     }
     else {
       self :: log_debug('recoverPasswd(): no username or recoveryHash provided.');
@@ -2786,7 +2788,7 @@ class LSsession {
   }
 
   /**
-   * Ajax method when change ldapserver on login form
+   * Ajax method when change ldapserver on login/recoveryPassword form
    *
    * @param[in] $data array The return data address
    *
@@ -2811,20 +2813,6 @@ class LSsession {
         }
       }
       $data['recoverPassword'] = isset(self :: $ldapServer['recoverPassword']);
-    }
-  }
-
-  /**
-   * Ajax method when change ldapserver on recoverPassword form
-   *
-   * @param[in] $data array The return data address
-   *
-   * @retval void
-   **/
-  public static function ajax_onLdapServerChangedRecoverPassword(&$data) {
-    if ( isset($_REQUEST['server']) ) {
-      self :: setLdapServer($_REQUEST['server']);
-      $data=array('recoverPassword' => isset(self :: $ldapServer['recoverPassword']));
     }
   }
 

@@ -29,7 +29,7 @@ var LSsession_recoverPassword = new Class({
         server:       server,
         imgload:      imgload
       };
-      new Request({url: 'ajax/class/LSsession/onLdapServerChangedRecoverPassword', data: data, onSuccess: this.onLdapServerChangedComplete.bind(this)}).send();
+      new Request({url: 'ajax/class/LSsession/onLdapServerChangedLogin', data: data, onSuccess: this.onLdapServerChangedComplete.bind(this)}).send();
     },
 
     onLdapServerChangedComplete: function(responseText, responseXML){
@@ -37,14 +37,24 @@ var LSsession_recoverPassword = new Class({
       var data = JSON.decode(responseText);
       LSdebug(data);
       if ( varLSdefault.checkAjaxReturn(data) ) {
+        if (data.list_topDn) {
+          $('LSsession_topDn').getParent().set('html',data.list_topDn);
+          $('LSsession_topDn_label').set('html',data.subDnLabel);
+          $$('.recoverpasswordform-level').each(function(el) {
+            el.setStyle('display','block');
+          });
+        }
+        else {
+          this.recoverpasswordformLevelHide();
+        }
         if (data.recoverPassword) {
           this.enableInput();
         }
       }
     },
 
-    loginformLevelHide: function(){
-      $$('.loginform-level').each(function(el) {
+    recoverpasswordformLevelHide: function(){
+      $$('.recoverpasswordform-level').each(function(el) {
         el.setStyle('display','none');
       });
       $('LSsession_topDn').empty();

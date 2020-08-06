@@ -14,6 +14,8 @@
   <dd {if count($ldapservers) <= 1}style="display: none"{/if}>
     <select name='LSsession_ldapserver' id='LSsession_ldapserver'>{html_options options=$ldapservers selected=$ldapServerId}</select>
   </dd>
+  <dt class='recoverpasswordform-level' id='LSsession_topDn_label' {if count($ldapservers) <= 1}style="display: none"{/if}>{tr msg="Level"}</dt>
+  <dd class='recoverpasswordform-level' {if count($ldapservers) <= 1}style="display: none"{/if}><select name='LSsession_topDn' id='LSsession_topDn'></select></dd>
   <dt>{tr msg="Identifier"}</dt>
   <dd><input type='text' name='LSsession_user' /></dd>
   <dd><input type='submit' value='{tr msg="Validate"|escape:"quotes"}' /></dd>
