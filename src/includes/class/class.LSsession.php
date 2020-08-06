@@ -684,12 +684,8 @@ class LSsession {
 
       LStemplate :: assign('LSsession_username',self :: getLSuserObject() -> getDisplayName());
 
-      if (isset ($_POST['LSsession_topDn']) && $_POST['LSsession_topDn']) {
-        if (self :: validSubDnLdapServer($_POST['LSsession_topDn'])) {
-          self :: $topDn = $_POST['LSsession_topDn'];
-          $_SESSION['LSsession']['topDn'] = $_POST['LSsession_topDn'];
-        } // end if
-      } // end if
+      if (isset($_POST['LSsession_topDn']) && $_POST['LSsession_topDn'])
+        self :: setSubDn($_POST['LSsession_topDn']);
 
       return true;
 
@@ -1130,27 +1126,46 @@ class LSsession {
  }
 
  /**
-  * DÃ©finition du serveur Ldap de la session
+  * Set the LDAP server of the session
   *
-  * DÃ©finition du serveur Ldap de la session Ã  partir de son ID dans
-  * le tableau LSconfig :: get('ldap_servers').
+  * Set the LDAP server of the session from its ID in configuration array
+  * LSconfig :: get('ldap_servers').
   *
-  * @param[in] integer Index du serveur Ldap
+  * @param[in] $id integer Index of LDAP server
+  * @param[in] $subDn integer SubDN of LDAP server (optional)
   *
-  * @retval boolean True sinon false.
+  * @retval boolean True if set, false otherwise
   */
-  public static function setLdapServer($id) {
+  public static function setLdapServer($id, $subDn=null) {
     $conf = LSconfig :: get("ldap_servers.$id");
     if ( is_array($conf) ) {
       self :: $ldapServerId = $id;
       self :: $ldapServer = $conf;
       LSlang :: setLocale();
       self :: setGlobals();
+
+      if ($subDn)
+        return self :: setSubDn($subDn);
+
       return true;
     }
-    else {
-      return;
+    return false;
+  }
+
+ /**
+  * Set the subDn of the session
+  *
+  * @param[in] $subDn string SubDN of LDAP server
+  *
+  * @retval boolean True if set, false otherwise
+  */
+  public static function setSubDn($subDn) {
+    if (self :: validSubDnLdapServer($subDn)) {
+      self :: $topDn = $subDn;
+      $_SESSION['LSsession']['topDn'] = $subDn;
+      return true;
     }
+    return;
   }
 
  /**
