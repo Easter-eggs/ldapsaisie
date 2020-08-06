@@ -127,7 +127,7 @@ class LSerror {
     if(!empty($_SESSION['LSerror'])) {
       $txt = '';
       foreach ($_SESSION['LSerror'] as $error)
-        $txt .= call_user_func_array(array(self, 'formatError'), $error)."<br />\n";
+        $txt .= call_user_func_array(array('LSerror', 'formatError'), $error)."<br />\n";
       self :: resetError();
       return $txt;
     }
