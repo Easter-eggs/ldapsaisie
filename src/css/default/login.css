@@ -1,5 +1,6 @@
-#loginform-logo {
-  float:                  left;
+#loginform_logo {
+  max-width:              30em;
+  max-height:             20vh;
 }
 
 div.loginform {
@@ -73,6 +74,7 @@ a.LSsession_recoverPassword {
 
   #loginform_logo {
     margin: 1em;
+    max-width: calc(90vw - 2em);
   }
 
   div.loginform {
