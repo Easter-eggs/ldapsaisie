@@ -253,7 +253,7 @@ li.LSform_layout_active, tr.LSobject-list:hover, ul.LSaccessRightsMatrixView_tab
 	background-color:	var(--medium-color);
 }
 
-.loginform input[type='text'], .loginform input[type='password'], .recoverpasswordform input[type='text'], .recoverpasswordform input[type='password'], li.LSview-actions, div.LSform_layout, h1, form.LSglobal_search, div.LSformElement_image {
+div.loginform, div.recoverpasswordform, .loginform input[type='text'], .loginform input[type='password'], .recoverpasswordform input[type='text'], .recoverpasswordform input[type='password'], li.LSview-actions, div.LSform_layout, h1, form.LSglobal_search, div.LSformElement_image {
 	border-color:		var(--medium-color);
 }
 
@@ -307,12 +307,12 @@ input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSacce
 }
 
 /* ---- Medium grey ---- */
-a.LSsession_recoverPassword, a.LSobject-list-page, a.LSobject-list-nb-by-page, h2 {
+#recoverpassword_back, a.LSsession_recoverPassword, a.LSobject-list-page, a.LSobject-list-nb-by-page, h2 {
 	color:			var(--medium-grey);
 }
 
 /* ---- Dark grey ---- */
-#status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, dl.LSmail dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label {
+.loginform, .recoverpasswordform, #status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, dl.LSmail dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label {
 	color:			var(--dark-grey);
 }
 
