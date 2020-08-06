@@ -1563,8 +1563,8 @@ class LSsession {
     $listTopDn = self :: getSubDnLdapServer();
     if (is_array($listTopDn)) {
       asort($listTopDn);
-      LStemplate :: assign('label_level',self :: getSubDnLabel());
-      LStemplate :: assign('_refresh',_('Refresh'));
+      LStemplate :: assign('LSsession_subDn_level',self :: getSubDnLabel());
+      LStemplate :: assign('LSsession_subDn_refresh',_('Refresh'));
       $LSsession_topDn_index = array();
       $LSsession_topDn_name = array();
       foreach($listTopDn as $index => $name) {

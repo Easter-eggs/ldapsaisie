@@ -37,6 +37,12 @@
 	vertical-align: baseline;
 }
 
+#LSsession_topDn_form {
+  margin: 0;
+	color: var(--dark-color);
+	font-weight: bold;
+}
+
 /* ---- Menu ---- */
 ul.menu {
 	padding: 0;
@@ -255,7 +261,7 @@ tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .L
 	background-color:	var(--light-color);
 }
 
-.LSform select, select#LSview_search_predefinedFilter {
+#LSsession_topDn, .LSform select, select#LSview_search_predefinedFilter {
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -263,6 +269,9 @@ tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .L
 	border: 1px solid var(--medium-color);
 }
 
+#LSsession_topDn {
+	background: white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 5px center/8px 10px;
+}
 
 /* ---- Dark ---- */
 li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search, ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab {

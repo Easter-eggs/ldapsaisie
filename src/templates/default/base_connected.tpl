@@ -8,8 +8,8 @@
 
       {if isset($LSsession_subDn) && $LSsession_subDn!=""}
         <form action="" method='post' id='LSsession_topDn_form'>
-          <label>{$label_level|escape:"htmlall"}
-            <a href="?LSsession_refresh"><img src='{img name='refresh'}' alt='{$_refresh|escape:"htmlall"}' title='{$_refresh|escape:"htmlall"}' /></a>
+          <label>{$LSsession_subDn_level|escape:"htmlall"}
+            <a href="?LSsession_refresh"><img src='{img name='refresh'}' alt='{$LSsession_subDn_refresh|escape:"htmlall"}' title='{$LSsession_subDn_refresh|escape:"htmlall"}' /></a>
             <select name='LSsession_topDn' id='LSsession_topDn'>
               {html_options values=$LSsession_subDn_indexes output=$LSsession_subDn_names selected=$LSsession_subDn}
             </select>
