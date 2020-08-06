@@ -43,6 +43,21 @@
 	font-weight: bold;
 }
 
+/* ---- Login form --- */
+.loginform input, .loginform select, .recoverpasswordform input, .recoverpasswordform select {
+	width: 13em!important;
+	box-sizing: border-box;
+}
+
+.loginform input[type=submit], .recoverpasswordform input[type=submit] {
+	margin: 1em 0;
+	padding: 0.2em;
+	background-color: var(--dark-color);
+	border: none;
+	color: white;
+	cursor: pointer;
+}
+
 /* ---- Menu ---- */
 ul.menu {
 	padding: 0;
@@ -238,7 +253,7 @@ li.LSform_layout_active, tr.LSobject-list:hover, ul.LSaccessRightsMatrixView_tab
 	background-color:	var(--medium-color);
 }
 
-li.LSview-actions, div.LSform_layout, h1, form.LSglobal_search, div.LSformElement_image {
+.loginform input[type='text'], .loginform input[type='password'], .recoverpasswordform input[type='text'], .recoverpasswordform input[type='password'], li.LSview-actions, div.LSform_layout, h1, form.LSglobal_search, div.LSformElement_image {
 	border-color:		var(--medium-color);
 }
 
@@ -261,7 +276,7 @@ tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .L
 	background-color:	var(--light-color);
 }
 
-#LSsession_topDn, .LSform select, select#LSview_search_predefinedFilter {
+#LSsession_topDn, #LSsession_ldapserver, .LSform select, select#LSview_search_predefinedFilter {
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -269,7 +284,7 @@ tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .L
 	border: 1px solid var(--medium-color);
 }
 
-#LSsession_topDn {
+#LSsession_topDn, #LSsession_ldapserver {
 	background: white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 5px center/8px 10px;
 }
 
