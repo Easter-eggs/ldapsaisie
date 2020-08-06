@@ -2464,7 +2464,12 @@ class LSsession {
    * @retval boolean True si le cache des droits est activé, false sinon.
    */
   public static function cacheLSprofiles() {
-    return ( (LSconfig :: get('cacheLSprofiles')) || (self :: $ldapServer['cacheLSprofiles']) );
+    return LSconfig :: get(
+      'cacheLSprofiles',
+      LSconfig :: get('cacheLSprofiles', false, 'bool'), // Default
+      'bool',
+      self :: $ldapServer
+    );
   }
 
   /**
@@ -2475,7 +2480,12 @@ class LSsession {
    * @retval boolean True si le cache des subDn est activé, false sinon.
    */
   public static function cacheSudDn() {
-    return ( (LSconfig :: get('cacheSubDn')) || (self :: $ldapServer['cacheSubDn']));
+    return LSconfig :: get(
+      'cacheSubDn',
+      LSconfig :: get('cacheSubDn', false, 'bool'), // Default
+      'bool',
+      self :: $ldapServer
+    );
   }
 
   /**
@@ -2486,7 +2496,12 @@ class LSsession {
    * @retval boolean True si le cache des recherches est activé, false sinon.
    */
   public static function cacheSearch() {
-    return ( (LSconfig :: get('cacheSearch')) || (self :: $ldapServer['cacheSearch']));
+    return LSconfig :: get(
+      'cacheSearch',
+      LSconfig :: get('cacheSearch', false, 'bool'), // Default
+      'bool',
+      self :: $ldapServer
+    );
   }
 
   /**
@@ -2497,7 +2512,12 @@ class LSsession {
    * @retval boolean True if global search is enabled, false instead
    */
   public static function globalSearch() {
-    return LSconfig :: get('globalSearch', LSconfig :: get('globalSearch', true, 'bool'), 'bool', self :: $ldapServer);
+    return LSconfig :: get(
+      'globalSearch',
+      LSconfig :: get('globalSearch', true, 'bool'), // Default
+      'bool',
+      self :: $ldapServer
+    );
   }
 
   /**
@@ -2508,7 +2528,14 @@ class LSsession {
    * @retval string Le label des niveaux pour le serveur ldap dourant
    */
   public static function getSubDnLabel() {
-    return (self :: $ldapServer['subDnLabel']!='')?__(self :: $ldapServer['subDnLabel']):_('Level');
+    return __(
+      LSconfig :: get(
+        'subDnLabel',
+        ___('Level'), // default value (to translate)
+        'string',
+        self :: $ldapServer
+      )
+    );
   }
 
   /**

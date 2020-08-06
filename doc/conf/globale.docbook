@@ -2,10 +2,10 @@
 <sect1 id='config-globale'>
   <title>Configuration globale</title>
   <para>
-    La plus grande partie de la configuration globale se trouve dans le fichier 
+    La plus grande partie de la configuration globale se trouve dans le fichier
     <filename>config.inc.php</filename>.
   </para>
-  
+
 <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>
 <![CDATA[// Variables globales
@@ -87,16 +87,33 @@ define('CONST2','val2')
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>ldap_servers</term>
+  <listitem>
+    <simpara>Configuration des serveurs LDAP.
+    <link linkend="config-srv-ldap">Voir section concernée</link>.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+<sect3>
+<title>Préférences globales</title>
+
+<important><simpara>Les variables globales suivantes ont une action globale, mais
+non-prioritaire sur le comportement de l'application. Il peux être redéfini pour
+chacun des serveurs LDAP.</simpara></important>
+
+<variablelist>
 
 <varlistentry>
   <term>cacheLSprofiles</term>
   <listitem>
-    <simpara>Activation/Désactivation de la mise en cache des profils des 
+    <simpara>Activation/Désactivation de la mise en cache des profils des
     utilisateurs connectés (&LSprofiles;).</simpara>
     <simpara>Valeurs possibles : <literal>True</literal> ou <literal>False</literal></simpara>
     <simpara>Valeur recommandée : <literal>True</literal></simpara>
-    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
-    sur le comportement de l'application.</simpara></important>
+    <simpara>Valeur par défaut : <literal>False</literal></simpara>
   </listitem>
 </varlistentry>
 
@@ -104,13 +121,11 @@ define('CONST2','val2')
 <varlistentry>
   <term>cacheSubDn</term>
   <listitem>
-    <simpara>Activation/Désactivation de la mise en cache des niveaux de 
+    <simpara>Activation/Désactivation de la mise en cache des niveaux de
     connexion (&subDn;) dans l'annuaire.</simpara>
-    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou <emphasis>False</emphasis></simpara>
-    <simpara>Valeur recommandée : <emphasis>True</emphasis></simpara>
-    
-    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
-    sur le comportement de l'application.</simpara></important>
+    <simpara>Valeurs possibles : <literal>True</literal> ou <literal>False</literal></simpara>
+    <simpara>Valeur recommandée : <literal>True</literal></simpara>
+    <simpara>Valeur par défaut : <literal>False</literal></simpara>
   </listitem>
 </varlistentry>
 
@@ -118,14 +133,12 @@ define('CONST2','val2')
 <varlistentry>
   <term>cacheSearch</term>
   <listitem>
-    <simpara>Activation/Désactivation de la mise en cache du résultat des 
+    <simpara>Activation/Désactivation de la mise en cache du résultat des
     recherches dans l'annuaire.</simpara>
-    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou 
-    <emphasis>False</emphasis></simpara>
-    <simpara>Valeur recommandée : <emphasis>True</emphasis></simpara>
-    
-    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
-    sur le comportement de l'application.</simpara></important>
+    <simpara>Valeurs possibles : <literal>True</literal> ou
+    <literal>False</literal></simpara>
+    <simpara>Valeur recommandée : <literal>True</literal></simpara>
+    <simpara>Valeur par défaut : <literal>False</literal></simpara>
   </listitem>
 </varlistentry>
 
@@ -135,9 +148,9 @@ define('CONST2','val2')
   <listitem>
     <simpara>Activation/Désactivation de la recherche globale dans l'annuaire.
     </simpara>
-    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou
-    <emphasis>False</emphasis></simpara>
-    <simpara>Valeur par défaut : <emphasis>True</emphasis></simpara>
+    <simpara>Valeurs possibles : <literal>True</literal> ou
+    <literal>False</literal></simpara>
+    <simpara>Valeur par défaut : <literal>True</literal></simpara>
   </listitem>
 </varlistentry>
 
@@ -146,24 +159,15 @@ define('CONST2','val2')
   <term>keepLSsessionActive</term>
   <listitem>
     <simpara>Activation/Désactivation du maintient de la LSsession active.</simpara>
-    <simpara>Valeurs possibles : <emphasis>True</emphasis> ou 
-    <emphasis>False</emphasis></simpara>
-    
-    <important><simpara>Ce paramètre a une action globale mais non prioritaire 
-    sur le comportement de l'application.</simpara></important>
-  </listitem>
-</varlistentry>
-
-
-<varlistentry>
-  <term>ldap_servers</term>
-  <listitem>
-    <simpara>Configuration des serveurs LDAP. 
-    <link linkend="config-srv-ldap">Voir section concernée</link>.</simpara>
+    <simpara>Valeurs possibles : <literal>True</literal> ou
+    <literal>False</literal></simpara>
+    <simpara>Valeur par défaut : <literal>False</literal></simpara>
   </listitem>
 </varlistentry>
 
 </variablelist>
+
+</sect3>
 
 &conf-srv-ldap;
 

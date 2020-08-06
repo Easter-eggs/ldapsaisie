@@ -180,6 +180,8 @@ serveur LDAP.</para>
   <listitem>
     <simpara>Activation/Désactivation de la mise en cache des &LSprofiles; des
     utilisateurs connectés à ce serveur.</simpara>
+    <simpara>Valeur par défaut : <emphasis>valeur de la variable globale
+    du même nom</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -189,6 +191,8 @@ serveur LDAP.</para>
   <listitem>
     <simpara>Activation/Désactivation de la mise en cache du résultat des
     recherches sur ce serveur.</simpara>
+    <simpara>Valeur par défaut : <emphasis>valeur de la variable globale
+    du même nom</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -199,6 +203,8 @@ serveur LDAP.</para>
     <simpara>Activation/Désactivation de la recherche globale sur ce serveur
     en particulier. Par defaut, la valeur du paramètre global
     <literal>globalSearch</literal> est utilisée.</simpara>
+    <simpara>Valeur par défaut : <emphasis>valeur de la variable globale
+    du même nom</emphasis></simpara>
   </listitem>
 </varlistentry>
 
@@ -284,6 +290,8 @@ serveur LDAP.</para>
     <simpara>Activation/Désactivation du maintient de la LSsession active.</simpara>
     <simpara>Valeurs possibles : <emphasis>True</emphasis> ou
     <emphasis>False</emphasis></simpara>
+    <simpara>Valeur par défaut : <emphasis>valeur de la variable globale
+    du même nom</emphasis></simpara>
   </listitem>
 </varlistentry>
 
