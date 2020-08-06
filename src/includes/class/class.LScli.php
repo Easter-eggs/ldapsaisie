@@ -174,6 +174,13 @@ class LScli extends LSlog_staticLoggerClass {
             if(!LSsession :: setLdapServer($ldap_server_id))
               self :: usage("Fail to select LDAP server #$ldap_server_id.");
             break;
+          case '--sub-dn':
+            $i++;
+            $subDn = $argv[$i];
+            self :: need_ldap_con();
+            if(!LSsession :: setSubDn($subDn))
+              self :: usage("Fail to select sub DN '$subDn'.");
+            break;
           case '-L':
           case '--load-class':
             $i++;
@@ -415,6 +422,28 @@ class LScli extends LSlog_staticLoggerClass {
               self :: unquote_word($ldap_server_id);
               if(!LSsession :: setLdapServer($ldap_server_id))
                 self :: usage("Fail to select LDAP server #$ldap_server_id.");
+              $opts[] = '--sub-dn';
+            }
+            break;
+          case '--sub-dn':
+            $i++;
+            if ($i == $comp_word_num) {
+              self :: need_ldap_con();
+              $subDns = LSsession :: getSubDnLdapServer();
+              if (!is_array($subDns))
+                $subDns = array();
+              return self :: return_bash_autocomplete_list(
+                self :: autocomplete_opts(array_keys($subDns), $comp_word)
+              );
+            }
+            if (!isset($comp_words[$i]))
+              break;
+            if (isset($comp_words[$i])) {
+              $subDn = $comp_words[$i];
+              self :: unquote_word($subDn);
+              self :: need_ldap_con();
+              if(!LSsession :: setSubDn($subDn))
+                self :: usage("Fail to select sub DN '$subDn'.");
             }
             break;
           case '-L':
