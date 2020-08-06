@@ -599,17 +599,16 @@ class LScli extends LSlog_staticLoggerClass {
       foreach ($subdn_config as $key => $value) {
         if (!is_array($value)) continue;
         if ($key == 'LSobject') {
-          if (isset($value['LSobjects']) && is_array($value['LSobjects']))
-            foreach ($value['LSobjects'] as $type)
-              if (!in_array($type, $types))
-                $types[] = $type;
-        }
-        else {
-          foreach ($value as $objConfig)
-            if (is_array($objConfig) && isset($objConfig['LSobjets']) && is_array($objConfig['LSobjects']))
+          foreach ($value as $subDnObjType => $objConfig)
+            if (is_array($objConfig) && isset($objConfig['LSobjects']) && is_array($objConfig['LSobjects']))
               foreach ($objConfig['LSobjects'] as $type)
                 if (!in_array($type, $types))
                   $types[] = $type;
+        }
+        else if (isset($value['LSobjects']) && is_array($value['LSobjects'])) {
+          foreach ($value['LSobjects'] as $type)
+            if (!in_array($type, $types))
+              $types[] = $type;
         }
       }
     }
