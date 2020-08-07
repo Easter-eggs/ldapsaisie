@@ -130,6 +130,17 @@ class LSlog_logger {
 	 *
 	 * @retval void
 	 **/
+	public function trace($message) {
+		$this -> logging('TRACE', $message);
+	}
+
+	/**
+	 * Log a message with level DEBUG
+	 *
+	 * @param[in] $message The message to log
+	 *
+	 * @retval void
+	 **/
 	public function debug($message) {
 		$this -> logging('DEBUG', $message);
 	}

@@ -40,6 +40,7 @@ class LSlog_syslog extends LSlog_handler {
 		'NOTICE' =>	LOG_NOTICE, 	// normal, but significant, condition
 		'INFO' => 	LOG_INFO, 	// informational message
 		'DEBUG' =>	LOG_DEBUG, 	// debug-level message
+		'TRACE' =>	LOG_DEBUG, 	// also debug-level message
 	);
 
 	// Default syslog priority (used if level is not provided or invalid)

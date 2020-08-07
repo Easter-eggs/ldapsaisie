@@ -53,6 +53,17 @@ class LSlog_staticLoggerClass {
   }
 
   /**
+   * Log a message with level TRACE
+   *
+   * @param[in] $message The message to log
+   *
+   * @retval void
+   **/
+  protected static function log_trace($message) {
+    self :: log('TRACE', $message);
+  }
+
+  /**
    * Log a message with level DEBUG
    *
    * @param[in] $message The message to log

@@ -46,11 +46,12 @@ class LSlog {
 
 	// Levels
 	private static $levels=array(
-		'DEBUG' => 0,
-		'INFO' => 1,
-		'WARNING' => 2,
-		'ERROR' => 3,
-		'FATAL' => 4,
+		'TRACE' => 0,
+		'DEBUG' => 1,
+		'INFO' => 2,
+		'WARNING' => 3,
+		'ERROR' => 4,
+		'FATAL' => 5,
 	);
 
 	// Current existing loggers
@@ -176,7 +177,7 @@ class LSlog {
 		self :: $level = $level;
 
 		// Set PHP error/exception handlers
-		if (self :: $level == 'DEBUG')
+		if (in_array(self :: $level, array('DEBUG', 'TRACE')))
 			set_error_handler(array('LSlog', 'php_error'), E_ALL & ~E_STRICT);
 		else
 			set_error_handler(array('LSlog', 'php_error'), E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
@@ -402,6 +403,17 @@ class LSlog {
 	/*
 	 * Public logging methods
 	 */
+
+	/**
+	 * Log a message with level TRACE
+	 *
+	 * @param[in] $message The message to log
+	 *
+	 * @retval void
+	 **/
+	public static function trace($message) {
+		self :: logging('TRACE', $message);
+	}
 
 	/**
 	 * Log a message with level DEBUG

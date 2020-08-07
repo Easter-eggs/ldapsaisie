@@ -55,7 +55,7 @@ class LSlog_console extends LSlog_handler {
 	 **/
 	public function logging($level, $message, $logger=null) {
 		return fwrite(
-			(in_array($level, array('INFO', 'DEBUG'))?$this -> stdout:$this -> stderr),
+			(in_array($level, array('INFO', 'DEBUG', 'TRACE'))?$this -> stdout:$this -> stderr),
 			$this -> format($level, $message, $logger)."\n"
 		);
 	}

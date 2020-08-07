@@ -60,6 +60,7 @@ de l'application.</para>
     journal de l'application. Les niveaux de journalisation gérés par
     l'application sont (dans l'ordre du plus petit au plus grand) :</simpara>
     <itemizedlist>
+      <listitem><simpara>TRACE</simpara></listitem>
       <listitem><simpara>DEBUG</simpara></listitem>
       <listitem><simpara>INFO</simpara></listitem>
       <listitem><simpara>WARNING</simpara></listitem>
