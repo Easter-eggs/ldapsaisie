@@ -713,7 +713,6 @@ class LSsession {
         else {
           self :: setSubDn(self :: $ldapServer['ldap_config']['basedn']);
         }
-        $_SESSION['LSsession_topDn']=self :: $topDn;
 
         if (!LSauth :: start()) {
           self :: log_error("startLSsession(): can't start LSauth -> stop");
@@ -763,7 +762,6 @@ class LSsession {
       if (self :: $ldapServerId) {
         LStemplate :: assign('ldapServerId',self :: $ldapServerId);
       }
-      LStemplate :: assign('topDn',self :: $topDn);
       if (isset($_GET['LSsession_recoverPassword'])) {
         self :: displayRecoverPasswordForm($recoveryPasswordInfos);
       }
@@ -825,7 +823,7 @@ class LSsession {
         $authobject = new $objType();
         $users = array_merge(
           $users,
-          $authobject -> listObjects($filter, self :: $topDn, array('onlyAccessible' => false))
+          $authobject -> listObjects($filter, self :: getTopDn(), array('onlyAccessible' => false))
         );
       }
     }
@@ -1937,7 +1935,7 @@ class LSsession {
               self :: log_debug("loadLSaccess(): authenticated user have no access to $objectType");
           }
         }
-        $LSaccess[self :: $topDn] = $access;
+        $LSaccess[self :: getTopDn()] = $access;
       }
     }
     if (LSauth :: displaySelfAccess()) {
@@ -1962,9 +1960,9 @@ class LSsession {
   * @retval array User's access
   **/
   public static function getLSaccess($topDn=null) {
-    if (is_null($topDn)) $topDn = self :: $topDn;
-    if (isset(self :: $LSaccess[self :: $topDn])) {
-      return self :: $LSaccess[self :: $topDn];
+    if (is_null($topDn)) $topDn = self :: getTopDn();
+    if (isset(self :: $LSaccess[$topDn])) {
+      return self :: $LSaccess[$topDn];
     }
     return array();
   }
@@ -2092,7 +2090,7 @@ class LSsession {
       }
     }
     else {
-      $objectdn=LSconfig :: get('LSobjects.'.$LSobject.'.container_dn').','.self :: $topDn;
+      $objectdn=LSconfig :: get('LSobjects.'.$LSobject.'.container_dn').','.self :: getTopDn();
       $whoami = self :: whoami($objectdn);
     }
 
@@ -2341,7 +2339,7 @@ class LSsession {
       if (!is_array(self :: $LSaddonsViews[$LSaddon][$viewId]['allowedLSprofiles'])) {
         return true;
       }
-      $whoami = self :: whoami(self :: $topDn);
+      $whoami = self :: whoami(self :: getTopDn());
 
       if (isset(self :: $LSaddonsViews[$LSaddon][$viewId]['allowedLSprofiles']) && is_array(self :: $LSaddonsViews[$LSaddon][$viewId]['allowedLSprofiles'])) {
         foreach($whoami as $who) {
@@ -2564,11 +2562,12 @@ class LSsession {
    */
   public static function getSubDnName($subDn=false) {
     if (!$subDn) {
-      $subDn = self :: $topDn;
+      $subDn = self :: getTopDn();
     }
-    if (self :: getSubDnLdapServer(false)) {
-      if (isset(self :: $_subDnLdapServer[self :: $ldapServerId][false][$subDn])) {
-        return self :: $_subDnLdapServer[self :: $ldapServerId][false][$subDn];
+    $subDns = self :: getSubDnLdapServer(false);
+    if (is_array($subDns)) {
+      if (isset($subDns[$subDn])) {
+        return $subDns[$subDn];
       }
     }
     return '';
@@ -2600,7 +2599,7 @@ class LSsession {
    */
   public static function in_menu($LSobject,$topDn=NULL) {
     if (!$topDn) {
-      $topDn=self :: $topDn;
+      $topDn = self :: getTopDn();
     }
     return isset(self :: $LSaccess[$topDn][$LSobject]);
   }
@@ -2663,7 +2662,7 @@ class LSsession {
    */
   public static function redirectToDefaultView($force=false) {
     if (isset(self :: $ldapServer['defaultView'])) {
-      if (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaccess[self :: $topDn])) {
+      if (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaccess[self :: getTopDn()])) {
         LSurl :: redirect('object/'.self :: $ldapServer['defaultView']);
       }
       elseif (array_key_exists(self :: $ldapServer['defaultView'], self :: $LSaddonsViewsAccess)) {
