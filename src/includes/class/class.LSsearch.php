@@ -1342,7 +1342,6 @@ class LSsearch extends LSlog_staticLoggerClass {
    *   - Optional arguments :
    *     - -f|--filter : LDAP filter string
    *     - -b|--basedn : LDAP base DN
-   *     - --subDn : LDAP sub DN
    *     - -s|--scope : LDAP search scope (sub, one, base)
    *     - -l|--limit : search result size limit
    *     - -a|--approx : approximative search on provided pattern
@@ -1376,9 +1375,6 @@ class LSsearch extends LSlog_staticLoggerClass {
         case '-b':
         case '--basedn':
           $params['basedn'] = $command_args[++$i];
-          break;
-        case '--subdn':
-          $params['subdn'] = $command_args[++$i];
           break;
         case '-s':
         case '--scope':
@@ -1535,7 +1531,6 @@ class LSsearch extends LSlog_staticLoggerClass {
     $command_opts = array (
       '-f', '--filter',
       '-b', '--basedn',
-      '--subdn',
       '-s', '--scope',
       '-l', '--limit',
       '-a', '--approx',
@@ -1577,7 +1572,6 @@ class LSsearch extends LSlog_staticLoggerClass {
       }
       else {
         switch ($command_args[$i]) {
-          case '--subdn':
           case '-s':
           case '--scope':
           case '-f':
@@ -1607,16 +1601,6 @@ class LSsearch extends LSlog_staticLoggerClass {
     // Handle completion of args value
     LSlog :: debug("Last complete word = '".$command_args[$comp_word_num-1]."'");
     switch ($command_args[$comp_word_num-1]) {
-      case '--subdn':
-        LScli :: need_ldap_con();
-        $subDns = LSsession :: getSubDnLdapServer();
-        if (is_array($subDns)) {
-          $subDns = array_keys($subDns);
-          LSlog :: debug('List of available subDns: '.implode(', ', $subDns));
-        }
-        else
-          $subDns = array();
-        return LScli :: autocomplete_opts($subDns, $comp_word);
       case '-s':
       case '--scope':
         return LScli :: autocomplete_opts(array('sub', 'one', 'base'), $comp_word);
@@ -1723,7 +1707,6 @@ LScli :: add_command(
     '   - Optional arguments :',
     '     - -f|--filter : LDAP filter string',
     '     - -b|--basedn : LDAP base DN',
-    '     - --subDn : LDAP sub DN',
     '     - -s|--scope : LDAP search scope (sub, one, base)',
     '     - -l|--limit : search result size limit',
     '     - -a|--approx : approximative search on provided pattern',
