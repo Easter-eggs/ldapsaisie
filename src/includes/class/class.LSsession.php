@@ -241,6 +241,26 @@ class LSsession {
   }
 
   /**
+	 * Log an exception via class logger
+	 *
+	 * @param[in] $exception Exception The exception to log
+	 * @param[in] $prefix string|null Custom message prefix (optional, see self :: log_exception())
+	 * @param[in] $fatal boolean Log exception as a fatal error (optional, default: true)
+	 *
+	 * @retval void
+	 **/
+	protected static function log_exception($exception, $prefix=null, $fatal=true) {
+    if (class_exists('LSlog')) {
+      LSlog :: get_logger(get_called_class()) -> exception($exception, $prefix, $fatal);
+      return;
+    }
+    // Implement basic exception message formating
+    $message = ($prefix?"$prefix :\n":"An exception occured :\n").
+      "## ".$exception->getFile().":".$exception->getLine(). " : ". $exception->getMessage();
+    self :: log(($fatal?'FATAL':'ERROR'), $message);
+  }
+
+  /**
    * Log a message with level TRACE
    *
    * @param[in] $message The message to log
