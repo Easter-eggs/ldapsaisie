@@ -135,6 +135,7 @@ class LScli extends LSlog_staticLoggerClass {
     $console_log = false;
     $quiet = false;
     $ldap_server_id = false;
+    $ldap_server_subDn = false;
     $command = false;
     $command_args = array();
     self :: log_debug("handle_args :\n".varDump($argv));
@@ -176,10 +177,7 @@ class LScli extends LSlog_staticLoggerClass {
             break;
           case '--sub-dn':
             $i++;
-            $subDn = $argv[$i];
-            self :: need_ldap_con();
-            if(!LSsession :: setSubDn($subDn))
-              self :: usage("Fail to select sub DN '$subDn'.");
+            $ldap_server_subDn = $argv[$i];
             break;
           case '-L':
           case '--load-class':
@@ -222,6 +220,24 @@ class LScli extends LSlog_staticLoggerClass {
       // - if $console_log: use same log level as other handlers
       // - otherwise: log only errors
       LSlog :: logOnConsole(($console_log?$log_level:'ERROR'));
+
+    // If no LDAP server subDn selected, check if current LDAP server need it,
+    // and select the first one
+    if (!$ldap_server_subDn) {
+      self :: need_ldap_con();
+      $subDns = LSsession :: getSubDnLdapServer();
+      if (is_array($subDns)) {
+        asort($subDns);
+        $ldap_server_subDn = key($subDns);
+      }
+    }
+
+    // Select LDAP server subDn (if need)
+    if ($ldap_server_subDn) {
+      self :: need_ldap_con();
+      if(!LSsession :: setSubDn($ldap_server_subDn))
+        self :: usage("Fail to select sub DN '$ldap_server_subDn'.");
+    }
 
     if (!$command) {
       self :: log_debug("LScli :: handle_args() : no detected command => show usage");
@@ -422,7 +438,17 @@ class LScli extends LSlog_staticLoggerClass {
               self :: unquote_word($ldap_server_id);
               if(!LSsession :: setLdapServer($ldap_server_id))
                 self :: usage("Fail to select LDAP server #$ldap_server_id.");
-              $opts[] = '--sub-dn';
+
+              // Check if LDAP server has subDn and select the first one if true
+              self :: need_ldap_con();
+              $subDns = LSsession :: getSubDnLdapServer();
+              if (is_array($subDns)) {
+                asort($subDns);
+                $subDn = key($subDns);
+                if(!LSsession :: setSubDn($subDn))
+                  self :: usage("Fail to select sub DN '$subDn'.");
+                $opts[] = '--sub-dn';
+              }
             }
             break;
           case '--sub-dn':
@@ -622,24 +648,45 @@ class LScli extends LSlog_staticLoggerClass {
    * @retval array List of available options
    **/
   public static function autocomplete_LSobject_types($prefix='', $case_sensitive=true, $quote_char='') {
-    $types = LSconfig :: get('LSaccess', array(), null, LSsession :: $ldapServer);
     $subdn_config = LSconfig :: get('subDn', null, null, LSsession :: $ldapServer);
     if (is_array($subdn_config)) {
-      foreach ($subdn_config as $key => $value) {
-        if (!is_array($value)) continue;
-        if ($key == 'LSobject') {
-          foreach ($value as $subDnObjType => $objConfig)
-            if (is_array($objConfig) && isset($objConfig['LSobjects']) && is_array($objConfig['LSobjects']))
-              foreach ($objConfig['LSobjects'] as $type)
-                if (!in_array($type, $types))
-                  $types[] = $type;
+      $types = array();
+      $currentSubDn = LSsession :: getTopDn();
+      foreach($subdn_config as $name => $config) {
+        if ($name=='LSobject') {
+          self :: need_ldap_con();
+          if (is_array($config)) {
+            foreach($config as $objectType => $objectConf) {
+              if (LSsession :: loadLSobject($objectType)) {
+                if ($subdnobject = new $objectType()) {
+                  $tbl = $subdnobject -> getSelectArray(NULL,LSsession::getRootDn(),NULL,NULL,false,NULL,array('onlyAccessible' => False));
+                  if (is_array($tbl) && array_key_exists($currentSubDn, $tbl)) {
+                    if (is_array($objectConf['LSobjects'])) {
+                      foreach($objectConf['LSobjects'] as $type) {
+                        if (!in_array($type, $types))
+                          $types[] = $type;
+                      }
+                    }
+                    break;
+                  }
+                }
+              }
+            }
+          }
         }
-        else if (isset($value['LSobjects']) && is_array($value['LSobjects'])) {
-          foreach ($value['LSobjects'] as $type)
-            if (!in_array($type, $types))
-              $types[] = $type;
+        else if (isset($config['dn']) && $config['dn'] == $currentSubDn) {
+          if (is_array($config['LSobjects'])) {
+            foreach($config['LSobjects'] as $type) {
+              if (!in_array($type, $types))
+                $types[] = $type;
+            }
+          }
+          break;
         }
       }
+    }
+    else {
+      $types = LSconfig :: get('LSaccess', array(), null, LSsession :: $ldapServer);
     }
     return self :: autocomplete_opts($types, $prefix, $case_sensitive, $quote_char);
   }
