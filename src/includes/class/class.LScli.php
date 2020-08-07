@@ -409,6 +409,8 @@ class LScli extends LSlog_staticLoggerClass {
     $command = null;
     $command_arg_num = null;
     $command_args = array();
+    $ldap_server_id = false;
+    $ldap_server_subDn = false;
     for ($i=1; $i < count($comp_words); $i++) {
       $unescaped_comp_word = $comp_words[$i];
       self :: unquote_word($unescaped_comp_word);
@@ -438,17 +440,6 @@ class LScli extends LSlog_staticLoggerClass {
               self :: unquote_word($ldap_server_id);
               if(!LSsession :: setLdapServer($ldap_server_id))
                 self :: usage("Fail to select LDAP server #$ldap_server_id.");
-
-              // Check if LDAP server has subDn and select the first one if true
-              self :: need_ldap_con();
-              $subDns = LSsession :: getSubDnLdapServer();
-              if (is_array($subDns)) {
-                asort($subDns);
-                $subDn = key($subDns);
-                if(!LSsession :: setSubDn($subDn))
-                  self :: usage("Fail to select sub DN '$subDn'.");
-                $opts[] = '--sub-dn';
-              }
             }
             break;
           case '--sub-dn':
@@ -464,13 +455,11 @@ class LScli extends LSlog_staticLoggerClass {
             }
             if (!isset($comp_words[$i]))
               break;
-            if (isset($comp_words[$i])) {
-              $subDn = $comp_words[$i];
-              self :: unquote_word($subDn);
-              self :: need_ldap_con();
-              if(!LSsession :: setSubDn($subDn))
-                self :: usage("Fail to select sub DN '$subDn'.");
-            }
+            $ldap_server_subDn = $comp_words[$i];
+            self :: unquote_word($ldap_server_subDn);
+            self :: need_ldap_con();
+            if(!LSsession :: setSubDn($ldap_server_subDn))
+              self :: usage("Fail to select sub DN '$ldap_server_subDn'.");
             break;
           case '-L':
           case '--load-class':
@@ -507,6 +496,19 @@ class LScli extends LSlog_staticLoggerClass {
               $command_args[] = $comp_words[$i];
             }
         }
+      }
+    }
+
+    // Is no subDn selected, check if LDAP server has subDn and select the first one if true
+    if (!$ldap_server_subDn) {
+      self :: need_ldap_con();
+      $subDns = LSsession :: getSubDnLdapServer();
+      if (is_array($subDns)) {
+        asort($subDns);
+        $subDn = key($subDns);
+        if(!LSsession :: setSubDn($subDn))
+          self :: usage("Fail to select sub DN '$subDn'.");
+        $opts[] = '--sub-dn';
       }
     }
 
