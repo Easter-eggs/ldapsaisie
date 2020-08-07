@@ -20,9 +20,9 @@ dl.LSmail dd {
 	padding: 0;
 }
 
-dl.LSmail input, dl.LSmail textarea {
+dl.LSmail input, dl.LSmail textarea, dl.LSmail select {
 	border:                     1px solid #ccc;
-	width:                      600px;
+	width:                      598px;
 	background-color:           #b5e4f6;
 	box-sizing:                 border-box;
 }
