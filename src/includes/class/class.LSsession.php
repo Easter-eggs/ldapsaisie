@@ -2074,15 +2074,19 @@ class LSsession {
       $retval[] = self :: $LSuserObjectType;
 
     foreach(self :: $LSprofiles as $profile => $infos) {
-      if(self :: isLSprofile($dn,$profile)) {
-       $retval[]=$profile;
+      if(self :: isLSprofile($dn, $profile)) {
+        $retval[] = $profile;
+        self :: log_trace("whoami($dn): is '$profile'");
       }
+      else
+        self :: log_trace("whoami($dn): is NOT '$profile'");
     }
 
     if (self :: $dn == $dn) {
-      $retval[]='self';
+      $retval[] = 'self';
     }
 
+    self :: log_trace("whoami($dn): '".implode("', '", $retval)."'");
     return $retval;
   }
 
@@ -2109,6 +2113,7 @@ class LSsession {
       $whoami = self :: whoami($dn);
       if ($dn==self :: getLSuserObject() -> getValue('dn')) {
         if (!self :: in_menu('SELF')) {
+          self :: log_trace("canAccess('$LSobject', '$dn', '$right', '$attr'): SELF not in menu");
           return;
         }
       }
@@ -2116,12 +2121,14 @@ class LSsession {
         $obj = new $LSobject();
         $obj -> dn = $dn;
         if (!self :: in_menu($LSobject,$obj -> subDnValue)) {
+          self :: log_trace("canAccess('$LSobject', '$dn', '$right', '$attr'): $LSobject (for subDN='".$obj -> subDnValue."') not in menu");
           return;
         }
       }
     }
     else {
       $objectdn=LSconfig :: get('LSobjects.'.$LSobject.'.container_dn').','.self :: getTopDn();
+      self :: log_trace("canAccess('$LSobject', '$dn', '$right', '$attr'): use object $LSobject container DN => '$objectdn'");
       $whoami = self :: whoami($objectdn);
     }
 
@@ -2129,8 +2136,10 @@ class LSsession {
     if ($attr) {
       if ($attr=='rdn') {
         $attr=LSconfig :: get('LSobjects.'.$LSobject.'.rdn');
+        self :: log_trace("canAccess('$LSobject', '$dn', '$right', 'rdn'): RDN attribute = $attr");
       }
       if (!is_array(LSconfig :: get('LSobjects.'.$LSobject.'.attrs.'.$attr))) {
+        self :: log_warning("canAccess('$LSobject', '$dn', '$right', '$attr'): Attribute '$attr' doesn't exists");
         return;
       }
 
@@ -2146,6 +2155,7 @@ class LSsession {
           }
         }
       }
+      self :: log_trace("canAccess($LSobject,$dn,$right,$attr): right detected = '$r'");
 
       if (($right=='r')||($right=='w')) {
         if ($r==$right) {
