@@ -69,7 +69,7 @@ class LSerror {
    * @retval void
    */
   public static function addErrorCode($code=null, $msg=null, $escape=true) {
-    $_SESSION['LSerror'][] = array($code, $msg, $escape);
+    $_SESSION['LSerror'][] = self :: formatError($code, $msg, $escape);
     if (class_exists('LSlog'))
       LSlog :: error(self :: formatError($code, $msg, $escape, 'addslashes'));
   }
@@ -127,7 +127,7 @@ class LSerror {
     if(!empty($_SESSION['LSerror'])) {
       $txt = '';
       foreach ($_SESSION['LSerror'] as $error)
-        $txt .= call_user_func_array(array('LSerror', 'formatError'), $error)."<br />\n";
+        $txt .= $error."<br />\n";
       self :: resetError();
       return $txt;
     }
