@@ -8,6 +8,7 @@
 	--dark-grey: #4d4d4d;
 	--error-color: #f59a67;
 	--contrasted-text-color: #fff;
+	font-family: sans-serif;
 }
 
 /* ---- Main interface elements ---- */
@@ -104,12 +105,12 @@ td.LSobject-list, tr.LSobject-list {
 }
 
 /* ---- LSsmoothbox / LSconfirmbox ---- */
-#win-LSsmoothbox, #box-LSconfirmBox {
+#win-LSsmoothbox, #box-LSconfirmBox, #LSlang_select {
 	border: 1px solid var(--dark-grey);
 	border-radius: 0px;
 }
 
-#box-LSconfirmBox {
+#box-LSconfirmBox, #LSlang_select {
 	background-color: white;
 	padding: 0.5em;
 }
@@ -276,7 +277,7 @@ tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .L
 	background-color:	var(--light-color);
 }
 
-#LSsession_topDn, #LSsession_ldapserver, .LSform select, select#LSview_search_predefinedFilter {
+#LSsession_topDn, #LSsession_ldapserver, #LSselect_topDn, .LSform select, #LSform_listAvailableDataEntryForm, select#LSview_search_predefinedFilter, select#LSmail_mail {
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -284,7 +285,7 @@ tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .L
 	border: 1px solid var(--medium-color);
 }
 
-#LSsession_topDn, #LSsession_ldapserver {
+#LSsession_topDn, #LSsession_ldapserver, #LSselect_topDn {
 	background: white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 5px center/8px 10px;
 }
 
@@ -302,7 +303,7 @@ input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSacce
 }
 
 /* ---- Light grey ---- */
-.LSform input[type=text], .LSform input[type=password], .LSform textarea, .LSform select, dl.LSmail input, dl.LSmail textarea {
+.LSform input[type=text], .LSform input[type=password], .LSform textarea, .LSform select, dl.LSmail input, dl.LSmail textarea, select#LSmail_mail {
 	border-color: var(--light-grey);
 }
 
@@ -312,7 +313,7 @@ input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSacce
 }
 
 /* ---- Dark grey ---- */
-.loginform, .recoverpasswordform, #status, th.LSobject-list, input[type='text'].LSview_search, th.LSobject-list a, .LSform dt, dl.LSmail dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label {
+body, input, select, textarea, #status, th.LSobject-list, th.LSobject-list a, .LSform dt, dl.LSmail dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label, p.LSform_listAvailableDataEntryForm, dd.LSform, a.LSview-actions, a.LSobject-list, a.LSrelation, a.LSformElement_select_object, div.LSformElement_password_confirm label {
 	color:			var(--dark-grey);
 }
 
