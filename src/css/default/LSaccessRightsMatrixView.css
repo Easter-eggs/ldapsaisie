@@ -65,9 +65,12 @@
   -o-transform:skew(-45deg,0deg);
   transform:skew(-45deg,0deg);
   overflow: hidden;
-  border-left: 1px solid #dddddd;
-  border-right: 1px solid #dddddd;
-  border-top: 1px solid #dddddd;
+  border-left: 1px dotted #dddddd;
+  border-top: 1px dotted #dddddd;
+}
+
+.table-header-rotated th.rotate-45:last-of-type > div{
+  border-right: 1px dotted #dddddd;
 }
 
 .table-header-rotated th.rotate-45 span {
