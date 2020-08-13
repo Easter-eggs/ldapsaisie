@@ -676,12 +676,16 @@ function LSdebugDefined() {
  * @param[in] $mime_type string|null The MIME type return as Content-type (optional, default: auto-detected)
  * @param[in] $max_age integer The cache max_age value, as return in Cache-Control HTTP header
  *                             (optional, default: 3600)
+ * @param[in] $force_download boolean Set to true to force download (optional, default: false)
+ * @param[in] $filename string Specific filename in case of force download (optional, default: orignal filename)
  *
  * @retval void
  **/
-function dumpFile($file_path, $mime_type=null, $max_age=3600) {
+function dumpFile($file_path, $mime_type=null, $max_age=3600, $force_download=false, $filename=null) {
   if (is_file($file_path)) {
     header('Content-Type: '.(is_null($mime_type)?mime_content_type($file_path):$mime_type));
+    if ($force_download)
+      header("Content-disposition: attachment; filename=\"".($filename?$filename:basename($file_path))."\"");
     $last_modified_time = filemtime($file_path);
     $etag = md5_file($file_path);
     header("Cache-Control: max-age=$max_age, must-revalidate");
