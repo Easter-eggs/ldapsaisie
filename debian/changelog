@@ -1,3 +1,30 @@
+ldapsaisie (3.0.1-1) unstable; urgency=medium
+
+  * LSformElement JS: fire change event on input field cleared
+  * LSview: Fix validated URL generation
+  * LSformElement :: boolean: fix translation of default labels
+  * LSaccessRightsMatrixView: fix tab links URL
+  * Fix subDn form style
+  * LSsession:
+    * fix/improve methods & doc about global preference parameters
+    * fix handling subDn in recoverPassword feature
+    * fix usage of self :: $topDn instead of self :: getTopDn()
+    * add setSubDn() and log_exception() methods
+  * LScli:
+    * fix/improve handling LDAP servers with configured subDn
+    * search command: remove buggy --subDn parameter
+  * LSerror: fix PHP error
+  * light-blue.css: globally improve style and use dark-grey for text
+  * login / recoverPassword forms: fix logo style when is too large
+  * LSmail: fix select mail style
+  * LSerror: format error message at adding time to fix formatting error in
+    specific cases.
+  * LSlog: add TRACE log level
+  * Add some debug/trace messages
+  * dumpFile(): add $force_download and $filename parameters
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Thu, 13 Aug 2020 17:28:45 +0200
+
 ldapsaisie (3.0.0-1) unstable; urgency=medium
 
   * A lot of code cleaning and PHP notices fixes
