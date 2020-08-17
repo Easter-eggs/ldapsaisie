@@ -151,33 +151,33 @@ class LSsession {
     $path = ($external?'':LS_ROOT_DIR."/").$file;
     $local_path = ($external?'':LS_ROOT_DIR."/").LS_LOCAL_DIR.$file;
     $path = (file_exists($local_path)?$local_path:$path);
-    if ($path[0] != '/') {
+    if (!isAbsolutePath($path)) {
       $found = stream_resolve_include_path($path);
       if ($found === false) {
-        if (!$warn)
-          return false;
-        $log_msg = "includeFile($file, external=$external) : file $path not found in include path.";
-        if (class_exists('LSlog'))
-          self :: log_warning($log_msg);
-        else
-          error_log($log_msg);
+        self :: log(
+          ($warn?'WARNING':'TRACE'),
+          "includeFile($file, external=$external) : file $path not found in include path."
+        );
         return false;
       }
       else {
+        self :: log_trace("includeFile($file, external=$external): file path found using include path => '$found'");
         $path = $found;
       }
     }
     else if (!file_exists($path)) {
-      if (!$warn)
-        return false;
-      $log_msg = "includeFile($file, external=$external) : file not found ($local_path / $path)";
-      if (class_exists('LSlog'))
-        self :: log_warning($log_msg);
-      else
-        error_log($log_msg);
+      self :: log(
+        ($warn?'WARNING':'TRACE'),
+        "includeFile($file, external=$external): file not found ($local_path / $path)"
+      );
       return false;
     }
-    return include_once($path);
+    if (!include_once($path)) {
+      // Always log as warning in this case
+      self :: log_warning("includeFile($file, external=$external): include_once($path) not returned TRUE");
+      return false;
+    }
+    return true;
   }
 
  /**

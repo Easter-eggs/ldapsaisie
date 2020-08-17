@@ -670,6 +670,31 @@ function LSdebugDefined() {
   }
 
 /**
+ * Check if a path is absolute
+ *
+ * @param[in] $path string The path
+ *
+ * @retval boolean True if path is absolute, False otherwise
+ */
+function isAbsolutePath($path) {
+  return strStartWith($path, '/') || strStartWith($path, './') || strStartWith($path, '../');
+}
+
+/**
+ * Check if a string start with another specified string
+ *
+ * @param[in] $string string The string to search in
+ * @param[in] $start_string string The starting string to check
+ *
+ * @retval boolean True if string start by specified one, False otherwise
+ */
+function strStartWith($string, $start_string) {
+  if (strlen($start_string) > strlen($string))
+    return false;
+  return substr($string, 0, strlen($start_string)) === $start_string;
+}
+
+/**
  * Dump file content
  *
  * @param[in] $file_path string The file path to dump
