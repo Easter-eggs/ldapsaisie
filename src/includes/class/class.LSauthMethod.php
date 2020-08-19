@@ -61,7 +61,7 @@ class LSauthMethod extends LSlog_staticLoggerClass {
    */
   public function authenticate() {
     $authobjects = LSauth :: username2LSobjects($this -> authData['username']);
-    if (!$authobjects) {
+    if (!$authobjects || !is_array($authobjects)) {
       LSerror :: addErrorCode('LSauth_01');
       self :: log_debug("No user found for provided username '".$this -> authData['username']."'");
     }
