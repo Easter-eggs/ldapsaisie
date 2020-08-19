@@ -110,6 +110,16 @@ LSurl :: add_handler('#^ajax/(?P<type>class|addon)/(?P<type_value>[^/]+)/(?P<act
  **/
 function handle_old_index_ajax_php($request) {
   LSerror :: addErrorCode('LSsession_26', 'index_ajax.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => 'Redirection unsupported',
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSsession :: displayAjaxReturn(null);
 }
 LSurl :: add_handler('#^index_ajax\.php#', 'handle_old_index_ajax_php');
@@ -229,6 +239,16 @@ function handle_old_global_search_php($request) {
       $url .= "&refresh";
   }
   LSerror :: addErrorCode('LSsession_26', 'global_search.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^global_search\.php#', 'handle_old_global_search_php');
@@ -605,6 +625,16 @@ function handle_old_custom_search_action_php($request) {
   else
     $url = "object/".$_GET['LSobject']."/customAction/".$_GET['customAction'];
   LSerror :: addErrorCode('LSsession_26', 'custom_search_action.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^custom_search_action\.php#', 'handle_old_custom_search_action_php');
@@ -711,6 +741,16 @@ function handle_old_select_php($request) {
     $url = "object/".$_GET['LSobject'];
   }
   LSerror :: addErrorCode('LSsession_26', 'select.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'LSobject parameter is missing to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^select\.php#', 'handle_old_select_php');
@@ -773,6 +813,16 @@ function handle_old_import_php($request) {
   else
     $url = "object/".$_GET['LSobject']."/import";
   LSerror :: addErrorCode('LSsession_26', 'import.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^import\.php#', 'handle_old_import_php');
@@ -896,6 +946,16 @@ function handle_old_create_php($request) {
   else
     $url = "object/".$_GET['LSobject']."/create";
   LSerror :: addErrorCode('LSsession_26', 'create.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^create\.php#', 'handle_old_create_php');
@@ -992,6 +1052,16 @@ function handle_old_view_php($request) {
   else
     $url = "object/".$_GET['LSobject'];
   LSerror :: addErrorCode('LSsession_26', 'view.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^view\.php#', 'handle_old_view_php');
@@ -1100,6 +1170,16 @@ function handle_old_modify_php($request) {
   else
     $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/modify";
   LSerror :: addErrorCode('LSsession_26', 'modify.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^modify\.php#', 'handle_old_modify_php');
@@ -1180,6 +1260,16 @@ function handle_old_remove_php($request) {
   else
     $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/remove";
   LSerror :: addErrorCode('LSsession_26', 'remove.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^remove\.php#', 'handle_old_remove_php');
@@ -1306,6 +1396,16 @@ function handle_old_custom_action_php($request) {
   else
     $url = "object/".$_GET['LSobject']."/".$_GET['dn']."/customAction/".$_GET['customAction'];
   LSerror :: addErrorCode('LSsession_26', 'custom_action.php');
+  LSlog :: warning(
+    getFData(
+      "Handling old URL style redirection:\n - Requested URL: '%{old}'\n - Redirection URL: '%{new}'\n - Referer: %{referer}",
+      array (
+        'old' => $request -> current_url,
+        'new' => ($url?$url:'missing parameter to compose URL'),
+        'referer' => ($request -> referer?"'".$request -> referer."'":'Unknown (direct access or hidden by web-browser)'),
+      )
+    )
+  );
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^custom_action\.php#', 'handle_old_custom_action_php');

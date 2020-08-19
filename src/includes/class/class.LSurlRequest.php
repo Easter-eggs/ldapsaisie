@@ -60,6 +60,8 @@ class LSurlRequest {
       return $this -> handler;
     if ($key == 'authenticated')
       return $this -> authenticated;
+    if ($key == 'referer')
+      return $this -> get_referer();
     if (array_key_exists($key, $this->url_params)) {
       return urldecode($this->url_params[$key]);
     }
@@ -76,6 +78,17 @@ class LSurlRequest {
     if (in_array($key, array('current_url', 'handler', 'authenticated')))
       return True;
     return array_key_exists($key, $this->url_params);
+  }
+
+  /*
+   * Get request referer (if known)
+   *
+   * @retval string|null The request referer URL if known, null otherwise
+   */
+  public function get_referer() {
+    if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'])
+      return $_SERVER['HTTP_REFERER'];
+    return null;
   }
 
 }
