@@ -194,7 +194,7 @@ class LSurl extends LSlog_staticLoggerClass {
     if ($go===false)
       $go = "";
 
-    if (preg_match('#^https?://#',$go)) {
+    if (preg_match('#^(https?:)?//#',$go)) {
       $url = $go;
     }
     else {
