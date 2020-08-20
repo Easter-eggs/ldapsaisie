@@ -237,7 +237,7 @@ class LStemplate extends LSlog_staticLoggerClass {
   * @retval string The path of the image file
   **/
   public static function getImagePath($image, $with_nocache=false) {
-    $exts=array('png','gif','jpg');
+    $exts=array('svg', 'png', 'gif', 'jpg');
     foreach($exts as $ext) {
       $path = self :: getFilePath("$image.$ext", self :: $config['image_dir'], False, $with_nocache);
       if ($path) return $path;
