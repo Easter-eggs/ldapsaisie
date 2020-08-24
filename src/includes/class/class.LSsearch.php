@@ -972,19 +972,25 @@ class LSsearch extends LSlog_staticLoggerClass {
    * Return an hash corresponding to the parameters of the search
    *
    * @param[in] $searchParams array An optional search params array
+   * @param[in] $onlyAccessible boolean An optional onlyAccessible boolean flag
    *
    * @retval string The hash of the parameters of the search
    **/
-  public function getHash($searchParams=null) {
-    if(is_null($searchParams)) {
-      $searchParams=$this -> _searchParams;
+  public function getHash($searchParams=null, $onlyAccessible=null) {
+    if (is_null($searchParams)) {
+      $searchParams = $this -> _searchParams;
     }
     if (!$searchParams)
       return false;
     if ($searchParams['filter'] instanceof Net_LDAP_Filter) {
-      $searchParams['filter']=$searchParams['filter']->asString();
+      $searchParams['filter'] = $searchParams['filter'] -> asString();
     }
-    return hash('md5',print_r($searchParams,true));
+    $to_hash = print_r($searchParams, true);
+    if (is_null($onlyAccessible)) {
+      $onlyAccessible = ($this -> getParam('onlyAccessible') && LSsession :: getLSuserObjectDn());
+    }
+    $to_hash .= '-onlyAccessible='.intval($onlyAccessible);
+    return hash('md5', print_r($searchParams, true));
   }
 
   /**
