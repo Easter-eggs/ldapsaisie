@@ -1828,76 +1828,111 @@ class LSsession {
    * @retval boolean True si le chargement Ã  rÃ©ussi, false sinon.
    **/
   private static function loadLSprofiles() {
-    if (is_array(self :: $ldapServer['LSprofiles'])) {
-      foreach (self :: $ldapServer['LSprofiles'] as $profile => $profileInfos) {
-        if (is_array($profileInfos)) {
-          foreach ($profileInfos as $topDn => $rightsInfos) {
-            // Do not handle 'label' key as a topDn
-            if ($topDn == 'label') {
-              continue;
-            }
-            /*
-             * If $topDn == 'LSobject', we search for each LSobject type to find
-             * all items on witch the user will have powers.
-             */
-            elseif ($topDn == 'LSobjects') {
-              if (is_array($rightsInfos)) {
-                foreach ($rightsInfos as $LSobject => $listInfos) {
-                  self :: log_debug('loadLSprofiles(): loading LSprofile ' . $profile . ' for LSobject ' . $LSobject . ' with params ' . var_export($listInfos, true));
-                  self :: loadLSprofilesLSobjects($profile, $LSobject, $listInfos);
-                }
-              }
-              else {
-                self :: log_warning('loadLSprofiles(): LSobjects => [] must be an array');
-              }
-            }
-            else {
-              if (is_array($rightsInfos)) {
-                foreach($rightsInfos as $dn => $conf) {
-                  if ((isset($conf['attr'])) && (isset($conf['LSobject']))) {
-                    if( self :: loadLSobject($conf['LSobject']) ) {
-                      if ($object = new $conf['LSobject']()) {
-                        if ($object -> loadData($dn)) {
-                          $listDns=$object -> getValue($conf['attr']);
-                          $valKey = (isset($conf['attr_value']))?$conf['attr_value']:'%{dn}';
-                          $val = self :: getLSuserObject() -> getFData($valKey);
-                          if (is_array($listDns)) {
-                            if (in_array($val,$listDns)) {
-                              self :: $LSprofiles[$profile][] = $topDn;
-                            }
-                          }
-                        }
-                        else {
-                          self :: log_warning("loadLSprofiles(): fail to load DN '$dn'.");
-                        }
-                      }
-                      else {
-                        self :: log_warning("loadLSprofiles(): fail to instanciate LSobject type '".$conf['LSobject']."'.");
-                      }
-                    }
-                  }
-                  else {
-                    if (self :: $dn == $dn) {
-                      self :: $LSprofiles[$profile][] = $topDn;
-                    }
-                  }
-                }
-              }
-              else {
-                if ( self :: $dn == $rightsInfos ) {
-                  self :: $LSprofiles[$profile][] = $topDn;
-                }
-              }
-            } // fin else ($topDn == 'LSobjects')
-          } // fin foreach($profileInfos)
-        } // fin is_array($profileInfos)
-      } // fin foreach LSprofiles
-      self :: log_debug("loadLSprofiles(): LSprofiles = ".print_r(self :: $LSprofiles,1));
-      return true;
-    }
-    else {
+    if (!is_array(self :: $ldapServer['LSprofiles'])) {
+      self :: log_warning('loadLSprofiles(): Current LDAP server have no configured LSprofile.');
       return;
     }
+    self :: log_trace("loadLSprofiles(): Current LDAP server LSprofile configuration: ".varDump(self :: $ldapServer['LSprofiles']));
+    foreach (self :: $ldapServer['LSprofiles'] as $profile => $profileInfos) {
+      if (!is_array($profileInfos)) {
+        self :: log_warning("loadLSprofiles(): Invalid configuration for LSprofile '$profile' (must be an array).");
+        continue;
+      }
+      foreach ($profileInfos as $topDn => $rightsInfos) {
+        // Do not handle 'label' key as a topDn
+        if ($topDn == 'label') {
+          continue;
+        }
+        elseif ($topDn == 'LSobjects') {
+          /*
+           * If $topDn == 'LSobject', we search for each LSobject type to find
+           * all items on witch the user will have powers.
+           */
+          if (!is_array($rightsInfos)) {
+            self :: log_warning('loadLSprofiles(): LSobjects => [] must be an array');
+            continue;
+          }
+          foreach ($rightsInfos as $LSobject => $listInfos) {
+            self :: log_debug('loadLSprofiles(): loading LSprofile ' . $profile . ' for LSobject ' . $LSobject . ' with params ' . var_export($listInfos, true));
+            self :: loadLSprofilesLSobjects($profile, $LSobject, $listInfos);
+          }
+        }
+        else {
+          /*
+           * Otherwise, we are normally in case of $topDn == a base DN and
+           * $rightsInfos is :
+           *   - an array (see above)
+           *   - a user DN
+           */
+          if (is_array($rightsInfos)) {
+            /*
+             * $rightsInfos is an array, so we could have :
+             *  - users DNs as key and null as value
+             *  - DN of an object as key and an array of parameters to list users from one
+             *    of its attribute as value
+             */
+            foreach($rightsInfos as $dn => $conf) {
+              if (is_array($conf) && isset($conf['attr']) && isset($conf['LSobject'])) {
+                // We have to retreive this LSobject and list one of its attribute to retreive
+                // users key info.
+                if(!self :: loadLSobject($conf['LSobject'])) {
+                  // Warning log message is already emited by self :: loadLSobject()
+                  continue;
+                }
+
+                // Instanciate object and retreive its data
+                $object = new $conf['LSobject']();
+                if (!$object -> loadData($dn)) {
+                  self :: log_warning("loadLSprofiles(): fail to load DN '$dn'.");
+                  continue;
+                }
+
+                // Retreive users key info values from object attribute
+                $list_users_key_values = $object -> getValue($conf['attr']);
+                if (!is_array($list_users_key_values)) {
+                  self :: log_warning("loadLSprofiles(): fail to retreive values of attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn'");
+                  continue;
+                }
+                self :: log_trace("loadLSprofiles(): retreived values of attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn': '".implode("', '", $list_users_key_values)."'");
+
+                // Retreive current connected key value
+                $user_key_value_format = (isset($conf['attr_value'])?$conf['attr_value']:'%{dn}');
+                $user_key_value = self :: getLSuserObject() -> getFData($user_key_value_format);
+
+                // Check current connected user is list in attribute values
+                if (in_array($user_key_value, $list_users_key_values)) {
+                  self :: log_trace("loadLSprofiles(): current connected user is present in attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn' (user key value: '$user_key_value')");
+                  self :: $LSprofiles[$profile][] = $topDn;
+                }
+                else
+                  self :: log_trace("loadLSprofiles(): current connected user is not list in attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn' (user key value: '$user_key_value')");
+              }
+              else {
+                // $conf is not an array, users DNs could be the key $dn and we don't care
+                // about $conf value (normally null)
+                if (self :: $dn == $dn) {
+                  self :: log_trace("loadLSprofiles(): current connected user DN is explicitly list in $profile LSprofile configuration");
+                  self :: $LSprofiles[$profile][] = $topDn;
+                }
+                else
+                  self :: log_trace("loadLSprofiles(): current connected user DN is NOT explicitly list in $profile LSprofile configuration");
+              }
+            }
+          }
+          else {
+            // $rightsInfos is not an array => its could be a user DN
+            if ( self :: $dn == $rightsInfos ) {
+              self :: log_trace("loadLSprofiles(): current connected user DN is explicitly appointed as $profile LSprofile in configuration");
+              self :: $LSprofiles[$profile][] = $topDn;
+            }
+            else
+              self :: log_trace("loadLSprofiles(): current connected user DN is NOT explicitly appointed as $profile LSprofile in configuration");
+          }
+        } // fin else ($topDn == 'LSobjects' or 'label')
+      } // fin foreach($profileInfos)
+    } // fin foreach LSprofiles
+    self :: log_debug("loadLSprofiles(): LSprofiles = ".print_r(self :: $LSprofiles,1));
+    return true;
   }
 
   /**
