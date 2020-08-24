@@ -70,9 +70,6 @@ class LSsearch extends LSlog_staticLoggerClass {
   // The cache of search parameters
   private $_searchParams = NULL;
 
-  // The cache of the hash of the search parameters
-  private $_hash = NULL;
-
   // The result of the search
   private $result=NULL;
 
@@ -744,9 +741,6 @@ class LSsearch extends LSlog_staticLoggerClass {
    * @retval void
    **/
   private function generateSearchParams() {
-    // Purge the cache of the hash
-    $this -> _hash = NULL;
-
     // Base
     $retval = array(
       'filter' => $this -> params['filter'],
@@ -984,10 +978,9 @@ class LSsearch extends LSlog_staticLoggerClass {
   public function getHash($searchParams=null) {
     if(is_null($searchParams)) {
       $searchParams=$this -> _searchParams;
-      if ($this -> _hash) {
-        return $this -> _hash;
-      }
     }
+    if (!$searchParams)
+      return false;
     if ($searchParams['filter'] instanceof Net_LDAP_Filter) {
       $searchParams['filter']=$searchParams['filter']->asString();
     }
@@ -1194,6 +1187,9 @@ class LSsearch extends LSlog_staticLoggerClass {
         }
         return $ret;
       }
+    }
+    elseif ($key == 'hash') {
+      return $this -> getHash();
     }
     else {
       throw new Exception('Incorrect property !');
