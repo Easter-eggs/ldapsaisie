@@ -41,9 +41,6 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
   // The parameters of the search
   private $params = array();
 
-  // The hash of the search parameters
-  private $hash = NULL;
-
   // The attributes list
   private $attrs_list=array();
 
@@ -61,11 +58,10 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
    *
    * @param[in] $LSobject string The LdapObject type of search
    * @param[in] $params array Parameters of search
-   * @param[in] $hash array Parameters of search
    * @param[in] $resultEntry array The data of the result entry
    *
    **/
-  public function __construct(&$LSsearch, $LSobject, $params, $hash, &$result, $id) {
+  public function __construct(&$LSsearch, $LSobject, $params, &$result, $id) {
     if (!LSsession :: loadLSobject($LSobject)) {
       return;
     }

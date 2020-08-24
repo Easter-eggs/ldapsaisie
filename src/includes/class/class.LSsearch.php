@@ -1064,7 +1064,13 @@ class LSsearch extends LSlog_staticLoggerClass {
       );
 
       foreach ($list as $key => $id) {
-        $retval['list'][]=new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$id);
+        $retval['list'][] = new LSsearchEntry(
+          $this,
+          $this -> LSobject,
+          $this -> params,
+          $this -> result['list'],
+          $id
+        );
       }
     }
     return $retval;
@@ -1085,7 +1091,13 @@ class LSsearch extends LSlog_staticLoggerClass {
       $sortTable=$this -> getSortTable();
 
       foreach ($sortTable as $key => $id) {
-        $retval[]=new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$id);
+        $retval[] = new LSsearchEntry(
+          $this,
+          $this -> LSobject,
+          $this -> params,
+          $this -> result['list'],
+          $id
+        );
       }
     }
     return $retval;
@@ -1205,9 +1217,9 @@ class LSsearch extends LSlog_staticLoggerClass {
     else {
       $dir = -1;
     }
-    $oa = new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$a);
+    $oa = new LSsearchEntry($this, $this -> LSobject, $this -> params, $this -> result['list'], $a);
     $va = $oa->$sortBy;
-    $ob = new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$b);
+    $ob = new LSsearchEntry($this, $this -> LSobject, $this -> params, $this -> result['list'], $b);
     $vb = $ob->$sortBy;
 
     if ($va == $vb) return 0;
@@ -1312,11 +1324,17 @@ class LSsearch extends LSlog_staticLoggerClass {
     $retval=array();
 
     if ($this -> total>0) {
-      $sortTable=$this -> getSortTable();
+      $sortTable = $this -> getSortTable();
 
       foreach ($sortTable as $key => $id) {
-        $entry=new LSsearchEntry($this,$this -> LSobject,$this -> params,$this -> _hash,$this -> result['list'],$id);
-        $retval[$entry->dn]=$entry->displayName;
+        $entry = new LSsearchEntry(
+          $this,
+          $this -> LSobject,
+          $this -> params,
+          $this -> result['list'],
+          $id
+        );
+        $retval[$entry -> dn] = $entry -> displayName;
       }
     }
 
