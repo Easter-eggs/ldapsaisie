@@ -104,7 +104,6 @@ class LSsearch extends LSlog_staticLoggerClass {
 
     if (!$purgeParams) {
       if (! $this -> loadParamsFromSession()) {
-        self :: log_debug('LSsearch : load default parameters');
         $this -> loadDefaultParameters();
       }
     }
@@ -143,8 +142,11 @@ class LSsearch extends LSlog_staticLoggerClass {
    */
   private function loadDefaultParameters() {
     if (isset($this -> config['params']) && is_array($this -> config['params'])) {
+      self :: log_debug('Load default parameters (from object type configuration)');
       return $this -> setParams($this -> config['params']);
     }
+    else
+      self :: log_trace('loadDefaultParameters(): no parameters found in object type configuration');
     return true;
   }
 
@@ -154,8 +156,8 @@ class LSsearch extends LSlog_staticLoggerClass {
    * @retval boolean True if params has been loaded from session or False
    */
   private function loadParamsFromSession() {
-    self :: log_debug('LSsearch : load context params session '.$this -> context);
     if (isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context]) && is_array($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context])) {
+      self :: log_debug('Load params from session for context '.$this -> context);
       $params = $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context];
 
       if ($params['filter']) {
@@ -165,6 +167,8 @@ class LSsearch extends LSlog_staticLoggerClass {
       $this -> params = $params;
       return true;
     }
+    else
+      self :: log_trace("loadParamsFromSession(): no params in session for context ".$this -> context);
     return;
   }
 
@@ -174,7 +178,7 @@ class LSsearch extends LSlog_staticLoggerClass {
    * @retval void
    */
   private function saveParamsInSession() {
-    self :: log_debug('LSsearch : save context params session '.$this -> context);
+    self :: log_debug('Save context params session '.$this -> context);
     $params = $this -> params;
     if ($params['filter'] instanceof Net_LDAP2_Filter) {
       $params['filter'] = $params['filter'] -> asString();
@@ -182,7 +186,7 @@ class LSsearch extends LSlog_staticLoggerClass {
 
     foreach ($params as $param => $value) {
       if ( !isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]) || $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]!=$value) {
-        self :: log_debug("S: $param => ".varDump($value));
+        self :: log_trace("$param => ".varDump($value));
         $_SESSION['LSsession']['LSsearch'][$this -> LSobject]['params'][$this -> context][$param]=$value;
       }
     }
@@ -868,6 +872,31 @@ class LSsearch extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Format search parameters for logging
+   *
+   * @retval string|null Formated search parameters is defined, or null if not
+   **/
+  private function formatSearchParams() {
+    if (!$this -> _searchParams)
+      return;
+    if ($this -> _searchParams['filter'] instanceof Net_LDAP2_Filter)
+      $return = "filter=".$this -> _searchParams['filter']->asString();
+    else
+      $return = "without filter";
+    $return .= ", on basedn '".$this -> _searchParams['basedn']."'";
+    $return .= " (scope: ".($this -> _searchParams['scope']?$this -> _searchParams['scope']:'default');
+    if ($this -> _searchParams['attronly'])
+      $return .= ", attrs only)";
+    else
+      $return .= ", attrs: ".(
+        (is_array($this -> _searchParams['attributes']) && $this -> _searchParams['attributes'])?
+        implode(',', $this -> _searchParams['attributes']):
+        'all'
+      ).")";
+    return $return;
+  }
+
+  /**
    * Get search attributes
    *
    * @retval array The attributes asked in this search
@@ -887,22 +916,22 @@ class LSsearch extends LSlog_staticLoggerClass {
    */
   public function run($cache=true) {
     $this -> generateSearchParams();
-    if ($this -> _searchParams['filter'] instanceof Net_LDAP2_Filter) {
-      self :: log_debug('LSsearch : filter : '.$this -> _searchParams['filter']->asString());
-    }
-    self :: log_debug('LSsearch : basedn : '.$this -> _searchParams['basedn'].' - scope : '.$this -> _searchParams['scope']);
+    self :: log_debug("run(".($cache?'with cache':'without cache')."): ".self :: formatSearchParams());
 
     if( $cache && (!isset($_REQUEST['refresh'])) && (!$this -> params['withoutCache']) ) {
-      self :: log_debug('LSsearch : with the cache');
+      self :: log_debug('Cache enabled');
       $this -> result = $this -> getResultFromCache();
+      if ($this -> result)
+        self :: log_debug('result retreived from cache');
+      else
+        self :: log_debug('result not found in cache');
     }
     else {
-      self :: log_debug('LSsearch : without the cache');
-      $this -> setParam('withoutCache',false);
+      self :: log_debug('Cache disabled');
+      $this -> setParam('withoutCache', false);
     }
 
     if (!$this -> result) {
-      self :: log_debug('LSsearch : Not in cache');
       $this -> result=array(
         'sortBy' => NULL,
         'sortDirection' => NULL
@@ -921,22 +950,24 @@ class LSsearch extends LSlog_staticLoggerClass {
         return;
       }
 
+      // Handle onlyAccessible parameter
       if ($this -> getParam('onlyAccessible') && LSsession :: getLSuserObjectDn()) {
-        $this -> result['list']=array();
+        self :: log_debug('Filter on only accessible object');
+        $this -> result['list'] = array();
 
         // Check user rights on objets
         foreach($list as $id => $obj) {
-          if (LSsession :: canAccess($this -> LSobject,$obj['dn'])) {
-            $this -> result['list'][]=$obj;
+          if (LSsession :: canAccess($this -> LSobject, $obj['dn'])) {
+            $this -> result['list'][] = $obj;
           }
         }
       }
-      else {
-	$this -> result['list']=$list;
-      }
-
+      else
+        $this -> result['list'] = $list;
       $this -> addResultToCache();
     }
+
+    self :: log_debug($this -> total. " object(s) found");
 
     $this -> doSort();
 
@@ -970,10 +1001,12 @@ class LSsearch extends LSlog_staticLoggerClass {
    **/
   public function addResultToCache() {
     if ($this -> cacheIsEnabled()) {
-      self :: log_debug('LSsearch : Save result in cache.');
-      $hash=$this->getHash();
+      $hash = $this->getHash();
+      self :: log_trace("addResultToCache(): Save result in cache with hash '$hash'.");
       $_SESSION['LSsession']['LSsearch'][$this -> LSobject][$hash]=$this->result;
     }
+    else
+      self :: log_trace('addResultToCache(): cache is disabled.');
   }
 
   /**
@@ -985,10 +1018,13 @@ class LSsearch extends LSlog_staticLoggerClass {
     if ($this -> cacheIsEnabled()) {
       $hash=$this->getHash();
       if (isset($_SESSION['LSsession']['LSsearch'][$this -> LSobject][$hash])) {
-        self :: log_debug('LSsearch : Load result from cache.');
+        self :: log_trace('getResultFromCache(): result found in cache.');
         return $_SESSION['LSsession']['LSsearch'][$this -> LSobject][$hash];
       }
+      self :: log_trace('getResultFromCache(): result not found in cache.');
     }
+    else
+      self :: log_trace('getResultFromCache(): cache is disabled.');
     return;
   }
 
@@ -1014,8 +1050,6 @@ class LSsearch extends LSlog_staticLoggerClass {
     );
 
     if ($retval['total']>0) {
-      self :: log_debug('Total : '.$retval['total']);
-
       if (!$this->params['nbObjectsByPage']) {
         $this->params['nbObjectsByPage']=NB_LSOBJECT_LIST;
       }
@@ -1212,7 +1246,7 @@ class LSsearch extends LSlog_staticLoggerClass {
    **/
   private function doSort() {
     if (!$this -> sort) {
-      self :: log_debug('doSort : sort is disabled');
+      self :: log_debug('doSort(): sort is disabled');
       return true;
     }
     if (is_null($this -> params['sortBy'])) {
@@ -1227,11 +1261,11 @@ class LSsearch extends LSlog_staticLoggerClass {
     }
 
     if (isset($this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']])) {
-      self :: log_debug('doSort : from cache');
+      self :: log_debug('doSort(): from cache');
       return true;
     }
 
-    self :: log_debug('doSort : '.$this -> params['sortBy'].' - '.$this -> params['sortDirection']);
+    self :: log_debug('doSort(): sort by "'.$this -> params['sortBy'].'" (order: '.$this -> params['sortDirection']).")";
 
     $this -> result['sort'][$this -> params['sortBy']][$this -> params['sortDirection']]=range(0,($this -> total-1));
 
