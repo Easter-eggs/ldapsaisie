@@ -92,6 +92,7 @@ class LScli extends LSlog_staticLoggerClass {
     echo "  -q|--quiet        Quiet mode: nothing log on console (but keep other logging handler)\n";
     echo "  -d|--debug        Debug mode (set log level to DEBUG, default: WARNING)\n";
     echo "  -v|--verbose      Verbose mode (set log level to INFO, default: WARNING)\n";
+    echo "  --trace           Trace mode (set log level to TRACE, default: WARNING)\n";
     echo "  -C|--console      Log on console with same log level as other handlers (otherwise, log only errors)\n";
     echo "  -S|--ldap-server  Connect to a specific LDAP server: you could specify a LDAP\n";
     echo "                    server by its declaration order in configuration (default:\n";
@@ -159,6 +160,9 @@ class LScli extends LSlog_staticLoggerClass {
           case '-v':
           case '--verbose':
             $log_level = 'INFO';
+            break;
+          case '--trace':
+            $log_level = 'TRACE';
             break;
           case '-q':
           case '--quiet':
@@ -398,6 +402,7 @@ class LScli extends LSlog_staticLoggerClass {
       '-h', '--help',
       '-d', '--debug',
       '-v', '--verbose',
+      '--trace',
       '-q', '--quiet',
       '-C', '--console',
       '-S', '--ldap-server',
