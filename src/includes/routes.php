@@ -122,7 +122,7 @@ function handle_old_index_ajax_php($request) {
   );
   LSsession :: displayAjaxReturn(null);
 }
-LSurl :: add_handler('#^index_ajax\.php#', 'handle_old_index_ajax_php');
+LSurl :: add_handler('#^index_ajax\.php#', 'handle_old_index_ajax_php', false);
 
 /*
  * Handle global seearch request
@@ -251,7 +251,7 @@ function handle_old_global_search_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^global_search\.php#', 'handle_old_global_search_php');
+LSurl :: add_handler('#^global_search\.php#', 'handle_old_global_search_php', false);
 
 /*
  * Handle static file request
@@ -637,7 +637,7 @@ function handle_old_custom_search_action_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^custom_search_action\.php#', 'handle_old_custom_search_action_php');
+LSurl :: add_handler('#^custom_search_action\.php#', 'handle_old_custom_search_action_php', false);
 
 /*
  * Handle LSobject select request
@@ -753,7 +753,7 @@ function handle_old_select_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^select\.php#', 'handle_old_select_php');
+LSurl :: add_handler('#^select\.php#', 'handle_old_select_php', false);
 
 /*
  * Handle LSobject import request
@@ -825,7 +825,7 @@ function handle_old_import_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^import\.php#', 'handle_old_import_php');
+LSurl :: add_handler('#^import\.php#', 'handle_old_import_php', false);
 
 /*
  * Handle LSobject create request
@@ -958,7 +958,7 @@ function handle_old_create_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^create\.php#', 'handle_old_create_php');
+LSurl :: add_handler('#^create\.php#', 'handle_old_create_php', false);
 
 /*
  * Handle LSobject show request
@@ -1064,7 +1064,7 @@ function handle_old_view_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^view\.php#', 'handle_old_view_php');
+LSurl :: add_handler('#^view\.php#', 'handle_old_view_php', false);
 
 /*
  * Handle LSobject modify request
@@ -1182,7 +1182,7 @@ function handle_old_modify_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^modify\.php#', 'handle_old_modify_php');
+LSurl :: add_handler('#^modify\.php#', 'handle_old_modify_php', false);
 
 /*
  * Handle LSobject remove request
@@ -1272,7 +1272,7 @@ function handle_old_remove_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^remove\.php#', 'handle_old_remove_php');
+LSurl :: add_handler('#^remove\.php#', 'handle_old_remove_php', false);
 
 /*
  * Handle LSobject customAction request
@@ -1408,7 +1408,7 @@ function handle_old_custom_action_php($request) {
   );
   LSurl :: redirect($url);
 }
-LSurl :: add_handler('#^custom_action\.php#', 'handle_old_custom_action_php');
+LSurl :: add_handler('#^custom_action\.php#', 'handle_old_custom_action_php', false);
 
 /*
  ************************************************************
@@ -1451,4 +1451,4 @@ function handle_old_addon_view($request) {
  }
  LSurl :: redirect();
 }
-LSurl :: add_handler('#^addon_view\.php#', 'handle_old_addon_view');
+LSurl :: add_handler('#^addon_view\.php#', 'handle_old_addon_view', false);
