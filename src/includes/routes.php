@@ -1097,14 +1097,14 @@ function handle_LSobject_modify($request) {
       if (isset($_REQUEST['ajax'])) {
         LSsession :: displayAjaxReturn (
           array(
-            'LSredirect' => "object/$LSobject/".$object -> getDn()
+            'LSredirect' => "object/$LSobject/".urlencode($object -> getDn())
           )
         );
         return true;
       }
       else {
         if (!LSdebugDefined()) {
-          LSurl :: redirect("object/$LSobject/".$object -> getDn());
+          LSurl :: redirect("object/$LSobject/".urlencode($object -> getDn()));
         }
       }
     }
