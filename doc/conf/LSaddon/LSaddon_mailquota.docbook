@@ -6,7 +6,7 @@
   compte maître.</para>
   <para>Cet &LSaddon; fournie une également une fonction
   <literal>mailquota_show_usage</literal> pouvant être utilisée comme
-  &customSearchActions; et permettant d'afficher l'utilisation du quota de la
+  &customActions; et permettant d'afficher l'utilisation du quota de la
   boîte mail correspondante via une message dynamique (<literal>LSinfo</literal>).
   </para>
 
