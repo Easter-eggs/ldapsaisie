@@ -181,8 +181,9 @@
   </para></listitem>
 </itemizedlist>
 </para>
+</sect2>
 
-<sect3 id="contrib-LSaddon-views">
+<sect2 id="contrib-LSaddon-views">
   <title>Les vues personnalisées</title>
 
   <para>Les &LSaddons; peuvent fournir des vues personnalisées qui seront accessibles à tout ou parties des utilisateurs de l'application.
@@ -252,9 +253,9 @@
   }
   ]]>
   </programlisting>
-</sect3>
+</sect2>
 
-<sect3 id="contrib-LSaddon-CLI-commands">
+<sect2 id="contrib-LSaddon-CLI-commands">
   <title>Les commandes <emphasis>CLI</emphasis> personnalisées</title>
 
   <para>Les &LSaddons; peuvent fournir des commandes <emphasis>CLI</emphasis> personnalisées qui seront accessibles via la commande
@@ -511,8 +512,6 @@
   }
   ]]>
   </programlisting>
-</sect3>
-
 </sect2>
 
 </sect1>
