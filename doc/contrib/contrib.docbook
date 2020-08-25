@@ -7,22 +7,22 @@
 
 <sect1 id="contrib-LSaddons">
   <title>LSaddons</title>
-  <para>Les &LSaddons; sont utilisés pour implémenter dans &LdapSaisie; des fonctionnalités spécifiques telque le support du famille d'attribut spécifiques (POSIX, Samba, ...) ou encore des tâches communes et génériques (envoi de mails, connexion FTP, ...). Les &LSaddons; vont permettront également d'adapter &LdapSaisie; à vos besoins en écrivrant par exemple les fonctions appelées par les déclencheurs.</para>
+  <para>Les &LSaddons; sont utilisés pour implémenter dans &LdapSaisie; des fonctionnalités spécifiques tel que le support d'une famille d'attributs spécifiques (POSIX, Samba, SUPANN…) ou encore des tâches communes et génériques (envoi de mails, connexion FTP…). Les &LSaddons; vous permettront également d'adapter &LdapSaisie; à vos besoins spécifiques en écrivant par exemple les fonctions appelées par les déclencheurs ou encore écrire des &customSearchActions; sur des recherches ou des &customActions; sur des &LSobjects;.</para>
 
 <sect2 id="contrib-LSaddons-structure">
   <title>Structure d'écriture</title>
 
-  <para>L'écriture d'un &LSaddon; doit respecter une structure suffisament souple afin de ne pas être un frein à vos contributions, tout en permettant d'assurer la bonne intégration de votre contibution au projet. Le code que vous ecrirez sera répartis dans deux fichiers :</para>
+  <para>L'écriture d'un &LSaddon; doit respecter une structure suffisamment souple afin de ne pas être un frein à vos contributions, tout en permettant d'assurer la bonne intégration de votre contribution au projet. Le code que vous écrirez sera réparti dans deux fichiers :</para>
 <variablelist>
 
 <varlistentry>
   <term>conf/LSaddons/config.LSaddons.[addon name].php</term>
-  <listitem><simpara>Ce fichier contiendra la configuration de votre LSadons. On y retrouvera la déclaration de constances et/ou variables de configuration permettant d'adapter votre LSaddon à une installation et à un environement.</simpara></listitem>
+  <listitem><simpara>Ce fichier contiendra la configuration de votre &LSaddon;. On y retrouvera la déclaration de constances et/ou variables de configuration permettant d'adapter votre &LSaddon; à une installation et à un environnement.</simpara></listitem>
 </varlistentry>
 
 <varlistentry>
   <term>includes/addons/LSaddons.[addon name].php</term>
-  <listitem><simpara>Ce fichier contiendra le code à proprement dit de votre LSaddons.</simpara></listitem>
+  <listitem><simpara>Ce fichier contiendra le code à proprement dit de votre &LSaddon;.</simpara></listitem>
 </varlistentry>
 
 </variablelist>
@@ -31,89 +31,489 @@
 <citetitle>Structure du fichier includes/addons/LSaddons.[addon name].php</citetitle>
 <![CDATA[<?php
 
-// Messages d'erreur
+  /*
+   * Error messages
+   */
 
-// Support
-LSerror :: defineError('MYADDON_SUPPORT_01',
-  ___("MYADDON Support : first support error...")
-);
-
-LSerror :: defineError('MYADDON_SUPPORT_02',
-  ___("MYADDON Support : second support error...")
-);
-
-// Autres erreurs
-LSerror :: defineError('MYADDON_01',
-  ___("MYADDON_01 : an error : %{msg}.")
-);
-
-LSerror :: defineError('MYADDON_02',
-  ___("MYADDON_02 : an other error : %{msg}")
-);
-
-// Constantes
-
-// Un constante
-define('LS_MYADDON_CONST01',XXXXXXXX);
-
-/**
- * Verify support of my addon by LdapSaisie
- *
- * @author My Name <my.email@example.com>
- *
- * @retval boolean true if my addon is totaly supported, false in other cases
- **/
-function LSaddon_myaddon_support() {
-
-  $retval=true;
-
-  // Dependance de librairie
-  if ( !class_exists('mylib') ) {
-    if ( !LSsession::includeFile(LS_LIB_DIR . 'class.mylib.php') ) {
-      LSerror :: addErrorCode('MYADDON_SUPPORT_01');
-      $retval=false;
-    }
-  }
-
-
-  $MUST_DEFINE_CONST= array(
-    'LS_MYADDON_CONF_O1',
-    'LS_MYADDON_CONF_O2',
-    ...
+  // Support error messages
+  LSerror :: defineError('MYADDON_SUPPORT_01',
+    ___("MYADDON Support :  Unable to load %{dep}.")
   );
 
-  foreach($MUST_DEFINE_CONST as $const) {
-    if ( (!defined($const)) || (constant($const) == "")) {
-      LSerror :: addErrorCode('MYADDON_SUPPORT_02',$const);
-      $retval=false;
+  LSerror :: defineError('MYADDON_SUPPORT_02',
+    ___("MYADDON Support : The constant %{const} is not defined.")
+  );
+
+  // Other orror messages
+  LSerror :: defineError('MYADDON_01',
+    ___("An error : %{msg}.")
+  );
+
+  LSerror :: defineError('MYADDON_02',
+    ___("An other error about %{about} : %{msg}")
+  );
+
+  LSerror :: defineError('MYADDON_03',
+    ___("Unknown error.")
+  );
+
+  /**
+   * Verify support of my addon by LdapSaisie
+   *
+   * @author My Name <my.email@example.com>
+   *
+   * @retval boolean true if my addon is totaly supported, false in other cases
+   **/
+  function LSaddon_myaddon_support() {
+
+    $retval=true;
+
+    // Check/load dependencies
+    if ( !class_exists('mylib') ) {
+      if ( !LSsession::includeFile(LS_LIB_DIR . 'class.mylib.php') ) {
+        LSerror :: addErrorCode('MYADDON_SUPPORT_01', 'mylib');
+        $retval=false;
+      }
     }
+
+
+    $MUST_DEFINE_CONST= array(
+      'LS_MYADDON_CONF_O1',
+      'LS_MYADDON_CONF_O2',
+      ...
+    );
+
+    foreach($MUST_DEFINE_CONST as $const) {
+      if ( (!defined($const)) || (constant($const) == "")) {
+        LSerror :: addErrorCode('MYADDON_SUPPORT_02',$const);
+        $retval=false;
+      }
+    }
+
+    if ($retval) {
+        // Register LSaddon view using LSsession :: registerLSaddonView()
+
+        if (php_sapi_name() == 'cli') {
+            // Register LSaddon CLI command using LScli :: add_command()
+        }
+    }
+
+    return $retval;
   }
 
-  // Other check ...
+  /**
+   * My first function
+   *
+   * Description of this wonderfull function
+   *
+   * @author My Name <my.email@example.com>
+   *
+   * @retval [type(s) of returned values (pipe separator)] Description of the return of this function
+   **/
+  function myaddon_first_function($arg1, $arg2) {
+    // Do some stuff
+    if (something) {
+      LSerror :: addErrorCode(
+        'MYADDON_01',
+        'something went wrong'    // Error LSformat unique argument
+      );
+      return false;
+    }
 
-  return $retval;
-}
+    if (something else) {
+      LSerror :: addErrorCode(
+        'MYADDON_02',
+        array(                    // Error LSformat arguments
+          'about' => 'second step',
+          'msg' => 'something went wrong'
+        )
+      );
+      return false;
+    }
 
-/**
- * Ma première fonction.
- *
- * Ce qu'elle fait.
- *
- * @author My Name <my.email@example.com>
- *
- * @retval [type valeur retournée] [Signification de la valeur retournée]
- **/
-function myaddon_first_function($arg1,$arg2) {
+    if (still something else) {
+      LSerror :: addErrorCode('MYADDON_03'); // Error without argument
+      return false;
+    }
+    return true;
+  }
 
-  ...
+  [...]
 
-}
+  // Defined custom CLI commands functions only on CLI context
+  if (php_sapi_name() != 'cli')
+      return true;  // Always return true to avoid some warning in log
 
-?>
+  // Defined functions handling custom CLI commands and optionnaly
+  // their arguments autocompleter functions.
 ]]>
 </programlisting>
 
+<para>Par convention, la structure de ce fichier est toujours à peu près la même:
+
+<itemizedlist>
+  <listitem><para>On déclare tout d'abord les messages d'erreurs qui seront potentiellement émis par notre &LSaddon; en commençant par
+  les messages d'erreurs liés au support de cet &LSaddon;. On utilise pour cela la méthode <literal>LSerror :: defineError()</literal> qui
+  attends en premier argument, l'identifiant du message d'erreur et en tant que second argument, le &LSformat; du message d'erreur. Par
+  convention, les identifiants des messages d'erreurs seront en majuscule et préfixés du nom du &LSaddon;.</para></listitem>
+  <listitem><para>On déclare ensuite une fonction <literal>LSaddon_[myaddon]_support</literal> qui sera exécuté lors du chargement de
+  l'addon et qui permettra de s'assurer du support de celui-ci. Cette fonction devra retourner <literal>True</literal> si c'est le cas ou
+  <literal>False</literal> dans le cas contraire.</para>
+  <para>Cette fonction s'assura notamment :
+    <itemizedlist>
+      <listitem><simpara>que les librairies dont l'addon dépends sont bien chargées et fonctionnelles ;</simpara></listitem>
+      <listitem><simpara>que les variables et constantes de configuration sont bien définies ;</simpara></listitem>
+      <listitem><simpara>de déclarer <link linkend='contrib-LSaddon-views'>les vues personnalisées fournies</link> par cet &LSaddon; ;</simpara></listitem>
+      <listitem><simpara>de déclarer <link linkend='contrib-LSaddon-CLI-commands'>les commandes <emphasis>CLI</emphasis> personnalisées</link> fournies par cet &LSaddon; ;</simpara></listitem>
+    </itemizedlist>
+  </para></listitem>
+  <listitem><para>On déclare ensuite les fonctions, classes et éléments fournies et manipulés par l'addon.</para></listitem>
+  <listitem><para>Si notre addon offre des <link linkend='contrib-LSaddon-CLI-commands'>commandes <emphasis>CLI</emphasis>
+  personnalisées</link>, les fonctions les implémentants ne seront définies, dans un souci de performance, que dans un contexte
+  ou elles seraient potentiellement appelables, c'est à dire dans un contexte d'exécution <literal>CLI</literal>. Pour cela,
+  nous utilisons communément la fonction <literal>php_sapi_name</literal> pour déterminer le contexte d'exécution et si celui-ci
+  vaut <literal>cli</literal>, nous stoppons l'exécution du reste du code du fichier via un <literal>return true</literal>.
+  <note><simpara>Il est important dans ce contexte de ne jamais retourner autre chose que <literal>True</literal> pour éviter tout message
+  d'erreur inutile dans les logs.</simpara></note>
+  </para></listitem>
+  <listitem><para>On déclare, pour finir, les fonctions implémentant les <link linkend='contrib-LSaddon-CLI-commands'>commandes
+  <emphasis>CLI</emphasis> personnalisées</link> et leur éventuelle fonction gérant l'autocomplétion des arguments qu'elles acceptent.
+  </para></listitem>
+</itemizedlist>
+</para>
+
 </sect2>
+
+<sect3 id="contrib-LSaddon-views">
+  <title>Les vues personnalisées</title>
+
+  <para>Les &LSaddons; peuvent fournir des vues personnalisées qui seront accessibles à tout ou parties des utilisateurs de l'application.
+  Ce filtrage d'accès sera fait en utilisant les &LSprofiles; de l'utilisateur connecté sur la <link linkend="config-subDn">racine
+  courante de l'annuaire LDAP</link>.</para>
+
+  <para>Pour mettre en place une telle vue personnalisée, il est nécessaire de :
+    <itemizedlist>
+      <listitem><simpara>Déclarer cette vue dans la fonction <literal>LSaddon_[addon]_support</literal> de l'addon à l'aide de la méthode
+      <literal>LSsession :: registerLSaddonView</literal> ;</simpara></listitem>
+      <listitem><simpara>Déclarer la fonction implémentant cette vue. Cette fonction n'acceptera aucun paramètre et ne retournera rien.
+      Elle devra en outre s'occuper de définir son fichier template et charger les dépendances de ce dernier (fichiers <emphasis>CSS
+      &amp; JS</emphasis>, variables...).</simpara></listitem>
+    </itemizedlist>
+  </para>
+
+  <para>Pour implémenter une telle vue personnalisée, vous pouvez vous inspirer de l'exemple fourni ci-dessous ou encore des vues fournies
+  par les autres &LSaddons; (par exemple, l'addon <link linkend="config-LSaddon_exportSearchResultAsCSV">exportSearchResultAsCSV</link>).
+  </para>
+
+
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Structure du fichier includes/addons/LSaddons.[addon name].php</citetitle>
+  <![CDATA[<?php
+  function LSaddon_myaddon_support() {
+
+    $retval=true;
+
+    // Some check
+
+    if ($retval) {
+        $retval = LSsession :: registerLSaddonView(
+            'myaddon',          // addon name
+            'myaddon_view',     // addon view ID
+            __('MyAddon view'), // addon view label
+            'myaddon_view',     // callable (ex: function name) that implement addon view
+            array('user'),      // array listing allowed LSprofiles
+            true                // Show/hide this addon view in user menu
+        );
+    }
+
+    return $retval;
+  }
+
+  [...]
+
+  /**
+   * My addon view handler function
+   *
+   * Description of this view
+   *
+   * @author My Name <my.email@example.com>
+   *
+   * @retval void
+   **/
+  function myaddon_view() {
+      // Do some stuff and set some template variables
+      $list = array ([...]);
+      LStemplate :: assign('list', $list);
+
+      // Load some CSS & JS files need on this view
+      LStemplate :: addCssFile('LSaddon_myadon.css');
+      LStemplate :: addJSscript('LSaddon_myadon.js');
+
+      // Set template file of the view
+      LSsession :: setTemplate('LSaddon_myadon_view.tpl');
+  }
+  ]]>
+  </programlisting>
+</sect3>
+
+<sect3 id="contrib-LSaddon-CLI-commands">
+  <title>Les commandes <emphasis>CLI</emphasis> personnalisées</title>
+
+  <para>Les &LSaddons; peuvent fournir des commandes <emphasis>CLI</emphasis> personnalisées qui seront accessibles via la commande
+  <literal>ldapsaisie</literal> fournie avec l'application. Cela peut, par exemple, vous permettre de rendre accessible en ligne de commandes
+  une procédure implémentée dans le code d'LdapSaisie et vous permettre de mettre en place une tâche planifiée exécutant cette procédure
+  régulièrement.</para>
+
+  <para>Pour mettre en place une telle commande <emphasis>CLI</emphasis> personnalisée, il est nécessaire de :
+    <itemizedlist>
+      <listitem><simpara>Déclarer cette vue dans la fonction <literal>LSaddon_[addon]_support</literal> de l'addon à l'aide de la méthode
+      <literal>LScli :: add_command</literal> ;</simpara></listitem>
+      <listitem><simpara>Déclarer la fonction implémentant cette commande <emphasis>CLI</emphasis> personnalisée. Cette fonction acceptera,
+      en tant qu'unique paramètre, un tableau des arguments reçus lors de l'exécution de la commande et retournera <literal>True</literal>
+      ou <literal>False</literal> en cas de succès/d'erreur d'exécution de la commande. Cette valeur de retour influencera le code retourné
+      par la commande : <literal>0</literal> en cas de succès, <literal>1</literal> en cas d'erreur.</simpara></listitem>
+      <listitem><para>Bien que cela ne soit pas obligatoire, il sera également possible de déclarer une fonction permettant l'autocomplétion
+      des arguments acceptés par la commande.</para>
+      <para>Cette méthode recevra en paramètre:
+        <variablelist>
+          <varlistentry>
+            <term>$command_args</term>
+            <listitem>
+              <simpara>Un tableau des arguments déjà reçus par la commande.</simpara>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>$comp_word_num</term>
+            <listitem>
+              <simpara>Un entier indiquant le rang de l'argument que l'autocomplétion tente de compléter. Il peut s'agir du rang d'un
+              paramètre déjà fourni et présent dans le tableau <literal>$command_args</literal> ou bien d'un rang supérieur aux nombres
+              d'arguments déjà fournis à la commande et dans ce cas il s'agira d'autocompléter tous potentiels autre argument que pourrait
+              accepter cette commande.</simpara>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>$comp_word</term>
+            <listitem>
+              <simpara>Une chaîne de caractères correspondant à ce qu'a déjà saisi l'utilisateur de l'argument que l'on tente
+              d'autocompléter. Cette chaîne de caractères peut être vide ou non, en fonction de s'il s'agit d'un nouvel argument à
+              autocompléter ou non.</simpara>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>$opts</term>
+            <listitem>
+              <simpara>Un tableau des potentiels arguments globaux acceptés par <emphasis>LScli</emphasis> dans le contexte actuel (par
+              exemple, <literal>-d</literal> ou <literal>--debug</literal> pour l'activation du mode debug). La réponse de cette fonction
+              devra inclure ces potentiels arguments si le contexte d'autocomplétion si prête (nouvel argument par exemple).</simpara>
+            </listitem>
+          </varlistentry>
+
+        </variablelist>
+      </para>
+      <para>Pour finir, cette fonction devra retourner un tableau des potentielles valeurs que pourrait prendre l'argument autocomplété. Si
+      une unique proposition est faite à l'utilisateur, celle-ci sera automatiquement proposée à l'utilisateur et à défaut, la liste des
+      valeurs possibles lui seront affichées.</para>
+      <note><para>Pour vous aider dans l'écrire d'une telle méthode d'autocomplétion, des méthodes statiques sont fournies par la classe
+      <literal>LScli</literal> pour les autocomplétions les plus courantes:
+
+      <variablelist>
+
+        <varlistentry>
+          <term>LScli :: autocomplete_class_name()</term>
+          <listitem>
+            <simpara>Autocomplétion du nom d'une classe PHP.</simpara>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>LScli :: autocomplete_addon_name()</term>
+          <listitem>
+            <simpara>Autocomplétion du nom d'un &LSaddon;.</simpara>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>LScli :: autocomplete_int()</term>
+          <listitem>
+            <simpara>Autocomplétion d'un nombre entier.</simpara>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>LScli :: autocomplete_LSobject_types()</term>
+          <listitem>
+            <simpara>Autocomplétion du nom d'un type d'&LSobject;.</simpara>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>LScli :: autocomplete_LSobject_dn()</term>
+          <listitem>
+            <simpara>Autocomplétion du DN d'un type précis d'&LSobject; de l'annuaire.</simpara>
+          </listitem>
+        </varlistentry>
+
+      </variablelist>
+      </para>
+      <para>Par ailleurs, la méthode <literal>LScli :: autocomplete_opts()</literal> vous facilitera la construction de la liste des valeurs
+      d'autocomplétion de l'argument courant en fonction de ce qui a déjà été saisi par l'utilisateur (paramètre
+      <literal>$comp_word</literal>). Cette méthode s'occupera en l'occurrence de filtrer parmi toutes les valeurs contextuelles possibles,
+      celles qui correspondent au préfixe fourni par l'utilisateur.</para></note>
+      </listitem>
+    </itemizedlist>
+  </para>
+
+  <para>Pour implémenter une telle commande <emphasis>CLI</emphasis> personnalisée, vous pouvez vous inspirer de l'exemple fourni ci-dessous
+  ou encore des commandes <emphasis>CLI</emphasis> fournies par les autres &LSaddons; ou classes PHP de l'application.</para>
+
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Structure du fichier includes/addons/LSaddons.[addon name].php</citetitle>
+  <![CDATA[<?php
+  function LSaddon_myaddon_support() {
+
+    $retval=true;
+
+    // Some check
+
+    if ($retval) {
+      if (php_sapi_name() == 'cli') {
+          LScli :: add_command(
+            'my_custom_cli_cmd',                    // The CLI command name (required)
+            'cli_my_custom_cli_cmd',                // The CLI command handler (must be callable, required)
+            'My custom CLI command',                // A short description of what this command does (required)
+            '[arg1] [arg2] [...]',                  // A short list of commands available arguments show in usage message
+                                                    // (optional, default: false)
+            'This command permit to ...',           // A long description of what this command does (optional, default:
+                                                    // false)
+            true,                                   // Permit to define if this command need connection to LDAP server
+                                                    // (optional, default: true)
+            'cli_my_custom_cli_cmd_autocompleter',  // Callable of the CLI command arguments autocompleter (optional,
+                                                    // default: null)
+            true                                    // Allow override if a command already exists with the same name
+                                                    // (optional, default: null)
+          );
+      }
+    }
+
+    return $retval;
+  }
+
+  [...]
+
+  // Defined CLI commands functions only on CLI context
+  if (php_sapi_name() != 'cli')
+      return true;  // Always return true to avoid some warning in log
+
+  /**
+   * My addon CLI command my_custom_cli_cmd handler function
+   *
+   * Description of this CLI command.
+   *
+   * @param[in] $command_args array Command arguments
+   *   - Positional arguments :
+   *     - LSobject
+   *     - dn
+   *   - Optional arguments :
+   *     - -f|--force : Force mode
+   *
+   * @author My Name <my.email@example.com>
+   *
+   * @retval boolean True on succes, false otherwise
+   **/
+  function cli_my_custom_cli_cmd($command_args) {
+      $objType = null;
+      $dn = null;
+      $force_mode = false;
+      foreach ($command_args as $arg) {
+        if ($arg == '-f' || $arg == '--force')
+          $force_mode = true;
+        elseif (is_null($objType)) {
+          $objType = $arg;
+        }
+        elseif (is_null($dn)) {
+          $dn = $arg;
+        }
+        else
+          LScli :: usage("Invalid $arg parameter.");
+      }
+
+      if (is_null($objType) || is_null($dn))
+        LScli :: usage('You must provide LSobject type and DN.');
+
+      if (!LSsession :: loadLSobject($objType))
+        return false;
+
+      $obj = new $objType();
+      if (!$obj->loadData($dn)) {
+        self :: log_fatal("Fail to load object $dn data from LDAP");
+        return false;
+      }
+
+      // Do some stuff on loaded object
+      [...]
+
+      return true;
+  }
+
+  /**
+   * Args autocompleter for CLI my_custom_cli_cmd command
+   *
+   * @param[in] $command_args array List of already typed words of the command
+   * @param[in] $comp_word_num int The command word number to autocomplete
+   * @param[in] $comp_word string The command word to autocomplete
+   * @param[in] $opts array List of global available options
+   *
+   * @retval array List of available options for the word to autocomplete
+   **/
+  public static function cli_my_custom_cli_cmd_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
+    $opts = array_merge($opts, array ('-f', '--force'));
+
+    // Handle positional args
+    $objType = null;
+    $objType_arg_num = null;
+    $dn = null;
+    $dn_arg_num = null;
+    for ($i=0; $i < count($command_args); $i++) {
+      if (!in_array($command_args[$i], $opts)) {
+        // If object type not defined
+        if (is_null($objType)) {
+          // Defined it
+          $objType = $command_args[$i];
+          LScli :: unquote_word($objType);
+          $objType_arg_num = $i;
+
+          // Check object type exists
+          $objTypes = LScli :: autocomplete_LSobject_types($objType);
+
+          // Load it if exist and not trying to complete it
+          if (in_array($objType, $objTypes) && $i != $comp_word_num) {
+            LSsession :: loadLSobject($objType, false);
+          }
+        }
+        elseif (is_null($dn)) {
+          $dn = $command_args[$i];
+          LScli :: unquote_word($dn);
+          $dn_arg_num = $i;
+        }
+      }
+    }
+
+    // If objType not already choiced (or currently autocomplete), add LSobject types to available options
+    if (!$objType || $objType_arg_num == $comp_word_num)
+      $opts = array_merge($opts, LScli :: autocomplete_LSobject_types($comp_word));
+
+    // If dn not alreay choiced (or currently autocomplete), try autocomplete it
+    elseif (!$dn || $dn_arg_num == $comp_word_num)
+      $opts = array_merge($opts, LScli :: autocomplete_LSobject_dn($objType, $comp_word));
+
+    return LScli :: autocomplete_opts($opts, $comp_word);
+  }
+  ]]>
+  </programlisting>
+</sect3>
 
 </sect1>
 
