@@ -1696,55 +1696,55 @@ class LSsearch extends LSlog_staticLoggerClass {
  * Error Codes
  **/
 LSerror :: defineError('LSsearch_01',
-_("LSsearch : Invalid filter : %{filter}.")
+___("LSsearch : Invalid filter : %{filter}.")
 );
 LSerror :: defineError('LSsearch_02',
-_("LSsearch : Invalid basedn : %{basedn}.")
+___("LSsearch : Invalid basedn : %{basedn}.")
 );
 LSerror :: defineError('LSsearch_03',
-_("LSsearch : Invalid value for %{param} parameter.")
+___("LSsearch : Invalid value for %{param} parameter.")
 );
 LSerror :: defineError('LSsearch_04',
-_("LSsearch : Invalid size limit. Must be an integer greater or equal to 0.")
+___("LSsearch : Invalid size limit. Must be an integer greater or equal to 0.")
 );
 LSerror :: defineError('LSsearch_05',
-_("LSsearch : Invalid parameter %{attr}. Must be an boolean.")
+___("LSsearch : Invalid parameter %{attr}. Must be an boolean.")
 );
 LSerror :: defineError('LSsearch_06',
-_("LSsearch : Invalid parameter attributes. Must be an string or an array of strings.")
+___("LSsearch : Invalid parameter attributes. Must be an string or an array of strings.")
 );
 LSerror :: defineError('LSsearch_07',
-_("LSsearch : Can't build attributes list for make filter.")
+___("LSsearch : Can't build attributes list for make filter.")
 );
 LSerror :: defineError('LSsearch_08',
-_("LSsearch : Error building filter with attribute '%{attr}' and pattern '%{pattern}'")
+___("LSsearch : Error building filter with attribute '%{attr}' and pattern '%{pattern}'")
 );
 LSerror :: defineError('LSsearch_09',
-_("LSsearch : Error combining filters.")
+___("LSsearch : Error combining filters.")
 );
 LSerror :: defineError('LSsearch_10',
-_("LSsearch : Invalid pattern.")
+___("LSsearch : Invalid pattern.")
 );
 LSerror :: defineError('LSsearch_11',
-_("LSsearch : Invalid attribute %{attr} in parameters.")
+___("LSsearch : Invalid attribute %{attr} in parameters.")
 );
 LSerror :: defineError('LSsearch_12',
-_("LSsearch : Error during the search.")
+___("LSsearch : Error during the search.")
 );
 LSerror :: defineError('LSsearch_13',
-_("LSsearch : Error sorting the search.")
+___("LSsearch : Error sorting the search.")
 );
 LSerror :: defineError('LSsearch_14',
-_("LSsearch : The function of the custum information %{name} is not callable.")
+___("LSsearch : The function of the custum information %{name} is not callable.")
 );
 LSerror :: defineError('LSsearch_15',
-_("LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} (filter : %{filter}).")
+___("LSsearch : Invalid predefinedFilter for LSobject type %{type} : %{label} (filter : %{filter}).")
 );
 LSerror :: defineError('LSsearch_16',
-_("LSsearch : Error during execution of the custom action %{customAction}.")
+___("LSsearch : Error during execution of the custom action %{customAction}.")
 );
 LSerror :: defineError('LSsearch_17',
-_("LSsearch : Invalid search pattern.")
+___("LSsearch : Invalid search pattern.")
 );
 
 // LScli

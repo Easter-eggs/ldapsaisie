@@ -399,17 +399,17 @@ class LSattr_html_select_list extends LSattr_html{
  * Error Codes
  */
 LSerror :: defineError('LSattr_html_select_list_01',
-_("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
+___("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
 );
 LSerror :: defineError('LSattr_html_select_list_02',
-_("LSattr_html_select_list : Invalid attribute %{attr} reference as OTHER_ATTRIBUTE possible values.")
+___("LSattr_html_select_list : Invalid attribute %{attr} reference as OTHER_ATTRIBUTE possible values.")
 );
 LSerror :: defineError('LSattr_html_select_list_03',
-_("LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE possible values is not a jsonCompositeAttribute.")
+___("LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE possible values is not a jsonCompositeAttribute.")
 );
 LSerror :: defineError('LSattr_html_select_list_04',
-_("LSattr_html_select_list : Fail to decode the following attribute %{attr} value as JSON : %{value}")
+___("LSattr_html_select_list : Fail to decode the following attribute %{attr} value as JSON : %{value}")
 );
 LSerror :: defineError('LSattr_html_select_list_05',
-_("LSattr_html_select_list : No component %{component} found in the following attribute %{attr} JSON value : %{value}")
+___("LSattr_html_select_list : No component %{component} found in the following attribute %{attr} JSON value : %{value}")
 );

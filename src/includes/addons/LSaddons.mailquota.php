@@ -24,21 +24,21 @@
 
 // Support
 LSerror :: defineError('MAILQUOTA_SUPPORT_01',
-  __("MAILQUOTA Support : The constant %{const} is not defined.")
+  ___("MAILQUOTA Support : The constant %{const} is not defined.")
 );
 LSerror :: defineError('MAILQUOTA_SUPPORT_02',
-  _("MAILQUOTA Support : The IMAP PHP module is not available.")
+  ___("MAILQUOTA Support : The IMAP PHP module is not available.")
 );
 
 // Other errors
 LSerror :: defineError('MAILQUOTA_01',
-  __("MAILQUOTA : Fail to connect on IMAP server : %{error}")
+  ___("MAILQUOTA : Fail to connect on IMAP server : %{error}")
 );
 LSerror :: defineError('MAILQUOTA_02',
-  __("MAILQUOTA : Unexpected error occured retreiving mailbox quota usage.")
+  ___("MAILQUOTA : Unexpected error occured retreiving mailbox quota usage.")
 );
 LSerror :: defineError('MAILQUOTA_03',
-  __("MAILQUOTA : Fail to compose IMAP mailbox username.")
+  ___("MAILQUOTA : Fail to compose IMAP mailbox username.")
 );
 
 /**

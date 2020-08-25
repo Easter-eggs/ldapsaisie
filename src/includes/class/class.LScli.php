@@ -775,10 +775,10 @@ class LScli extends LSlog_staticLoggerClass {
  * Error Codes
  */
 LSerror :: defineError('LScli_01',
-_("LScli : The CLI command '%{command}' already exists.")
+___("LScli : The CLI command '%{command}' already exists.")
 );
 LSerror :: defineError('LScli_02',
-_("LScli : The CLI command '%{command}' handler is not callable.")
+___("LScli : The CLI command '%{command}' handler is not callable.")
 );
 
 /*

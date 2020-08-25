@@ -101,5 +101,5 @@ class LSformRule_password extends LSformRule {
  * Error Codes
  */
 LSerror :: defineError('LSformRule_password_01',
-_("LSformRule_password : Invalid regex configured : %{regex}. You must use PCRE (begining by '/' caracter).")
+___("LSformRule_password : Invalid regex configured : %{regex}. You must use PCRE (begining by '/' caracter).")
 );

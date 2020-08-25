@@ -824,30 +824,30 @@ class LSform extends LSlog_staticLoggerClass {
  * Error Codes
  */
 LSerror :: defineError('LSform_01',
-_("LSform : Error during the recovery of the values of the form.")
+___("LSform : Error during the recovery of the values of the form.")
 );
 LSerror :: defineError('LSform_02',
-_("LSform : Error durring the recovery of the value of the field '%{element}'.")
+___("LSform : Error durring the recovery of the value of the field '%{element}'.")
 );
 // No longer used
 /*LSerror :: defineError(203,
-_("LSform : Data of the field %{element} are not validate.")
+___("LSform : Data of the field %{element} are not validate.")
 );*/
 LSerror :: defineError('LSform_04',
-_("LSform : The field %{element} doesn't exist.")
+___("LSform : The field %{element} doesn't exist.")
 );
 LSerror :: defineError('LSform_05',
-_("LSfom : Field type unknow (%{type}).")
+___("LSfom : Field type unknow (%{type}).")
 );
 LSerror :: defineError('LSform_06',
-_("LSform : Error during the creation of the element '%{element}'.")
+___("LSform : Error during the creation of the element '%{element}'.")
 );
 LSerror :: defineError('LSform_07',
-_("LSform : The data entry form %{name} doesn't exist.")
+___("LSform : The data entry form %{name} doesn't exist.")
 );
 LSerror :: defineError('LSform_08',
-_("LSform : The data entry form %{name} is not correctly configured.")
+___("LSform : The data entry form %{name} is not correctly configured.")
 );
 LSerror :: defineError('LSform_09',
-_("LSform : The element %{name}, listed as displayed in data entry form configuration, doesn't exist.")
+___("LSform : The element %{name}, listed as displayed in data entry form configuration, doesn't exist.")
 );

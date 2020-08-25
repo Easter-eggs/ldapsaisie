@@ -24,19 +24,19 @@
 
 // Support
 LSerror :: defineError('MAIL_SUPPORT_01',
-  _("MAIL Support : Pear::MAIL is missing.")
+  ___("MAIL Support : Pear::MAIL is missing.")
 );
 LSerror :: defineError('MAIL_SUPPORT_02',
-  _("MAIL Support : Pear::MAIL_MIME is missing.")
+  ___("MAIL Support : Pear::MAIL_MIME is missing.")
 );
 
 // Autres erreurs
 LSerror :: defineError('MAIL_00',
-  _("MAIL Error : %{msg}")
+  ___("MAIL Error : %{msg}")
 );
 
 LSerror :: defineError('MAIL_01',
-  _("MAIL : Error sending your email")
+  ___("MAIL : Error sending your email")
 );
 
  /**

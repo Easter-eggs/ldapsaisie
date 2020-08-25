@@ -420,17 +420,17 @@ class LSformElement_password extends LSformElement {
  * Error Codes
  */
 LSerror :: defineError('LSformElement_password_01',
-_("LSformElement_password : No valid contact mail address available : Can't send new password.")
+___("LSformElement_password : No valid contact mail address available : Can't send new password.")
 );
 LSerror :: defineError('LSformElement_password_02',
-_("LSformElement_password : Fail to send new password by email to %{mail}.")
+___("LSformElement_password : Fail to send new password by email to %{mail}.")
 );
 LSerror :: defineError('LSformElement_password_03',
-_("LSformElement_password : Fail to exec pwgen. Check it's correctly installed.")
+___("LSformElement_password : Fail to exec pwgen. Check it's correctly installed.")
 );
 LSerror :: defineError('LSformElement_password_04',
-_("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function parameter not refer to a valid function.")
+___("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function parameter not refer to a valid function.")
 );
 LSerror :: defineError('LSformElement_password_05',
-_("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function throwed an exception : %{msg}")
+___("LSformElement_password : Fail to determine witch e-mail attribute to use to send new password : get_mail_attr_function throwed an exception : %{msg}")
 );

@@ -48,5 +48,5 @@ class LSformRule extends LSlog_staticLoggerClass {
  * Error Codes
  **/
 LSerror :: defineError('LSformRule_01',
-_("LSformRule_%{type} : Parameter %{param} is not found.")
+___("LSformRule_%{type} : Parameter %{param} is not found.")
 );

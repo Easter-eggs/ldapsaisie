@@ -24,24 +24,24 @@
 
 // Support
 LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_SUPPORT_01',
-  _("ExportSearchResultAsCSV Support : function fputcsv is not available.")
+  ___("ExportSearchResultAsCSV Support : function fputcsv is not available.")
 );
 LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_SUPPORT_02',
-  _("ExportSearchResultAsCSV Support : The constant %{const} is not defined..")
+  ___("ExportSearchResultAsCSV Support : The constant %{const} is not defined..")
 );
 
 // Autres erreurs
 LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_00',
-  _("ExportSearchResultAsCSV Error : An error occured generating CSV outfile memory space.")
+  ___("ExportSearchResultAsCSV Error : An error occured generating CSV outfile memory space.")
 );
 LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_01',
-  _("ExportSearchResultAsCSV Error : An error occured executing the search.")
+  ___("ExportSearchResultAsCSV Error : An error occured executing the search.")
 );
 LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_02',
-  _("ExportSearchResultAsCSV Error : An error occured writing CSV header.")
+  ___("ExportSearchResultAsCSV Error : An error occured writing CSV header.")
 );
 LSerror :: defineError('LS_EXPORTSEARCHRESULTASCSV_03',
-  _("ExportSearchResultAsCSV Error : An error occured writing a CSV row.")
+  ___("ExportSearchResultAsCSV Error : An error occured writing a CSV row.")
 );
 
 

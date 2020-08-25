@@ -399,20 +399,20 @@ class LSattr_html_select_object extends LSattr_html{
  * Error Codes
  */
 LSerror :: defineError('LSattr_html_select_object_01',
-_("LSattr_html_select_object : parameter '%{parameter}' is missing (attribute : %{attr}).")
+___("LSattr_html_select_object : parameter '%{parameter}' is missing (attribute : %{attr}).")
 );
 LSerror :: defineError('LSattr_html_select_object_02',
-_("LSattr_html_select_object : the value of the parameter value_attribute in the configuration of the attribute %{attr} is incorrect. Object %{object_type} have no attribute %{value_attribute}.")
+___("LSattr_html_select_object : the value of the parameter value_attribute in the configuration of the attribute %{attr} is incorrect. Object %{object_type} have no attribute %{value_attribute}.")
 );
 LSerror :: defineError('LSattr_html_select_object_03',
-_("LSattr_html_select_object : more than one object returned corresponding to value %{val} of attribute %{attr}.")
+___("LSattr_html_select_object : more than one object returned corresponding to value %{val} of attribute %{attr}.")
 );
 LSerror :: defineError('LSattr_html_select_object_04',
-_("LSattr_html_select_object : selection of object type %{type} is configured multiple time for attribute %{attr}.")
+___("LSattr_html_select_object : selection of object type %{type} is configured multiple time for attribute %{attr}.")
 );
 LSerror :: defineError('LSattr_html_select_object_05',
-_("LSattr_html_select_object : the value '%{value}' seem to be duplicated in values of the attribute %{attr}.")
+___("LSattr_html_select_object : the value '%{value}' seem to be duplicated in values of the attribute %{attr}.")
 );
 LSerror :: defineError('LSattr_html_select_object_06',
-_("LSattr_html_select_object : selected object %{name} has no attribute %{attr} value, you can't select it.")
+___("LSattr_html_select_object : selected object %{name} has no attribute %{attr} value, you can't select it.")
 );

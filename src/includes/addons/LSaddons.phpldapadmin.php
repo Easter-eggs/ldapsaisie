@@ -24,7 +24,7 @@
 
 // Support
 LSerror :: defineError('PHPLDAPADMIN_SUPPORT_01',
-  __("PhpLdapAdmin Support : The constant %{const} is not defined.")
+  ___("PhpLdapAdmin Support : The constant %{const} is not defined.")
 );
 
 

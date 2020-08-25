@@ -143,7 +143,7 @@ class LSerror {
   */
   private static function formatError($code=null, $message=null, $escape=True, $escape_method=null) {
     if ($code && array_key_exists($code, self :: $_errorCodes)) {
-      $message = getFData(self :: $_errorCodes[$code]['msg'], $message);
+      $message = getFData(__(self :: $_errorCodes[$code]['msg']), $message);
       if (!self :: $_errorCodes[$code]['escape'] === false)
         $escape = false;
     }
@@ -206,4 +206,4 @@ class LSerror {
 /*
  * Error Codes
  */
-LSerror :: defineError(-1,_("Unknown error : %{error}"));
+LSerror :: defineError(-1, ___("Unknown error : %{error}"));

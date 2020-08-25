@@ -24,33 +24,33 @@
 
 // Support
 LSerror :: defineError('FTP_SUPPORT_01',
-  _("FTP Support : Pear::Net_FTP is missing.")
+  ___("FTP Support : Pear::Net_FTP is missing.")
 );
 
 LSerror :: defineError('FTP_SUPPORT_02',
-  _("FTP Support : The constant %{const} is not defined.")
+  ___("FTP Support : The constant %{const} is not defined.")
 );
 
 
 // Autres erreurs
 LSerror :: defineError('FTP_00',
-  _("Net_FTP Error : %{msg}")
+  ___("Net_FTP Error : %{msg}")
 );
 
 LSerror :: defineError('FTP_01',
-  _("FTP Support : Unable to connect to FTP Server (Step : %{step}).")
+  ___("FTP Support : Unable to connect to FTP Server (Step : %{step}).")
 );
 LSerror :: defineError('FTP_02',
-  _("FTP Support : Unable to make directory %{dir} on the remote server.")
+  ___("FTP Support : Unable to make directory %{dir} on the remote server.")
 );
 LSerror :: defineError('FTP_03',
-  _("FTP Support : Unable to delete directory %{dir} on the remote server.")
+  ___("FTP Support : Unable to delete directory %{dir} on the remote server.")
 );
 LSerror :: defineError('FTP_04',
-  _("FTP Support : Unable to modify rights on the directory %{dir} on the remote server.")
+  ___("FTP Support : Unable to modify rights on the directory %{dir} on the remote server.")
 );
 LSerror :: defineError('FTP_05',
-  _("FTP Support : Unable to rename folder from %{old} to %{new} on the remote server.")
+  ___("FTP Support : Unable to rename folder from %{old} to %{new} on the remote server.")
 );
 
  /**

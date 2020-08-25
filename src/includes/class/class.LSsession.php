@@ -2780,85 +2780,85 @@ class LSsession {
      * Error Codes
      */
     LSerror :: defineError('LSsession_01',
-    _("LSsession : The constant %{const} is not defined.")
+    ___("LSsession : The constant %{const} is not defined.")
     );
     LSerror :: defineError('LSsession_02',
-    _("LSsession : The %{addon} support is uncertain. Verify system compatibility and the add-on configuration.")
+    ___("LSsession : The %{addon} support is uncertain. Verify system compatibility and the add-on configuration.")
     );
     LSerror :: defineError('LSsession_03',
-    _("LSsession : LDAP server's configuration data are invalid. Can't connect.")
+    ___("LSsession : LDAP server's configuration data are invalid. Can't connect.")
     );
     LSerror :: defineError('LSsession_04',
-    _("LSsession : Failed to load LSobject type %{type} : unknon type.")
+    ___("LSsession : Failed to load LSobject type %{type} : unknon type.")
     );
     LSerror :: defineError('LSsession_05',
-    _("LSsession : Failed to load LSclass %{class}.")
+    ___("LSsession : Failed to load LSclass %{class}.")
     );
     LSerror :: defineError('LSsession_06',
-    _("LSsession : Login or password incorrect.")
+    ___("LSsession : Login or password incorrect.")
     );
     LSerror :: defineError('LSsession_07',
-    _("LSsession : Impossible to identify you : Duplication of identities.")
+    ___("LSsession : Impossible to identify you : Duplication of identities.")
     );
     LSerror :: defineError('LSsession_08',
-    _("LSsession : Can't load class of authentification (%{class}).")
+    ___("LSsession : Can't load class of authentification (%{class}).")
     );
     LSerror :: defineError('LSsession_09',
-    _("LSsession : Can't connect to LDAP server.")
+    ___("LSsession : Can't connect to LDAP server.")
     );
     LSerror :: defineError('LSsession_10',
-    _("LSsession : Impossible to authenticate you.")
+    ___("LSsession : Impossible to authenticate you.")
     );
     LSerror :: defineError('LSsession_11',
-    _("LSsession : Your are not authorized to do this action.")
+    ___("LSsession : Your are not authorized to do this action.")
     );
     LSerror :: defineError('LSsession_12',
-    _("LSsession : Some informations are missing to display this page.")
+    ___("LSsession : Some informations are missing to display this page.")
     );
     LSerror :: defineError('LSsession_13',
-    _("LSsession : The function of the custom action %{name} does not exists or is not configured.")
+    ___("LSsession : The function of the custom action %{name} does not exists or is not configured.")
     );
     LSerror :: defineError('LSsession_14',
-    _("LSsession : Fail to retreive user's LDAP credentials from LSauth.")
+    ___("LSsession : Fail to retreive user's LDAP credentials from LSauth.")
     );
     LSerror :: defineError('LSsession_15',
-    _("LSsession : Fail to reconnect to LDAP server with user's LDAP credentials.")
+    ___("LSsession : Fail to reconnect to LDAP server with user's LDAP credentials.")
     );
     LSerror :: defineError('LSsession_16',
-    _("LSsession : No import/export format define for this object type.")
+    ___("LSsession : No import/export format define for this object type.")
     );
     LSerror :: defineError('LSsession_17',
-    _("LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})")
+    ___("LSsession : Error during creation of list of levels. Contact administrators. (Code : %{code})")
     );
     LSerror :: defineError('LSsession_18',
-    _("LSsession : The password recovery is disabled for this LDAP server.")
+    ___("LSsession : The password recovery is disabled for this LDAP server.")
     );
     LSerror :: defineError('LSsession_19',
-    _("LSsession : Some informations are missing to recover your password. Contact administrators.")
+    ___("LSsession : Some informations are missing to recover your password. Contact administrators.")
     );
     LSerror :: defineError('LSsession_20',
-    _("LSsession : Error during password recovery. Contact administrators.(Step : %{step})")
+    ___("LSsession : Error during password recovery. Contact administrators.(Step : %{step})")
     );
     LSerror :: defineError('LSsession_21',
-    _("LSsession : call function %{func} do not provided from LSaddon %{addon}.")
+    ___("LSsession : call function %{func} do not provided from LSaddon %{addon}.")
     );
     LSerror :: defineError('LSsession_22',
-    _("LSsession : problem during initialisation.")
+    ___("LSsession : problem during initialisation.")
     );
     LSerror :: defineError('LSsession_23',
-    _("LSsession : view function %{func} for LSaddon %{addon} doet not exist.")
+    ___("LSsession : view function %{func} for LSaddon %{addon} doet not exist.")
     );
     LSerror :: defineError('LSsession_24',
-    _("LSsession : invalid related object's DN pass in parameter.")
+    ___("LSsession : invalid related object's DN pass in parameter.")
     );
     LSerror :: defineError('LSsession_25',
-    _("LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please upgrade it.")
+    ___("LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please upgrade it.")
     );
     LSerror :: defineError('LSsession_26',
-    _("LSsession : You have been redirect from an old-style URL %{url}. Please upgrade this link.")
+    ___("LSsession : You have been redirect from an old-style URL %{url}. Please upgrade this link.")
     );
     LSerror :: defineError('LSsession_27',
-    _("LSsession : You always seem to use %{old} in your custom code: Please upgrade it and use %{new}.<pre>\nContext:\n%{context}</pre>")
+    ___("LSsession : You always seem to use %{old} in your custom code: Please upgrade it and use %{new}.<pre>\nContext:\n%{context}</pre>")
     );
   }
 

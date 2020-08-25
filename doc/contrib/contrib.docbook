@@ -35,20 +35,20 @@
 
 // Support
 LSerror :: defineError('MYADDON_SUPPORT_01',
-  _("MYADDON Support : first support error...")
+  ___("MYADDON Support : first support error...")
 );
 
 LSerror :: defineError('MYADDON_SUPPORT_02',
-  _("MYADDON Support : second support error...")
+  ___("MYADDON Support : second support error...")
 );
 
 // Autres erreurs
 LSerror :: defineError('MYADDON_01',
-  _("MYADDON_01 : an error : %{msg}.")
+  ___("MYADDON_01 : an error : %{msg}.")
 );
 
 LSerror :: defineError('MYADDON_02',
-  _("MYADDON_02 : an other error : %{msg}")
+  ___("MYADDON_02 : an other error : %{msg}")
 );
 
 // Constantes
@@ -58,7 +58,7 @@ define('LS_MYADDON_CONST01',XXXXXXXX);
 
 /**
  * Verify support of my addon by LdapSaisie
- * 
+ *
  * @author My Name <my.email@example.com>
  *
  * @retval boolean true if my addon is totaly supported, false in other cases
@@ -96,11 +96,11 @@ function LSaddon_myaddon_support() {
 
 /**
  * Ma première fonction.
- * 
+ *
  * Ce qu'elle fait.
- * 
+ *
  * @author My Name <my.email@example.com>
- * 
+ *
  * @retval [type valeur retournée] [Signification de la valeur retournée]
  **/
 function myaddon_first_function($arg1,$arg2) {
@@ -116,5 +116,5 @@ function myaddon_first_function($arg1,$arg2) {
 </sect2>
 
 </sect1>
- 
+
 </chapter>

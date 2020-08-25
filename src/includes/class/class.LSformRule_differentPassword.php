@@ -91,17 +91,17 @@ class LSformRule_differentPassword extends LSformRule {
  * Error Codes
  */
 LSerror :: defineError('LSformRule_differentPassword_01',
-_("LSformRule_differentPassword : Other password attribute is not configured.")
+___("LSformRule_differentPassword : Other password attribute is not configured.")
 );
 LSerror :: defineError('LSformRule_differentPassword_02',
-_("LSformRule_differentPassword : Fail to load LSattr_ldap :: password class.")
+___("LSformRule_differentPassword : Fail to load LSattr_ldap :: password class.")
 );
 LSerror :: defineError('LSformRule_differentPassword_03',
-_("LSformRule_differentPassword : The other password attribute %{attr} does not exist.")
+___("LSformRule_differentPassword : The other password attribute %{attr} does not exist.")
 );
 LSerror :: defineError('LSformRule_differentPassword_04',
-_("LSformRule_differentPassword : The other password attribute could not be the same of the current one.")
+___("LSformRule_differentPassword : The other password attribute could not be the same of the current one.")
 );
 LSerror :: defineError('LSformRule_differentPassword_05',
-_("LSformRule_differentPassword : The other password attributes must use LSattr_ldap :: password. It's not the case of the attribure %{attr}.")
+___("LSformRule_differentPassword : The other password attributes must use LSattr_ldap :: password. It's not the case of the attribure %{attr}.")
 );

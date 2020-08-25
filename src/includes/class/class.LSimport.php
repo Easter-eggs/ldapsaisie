@@ -317,14 +317,14 @@ LStemplate :: registerFunction('LSimport_implodeValues','LSimport_implodeValues'
 
 
 LSerror :: defineError('LSimport_01',
-_("LSimport : Post data not found or not completed.")
+___("LSimport : Post data not found or not completed.")
 );
 LSerror :: defineError('LSimport_02',
-_("LSimport : object type invalid.")
+___("LSimport : object type invalid.")
 );
 LSerror :: defineError('LSimport_03',
-_("LSimport : input/output format %{format} invalid.")
+___("LSimport : input/output format %{format} invalid.")
 );
 LSerror :: defineError('LSimport_04',
-_("LSimport : Fail to initialize input/output driver")
+___("LSimport : Fail to initialize input/output driver")
 );

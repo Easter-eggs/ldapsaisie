@@ -654,11 +654,11 @@ function LStemplate_smarty_var_dump($params, &$smarty) {
 
 // Errors
 LSerror :: defineError('LStemplate_01',
-_("LStemplate : Template %{file} not found.")
+___("LStemplate : Template %{file} not found.")
 );
 LSerror :: defineError('LStemplate_02',
-_("LStemplate : Fail to execute trigger %{callable} on event %{event} : is not callable.")
+___("LStemplate : Fail to execute trigger %{callable} on event %{event} : is not callable.")
 );
 LSerror :: defineError('LStemplate_03',
-_("LStemplate : Error during the execution of the trigger %{callable} on event %{event}.")
+___("LStemplate : Error during the execution of the trigger %{callable} on event %{event}.")
 );

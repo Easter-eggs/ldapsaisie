@@ -951,26 +951,26 @@ class LSrelation extends LSlog_staticLoggerClass {
  * Error Codes
  **/
 LSerror :: defineError('LSrelations_01',
-_("LSrelation : Invalid parameter '%{parameter}' of the relation %{relation}: objects %{LSobject} have no function '%{function}'.")
+___("LSrelation : Invalid parameter '%{parameter}' of the relation %{relation}: objects %{LSobject} have no function '%{function}'.")
 );
 LSerror :: defineError('LSrelations_02',
-_("LSrelation : Relation %{relation} of object type %{LSobject} unknown.")
+___("LSrelation : Relation %{relation} of object type %{LSobject} unknown.")
 );
 LSerror :: defineError('LSrelations_03',
-_("LSrelation : Error during relation update of the relation %{relation}.")
+___("LSrelation : Error during relation update of the relation %{relation}.")
 );
 LSerror :: defineError('LSrelations_04',
-_("LSrelation : Object type %{LSobject} unknown (Relation : %{relation}).")
+___("LSrelation : Object type %{LSobject} unknown (Relation : %{relation}).")
 );
 LSerror :: defineError('LSrelations_05',
-_("LSrelation : Incomplete configuration for LSrelation %{relation} of object type %{LSobject} for action : %{action}.")
+___("LSrelation : Incomplete configuration for LSrelation %{relation} of object type %{LSobject} for action : %{action}.")
 );
 LSerror :: defineError('LSrelations_06',
-_("LSrelation : Invalid editable attribute for LSrelation %{relation} with LSobject %{LSobject}.")
+___("LSrelation : Invalid editable attribute for LSrelation %{relation} with LSobject %{LSobject}.")
 );
 LSerror :: defineError('LSrelations_07',
-_("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is missing.")
+___("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is missing.")
 );
 LSerror :: defineError('LSrelations_08',
-_("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is invalid.")
+___("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is invalid.")
 );

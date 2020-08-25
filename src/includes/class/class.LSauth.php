@@ -279,23 +279,23 @@ class LSauth extends LSlog_staticLoggerClass {
  * Error Codes
  */
 LSerror :: defineError('LSauth_01',
-_("LSauth : Login or password incorrect.")
+___("LSauth : Login or password incorrect.")
 );
 LSerror :: defineError('LSauth_02',
-_("LSauth : Impossible to identify you : Duplication of identities.")
+___("LSauth : Impossible to identify you : Duplication of identities.")
 );
 LSerror :: defineError('LSauth_03',
-_("LSauth : Could not load type of identifiable objects %{type}.")
+___("LSauth : Could not load type of identifiable objects %{type}.")
 );
 LSerror :: defineError('LSauth_04',
-_("LSauth : Can't load authentication method %{method}.")
+___("LSauth : Can't load authentication method %{method}.")
 );
 LSerror :: defineError('LSauth_05',
-_("LSauth : Failed to build the authentication provider %{method}.")
+___("LSauth : Failed to build the authentication provider %{method}.")
 );
 LSerror :: defineError('LSauth_06',
-_("LSauth : Not correctly initialized.")
+___("LSauth : Not correctly initialized.")
 );
 LSerror :: defineError('LSauth_07',
-_("LSauth : Failed to get authentication informations from provider.")
+___("LSauth : Failed to get authentication informations from provider.")
 );

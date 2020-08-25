@@ -269,5 +269,5 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
  * Error Codes
  **/
 LSerror :: defineError('LSsearchEntry_01',
-_("LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns %{column}.")
+___("LSsearchEntry : Invalid formaterFunction %{func} for extraDisplayedColumns %{column}.")
 );

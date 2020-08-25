@@ -24,28 +24,28 @@
 
 // Support
 LSerror :: defineError('SAMBA_SUPPORT_01',
-  _("SAMBA Support : Unable to load smbHash class.")
+  ___("SAMBA Support : Unable to load smbHash class.")
 );
 LSerror :: defineError('SAMBA_SUPPORT_02',
-  _("SAMBA Support : The constant %{const} is not defined.")
+  ___("SAMBA Support : The constant %{const} is not defined.")
 );
 
 LSerror :: defineError('SAMBA_SUPPORT_03',
-  _("SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's unicity.")
+  ___("SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's unicity.")
 );
 
 // Autres erreurs
 LSerror :: defineError('SAMBA_01',
-  _("SAMBA Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
+  ___("SAMBA Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
 LSerror :: defineError('SAMBA_02',
-  _("SAMBA Support : Can't get the sambaDomain object.")
+  ___("SAMBA Support : Can't get the sambaDomain object.")
 );
 LSerror :: defineError('SAMBA_03',
-  _("SAMBA Support : Error modifying the sambaDomain object.")
+  ___("SAMBA Support : Error modifying the sambaDomain object.")
 );
 LSerror :: defineError('SAMBA_04',
-  _("SAMBA Support : The %{attr} of the sambaDomain object is incorrect.")
+  ___("SAMBA Support : The %{attr} of the sambaDomain object is incorrect.")
 );
 
 // CONSTANTES

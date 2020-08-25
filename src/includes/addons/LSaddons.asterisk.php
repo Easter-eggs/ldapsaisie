@@ -24,16 +24,16 @@
 
 // Support
 LSerror :: defineError('ASTERISK_SUPPORT_01',
-  _("Asterisk Support : The constant %{const} is not defined.")
+  ___("Asterisk Support : The constant %{const} is not defined.")
 );
 LSerror :: defineError('ASTERISK_01',
-  _("Asterisk : The function %{function} only work with %{objectName}.")
+  ___("Asterisk : The function %{function} only work with %{objectName}.")
 );
 LSerror :: defineError('ASTERISK_02',
-  _("Asterisk : The attribute %{dependency} is missing. Unable to generate MD5 hashed password.")
+  ___("Asterisk : The attribute %{dependency} is missing. Unable to generate MD5 hashed password.")
 );
 LSerror :: defineError('ASTERISK_03',
-  _("Asterisk : Clear password not availlable. Unable to generate MD5 hashed password.")
+  ___("Asterisk : Clear password not availlable. Unable to generate MD5 hashed password.")
 );
 
  /**

@@ -28,35 +28,35 @@ use phpseclib\Crypt\RSA;
 
 // Support
 LSerror :: defineError('SSH_SUPPORT_01',
-  _("SSH Support : PhpSecLib is missing.")
+  ___("SSH Support : PhpSecLib is missing.")
 );
 
 LSerror :: defineError('SSH_SUPPORT_02',
-  _("SSH Support : The constant %{const} is not defined.")
+  ___("SSH Support : The constant %{const} is not defined.")
 );
 
 
 // Autres erreurs
 LSerror :: defineError('SSH_01',
-  _("SSH : Invalid connection paramater : %{param} parameter is missing.")
+  ___("SSH : Invalid connection paramater : %{param} parameter is missing.")
 );
 LSerror :: defineError('SSH_02',
-  _("SSH : Authentication key file not found (or not accessible, file path : '%{path}')")
+  ___("SSH : Authentication key file not found (or not accessible, file path : '%{path}')")
 );
 LSerror :: defineError('SSH_03',
-  _("SSH : Fail to load authentication key (%{path}).")
+  ___("SSH : Fail to load authentication key (%{path}).")
 );
 LSerror :: defineError('SSH_04',
-  _("SSH : Unable to connect to SSH Server (%{host}:%{port}).")
+  ___("SSH : Unable to connect to SSH Server (%{host}:%{port}).")
 );
 LSerror :: defineError('SSH_05',
-  _("SSH : Unable to make directory %{dir} on the remote server.")
+  ___("SSH : Unable to make directory %{dir} on the remote server.")
 );
 LSerror :: defineError('SSH_06',
-  _("SSH : Unable to delete directory %{dir} on the remote server.")
+  ___("SSH : Unable to delete directory %{dir} on the remote server.")
 );
 LSerror :: defineError('SSH_07',
-  _("SSH : Unable to rename folder from %{old} to %{new} on the remote server.")
+  ___("SSH : Unable to rename folder from %{old} to %{new} on the remote server.")
 );
 
  /**

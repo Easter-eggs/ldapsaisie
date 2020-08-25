@@ -54,5 +54,5 @@ class LSformRule_inarray extends LSformRule {
  * Error Codes
  */
 LSerror :: defineError('LSformRule_inarray_01',
-_("LSformRule_inarray : Possible values has not been configured to validate data.")
+___("LSformRule_inarray : Possible values has not been configured to validate data.")
 );

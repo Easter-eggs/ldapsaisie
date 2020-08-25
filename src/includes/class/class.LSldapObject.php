@@ -2859,122 +2859,122 @@ class LSldapObject extends LSlog_staticLoggerClass {
  * Error Codes
  **/
 LSerror :: defineError('LSldapObject_01',
-_("LSldapObject : Object type unknown.")
+___("LSldapObject : Object type unknown.")
 );
 LSerror :: defineError('LSldapObject_02',
-_("LSldapObject : Update form is not defined for the object %{obj}.")
+___("LSldapObject : Update form is not defined for the object %{obj}.")
 );
 LSerror :: defineError('LSldapObject_03',
-_("LSldapObject : No form exists for the object %{obj}.")
+___("LSldapObject : No form exists for the object %{obj}.")
 );
 LSerror :: defineError('LSldapObject_04',
-_("LSldapObject : The function %{func} to validate the attribute %{attr} the object %{obj} is unknow.")
+___("LSldapObject : The function %{func} to validate the attribute %{attr} the object %{obj} is unknow.")
 );
 LSerror :: defineError('LSldapObject_05',
-_("LSldapObject : Configuration data are missing to validate the attribute %{attr} of the object %{obj}.")
+___("LSldapObject : Configuration data are missing to validate the attribute %{attr} of the object %{obj}.")
 );
 
 LSerror :: defineError('LSldapObject_06',
-_("LSldapObject : The function %{func} to be executed on the object event %{event} doesn't exist.")
+___("LSldapObject : The function %{func} to be executed on the object event %{event} doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_07',
-_("LSldapObject : The %{func} execution on the object event %{event} failed.")
+___("LSldapObject : The %{func} execution on the object event %{event} failed.")
 );
 
 LSerror :: defineError('LSldapObject_08',
-_("LSldapObject : Class %{class}, which method %{meth} to be executed on the object event %{event}, doesn't exist.")
+___("LSldapObject : Class %{class}, which method %{meth} to be executed on the object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_09',
-_("LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, doesn't exist.")
+___("LSldapObject : Method %{meth} within %{class} class to be executed on object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_10',
-_("LSldapObject : Error during execute %{meth} method within %{class} class, to be executed on object event %{event}.")
+___("LSldapObject : Error during execute %{meth} method within %{class} class, to be executed on object event %{event}.")
 );
 
 LSerror :: defineError('LSldapObject_11',
-_("LSldapObject : Some configuration data of the object type %{obj} are missing to generate the DN of the new object.")
+___("LSldapObject : Some configuration data of the object type %{obj} are missing to generate the DN of the new object.")
 );
 LSerror :: defineError('LSldapObject_12',
-_("LSldapObject : The attibute %{attr} of the object is not yet defined. Can't generate DN.")
+___("LSldapObject : The attibute %{attr} of the object is not yet defined. Can't generate DN.")
 );
 LSerror :: defineError('LSldapObject_13',
-_("LSldapObject : Without DN, the object could not be changed.")
+___("LSldapObject : Without DN, the object could not be changed.")
 );
 LSerror :: defineError('LSldapObject_14',
-_("LSldapObject : The attribute %{attr_depend} depending on the attribute %{attr} doesn't exist.")
+___("LSldapObject : The attribute %{attr_depend} depending on the attribute %{attr} doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_15',
-_("LSldapObject : Error during deleting the object %{objectname}.")
+___("LSldapObject : Error during deleting the object %{objectname}.")
 );
 
 LSerror :: defineError('LSldapObject_16',
-_("LSldapObject : Error during actions to be executed before renaming the objet.")
+___("LSldapObject : Error during actions to be executed before renaming the objet.")
 );
 LSerror :: defineError('LSldapObject_17',
-_("LSldapObject : Error during actions to be executed after renaming the objet.")
+___("LSldapObject : Error during actions to be executed after renaming the objet.")
 );
 
 LSerror :: defineError('LSldapObject_18',
-_("LSldapObject : Error during actions to be executed before deleting the objet.")
+___("LSldapObject : Error during actions to be executed before deleting the objet.")
 );
 LSerror :: defineError('LSldapObject_19',
-_("LSldapObject : Error during actions to be executed after deleting the objet.")
+___("LSldapObject : Error during actions to be executed after deleting the objet.")
 );
 
 LSerror :: defineError('LSldapObject_20',
-_("LSldapObject : Error during the actions to be executed before creating the object.")
+___("LSldapObject : Error during the actions to be executed before creating the object.")
 );
 LSerror :: defineError('LSldapObject_21',
-_("LSldapObject : Error during the actions to be executed after creating the object. It was created anyway.")
+___("LSldapObject : Error during the actions to be executed after creating the object. It was created anyway.")
 );
 
 LSerror :: defineError('LSldapObject_22',
-_("LSldapObject : The function %{func} to be executed before creating the object doesn't exist.")
+___("LSldapObject : The function %{func} to be executed before creating the object doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_23',
-_("LSldapObject : Error executing the function %{func} to be execute after deleting the object.")
+___("LSldapObject : Error executing the function %{func} to be execute after deleting the object.")
 );
 LSerror :: defineError('LSldapObject_24',
-_("LSldapObject : The function %{func} to be executed after deleting the object doesn't exist.")
+___("LSldapObject : The function %{func} to be executed after deleting the object doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_25',
-_("LSldapObject : Error executing the function %{func} to be execute after creating the object.")
+___("LSldapObject : Error executing the function %{func} to be execute after creating the object.")
 );
 
 LSerror :: defineError('LSldapObject_26',
-_("LSldapObject : %{func} function, to be executed on object event %{event}, doesn't exist.")
+___("LSldapObject : %{func} function, to be executed on object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_27',
-_("LSldapObject : Error during the execution of %{func} function on object event %{event}.")
+___("LSldapObject : Error during the execution of %{func} function on object event %{event}.")
 );
 
 LSerror :: defineError('LSldapObject_28',
-_("LSldapObject : %{meth} method, to be executed on object event %{event}, doesn't exist.")
+___("LSldapObject : %{meth} method, to be executed on object event %{event}, doesn't exist.")
 );
 LSerror :: defineError('LSldapObject_29',
-_("LSldapObject : Error during execution of %{meth} method on object event %{event}.")
+___("LSldapObject : Error during execution of %{meth} method on object event %{event}.")
 );
 LSerror :: defineError('LSldapObject_30',
-_("LSldapObject : Error during generate LDAP filter for %{LSobject}.")
+___("LSldapObject : Error during generate LDAP filter for %{LSobject}.")
 );
 
 LSerror :: defineError('LSldapObject_31',
-_("LSldapObject : Error during execution of the custom action %{customAction} on %{objectname}.")
+___("LSldapObject : Error during execution of the custom action %{customAction} on %{objectname}.")
 );
 
 LSerror :: defineError('LSldapObject_32',
-_("LSldapObject : Fail to retrieve container DN.")
+___("LSldapObject : Fail to retrieve container DN.")
 );
 LSerror :: defineError('LSldapObject_33',
-_("LSldapObject : The function %{func} to generate container DN is not callable.")
+___("LSldapObject : The function %{func} to generate container DN is not callable.")
 );
 LSerror :: defineError('LSldapObject_34',
-_("LSldapObject : Error during generating container DN : %{error}")
+___("LSldapObject : Error during generating container DN : %{error}")
 );
 
 // LSrelation
 LSerror :: defineError('LSrelations_05',
-_("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
+___("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
 );
 
 // LScli

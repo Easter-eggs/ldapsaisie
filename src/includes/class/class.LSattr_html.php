@@ -132,9 +132,9 @@ class LSattr_html extends LSlog_staticLoggerClass {
  * Error Codes
  */
 LSerror :: defineError('LSattr_html_01',
-_("LSattr_html : The method addToForm() of the HTML type of the attribute %{attr} is not defined.")
+___("LSattr_html : The method addToForm() of the HTML type of the attribute %{attr} is not defined.")
 );
 // 02 : not yet used
 LSerror :: defineError('LSattr_html_03',
-_("LSattr_html_%{type} : Multiple data are not supported for this field type.")
+___("LSattr_html_%{type} : Multiple data are not supported for this field type.")
 );

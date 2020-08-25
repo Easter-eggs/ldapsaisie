@@ -23,7 +23,7 @@
 
 // Support
 LSerror :: defineError('LSACCESSRIGHTSMATRIXVIEW_SUPPORT_01',
-  _("Access Right Matrix Support : The global array %{array} is not defined.")
+  ___("Access Right Matrix Support : The global array %{array} is not defined.")
 );
 
 /**

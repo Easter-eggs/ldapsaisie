@@ -66,5 +66,5 @@ class LSauthMethod_anonymous extends LSauthMethod {
  * Error Codes
  */
 LSerror :: defineError('LSauthMethod_anonymous_01',
-_("LSauthMethod_anonymous : You must define the LSAUTHMETHOD_ANONYMOUS_USER contant in the configuration file.")
+___("LSauthMethod_anonymous : You must define the LSAUTHMETHOD_ANONYMOUS_USER contant in the configuration file.")
 );

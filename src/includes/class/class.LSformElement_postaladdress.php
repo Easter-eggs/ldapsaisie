@@ -86,5 +86,5 @@ function LSformElement_postaladdress__generate_pattern($LSformElement) {
 }
 
 LSerror :: defineError('LSformElement_postaladdress_01',
-_("LSformElement_postaladdress : Map URL pattern generate function is not callabled (%{function}).")
+___("LSformElement_postaladdress : Map URL pattern generate function is not callabled (%{function}).")
 );

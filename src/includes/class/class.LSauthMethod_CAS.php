@@ -137,8 +137,8 @@ class LSauthMethod_CAS extends LSauthMethod {
  * Error Codes
  */
 LSerror :: defineError('LSauthMethod_CAS_01',
-_("LSauthMethod_CAS : Failed to load phpCAS.")
+___("LSauthMethod_CAS : Failed to load phpCAS.")
 );
 LSerror :: defineError('LSauthMethod_CAS_02',
-_("LSauthMethod_CAS : Please check your configuration : you must configure CAS server SSL certificate validation using one of the following constant : LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION")
+___("LSauthMethod_CAS : Please check your configuration : you must configure CAS server SSL certificate validation using one of the following constant : LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION")
 );

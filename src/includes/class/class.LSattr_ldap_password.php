@@ -370,8 +370,8 @@ class LSattr_ldap_password extends LSattr_ldap {
  * Error Codes
  **/
 LSerror :: defineError('LSattr_ldap_password_01',
-_("LSattr_ldap_password : Encoding type %{type} is not supported. This password will be stored in clear text.")
+___("LSattr_ldap_password : Encoding type %{type} is not supported. This password will be stored in clear text.")
 );
 LSerror :: defineError('LSattr_ldap_password_02',
-_("LSattr_ldap_password : Encoding function %{function} is not callable. This password will be stored in clear text.")
+___("LSattr_ldap_password : Encoding function %{function} is not callable. This password will be stored in clear text.")
 );

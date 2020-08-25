@@ -727,29 +727,29 @@ class LSattribute extends LSlog_staticLoggerClass {
  * Error Codes
  **/
 LSerror :: defineError('LSattribute_01',
-  _("LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} & HTML = %{html}).")
+  ___("LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} & HTML = %{html}).")
 );
 LSerror :: defineError('LSattribute_02',
-  _("LSattribute : The function %{func} to display the attribute %{attr} is unknow.")
+  ___("LSattribute : The function %{func} to display the attribute %{attr} is unknow.")
 );
 LSerror :: defineError('LSattribute_03',
-  _("LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow.")
+  ___("LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow.")
 );
 LSerror :: defineError('LSattribute_04',
-  _("LSattribute : Configuration data to verify the attribute %{attr} are incorrect.")
+  ___("LSattribute : Configuration data to verify the attribute %{attr} are incorrect.")
 );
 LSerror :: defineError('LSattribute_05',
-  _("LSattribute : The function %{func} to save the attribute %{attr} is unknow.")
+  ___("LSattribute : The function %{func} to save the attribute %{attr} is unknow.")
 );
 LSerror :: defineError('LSattribute_06',
-  _("LSattribute : The value of the attribute %{attr} can't be generated.")
+  ___("LSattribute : The value of the attribute %{attr} can't be generated.")
 );
 LSerror :: defineError('LSattribute_07',
-  _("LSattribute : Generation of the attribute %{attr} failed.")
+  ___("LSattribute : Generation of the attribute %{attr} failed.")
 );
 LSerror :: defineError('LSattribute_08',
-  _("LSattribute : Generation of the attribute %{attr} did not return a correct value.")
+  ___("LSattribute : Generation of the attribute %{attr} did not return a correct value.")
 );
 LSerror :: defineError('LSattribute_09',
-  _("LSattribute : The attr_%{type} of the attribute %{name} is not yet defined.")
+  ___("LSattribute : The attr_%{type} of the attribute %{name} is not yet defined.")
 );

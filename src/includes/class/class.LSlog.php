@@ -475,5 +475,5 @@ class LSlog {
  * Error Codes
  */
 LSerror :: defineError('LSlog_01',
-_("LSlog : Fail to load logging handler %{handler}.")
+___("LSlog : Fail to load logging handler %{handler}.")
 );

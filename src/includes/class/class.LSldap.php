@@ -501,23 +501,23 @@ class LSldap extends LSlog_staticLoggerClass {
  * Error Codes
  */
 LSerror :: defineError('LSldap_01',
-  _("LSldap : Error during the LDAP server connection (%{msg}).")
+  ___("LSldap : Error during the LDAP server connection (%{msg}).")
 );
 LSerror :: defineError('LSldap_02',
-  _("LSldap : Error during the LDAP search (%{msg}).")
+  ___("LSldap : Error during the LDAP search (%{msg}).")
 );
 LSerror :: defineError('LSldap_03',
-  _("LSldap : Object type unknown.")
+  ___("LSldap : Object type unknown.")
 );
 LSerror :: defineError('LSldap_04',
-  _("LSldap : Error while fetching the LDAP entry.")
+  ___("LSldap : Error while fetching the LDAP entry.")
 );
 LSerror :: defineError('LSldap_05',
-  _("LSldap : Error while changing the LDAP entry (DN : %{dn}).")
+  ___("LSldap : Error while changing the LDAP entry (DN : %{dn}).")
 );
 LSerror :: defineError('LSldap_06',
-  _("LSldap : Error while deleting empty attributes.")
+  ___("LSldap : Error while deleting empty attributes.")
 );
 LSerror :: defineError('LSldap_07',
-  _("LSldap : Error while changing the DN of the object.")
+  ___("LSldap : Error while changing the DN of the object.")
 );

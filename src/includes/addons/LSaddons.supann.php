@@ -24,21 +24,21 @@
 
 // Support
 LSerror :: defineError('SUPANN_SUPPORT_01',
-  _("SUPANN Support : The constant %{const} is not defined.")
+  ___("SUPANN Support : The constant %{const} is not defined.")
 );
 LSerror :: defineError('SUPANN_SUPPORT_02',
-  _("SUPANN Support : The LSobject type %{type} does not exist. Can't work with entities..")
+  ___("SUPANN Support : The LSobject type %{type} does not exist. Can't work with entities..")
 );
 LSerror :: defineError('SUPANN_SUPPORT_03',
-  _("SUPANN Support : The global array %{array} is not defined.")
+  ___("SUPANN Support : The global array %{array} is not defined.")
 );
 
 // Autres erreurs
 LSerror :: defineError('SUPANN_01',
-  _("SUPANN Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
+  ___("SUPANN Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
 LSerror :: defineError('SUPANN_02',
-  _("SUPANN Support : Can't get the basedn of entities. Unable to forge the attribute %{attr}.")
+  ___("SUPANN Support : Can't get the basedn of entities. Unable to forge the attribute %{attr}.")
 );
 
  /**

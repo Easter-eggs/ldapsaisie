@@ -202,5 +202,5 @@ class LSformElement_valueWithUnit extends LSformElement {
  * Error Codes
  */
 LSerror :: defineError('LSformElement_valueWithUnit_01',
-_("LSformElement_valueWithUnit : Units configuration data are missing for the attribute %{attr}.")
+___("LSformElement_valueWithUnit : Units configuration data are missing for the attribute %{attr}.")
 );

@@ -133,5 +133,5 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
  * Error Codes
  */
 LSerror :: defineError('LSauthMethod_HTTP_01',
-_("LSauthMethod_HTTP : the %{var} environnement variable is missing.")
+___("LSauthMethod_HTTP : the %{var} environnement variable is missing.")
 );
