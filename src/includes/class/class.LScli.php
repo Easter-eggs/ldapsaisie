@@ -46,8 +46,9 @@ class LScli extends LSlog_staticLoggerClass {
    * @param[in] $long_desc          string|false    A long description of what this command does (optional, default: false)
    * @param[in] $need_ldap_con      boolean         Permit to define if this command need connection to LDAP server (optional,
    *                                                default: true)
-   * @param[in] $args_autocompleter callable|null   Allow override if a command already exists with the same name (optional,
-   * @param[in] $override       boolean             Allow override if a command already exists with the same name (optional,
+   * @param[in] $args_autocompleter callable|null   Callable of the CLI command arguments autocompleter (optional, default:
+   *                                                null)
+   * @param[in] $override           boolean         Allow override if a command already exists with the same name (optional,
    *                                                default: false)
    *
    * @retval void
