@@ -221,7 +221,7 @@ class LSlang extends LSlog_staticLoggerClass {
  * Only load in CLI context
  ***********************************************
  */
-if (php_sapi_name() != "cli") return;
+if (php_sapi_name() != "cli") return true;
 
 /**
  * CLI generate_lang_file command
