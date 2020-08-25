@@ -182,8 +182,6 @@
 </itemizedlist>
 </para>
 
-</sect2>
-
 <sect3 id="contrib-LSaddon-views">
   <title>Les vues personnalisées</title>
 
@@ -514,6 +512,8 @@
   ]]>
   </programlisting>
 </sect3>
+
+</sect2>
 
 </sect1>
 
