@@ -40,5 +40,7 @@
 
 <!ENTITY LSformElement "<link linkend='contrib-LSformElements'>LSformElement</link>">
 <!ENTITY LSformElements "<link linkend='contrib-LSformElements'>LSformElements</link>">
+<!ENTITY LSformRule "<link linkend='contrib-LSformRules'>LSformRule</link>">
+<!ENTITY LSformRules "<link linkend='contrib-LSformRules'>LSformRules</link>">
 
 <!ENTITY GIT_RAW_ROOT_URL "https://gitlab.easter-eggs.com/ee/ldapsaisie/-/raw/master">

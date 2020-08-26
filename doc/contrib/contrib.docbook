@@ -604,4 +604,43 @@
   du type <literal>textarea</literal>, ou encore du type <literal>url</literal> dérivé du type <literal>text</literal>.</simpara></note>
 </sect1>
 
+<sect1 id="contrib-LSformRules">
+  <title>LSformRules</title>
+
+  <para>Les &LSformRules; sont les règles syntaxiques applicables aux champs des formulaires. Ces règles serviront à s'assurer que les
+  valeurs des champs récupérées des formulaires sont syntaxiquement correctes. Elles seront configurables via le paramètre
+  <literal>check_data</literal> des attributs des &LSobjects;.</para>
+
+  <para>Pour chaque type implémenté, on trouvera une classe PHP dérivée de la classe <literal>LSformRule</literal> et devant s'appeler
+  <literal>LSattr_rule_[nom du type]</literal>. Dans celle-ci, il devra être défini la méthode statique <literal>validate()</literal> qui
+  implémentera le contrôle syntaxique. Cette méthode prendra en paramètres :
+    <variablelist>
+
+      <varlistentry>
+        <term>$value</term>
+        <listitem>
+          <simpara>La valeur à tester.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>$options</term>
+        <listitem>
+          <simpara>Un tableau des options définies dans la configuration pour ce contrôle syntaxique.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>$formElement</term>
+        <listitem>
+          <simpara>Une référence au champ du formulaire (objet &LSformElement;).</simpara>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+  </para>
+  <para>Cette méthode devra retourner <literal>True</literal> ou <literal>False</literal> si la valeur testée est respectivement valide ou
+  invalide.</para>
+</sect1>
+
 </chapter>
