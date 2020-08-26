@@ -13,7 +13,7 @@ les possibilités de contribution.</para>
       <listitem><simpara>le support d'une famille d'attributs spécifiques (POSIX, Samba, SUPANN…) par le biais de
       méthodes de génération de la valeur de ces attributs par exemple (paramètre
       <literal>generate_function</literal>) ;</simpara></listitem>
-      <listitem><simpara>des tâches communes et génériques (envoi de mails, connexion FTP/SSH…) ;</simpara></listitem>.
+      <listitem><simpara>des tâches communes et génériques (envoi de mails, connexion FTP/SSH…) ;</simpara></listitem>
       <listitem><simpara>l'implémentation de <link linkend='config-LSobject-triggers'>déclencheurs</link> spécifiques à
       votre environnement : création automatique du dossier client sur le serveur de fichiers de l'entreprise, création
       de la boite mail de l'utilisateur… ;</simpara></listitem>
