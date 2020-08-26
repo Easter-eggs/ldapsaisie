@@ -80,6 +80,14 @@ class LSattribute extends LSlog_staticLoggerClass {
     return true;
   }
 
+ /**
+  * Allow conversion of LSattribute to string
+  *
+  * @retval string The string representation of the LSattribute
+  */
+  public function __toString() {
+    return strval($this -> ldapObject)." -> <LSattribute ".$this -> name.">";
+  }
 
   /**
    * Retourne la valeur du label de l'attribut
@@ -625,25 +633,25 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @retval boolean True si tout c'est bien passé, false sinon
    */
   public function fireEvent($event) {
+    self :: log_debug(strval($this)." -> fireEvent($event)");
     $return = true;
     if(isset($this -> config[$event])) {
-      if (!is_array($this -> config[$event])) {
-        $funcs = array($this -> config[$event]);
-      }
-      else {
-        $funcs = $this -> config[$event];
-      }
+      $funcs = (!is_array($this -> config[$event])?array($this -> config[$event]):$this -> config[$event]);
       foreach($funcs as $func) {
         if(function_exists($func)) {
+          self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable($func));
           if(!call_user_func_array($func, array(&$this -> ldapObject))) {
             $return = false;
           }
         }
         else {
+          self :: log_warning(strval($this)." -> fireEvent($event): function '".format_callable($func)."' doesn't exists.");
           $return = false;
         }
       }
     }
+    else
+      self :: log_trace(strval($this)." -> fireEvent($event): no configured trigger for this event.");
 
     if (isset($this -> _events[$event]) && is_array($this -> _events[$event])) {
       foreach ($this -> _events[$event] as $e) {
@@ -652,35 +660,37 @@ class LSattribute extends LSlog_staticLoggerClass {
             $obj = new $e['class']();
             if (method_exists($obj,$e['fct'])) {
               try {
+                self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable(array($obj, $e['fct'])));
                 call_user_func_array(array($obj, $e['fct']), array(&$e['params']));
               }
               catch(Exception $er) {
+                self :: log_exception($er, strval($this)." -> fireEvent($event): exception occured running ".format_callable(array($obj, $e['fct'])));
                 $return = false;
-                LSdebug("Event ".$event." : Erreur durant l'execution de la méthode ".$e['fct']." de la classe ".$e['class']);
               }
             }
             else {
-              LSdebug("Event ".$event." : La méthode ".$e['fct']." de la classe ".$e['class']." n'existe pas.");
+              self :: log_warning(strval($this)." -> fireEvent($event): method '".$e['fct']."' of the class '".$e['class']."' doesn't exists.");
               $return = false;
             }
           }
           else {
+            self :: log_warning(strval($this)." -> fireEvent($event): the class '".$e['class']."' doesn't exists.");
             $return = false;
-            LSdebug("Event ".$event." : La classe ".$e['class']." n'existe pas");
           }
         }
         else {
           if (function_exists($e['fct'])) {
             try {
+              self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable($e['fct']));
               call_user_func_array($e['fct'], array(&$e['params']));
             }
             catch(Exception $er) {
-              LSdebug("Event ".$event." : Erreur durant l'execution de la function ".$e['fct']);
+              self :: log_exception($er, strval($this)." -> fireEvent($event): exception occured running ".format_callable(e['fct']));
               $return = false;
             }
           }
           else {
-            LSdebug("Event ".$event." : la function ".$e['fct']." n'existe pas");
+            self :: log_warning(strval($this)." -> fireEvent($event): the function '".$e['fct']."' doesn't exists.");
             $return = false;
           }
         }
@@ -689,17 +699,18 @@ class LSattribute extends LSlog_staticLoggerClass {
 
     if (isset($this -> _objectEvents[$event]) && is_array($this -> _objectEvents[$event])) {
       foreach ($this -> _objectEvents[$event] as $e) {
-        if (method_exists($e['obj'],$e['meth'])) {
+        if (method_exists($e['obj'], $e['meth'])) {
           try {
+            self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable(array($e['obj'], $e['meth'])));
             call_user_func_array(array($e['obj'], $e['meth']),array(&$e['params']));
           }
           catch(Exception $er) {
+            self :: log_exception($er, strval($this)." -> fireEvent($event): exception occured running ".format_callable(array($e['obj'], $e['meth'])));
             $return = false;
-            LSdebug("Event ".$event." : Erreur durant l'execution de la méthode ".$e['meth']." sur l'objet.");
           }
         }
         else {
-          LSdebug("Event ".$event." : La méthode ".$e['meth']." de l'objet n'existe pas.");
+          self :: log_warning(strval($this)." -> fireEvent($event): the method '".$e['meth']."' of the object doesn't exists.");
           $return = false;
         }
       }

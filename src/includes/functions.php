@@ -747,3 +747,20 @@ function dumpFile($file_path, $mime_type=null, $max_age=3600, $force_download=fa
     exit();
   }
 }
+
+/**
+ * Format a callable object for logging
+ * @param  callable $callable The callable object
+ * @return string The callable object string representation
+ */
+function format_callable($callable) {
+        if (is_array($callable))
+                if (is_string($callable[0]))
+                        return $callable[0]."::".$callable[1]."()";
+                elseif (is_object($callable[0]))
+                        return get_class($callable[0])."->".$callable[1]."()";
+                else
+                        return "Unkown->".$callable[1]."()";
+        else
+                return $callable."()";
+}

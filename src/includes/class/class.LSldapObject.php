@@ -1680,6 +1680,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * @retval boolean True si tout c'est bien passé, false sinon
    */
   public function fireEvent($event) {
+    self :: log_debug(strval($this)." -> fireEvent($event)");
 
     // Object event
     $return = $this -> fireObjectEvent($event);
@@ -1691,6 +1692,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
         $funcs = array($this -> config[$event]);
       foreach($funcs as $func) {
         if(function_exists($func)) {
+          self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable($func));
           if(!call_user_func_array($func, array(&$this))) {
             $return = false;
             LSerror :: addErrorCode('LSldapObject_07',array('func' => $func,'event' => $event));
@@ -1711,9 +1713,11 @@ class LSldapObject extends LSlog_staticLoggerClass {
             $obj = new $e['class']();
             if (method_exists($obj,$e['fct'])) {
               try {
+                self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable(array($obj, $e['fct'])));
                 call_user_func_array(array($obj,$e['fct']),array(&$e['param']));
               }
               catch(Exception $er) {
+                self :: log_exception($er, strval($this)." -> fireEvent($event): exception occured running ".format_callable(array($obj, $e['fct'])));
                 LSerror :: addErrorCode('LSldapObject_10',array('class' => $e['class'],'meth' => $e['fct'],'event' => $event));
                 $return = false;
               }
@@ -1731,9 +1735,11 @@ class LSldapObject extends LSlog_staticLoggerClass {
         else {
           if (function_exists($e['fct'])) {
             try {
+              self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable($e['fct']));
               call_user_func_array($e['fct'],array(&$e['param']));
             }
             catch(Exception $er) {
+              self :: log_exception($er, strval($this)." -> fireEvent($event): exception occured running ".format_callable($e['fct']));
               LSerror :: addErrorCode('LSldapObject_27',array('func' => $e['fct'],'event' => $event));
               $return = false;
             }
@@ -1751,9 +1757,11 @@ class LSldapObject extends LSlog_staticLoggerClass {
       foreach ($this -> _objectEvents[$event] as $e) {
         if (method_exists($e['obj'],$e['meth'])) {
           try {
+            self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable(array($e['obj'], $e['meth'])));
             call_user_func_array(array($e['obj'], $e['meth']),array(&$e['param']));
           }
           catch(Exception $er) {
+            self :: log_exception($er, strval($this)." -> fireEvent($event): exception occured running ".format_callable(array($e['obj'], $e['meth'])));
             LSerror :: addErrorCode('LSldapObject_29',array('meth' => $e['meth'],'event' => $event));
             $return = false;
           }
