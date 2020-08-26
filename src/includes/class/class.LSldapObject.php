@@ -865,47 +865,48 @@ class LSldapObject extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retourne une valeur de l'objet
+   * Return an objet value
    *
-   * Retourne une valeur en fonction du paramÃ¨tre. Si la valeur est inconnue, la valeur retournÃ© est ' '.
-   * tableau d'objet correspond au resultat de la recherche.
+   * The value returned depends of the $val parameter. If the requested value is unknown, the returned value
+   * will be $default (default: a space caracter = ' ').
    *
-   * Valeurs possibles :
-   * - 'dn' ou '%{dn} : DN de l'objet
-   * - [nom d'un attribut] : valeur de l'attribut
-   * - [clef de $this -> other_values] : valeur de $this -> other_values
+   * Supported values:
+   * - 'dn' ou '%{dn} : The object DN
+   * - [attribute name] : the value of the corresponding attribute
+   * - [key of $this -> other_values] : the value of corresponding key in $this -> other_values
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $val string Le nom de la valeur demandÃ©e
+   * @param[in] $val string The requested value
+   * @param[in] $first boolean If true and the result is an array, return only the first value (optional, default: false)
+   * @param[in] $default mixed Default value if unknown (optional, default: a space caracter = ' ')
    *
-   * @retval mixed la valeur demandÃ© ou ' ' si celle-ci est inconnue.
+   * @retval mixed The requested value or $default if unknown
    */
-  public function getValue($val) {
+  public function getValue($val, $first=false, $default=' ') {
+    $return = $default;
     if(($val=='dn')||($val=='%{dn}')) {
-      return $this -> dn;
+      $return = $this -> dn;
     }
     else if(($val=='rdn')||($val=='%{rdn}')) {
-      return $this -> rdn;
+      $return = $this -> rdn;
     }
     else if(($val=='subDn')||($val=='%{subDn}')) {
-      return $this -> subDnValue;
+      $return = $this -> subDnValue;
     }
     else if(($val=='subDnName')||($val=='%{subDnName}')) {
-      return $this -> subDnName;
+      $return = $this -> subDnName;
     }
     else if(isset($this ->  attrs[$val])){
       if (method_exists($this ->  attrs[$val],'getValue'))
-        return $this -> attrs[$val] -> getValue();
-      else
-        return ' ';
+        $return = $this -> attrs[$val] -> getValue();
     }
     else if(isset($this -> other_values[$val])){
-      return $this -> other_values[$val];
+      $return = $this -> other_values[$val];
     }
-    else {
-      return ' ';
-    }
+    if (is_array($return) && $first)
+      $return = (count($return) >= 1?$return[0]:null);
+    return $return;
   }
 
   /**
