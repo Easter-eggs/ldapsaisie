@@ -5,12 +5,12 @@
   <varname>attrs</varname> de la configuration des &LSobjects;. Dans ce tableau,
   les clé les noms des attributs et les valeurs liés sont la configuration des
   attributs.</para>
-  
+
   <warning><simpara>Contrairement à ce qui existe dans le standard LDAP, les
   noms des attributs sont sensibles à la casse. Il faut que le nom des attributs
   dans &LdapSaisie; soient scrupuleusement les mêmes que ceux retourné par
   &netldap;</simpara></warning>
-  
+
 <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['attrs' => array (
@@ -55,7 +55,7 @@
       // Attributs en dépendance
     ),
     'onDisplay' => 'fonction2'
-    
+
     'before_modify' => 'function1',
     'after_modify' => 'function2'
   ),
@@ -63,9 +63,9 @@
   ...
 );]]>
 ...
-</programlisting> 
-  
-<!-- Début Paramètres Configuration -->  
+</programlisting>
+
+<!-- Début Paramètres Configuration -->
 <variablelist>
 <title>Paramètres de configuration</title>
 
@@ -166,7 +166,7 @@
   <term>generate_function</term>
   <listitem>
     <simpara>Nom de la fonction permettant de générer la valeur de l'attribut.
-    Cette fonction sera éxecutée, en passant en premier paramètre, l'objet 
+    Cette fonction sera éxecutée, en passant en premier paramètre, l'objet
     &LSobject; courant.</simpara>
   </listitem>
 </varlistentry>
@@ -243,7 +243,7 @@
 <varlistentry>
   <term>dependAttrs</term>
   <listitem>
-    <simpara>Tableau associatif listant les attributs dépendants de celui-ci. 
+    <simpara>Tableau associatif listant les attributs dépendants de celui-ci.
     Les attributs listés ici seront regénérés lors de chaque modification
     de l'attribut courant. Cette génération sera effectué avec la fonction
     définie dans le paramètre <varname>generate_function</varname> de
@@ -264,7 +264,8 @@
 <varlistentry>
   <term>before_modify</term>
   <listitem>
-    <simpara>Nom de la fonction qui sera exécutée avant toutes modifications de
+    <simpara>Chaîne de caractères (ou tableau de chaine de caractères) correspondant
+    au nom d'une ou plusieurs fonctions qui seront exécutées avant toutes modifications de
     la valeur de l'attribut.<link linkend="config-LSattribute-triggers">Voir la
     section concernée</link></simpara>
   </listitem>
@@ -273,18 +274,19 @@
 <varlistentry>
   <term>after_modify</term>
   <listitem>
-    <simpara>Nom de la fonction qui sera exécutée après toutes modifications de
+    <simpara>Chaîne de caractères (ou tableau de chaine de caractères) correspondant
+    au nom d'une ou plusieurs fonctions qui seront exécutées après toutes modifications de
     la valeur de l'attribut.<link linkend="config-LSattribute-triggers">Voir la
     section concernée</link></simpara>
   </listitem>
 </varlistentry>
 
-</variablelist>  
+</variablelist>
   &conf-LSattribute-LSattr_ldap;
   &conf-LSattribute-LSattr_html;
-  
+
   &conf-LSattribute-check-data;
   &conf-LSattribute-validation;
   &conf-LSattribute-triggers;
-  
+
 </sect2>

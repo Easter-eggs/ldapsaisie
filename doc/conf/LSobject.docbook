@@ -5,17 +5,17 @@
     Cette partie décrit la manière de configurer les différents types de LSobjets
     manipulés par &LdapSaisie;.
   </para>
-  
+
   <para>La configuration des &LSobjects; est stockée dans le dossier <emphasis>
-  /conf/LSobjects</emphasis>. Dans ce dossier, on retrouve un fichier par type 
+  /conf/LSobjects</emphasis>. Dans ce dossier, on retrouve un fichier par type
   d'&LSobject;, nommé de la manière suivante :
   <programlisting>config.LSobjects.[nom du type d'LSobject].php</programlisting>
-  
+
   Ce fichier contient la déclaration de la configuration du type d'&LSobject;
-  qui est stocké dans la variable globale 
+  qui est stocké dans la variable globale
   <varname>$GLOBALS['LSobjects']['[nom du type d'LSobject]']</varname>.
   </para>
-  
+
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]'] = array (
@@ -29,7 +29,7 @@
   'rdn' => 'attr1',
 
   'LSaddons' => [LSaddon(s)],
-  
+
   'container_dn' => 'ou=people',
   'generate_container_dn' => '[callable]',
   'container_auto_create' => array(
@@ -38,13 +38,13 @@
   ),
 
   'disable_creation' => [boolean]',
-  
+
   'before_modify' => 'function1',
   'after_modify' => 'function2',
   'after_create' => 'function3',
   'after_delete' => 'function4',
-  
-  'label' => 'objet1',  
+
+  'label' => 'objet1',
   'display_name_format' => '[format]',
   'displayAttrName' => '[booleen]',
 
@@ -52,17 +52,17 @@
   'customActions' => array (
     // Configuration des customActions pour ce type d'objet
   ),
-  
+
   // LSrelation
   'LSrelation' => array(
     // Configuration des LSrelations entre ce type d'objet et les autres
   ),
-  
+
   // LSform
   'LSform' => array (
     // Configuration des formulaires de l'objet
   ), // fin LSform
-  
+
   // LSsearch
   'LSsearch' => array (
     // Configuration des recherches de l'objet
@@ -74,7 +74,7 @@
   'ioFormat' => array (
     // Configuration des formats d'import/export de l'objet
   ),
-  
+
   // Attributs
   'attrs' => array (
     // Configuration des attributs du type d'LSobjet
@@ -82,7 +82,7 @@
 );]]>
 ...
 </programlisting>
-  
+
 <variablelist>
 <title>Paramètres de configuration</title>
 
@@ -123,14 +123,14 @@
   <term>container_dn</term>
   <listitem>
     <simpara>Elément pour construire le <emphasis>basedn</emphasis> de stockage
-    de ce type d'objet. Par exemple, si le <emphasis>basedn</emphasis> de 
+    de ce type d'objet. Par exemple, si le <emphasis>basedn</emphasis> de
     l'annuaire est <literal>o=ls</literal> et que les objets
     <emphasis>utilisateurs</emphasis> sont stockés dans la branche de l'annuaire
     <literal>ou=people,o=ls</literal>, alors <parameter>container_dn</parameter>
     devra valoir <literal>ou=people</literal>.</simpara>
     <remark>Lorsque l'annuaire possède des &subDn;, les objets seront cherchés
     dans le <emphasis>basedn</emphasis> résultant de la concaténation du paramètre
-    <parameter>container_dn</parameter>, d'une virgule et du 
+    <parameter>container_dn</parameter>, d'une virgule et du
     <emphasis>basedn</emphasis> correspondant au &subDn; courant.</remark>
   </listitem>
 </varlistentry>
@@ -150,7 +150,7 @@
   <listitem>
     <simpara>Tableau associatif contenant les paramètres de configuration
     nécessaires à la création des <parameter>container_dn</parameter> dans les
-    nouveaux objets utilisés comme &subDn;. 
+    nouveaux objets utilisés comme &subDn;.
     <link linkend="config-LSobject-container_auto_create">Voir la section
     concernée</link>.</simpara>
   </listitem>
@@ -167,8 +167,8 @@
 <varlistentry>
   <term>before_modify</term>
   <listitem>
-    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
-    exécutée avant la modification d'un objet.
+    <simpara>Chaîne de caractères (ou tableau de chaine de caractères) correspondant
+    au nom d'une ou plusieurs fonctions qui seront exécutées avant la modification d'un objet.
     <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
     </simpara>
   </listitem>
@@ -177,8 +177,8 @@
 <varlistentry>
   <term>after_modify</term>
   <listitem>
-    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
-    exécutée après la modification d'un objet.
+    <simpara>Chaîne de caractères (ou tableau de chaine de caractères) correspondant
+    au nom d'une ou plusieurs fonctions qui seront exécutées après la modification d'un objet.
     <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
     </simpara>
   </listitem>
@@ -187,8 +187,8 @@
 <varlistentry>
   <term>after_create</term>
   <listitem>
-    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
-    exécutée après la création d'un objet.
+    <simpara>Chaîne de caractères (ou tableau de chaine de caractères) correspondant
+    au nom d'une ou plusieurs fonctions qui seront exécutées après la création d'un objet.
     <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
     </simpara>
   </listitem>
@@ -197,8 +197,8 @@
 <varlistentry>
   <term>after_delete</term>
   <listitem>
-    <simpara>Chaîne de caractères correspondant au nom d'une fonction qui sera
-    exécutée après la suppression d'un objet.
+    <simpara>Chaîne de caractères (ou tableau de chaine de caractères) correspondant
+    au nom d'une ou plusieurs fonctions qui seront exécutées après la suppression d'un objet.
     <link linkend="config-LSobject-triggers">Voir la section concernée</link>.
     </simpara>
   </listitem>
@@ -207,7 +207,7 @@
 <varlistentry>
   <term>label</term>
   <listitem>
-    <simpara>Nom générique au pluriel qualifiant le type d'objet. Exemple : 
+    <simpara>Nom générique au pluriel qualifiant le type d'objet. Exemple :
     <emphasis>Utilisateurs</emphasis>.</simpara>
   </listitem>
 </varlistentry>
