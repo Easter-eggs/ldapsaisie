@@ -40,7 +40,7 @@ class LSformRule_imagesize extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options,$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $file = LSsession :: getTmpFile($value);
     list($width, $height, $type, $attr) = getimagesize($file);
     LSdebug("LSformRule_imagesize :: validate() : image size is $width x $height, type=$type, attr='$attr'");

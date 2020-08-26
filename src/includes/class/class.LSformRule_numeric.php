@@ -36,7 +36,7 @@ class LSformRule_numeric extends LSformRule{
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options=array(),$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $regex = '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/';
     LSsession :: loadLSclass('LSformRule_regex');
     return LSformRule_regex :: validate($value,$regex,$formElement);

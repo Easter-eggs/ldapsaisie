@@ -67,7 +67,7 @@ class LSformRule_compare extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($values,$options=array(),$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $operator = LSconfig :: get('params.operator', null, 'string', $options);
     if (!$operator) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'compare', 'param' => 'operator'));

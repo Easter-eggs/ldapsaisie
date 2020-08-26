@@ -37,7 +37,7 @@ class LSformRule_regex extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate($value, $options, $formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     if (is_array($options)) {
       $regex = LSconfig :: get('params.regex', null, 'string', $options);
       if (!is_string($regex)) {

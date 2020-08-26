@@ -38,7 +38,7 @@ class LSformRule_rangelength extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options=array(),$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $limits = LSconfig :: get('params.limits', null, null, $options);
     if(!is_array($limits) || count($limits) != 2) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'rangelength', 'param' => 'limits'));

@@ -37,7 +37,7 @@ class LSformRule_alphanumeric extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options=array(),$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
 
      if (LSconfig :: get('params.withAccents', false, 'bool', $options)) {
          $regex = '/(*UTF8)^[0-9\p{L}]+$/';

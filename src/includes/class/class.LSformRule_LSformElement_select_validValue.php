@@ -36,7 +36,7 @@ class LSformRule_LSformElement_select_validValue extends LSformRule {
    *
    * @return boolean true if the value is valide, false if not
    */
-  public static function validate($value,$option,$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $ret = $formElement -> isValidValue($value);
     if ($ret===False) return False;
     return True;

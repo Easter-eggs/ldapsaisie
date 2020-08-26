@@ -38,7 +38,7 @@ class LSformRule_filesize extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options,$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     // According to PHP doc, strlen() returns the number of bytes rather
     // than the number of characters in a string.
     // See: https://www.php.net/manual/en/function.strlen.php

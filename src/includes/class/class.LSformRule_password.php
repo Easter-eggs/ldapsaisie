@@ -43,7 +43,7 @@ class LSformRule_password extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options=array(),$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $maxLength = LSconfig :: get('params.maxLength', null, 'int', $options);
     if(!is_null($maxLength) && $maxLength != 0 && strlen($value) > $maxLength) {
       self :: log_debug("password is too long (".strlen($value)." > $maxLength)");

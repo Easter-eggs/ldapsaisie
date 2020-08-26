@@ -37,7 +37,7 @@ class LSformRule_minlength extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options,$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $limit = LSconfig :: get('params.limit', null, 'int', $options);
     if(is_null($limit)) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'minlength', 'param' => 'limit'));

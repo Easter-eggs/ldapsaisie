@@ -38,7 +38,7 @@ class LSformRule_mimetype extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate ($value,$options,$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $file = LSsession :: getTmpFile($value);
     $real_mimetype = mime_content_type($file);
 

@@ -37,7 +37,7 @@ class LSformRule_differentPassword extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate($value, $options, $formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $otherPasswordAttributes = LSconfig :: get('params.otherPasswordAttributes', null, null, $options);
     if (!is_null($otherPasswordAttributes)) {
       // Make sure otherPasswordAttributes is an array

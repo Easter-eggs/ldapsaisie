@@ -40,7 +40,7 @@ class LSformRule_integer extends LSformRule{
    *
    * @return boolean true if the value is valided, false otherwise
    */
-  public static function validate ($value,$options=array(),$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     $max = LSconfig :: get('params.max', null, 'int', $options);
     if(is_int($max) && $max != 0 && $value > $max) {
       self :: log_debug("value is too higth ($value > $max)");

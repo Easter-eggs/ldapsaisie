@@ -38,7 +38,7 @@ class LSformRule extends LSlog_staticLoggerClass {
   *
   * @return boolean True si les données sont valide, False sinon.
   */
-  public static function validate($value,$options=NULL,$formElement) {
+  public static function validate($value, $options=array(), &$formElement) {
     return true;
   }
 
