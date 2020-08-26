@@ -367,7 +367,7 @@ class LSform extends LSlog_staticLoggerClass {
         foreach($this -> _rules[$element] as $rule) {
           $ruleType="LSformRule_".$rule['name'];
           LSsession :: loadLSclass($ruleType);
-          if (! call_user_func_array(array( $ruleType,'validate') , array($value, $rule['options'], $this -> getElement($element)))) {
+          if (! call_user_func_array(array( $ruleType,'validate') , array($value, $rule['options'], &$this -> elements[$element]))) {
             $retval=false;
             $this -> setElementError($this -> elements[$element],$rule['options']['msg']);
           }
