@@ -516,4 +516,92 @@
 
 </sect1>
 
+<sect1 id="contrib-LSformElements">
+  <title>LSformElements</title>
+
+  <para>Les &LSformElements; sont les types de champs de formulaire supportés par l'application.</para>
+  <para>Pour chaque type implémenté, on devra trouver :
+  <itemizedlist>
+    <listitem><simpara>Une classe PHP dérivée de la classe <literal>LSattr_html</literal> et devant s'appeler
+    <literal>LSattr_html_[nom du type d'attribut HTML]</literal>. Dans celle-ci, il devra être défini à minima la variable de classe
+    <literal>LSformElement_type</literal> permettant de référencer le type d'&LSformElement; à utiliser ;</simpara>
+    </listitem>
+    <listitem><para>Une classe PHP dérivée de la classe <literal>LSformElement</literal> et devant s'appeler
+    <literal>LSformElement_[nom du type d'LSformElement]</literal>. Cette classe implémentera tous ce qui concerne l'affichage du champ
+    dans le formulaire et le traitement d'une valeur retourné par ce dernier. Cela concerne notamment les méthodes suivantes:
+    <variablelist>
+
+      <varlistentry>
+        <term>getDisplay()</term>
+        <listitem>
+          <simpara>Retourne les informations d'affichage du champ dans un formulaire sous la forme d'un tableau <emphasis>(implémentation
+          obligatoire, pas de méthode par défaut)</emphasis>. Il sera possible de s'appuyer sur la méthode <literal>getLabelInfos()</literal>
+          permettant de générer et récupérer tous ce qui concerne le label du champ du formulaire. Il faudra cependant à minima fournir
+          également la clé <literal>html</literal> dans le tableau retourné qui devra contenir le bout de code HTML correspondant au champ
+          du formulaire. Communément, ce code HTML est généré en appelant la méthode <literal>fetchTemplate()</literal>.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>fetchTemplate()</term>
+        <listitem>
+          <simpara>Retourne le code HTML du champ dans le formulaire. L'implémentation de cette méthode est facultative et par défaut, cette
+          méthode utilisera la variable de classe <literal>$template</literal> pour connaître le fichier de template à utiliser. Ce fichier
+          de template permettra la génération de la liste de tous les champs associés à chacune des valeurs de l'attribut. Individuellement,
+          le champ d'une des valeurs de l'attribut est généré à l'aide du fichier de template référencé dans la variable de class
+          <literal>$fieldTemplate</literal>.</simpara>
+          <note><simpara>La variable de classe <literal>$fieldTemplate</literal> est également utilisée par la méthode
+          <literal>LSformElement :: getEmptyField()</literal> qui sert à générer le code HTML d'un champ du formulaire pour une nouvelle
+          valeur de l'attribut. Cette méthode est notamment utilisée lorsque l'on clique sur le bouton permettant d'ajouter une valeur à
+          un champ du formulaire.</simpara></note>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>getPostData()</term>
+        <listitem>
+          <simpara>Récupère dans les données postées par le formulaire, celle concernant ce champ. Cette méthode devra potentiellement
+          traiter l'ensemble des valeurs de l'attribut envoyées par le formulaire et les définir dans le tableau passé en référence en tant
+          que premier argument, les valeurs de l'attribut. L'implémentation de cette méthode est facultative et par défaut, un tableau de
+          valeurs portant le nom de l'attribut LDAP correspondant sera récupérée comme valeur de l'attribut.</simpara>
+          <note><simpara>Pour plus d'informations sur le rôle et fonctionnement de cette méthode, référer à la méthode par défaut, définie
+          dans la classe PHP parente <literal>LSformElement</literal>.</simpara></note>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>setValueFromPostData()</term>
+        <listitem>
+          <simpara>Défini les valeurs de l'attribut à partir des données reçus du formulaire (et récupérée par la méthode
+          <literal>getPostData</literal>). L'implémentation de cette méthode est facultative et par défaut, aucune transformation ne sera
+          faites à cette étape sur les données récupérées depuis le formulaire. Implémenter cette méthode pourra cependant se révéler utile
+          en cas de champs de formulaire complexe (attribut composite par exemple).</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>autocomplete_attr_values()</term>
+        <listitem>
+          <simpara>Génère de la liste des valeurs possibles de l'attribut dans un contexte <emphasis>CLI</emphasis>.</simpara>
+          <note><simpara>Pour plus d'informations sur le rôle et fonctionnement de cette méthode, référer aux commentaires de la méthode par
+          défaut, définie dans la classe PHP parente <literal>LSformElement</literal>. Vous pouvez également vous inspirer des exemples
+          d'implémentations fournies avec les autres type d'&LSformElement;.</simpara></note>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+    </para></listitem>
+    <listitem><simpara>Un (ou plusieurs) fichier template pour la génération du code HTML du champ du formulaire. Communément, le fichier
+    <literal>LSformElement.tpl</literal> est utilisé pour générer la structure de la liste des champs correspondant aux différentes valeurs
+    de l'attribut. Ce template utilise une variable <literal>$fieldTemplate</literal> pour définir quel fichier template devra être utilisé
+    pour générer le code HTML de chaque champ associés à une valeur. C'est ce second fichier de template qui est en général à fournir à
+    minima avec votre &LSformElement;.</simpara></listitem>
+  </itemizedlist>
+  </para>
+  <note><simpara>Il peut être utile d'étendre un type d'&LSformElement; existant pour faciliter l'implémentation d'un nouveau type. Pour
+  cela, vous devez utiliser l'héritage de classe PHP en faisant dériver vos nouvelles classes des classes du &LSformElement; dont vous vous
+  inspirer, plutôt que les classes génériques. Vous pouvez prendre exemple sur le type d'&LSformElement; <literal>pre</literal> qui s'inspire
+  du type <literal>textarea</literal>, ou encore du type <literal>url</literal> dérivé du type <literal>text</literal>.</simpara></note>
+</sect1>
+
 </chapter>

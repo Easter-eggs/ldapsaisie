@@ -38,4 +38,7 @@
 <!ENTITY LSselect "<emphasis>LSselect</emphasis>">
 <!ENTITY LSsearch "<link linkend='config-LSobject-LSsearch'>LSsearch</link>">
 
+<!ENTITY LSformElement "<link linkend='contrib-LSformElements'>LSformElement</link>">
+<!ENTITY LSformElements "<link linkend='contrib-LSformElements'>LSformElements</link>">
+
 <!ENTITY GIT_RAW_ROOT_URL "https://gitlab.easter-eggs.com/ee/ldapsaisie/-/raw/master">
