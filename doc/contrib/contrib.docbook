@@ -3,21 +3,41 @@
 
 <title>Contribution</title>
 
-<para>Comme tout projet libre qui se respecte, les contributions à LdapSaisie sont les bienvenues. Ce chapitre explique les possibilités de contribution.</para>
+<para>Comme tout projet libre qui se respecte, les contributions à LdapSaisie sont les bienvenues. Ce chapitre explique
+les possibilités de contribution.</para>
 
 <sect1 id="contrib-LSaddons">
   <title>LSaddons</title>
-  <para>Les &LSaddons; sont utilisés pour implémenter dans &LdapSaisie; des fonctionnalités spécifiques tel que le support d'une famille d'attributs spécifiques (POSIX, Samba, SUPANN…) ou encore des tâches communes et génériques (envoi de mails, connexion FTP…). Les &LSaddons; vous permettront également d'adapter &LdapSaisie; à vos besoins spécifiques en écrivant par exemple les fonctions appelées par les déclencheurs ou encore écrire des &customSearchActions; sur des recherches ou des &customActions; sur des &LSobjects;.</para>
+  <para>Les &LSaddons; sont utilisés pour implémenter dans &LdapSaisie; des fonctionnalités spécifiques tel que :
+    <itemizedlist>
+      <listitem><simpara>le support d'une famille d'attributs spécifiques (POSIX, Samba, SUPANN…) par le biais de
+      méthodes de génération de la valeur de ces attributs par exemple (paramètre
+      <literal>generate_function</literal>) ;</simpara></listitem>
+      <listitem><simpara>des tâches communes et génériques (envoi de mails, connexion FTP/SSH…) ;</simpara></listitem>.
+      <listitem><simpara>l'implémentation de <link linkend='config-LSobject-triggers'>déclencheurs</link> spécifiques à
+      votre environnement : création automatique du dossier client sur le serveur de fichiers de l'entreprise, création
+      de la boite mail de l'utilisateur… ;</simpara></listitem>
+      <listitem><simpara>l'implémentation de <link linkend='contrib-LSaddon-views'>vues personnalisées</link> proposées
+      dans l'interface</simpara></listitem>
+      <listitem><simpara>l'implémentation d'action personnalisée sur les <link linkend='config-LSobject-customActions'>
+      objets</link> (synchronisation, archivage…) ou sur les <link linkend='config-LSobject-customSearchActions'>
+      résultats de recherches</link> (export, rapport personnalisé…) ;</simpara></listitem>
+    </itemizedlist>
+  </para>
 
 <sect2 id="contrib-LSaddons-structure">
   <title>Structure d'écriture</title>
 
-  <para>L'écriture d'un &LSaddon; doit respecter une structure suffisamment souple afin de ne pas être un frein à vos contributions, tout en permettant d'assurer la bonne intégration de votre contribution au projet. Le code que vous écrirez sera réparti dans deux fichiers :</para>
+  <para>L'écriture d'un &LSaddon; doit respecter une structure suffisamment souple afin de ne pas être un frein à vos
+  contributions, tout en permettant d'assurer la bonne intégration de votre contribution au projet. Le code que vous
+  écrirez sera réparti dans deux fichiers :</para>
 <variablelist>
 
 <varlistentry>
   <term>conf/LSaddons/config.LSaddons.[addon name].php</term>
-  <listitem><simpara>Ce fichier contiendra la configuration de votre &LSaddon;. On y retrouvera la déclaration de constances et/ou variables de configuration permettant d'adapter votre &LSaddon; à une installation et à un environnement.</simpara></listitem>
+  <listitem><simpara>Ce fichier contiendra la configuration de votre &LSaddon;. On y retrouvera la déclaration de
+  constances et/ou variables de configuration permettant d'adapter votre &LSaddon; à une installation et à un
+  environnement.</simpara></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -156,14 +176,14 @@
   les messages d'erreurs liés au support de cet &LSaddon;. On utilise pour cela la méthode <literal>LSerror :: defineError()</literal> qui
   attends en premier argument, l'identifiant du message d'erreur et en tant que second argument, le &LSformat; du message d'erreur. Par
   convention, les identifiants des messages d'erreurs seront en majuscule et préfixés du nom du &LSaddon;.</para></listitem>
-  <listitem><para>On déclare ensuite une fonction <literal>LSaddon_[myaddon]_support</literal> qui sera exécuté lors du chargement de
+  <listitem><para>On déclare ensuite une fonction <literal>LSaddon_[myaddon]_support</literal> qui sera exécutée lors du chargement de
   l'addon et qui permettra de s'assurer du support de celui-ci. Cette fonction devra retourner <literal>True</literal> si c'est le cas ou
   <literal>False</literal> dans le cas contraire.</para>
   <para>Cette fonction s'assura notamment :
     <itemizedlist>
       <listitem><simpara>que les librairies dont l'addon dépends sont bien chargées et fonctionnelles ;</simpara></listitem>
-      <listitem><simpara>que les variables et constantes de configuration sont bien définies ;</simpara></listitem>
-      <listitem><simpara>de déclarer <link linkend='contrib-LSaddon-views'>les vues personnalisées fournies</link> par cet &LSaddon; ;</simpara></listitem>
+      <listitem><simpara>que ses variables et constantes de configuration sont bien définies ;</simpara></listitem>
+      <listitem><simpara>de déclarer <link linkend='contrib-LSaddon-views'>les vues personnalisées</link> fournies par cet &LSaddon; ;</simpara></listitem>
       <listitem><simpara>de déclarer <link linkend='contrib-LSaddon-CLI-commands'>les commandes <emphasis>CLI</emphasis> personnalisées</link> fournies par cet &LSaddon; ;</simpara></listitem>
     </itemizedlist>
   </para></listitem>
