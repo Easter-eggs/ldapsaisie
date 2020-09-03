@@ -234,21 +234,19 @@ du dossier d'installation, c'est à dire dans notre exemple
 
     <orderedlist>
 
-    <listitem><para>Création du fichier de classe : Ce fichier contient la
-    déclaration de la classe PHP correspondant au type de LSobject. Cette classe
-    étend la classe <emphasis>LSldapObject</emphasis> qui contient pour ainsi dire
-    toute les méthodes et proprités nécessaires pour les types de LSobject simples
-    (sans &LSrelation;). Les fichiers des classes sont contenus dans le dossier
+    <listitem><para>Création du fichier de classe <emphasis>(optionel)</emphasis>
+    : Ce fichier contient la déclaration de la classe PHP correspondant au type de
+    LSobject. Cette classe étend la classe <emphasis>LSldapObject</emphasis> qui
+    contient pour ainsi dire toute les méthodes et proprités nécessaires pour les
+    types de LSobject simples. Si votre type de LSobject nécessite des méthodes ou
+    propriétés particulières, vous pouvez implémenter cette classe. À défaut, une
+    classe vierge d'adaptation sera automatiquement déclarée.</para>
+    <para>Les fichiers des classes sont contenus dans le dossier
     <emphasis>/includes/class/</emphasis> et portent les noms composés de la
     manière suivante :
     <programlisting>class.LSobjects.[nom du type d'LSobject].php</programlisting>
-    Le plus simple pour cette étape est de copier un des fichiers d'exemple afin
-    de l'adapter en changeant le nom du type d'objet dans l'ensemble du fichier.
-    Pour cela, le fichier de classe du type <emphasis>LSpeople</emphasis> est le
-    plus simple car il ne contient que le strict minimum. Pour un fichier de classe
-    ayant des &LSrelations; à gérer, le fichier de classe <emphasis>LSgroup
-    </emphasis> contient déjà les méthodes nécéssaires pour gérer ces cas.
-    </para></listitem>
+    </para>
+    </listitem>
 
     <listitem><simpara>Configurer vos LSobject : Cette partie est certainement la
     plus longue et consiste à déclarer l'ensemble des informations relatives aux
@@ -261,12 +259,14 @@ du dossier d'installation, c'est à dire dans notre exemple
     </listitem>
 
     <listitem><simpara>Configurer si nécessaire les relations entre les objets
-    appelés &LSrelations;. Cette opération consiste dans un premier temps à écrire
-    les méthodes PHP nécessaires pour gérer ces relations : pour cela regardez le
-    fichier de classe du type <emphasis>LSgroup</emphasis>. Il faudra ensuite
-    déclarer ces relations dans la configuration des types d'LSobjects : Pour plus
-    de détails, reportez-vous à <link linkend="config-LSobject-LSrelation">la
-    section concernée</link>.</simpara>
+    appelés &LSrelations;. Les relations les plus simples (via un attribut de liaison)
+    pourront être implémentées à l'aide d'un simple paramètrage. Pour des relations,
+    plus complexes, il sera possible d'implémenter des méthodes personnalisées pour
+    les gérer. Pour plus de détails, reportez-vous à
+    <link linkend="config-LSobject-LSrelation">la section concernée</link>.</simpara>
+    <note><simpara>Pour avoir un exemple de fichier de classe PHP implémentant des
+    methodes de gestion de &LSrelations; complexes, vous pouvez consulter le fichier
+    de classe <emphasis>LSgroup</emphasis>.</simpara></note>
     </listitem>
 
   </orderedlist>

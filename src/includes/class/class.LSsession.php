@@ -445,48 +445,52 @@ class LSsession {
     if(class_exists($object)) {
       return true;
     }
-    $error = 0;
-    self :: loadLSclass('LSldapObject');
+    $error = false;
+    // Load LSldapObject class
+    if (!self :: loadLSclass('LSldapObject')) {
+      self :: log_error("loadLSobject($object): fail to load LSldapObject class");
+      $error = true;
+    }
     // Check LSobject type name
-    if (!LSldapObject :: isValidTypeName($object)) {
+    elseif (!LSldapObject :: isValidTypeName($object)) {
       self :: log_error("loadLSobject($object): invalid LSobject type name");
-      $error = 1;
+      $error = true;
     }
-    elseif (!self :: loadLSclass($object,'LSobjects')) {
-      self :: log_error("loadLSobject($object): Fail to load LSldapObject class");
-      $error = 1;
-    }
-    elseif (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
+    // Load config file
+    elseif (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' ) || !isset($GLOBALS['LSobjects'][$object])) {
       self :: log_error("loadLSobject($object): Fail to include 'config.LSobjects.$object.php' file");
-      $error = 1;
+      $error = true;
     }
-    else {
-      if (!LSconfig :: set("LSobjects.$object",$GLOBALS['LSobjects'][$object])) {
-        self :: log_error("loadLSobject($object): Fail to LSconfig :: set('LSobjects.$object', \$GLOBALS['LSobjects'][$object])");
-        $error = 1;
-      }
-      else if (isset($GLOBALS['LSobjects'][$object]['LSaddons'])){
-        if (is_array($GLOBALS['LSobjects'][$object]['LSaddons'])) {
-          foreach ($GLOBALS['LSobjects'][$object]['LSaddons'] as $addon) {
-            if (!self :: loadLSaddon($addon)) {
-              self :: log_error("loadLSobject($object): Fail to load LSaddon '$addon'");
-              $error = 1;
-            }
-          }
+    // Check config file
+    elseif (!isset($GLOBALS['LSobjects'][$object]) || !is_array($GLOBALS['LSobjects'][$object])) {
+      self :: log_error("loadLSobject($object): \$GLOBALS['LSobjects'][$object] is not declared after loaded config file (or is not an array).");
+      $error = true;
+    }
+    // Set LSobject type configuration
+    elseif (!LSconfig :: set("LSobjects.$object", $GLOBALS['LSobjects'][$object])) {
+      self :: log_error("loadLSobject($object): Fail to LSconfig :: set('LSobjects.$object', \$GLOBALS['LSobjects'][$object])");
+      $error = true;
+    }
+    // Load LSaddons used by this LSobject type (if configured)
+    else if (isset($GLOBALS['LSobjects'][$object]['LSaddons'])) {
+      if (!is_array($GLOBALS['LSobjects'][$object]['LSaddons']))
+        $GLOBALS['LSobjects'][$object]['LSaddons'] = array($GLOBALS['LSobjects'][$object]['LSaddons']);
+      foreach ($GLOBALS['LSobjects'][$object]['LSaddons'] as $addon) {
+        if (!self :: loadLSaddon($addon)) {
+          self :: log_error("loadLSobject($object): Fail to load LSaddon '$addon'");
+          $error = true;
         }
-        else {
-          if (!self :: loadLSaddon($GLOBALS['LSobjects'][$object]['LSaddons'])) {
-            self :: log_error("loadLSobject($object): Fail to load LSaddon '".$GLOBALS['LSobjects'][$object]['LSaddons']."'");
-            $error = 1;
-          }
-        }
       }
     }
-    if ($error && $warn) {
-      LSerror :: addErrorCode('LSsession_04',$object);
-      return;
+    // Load or declare corresponding PHP class (if no previous error occured)
+    if (!$error && !self :: loadLSclass($object, 'LSobjects')) {
+      self :: log_debug("loadLSobject($object): Fail to load $object class. Implement simple one.");
+      eval("class $object extends LSldapObject {};");
     }
-    return true;
+    // Warn on error (is enabled)
+    if ($error && $warn)
+      LSerror :: addErrorCode('LSsession_04', $object);
+    return !$error;
   }
 
  /**
