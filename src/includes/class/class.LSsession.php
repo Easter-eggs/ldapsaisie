@@ -447,11 +447,16 @@ class LSsession {
     }
     $error = 0;
     self :: loadLSclass('LSldapObject');
-    if (!self :: loadLSclass($object,'LSobjects')) {
+    // Check LSobject type name
+    if (!LSldapObject :: isValidTypeName($object)) {
+      self :: log_error("loadLSobject($object): invalid LSobject type name");
+      $error = 1;
+    }
+    elseif (!self :: loadLSclass($object,'LSobjects')) {
       self :: log_error("loadLSobject($object): Fail to load LSldapObject class");
       $error = 1;
     }
-    if (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
+    elseif (!self :: includeFile( LS_OBJECTS_DIR . 'config.LSobjects.'.$object.'.php' )) {
       self :: log_error("loadLSobject($object): Fail to include 'config.LSobjects.$object.php' file");
       $error = 1;
     }

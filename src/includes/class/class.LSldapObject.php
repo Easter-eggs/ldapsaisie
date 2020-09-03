@@ -2862,6 +2862,23 @@ class LSldapObject extends LSlog_staticLoggerClass {
 
       return LScli :: autocomplete_opts($opts, $comp_word);
     }
+
+    /*
+     * Check validity of a LSobject type name
+     *
+     * A LSobjet type name must only contain letter, digits or dash or
+     * underscore.
+     *
+     * @param[in] $name string The LSobject type name to check
+     *
+     * @retval boolean True is type name is valid, False otherwise
+     */
+    public static function isValidTypeName($name) {
+      if (preg_match('/^[a-zA-Z0-9\_\-]+$/', $name))
+        return True;
+      self :: log_warning("isValidTypeName($name): Invalid LSobject type name !");
+      return False;
+    }
 }
 
 /**
