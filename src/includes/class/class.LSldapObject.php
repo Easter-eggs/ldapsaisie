@@ -1353,7 +1353,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    **/
   public static function getObjectKeyValueInRelation($object,$objectType,$attrValues='dn') {
     if (!$objectType) {
-      LSerror :: addErrorCode('LSrelations_05','getObjectKeyValueInRelation');
+      LSerror :: addErrorCode('LSrelation_05','getObjectKeyValueInRelation');
       return;
     }
     if (!is_array($attrValues)) $attrValues=array($attrValues);
@@ -1395,7 +1395,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    **/
   public function listObjectsInRelation($object,$attr,$objectType,$attrValues='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror :: addErrorCode('LSrelations_05','listObjectsInRelation');
+      LSerror :: addErrorCode('LSrelation_05','listObjectsInRelation');
       return;
     }
     if (!is_array($attrValues)) $attrValues=array($attrValues);
@@ -1428,7 +1428,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    **/
   public function addOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL) {
     if ((!$attr)||(!$objectType)) {
-      LSerror :: addErrorCode('LSrelations_05','addOneObjectInRelation');
+      LSerror :: addErrorCode('LSrelation_05','addOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
@@ -1493,7 +1493,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    **/
   public function deleteOneObjectInRelation($object,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
     if ((!$attr)||(!$objectType)) {
-      LSerror :: addErrorCode('LSrelations_05','deleteOneObjectInRelation');
+      LSerror :: addErrorCode('LSrelation_05','deleteOneObjectInRelation');
       return;
     }
     if ($object instanceof $objectType) {
@@ -1544,7 +1544,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
   */
   public function renameOneObjectInRelation($object,$oldValues,$attr,$objectType,$attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
-      LSerror :: addErrorCode('LSrelations_05','renameOneObjectInRelation');
+      LSerror :: addErrorCode('LSrelation_05','renameOneObjectInRelation');
       return;
     }
     if (!is_array($oldValues)) $oldValues=array($oldValues);
@@ -1600,7 +1600,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    **/
   public function updateObjectsInRelation($object,$listDns,$attr,$objectType,$attrValue='dn',$canEditFunction=NULL,$attrValues=null) {
     if ((!$attr)||(!$objectType)) {
-      LSerror :: addErrorCode('LSrelations_05','updateObjectsInRelation');
+      LSerror :: addErrorCode('LSrelation_05','updateObjectsInRelation');
       return;
     }
     if (!is_array($attrValues)) $attrValues=array($attrValue);
@@ -2999,7 +2999,7 @@ ___("LSldapObject : Error during generating container DN : %{error}")
 );
 
 // LSrelation
-LSerror :: defineError('LSrelations_05',
+LSerror :: defineError('LSrelation_05',
 ___("LSrelation : Some parameters are missing in the call of methods to handle standard relations (Method : %{meth}).")
 );
 

@@ -52,7 +52,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     if (!is_array($this -> config) || !$this -> checkConfig()) {
       $this -> config = null;
       LSerror :: addErrorCode(
-        'LSrelations_02',
+        'LSrelation_02',
         array(
           'relation' => $relationName,
           'LSobject' => $obj -> getType()
@@ -119,7 +119,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     // Check LSobject parameter
     if (!$this -> LSobject) {
       LSerror :: addErrorCode(
-        'LSrelations_07',
+        'LSrelation_07',
         array(
           'parameter' => 'LSobject',
           'relation' => $this -> name,
@@ -132,7 +132,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     // Load related object type
     if (!LSsession :: loadLSobject($this -> LSobject)) {
       LSerror :: addErrorCode(
-        'LSrelations_04',
+        'LSrelation_04',
         array(
           'relation' => $this -> name,
           'LSobject' => $this -> LSobject
@@ -146,7 +146,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       // Check linkAttribute refered to an existing related object type attribute
       if (!call_user_func(array($this -> LSobject, 'hasAttr'), $this -> linkAttribute)) {
         LSerror :: addErrorCode(
-          'LSrelations_08',
+          'LSrelation_08',
           array(
             'parameter' => 'linkAttribute',
             'relation' => $this -> name,
@@ -159,7 +159,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       // Check linkAttributeValue
       if ($this -> linkAttributeValue != 'dn' && !$this -> obj -> hasAttr($this -> linkAttributeValue)) {
         LSerror :: addErrorCode(
-          'LSrelations_08',
+          'LSrelation_08',
           array(
             'parameter' => 'linkAttributeValue',
             'relation' => $this -> name,
@@ -182,7 +182,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       // Check parameter is defined
       if (!$this -> $p) {
         LSerror :: addErrorCode(
-          'LSrelations_07',
+          'LSrelation_07',
           array(
             'parameter' => $p,
             'relation' => $this -> name,
@@ -195,7 +195,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       // Check parameter refered to an existing related object class method
       if (!method_exists($this -> LSobject, $this -> $p)) {
         LSerror :: addErrorCode(
-          'LSrelations_01',
+          'LSrelation_01',
           array(
             'parameter' => $p,
             'function' => $this -> $p,
@@ -260,7 +260,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     // Load related object type
     if (!LSsession :: loadLSobject($this -> LSobject)) {
       LSerror :: addErrorCode(
-        'LSrelations_04',
+        'LSrelation_04',
         array(
           'relation' => $this -> name,
           'LSobject' => $this -> LSobject
@@ -281,7 +281,7 @@ class LSrelation extends LSlog_staticLoggerClass {
         );
       }
       LSerror :: addErrorCode(
-        'LSrelations_01',
+        'LSrelation_01',
         array(
           'parameter' => 'list_function',
           'function' => $this -> list_function,
@@ -304,7 +304,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Configuration problem
     LSerror :: addErrorCode(
-      'LSrelations_05',
+      'LSrelation_05',
       array(
         'relation' => $this -> name,
         'LSobject' => $this -> LSobject,
@@ -323,7 +323,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     // Load related object type
     if (!LSsession :: loadLSobject($this -> LSobject)) {
       LSerror :: addErrorCode(
-        'LSrelations_04',
+        'LSrelation_04',
         array(
           'relation' => $this -> name,
           'LSobject' => $this -> LSobject
@@ -344,7 +344,7 @@ class LSrelation extends LSlog_staticLoggerClass {
         );
       }
       LSerror :: addErrorCode(
-        'LSrelations_01',
+        'LSrelation_01',
         array(
           'parameter' => 'getkeyvalue_function',
           'function' => $this -> getkeyvalue_function,
@@ -366,7 +366,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Configuration problem
     LSerror :: addErrorCode(
-      'LSrelations_05',
+      'LSrelation_05',
       array(
         'relation' => $this -> name,
         'LSobject' => $this -> LSobject,
@@ -392,7 +392,7 @@ class LSrelation extends LSlog_staticLoggerClass {
         return call_user_func(array($objRel, $this -> canEdit_function));
       }
       LSerror :: addErrorCode(
-        'LSrelations_01',
+        'LSrelation_01',
         array(
           'parameter' => 'canEdit_function',
           'function' => $this -> canEdit_function,
@@ -414,7 +414,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Configuration problem
     LSerror :: addErrorCode(
-      'LSrelations_05',
+      'LSrelation_05',
       array(
         'relation' => $this -> name,
         'LSobject' => $this -> LSobject,
@@ -441,7 +441,7 @@ class LSrelation extends LSlog_staticLoggerClass {
         );
       }
       LSerror :: addErrorCode(
-        'LSrelations_01',
+        'LSrelation_01',
         array(
           'parameter' => 'remove_function',
           'function' => $this -> remove_function,
@@ -459,7 +459,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Configuration problem
     LSerror :: addErrorCode(
-      'LSrelations_05',
+      'LSrelation_05',
       array(
         'relation' => $this -> name,
         'LSobject' => $this -> LSobject,
@@ -484,7 +484,7 @@ class LSrelation extends LSlog_staticLoggerClass {
         return call_user_func_array(array($objRel, $this -> rename_function), array(&$this -> obj, $oldKeyValue));
       }
       LSerror :: addErrorCode(
-        'LSrelations_01',
+        'LSrelation_01',
         array(
           'parameter' => 'rename_function',
           'function' => $this -> rename_function,
@@ -508,7 +508,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Configuration problem
     LSerror :: addErrorCode(
-      'LSrelations_05',
+      'LSrelation_05',
       array(
         'relation' => $this -> name,
         'LSobject' => $this -> LSobject,
@@ -529,7 +529,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     // Load related objects type
     if (!LSsession :: loadLSobject($this -> LSobject)) {
       LSerror :: addErrorCode(
-        'LSrelations_04',
+        'LSrelation_04',
         array(
           'relation' => $this -> name,
           'LSobject' => $this -> LSobject
@@ -550,7 +550,7 @@ class LSrelation extends LSlog_staticLoggerClass {
         );
       }
       LSerror :: addErrorCode(
-        'LSrelations_01',
+        'LSrelation_01',
         array(
           'parameter' => 'update_function',
           'function' => $this -> update_function,
@@ -576,7 +576,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Configuration problem
     LSerror :: addErrorCode(
-      'LSrelations_05',
+      'LSrelation_05',
       array(
         'relation' => $this -> name,
         'LSobject' => $this -> LSobject,
@@ -622,7 +622,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       return;
 
     $LSrelations=array();
-    $LSrelations_JSparams=array();
+    $LSrelation_JSparams=array();
     foreach($object -> getConfig('LSrelation') as $relationName => $relationConf) {
       // Check user access
       if (!LSsession :: relationCanAccess($object -> getValue('dn'), $object->getType(), $relationName)) {
@@ -644,7 +644,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
       $id=rand();
       $return['id']=$id;
-      $LSrelations_JSparams[$id]=array(
+      $LSrelation_JSparams[$id]=array(
         'emptyText' => $return['emptyText']
       );
       $_SESSION['LSrelation'][$id] = array(
@@ -692,7 +692,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     self :: loadDependenciesDisplay();
     LStemplate :: assign('LSrelations',$LSrelations);
-    LStemplate :: addJSconfigParam('LSrelations',$LSrelations_JSparams);
+    LStemplate :: addJSconfigParam('LSrelations',$LSrelation_JSparams);
   }
 
   /*
@@ -857,7 +857,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Update related objects
     if (!$relation -> updateRelations(array_keys($selected_objects))) {
-      LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
+      LSerror :: addErrorCode('LSrelation_03', $conf['relationName']);
       self :: log_warning("Fail to update objects in relation");
       return;
     }
@@ -907,7 +907,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     $list = $relation -> listRelatedObjects();
     if (!is_array($list)) {
       self :: log_warning('Fail to list related objects');
-      LSerror :: addErrorCode('LSrelations_03',$conf['relationName']);
+      LSerror :: addErrorCode('LSrelation_03',$conf['relationName']);
       return;
     }
 
@@ -923,7 +923,7 @@ class LSrelation extends LSlog_staticLoggerClass {
           return;
         }
         if (!$relation -> removeRelationWithObject($o)) {
-          LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
+          LSerror :: addErrorCode('LSrelation_03', $conf['relationName']);
           return;
         }
         else {
@@ -936,7 +936,7 @@ class LSrelation extends LSlog_staticLoggerClass {
     // Check object found
     if (!$found) {
       self :: log_warning("Object '".$_REQUEST['dn']."' not found in related objects list.");
-      LSerror :: addErrorCode('LSrelations_03', $conf['relationName']);
+      LSerror :: addErrorCode('LSrelation_03', $conf['relationName']);
       return;
     }
 
@@ -950,27 +950,27 @@ class LSrelation extends LSlog_staticLoggerClass {
 /**
  * Error Codes
  **/
-LSerror :: defineError('LSrelations_01',
+LSerror :: defineError('LSrelation_01',
 ___("LSrelation : Invalid parameter '%{parameter}' of the relation %{relation}: objects %{LSobject} have no function '%{function}'.")
 );
-LSerror :: defineError('LSrelations_02',
+LSerror :: defineError('LSrelation_02',
 ___("LSrelation : Relation %{relation} of object type %{LSobject} unknown.")
 );
-LSerror :: defineError('LSrelations_03',
+LSerror :: defineError('LSrelation_03',
 ___("LSrelation : Error during relation update of the relation %{relation}.")
 );
-LSerror :: defineError('LSrelations_04',
+LSerror :: defineError('LSrelation_04',
 ___("LSrelation : Object type %{LSobject} unknown (Relation : %{relation}).")
 );
-LSerror :: defineError('LSrelations_05',
+LSerror :: defineError('LSrelation_05',
 ___("LSrelation : Incomplete configuration for LSrelation %{relation} of object type %{LSobject} for action : %{action}.")
 );
-LSerror :: defineError('LSrelations_06',
+LSerror :: defineError('LSrelation_06',
 ___("LSrelation : Invalid editable attribute for LSrelation %{relation} with LSobject %{LSobject}.")
 );
-LSerror :: defineError('LSrelations_07',
+LSerror :: defineError('LSrelation_07',
 ___("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is missing.")
 );
-LSerror :: defineError('LSrelations_08',
+LSerror :: defineError('LSrelation_08',
 ___("LSrelation : The configuration parameter '%{parameter}' of the relation %{relation} of %{LSobject} is invalid.")
 );

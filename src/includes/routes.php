@@ -862,7 +862,7 @@ function handle_LSobject_create($request) {
               $object -> attrs[$attr] -> data = array($value);
             }
             else {
-              LSerror :: addErrorCode('LSrelations_06',array('relation' => $relation -> getName(),'LSobject' => $obj -> getType()));
+              LSerror :: addErrorCode('LSrelation_06',array('relation' => $relation -> getName(),'LSobject' => $obj -> getType()));
             }
           }
           else {
