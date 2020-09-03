@@ -2789,19 +2789,19 @@ class LSsession {
      * Error Codes
      */
     LSerror :: defineError('LSsession_01',
-    ___("LSsession : The constant %{const} is not defined.")
+    ___("LSsession : The constant '%{const}' is not defined.")
     );
     LSerror :: defineError('LSsession_02',
-    ___("LSsession : The %{addon} support is uncertain. Verify system compatibility and the add-on configuration.")
+    ___("LSsession : The addon '%{addon}' support is uncertain. Verify system compatibility and the add-on configuration.")
     );
     LSerror :: defineError('LSsession_03',
     ___("LSsession : LDAP server's configuration data are invalid. Can't connect.")
     );
     LSerror :: defineError('LSsession_04',
-    ___("LSsession : Failed to load LSobject type %{type} : unknon type.")
+    ___("LSsession : Failed to load LSobject type '%{type}' : unknon type.")
     );
     LSerror :: defineError('LSsession_05',
-    ___("LSsession : Failed to load LSclass %{class}.")
+    ___("LSsession : Failed to load LSclass '%{class}'.")
     );
     LSerror :: defineError('LSsession_06',
     ___("LSsession : Login or password incorrect.")
@@ -2825,7 +2825,7 @@ class LSsession {
     ___("LSsession : Some informations are missing to display this page.")
     );
     LSerror :: defineError('LSsession_13',
-    ___("LSsession : The function of the custom action %{name} does not exists or is not configured.")
+    ___("LSsession : The function of the custom action '%{name}' does not exists or is not configured.")
     );
     LSerror :: defineError('LSsession_14',
     ___("LSsession : Fail to retreive user's LDAP credentials from LSauth.")
@@ -2849,13 +2849,11 @@ class LSsession {
     ___("LSsession : Error during password recovery. Contact administrators.(Step : %{step})")
     );
     LSerror :: defineError('LSsession_21',
-    ___("LSsession : call function %{func} do not provided from LSaddon %{addon}.")
+    ___("LSsession : The function '%{func}' configured for the view '%{view}' of the LSaddon '%{addon}' is not declared in the LSaddon file.")
     );
-    LSerror :: defineError('LSsession_22',
-    ___("LSsession : problem during initialisation.")
-    );
+    // LSsession_22: Not used
     LSerror :: defineError('LSsession_23',
-    ___("LSsession : view function %{func} for LSaddon %{addon} doet not exist.")
+    ___("LSsession : The function '%{func}' configured for the view '%{view}' of the LSaddon '%{addon}' doesn't exist.")
     );
     LSerror :: defineError('LSsession_24',
     ___("LSsession : invalid related object's DN pass in parameter.")
@@ -2941,11 +2939,25 @@ class LSsession {
         return True;
       }
       else {
-        LSerror :: addErrorCode('LSsession_21',array('func' => $func -> getName(),'addon' => $addon));
+        LSerror :: addErrorCode(
+          'LSsession_21',
+          array(
+            'func' => $func -> getName(),
+            'addon' => $addon,
+            'view' => $viewId,
+          )
+        );
       }
     }
     else {
-      LSerror :: addErrorCode('LSsession_23',array('func' => $viewFunction,'addon' => $LSaddon));
+      LSerror :: addErrorCode(
+        'LSsession_23',
+        array(
+          'func' => $viewFunction,
+          'addon' => $addon,
+          'view' => $viewId,
+        )
+      );
     }
     return False;
   }
