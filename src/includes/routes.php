@@ -855,14 +855,19 @@ function handle_LSobject_create($request) {
         if ($obj -> loadData(urldecode($_GET['relatedLSobjectDN']))) {
           if (LSrelation :: exists($_GET['relatedLSobject'], $_GET['LSrelation'])) {
             $relation = new LSrelation($obj, $_GET['LSrelation']);
-            $attr = $relation -> relatedEditableAttribute;
-            if (isset($object -> attrs[$attr])) {
-              $value = $relation -> getRelatedKeyValue();
-              if (is_array($value)) $value=$value[0];
-              $object -> attrs[$attr] -> data = array($value);
+            if ($relation -> correctly_configured) {
+              $attr = $relation -> relatedEditableAttribute;
+              if (isset($object -> attrs[$attr])) {
+                $value = $relation -> getRelatedKeyValue();
+                if (is_array($value)) $value=$value[0];
+                $object -> attrs[$attr] -> data = array($value);
+              }
+              else {
+                LSerror :: addErrorCode('LSrelation_06',array('relation' => $relation -> getName(),'LSobject' => $obj -> getType()));
+              }
             }
             else {
-              LSerror :: addErrorCode('LSrelation_06',array('relation' => $relation -> getName(),'LSobject' => $obj -> getType()));
+              LSlog :: warning("Relation '".$_GET['LSrelation']."' of object type '".$_GET['relatedLSobject']."' is not correctly configured.");
             }
           }
           else {

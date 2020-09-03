@@ -71,6 +71,9 @@ class LSrelation extends LSlog_staticLoggerClass {
    * @retval mixed The configuration parameter value or default value if not set
    **/
   public function getConfig($param, $default=null, $cast=null) {
+    // Check relation is correctly configured
+    if (!$this -> correctly_configured)
+      return false;
     return LSconfig :: get($param, $default, $cast, $this -> config);
   }
 
@@ -85,6 +88,8 @@ class LSrelation extends LSlog_staticLoggerClass {
     switch ($key) {
       case 'name':
         return $this -> name;
+      case 'correctly_configured':
+        return boolval($this -> config);
       case 'LSobject':
       case 'linkAttribute':
       case 'linkAttributeValue':
@@ -257,6 +262,10 @@ class LSrelation extends LSlog_staticLoggerClass {
    * @retval array|false An array of related objects (LSldapObject), of false in case of error
    */
   public function listRelatedObjects() {
+    // Check relation is correctly configured
+    if (!$this -> correctly_configured)
+      return false;
+
     // Load related object type
     if (!LSsession :: loadLSobject($this -> LSobject)) {
       LSerror :: addErrorCode(
@@ -320,6 +329,10 @@ class LSrelation extends LSlog_staticLoggerClass {
    * @retval array List of value of the link attribute
    */
   public function getRelatedKeyValue() {
+    // Check relation is correctly configured
+    if (!$this -> correctly_configured)
+      return false;
+
     // Load related object type
     if (!LSsession :: loadLSobject($this -> LSobject)) {
       LSerror :: addErrorCode(
@@ -384,6 +397,10 @@ class LSrelation extends LSlog_staticLoggerClass {
    * @retval boolean True if user can edit the relation with the specified object, false otherwise
    */
   public function canEditRelationWithObject(&$objRel) {
+    // Check relation is correctly configured
+    if (!$this -> correctly_configured)
+      return false;
+
     if (!$this -> canEdit()) return;
 
     // Use canEdit_function
@@ -432,6 +449,10 @@ class LSrelation extends LSlog_staticLoggerClass {
    * @retval boolean True if relation removed, false otherwise
    */
   public function removeRelationWithObject(&$objRel) {
+    // Check relation is correctly configured
+    if (!$this -> correctly_configured)
+      return false;
+
     // Use remove_function
     if ($this -> remove_function) {
       if (method_exists($this -> LSobject, $this -> remove_function)) {
@@ -478,6 +499,10 @@ class LSrelation extends LSlog_staticLoggerClass {
    * @retval boolean True if relation rename, false otherwise
    */
   public function renameRelationWithObject(&$objRel, $oldKeyValue) {
+    // Check relation is correctly configured
+    if (!$this -> correctly_configured)
+      return false;
+
     // Use rename_function
     if ($this -> rename_function) {
       if (method_exists($objRel,$this -> rename_function)) {
@@ -526,6 +551,10 @@ class LSrelation extends LSlog_staticLoggerClass {
    * @retval boolean True if relations updated, false otherwise
    */
   public function updateRelations($listDns) {
+    // Check relation is correctly configured
+    if (!$this -> correctly_configured)
+      return false;
+
     // Load related objects type
     if (!LSsession :: loadLSobject($this -> LSobject)) {
       LSerror :: addErrorCode(
@@ -653,6 +682,8 @@ class LSrelation extends LSlog_staticLoggerClass {
         'objectDn' => $object -> getDn(),
       );
       $relation = new LSrelation($object, $relationName);
+      if (!$relation -> correctly_configured)
+        continue;
 
       if ($relation -> canEdit()) {
         $return['actions'][] = array(
@@ -760,6 +791,10 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Instanciate relation
     $relation = new LSrelation($object, $conf['relationName']);
+
+    // Check relation is correctly configured
+    if (!$relation -> correctly_configured)
+      return false;
 
     // Check user access to it relation
     if (!$relation -> canEdit()) {
