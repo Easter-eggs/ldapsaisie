@@ -667,16 +667,17 @@ class LSform extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retourne le code HTML d'un champ vide.
+   * Return the HTML code of an empty form field
    *
-   * @param[in] string Le nom du champ du formulaire
+   * @param[in] $element string The form element name
+   * @param[in] $value_idx integer|null The value index (optional, default: null == 0)
    *
-   * @retval string Le code HTML du champ vide.
+   * @retval string|null The HTML code of the specified field if exist, null otherwise
    */
-  public function getEmptyField($element) {
+  public function getEmptyField($element, $value_idx=null) {
     $element = $this -> getElement($element);
     if ($element) {
-      return $element -> getEmptyField();
+      return $element -> getEmptyField($value_idx);
     }
     else {
       return;
@@ -777,10 +778,12 @@ class LSform extends LSlog_staticLoggerClass {
         $object = new $_REQUEST['objecttype']();
         $object -> loadData($_REQUEST['objectdn']);
         $form = $object -> getForm($_REQUEST['idform']);
-        $emptyField=$form -> getEmptyField($_REQUEST['attribute']);
+        $value_idx = (isset($_REQUEST['value_idx'])?$_REQUEST['value_idx']:0);
+        $emptyField = $form -> getEmptyField($_REQUEST['attribute'], $value_idx);
         if ( $emptyField ) {
           $data = array(
-            'html' => $form -> getEmptyField($_REQUEST['attribute']),
+            'html' => $emptyField,
+            'value_idx' => $value_idx,
             'fieldId' => $_REQUEST['fieldId'],
             'fieldtype' => get_class($form -> getElement($_REQUEST['attribute']))
           );

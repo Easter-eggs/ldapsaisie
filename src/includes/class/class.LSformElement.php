@@ -322,12 +322,20 @@ class LSformElement extends LSlog_staticLoggerClass {
   }
 
  /**
-  * Retourne le code HTML d'un champ vide
+  * Return HTML code of an empty form field
   *
-  * @retval string Code HTML d'un champ vide.
+  * @param[in] $value_idx integer|null The value index (optional, default: null == 0)
+  *
+  * @retval string The HTML code of an empty field
   */
-  public function getEmptyField() {
-    return $this -> fetchTemplate($this -> fieldTemplate);
+  public function getEmptyField($value_idx=null) {
+    return $this -> fetchTemplate(
+      $this -> fieldTemplate,
+      array(
+        'value' => null,
+        'value_idx' => intval($value_idx),
+      )
+    );
   }
 
  /**

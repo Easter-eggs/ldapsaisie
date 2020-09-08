@@ -27,7 +27,8 @@ var LSformElement = new Class({
         objecttype: this.LSform.objecttype,
         objectdn:   this.LSform.objectdn,
         idform:     this.LSform.idform,
-        fieldId:    field.id
+        fieldId:    field.id,
+        value_idx:  this.ul.getChildren('li').length,
       };
       LSdebug(data);
       data.imgload = varLSdefault.loadingImgDisplay(field.li,'inside');

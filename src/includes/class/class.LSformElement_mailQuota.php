@@ -94,16 +94,20 @@ class LSformElement_mailQuota extends LSformElement {
     return $return;
   }
 
- /**
-  * Retourne le code HTML d'un champ vide
-  *
-  * @retval string Code HTML d'un champ vide.
-  */
-  public function getEmptyField() {
+  /**
+   * Return HTML code of an empty form field
+   *
+   * @param[in] $value_idx integer|null The value index (optional, default: null == 0)
+   *
+   * @retval string The HTML code of an empty field
+   */
+  public function getEmptyField($value_idx=null) {
     return $this -> fetchTemplate(
       $this -> fieldTemplate,
       array(
-        'sizeFacts' => $this -> sizeFacts
+        'value' => null,
+        'value_idx' => intval($value_idx),
+        'sizeFacts' => $this -> sizeFacts,
       )
     );
   }
