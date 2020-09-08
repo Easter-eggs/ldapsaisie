@@ -55,6 +55,15 @@ class LSattr_html extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Allow conversion of LSattr_html to string
+   *
+   * @retval string The string representation of the LSattr_html
+   */
+  public function __toString() {
+    return "<".get_class($this)." ".$this -> name.">";
+  }
+
+  /**
    * Retourne le label de l'attribut
    *
    * Retourne le label de l'attribut ou son nom si aucun label n'est défini

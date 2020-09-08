@@ -1898,15 +1898,32 @@ class LSldapObject extends LSlog_staticLoggerClass {
   * @retval string The string representation of the LdapObject
   */
   public function __toString() {
+    return $this -> toString(true);
+  }
+
+ /**
+  * Return string representation of the object
+  *
+  * @param[in] $enclosed boolean If true, result will be enclosed using "< >" (optional, default: true)
+  *
+  * @retval string The string representation of the LdapObject
+  */
+  public function toString($enclosed=true) {
+    $str = "LdapObject ".$this -> getType();
     if ($this -> dn)
-      return "<LdapObject ".$this -> dn.">";
-    $rdn_attr = $this -> getConfig('rdn');
-    if( $rdn_attr && isset($this -> attrs[$rdn_attr]) ) {
-      $rdn_val = $this -> attrs[$rdn_attr] -> getUpdateData();
-      if (!empty($rdn_val))
-        return "<LdapObject (new) $rdn_attr=".$rdn_val[0].">";
+       $str .= " ".$this -> dn;
+    else {
+      $str .= " (new)";
+      $rdn_attr = $this -> getConfig('rdn');
+      if( $rdn_attr && isset($this -> attrs[$rdn_attr]) ) {
+        $rdn_val = $this -> attrs[$rdn_attr] -> getUpdateData();
+        if (!empty($rdn_val))
+          $str .= " $rdn_attr=".$rdn_val[0];
+      }
     }
-    return "<LdapObject (new)>";
+    if ($enclosed)
+      return "<$str>";
+    return $str;
   }
 
   /**

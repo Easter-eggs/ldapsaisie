@@ -59,6 +59,19 @@ class LSlog_syslog extends LSlog_handler {
 	public function __construct($config) {
 		parent :: __construct($config);
 		$this -> priority = static :: getConfig('priority');
+		$this -> logging('TRACE', "$this Enabled", get_class($this));
+	}
+
+	/**
+	 * Return list of details for the string representation of the LSlog_email
+	 *
+	 * @retval array List of details for the string representation of the LSlog_email
+	 */
+	public function __toStringDetails() {
+		return array_merge(
+			array("priority=".$this -> priority),
+			parent :: __toStringDetails(),
+		);
 	}
 
 	/**

@@ -116,6 +116,16 @@ class LSsearch extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Allow conversion of LSsearch to string
+   *
+   * @retval string The string representation of the LSsearch
+   */
+  public function __toString() {
+    $search_params = $this -> formatSearchParams();
+    return "<LSsearch of ".$this -> LSobject." (context=".$this -> context.")".($search_params?" $search_params":"").">";
+  }
+
+  /**
    * Load configuration from LSconfig
    *
    * @retval void
@@ -912,18 +922,18 @@ class LSsearch extends LSlog_staticLoggerClass {
    */
   public function run($cache=true) {
     $this -> generateSearchParams();
-    self :: log_debug("run(".($cache?'with cache':'without cache')."): ".self :: formatSearchParams());
+    self :: log_debug($this." -> run(".($cache?'with cache':'without cache').")");
 
     if( $cache && (!isset($_REQUEST['refresh'])) && (!$this -> params['withoutCache']) ) {
-      self :: log_debug('Cache enabled');
+      self :: log_debug($this.' -> run(): Cache enabled');
       $this -> result = $this -> getResultFromCache();
       if ($this -> result)
-        self :: log_debug('result retreived from cache');
+        self :: log_debug($this.' -> run(): result retreived from cache');
       else
-        self :: log_debug('result not found in cache');
+        self :: log_debug($this.' -> run(): result not found in cache');
     }
     else {
-      self :: log_debug('Cache disabled');
+      self :: log_debug($this.' -> run(): Cache disabled');
       $this -> setParam('withoutCache', false);
     }
 
@@ -948,7 +958,7 @@ class LSsearch extends LSlog_staticLoggerClass {
 
       // Handle onlyAccessible parameter
       if ($this -> getParam('onlyAccessible') && LSsession :: getLSuserObjectDn()) {
-        self :: log_debug('Filter on only accessible object');
+        self :: log_debug($this.' -> run(): Filter on only accessible object');
         $this -> result['list'] = array();
 
         // Check user rights on objets
@@ -963,7 +973,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       $this -> addResultToCache();
     }
 
-    self :: log_debug($this -> total. " object(s) found");
+    self :: log_debug($this.' -> run(): '.$this -> total. " object(s) found");
 
     $this -> doSort();
 

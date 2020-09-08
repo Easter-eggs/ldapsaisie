@@ -76,6 +76,15 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Allow conversion of LSsearchEntry to string
+   *
+   * @retval string The string representation of the LSsearchEntry
+   */
+  public function __toString() {
+    return $this -> LSsearch." -> <LSsearchEntry of ".$this -> dn." (ID #".$this -> id.")>";
+  }
+
+  /**
    * Get text value of entry
    *
    * @param[in] $key string The name of the value

@@ -62,6 +62,15 @@ class LSrelation extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Allow conversion of LSrelation to string
+   *
+   * @retval string The string representation of the LSrelation
+   */
+  public function __toString() {
+    return "<LSrelation ".$this -> name." on ".$this -> obj -> toString(false).">";
+  }
+
+  /**
    * Return a configuration parameter (or default value)
    *
    * @param[] $param	The configuration parameter

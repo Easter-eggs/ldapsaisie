@@ -67,6 +67,15 @@ class LSformElement extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Allow conversion of LSformElement to string
+   *
+   * @retval string The string representation of the LSformElement
+   */
+  public function __toString() {
+    return strval($this -> form)." -> <".get_class($this)." ".$this -> name.">";
+  }
+
+  /**
    * Définis la valeur de l'élément
    *
    * Cette méthode définis la valeur de l'élément

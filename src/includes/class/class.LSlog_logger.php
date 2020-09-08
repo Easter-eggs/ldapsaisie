@@ -52,9 +52,16 @@ class LSlog_logger {
 		$this -> config = $config;
 		$this -> enabled = $this -> getConfig('enabled', true, 'boolean');
 		$this -> level = $this -> getConfig('level');
-		if ($this -> enabled)
-			$this -> debug("Enabled $name logger with level=".$this -> level);
 	}
+
+  /**
+   * Allow conversion of LSlog_logger to string
+   *
+   * @retval string The string representation of the LSlog_logger
+   */
+  public function __toString() {
+    return "<".get_class($this)." ".$this -> name.">";
+  }
 
 	/**
 	 * Get a configuration variable value

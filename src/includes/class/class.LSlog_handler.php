@@ -65,6 +65,28 @@ class LSlog_handler {
 			$this -> excluded_loggers = array($this -> excluded_loggers);
 	}
 
+  /**
+   * Allow conversion of LSlog_handler to string
+   *
+   * @retval string The string representation of the LSlog_handler
+   */
+  public function __toString() {
+    return "<".get_class($this)." ".implode(', ', $this -> __toStringDetails()).">";
+  }
+
+  /**
+   * Return list of details for the string representation of the LSlog_handler
+   *
+   * @retval array List of details for the string representation of the LSlog_handler
+   */
+	public function __toStringDetails() {
+		return array(
+			"level=".($this -> level?$this -> level:'default'),
+			"loggers=".($this -> loggers?implode(',', $this -> loggers):'all'),
+			"excluded loggers=".($this -> excluded_loggers?implode(',', $this -> excluded_loggers):'no'),
+		);
+	}
+
 	/**
 	 * Check system compatibility with this handler
 	 *

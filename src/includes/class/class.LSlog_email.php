@@ -43,6 +43,19 @@ class LSlog_email extends LSlog_handler {
 	public function __construct($config) {
 		parent :: __construct($config);
 		$this -> recipient = self :: getConfig('recipient');
+		$this -> logging('TRACE', "$this Enabled", get_class($this));
+	}
+
+  /**
+   * Return list of details for the string representation of the LSlog_email
+   *
+   * @retval array List of details for the string representation of the LSlog_email
+   */
+	public function __toStringDetails() {
+		return array_merge(
+			array("recipient=".$this -> recipient),
+			parent :: __toStringDetails(),
+		);
 	}
 
 	/**

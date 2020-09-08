@@ -76,6 +76,15 @@ class LSform extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Allow conversion of LSform to string
+   *
+   * @retval string The string representation of the LSform
+   */
+  public function __toString() {
+    return "<LSform ".$this -> idForm." on ".$this -> ldapObject -> toString(false).">";
+  }
+
+  /**
    * Display the form
    *
    * @param[in] $LSform_action string|null The form action attribute value (optional, default: $_SERVER['PHP_SELF'])
