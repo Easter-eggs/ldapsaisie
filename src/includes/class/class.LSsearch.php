@@ -831,13 +831,15 @@ class LSsearch extends LSlog_staticLoggerClass {
         $attrs=array();
         if (isset($conf['LSformat'])) {
           $attrs=getFieldInFormat($conf['LSformat']);
-          if(is_array($conf['alternativeLSformats'])) {
-            foreach ($conf['alternativeLSformats'] as $format) {
-              $attrs=array_merge($attrs,getFieldInFormat($format));
+          if (isset($conf['alternativeLSformats'])) {
+            if(is_array($conf['alternativeLSformats'])) {
+              foreach ($conf['alternativeLSformats'] as $format) {
+                $attrs = array_merge($attrs, getFieldInFormat($format));
+              }
             }
-          }
-          else {
-            $attrs=array_merge($attrs,getFieldInFormat($conf['alternativeLSformats']));
+            else {
+              $attrs = array_merge($attrs, getFieldInFormat($conf['alternativeLSformats']));
+            }
           }
           if(isset($conf['formaterLSformat'])) {
             $attrs=array_unique(array_merge($attrs,getFieldInFormat($conf['formaterLSformat'])));
