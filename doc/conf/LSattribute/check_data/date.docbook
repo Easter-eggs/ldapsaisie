@@ -2,7 +2,7 @@
   <title>date</title>
   <para>Cette règle vérifie que la valeur saisie est bien une date et qu'elle
   respecte un format précis.</para>
-  
+
 <variablelist>
 <title>Paramètres de configuration</title>
 
@@ -13,6 +13,15 @@
     fonction <function>strftime()</function> de &php;.
     <ulink url='http://www.php.net/strftime'>Voir la documentation de la
     fonction</ulink></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>special_values</term>
+  <listitem>
+    <para>Tableau listant les valeurs spéciales que peut prendre l'attribut. Dans ce tableau,
+    seules les valeurs sont utilisées et les clés n'ont pas d'importance. Ces valeurs spéciales
+    n'auront pas forcément besoin de respecter le format attendu.</para>
   </listitem>
 </varlistentry>
 

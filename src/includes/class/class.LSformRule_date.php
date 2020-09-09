@@ -33,11 +33,15 @@ class LSformRule_date extends LSformRule {
   * @param  mixed $value Données à valider
   * @param array $options Options de validation
   *                         $options['params']['format']: le format de la date
+  *                         $options['params']['special_values']: array of special allowed values
   * @param object $formElement L'objet formElement attaché
   *
   * @return boolean True si les données sont valide, False sinon.
   */
   public static function validate($value, $options=array(), &$formElement) {
+    $special_values = LSconfig :: get('params.special_values', array(), null, $options);
+    if (in_array($value, $special_values))
+      return true;
     $format = LSconfig :: get('params.format', null, 'string', $options);
     if (is_null($format)) {
       LSerror :: addErrorCode('LSformRule_date_01');

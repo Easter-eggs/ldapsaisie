@@ -636,6 +636,9 @@ function cli_generate_lang_file($command_args) {
           case 'valueWithUnit':
             addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.units.*");
             break;
+          case 'date':
+            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.special_values.*");
+            break;
         }
       }
     }

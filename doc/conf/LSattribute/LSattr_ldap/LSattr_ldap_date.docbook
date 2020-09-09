@@ -2,7 +2,18 @@
   <title>LSattr_ldap_date</title>
   <para>Ce type est utilisé pour la gestion des attributs dont la valeur est
   une date.</para>
-  
+
+  <note>
+  <para>Au sein d'LdapSaisie, les dates manipulées au travers ce type
+  d'attribut LDAP, sont au format <emphasis>timestamp</emphasis>. Il s'agit
+  donc de nombres entiers correpondants au nombre de secondes depuis le 1 janvier
+  1970.</para>
+  <para>Le type d'attribut HTML utilisé conjointement avec ce type d'attribut LDAP
+  devra être prévu pour recevoir et fournir des dates au format <emphasis>timestamp
+  </emphasis>, comme c'est le cas pour le <link linkend='config-LSattr_html_date'>
+  type d'attribut HTML <emphasis>date</emphasis></link>.</para>
+  </note>
+
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['ldap_options' => array (
@@ -32,7 +43,7 @@
   <listitem>
     <para>Format de stockage de la date dans l'annuaire. Ce format est composé à
     partir des motifs clés gérés par la fonction <function>date()</function>
-    de &php;. Pour plus d'information, consulter 
+    de &php;. Pour plus d'information, consulter
     <ulink url='http://www.php.net/date'>la documentation officielle</ulink>.
     <note><simpara>La valeur par défaut est <emphasis>YmdHisO</emphasis>,
     correspondant à la syntaxe <literal>Generalized Time</literal> telle que
@@ -53,11 +64,11 @@
     possibles sont documentées dans <ulink url='https://www.php.net/timezones'>la
     documentation officielle de PHP</ulink>. (Par défaut : <literal>UTC</literal>)
     </para>
-    
+
   </listitem>
 </varlistentry>
 
 </variablelist>
-  
-  
+
+
 </sect4>

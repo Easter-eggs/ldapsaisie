@@ -5,7 +5,7 @@
   <ulink url='http://mootools.net/forge/p/mootools_datepicker'>
   MooTools-DatePicker</ulink></application> est utilisé pour la sélection
   graphique de la date et de l'heure.</para>
-  
+
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['html_options' => array (
@@ -14,7 +14,11 @@
   'manual' => '[Booleen pour l edition manuelle ou non]',
   'showNowButton' => '[Booleen]',
   'showTodayButton' => '[Booleen]',
-  'style' => '[Nom du style utilise]'
+  'style' => '[Nom du style utilise]',
+  'special_values' => array (
+    '[value]' => '[label]',
+    [...]
+  ),
 ),]]>
 ...
 </programlisting>
@@ -212,7 +216,20 @@
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>special_values</term>
+  <listitem>
+    <para>Tableau listant les valeurs spéciales que peut prendre l'attribut. Dans ce tableau
+    associatif, la clé doit correspondre à la valeur de l'attribut (telle que fournie par
+    <link linkend='config-LSattr_ldap_date'>l'attribut LDAP</link>) et la valeur associée au
+    label associé.</para>
+    <para>Ces valeurs spéciales seront proposées à l'utilisateur sous la forme de cases à cocher
+    dans le formulaire. Elles peuvent permettre par exemple de données une signification
+    particulière au zéro pour un attribut LDAP stockant un <emphasis>timestamp</emphasis>.</para>
+  </listitem>
+</varlistentry>
+
 </variablelist>
-  
-  
+
+
 </sect4>

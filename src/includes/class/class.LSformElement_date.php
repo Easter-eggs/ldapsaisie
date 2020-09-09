@@ -77,17 +77,23 @@ class LSformElement_date extends LSformElement {
     if (!is_array($data)) {
       $data=array($data);
     }
-
-    for($i=0;$i<count($data);$i++) {
-      if(is_numeric($data[$i])) {
-        $data[$i]=strftime($this -> getFormat(),$data[$i]);
+    $special_values = $this -> getSpecialValues();
+    $values = array();
+    foreach ($data as $value) {
+      if(is_numeric($value)) {
+        if (array_key_exists($value, $special_values)) {
+          $values[] = $special_values[$value];
+          continue;
+        }
+        $values[] = strftime($this -> getFormat(), $value);
       }
       else {
         $this -> form -> setElementError($this -> attr_html);
+        return false;
       }
     }
-
-    $this -> values = $data;
+    self :: log_trace("$this -> setValue():".varDump($data)." => ".varDump($values));
+    $this -> values = $values;
     return true;
   }
 
@@ -99,13 +105,22 @@ class LSformElement_date extends LSformElement {
   public function exportValues(){
     $retval=array();
     if (is_array($this -> values)) {
+      $special_values = $this -> getSpecialValues();
       foreach($this -> values as $val) {
-        $date = strptime($val,$this -> getFormat());
+        if (array_key_exists($val, $special_values)) {
+          $retval[] = $val;
+          continue;
+        }
+        $date = strptime($val, $this -> getFormat());
         if (is_array($date)) {
           $retval[] = mktime($date['tm_hour'],$date['tm_min'],$date['tm_sec'],$date['tm_mon']+1,$date['tm_mday'],$date['tm_year']+1900);
         }
+        else {
+          self :: log_warning("exportValues($val): Fail to parse value from form.");
+        }
       }
     }
+    self :: log_trace("$this -> exportValues():".varDump($this -> values)." => ".varDump($retval));
     return $retval;
   }
 
@@ -175,8 +190,75 @@ class LSformElement_date extends LSformElement {
       LStemplate :: addJSscript('LSformElement_date_field.js');
       LStemplate :: addJSscript('LSformElement_date.js');
     }
+
     $return['html'] = $this -> fetchTemplate();
     return $return;
+  }
+
+  /**
+   * Retournne un template Smarty compilé dans le contexte d'un LSformElement
+   *
+   * @param[in] string $template Le template à retourner
+   * @param[in] array $variables Variables Smarty à assigner avant l'affichage
+   *
+   * @retval string Le HTML compilé du template
+   */
+   public function fetchTemplate($template=NULL, $variables=array()) {
+     $variables['special_values'] = $this -> getSpecialValues();
+     return parent :: fetchTemplate($template, $variables);
+   }
+
+  /**
+   * Recupère la valeur de l'élement passée en POST
+   *
+   * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
+   * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+   *
+   * @param[in] &$return array Reference of the array for retreived values
+   * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
+   *                                   just ignore it.
+   *
+   * @retval boolean true si la valeur est présente en POST, false sinon
+   */
+  public function getPostData(&$return, $onlyIfPresent=false) {
+    if($this -> isFreeze()) {
+      return true;
+    }
+    $values = self :: getData($_POST, $this -> name);
+    $special_values = self :: getData($_POST, $this -> name.'__special_value');
+    self :: log_trace($this." -> getPostData(): values=".varDump($values));
+    self :: log_trace($this." -> getPostData(): special_values=".varDump($special_values));
+    if (!is_array($values) && !is_array($special_values)) {
+      self :: log_trace($this." -> getPostData(): not in POST data");
+      if ($onlyIfPresent) {
+        self :: log_debug($this -> name.": not in POST data => ignore it");
+      }
+      else {
+        $return[$this -> name] = array();
+      }
+    }
+    else {
+      if(!is_array($values))
+        $values = array();
+      if(!is_array($special_values))
+        $special_values = array();
+      $return[$this -> name] = $special_values + $values;
+      self :: log_trace($this." -> merged values=".varDump($return[$this -> name]));
+    }
+    return true;
+  }
+
+  /**
+   * Retrieve list of special values with translated labels
+   *
+   * @return array Associative array with special values as keys and corresponding translated labels as values
+   */
+  public function getSpecialValues() {
+    $special_values = array();
+    foreach ($this -> getParam('html_options.special_values', array()) as $value => $label)
+      $special_values[strval($value)] = __($label);
+    self :: log_trace("getSpecialValues(): ".varDump($special_values));
+    return $special_values;
   }
 
  /**

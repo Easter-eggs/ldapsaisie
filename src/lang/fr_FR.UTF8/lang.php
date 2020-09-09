@@ -16,6 +16,10 @@ $GLOBALS['LSlang'] = array (
 "Allow user to connect a POSIX system." =>
   "Autorisie l'utilisateur à se connecter aux systèmes POSIX.",
 
+# LSobjects.LSpeople.attrs.sambaPwdMustChange.html_options.special_values.0
+"At first login" =>
+  "À la première connexion",
+
 # LSobjects.LSpeople.LSrelation.groups.label
 # LSobjects.LSsysaccount.LSrelation.groups.label
 "Belongs to groups ..." =>
@@ -111,6 +115,10 @@ $GLOBALS['LSlang'] = array (
 "Identifier must contain alphanumeric values, dots (.) and dashes (-) only." =>
   "L'identifiant doit contenir uniquement des valeurs alpha-numériques, avec eventuellement des points (.) et des tirets (-).",
 
+# LSobjects.LSpeople.attrs.sambaPwdCanChange.help_info
+"If not set, the user will be free to change his password whenever he wants." =>
+  "Si non défini, l'utilisateur pourra changer son mot de passe quand il le veut.",
+
 # LSobjects.LSpeople.attrs.gidNumber.html_options.possible_values.1.label
 "LDAP Groups" =>
   "Groupes LDAP",
@@ -175,6 +183,16 @@ $GLOBALS['LSlang'] = array (
 "Nb / page :" =>
   "Nb / page :",
 
+# LSobjects.LSpeople.attrs.sambaLogonTime.html_options.special_values.0
+# LSobjects.LSpeople.attrs.sambaLogoffTime.html_options.special_values.0
+# LSobjects.LSpeople.attrs.sambaKickoffTime.no_value_label
+# LSobjects.LSpeople.attrs.sambaKickoffTime.html_options.special_values.2147483647
+# LSobjects.LSpeople.attrs.sambaPwdMustChange.no_value_label
+# LSobjects.LSpeople.attrs.sambaPwdMustChange.html_options.special_values.2147483647
+# LSobjects.LSpeople.attrs.sambaPwdCanChange.html_options.special_values.2147483647
+"Never" =>
+  "Jamais",
+
 # LSobjects.LSpeople.attrs.uidNumber.label
 "Numeric identifier" =>
   "Identifiant numérique",
@@ -220,9 +238,31 @@ $GLOBALS['LSlang'] = array (
 "Samba Password (NT)" =>
   "Mot de passe Samba (NT)",
 
+# LSobjects.LSpeople.attrs.sambaKickoffTime.label
+"Samba expiration time" =>
+  "Date d'expiration Samba",
+
+# LSobjects.LSpeople.attrs.sambaLogoffTime.label
+"Samba last logoff time" =>
+  "Date de dernière déconnexion Samba",
+
+# LSobjects.LSpeople.attrs.sambaLogonTime.label
+"Samba last logon time" =>
+  "Date de dernière connexion Samba",
+# LSobjects.LSpeople.attrs.sambaPwdCanChange.label
+"Samba password can change" =>
+  "Date de prochaine modification possible du mot de passe Samba",
+# LSobjects.LSpeople.attrs.sambaPwdMustChange.label
+"Samba password must change" =>
+  "Date de prochaine modification obligatoire du mot de passe Samba",
+
 # LSobjects.LSpeople.LSform.dataEntryForm.simple.label
 "Simple" =>
   "Simple",
+
+# LSobjects.LSpeople.attrs.sambaKickoffTime.help_info
+"Specifies the time when the user will be locked down and cannot login any longer." =>
+  "Détermine la date à partir de laquelle l'utilisateur sera bloqué et ne pourra plus se connecter.",
 
 # LSobjects.LSsysaccount.label
 "System accounts" =>
@@ -263,6 +303,11 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSpeople.label
 "Users" =>
   "Utilisateurs",
+
+# LSobjects.LSpeople.attrs.sambaPwdCanChange.no_value_label
+# LSobjects.LSpeople.attrs.sambaPwdCanChange.html_options.special_values.0
+"Whenever" =>
+  "N'importe quand",
 
 # LSobjects.LSpeople.LSsearch.predefinedFilters.(jpegPhoto=*)
 "With photo" =>

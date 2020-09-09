@@ -144,8 +144,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'label' => 'Samba',
         'args' => array (
           'sambaSID',
+          'sambaLogonTime',
+          'sambaLogoffTime',
+          'sambaKickoffTime',
           'sambaLMPassword',
-          'sambaNTPassword'
+          'sambaNTPassword',
+          'sambaPwdMustChange',
+          'sambaPwdCanChange',
         )
       )
     ), // fin Layout
@@ -434,22 +439,6 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     /* ----------- end -----------*/
 
     /* ----------- start -----------*/
-    'sambaSID' => array (
-      'label' => 'Samba Identifier',
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'required' => 1,
-      'generate_function' => 'generate_sambaUserSID',
-      'rights' => array(
-        'admin' => 'r'
-      ),
-      'form' => array (
-        'modify' => 0
-      )
-    ),
-    /* ----------- end -----------*/
-
-    /* ----------- start -----------*/
     'homeDirectory' => array (
       'label' => 'Home Directory',
       'ldap_type' => 'ascii',
@@ -626,32 +615,6 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     /* ----------- end -----------*/
 
     /* ----------- start -----------*/
-    'sambaLMPassword' => array (
-      'label' => 'Samba Password (LM)',
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'required' => 1,
-      'generate_function' => 'generate_sambaLMPassword',
-      'form' => array (
-        'modify' => 0
-      )
-    ),
-    /* ----------- end -----------*/
-
-    /* ----------- start -----------*/
-    'sambaNTPassword' => array (
-      'label' => 'Samba Password (NT)',
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'required' => 1,
-      'generate_function' => 'generate_sambaNTPassword',
-      'form' => array (
-        'modify' => 0
-      )
-    ),
-    /* ----------- end -----------*/
-
-    /* ----------- start -----------*/
     'jpegPhoto' => array (
       'label' => 'Picture',
       'ldap_type' => 'image',
@@ -713,6 +676,186 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /************************************************
+     *              Samba Attributres
+     ************************************************/
+
+    /* ----------- start -----------*/
+    'sambaSID' => array (
+      'label' => 'Samba Identifier',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'generate_function' => 'generate_user_sambaSID',
+      'rights' => array(
+        'admin' => 'r'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaLogonTime' => array (
+      'label' => 'Samba last logon time',
+      'ldap_type' => 'date',
+      'ldap_options' => array(
+        'timestamp' => True,
+      ),
+      'html_type' => 'date',
+      'html_options' => array(
+        'time' => True,
+        'showTodayButton' => False,
+        'special_values' => array(
+          '0' => 'Never',
+        ),
+      ),
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaLogoffTime' => array (
+      'label' => 'Samba last logoff time',
+      'ldap_type' => 'date',
+      'ldap_options' => array(
+        'timestamp' => True,
+      ),
+      'html_type' => 'date',
+      'html_options' => array(
+        'time' => True,
+        'showTodayButton' => False,
+        'special_values' => array(
+          '0' => 'Never',
+        ),
+      ),
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaKickoffTime' => array (
+      'label' => 'Samba expiration time',
+      'help_info' => 'Specifies the time when the user will be locked down and cannot login any longer.',
+      'ldap_type' => 'date',
+      'ldap_options' => array(
+        'timestamp' => True,
+      ),
+      'html_type' => 'date',
+      'html_options' => array(
+        'time' => True,
+        'showTodayButton' => False,
+        'special_values' => array(
+          LS_SAMBA_INFINITY_TIME => 'Never',
+        ),
+      ),
+      'no_value_label' => 'Never',
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaLMPassword' => array (
+      'label' => 'Samba Password (LM)',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'generate_function' => 'generate_sambaLMPassword',
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaNTPassword' => array (
+      'label' => 'Samba Password (NT)',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'generate_function' => 'generate_sambaNTPassword',
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaPwdMustChange' => array (
+      'label' => 'Samba password must change',
+      'ldap_type' => 'date',
+      'ldap_options' => array(
+        'timestamp' => True,
+      ),
+      'html_type' => 'date',
+      'html_options' => array(
+        'time' => True,
+        'showTodayButton' => False,
+        'special_values' => array(
+          '0' => 'At first login',
+          LS_SAMBA_INFINITY_TIME => 'Never',
+        ),
+      ),
+      'no_value_label' => 'Never',
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaPwdCanChange' => array (
+      'label' => 'Samba password can change',
+      'help_info' => 'If not set, the user will be free to change his password whenever he wants.',
+      'ldap_type' => 'date',
+      'ldap_options' => array(
+        'timestamp' => True,
+      ),
+      'html_type' => 'date',
+      'html_options' => array(
+        'time' => True,
+        'showTodayButton' => False,
+        'special_values' => array(
+          LS_SAMBA_INFINITY_TIME => 'Never',
+          0 => 'Whenever',
+        ),
+      ),
+      'no_value_label' => 'Whenever',
+      'multiple' => true,
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1
       )
     ),
     /* ----------- end -----------*/

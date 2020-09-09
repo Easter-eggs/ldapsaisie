@@ -2,6 +2,12 @@ var LSformElement_date_field = new Class({
     initialize: function(name,input){
       this.name = name;
       this.input = input;
+      this.specialValueInputs = $$(input.getAllNext('input.LSformElement_date[type=radio]'));
+
+      this.input.addEvent('change', this.onInputChange.bind(this));
+      this.specialValueInputs.each(function(input) {
+        input.addEvent('click', this.onSpecialValueInputClick.bind(this));
+      }, this);
 
       this.params = varLSdefault.LSjsConfig[this.name];
       if (!$type(this.params)) {
@@ -41,6 +47,7 @@ var LSformElement_date_field = new Class({
           useFadeInOut: !Browser.ie
         }
       );
+      this.calendar.addEvent('onSelect', this.onInputChange.bind(this));
 
       if (this.params.showNowButton) {
         this.nowBtn = new Element('img');
@@ -66,8 +73,21 @@ var LSformElement_date_field = new Class({
       }
     },
 
+    onInputChange: function() {
+      if (!this.input.value)
+        return true;
+      this.specialValueInputs.each(function(input) {
+        input.removeProperty('checked');
+      }, this);
+    },
+
+    onSpecialValueInputClick: function() {
+      this.input.value="";
+    },
+
     onNowBtnClick: function() {
       this.input.value = new Date().format(this.params.format);
+      this.input.fireEvent('change');
     },
 
     onTodayBtnClick: function() {
@@ -85,7 +105,15 @@ var LSformElement_date_field = new Class({
             date: now.get('date')
           });
           this.input.value = today.format(this.params.format);
+          this.input.fireEvent('change');
         }
       }
+    },
+
+    clearValue: function() {
+      this.input.value="";
+      this.specialValueInputs.each(function(input) {
+        input.removeProperty('checked');
+      }, this);
     }
 });

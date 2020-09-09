@@ -40,7 +40,17 @@ class LSattr_html_date extends LSattr_html {
    */
   function addToForm (&$form,$idForm,$data=NULL) {
     $element = parent::addToForm($form,$idForm,$data);
-    $form -> addRule($this -> name, 'date', array('msg' => _('Invalid value'), 'params' => array('format' => $element -> getFormat())) );
+    $form -> addRule(
+      $this -> name,
+      'date',
+      array(
+        'msg' => _('Invalid value'),
+        'params' => array(
+          'format' => $element -> getFormat(),
+          'special_values' => array_keys($element -> getSpecialValues()),
+        )
+      )
+    );
     return $element;
   }
 
