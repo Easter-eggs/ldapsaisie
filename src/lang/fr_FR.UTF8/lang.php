@@ -187,6 +187,7 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSpeople.attrs.sambaLogoffTime.html_options.special_values.0
 # LSobjects.LSpeople.attrs.sambaKickoffTime.no_value_label
 # LSobjects.LSpeople.attrs.sambaKickoffTime.html_options.special_values.2147483647
+# LSobjects.LSpeople.attrs.sambaPwdLastSet.no_value_label
 # LSobjects.LSpeople.attrs.sambaPwdMustChange.no_value_label
 # LSobjects.LSpeople.attrs.sambaPwdMustChange.html_options.special_values.2147483647
 # LSobjects.LSpeople.attrs.sambaPwdCanChange.html_options.special_values.2147483647
@@ -253,12 +254,38 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSpeople.attrs.sambaLogonTime.label
 "Samba last logon time" =>
   "Date de dernière connexion Samba",
+
+# LSobjects.LSpeople.attrs.sambaLogonScript.label
+"Samba logon script" =>
+  "Script de login Samba",
+
+# LSobjects.LSpeople.attrs.sambaHomeDrive.label
+"Samba network drive of the home directory" =>
+  "Lecteur réseau du dossier personnel Samba",
+
+# LSobjects.LSpeople.attrs.sambaHomePath.label
+"Samba network path of the home directory" =>
+  "Chemin réseau du dossier personnel Samba",
+
+# LSobjects.LSpeople.attrs.sambaProfilePath.label
+"Samba network path of the profile" =>
+  "Chemin réseau du profil Samba",
+
 # LSobjects.LSpeople.attrs.sambaPwdCanChange.label
 "Samba password can change" =>
   "Date de prochaine modification possible du mot de passe Samba",
+
+# LSobjects.LSpeople.attrs.sambaPwdLastSet.label
+"Samba password last change time" =>
+  "Date de dernière modification du mot de passe Samba",
+
 # LSobjects.LSpeople.attrs.sambaPwdMustChange.label
 "Samba password must change" =>
   "Date de prochaine modification obligatoire du mot de passe Samba",
+
+# LSobjects.LSpeople.attrs.sambaPrimaryGroupSID.label
+"Samba primary group identifier" =>
+  "Identifiant du groupe primaire Samba",
 
 # LSobjects.LSpeople.LSform.dataEntryForm.simple.label
 "Simple" =>

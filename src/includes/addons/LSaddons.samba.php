@@ -24,28 +24,28 @@
 
 // Support
 LSerror :: defineError('SAMBA_SUPPORT_01',
-  ___("SAMBA Support : Unable to load smbHash class.")
+  ___("SAMBA Support: Unable to load smbHash class.")
 );
 LSerror :: defineError('SAMBA_SUPPORT_02',
-  ___("SAMBA Support : The constant %{const} is not defined.")
+  ___("SAMBA Support: The constant %{const} is not defined.")
 );
 
 LSerror :: defineError('SAMBA_SUPPORT_03',
-  ___("SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's unicity.")
+  ___("SAMBA Support: The constants LS_SAMBA_SID_BASE_USER and LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's unicity.")
 );
 
 // Autres erreurs
 LSerror :: defineError('SAMBA_01',
-  ___("SAMBA Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
+  ___("SAMBA Support: The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
 LSerror :: defineError('SAMBA_02',
-  ___("SAMBA Support : Can't get the sambaDomain object.")
+  ___("SAMBA Support: Can't get the sambaUnixIdPool object.")
 );
 LSerror :: defineError('SAMBA_03',
-  ___("SAMBA Support : Error modifying the sambaDomain object.")
+  ___("SAMBA Support: Error modifying the sambaUnixIdPool object.")
 );
 LSerror :: defineError('SAMBA_04',
-  ___("SAMBA Support : The %{attr} of the sambaDomain object is incorrect.")
+  ___("SAMBA Support: The %{attr} of the sambaUnixIdPool object is incorrect.")
 );
 
 // CONSTANTES
@@ -53,140 +53,188 @@ LSerror :: defineError('SAMBA_04',
 // Le temps infini au sens NT
 define('LS_SAMBA_INFINITY_TIME',2147483647);
 
- /**
-  * Verification du support Samba par ldapSaisie
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval boolean true si Samba est pleinement supporté, false sinon
-  */
-  function LSaddon_samba_support() {
+/**
+ * Check LdapSaisie Samba support
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @retval boolean True if Samba is fully supported, false otherwise
+ */
+function LSaddon_samba_support() {
 
-    $retval=true;
+  $retval=true;
 
-    // Dependance de librairie
-    if ( !class_exists('smbHash') ) {
-      if ( !LSsession::includeFile(LS_LIB_DIR . 'class.smbHash.php') ) {
-        LSerror :: addErrorCode('SAMBA_SUPPORT_01');
-        $retval=false;
-      }
+  // Dependance de librairie
+  if ( !class_exists('smbHash') ) {
+    if ( !LSsession::includeFile(LS_LIB_DIR . 'class.smbHash.php') ) {
+      LSerror :: addErrorCode('SAMBA_SUPPORT_01');
+      $retval=false;
     }
-
-
-    $MUST_DEFINE_CONST= array(
-      'LS_SAMBA_DOMAIN_SID',
-      'LS_SAMBA_DOMAIN_NAME',
-      'LS_SAMBA_HOME_PATH_FORMAT',
-      'LS_SAMBA_PROFILE_PATH_FORMAT',
-      'LS_SAMBA_DOMAIN_OBJECT_DN',
-      'LS_SAMBA_SID_BASE_USER',
-      'LS_SAMBA_SID_BASE_GROUP',
-      'LS_SAMBA_UIDNUMBER_ATTR',
-      'LS_SAMBA_GIDNUMBER_ATTR',
-      'LS_SAMBA_USERPASSWORD_ATTR'
-    );
-
-    foreach($MUST_DEFINE_CONST as $const) {
-      if ( (!defined($const)) || (constant($const) == "")) {
-        LSerror :: addErrorCode('SAMBA_SUPPORT_02',$const);
-        $retval=false;
-      }
-    }
-
-    // Pour l'intégrité des SID
-    if ( (LS_SAMBA_SID_BASE_USER % 2) == (LS_SAMBA_SID_BASE_GROUP % 2) ) {
-        LSerror :: addErrorCode('SAMBA_SUPPORT_03');
-        $retval=false;
-    }
-
-    return $retval;
   }
 
+
+  $MUST_DEFINE_CONST= array(
+    'LS_SAMBA_DOMAIN_SID',
+    'LS_SAMBA_DOMAIN_NAME',
+    'LS_SAMBA_HOME_PATH_FORMAT',
+    'LS_SAMBA_PROFILE_PATH_FORMAT',
+    'LS_SAMBA_DOMAIN_OBJECT_DN',
+    'LS_SAMBA_SID_BASE_USER',
+    'LS_SAMBA_SID_BASE_GROUP',
+    'LS_SAMBA_UIDNUMBER_ATTR',
+    'LS_SAMBA_GIDNUMBER_ATTR',
+    'LS_SAMBA_USERPASSWORD_ATTR'
+  );
+
+  foreach($MUST_DEFINE_CONST as $const) {
+    if ( (!defined($const)) || (constant($const) == "")) {
+      LSerror :: addErrorCode('SAMBA_SUPPORT_02',$const);
+      $retval=false;
+    }
+  }
+
+  // Check LS_SAMBA_SID_BASE_USER & LS_SAMBA_SID_BASE_GROUP values for SID integrity
+  if ( (LS_SAMBA_SID_BASE_USER % 2) == (LS_SAMBA_SID_BASE_GROUP % 2) ) {
+    LSerror :: addErrorCode('SAMBA_SUPPORT_03');
+    $retval=false;
+  }
+
+  return $retval;
+}
+
+/**
+ * Generate sambaSID value
+ *
+ * Generation rule:
+ *   Number   = [UNIX attribute ($unix_attr) value] * 2 + $base_number
+ *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ * @param[in] $ldapObject LSldapObjet The LSldapObjet object
+ * @param[in] $unix_attr string The UNIX attribute name
+ * @param[in] $base_number integer The base number value
+ *
+ * @retval string SambaSID ou false si il y a un problème durant la génération
+ */
+function generate_sambaSID($ldapObject, $unix_attr, $base_number) {
+  if ( get_class($ldapObject -> attrs[ $unix_attr ]) != 'LSattribute' ) {
+    LSerror :: addErrorCode(
+      'SAMBA_01',
+      array(
+        'dependency' => $unix_attr,
+        'attr' => 'sambaSID'
+      )
+    );
+    return;
+  }
+
+  $unix_id_attr_val = $ldapObject -> getValue($unix_attr, true, null);
+  $object_sid = $unix_id_attr_val * 2 + $base_number;
+  return LS_SAMBA_DOMAIN_SID . '-' . $object_sid;
+}
+
+/**
+ * Generate user sambaSID
+ *
+ *   Number   = LS_SAMBA_UIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_USER
+ *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @retval string User SambaSID value on success, false otherwise
+ */
+function generate_user_sambaSID($ldapObject) {
+  return generate_sambaSID($ldapObject, LS_SAMBA_UIDNUMBER_ATTR, LS_SAMBA_SID_BASE_USER);
+}
+
  /**
-  * Generation de sambaSID d'un utilisateur
+  * Generate user sambaSID
   *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
+  * Note: old-name of the function keep for retro-compatibility
   *
   *   Number   = LS_SAMBA_UIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_USER
   *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
   *
-  * @param[in] $ldapObject L'objet ldap
-  *
-  * @retval string SambaSID ou false si il y a un problème durant la génération
-  */
-  function generate_sambaUserSID($ldapObject) {
-    if ( get_class($ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_UIDNUMBER_ATTR, 'attr' => 'sambaSID'));
-      return;
-    }
-
-    $uidnumber_attr_val = $ldapObject -> attrs[ LS_SAMBA_UIDNUMBER_ATTR ] -> getValue();
-    $uidnumber_attr_val = $uidnumber_attr_val[0];
-    $uidNumber = $uidnumber_attr_val * 2 + LS_SAMBA_SID_BASE_USER;
-    $sambaSID = LS_SAMBA_DOMAIN_SID . '-' . $uidNumber;
-
-    return ($sambaSID);
-  }
-
- /**
-  * Generation de sambaSID d'un groupe
-  *
+  * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  *   Number   = LS_SAMBA_GIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_GROUP
-  *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
-  *
-  * @param[in] $ldapObject L'objet ldap
-  *
-  * @retval string SambaSID ou false si il y a un problème durant la génération
+  * @retval string User SambaSID value on success, false otherwise
   */
-  function generate_sambaGroupSID($ldapObject) {
-    if ( get_class($ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaSID'));
-      return;
-    }
+function generate_sambaUserSID($ldapObject) {
+  LSerror :: addErrorCode(
+    'LSsession_27',
+    array(
+      'old' => 'generate_sambaUserSID()',
+      'new' => 'generate_user_sambaSID()',
+      'context' => LSlog :: get_debug_backtrace_context(),
+    )
+  );
+  return generate_user_sambaSID($ldapObject);
+}
 
-    $gidnumber_attr_val = $ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ] -> getValue();
-    $gidnumber_attr_val = $gidnumber_attr_val[0];
-    $gidNumber = $gidnumber_attr_val * 2 + LS_SAMBA_SID_BASE_GROUP;
-    $sambaSID = LS_SAMBA_DOMAIN_SID . '-' . $gidNumber;
-
-    return ($sambaSID);
-  }
+/**
+ * Generate group sambaSID
+ *
+ *   Number   = LS_SAMBA_GIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_GROUP
+ *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
+ *
+ * @param[in] $ldapObject LSldapObjet The group LSldapObjet object
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @retval string Group SambaSID value on success, false otherwise
+ */
+function generate_group_sambaSID($ldapObject) {
+  return generate_sambaSID($ldapObject, LS_SAMBA_GIDNUMBER_ATTR, LS_SAMBA_SID_BASE_GROUP);
+}
 
  /**
-  * Generation de sambaPrimaryGroupSID
+  * Generate group sambaSID
   *
+  * Note: old-name of the function keep for retro-compatibility. An error
+  * message is raised when this function is used.
+  *
+  * @param[in] $ldapObject LSldapObjet The group LSldapObjet object
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  *   Number   = LS_SAMBA_GIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_GROUP
-  *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
-  *
-  * @param[in] $ldapObject L'objet ldap
-  *
-  * @retval string sambaPrimaryGroupSID ou false si il y a un problème durant la génération
+  * @retval string Group SambaSID value on success, false otherwise
   */
-  function generate_sambaPrimaryGroupSID($ldapObject) {
-    if ( get_class($ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ]) != 'LSattribute' ) {
-      LSerror :: addErrorCode('SAMBA_01',array('dependency' => LS_SAMBA_GIDNUMBER_ATTR, 'attr' => 'sambaPrimaryGroupSID'));
-      return;
-    }
+function generate_sambaGroupSID($ldapObject) {
+  LSerror :: addErrorCode(
+    'LSsession_27',
+    array(
+      'old' => 'generate_sambaGroupSID()',
+      'new' => 'generate_group_sambaSID()',
+      'context' => LSlog :: get_debug_backtrace_context(),
+    )
+  );
+  return generate_group_sambaSID($ldapObject);
+}
 
-    $gidNumber = $ldapObject -> attrs[ LS_SAMBA_GIDNUMBER_ATTR ] -> getValue();
-    $gidNumber = $gidNumber[0] * 2 + LS_SAMBA_SID_BASE_GROUP;
-    $sambaPrimaryGroupSID = LS_SAMBA_DOMAIN_SID . '-' . $gidNumber;
+/**
+ * Generate sambaPrimaryGroupSID
+ *
+ *   Number   = LS_SAMBA_GIDNUMBER_ATTR * 2 + LS_SAMBA_SID_BASE_GROUP
+ *   sambaSID = LS_SAMBA_DOMAIN_SID-Number
+ *
+ * @param[in] $ldapObject LSldapObjet The LSldapObjet object
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @retval string The sambaPrimaryGroupSID value on success, false otherwise
+ */
+function generate_sambaPrimaryGroupSID($ldapObject) {
+  return generate_sambaSID($ldapObject, LS_SAMBA_GIDNUMBER_ATTR, LS_SAMBA_SID_BASE_GROUP);
+}
 
-    return ($sambaPrimaryGroupSID);
-  }
 
  /**
   * Generation de sambaNTPassword
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @param[in] $ldapObject L'objet ldap
+  * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
   *
-  * @retval string sambaNTPassword ou false si il y a un problème durant la génération
+  * @retval string|false sambaNTPassword value on success, false otherwise
   */
   function generate_sambaNTPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
@@ -209,9 +257,9 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @param[in] $ldapObject L'objet ldap
+  * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
   *
-  * @retval string sambaLMPassword ou false si il y a un problème durant la génération
+  * @retval string|false sambaLMPassword value on success, false otherwise
   */
   function generate_sambaLMPassword($ldapObject) {
     if ( get_class($ldapObject -> attrs[ LS_SAMBA_USERPASSWORD_ATTR ]) != 'LSattribute' ) {
@@ -230,183 +278,263 @@ define('LS_SAMBA_INFINITY_TIME',2147483647);
   }
 
 /**
-  * Generation de uidNumber en utilisant l'objet sambaDomain
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @param[in] $ldapObject L'objet ldap
-  *
-  * @retval integer uidNumber ou false si il y a un problème durant la génération
-  */
-  function generate_uidNumber_withSambaDomainObject($ldapObject) {
-    $sambaDomain = LSldap :: getLdapEntry ( LS_SAMBA_DOMAIN_OBJECT_DN );
-    if ($sambaDomain === false) {
-      LSerror :: addErrorCode('SAMBA_02');
-      return;
-    }
-
-    $uidNumber = $sambaDomain->getValue('uidNumber','single');
-    if (Net_LDAP2::isError($uidNumber) || $uidNumber==0) {
-      LSerror :: addErrorCode('SAMBA_04','uidNumber');
-      return;
-    }
-
-    $sambaDomain->replace(array('uidNumber' => ($uidNumber+1)));
-    $res = $sambaDomain->update();
-    if(!Net_LDAP2::isError($res)) {
-      return $uidNumber;
-    }
-    else {
-      LSerror :: addErrorCode('SAMBA_03');
-      return;
-    }
+ * Generate UNIX ID value from sambaUnixIdPool object
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $attr string The sambaUnixIdPool attribute name that contain next ID value
+ *
+ * @retval integer UNIX ID value on succes, false otherwise
+ */
+function get_samba_unix_pool_next_id($attr) {
+  $unix_id_pool_dn = (constant('LS_SAMBA_UNIX_ID_POOL_DN')?LS_SAMBA_UNIX_ID_POOL_DN:LS_SAMBA_DOMAIN_OBJECT_DN);
+  $unix_id_pool = LSldap :: getLdapEntry ($unix_id_pool_dn);
+  if ($unix_id_pool === false) {
+    LSerror :: addErrorCode('SAMBA_02');
+    return;
   }
 
- /**
-  * Generation de gidNumber en utilisant l'objet sambaDomain
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @param[in] $ldapObject L'objet ldap
-  *
-  * @retval integer gidNumber ou false si il y a un problème durant la génération
-  */
-  function generate_gidNumber_withSambaDomainObject($ldapObject) {
-    $sambaDomain = LSldap :: getLdapEntry ( LS_SAMBA_DOMAIN_OBJECT_DN );
-    if ($sambaDomain === false) {
-      LSerror :: addErrorCode('SAMBA_02');
-      return;
-    }
-
-    $gidNumber = $sambaDomain->getValue('gidNumber','single');
-    if (Net_LDAP2::isError($gidNumber) || $gidNumber==0) {
-      LSerror :: addErrorCode('SAMBA_04','gidNumber');
-      return;
-    }
-
-    $sambaDomain->replace(array('gidNumber' => ($gidNumber+1)));
-    $res = $sambaDomain->update();
-    if(!Net_LDAP2::isError($res)) {
-      return $gidNumber;
-    }
-    else {
-      LSerror :: addErrorCode('SAMBA_03');
-      return;
-    }
+  $next_id = $unix_id_pool->getValue($attr, 'single');
+  if (Net_LDAP2::isError($next_id) || $next_id == 0) {
+    LSerror :: addErrorCode('SAMBA_04', $attr);
+    return;
   }
 
- /**
-  * Retourne le temps infini au sens NT
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @param[in] $ldapObject L'objet ldap
-  *
-  * @retval integer le temps infinie au sens NT
-  */
-  function return_sambaInfinityTime($ldapObject) {
-    return LS_SAMBA_INFINITY_TIME;
+  $unix_id_pool->replace(array($attr => ($next_id+1)));
+  $res = $unix_id_pool->update();
+  if(!Net_LDAP2::isError($res)) {
+    return $next_id;
   }
+  else {
+    LSerror :: addErrorCode('SAMBA_03');
+    return;
+  }
+}
 
- /**
-  * Generation de l'attribut sambaPwdLastSet
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @param[in] $ldapObject L'objet ldap
-  *
-  * @retval string sambaPwdLastSet
-  */
-  function generate_sambaPwdLastSet($ldapObject) {
-    return time();
-  }
+/**
+ * Generate uidNumber using sambaUnixIdPool object
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval integer|false uidNumber value on success, false otherwise
+ */
+function generate_samba_uidNumber($ldapObject) {
+  return get_samba_unix_pool_next_id('uidNumber');
+}
 
- /**
-  * Generation du sambaDomainName
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval string Le sambaDomainName
-  */
-  function generate_sambaDomainName($ldapObject) {
-    return LS_SAMBA_DOMAIN_NAME;
-  }
+/**
+ * Generate uidNumber using sambaUnixIdPool object
+ *
+ * Note: old-name of the function keep for retro-compatibility. An error
+ * message is raised when this function is used.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval integer|false uidNumber value on success, false otherwise
+ */
+function generate_uidNumber_withSambaDomainObject($ldapObject) {
+  LSerror :: addErrorCode(
+    'LSsession_27',
+    array(
+      'old' => 'generate_uidNumber_withSambaDomainObject()',
+      'new' => 'generate_samba_uidNumber()',
+      'context' => LSlog :: get_debug_backtrace_context(),
+    )
+  );
+  return generate_samba_uidNumber($ldapObject);
+}
 
- /**
-  * Generation du sambaHomePath
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval string Le sambaHomePath
-  */
-  function generate_sambaHomePath($ldapObject) {
-    return $ldapObject -> getFData(LS_SAMBA_HOME_PATH_FORMAT);
-  }
+/**
+ * Generate gidNumber using sambaUnixIdPool object
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval integer|false gidNumber value on success, false otherwise
+ */
+function generate_samba_gidNumber($ldapObject) {
+  return get_samba_unix_pool_next_id('gidNumber');
+}
 
- /**
-  * Generation du sambaProfilePath
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval string Le sambaProfilePath
-  */
-  function generate_sambaProfilePath($ldapObject) {
-    return $ldapObject -> getFData(LS_SAMBA_PROFILE_PATH_FORMAT);
-  }
+/**
+ * Generate gidNumber using sambaUnixIdPool object
+ *
+ * Note: old-name of the function keep for retro-compatibility. An error
+ * message is raised when this function is used.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval integer|false gidNumber value on success, false otherwise
+ */
+function generate_gidNumber_withSambaDomainObject($ldapObject) {
+  LSerror :: addErrorCode(
+    'LSsession_27',
+    array(
+      'old' => 'generate_gidNumber_withSambaDomainObject()',
+      'new' => 'generate_samba_gidNumber()',
+      'context' => LSlog :: get_debug_backtrace_context(),
+    )
+  );
+  return generate_samba_gidNumber($ldapObject);
+}
 
- /**
-  * Generation de l'attribut shadowExpire à partir de
-  * l'attribut sambaPwdMustChange
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval string La valeur de shadowExpire
-  */
-  function generate_shadowExpire_from_sambaPwdMustChange($ldapObject) {
-    $time=$ldapObject -> getValue('sambaPwdMustChange');
-    if (!empty($time)) {
-      $time=(int)$time[0];
-      return (string)round($time/86400);
-    }
-    return '';
-  }
+/**
+ * Return NT infinity time
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $anything anything
+ *
+ * @retval integer NT infinity time
+ */
+function get_samba_infinity_time($anything=null) {
+  return LS_SAMBA_INFINITY_TIME;
+}
 
- /**
-  * Generation d'un timestamp a partir de l'attribut shadowExpire
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval string Timestamp correspant à shadowExpire
-  */
-  function generate_timestamp_from_shadowExpire($ldapObject) {
-    $days=$ldapObject -> getValue('shadowExpire');
-    if (!empty($days)) {
-      $days=(int)$days[0];
-      return (string)($days*86400);
-    }
-    return '';
-  }
+/**
+ * Return NT infinity time
+ *
+ * Note: old-name of the function keep for retro-compatibility. An error
+ * message is raised when this function is used.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $anything anything
+ *
+ * @retval integer NT infinity time
+ */
+function return_sambaInfinityTime($anything=null) {
+  LSerror :: addErrorCode(
+    'LSsession_27',
+    array(
+      'old' => 'return_sambaInfinityTime()',
+      'new' => 'get_samba_infinity_time()',
+      'context' => LSlog :: get_debug_backtrace_context(),
+    )
+  );
+  return get_samba_infinity_time($anything);
+}
 
- /**
-  * Generation de l'attribut sambaPwdMustChange a partir de
-  * l'attribut shadowExpire
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval string La valeur de sambaPwdMustChange
-  */
-  function generate_sambaPwdMustChange_from_shadowExpire($ldapObject) {
-    return generate_timestamp_from_shadowExpire($ldapObject);
-  }
+/**
+ * Generate sambaPwdLastSet attribute value
+ *
+ * Just return current timestamp.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $anything anything
+ *
+ * @retval integer The sambaPwdLastSet attribute value (=current timestamp)
+ */
+function generate_sambaPwdLastSet($anything) {
+  return time();
+}
 
- /**
-  * Generation de l'attribut sambaKickoffTime a partir de
-  * l'attribut shadowExpire
-  *
-  * @author Benjamin Renard <brenard@easter-eggs.com>
-  *
-  * @retval string La valeur de sambaKickoffTime
-  */
-  function generate_sambaKickoffTime_from_shadowExpire($ldapObject) {
-    return generate_timestamp_from_shadowExpire($ldapObject);
-  }
+/**
+ * Generate sambaDomainName attribute value
+ *
+ * Just return samba domain name.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $anything anything
+ *
+ * @retval string The sambaDomainName attribute value
+ */
+function generate_sambaDomainName($anything) {
+  return LS_SAMBA_DOMAIN_NAME;
+}
+
+/**
+ * Generate sambaHomePath attribute value
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval string The sambaHomePath attribute value
+ */
+function generate_sambaHomePath($ldapObject) {
+  return $ldapObject -> getFData(LS_SAMBA_HOME_PATH_FORMAT);
+}
+
+/**
+ * Generate sambaProfilePath attribute value
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval string The sambaProfilePath attribute value
+ */
+function generate_sambaProfilePath($ldapObject) {
+  return $ldapObject -> getFData(LS_SAMBA_PROFILE_PATH_FORMAT);
+}
+
+/**
+ * Generate shadowExpire attribute value from sambaPwdMustChange
+ * attribute.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval string The shadowExpire attribute value
+ */
+function generate_shadowExpire_from_sambaPwdMustChange($ldapObject) {
+  $time = $ldapObject -> getValue('sambaPwdMustChange', true, null);
+  if ($time)
+    return str_val(round(int_val($time)/86400));
+  return '';
+}
+
+/**
+ * Generate timestamp from shadowExpire attribute value
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval string Timestamp corresponding to shadowExpire
+ */
+function generate_timestamp_from_shadowExpire($ldapObject) {
+  $days = $ldapObject -> getValue('shadowExpire', true, null);
+  if ($days)
+    return str_val(int_val($days) * 86400);
+  return '';
+}
+
+/**
+ * Generate sambaPwdMustChange attribute value from shadowExpire
+ * attribute.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval string The sambaPwdMustChange attribute value
+ */
+function generate_sambaPwdMustChange_from_shadowExpire($ldapObject) {
+  return generate_timestamp_from_shadowExpire($ldapObject);
+}
+
+/**
+ * Generate sambaKickoffTime attribute value from shadowExpire
+ * attribute.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject LSldapObjet The user LSldapObjet object
+ *
+ * @retval string The sambaKickoffTime attribute value
+ */
+function generate_sambaKickoffTime_from_shadowExpire($ldapObject) {
+  return generate_timestamp_from_shadowExpire($ldapObject);
+}

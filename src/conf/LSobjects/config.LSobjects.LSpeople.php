@@ -144,12 +144,18 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'label' => 'Samba',
         'args' => array (
           'sambaSID',
+          'sambaPrimaryGroupSID',
           'sambaAcctFlags',
+          'sambaHomeDrive',
+          'sambaHomePath',
+          'sambaProfilePath',
+          'sambaLogonScript',
           'sambaLogonTime',
           'sambaLogoffTime',
           'sambaKickoffTime',
           'sambaLMPassword',
           'sambaNTPassword',
+          'sambaPwdLastSet',
           'sambaPwdMustChange',
           'sambaPwdCanChange',
         )
@@ -255,7 +261,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'create' => 1
       ),
       'dependAttrs' => array(
-        'homeDirectory'
+        'homeDirectory',
+        'sambaHomePath',
+        'sambaProfilePath',
       )
     ),
     /* ----------- end -----------*/
@@ -266,7 +274,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
-      'generate_function' => 'generate_uidNumber_withSambaDomainObject',
+      'generate_function' => 'generate_samba_uidNumber',
       'check_data' => array (
         'numeric' => array(
           'msg' => "The numeric identifier must be an integer."
@@ -412,6 +420,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
+      ),
+      'dependAttrs' => array(
+        'sambaPrimaryGroupSID',
       )
     ),
     /* ----------- end -----------*/
@@ -703,6 +714,23 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     /* ----------- end -----------*/
 
     /* ----------- start -----------*/
+    'sambaPrimaryGroupSID' => array (
+      'label' => 'Samba primary group identifier',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'generate_function' => 'generate_sambaPrimaryGroupSID',
+      'rights' => array(
+        'admin' => 'r'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
     'sambaAcctFlags' => array (
       'label' => 'Samba account flags',
       'ldap_type' => 'sambaAcctFlags',
@@ -716,6 +744,74 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'form' => array (
         'create' => 1,
         'modify' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaHomeDrive' => array (
+      'label' => 'Samba network drive of the home directory',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'default_value' => 'Z:',
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 1
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaHomePath' => array (
+      'label' => 'Samba network path of the home directory',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'generate_function' => 'generate_sambaHomePath',
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaProfilePath' => array (
+      'label' => 'Samba network path of the profile',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'generate_function' => 'generate_sambaProfilePath',
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaLogonScript' => array (
+      'label' => 'Samba logon script',
+      'ldap_type' => 'ascii',
+      'html_type' => 'text',
+      'required' => 1,
+      'default_value' => 'logon.bat',
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'modify' => 0
       )
     ),
     /* ----------- end -----------*/
@@ -817,6 +913,30 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_type' => 'text',
       'required' => 1,
       'generate_function' => 'generate_sambaNTPassword',
+      'form' => array (
+        'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaPwdLastSet' => array (
+      'label' => 'Samba password last change time',
+      'ldap_type' => 'date',
+      'ldap_options' => array(
+        'timestamp' => True,
+      ),
+      'html_type' => 'date',
+      'html_options' => array(
+        'time' => True,
+        'showTodayButton' => False,
+      ),
+      'generate_function' => 'generate_sambaPwdLastSet',
+      'no_value_label' => 'Never',
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
       'form' => array (
         'modify' => 0
       )

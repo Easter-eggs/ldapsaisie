@@ -1,34 +1,34 @@
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:27
-msgid "SAMBA Support : Unable to load smbHash class."
+msgid "SAMBA Support: Unable to load smbHash class."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:30
-msgid "SAMBA Support : The constant %{const} is not defined."
+msgid "SAMBA Support: The constant %{const} is not defined."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:34
 msgid ""
-"SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and "
+"SAMBA Support: The constants LS_SAMBA_SID_BASE_USER and "
 "LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's "
 "unicity."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:39
 msgid ""
-"SAMBA Support : The attribute %{dependency} is missing. Unable to forge the "
+"SAMBA Support: The attribute %{dependency} is missing. Unable to forge the "
 "attribute %{attr}."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:42
-msgid "SAMBA Support : Can't get the sambaDomain object."
+msgid "SAMBA Support: Can't get the sambaUnixIdPool object."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:45
-msgid "SAMBA Support : Error modifying the sambaDomain object."
+msgid "SAMBA Support: Error modifying the sambaUnixIdPool object."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:48
-msgid "SAMBA Support : The %{attr} of the sambaDomain object is incorrect."
+msgid "SAMBA Support: The %{attr} of the sambaUnixIdPool object is incorrect."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.ssh.php:31

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-03 18:31+0200\n"
+"PO-Revision-Date: 2020-09-07 16:22+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -21,16 +21,16 @@ msgstr ""
 "X-Generator: Poedit 2.2.1\n"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:27
-msgid "SAMBA Support : Unable to load smbHash class."
+msgid "SAMBA Support: Unable to load smbHash class."
 msgstr "Support SAMBA : Impossible de charger la classe smbHash."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:30
-msgid "SAMBA Support : The constant %{const} is not defined."
+msgid "SAMBA Support: The constant %{const} is not defined."
 msgstr "Support SAMBA : La constante %{const} n'est pas définie."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:34
 msgid ""
-"SAMBA Support : The constants LS_SAMBA_SID_BASE_USER and "
+"SAMBA Support: The constants LS_SAMBA_SID_BASE_USER and "
 "LS_SAMBA_SID_BASE_GROUP must'nt have the same parity to keep SambaSID's "
 "unicity."
 msgstr ""
@@ -40,24 +40,25 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:39
 msgid ""
-"SAMBA Support : The attribute %{dependency} is missing. Unable to forge the "
+"SAMBA Support: The attribute %{dependency} is missing. Unable to forge the "
 "attribute %{attr}."
 msgstr ""
 "Support SAMBA : L'attribut %{dependency} est manquant. Impossible de générer "
 "l'attribut %{attr}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:42
-msgid "SAMBA Support : Can't get the sambaDomain object."
-msgstr "SAMBA Support : Impossible de récupérer l'objet sambaDomain."
+msgid "SAMBA Support: Can't get the sambaUnixIdPool object."
+msgstr "SAMBA Support : Impossible de récupérer l'objet sambaUnixIdPool."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:45
-msgid "SAMBA Support : Error modifying the sambaDomain object."
-msgstr "SAMBA Support : Erreur durant la modification de l'objet sambaDomain."
+msgid "SAMBA Support: Error modifying the sambaUnixIdPool object."
+msgstr ""
+"SAMBA Support : Erreur durant la modification de l'objet sambaUnixIdPool."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.samba.php:48
-msgid "SAMBA Support : The %{attr} of the sambaDomain object is incorrect."
+msgid "SAMBA Support: The %{attr} of the sambaUnixIdPool object is incorrect."
 msgstr ""
-"SAMBA Support : L'attribut %{attr} de l'objet sambaDomain est incorrect."
+"SAMBA Support : L'attribut %{attr} de l'objet sambaUnixIdPool est incorrect."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.ssh.php:31
 msgid "SSH Support : PhpSecLib is missing."

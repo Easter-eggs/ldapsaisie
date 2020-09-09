@@ -22,41 +22,44 @@
 
 /*
  **************************************************
- * Données de configuration pour le support SAMBA *
+ * SAMBA support configuration                    *
  **************************************************
  */
 
-// SID du domaine Samba géré
-define('LS_SAMBA_DOMAIN_SID','S-1-5-21-2421470416-3566881284-3047381809');
+// SID of the samba managed domain
+define('LS_SAMBA_DOMAIN_SID', 'S-1-5-21-2421470416-3566881284-3047381809');
 
-// Nom du domaine Samba géré (sambaDomainName)
-define('LS_SAMBA_DOMAIN_NAME','LS');
+// Name of the samba managed domain (sambaDomainName)
+define('LS_SAMBA_DOMAIN_NAME', 'LS');
 
-// Le DN de l'objet sambaDomain du domaine
-define('LS_SAMBA_DOMAIN_OBJECT_DN','sambaDomainName=LS,o=ls');
+// DN of the sambaDomain object of the domain
+define('LS_SAMBA_DOMAIN_OBJECT_DN', 'sambaDomainName=LS,o=ls');
 
-// Nombre de base pour le calcul des sambaSID Utilisateur
-define('LS_SAMBA_SID_BASE_USER',1000);
+// DN of the sambaUnixIdPool object (optional, default: LS_SAMBA_DOMAIN_OBJECT_DN)
+//define('LS_SAMBA_UNIX_ID_POOL_DN', null);
 
-// Nombre de base pour le calcul des sambaSID Groupe
-define('LS_SAMBA_SID_BASE_GROUP',1001);
+// Base number to calculate user sambaSID
+define('LS_SAMBA_SID_BASE_USER', 1000);
+
+// Base number to calculate group sambaSID
+define('LS_SAMBA_SID_BASE_GROUP', 1001);
 
 /**
- * NB : C'est deux nombres doivent être pour l'un paire et pour l'autre impaire
- * pour conserver l'unicité des SID
+ * NB : This two numbers must be for one even and for the other odd to maintain the
+ * uniqueness of the SIDs.
  **/
 
-// Nom de l'attribut LDAP uidNumber
+// LDAP attribute uidNumber name
 define('LS_SAMBA_UIDNUMBER_ATTR','uidNumber');
 
-// Nom de l'attribut LDAP gidNumber
+// LDAP attribute gidNumber name
 define('LS_SAMBA_GIDNUMBER_ATTR','gidNumber');
 
-// Nom de l'attribut LDAP userPassword
+// LDAP attribute userPassword name
 define('LS_SAMBA_USERPASSWORD_ATTR','userPassword');
 
-// Format du chemin du home
+// Format of the users's home directory value
 define('LS_SAMBA_HOME_PATH_FORMAT','\\SERVER\%{uid}');
 
-// Format du chemin du profile
+// Format of the users's samba profile path value
 define('LS_SAMBA_PROFILE_PATH_FORMAT','\\SERVER\profiles\%{uid}');
