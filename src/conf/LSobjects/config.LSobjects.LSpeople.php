@@ -827,10 +827,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_options' => array(
         'time' => True,
         'showTodayButton' => False,
-        'special_values' => array(
-          '0' => 'Never',
-        ),
       ),
+      'no_value_label' => 'Never',
       'rights' => array(
         'admin' => 'w'
       ),
@@ -852,10 +850,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_options' => array(
         'time' => True,
         'showTodayButton' => False,
-        'special_values' => array(
-          '0' => 'Never',
-        ),
       ),
+      'no_value_label' => 'Never',
       'rights' => array(
         'admin' => 'w'
       ),
@@ -882,7 +878,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           LS_SAMBA_INFINITY_TIME => 'Never',
         ),
       ),
-      'no_value_label' => 'Never',
+      'no_value_label' => 'Default (never)',
       'rights' => array(
         'admin' => 'w'
       ),
@@ -959,13 +955,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           LS_SAMBA_INFINITY_TIME => 'Never',
         ),
       ),
-      'no_value_label' => 'Never',
+      'no_value_label' => 'Default (never)',
       'rights' => array(
         'admin' => 'w'
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0
+        'modify' => 1
       )
     ),
     /* ----------- end -----------*/
@@ -987,7 +983,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           0 => 'Whenever',
         ),
       ),
-      'no_value_label' => 'Whenever',
+      'no_value_label' => 'Default (whenever)',
       'multiple' => true,
       'rights' => array(
         'admin' => 'w'

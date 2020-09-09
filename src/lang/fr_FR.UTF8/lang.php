@@ -42,6 +42,15 @@ $GLOBALS['LSlang'] = array (
 "Company" =>
   "Société",
 
+# LSobjects.LSpeople.attrs.sambaKickoffTime.no_value_label
+# LSobjects.LSpeople.attrs.sambaPwdMustChange.no_value_label
+"Default (never)" =>
+  "Par défaut (jamais)",
+
+# LSobjects.LSpeople.attrs.sambaPwdCanChange.no_value_label
+"Default (whenever)" =>
+  "Par défaut (n'importe quand)",
+
 # LSobjects.LSpeople.attrs.description.label
 # LSobjects.LSgroup.attrs.description.label
 # LSobjects.LSsysaccount.attrs.description.label
@@ -183,12 +192,10 @@ $GLOBALS['LSlang'] = array (
 "Nb / page :" =>
   "Nb / page :",
 
-# LSobjects.LSpeople.attrs.sambaLogonTime.html_options.special_values.0
-# LSobjects.LSpeople.attrs.sambaLogoffTime.html_options.special_values.0
-# LSobjects.LSpeople.attrs.sambaKickoffTime.no_value_label
+# LSobjects.LSpeople.attrs.sambaLogonTime.no_value_label
+# LSobjects.LSpeople.attrs.sambaLogoffTime.no_value_label
 # LSobjects.LSpeople.attrs.sambaKickoffTime.html_options.special_values.2147483647
 # LSobjects.LSpeople.attrs.sambaPwdLastSet.no_value_label
-# LSobjects.LSpeople.attrs.sambaPwdMustChange.no_value_label
 # LSobjects.LSpeople.attrs.sambaPwdMustChange.html_options.special_values.2147483647
 # LSobjects.LSpeople.attrs.sambaPwdCanChange.html_options.special_values.2147483647
 "Never" =>
@@ -335,7 +342,6 @@ $GLOBALS['LSlang'] = array (
 "Users" =>
   "Utilisateurs",
 
-# LSobjects.LSpeople.attrs.sambaPwdCanChange.no_value_label
 # LSobjects.LSpeople.attrs.sambaPwdCanChange.html_options.special_values.0
 "Whenever" =>
   "N'importe quand",
