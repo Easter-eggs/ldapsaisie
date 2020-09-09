@@ -1,0 +1,9 @@
+<sect4 id="config-LSattr_ldap_sambaAcctFlags">
+  <title>LSattr_ldap_sambaAcctFlags</title>
+  <para>Ce type est prévu pour gérer l'attribut <emphasis>sambaAcctFlags</emphasis> du
+  schéma Samba, qui au travers d'une seule et unique valeur, respectant un format prévu,
+  liste l'ensemble des drapeaux actifs d'un compte Samba. Il transforme l'unique valeur
+  de l'attribut LDAP en une liste de drapeaux actuellement activés sur le compte. Il est
+  conçu pour être utilisé conjointement avec le type d'attribut HTML
+  &LSattr_html_sambaAcctFlags;.</para>
+</sect4>

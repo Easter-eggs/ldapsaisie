@@ -144,6 +144,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'label' => 'Samba',
         'args' => array (
           'sambaSID',
+          'sambaAcctFlags',
           'sambaLogonTime',
           'sambaLogoffTime',
           'sambaKickoffTime',
@@ -697,6 +698,24 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'view' => 1,
       'form' => array (
         'modify' => 0
+      )
+    ),
+    /* ----------- end -----------*/
+
+    /* ----------- start -----------*/
+    'sambaAcctFlags' => array (
+      'label' => 'Samba account flags',
+      'ldap_type' => 'sambaAcctFlags',
+      'html_type' => 'sambaAcctFlags',
+      'required' => 1,
+      'default_value' => array('U'),
+      'rights' => array(
+        'admin' => 'w'
+      ),
+      'view' => 1,
+      'form' => array (
+        'create' => 1,
+        'modify' => 1
       )
     ),
     /* ----------- end -----------*/

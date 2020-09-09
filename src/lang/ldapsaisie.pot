@@ -396,6 +396,76 @@ msgstr ""
 msgid "Incorrect value"
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:134
+msgid "Account types"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:135
+msgid "Regular user account"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:136
+msgid "Workstation Trust Account"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:137
+msgid "Server Trust Account"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:138
+msgid "Domain Trust Account"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:139
+msgid "Majority Node Set (MNS) logon account"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:141
+msgid "Account settings"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:142
+msgid "Home directory required"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:143
+msgid "Account without password"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:144
+msgid "Password does not expire"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:145
+msgid "Account disabled"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:146
+msgid "Temporary duplicate of other account"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:147
+msgid "Account automatically locked"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:158
+msgid ""
+"LSattr_ldap_sambaAcctFlags: invalid attribute values count. This attribute "
+"type could only handle single value attribute."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:161
+msgid ""
+"LSattr_ldap_sambaAcctFlags: invalid attribute value. Fail to parse current "
+"flags set."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_sambaAcctFlags.php:164
+msgid ""
+"LSattr_ldap_sambaAcctFlags: invalid flag '%{flag}'. Can't format the LDAP "
+"attribute value."
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_ssh_key.php:57
 msgid "Display the full key."
 msgstr ""

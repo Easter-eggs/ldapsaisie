@@ -238,6 +238,10 @@ $GLOBALS['LSlang'] = array (
 "Samba Password (NT)" =>
   "Mot de passe Samba (NT)",
 
+# LSobjects.LSpeople.attrs.sambaAcctFlags.label
+"Samba account flags" =>
+  "Drapeaux de compte Samba",
+
 # LSobjects.LSpeople.attrs.sambaKickoffTime.label
 "Samba expiration time" =>
   "Date d'expiration Samba",

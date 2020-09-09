@@ -2,7 +2,7 @@
   <title>Configuration des attributs LDAP</title>
   <para>Cette section décrit les options propres à chacun des types d'attributs LDAP
   supportés par &LdapSaisie;.</para>
-  
+
   &conf-LSattr_ldap_ascii;
   &conf-LSattr_ldap_boolean;
   &conf-LSattr_ldap_compositeValueToJSON;
@@ -12,4 +12,5 @@
   &conf-LSattr_ldap_numeric;
   &conf-LSattr_ldap_password;
   &conf-LSattr_ldap_postaladdress;
+  &conf-LSattr_ldap_sambaAcctFlags;
 </sect3>

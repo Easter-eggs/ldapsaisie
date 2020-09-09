@@ -2,7 +2,7 @@
   <title>Configuration des attributs HTML</title>
   <para>Cette section décrit les options propres à chacun des types d'attributs HTML
   supportés par &LdapSaisie;.</para>
-  
+
   &conf-LSattr_html_boolean;
   &conf-LSattr_html_date;
   &conf-LSattr_html_image;
@@ -15,6 +15,7 @@
   &conf-LSattr_html_postaladdress;
   &conf-LSattr_html_pre;
   &conf-LSattr_html_rss;
+  &conf-LSattr_html_sambaAcctFlags;
   &conf-LSattr_html_select_box;
   &conf-LSattr_html_select_list;
   &conf-LSattr_html_select_object;
@@ -26,5 +27,5 @@
   &conf-LSattr_html_valueWithUnit;
   &conf-LSattr_html_wywiwyg;
   &conf-LSattr_html_xmpp;
-  
+
 </sect3>

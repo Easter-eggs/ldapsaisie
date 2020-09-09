@@ -11,6 +11,7 @@
 <!ENTITY conf-LSattr_html_postaladdress SYSTEM "LSattr_html_postaladdress.docbook">
 <!ENTITY conf-LSattr_html_pre SYSTEM "LSattr_html_pre.docbook">
 <!ENTITY conf-LSattr_html_rss SYSTEM "LSattr_html_rss.docbook">
+<!ENTITY conf-LSattr_html_sambaAcctFlags SYSTEM "LSattr_html_sambaAcctFlags.docbook">
 <!ENTITY conf-LSattr_html_select_box SYSTEM "LSattr_html_select_box.docbook">
 <!ENTITY conf-LSattr_html_select_list SYSTEM "LSattr_html_select_list.docbook">
 <!ENTITY conf-LSattr_html_select_object SYSTEM "LSattr_html_select_object.docbook">
@@ -24,5 +25,6 @@
 <!ENTITY conf-LSattr_html_xmpp SYSTEM "LSattr_html_xmpp.docbook">
 
 <!ENTITY LSattr_html_jsonCompositeAttribute "<link linkend='config-LSattr_html_jsonCompositeAttribute'>LSattr_html_jsonCompositeAttribute</link>">
+<!ENTITY LSattr_html_sambaAcctFlags "<link linkend='config-LSattr_html_sambaAcctFlags'>LSattr_html_sambaAcctFlags</link>">
 <!ENTITY LSattr_html_select_list "<link linkend='config-LSattr_html_select_list'>LSattr_html_select_list</link>">
 <!ENTITY LSattr_html_textarea "<link linkend='config-LSattr_html_textarea'>LSattr_html_textarea</link>">
