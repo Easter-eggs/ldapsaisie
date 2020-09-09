@@ -179,7 +179,7 @@ $GLOBALS['LSlang'] = array (
 "Name must contain alphanumeric values only." =>
   "Le nom doit contenir uniquement des valeurs alpha-numériques.",
 
-# templates/default/viewSearch.tpl:134
+# templates/default/viewSearch.tpl:113
 "Nb / page :" =>
   "Nb / page :",
 
