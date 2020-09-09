@@ -237,7 +237,7 @@ if (php_sapi_name() != "cli") return true;
 function cli_generate_lang_file($command_args) {
   // Use global variables to share it with sub-functions
   global $LSlang_cli_logger, $available_onlys, $available_withouts, $data, $translations, $interactive,
-  $copyoriginalvalue, $format, $curdir, $additionalfileformat, $copyoriginalvalue, $lang;
+  $interactive_exit, $copyoriginalvalue, $format, $curdir, $additionalfileformat, $copyoriginalvalue, $lang;
 
   // Initialize logger (if not already initialized by another CLI command)
   if (!isset($LSlang_cli_logger))
@@ -253,6 +253,7 @@ function cli_generate_lang_file($command_args) {
   $withouts = array();
   $copyoriginalvalue = False;
   $interactive = False;
+  $interactive_exit = False; // Exit flag set when user type 'q'
   $output = False;
   $additionalfileformat = False;
   $lang = null;
@@ -364,8 +365,66 @@ function cli_generate_lang_file($command_args) {
     }
   }
 
+  function interactive_ask($context, $msg) {
+    global $copyoriginalvalue, $interactive_exit;
+
+    if ($interactive_exit) {
+      if ($copyoriginalvalue)
+        return $msg;
+      return true;
+    }
+
+    // Format question
+    $empty_action = ($copyoriginalvalue?'copy original message':'pass');
+    $question ="\"$msg\"\n\n => Please enter translated string";
+    $question .= " (i";
+    if (!$copyoriginalvalue)
+      $question .= "/c";
+    $question .= "/q/? or leave empty to $empty_action): ";
+
+    while (true) {
+      if ($context)
+        fwrite(STDERR, "\n# $context\n");
+      fwrite(STDERR, $question);
+      $in = trim(fgets(STDIN));
+      switch($in) {
+        case 'q': // Exit interactive mode
+        case 'Q':
+          $interactive_exit = true;
+          return True;
+        case 'i': // Ignore
+        case 'I':
+          return True;
+        case 'c':
+        case 'C': // Copy
+          if (!$copyoriginalvalue)
+            return $msg;
+        case '?': // Help message
+          fwrite(STDERR, "Available choices:\n");
+          fwrite(STDERR, " - i: ignore this message\n");
+          if (!$copyoriginalvalue)
+            fwrite(STDERR, " - c: copy original message\n");
+          fwrite(STDERR, " - q: quit interactive mode and ignore all following untranslated messages\n");
+          fwrite(STDERR, " - ?: Show this message\n");
+          fwrite(STDERR, "Or leave empty to $empty_action.\n");
+          continue;
+        case "": // Empty
+          // On copy orignal value mode, return $msg
+          if ($copyoriginalvalue)
+            return $msg;
+          // Otherwise, leave translation empty
+          return "";
+        default:
+          // Return user input
+          return $in;
+      }
+    }
+    // Supposed to never happen
+    return true;
+  }
+
   function add($msg, $context=null) {
-    global $LSlang_cli_logger, $lang, $data, $translations, $interactive, $copyoriginalvalue, $format;
+    global $LSlang_cli_logger, $lang, $data, $translations, $interactive, $interactive_exit, $copyoriginalvalue, $format;
     $LSlang_cli_logger -> debug("add($msg, $context)");
     if ($msg == '')
       return;
@@ -388,28 +447,9 @@ function cli_generate_lang_file($command_args) {
       $translation = _($msg);
     }
     elseif ($interactive && $format != 'pot') {
-      if ($context)
-        fwrite(STDERR, "\n# $context\n");
-      if ($copyoriginalvalue) {
-        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or leave empty to copy original string) : ");
-        $in = trim(fgets(STDIN));
-        if ($in)
-          $translation = $in;
-        else
-          $translation = $msg;
-      }
-      else {
-        fwrite(STDERR, "\"$msg\"\n\n => Please enter translated string (or 'c' to copy original message, 'i' to ignore this message, leave empty to pass) : ");
-        $in = trim(fgets(STDIN));
-        if ($in) {
-          if ($in=="i")
-            return True;
-          if ($in=="c")
-            $translation = $msg;
-          else
-            $translation = $in;
-        }
-      }
+      $translation = interactive_ask($context, $msg);
+      if (!is_string($translation))
+        return true;
     }
     $data[$msg] = array (
       'translation' => $translation,
