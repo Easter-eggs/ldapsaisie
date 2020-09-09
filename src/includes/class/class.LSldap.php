@@ -220,25 +220,26 @@ class LSldap extends LSlog_staticLoggerClass {
    *                          )
    */
   public static function getEntry($object_type,$dn) {
-    $obj_conf=LSconfig :: get('LSobjects.'.$object_type);
-    if(is_array($obj_conf)){
-      $entry = self :: getLdapEntry($dn);
-      if ($entry === false) {
-        $newentry = self :: getNewEntry($dn,$obj_conf['objectclass'],array());
-
-        if (!$newentry) {
-          return;
-        }
-        return array('entry' => $newentry,'new' => true);
-      }
-      else {
-        return $entry;
-      }
-    }
-    else {
+    $obj_classes = LSconfig :: get("LSobjects.$object_type.objectclass");
+    if(!is_array($obj_classes)){
       LSerror :: addErrorCode('LSldap_03');
       return;
     }
+    $entry = self :: getLdapEntry($dn);
+    if ($entry === false) {
+      $newentry = self :: getNewEntry($dn, $obj_classes, array());
+      if (!$newentry) {
+        return;
+      }
+
+      // Mark entry as new
+      $newentry -> markAsNew();
+      return $newentry;
+    }
+    // Mark entry as NOT new
+    $entry -> markAsNew(false);
+
+    return $entry;
   }
 
   /**
@@ -296,87 +297,103 @@ class LSldap extends LSlog_staticLoggerClass {
    *
    * @retval boolean true si l'objet a bien été mis à jour, false sinon
    */
-  public static function update($object_type,$dn,$change) {
-    self :: log_debug($change);
-    $dropAttr=array();
-    $entry=self :: getEntry($object_type,$dn);
-    if (is_array($entry)) {
-      $new = $entry['new'];
-      $entry = $entry['entry'];
-    }
-    else {
-      $new = false;
+  public static function update($object_type, $dn, $change) {
+    self :: log_trace("update($object_type, $dn): change=".varDump($change));
+
+    // Retreive current LDAP entry
+    $entry = self :: getEntry($object_type, $dn);
+    if(!is_a($entry, 'Net_LDAP2_Entry')) {
+      LSerror :: addErrorCode('LSldap_04');
+      return;
     }
 
-    if($entry) {
-      foreach($change as $attrName => $attrVal) {
-        $drop = true;
-        if (is_array($attrVal)) {
-          foreach($attrVal as $val) {
-            if (!empty($val)||(is_string($val)&&($val=="0"))) {
-              $drop = false;
-              $changeData[$attrName][]=$val;
-            }
-          }
-        }
-        else {
-          if (!empty($attrVal)||(is_string($attrVal)&&($attrVal=="0"))) {
+    // Distinguish drop attributes from change attributes
+    $changed_attrs = array();
+    $dropped_attrs = array();
+    foreach($change as $attrName => $attrVal) {
+      $drop = true;
+      if (is_array($attrVal)) {
+        foreach($attrVal as $val) {
+          if (!empty($val)||(is_string($val)&&($val=="0"))) {
             $drop = false;
-            $changeData[$attrName][]=$attrVal;
+            $changed_attrs[$attrName][]=$val;
           }
         }
-        if($drop) {
-          $dropAttr[] = $attrName;
-        }
-      }
-      if (isset($changeData)) {
-        $entry -> replace($changeData);
-        self :: log_debug('change : <pre>'.print_r($changeData,true).'</pre>');
-        self :: log_debug('drop : <pre>'.print_r($dropAttr,true).'</pre>');
       }
       else {
-        self :: log_debug('No change');
+        if (!empty($attrVal)||(is_string($attrVal)&&($attrVal=="0"))) {
+          $drop = false;
+          $changed_attrs[$attrName][]=$attrVal;
+        }
       }
+      if($drop) {
+        $dropped_attrs[] = $attrName;
+      }
+    }
+    self :: log_trace("update($object_type, $dn): changed attrs=".varDump($changed_attrs));
+    self :: log_trace("update($object_type, $dn): dropped attrs=".varDump($dropped_attrs));
 
-      if ($new) {
-        self :: log_debug('LSldap :: add()');
+    // Set an error flag to false
+    $error = false;
+
+    // Handle attributes changes (if need)
+    if ($changed_attrs) {
+      $entry -> replace($changed_attrs);
+      if ($entry -> isNew()) {
+        self :: log_debug("update($object_type, $dn): add new entry");
         $ret = self :: $cnx -> add($entry);
       }
       else {
-        self :: log_debug('LSldap :: update()');
+        self :: log_debug("update($object_type, $dn): update entry (for changed attributes)");
         $ret = $entry -> update();
       }
 
       if (Net_LDAP2::isError($ret)) {
         LSerror :: addErrorCode('LSldap_05',$dn);
         LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
+        return false;
       }
-      else {
-        if (!empty($dropAttr) && !$new) {
-          foreach($dropAttr as $attr) {
-            $value = $entry -> getValue($attr);
-            if(Net_LDAP2::isError($value) || empty($value)) {
-              // Attribut n'existe pas dans l'annuaire
-              continue;
-            }
-            // M�thode bugg� : suppression impossible de certain attribut
-            // exemple : jpegPhoto
-            // $entry -> delete($attr);
-            $entry -> replace(array($attr =>array()));
-          }
-          $ret = $entry -> update();
-          if (Net_LDAP2::isError($ret)) {
-            LSerror :: addErrorCode('LSldap_06');
-            LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
-          }
-        }
-        return true;
-      }
+    }
+    elseif ($entry -> isNew()) {
+      self :: log_error("update($object_type, $dn): no changed attribute but it's a new entry...");
+      return false;
     }
     else {
-      LSerror :: addErrorCode('LSldap_04');
-      return;
+      self :: log_debug("update($object_type, $dn): no changed attribute");
     }
+
+    // Handle droped attributes (is need and not a new entry)
+    if ($dropped_attrs && !$entry -> isNew()) {
+      // $entry -> delete() method is buggy (for some attribute like jpegPhoto)
+      // Prefer replace attribute by an empty array
+      $replace_attrs = array();
+      foreach($dropped_attrs as $attr) {
+        // Check if attribute is present
+        if(!$entry -> exists($attr)) {
+          // Attribute not present on LDAP entry
+          self :: log_debug("update($object_type, $dn): dropped attr $attr is not present in LDAP entry => ignore it");
+          continue;
+        }
+        $replace_attrs[$attr] = array();
+      }
+      if (!$replace_attrs) {
+        self :: log_debug("update($object_type, $dn): no attribute to drop");
+        return true;
+      }
+
+      // Replace values in LDAP
+      $entry -> replace($replace_attrs);
+      self :: log_debug("update($object_type, $dn): update entry (for dropped attributes: ".implode(', ', array_keys($replace_attrs)).")");
+      $ret = $entry -> update();
+
+      // Check result
+      if (Net_LDAP2::isError($ret)) {
+        LSerror :: addErrorCode('LSldap_06');
+        LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
