@@ -54,7 +54,7 @@ class LSlog_email extends LSlog_handler {
 	public function __toStringDetails() {
 		return array_merge(
 			array("recipient=".$this -> recipient),
-			parent :: __toStringDetails(),
+			parent :: __toStringDetails()
 		);
 	}
 

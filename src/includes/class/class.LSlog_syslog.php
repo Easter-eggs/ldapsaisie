@@ -70,7 +70,7 @@ class LSlog_syslog extends LSlog_handler {
 	public function __toStringDetails() {
 		return array_merge(
 			array("priority=".$this -> priority),
-			parent :: __toStringDetails(),
+			parent :: __toStringDetails()
 		);
 	}
 
