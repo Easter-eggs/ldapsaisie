@@ -43,7 +43,8 @@ class LSlog_file extends LSlog_handler {
 		$this -> path = self :: getConfig('path', LSlog :: getConfig('filename', 'tmp/LS.log'));
 		if (substr($this -> path, 0, 1) != '/')
 			$this -> path = LS_ROOT_DIR."/".$this -> path;
-		$this -> logging('TRACE', "$this Enabled", get_class($this));
+		if ($this -> enabled)
+			LSlog :: log_trace("$this Enabled", get_class($this));
 	}
 
   /**

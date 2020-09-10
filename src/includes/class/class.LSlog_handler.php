@@ -88,6 +88,32 @@ class LSlog_handler {
 	}
 
 	/**
+	 * Get handler info
+	 *
+	 * @param[in] $key string The info name
+	 *
+	 * @retval mixed The info value
+	 **/
+	public function __get($key) {
+		switch ($key) {
+			case 'enabled':
+				return $this -> getConfig('enabled', true, 'bool');
+			case 'format':
+				if (php_sapi_name() == "cli")
+					$format = $this -> getConfig('cli_format', $this -> default_cli_format, 'string');
+				else
+					$format = $this -> getConfig('format', $this -> default_format, 'string');
+				// Add datetime prefix (if enabled)
+				if ($this -> getConfig('datetime_prefix', $this -> default_datetime_prefix, 'boolean')) {
+					$format = date($this -> getConfig('datetime_format', $this -> default_datetime_format, 'string'))." - $format";
+				}
+				return $format;
+		}
+		// Unknown key, log warning
+		LSlog :: log_warning("$this -> __get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
+	}
+
+	/**
 	 * Check system compatibility with this handler
 	 *
 	 * Note : LSlog do not generate no error about imcompatibly, it's
@@ -184,16 +210,8 @@ class LSlog_handler {
 	 **/
 	protected function format($level, $message, $logger=null) {
 		global $argv;
-		if (php_sapi_name() == "cli")
-			$format = $this -> getConfig('cli_format', $this -> default_cli_format, 'string');
-		else
-			$format = $this -> getConfig('format', $this -> default_format, 'string');
-		// Add datetime prefix (if enabled)
-		if ($this -> getConfig('datetime_prefix', $this -> default_datetime_prefix, 'boolean')) {
-			$format = date($this -> getConfig('datetime_format', $this -> default_datetime_format, 'string'))." - $format";
-		}
 		return getFData(
-			$format,
+			$this -> format,
 			array(
 					'level' => $level,
 					'message' => $message,
