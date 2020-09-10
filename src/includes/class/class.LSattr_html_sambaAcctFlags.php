@@ -42,12 +42,16 @@ class LSattr_html_sambaAcctFlags extends LSattr_html_select_box {
    *               la valeur des balises option et en valeur ce qui sera affiché.
    */
   public static function _getPossibleValues($options=false, $name=false, &$ldapObject=false) {
+    $translate_labels = LSconfig :: get('translate_labels', true, 'bool', $options);
     $retInfos = array();
     if (!LSsession :: loadLSclass('LSattr_ldap_sambaAcctFlags', null, true))
       return $retInfos;
     foreach(LSattr_ldap_sambaAcctFlags :: get_available_flags() as $group_label => $flags) {
+      if ($translate_labels)
+        foreach ($flags as $flag => $label)
+          $flags[$flag] = _($label);
       $retInfos[] = array(
-        'label' => $group_label,
+        'label' => ($translate_labels?_($group_label):$group_label),
         'possible_values' => $flags,
       );
     }

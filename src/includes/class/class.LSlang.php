@@ -407,7 +407,7 @@ function cli_generate_lang_file($command_args) {
           fwrite(STDERR, " - q: quit interactive mode and ignore all following untranslated messages\n");
           fwrite(STDERR, " - ?: Show this message\n");
           fwrite(STDERR, "Or leave empty to $empty_action.\n");
-          continue;
+          break;
         case "": // Empty
           // On copy orignal value mode, return $msg
           if ($copyoriginalvalue)
