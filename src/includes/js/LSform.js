@@ -38,6 +38,7 @@ var LSform = new Class({
           this.params={};
         }
         this._ajaxSubmit=this.params.ajaxSubmit;
+        LSdebug('LSform('+this.idform+'): ajaxSubmit='+this._ajaxSubmit);
 
         this.warnBox = new LSinfosBox({
           name: 'LSformWarnBox',
@@ -282,8 +283,8 @@ var LSform = new Class({
     onSubmit: function(event) {
       if (this.submit_confirmed) {
         // On non-ajax form, leave form submitting if already confirmed
-        LSdebug('onSubmit(): form submission already confirmed');
-        return;
+        LSdebug('onSubmit(): form submission already confirmed, do not stop submit event');
+        return true;
       }
 
       // Stop form submitting event
@@ -297,7 +298,7 @@ var LSform = new Class({
         return;
       }
       this.submitting = true;
-      console.log(this.LSform);
+      LSdebug(this.LSform);
       this.LSform.addClass('submitting');
 
       // Fire
@@ -306,6 +307,7 @@ var LSform = new Class({
     },
 
     onSubmitConfirm: function (confirmed, event) {
+      LSdebug("onSubmitConfirm("+confirmed+")");
       if (!confirmed) {
         this.submitting = false;
         this.LSform.removeClass('submitting');
@@ -316,6 +318,7 @@ var LSform = new Class({
       this.checkUploadFileDefined();
 
       if (this._ajaxSubmit) {
+        LSdebug("onSubmitConfirm(): AJAX submission enabled");
         this.LSformAjaxInput = new Element('input');
         this.LSformAjaxInput.setProperties ({
           type:   'hidden',
@@ -333,17 +336,20 @@ var LSform = new Class({
         this.LSform.send();
       }
       else {
+        LSdebug("onSubmitConfirm(): AJAX submission disabled");
         if($type(this.LSformAjaxInput)) {
           this.LSformAjaxInput.dispose();
         }
         this.submit_confirmed = true;
-        this.LSform.fireEvent('submit');
+        LSdebug("onSubmitConfirm("+confirmed+"): non-AJAX form, submit form again with submit_confirmed flag == TRUE.");
+        this.LSform.submit();
       }
     },
 
     checkUploadFileDefined: function() {
       this.LSform.getElements('input[type=file]').each(function(ipt) {
         if (ipt.files.length!=0) {
+          LSdebug("checkUploadFileDefined(): input[type=file] detected, disable AJAX submit.");
           this._ajaxSubmit=0;
         }
       }, this);
@@ -503,9 +509,9 @@ var LSform = new Class({
           final_result = false;
         }
       }, this);
-      LSdebug('LSform :: onFinalEventListenerCallback('+event+'): final result = '+final_result);
 
       // Run final callback
+      LSdebug('LSform :: onFinalEventListenerCallback('+event+'): run final_callback with final result = '+final_result);
       final_callback(final_result, event);
     },
 
