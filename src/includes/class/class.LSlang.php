@@ -425,7 +425,7 @@ function cli_generate_lang_file($command_args) {
 
   function add($msg, $context=null) {
     global $LSlang_cli_logger, $lang, $data, $translations, $interactive, $interactive_exit, $copyoriginalvalue, $format;
-    $LSlang_cli_logger -> debug("add($msg, $context)");
+    $LSlang_cli_logger -> trace("add($msg, $context)");
     if ($msg == '')
       return;
     if (!is_null($lang) && _($msg) != "$msg")
@@ -459,11 +459,11 @@ function cli_generate_lang_file($command_args) {
 
   function addFromLSconfig($pattern, $value='value', $excludes=array()) {
     global $LSlang_cli_logger;
-    $LSlang_cli_logger -> debug("addFromLSconfig($pattern, array(".implode(',', $excludes)."))");
+    $LSlang_cli_logger -> trace("addFromLSconfig($pattern, array(".implode(',', $excludes)."))");
     $keys = LSconfig :: getMatchingKeys($pattern);
-    $LSlang_cli_logger -> debug("addFromLSconfig : ".count($keys)." matching key(s)");
+    $LSlang_cli_logger -> trace("addFromLSconfig : ".count($keys)." matching key(s)");
     foreach ($keys as $key => $value) {
-      $LSlang_cli_logger -> debug("addFromLSconfig : $key = $value");
+      $LSlang_cli_logger -> trace("addFromLSconfig : $key = ".varDump($value));
       if ($value == 'key') {
         // Get the last key parts as value and all other as key
         $key_parts = explode('.', $key);
@@ -545,7 +545,9 @@ function cli_generate_lang_file($command_args) {
   if (!in_array('config', $withouts) && (!$only || $only == 'config')) {
     // LDAP Servers
     $objects = array();
+    $LSlang_cli_logger -> info("Looking for string to translate configuration of LDAP servers");
     foreach(LSconfig :: keys('ldap_servers') as $ldap_server_id) {
+      $LSlang_cli_logger -> debug("Looking for string to translate configuration of LDAP server #$ldap_server_id");
       addFromLSconfig("ldap_servers.$ldap_server_id.name");
       addFromLSconfig("ldap_servers.$ldap_server_id.subDnLabel");
       addFromLSconfig("ldap_servers.$ldap_server_id.recoverPassword.recoveryHashMail.subject");
@@ -573,6 +575,7 @@ function cli_generate_lang_file($command_args) {
 
     // LSobject
     foreach($objects as $obj) {
+      $LSlang_cli_logger -> info("Looking for string to translate configuration of object type $obj");
       addFromLSconfig("LSobjects.$obj.label");
 
       // LSrelation
@@ -651,19 +654,19 @@ function cli_generate_lang_file($command_args) {
   if (!in_array('templates', $withouts) && (!$only || $only == 'templates')) {
     function parse_template_file($file) {
       global $LSlang_cli_logger;
-      $LSlang_cli_logger -> debug("parse_template_file($file) : start ...");
+      $LSlang_cli_logger -> debug("Looking for string to translate in '$file' template file");
       $count = 0;
       foreach(file($file) as $line) {
         $count ++;
         if (preg_match_all('/\{ *tr +msg=["\']([^\}]+)["\'] *\}/',$line,$matches)) {
           foreach($matches[1] as $t) {
             $t = preg_replace('/[\'"]\|escape\:.*$/', '', $t);
-            $LSlang_cli_logger -> debug("  - \"$t\" # Line $count");
+            $LSlang_cli_logger -> trace("  - \"$t\" # Line $count");
             add($t, absolute2relative_path($file).":$count");
           }
         }
       }
-      $LSlang_cli_logger -> debug("parse_template_file($file) : done.");
+      $LSlang_cli_logger -> trace("parse_template_file($file) : done.");
     }
 
     function find_and_parse_template_file($dir) {
@@ -682,6 +685,7 @@ function cli_generate_lang_file($command_args) {
         }
       }
     }
+    $LSlang_cli_logger -> info("Looking for string to translate in templates file");
     find_and_parse_template_file(LS_ROOT_DIR.'/'.LS_TEMPLATES_DIR);
     find_and_parse_template_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_TEMPLATES_DIR);
   }
@@ -693,7 +697,7 @@ function cli_generate_lang_file($command_args) {
   if (!in_array('addons', $withouts) && (!$only || $only == 'addons')) {
     function parse_addon_file($file) {
       global $LSlang_cli_logger;
-      $LSlang_cli_logger -> debug("parse_addon_file($file)");
+      $LSlang_cli_logger -> debug("Looking for string to translate in '$file' LSaddon file");
       $count = 0;
       foreach(file($file) as $line) {
         $count++;
@@ -759,6 +763,7 @@ function cli_generate_lang_file($command_args) {
       }
     }
 
+    $LSlang_cli_logger -> info("Looking for string to translate in LSaddons PHP code");
     find_and_parse_addon_file(LS_ROOT_DIR.'/'.LS_ADDONS_DIR);
     find_and_parse_addon_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_ADDONS_DIR);
   }
@@ -820,6 +825,7 @@ function cli_generate_lang_file($command_args) {
   // Determine where to write result
   if ($output) {
     $output = relative2absolute_path($output);
+    $LSlang_cli_logger -> info("Write result in output file ($output)");
     try {
       $LSlang_cli_logger -> debug("Open output file ($output)");
       $fd = fopen($output, 'w');
