@@ -494,6 +494,51 @@ function cli_generate_lang_file($command_args) {
     }
   }
 
+  function addPossibleValuesFromLSconfig($context, $withouts, $level=0) {
+    global $LSlang_cli_logger;
+    $LSlang_cli_logger -> trace("addPossibleValuesFromLSconfig($context)");
+    if (in_array('select-list', $withouts))
+      return true;
+    if (!LSconfig :: get("$context.translate_labels", True, "bool"))
+      return true;
+    foreach(LSconfig :: get("$context.possible_values", array()) as $pkey => $plabel) {
+      if (is_array($plabel)) {
+        // Sub possible values
+        // Check level
+        if ($level > 1) {
+          $LSlang_cli_logger -> warning(
+            "addPossibleValuesFromLSconfig($context): Level to hight to handle sub possible values of $context.possible_values.$pkey"
+          );
+          return true;
+        }
+        addFromLSconfig("$context.possible_values.$pkey.label");
+        $LSlang_cli_logger -> trace("addPossibleValuesFromLSconfig($context): handle sub possible values of $context.possible_values.$pkey");
+        addPossibleValuesFromLSconfig("$context.possible_values.$pkey", $withouts, $level+1);
+      }
+      else {
+        switch ($pkey) {
+          case 'OTHER_OBJECT':
+            $LSlang_cli_logger -> trace("addPossibleValuesFromLSconfig($context): ignore $context.possible_values.$pkey (OTHER_OBJECT)");
+            break;
+          case 'OTHER_ATTRIBUTE':
+            if (is_array($plabel)) {
+              if (isset($plabel['json_component_key']))
+                addFromLSconfig("$context.possible_values.OTHER_ATTRIBUTE.json_component_label");
+              else
+                addFromLSconfig("$context.possible_values.OTHER_ATTRIBUTE.*");
+            }
+            else {
+              $LSlang_cli_logger -> warning("addPossibleValuesFromLSconfig($context): invalid $context.possible_values.OTHER_ATTRIBUTE config => Must be an array.");
+            }
+            break;
+          default:
+            add($plabel, "$context.possible_values.$pkey");
+            break;
+        }
+      }
+    }
+  }
+
   /*
    * Manage configuration parameters
    */
@@ -573,52 +618,8 @@ function cli_generate_lang_file($command_args) {
               addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.help_info");
               addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.check_data.*.msg");
 
-              if (
-                    LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.type") == 'select_list' &&
-                    LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.translate_labels", "True", "bool") &&
-                    !in_array('select-list', $withouts)
-                 )
-              {
-                foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values", array()) as $pkey => $plabel) {
-                  if (is_string($pkey)) {
-                    if ($pkey == 'OTHER_OBJECT')
-                      continue;
-                    elseif ($pkey == 'OTHER_ATTRIBUTE') {
-                      if (is_string($plabel))
-                        continue;
-                      elseif (is_array($plabel)) {
-                        if (isset($plabel['json_component_key']))
-                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.json_component_label");
-                        else
-                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.*");
-                      }
-                    }
-                    else
-                      add($plabel, "LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey");
-                  }
-                  elseif (is_int($pkey) && is_array($plabel)) {
-                    // Sub possible values
-                    addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey.label");
-                    foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey.possible_values", array()) as $ppkey => $pplabel) {
-                      if ($ppkey == 'OTHER_OBJECT')
-                        continue;
-                      elseif ($ppkey == 'OTHER_ATTRIBUTE') {
-                        if (is_string($pplabel))
-                          continue;
-                        elseif (is_array($pplabel)) {
-                          if (isset($pplabel['json_component_key']))
-                            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.json_component_label");
-                          else
-                            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.OTHER_ATTRIBUTE.*");
-                        }
-                      }
-                      elseif(is_string($pplabel)) {
-                        add($pplabel, "LSobjects.$obj.attrs.$attr.html_options.components.$c.options.possible_values.$pkey.possible_values.$ppkey");
-                      }
-                    }
-                  }
-                }
-              }
+              if (LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.components.$c.type") == 'select_list')
+                addPossibleValuesFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.components.$c.options", $withouts);
             }
             break;
           case 'labeledValue':
@@ -631,47 +632,7 @@ function cli_generate_lang_file($command_args) {
             break;
           case 'select_list':
           case 'select_box':
-            if (LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.translate_labels", "True", "bool") && !in_array('select-list', $withouts)) {
-              foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.possible_values", array()) as $pkey => $plabel) {
-                if (is_string($pkey)) {
-                  if ($pkey == 'OTHER_OBJECT')
-                    continue;
-                  elseif ($pkey == 'OTHER_ATTRIBUTE') {
-                    if (is_string($plabel))
-                      continue;
-                    elseif (is_array($plabel)) {
-                      if (isset($plabel['json_component_key']))
-                        addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.json_component_label");
-                      else
-                        addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.*");
-                    }
-                  }
-                  else
-                    add($plabel, "LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey");
-                }
-                elseif (is_int($pkey) && is_array($plabel)) {
-                  // Sub possible values
-                  addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey.label");
-                  foreach(LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey.possible_values", array()) as $ppkey => $pplabel) {
-                    if ($ppkey == 'OTHER_OBJECT')
-                      continue;
-                    elseif ($ppkey == 'OTHER_ATTRIBUTE') {
-                      if (is_string($pplabel))
-                        continue;
-                      elseif (is_array($pplabel)) {
-                        if (isset($pplabel['json_component_key']))
-                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.json_component_label");
-                        else
-                          addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.possible_values.OTHER_ATTRIBUTE.*");
-                      }
-                    }
-                    elseif(is_string($pplabel)) {
-                      add($pplabel, "LSobjects.$obj.attrs.$attr.html_options.possible_values.$pkey.possible_values.$ppkey");
-                    }
-                  }
-                }
-              }
-            }
+            addPossibleValuesFromLSconfig("LSobjects.$obj.attrs.$attr.html_options", $withouts);
             break;
           case 'valueWithUnit':
             addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.units.*");
