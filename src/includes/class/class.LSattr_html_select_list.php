@@ -66,12 +66,12 @@ class LSattr_html_select_list extends LSattr_html{
   }
 
   /**
-   * Retourne un tableau des valeurs possibles de la liste de l'attribut courant
+   * Return array of possible values with translated labels (if enabled)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
-   *               la valeur des balises option et en valeur ce qui sera affiché.
+   * @retval array Associative array with possible values as key and corresponding
+   *               translated label as value.
    */
   protected function getPossibleValues() {
     return static :: _getPossibleValues(
@@ -82,7 +82,7 @@ class LSattr_html_select_list extends LSattr_html{
   }
 
   /**
-   * Retourne un tableau des valeurs possibles de la liste
+   * Return array of possible values with translated labels (if enabled)
    *
    * @param[in] $options Attribute options (optional)
    * @param[in] $name Attribute name (optional)
@@ -90,11 +90,12 @@ class LSattr_html_select_list extends LSattr_html{
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval array Tableau associatif des valeurs possible de la liste avec en clé
-   *               la valeur des balises option et en valeur ce qui sera affiché.
+   * @retval array Associative array with possible values as key and corresponding
+   *               translated label as value.
    */
   public static function _getPossibleValues($options=false,$name=false,&$ldapObject=false) {
     $retInfos = array();
+    $translate_labels = LSconfig :: get('translate_labels', true, 'bool', $options);
     if (isset($options['possible_values']) && is_array($options['possible_values'])) {
       foreach($options['possible_values'] as $val_key => $val_label) {
         if($val_key==='OTHER_OBJECT') {
@@ -105,47 +106,32 @@ class LSattr_html_select_list extends LSattr_html{
           $attrInfos=static :: getLSattributePossibleValues($val_label, $options, $name, $ldapObject);
           $retInfos=static :: _array_merge($retInfos,$attrInfos);
         }
-	elseif (is_array($val_label)) {
-		if (!isset($val_label['possible_values']) || !is_array($val_label['possible_values']) || !isset($val_label['label']))
-			continue;
-		$subRetInfos=array();
-		foreach($val_label['possible_values'] as $vk => $vl) {
-			if ($vk==='OTHER_OBJECT') {
-				$objInfos=static :: getLSobjectPossibleValues($vl,$options,$name);
-				$subRetInfos=static :: _array_merge($subRetInfos,$objInfos);
-			}
-			else {
-				$vk=$ldapObject->getFData($vk);
-				if (isset($options['translate_labels']) && !$options['translate_labels']) {
-					$vl=$ldapObject->getFData($vl);
-				}
-				else {
-					$vl=$ldapObject->getFData(__($vl));
-				}
-				$subRetInfos[$vk]=$vl;
-			}
-		}
-		static :: _sort($subRetInfos,$options);
-		if (isset($options['translate_labels']) && !$options['translate_labels']) {
-			$subRetLabel = $ldapObject->getFData($val_label['label']);
-		}
-		else {
-			$subRetLabel = $ldapObject->getFData(__($val_label['label']));
-		}
-		$retInfos[] = array (
-			'label' => $subRetLabel,
-			'possible_values' => $subRetInfos
-		);
-	}
+      	elseif (is_array($val_label)) {
+      		if (!isset($val_label['possible_values']) || !is_array($val_label['possible_values']) || !isset($val_label['label']))
+      			continue;
+      		$subRetInfos=array();
+      		foreach($val_label['possible_values'] as $vk => $vl) {
+      			if ($vk==='OTHER_OBJECT') {
+      				$objInfos=static :: getLSobjectPossibleValues($vl,$options,$name);
+      				$subRetInfos=static :: _array_merge($subRetInfos,$objInfos);
+      			}
+      			else {
+      				$vk = $ldapObject->getFData($vk);
+    					$vl = $ldapObject->getFData(($translate_labels?__($vl):$vl));
+      				$subRetInfos[$vk] = $vl;
+      			}
+      		}
+      		static :: _sort($subRetInfos,$options);
+      		$subRetLabel = $ldapObject->getFData(($translate_labels?__($val_label['label']):$val_label['label']));
+      		$retInfos[] = array (
+      			'label' => $subRetLabel,
+      			'possible_values' => $subRetInfos
+      		);
+      	}
         else {
-          $val_key=$ldapObject->getFData($val_key);
-          if (isset($options['translate_labels']) && !$options['translate_labels']) {
-            $val_label=$ldapObject->getFData($val_label);
-          }
-          else {
-            $val_label=$ldapObject->getFData(__($val_label));
-          }
-          $retInfos[$val_key]=$val_label;
+          $val_key = $ldapObject->getFData($val_key);
+          $val_label = $ldapObject->getFData(($translate_labels?__($val_label):$val_label));
+          $retInfos[$val_key] = $val_label;
         }
       }
     }
