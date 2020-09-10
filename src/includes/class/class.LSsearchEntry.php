@@ -253,10 +253,9 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
       else
         self :: log_error("__get($key): custom info function is not callable: ".varDump($this->params['customInfos'][$key]['function']));
     }
-    else {
-      self :: log_warning('LSsearchEntry : '.$this -> dn.' => Unknown property '.$key.' !');
-      return __("Unknown property !");
-    }
+    // Unknown key, log warning
+    self :: log_warning("$this -> __get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
+    return __("Unknown property !");
   }
 
   /**

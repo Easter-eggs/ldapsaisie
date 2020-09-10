@@ -1841,6 +1841,8 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
       return false;
     }
+    // Unknown key, log warning
+		self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
   }
 
 

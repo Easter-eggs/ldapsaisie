@@ -122,6 +122,8 @@ class LSrelation extends LSlog_staticLoggerClass {
           $this -> getConfig('linkAttribute', false)
         );
     }
+    // Unknown key, log warning
+		self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
   }
 
   /**

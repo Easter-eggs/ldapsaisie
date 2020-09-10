@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Logger class for LSlog
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSlog_logger {
+class LSlog_logger extends LSlog_staticLoggerClass {
 
 	// Name
 	private $name;
@@ -95,6 +97,8 @@ class LSlog_logger {
 			case 'level':
 				return $this -> level;
 		}
+		// Unknown key, log warning
+		self :: log_warning("$this -> __get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
 		return;
 	}
 

@@ -65,6 +65,8 @@ class LSurlRequest {
     if (array_key_exists($key, $this->url_params)) {
       return urldecode($this->url_params[$key]);
     }
+    // Unknown key, log warning
+		self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
   }
 
   /**
