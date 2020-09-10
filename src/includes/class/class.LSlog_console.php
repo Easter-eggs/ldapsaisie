@@ -43,7 +43,7 @@ class LSlog_console extends LSlog_handler {
 		$this -> stdout = fopen('php://stdout', 'w');
 		$this -> stderr = fopen('php://stderr', 'w');
 		if ($this -> enabled)
-			LSlog :: log_trace("$this Enabled", get_class($this));
+			self :: log_trace("$this Enabled", get_class($this));
 	}
 
 	/**

@@ -44,7 +44,7 @@ class LSlog_file extends LSlog_handler {
 		if (substr($this -> path, 0, 1) != '/')
 			$this -> path = LS_ROOT_DIR."/".$this -> path;
 		if ($this -> enabled)
-			LSlog :: log_trace("$this Enabled", get_class($this));
+			self :: log_trace("$this Enabled", get_class($this));
 	}
 
   /**

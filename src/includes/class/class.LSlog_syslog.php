@@ -60,7 +60,7 @@ class LSlog_syslog extends LSlog_handler {
 		parent :: __construct($config);
 		$this -> priority = static :: getConfig('priority');
 		if ($this -> enabled)
-			LSlog :: log_trace("$this Enabled", get_class($this));
+			self :: log_trace("$this Enabled", get_class($this));
 	}
 
 	/**

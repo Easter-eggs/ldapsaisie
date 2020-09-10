@@ -40,7 +40,7 @@ class LSlog_system extends LSlog_handler {
 	public function __construct($config) {
 		parent :: __construct($config);
 		if ($this -> enabled)
-			LSlog :: log_trace("$this Enabled", get_class($this));
+			self :: log_trace("$this Enabled", get_class($this));
 	}
 
 	/**

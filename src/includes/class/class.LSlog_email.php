@@ -44,7 +44,7 @@ class LSlog_email extends LSlog_handler {
 		parent :: __construct($config);
 		$this -> recipient = self :: getConfig('recipient');
 		if ($this -> enabled)
-			LSlog :: log_trace("$this Enabled", get_class($this));
+			self :: log_trace("$this Enabled", get_class($this));
 	}
 
   /**

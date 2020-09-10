@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Default logging handler
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSlog_handler {
+class LSlog_handler extends LSlog_staticLoggerClass {
 
 	// The handler configuration
 	protected $config;
@@ -110,7 +112,7 @@ class LSlog_handler {
 				return $format;
 		}
 		// Unknown key, log warning
-		LSlog :: log_warning("$this -> __get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
+		self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
 	}
 
 	/**
@@ -151,10 +153,10 @@ class LSlog_handler {
 	 **/
 	public function setLevel($level) {
 		if (!is_null($level) && !LSlog :: checkLevelExists($level)) {
-			LSlog :: error("Invalid log level '$level'");
+			self :: log_error("Invalid log level '$level'");
 			return false;
 		}
-		LSlog :: debug("Log handler ".get_called_class()." level set to ".(is_null($level)?'default':$level));
+		self :: log_debug("Log handler ".get_called_class()." level set to ".(is_null($level)?'default':$level));
 		$this -> level = $level;
 	}
 
