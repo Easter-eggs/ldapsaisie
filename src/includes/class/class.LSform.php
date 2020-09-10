@@ -33,6 +33,7 @@ LSsession :: loadLSclass('LSlog_staticLoggerClass');
 class LSform extends LSlog_staticLoggerClass {
   var $ldapObject;
   var $idForm;
+  var $config;
   var $can_validate = true;
   var $elements = array();
   var $_rules = array();
@@ -72,7 +73,21 @@ class LSform extends LSlog_staticLoggerClass {
       $this -> submit = $submit;
     }
     $this -> ldapObject =& $ldapObject;
+    $this -> config = $ldapObject -> getConfig('LSform');
     LSsession :: loadLSclass('LSformElement');
+  }
+
+  /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  public function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> config);
   }
 
   /**
@@ -121,7 +136,7 @@ class LSform extends LSlog_staticLoggerClass {
     );
     LStemplate :: assign('LSform_object',$LSform_object);
 
-    $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
+    $layout_config = $this -> getConfig("layout");
 
     if (!isset($this -> dataEntryFormConfig['disabledLayout']) || $this -> dataEntryFormConfig['disabledLayout']==false) {
       if (is_array($layout_config)) {
@@ -176,7 +191,7 @@ class LSform extends LSlog_staticLoggerClass {
     LStemplate :: assign('LSform_fields',$fields);
 
     $JSconfig = array (
-      'ajaxSubmit' => ((isset($this -> config['LSform']['ajaxSubmit']))?$this -> config['LSform']['ajaxSubmit']:1)
+      'ajaxSubmit' => intval($this -> getConfig('ajaxSubmit', true, 'boolean')),
     );
 
     if (!empty($this -> warnings)) {
@@ -255,7 +270,7 @@ class LSform extends LSlog_staticLoggerClass {
     }
     LStemplate :: assign('LSform_fields',$fields);
 
-    $layout_config=LSconfig :: get("LSobjects.".$LSform_object['type'].".LSform.layout");
+    $layout_config = $this -> getConfig("layout");
     if (is_array($layout_config)) {
       LStemplate :: assign('LSform_layout',$layout_config);
     }
@@ -705,7 +720,7 @@ class LSform extends LSlog_staticLoggerClass {
    public function applyDataEntryForm($dataEntryForm) {
      $dataEntryForm=(string)$dataEntryForm;
      $objType = $this -> ldapObject -> getType();
-     $config=LSconfig :: get("LSobjects.".$objType.".LSform.dataEntryForm.".$dataEntryForm);
+     $config = $this -> getConfig("dataEntryForm.$dataEntryForm");
      if (is_array($config)) {
        if (!is_array($config['displayedElements'])) {
          LSerror :: addErrorCode('LSform_08',$dataEntryForm);
@@ -739,6 +754,7 @@ class LSform extends LSlog_staticLoggerClass {
     public static function listAvailableDataEntryForm($type) {
       $retval=array();
       if (LSsession ::loadLSobject($type)) {
+        // Static method: couldn't use $this -> getConfig()
         $config=LSconfig :: get("LSobjects.".$type.".LSform.dataEntryForm");
         if (is_array($config)) {
           foreach($config as $name => $conf) {
