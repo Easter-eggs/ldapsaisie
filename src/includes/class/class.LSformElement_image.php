@@ -97,12 +97,11 @@ class LSformElement_image extends LSformElement {
       return true;
     }
 
-    if (isset($_FILES[$this -> name])) {
+    if ($this -> checkIsInPostData()) {
       if (isset($_FILES[$this -> name]['tmp_name']) && is_uploaded_file($_FILES[$this -> name]['tmp_name'])) {
         $fp = fopen($_FILES[$this -> name]['tmp_name'], "r");
-        $buf = fread($fp, filesize($_FILES[$this -> name]['tmp_name']));
+        $return[$this -> name][0] = fread($fp, filesize($_FILES[$this -> name]['tmp_name']));
         fclose($fp);
-        $return[$this -> name][0] = $buf;
       }
       else {
         self :: log_debug('LSformElement_image('.$this->name.')->getPostData(): uploaded tmp file not found => '.varDump($_FILES[$this -> name]));
@@ -120,6 +119,21 @@ class LSformElement_image extends LSformElement {
         $return[$this -> name][0]='';
       }
     }
+    return true;
+  }
+
+  /**
+   * Check if file is present in POST data
+   *
+   * @return boolean True if file is in POST data, false otherwise
+   */
+  public function checkIsInPostData() {
+    // Check if present in $_FILES
+    if (!isset($_FILES[$this -> name]) || !is_array($_FILES[$this -> name]))
+      return false;
+    // Check if a file is submited
+    if ($_FILES[$this -> name]['error'] == UPLOAD_ERR_NO_FILE)
+      return false;
     return true;
   }
 
