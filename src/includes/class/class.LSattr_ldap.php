@@ -54,6 +54,15 @@ class LSattr_ldap extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Allow conversion of LSattr_ldap to string
+   *
+   * @retval string The string representation of the LSattr_ldap
+   */
+  public function __toString() {
+    return "<".get_class($this)." ".$this -> name.">";
+  }
+
+  /**
    * Retourne la valeur de l'attribut après traitement lié à son type ldap
    *
    * @param[in] $data mixed La valeur de l'attribut
