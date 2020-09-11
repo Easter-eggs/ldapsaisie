@@ -141,6 +141,7 @@ dn: uid=hmartin,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 uid: hmartin
 homeDirectory: /home/com
@@ -168,6 +169,7 @@ dn: uid=s.ldapsaisie,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 loginShell: /bin/false
 uidNumber: 101036
@@ -194,6 +196,7 @@ dn: uid=ls,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 uid: ls
 homeDirectory: /home/ls
@@ -222,6 +225,7 @@ uid: erwpa
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 uidNumber: 101082
 sambaAcctFlags: [U          ]
@@ -248,6 +252,7 @@ dn: uid=eeggs2,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 uid: eeggs2
 uidNumber: 1000000
 gidNumber: 102009
@@ -269,6 +274,7 @@ dn: uid=eeggs3,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 uid: eeggs3
 uidNumber: 10000000
 gidNumber: 102009
@@ -368,6 +374,7 @@ dn: uid=user1,ou=people,ou=company1,ou=companies,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 givenName: prenom1
 loginShell: /bin/false
@@ -390,6 +397,7 @@ dn: uid=user2,ou=people,ou=company1,ou=companies,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 givenName: prenom2
 loginShell: /bin/false
@@ -440,6 +448,7 @@ dn: uid=eeggs,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 loginShell: /bin/bash
 personalTitle: M.
@@ -469,6 +478,7 @@ dn: uid=invite,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 givenName: Utilisateur
 loginShell: /bin/false
@@ -490,6 +500,7 @@ dn: uid=demo,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 givenName: Demonstration
 loginShell: /bin/false
@@ -512,6 +523,7 @@ dn: uid=admin,ou=people,o=ls
 objectClass: top
 objectClass: lspeople
 objectClass: posixAccount
+objectClass: shadowAccount
 objectClass: sambaSamAccount
 givenName: Administration
 loginShell: /bin/false

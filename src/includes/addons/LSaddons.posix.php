@@ -261,3 +261,19 @@ LSerror :: defineError('POSIX_01',
     }
     return $uids;
   }
+
+
+/**
+ * Generate shadowLastChange attribute value
+ *
+ * Just return a shadowLastChange value corresponding to current date.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $anything anything
+ *
+ * @retval integer The shadowLastChange attribute value (=current date)
+ */
+function generate_shadowLastChange($anything) {
+  return time()/86400;
+}

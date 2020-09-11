@@ -25,6 +25,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     'top',
     'lspeople',
     'posixAccount',
+    'shadowAccount',
     'sambaSamAccount',
   ),
   'rdn' => 'uid',
@@ -137,7 +138,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'uidNumber',
           'gidNumber',
           'loginShell',
-          'homeDirectory'
+          'homeDirectory',
+          'gecos',
+          'shadowExpire',
+          'shadowMax',
+          'shadowInactive',
+          'shadowLastChange',
         )
       ),
       'Samba' => array (
@@ -269,35 +275,6 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     /* ----------- end -----------*/
 
     /* ----------- start -----------*/
-    'uidNumber' => array (
-      'label' => 'Numeric identifier',
-      'ldap_type' => 'numeric',
-      'html_type' => 'text',
-      'required' => 1,
-      'generate_function' => 'generate_samba_uidNumber',
-      'check_data' => array (
-        'numeric' => array(
-          'msg' => "The numeric identifier must be an integer."
-        ),
-      ),
-      'validation' => array (
-        array (
-          'filter' => 'uidNumber=%{val}',
-          'result' => 0,
-          'msg' => 'This uid is already used.'
-        )
-      ),
-      'rights' => array(
-        'admin' => 'w'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 0,
-      )
-    ),
-    /* ----------- end -----------*/
-
-    /* ----------- start -----------*/
     'givenName' => array (
       'label' => 'First Name',
       'ldap_type' => 'ascii',
@@ -366,101 +343,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1
-      )
-    ),
-    /* ----------- end -----------*/
-
-    /* ----------- start -----------*/
-    'gidNumber' => array (
-      'label' => 'Main group',
-      'ldap_type' => 'numeric',
-      'html_type' => 'select_list',
-      'html_options' => array (
-        'possible_values' => array(
-          '0' => 'No group',
-          array (
-            'label' => 'LDAP Groups',
-            'possible_values' => array (
-              'OTHER_OBJECT' => array (
-              'object_type' => 'LSgroup',                      // Nom de l'objet à lister
-              'display_name_format' => '%{cn} (%{gidNumber})',   // Spécifie le attributs à lister pour le choix,
-                                                                 // si non définie => utilisation du 'display_name_format'
-                                                                 // de la définition de l'objet
-
-              'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par
-              /*'filter' =>                         // le formulaire spécifie les filtres de recherche pour
-                array (                           // l'établissement de la liste d'objets :
-                  array(                          // Premier filtre
-                    'filter' => 'cn=*a*',
-                    //'basedn' => 'o=company',
-                    'scope' => 'sub',
-                  )
-                )*/
-              )
-            )
-          )
-        )
       ),
-      'multiple' => false,
-      'required' => 1,
-      'validation' => array (
-        array (
-          'msg' => "This group doesn't exist.",
-          'object_type' => 'LSgroup',           // 'object_type' : Permet definir le type d'objet recherchés
-          //'basedn' => 'o=company',                    // et d'utiliser les objectClass définis dans le fichier de configuration
-          'filter' => '(gidNumber=%{val})',       // pour la recherche
-          'result' => 1
-        )
-      ),
-      'rights' => array(
-        'admin' => 'w',
-        'godfather' => 'r'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-        'create' => 1
-      ),
-      'dependAttrs' => array(
-        'sambaPrimaryGroupSID',
-      )
-    ),
-    /* ----------- end -----------*/
-
-    /* ----------- start -----------*/
-    'loginShell' => array (
-      'label' => 'Command shell',
-      'help_info' => "Allow user to connect a POSIX system.",
-      'ldap_type' => 'boolean',
-      'ldap_options' => array (
-        'true_value' => '/bin/bash',
-        'false_value' => '/bin/false'
-      ),
-      'html_type' => 'boolean',
-      'required' => 1,
-      'default_value' => 'no',
-      'rights' => array(
-        'admin' => 'w'
-      ),
-      'view' => 1,
-      'form' => array (
-        'modify' => 1,
-        'create' => 1
-      )
-    ),
-    /* ----------- end -----------*/
-
-    /* ----------- start -----------*/
-    'homeDirectory' => array (
-      'label' => 'Home Directory',
-      'ldap_type' => 'ascii',
-      'html_type' => 'text',
-      'required' => 1,
-      'generate_function' => 'generate_homeDirectory',
-      'rights' => array(
-        'admin' => 'r'
-      ),
-      'view' => 1
+      'dependAttrs' => array('gecos'),
     ),
     /* ----------- end -----------*/
 
@@ -599,7 +483,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
       'dependAttrs' => array(
         'sambaLMPassword',
-        'sambaNTPassword'
+        'sambaNTPassword',
+        'sambaPwdLastSet',
+        'shadowLastChange',
       ),
       'form' => array (
         'modify' => 1,
@@ -693,7 +579,250 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     /* ----------- end -----------*/
 
     /************************************************
-     *              Samba Attributres
+     *              POSIX Attributes
+     ************************************************/
+
+     /* ----------- start -----------*/
+     'uidNumber' => array (
+       'label' => 'Numeric identifier',
+       'ldap_type' => 'numeric',
+       'html_type' => 'text',
+       'required' => 1,
+       'generate_function' => 'generate_samba_uidNumber',
+       'check_data' => array (
+         'numeric' => array(
+           'msg' => "The numeric identifier must be an integer."
+         ),
+       ),
+       'validation' => array (
+         array (
+           'filter' => 'uidNumber=%{val}',
+           'result' => 0,
+           'msg' => 'This uid is already used.'
+         )
+       ),
+       'rights' => array(
+         'admin' => 'w'
+       ),
+       'view' => 1,
+       'form' => array (
+         'modify' => 0,
+       )
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'gidNumber' => array (
+       'label' => 'Main group',
+       'ldap_type' => 'numeric',
+       'html_type' => 'select_list',
+       'html_options' => array (
+         'possible_values' => array(
+           '0' => 'No group',
+           array (
+             'label' => 'LDAP Groups',
+             'possible_values' => array (
+               'OTHER_OBJECT' => array (
+               'object_type' => 'LSgroup',                      // Nom de l'objet à lister
+               'display_name_format' => '%{cn} (%{gidNumber})',   // Spécifie le attributs à lister pour le choix,
+                                                                  // si non définie => utilisation du 'display_name_format'
+                                                                  // de la définition de l'objet
+
+               'value_attribute' => 'gidNumber',   // Spécifie le attributs dont la valeur sera retournée par
+               /*'filter' =>                         // le formulaire spécifie les filtres de recherche pour
+                 array (                           // l'établissement de la liste d'objets :
+                   array(                          // Premier filtre
+                     'filter' => 'cn=*a*',
+                     //'basedn' => 'o=company',
+                     'scope' => 'sub',
+                   )
+                 )*/
+               )
+             )
+           )
+         )
+       ),
+       'multiple' => false,
+       'required' => 1,
+       'validation' => array (
+         array (
+           'msg' => "This group doesn't exist.",
+           'object_type' => 'LSgroup',           // 'object_type' : Permet definir le type d'objet recherchés
+           //'basedn' => 'o=company',                    // et d'utiliser les objectClass définis dans le fichier de configuration
+           'filter' => '(gidNumber=%{val})',       // pour la recherche
+           'result' => 1
+         )
+       ),
+       'rights' => array(
+         'admin' => 'w',
+         'godfather' => 'r'
+       ),
+       'view' => 1,
+       'form' => array (
+         'modify' => 1,
+         'create' => 1
+       ),
+       'dependAttrs' => array(
+         'sambaPrimaryGroupSID',
+       )
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'loginShell' => array (
+       'label' => 'Command shell',
+       'help_info' => "Allow user to connect a POSIX system.",
+       'ldap_type' => 'boolean',
+       'ldap_options' => array (
+         'true_value' => '/bin/bash',
+         'false_value' => '/bin/false'
+       ),
+       'html_type' => 'boolean',
+       'required' => 1,
+       'default_value' => 'no',
+       'rights' => array(
+         'admin' => 'w'
+       ),
+       'view' => 1,
+       'form' => array (
+         'modify' => 1,
+         'create' => 1
+       )
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'homeDirectory' => array (
+       'label' => 'Home Directory',
+       'ldap_type' => 'ascii',
+       'html_type' => 'text',
+       'required' => 1,
+       'generate_function' => 'generate_homeDirectory',
+       'rights' => array(
+         'admin' => 'r'
+       ),
+       'view' => 1
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'gecos' => array (
+       'label' => 'Gecos',
+       'ldap_type' => 'ascii',
+       'html_type' => 'text',
+       'html_options' => array(
+         'generate_value_format' => '%{cn~}',
+         'autoGenerateOnModify' => true,   // default : false
+         'autoGenerateOnCreate' => true    // default : false
+       ),
+       'required' => 1,
+       'generate_value_format' => '%{cn~}',
+       'rights' => array(
+         'admin' => 'w'
+       ),
+       'view' => 1,
+       'form' => array(
+         'modify' => 1,
+       )
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'shadowExpire' => array (
+       'label' => 'Password expiration',
+       'ldap_type' => 'shadowExpire',
+       'html_type' => 'date',
+       'html_options' => array(
+         'time' => false,
+         'showNowButton' => False,
+         'special_values' => array(
+           '0' => 'Always (disable account)',
+         ),
+       ),
+       'required' => 0,
+       'generate_function' => 'generate_shadowExpire_from_sambaPwdMustChange',
+       'rights' => array(
+         'admin' => 'w'
+       ),
+       'view' => 1,
+       'form' => array(
+         'modify' => 1,
+       )
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'shadowMax' => array (
+       'label' => 'Password validity (in days)',
+       'help_info' => 'The maximum number of days the password is valid.',
+       'ldap_type' => 'numeric',
+       'html_type' => 'text',
+       'check_data' => array (
+         'integer' => array(
+           'params' => array(
+             'positive' => true,
+           ),
+           'msg' => "The password validity must be an positive integer.",
+         ),
+       ),
+       'required' => 0,
+       'rights' => array(
+         'admin' => 'w'
+       ),
+       'view' => 1,
+       'form' => array(
+         'create' => 1,
+         'modify' => 1,
+       )
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'shadowInactive' => array (
+       'label' => 'Inactivity allowed (in days)',
+       'help_info' => 'The number of days of inactivity allowed for the specified user.',
+       'ldap_type' => 'numeric',
+       'html_type' => 'text',
+       'check_data' => array (
+         'integer' => array(
+           'params' => array(
+             'positive' => true,
+           ),
+           'msg' => "The inactivity allowed must be an positive integer.",
+         ),
+       ),
+       'required' => 0,
+       'rights' => array(
+         'admin' => 'w'
+       ),
+       'view' => 1,
+       'form' => array(
+         'create' => 1,
+         'modify' => 1,
+       )
+     ),
+     /* ----------- end -----------*/
+
+     /* ----------- start -----------*/
+     'shadowLastChange' => array (
+       'label' => 'Password last change time',
+       'ldap_type' => 'shadowExpire',
+       'html_type' => 'date',
+       'html_options' => array(
+         'time' => False,
+         'showNowButton' => False,
+       ),
+       'generate_function' => 'generate_shadowLastChange',
+       'no_value_label' => 'Never',
+       'rights' => array(
+         'admin' => 'w'
+       ),
+       'view' => 1,
+     ),
+     /* ----------- end -----------*/
+
+    /************************************************
+     *              Samba Attributes
      ************************************************/
 
     /* ----------- start -----------*/

@@ -16,6 +16,10 @@ $GLOBALS['LSlang'] = array (
 "Allow user to connect a POSIX system." =>
   "Autorisie l'utilisateur à se connecter aux systèmes POSIX.",
 
+# LSobjects.LSpeople.attrs.shadowExpire.html_options.special_values.0
+"Always (disable account)" =>
+  "Toujours (compte désactivé)",
+
 # LSobjects.LSpeople.attrs.sambaPwdMustChange.html_options.special_values.0
 "At first login" =>
   "À la première connexion",
@@ -99,6 +103,10 @@ $GLOBALS['LSlang'] = array (
 "Full Name" =>
   "Nom complet",
 
+# LSobjects.LSpeople.attrs.gecos.label
+"Gecos" =>
+  "Gecos",
+
 # LSobjects.LSpeople.attrs.mail.check_data.email.msg
 "Given email address is invalid." =>
   "L'adresse mail saisie est invalide.",
@@ -127,6 +135,10 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSpeople.attrs.sambaPwdCanChange.help_info
 "If not set, the user will be free to change his password whenever he wants." =>
   "Si non défini, l'utilisateur pourra changer son mot de passe quand il le veut.",
+
+# LSobjects.LSpeople.attrs.shadowInactive.label
+"Inactivity allowed (in days)" =>
+  "Durée d'inactivité autorisée (en jours)",
 
 # LSobjects.LSpeople.attrs.gidNumber.html_options.possible_values.1.label
 "LDAP Groups" =>
@@ -192,6 +204,7 @@ $GLOBALS['LSlang'] = array (
 "Nb / page :" =>
   "Nb / page :",
 
+# LSobjects.LSpeople.attrs.shadowLastChange.no_value_label
 # LSobjects.LSpeople.attrs.sambaLogonTime.no_value_label
 # LSobjects.LSpeople.attrs.sambaLogoffTime.no_value_label
 # LSobjects.LSpeople.attrs.sambaKickoffTime.html_options.special_values.2147483647
@@ -214,9 +227,21 @@ $GLOBALS['LSlang'] = array (
 "One or several users don't exist." =>
   "Un ou plusieurs utilisateurs n'existent pas.",
 
+# LSobjects.LSpeople.attrs.shadowExpire.label
+"Password expiration" =>
+  "Expiration du mot de passe",
+
+# LSobjects.LSpeople.attrs.shadowLastChange.label
+"Password last change time" =>
+  "Dernière modification du mot de passe",
+
 # LSobjects.LSpeople.attrs.lsRecoveryHash.label
 "Password recovery hash" =>
   "Hash de récupération de mot de passe",
+
+# LSobjects.LSpeople.attrs.shadowMax.label
+"Password validity (in days)" =>
+  "Durée de validité du mot de passe (en jours)",
 
 # LSobjects.LSpeople.attrs.jpegPhoto.label
 "Picture" =>
@@ -310,9 +335,25 @@ $GLOBALS['LSlang'] = array (
 "The first name must contain alphanumeric values only." =>
   "Le prénom doit contenir uniquement des caractères alpha-numérique.",
 
+# LSobjects.LSpeople.attrs.shadowInactive.check_data.integer.msg
+"The inactivity allowed must be an positive integer." =>
+  "La durée d'inactivité autorisée doit être un entier positif.",
+
+# LSobjects.LSpeople.attrs.shadowMax.help_info
+"The maximum number of days the password is valid." =>
+  "Le nombre de jours maximum durant lequel le mot de passe sera valide.",
+
+# LSobjects.LSpeople.attrs.shadowInactive.help_info
+"The number of days of inactivity allowed for the specified user." =>
+  "Le nombre de jours d'inactivité autorisée pour cet utilisateur.",
+
 # LSobjects.LSpeople.attrs.uidNumber.check_data.numeric.msg
 "The numeric identifier must be an integer." =>
   "L'identifiant numérique doit forcement être un entier.",
+
+# LSobjects.LSpeople.attrs.shadowMax.check_data.integer.msg
+"The password validity must be an positive integer." =>
+  "La durée de validité du mot de passe doit être un entier positif.",
 
 # LSobjects.LSpeople.attrs.gidNumber.validation.0.msg
 "This group doesn't exist." =>
