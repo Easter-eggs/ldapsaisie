@@ -1,0 +1,11 @@
+<sect4 id="config-LSattr_ldap_shadowExpire">
+  <title>LSattr_ldap_shadowExpire</title>
+  <para>Ce type est prévu pour gérer l'attribut <emphasis>shadowExpire</emphasis> du
+  schéma POSIX, qui une stocke une date sous la forme d'un entier correspondant au
+  nombre de jours depuis le premier 1er 1970. Il est prévu pour être utilisé
+  conjointement avec le type d'attribut HTML &LSattr_html_date;.</para>
+
+  <note><simpara>Malgrés son nom, ce type d'attribut LDAP peux être utilisé pour d'autres
+  attributs stockant ce même format de date, tel-que l'attribut <emphasis>shadowLastChange
+  </emphasis>.</simpara></note>
+</sect4>

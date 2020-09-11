@@ -24,6 +24,7 @@
 <!ENTITY conf-LSattr_html_wywiwyg SYSTEM "LSattr_html_wywiwyg.docbook">
 <!ENTITY conf-LSattr_html_xmpp SYSTEM "LSattr_html_xmpp.docbook">
 
+<!ENTITY LSattr_html_date "<link linkend='config-LSattr_html_jsonCompositeAttribute'>LSattr_html_date</link>">
 <!ENTITY LSattr_html_jsonCompositeAttribute "<link linkend='config-LSattr_html_jsonCompositeAttribute'>LSattr_html_jsonCompositeAttribute</link>">
 <!ENTITY LSattr_html_sambaAcctFlags "<link linkend='config-LSattr_html_sambaAcctFlags'>LSattr_html_sambaAcctFlags</link>">
 <!ENTITY LSattr_html_select_list "<link linkend='config-LSattr_html_select_list'>LSattr_html_select_list</link>">
