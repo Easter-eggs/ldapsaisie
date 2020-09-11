@@ -91,12 +91,18 @@ var LSformElement_date_field = new Class({
     },
 
     onTodayBtnClick: function() {
-      if (this.input.value) {
+      if (this.input.value && this.params.time) {
+        // Date & time already defined: just change date and leave same time
+
+        // Parse current value
         var cur = Date.parse(this.input.value,this.params.format);
         if (cur == null) {
-          var cur = Date.parse(this.input.value);
+          // On fail, try to parse value without specify format
+          cur = Date.parse(this.input.value);
         }
+
         if (cur) {
+          // Current value parsed, clone it and change date
           var now = new Date();
           var today = cur.clone();
           today.set({
@@ -106,8 +112,14 @@ var LSformElement_date_field = new Class({
           });
           this.input.value = today.format(this.params.format);
           this.input.fireEvent('change');
+          return true;
         }
+        else
+          LSdebug("onTodayBtnClick(): fail to parse current input value => use current date");
       }
+      this.input.value = new Date().format(this.params.format);
+      this.input.fireEvent('change');
+      return true;
     },
 
     clearValue: function() {
