@@ -258,7 +258,7 @@ class LSformElement extends LSlog_staticLoggerClass {
         $post[$name] = array($post[$name]);
       }
       foreach($post[$name] as $key => $val) {
-        if (!empty($val)||(is_string($val)&&($val=="0"))) {
+        if (!is_empty($val)) {
           $return[$key] = $val;
         }
       }

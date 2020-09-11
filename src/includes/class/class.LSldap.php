@@ -314,14 +314,14 @@ class LSldap extends LSlog_staticLoggerClass {
       $drop = true;
       if (is_array($attrVal)) {
         foreach($attrVal as $val) {
-          if (!empty($val)||(is_string($val)&&($val=="0"))) {
+          if (!is_empty($val)) {
             $drop = false;
             $changed_attrs[$attrName][]=$val;
           }
         }
       }
       else {
-        if (!empty($attrVal)||(is_string($attrVal)&&($attrVal=="0"))) {
+        if (!is_empty($val)) {
           $drop = false;
           $changed_attrs[$attrName][]=$attrVal;
         }

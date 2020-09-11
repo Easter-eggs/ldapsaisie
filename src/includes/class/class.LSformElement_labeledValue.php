@@ -122,7 +122,7 @@ class LSformElement_labeledValue extends LSformElement {
       }
       foreach($_POST[$this -> name."_labels"] as $key => $label) {
         $val=$_POST[$this -> name."_values"][$key];
-        if (!empty($label) && (!empty($val)||(is_string($val)&&($val=="0")))) {
+        if (!empty($label) && !is_empty($val)) {
           $return[$this -> name][$key] = "[$label]$val";
         }
       }

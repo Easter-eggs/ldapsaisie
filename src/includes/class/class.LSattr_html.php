@@ -94,9 +94,8 @@ class LSattr_html extends LSlog_staticLoggerClass {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
     }
-    if ($data) {
+    if (!is_null($data))
       $element -> setValue($data);
-    }
     return $element;
   }
 

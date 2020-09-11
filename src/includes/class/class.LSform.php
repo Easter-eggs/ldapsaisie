@@ -412,7 +412,7 @@ class LSform extends LSlog_staticLoggerClass {
    */
   public function checkRequired($data) {
     foreach($data as $val) {
-      if (!empty($val)||(is_string($val)&&($val=="0")))
+      if (!is_empty($val))
         return true;
     }
     return;

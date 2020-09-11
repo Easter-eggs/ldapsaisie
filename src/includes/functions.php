@@ -764,3 +764,21 @@ function format_callable($callable) {
         else
                 return $callable."()";
 }
+
+function is_empty($val) {
+  switch(gettype($val)) {
+    case "boolean":
+    case "integer":
+    case "double":
+    case "object":
+    case "resource":
+            return False;
+    case "array":
+    case "string":
+      if ($val == "0") return false;
+      return empty($val);
+    case "NULL":
+      return True;
+  }
+  return empty($val);
+}

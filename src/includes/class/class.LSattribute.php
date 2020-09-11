@@ -115,9 +115,10 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @retval boolean true
    */
   public function loadData($attr_data) {
-    if ((!is_array($attr_data))&&(!empty($attr_data))) {
+    if (is_empty($attr_data) || $attr_data === false)
+      $attr_data = null;
+    elseif (!is_array($attr_data))
       $attr_data = array($attr_data);
-    }
     $this -> data = $attr_data;
     return true;
   }
@@ -231,13 +232,13 @@ class LSattribute extends LSlog_staticLoggerClass {
       if($this -> myRights() == 'n') {
         return true;
       }
-      if ($value) {
+      if (!is_null($value)) {
         $data = $value;
       }
-      else if($this -> data !='') {
+      else if(!is_empty($this -> data)) {
         $data = $this -> getFormVal();
       }
-      else if ($this -> getConfig('default_value')) {
+      else if (!is_empty($this -> getConfig('default_value'))) {
         $data = $obj -> getFData($this -> getConfig('default_value'));
       }
       else {
@@ -338,11 +339,11 @@ class LSattribute extends LSlog_staticLoggerClass {
         LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
         return;
       }
-      if($this -> data !='') {
-        $data=$this -> getFormVal();
+      if(!is_empty($this -> data)) {
+        $data = $this -> getFormVal();
       }
       else {
-        $data='';
+        $data=null;
       }
       $element = $this -> html -> addToForm($form,'view',$data);
       if(!$element instanceof LSformElement) {
