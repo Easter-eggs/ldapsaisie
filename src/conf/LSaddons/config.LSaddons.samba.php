@@ -59,7 +59,7 @@ define('LS_SAMBA_GIDNUMBER_ATTR','gidNumber');
 define('LS_SAMBA_USERPASSWORD_ATTR','userPassword');
 
 // Format of the users's home directory value
-define('LS_SAMBA_HOME_PATH_FORMAT','\\SERVER\%{uid}');
+define('LS_SAMBA_HOME_PATH_FORMAT','\\\\SERVER\\%{uid}');
 
 // Format of the users's samba profile path value
-define('LS_SAMBA_PROFILE_PATH_FORMAT','\\SERVER\profiles\%{uid}');
+define('LS_SAMBA_PROFILE_PATH_FORMAT','\\SERVER\\profiles\\%{uid}');
