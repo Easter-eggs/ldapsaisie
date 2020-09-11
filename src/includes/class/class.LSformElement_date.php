@@ -165,7 +165,8 @@ class LSformElement_date extends LSformElement {
         'LSformElement_date',
         array(
           'now' => _('Now.'),
-          'today' => _('Today.')
+          'today' => _('Today.'),
+          'clear' => _('Clear selected date.'),
         )
       );
 

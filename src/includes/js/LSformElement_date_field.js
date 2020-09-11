@@ -71,6 +71,12 @@ var LSformElement_date_field = new Class({
         }
         varLSdefault.addHelpInfo(this.todayBtn,'LSformElement_date','today');
       }
+      this.clearBtn = new Element('img');
+      this.clearBtn.src = varLSdefault.imagePath('clear');
+      this.clearBtn.addClass('btn');
+      this.clearBtn.addEvent('click',this.clearValue.bind(this));
+      this.clearBtn.injectInside(this.input.getParent());
+      varLSdefault.addHelpInfo(this.clearBtn, 'LSformElement_date', 'clear');
     },
 
     onInputChange: function() {
