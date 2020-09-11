@@ -53,7 +53,7 @@ class LSattr_ldap_shadowExpire extends LSattr_ldap {
   public function getUpdateData($data) {
     $ret=array();
     foreach($data as $val) {
-      $ret[]=round(((int)$val)/86400);
+      $ret[]=(string)round(((int)$val)/86400);
     }
     return $ret;
   }
