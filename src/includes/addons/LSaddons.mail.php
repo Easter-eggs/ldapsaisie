@@ -74,7 +74,7 @@ LSerror :: defineError('MAIL_01',
   *
   * @retval boolean true si MAIL est pleinement supporté, false sinon
   */
-  function sendMail($to, $subject, $msg, $headers=array(), $attachments=array(), $eol="\n", $encoding="utf8") {
+  function sendMail($to, $subject, $msg, $headers=array(), $attachments=array(), $eol="\n", $encoding="utf8", $html=false) {
     global $MAIL_SEND_PARAMS, $MAIL_HEARDERS;
     $mail_obj = Mail::factory(MAIL_SEND_METHOD, (isset($MAIL_SEND_PARAMS)?$MAIL_SEND_PARAMS:null));
 
@@ -111,7 +111,7 @@ LSerror :: defineError('MAIL_01',
     $mime = new Mail_mime(
       array(
         'eol' => $eol,
-        'text_charset' => $encoding,
+        ($html?'html_charset':'text_charset') => $encoding,
         'head_charset' => $encoding,
       )
     );
@@ -122,7 +122,10 @@ LSerror :: defineError('MAIL_01',
     if ($subject)
       $mime->setSubject($subject);
 
-    $mime->setTXTBody($msg);
+    if ($html)
+      $mime->setHTMLBody($msg);
+    else
+      $mime->setTXTBody($msg);
 
     if (is_array($attachments) && !empty($attachments)) {
       $finfo = new finfo(FILEINFO_MIME_TYPE);

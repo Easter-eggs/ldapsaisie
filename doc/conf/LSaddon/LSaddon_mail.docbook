@@ -1,8 +1,10 @@
 <sect2 id="config-LSaddon_mail">
   <title>LSaddon_mail</title>
-  <para>Cet &LSaddon; est utilisé pour gérer l'envoie de mail. Le module
-  &PEAR; Mail doit être installé. Il doit être configuré en éditant son
-  fichier de configuration <literal>config.LSaddons.mail.php</literal>.</para>
+  <para>Cet &LSaddon; est utilisé pour gérer l'envoie de mail. Il utilise
+  pour cela les librairies &PEAR; <emphasis>Mail</emphasis> et <emphasis>
+  Mail_Mime</emphasis> qui doivent être installés. Cet &LSaddon; doit être
+  configuré en éditant son fichier de configuration
+  <literal>config.LSaddons.mail.php</literal>.</para>
 
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure du fichier</citetitle>/*
@@ -79,6 +81,7 @@ $MAIL_HEARDERS = array(
     <paramdef>array <parameter>$attachments</parameter></paramdef>
     <paramdef>string <parameter>$eol</parameter></paramdef>
     <paramdef>string <parameter>$encoding</parameter></paramdef>
+    <paramdef>boolean <parameter>$html</parameter></paramdef>
 </funcprototype>
 </funcsynopsis>
 </para>
