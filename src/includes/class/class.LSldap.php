@@ -181,24 +181,33 @@ class LSldap extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Charge les valeurs des attributs d'une entré de l'annuaire
+   * Load values of an LDAP entry attributes
    *
-   * Cette methode recupère les valeurs des attributs d'une entrée de l'annaire
-   * et les retournes sous la forme d'un tableau.
+   * This method retreive attributes values of an LDAP entry and return it
+   * as associative array.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $dn string DN de l'entré Ldap
+   * @param[in] $filter string LDAP filter string (optional, default: null == '(objectClass=*)')
+   * @param[in] $attrs array|null Array of requested attribute (optional, default: null == all attributes, excepted internal)
+   * @param[in] $include_internal boolean If true, internal attributes will be included (default: false)
    *
-   * @retval array Tableau associatif des valeurs des attributs avec en clef, le nom de l'attribut.
+   * @retval array|false Associative array of attributes values (with attribute name as key), or false on error
    */
-  public static function getAttrs($dn, $filter=null) {
+  public static function getAttrs($dn, $filter=null, $attrs=null, $include_internal=false) {
     $infos = ldap_explode_dn($dn,0);
     if((!$infos)||($infos['count']==0))
       return;
     if (!$filter)
       $filter = '(objectClass=*)';
-    $return = self :: search($filter, $dn);
+    $params = array(
+      'scope' => 'base',
+      'attributes' => (is_array($attrs)?$attrs:array('*')),
+    );
+    if ($include_internal && !in_array('+', $params['attributes']))
+      $params['attributes'][] = '+';
+    $return = self :: search($filter, $dn, $params);
     if (is_array($return) && count($return) == 1)
       return $return[0]['attrs'];
     return false;
