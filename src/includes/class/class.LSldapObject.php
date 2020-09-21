@@ -102,7 +102,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
         array ($filter, $additional_filter)
       );
     }
-    $data = LSldap :: getAttrs($dn, $filter);
+    $data = LSldap :: getAttrs($dn, $filter, array_keys($this -> attrs));
     if(is_array($data) && !empty($data)) {
       foreach($this -> attrs as $attr_name => $attr) {
         if( !$this -> attrs[$attr_name] -> loadData( (isset($data[$attr_name])?$data[$attr_name]:NULL) ) )
