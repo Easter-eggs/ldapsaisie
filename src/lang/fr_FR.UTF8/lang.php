@@ -319,6 +319,13 @@ $GLOBALS['LSlang'] = array (
 "Samba primary group identifier" =>
   "Identifiant du groupe primaire Samba",
 
+# LSobjects.LSpeople.customActions.showTechInfo.label
+# LSobjects.LSgroup.customActions.showTechInfo.label
+# LSobjects.LSsysaccount.customActions.showTechInfo.label
+# LSobjects.LScompany.customActions.showTechInfo.label
+"Show technical information" =>
+  "Afficher les informations techniques",
+
 # LSobjects.LSpeople.LSform.dataEntryForm.simple.label
 "Simple" =>
   "Simple",

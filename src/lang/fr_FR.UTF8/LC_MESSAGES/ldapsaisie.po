@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-11 13:37+0200\n"
+"PO-Revision-Date: 2020-09-21 15:46+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -343,6 +343,58 @@ msgid "MAILDIR : Error retrieving remote path of the maildir."
 msgstr ""
 "MAILDIR : Erreur durant la récupération du chemin distant du dossier des "
 "mails."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:63
+#: templates/default/showTechInfo.tpl:16
+msgid "Structural object class"
+msgstr "Classe d'objet structurelle"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:64
+msgid "Creation date"
+msgstr "Date de création"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:65
+msgid "Creator DN"
+msgstr "DN du créateur"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:66
+msgid "Last modification date"
+msgstr "Date de dernière modification"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:67
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:68
+msgid "Last modifier DN"
+msgstr "DN de l'utilisateur ayant modifié en dernier l'objet"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:69
+msgid "LDAP entry change sequence number"
+msgstr "Numéro séquence de changement de l'entrée LDAP"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:70
+msgid "LDAP entry UUID"
+msgstr "UUID de l'entrée LDAP"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:71
+msgid "LDAP entry has children"
+msgstr "L'entrée LDAP as des enfants"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:92
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:60
+msgid "Yes"
+msgstr "Oui"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:94
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:61
+msgid "No"
+msgstr "Non"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:114
+msgid "%{name}: Technical information"
+msgstr "%{name} : Informations techniques"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:118
+msgid "Go back"
+msgstr "Retour"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.asterisk.php:27
 msgid "Asterisk Support : The constant %{const} is not defined."
@@ -1359,31 +1411,31 @@ msgstr ""
 "LSformRule_password : Regex invalide configurée : %{regex}. Vous devez "
 "utiliser des regex de type PCRE (commencant par le caractère '/')."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:521
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:530
 msgid "LSldap : Error during the LDAP server connection (%{msg})."
 msgstr "LSldap : Erreur durant la connexion au serveur LDAP (%{msg})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:524
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:533
 msgid "LSldap : Error during the LDAP search (%{msg})."
 msgstr "LSldap : Erreur pendant la recherche LDAP (%{msg})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:527
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:536
 msgid "LSldap : Object type unknown."
 msgstr "LSldap : Type d'objet inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:530
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:539
 msgid "LSldap : Error while fetching the LDAP entry."
 msgstr "LSldap : Erreur durant la récupération de l'entrée LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:533
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:542
 msgid "LSldap : Error while changing the LDAP entry (DN : %{dn})."
 msgstr "LSldap : Erreur durant la modification de l'entrée LDAP (DN : %{dn})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:536
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:545
 msgid "LSldap : Error while deleting empty attributes."
 msgstr "LSldap : Erreur durant la suppression des attributs vides."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:539
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:548
 msgid "LSldap : Error while changing the DN of the object."
 msgstr "LSldap : Erreur pendant la modification du DN de l'objet."
 
@@ -1777,14 +1829,6 @@ msgstr "Envoyer un mail depuis l'interface."
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:52
 msgid "Reset the choice."
 msgstr "Réinitialiser le choix."
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:60
-msgid "Yes"
-msgstr "Oui"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:61
-msgid "No"
-msgstr "Non"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_rss.php:50
 msgid "Display RSS stack."
@@ -2370,9 +2414,17 @@ msgstr "Aucun objet importé"
 msgid "No value"
 msgstr "Aucune valeur"
 
+#: templates/default/showTechInfo.tpl:11
+msgid "Object classes"
+msgstr "Classes d'objet"
+
 #: templates/default/import.tpl:19
 msgid "Only validate data"
 msgstr "Validation des données uniquement"
+
+#: templates/default/showTechInfo.tpl:41
+msgid "Other internal attributes"
+msgstr "Autres attributs techniques"
 
 #: templates/default/login.tpl:20
 msgid "Password"

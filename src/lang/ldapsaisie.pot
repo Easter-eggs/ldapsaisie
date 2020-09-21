@@ -272,6 +272,58 @@ msgstr ""
 msgid "MAILDIR : Error retrieving remote path of the maildir."
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:63
+#: templates/default/showTechInfo.tpl:16
+msgid "Structural object class"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:64
+msgid "Creation date"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:65
+msgid "Creator DN"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:66
+msgid "Last modification date"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:67
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:68
+msgid "Last modifier DN"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:69
+msgid "LDAP entry change sequence number"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:70
+msgid "LDAP entry UUID"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:71
+msgid "LDAP entry has children"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:92
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:60
+msgid "Yes"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:94
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:61
+msgid "No"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:114
+msgid "%{name}: Technical information"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.showTechInfo.php:118
+msgid "Go back"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.asterisk.php:27
 msgid "Asterisk Support : The constant %{const} is not defined."
 msgstr ""
@@ -1116,31 +1168,31 @@ msgid ""
 "(begining by '/' caracter)."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:521
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:530
 msgid "LSldap : Error during the LDAP server connection (%{msg})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:524
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:533
 msgid "LSldap : Error during the LDAP search (%{msg})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:527
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:536
 msgid "LSldap : Object type unknown."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:530
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:539
 msgid "LSldap : Error while fetching the LDAP entry."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:533
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:542
 msgid "LSldap : Error while changing the LDAP entry (DN : %{dn})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:536
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:545
 msgid "LSldap : Error while deleting empty attributes."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:539
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:548
 msgid "LSldap : Error while changing the DN of the object."
 msgstr ""
 
@@ -1484,14 +1536,6 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:52
 msgid "Reset the choice."
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:60
-msgid "Yes"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_boolean.php:61
-msgid "No"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_rss.php:50
@@ -2027,8 +2071,16 @@ msgstr ""
 msgid "No value"
 msgstr ""
 
+#: templates/default/showTechInfo.tpl:11
+msgid "Object classes"
+msgstr ""
+
 #: templates/default/import.tpl:19
 msgid "Only validate data"
+msgstr ""
+
+#: templates/default/showTechInfo.tpl:41
+msgid "Other internal attributes"
 msgstr ""
 
 #: templates/default/login.tpl:20

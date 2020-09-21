@@ -1,0 +1,33 @@
+<sect2 id="config-LSaddon_showTechInfo">
+  <title>LSaddon_showTechInfo</title>
+  <para>Cet &LSaddon; fournie une fonction du même nom pouvant être utilisée
+  comme &customActions; et permettant d'afficher les informations techniques
+  d'un objet de l'annuaire.</para>
+
+<para>Ci-dessous, vous trouverez un exemple de configuration de la fonction
+<literal>showTechInfo()</literal> comme &customActions; :</para>
+
+<programlisting linenumbering="unnumbered">
+<citetitle>Exemple d'utilisation</citetitle><![CDATA[$GLOBALS['LSobjects']['LSpeople'] = array (
+  [...]
+  'customActions' => array (
+    'showTechInfo' => array (
+      'function' => 'showTechInfo',
+      'label' => 'Show technical information',
+      'hideLabel' => True,
+      'noConfirmation' => true,
+      'disableOnSuccessMsg' => true,
+      'icon' => 'tech_info',
+      'rights' => array (
+        'admin'
+      ),
+    ),
+  ),
+  [...]
+);]]>
+</programlisting>
+
+<note><simpara>Le label et l'icône fournis dans cet exemple sont traduits et
+délivrés avec &LdapSaisie;.</simpara></note>
+
+</sect2>

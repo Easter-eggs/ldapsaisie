@@ -14,16 +14,16 @@
 <citetitle>Structure du fichier</citetitle>
 <![CDATA[// CSV file delimiter
 define('LS_EXPORTSEARCHRESULTASCSV_DELIMITER',',');
-  
+
 // CSV file enclosure
 define('LS_EXPORTSEARCHRESULTASCSV_ENCLOSURE','"');
-  
+
 // CSV file escape character (available since PHP 5.5.4)
 define('LS_EXPORTSEARCHRESULTASCSV_ESCAPE_CHAR','\\');]]>
 </programlisting>
 
 <para>Ci-dessous, vous trouverez un exemple de configuration de la fonction
-<literal>exportSearchResultAsCSV()</literal> comme &customSearchActions;</para>
+<literal>exportSearchResultAsCSV()</literal> comme &customSearchActions; :</para>
 
 <programlisting linenumbering="unnumbered">
 <citetitle>Exemple d'utilisation</citetitle><![CDATA[$GLOBALS['LSobjects']['LSpeople']['LSsearch'] = array (
@@ -45,6 +45,6 @@ define('LS_EXPORTSEARCHRESULTASCSV_ESCAPE_CHAR','\\');]]>
 </programlisting>
 
 <note><simpara>Le label et l'icône fournis dans cet exemple sont traduits
-et délivrés avec &LdapSaisie;</simpara></note>
+et délivrés avec &LdapSaisie;.</simpara></note>
 
 </sect2>

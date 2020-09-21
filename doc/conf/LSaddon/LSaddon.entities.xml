@@ -6,4 +6,4 @@
 <!ENTITY conf-LSaddon_maildir SYSTEM "LSaddon_maildir.docbook">
 <!ENTITY conf-LSaddon_mailquota SYSTEM "LSaddon_mailquota.docbook">
 <!ENTITY conf-LSaddon_phpldapadmin SYSTEM "LSaddon_phpldapadmin.docbook">
-
+<!ENTITY conf-LSaddon_showTechInfo SYSTEM "LSaddon_showTechInfo.docbook">

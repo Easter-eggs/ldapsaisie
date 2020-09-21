@@ -31,6 +31,20 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
   'display_name_format' => '%{uid}',
   'label' => 'System accounts',
 
+  'customActions' => array (
+    'showTechInfo' => array (
+      'function' => 'showTechInfo',
+      'label' => 'Show technical information',
+      'hideLabel' => True,
+      'noConfirmation' => true,
+      'disableOnSuccessMsg' => true,
+      'icon' => 'tech_info',
+      'rights' => array (
+        'admin'
+      ),
+    ),
+  ),
+
   'LSsearch' => array (
     'attrs' => array (
       'uid',

@@ -45,6 +45,20 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     'exportSearchResultAsCSV',
   ),
 
+  'customActions' => array (
+    'showTechInfo' => array (
+      'function' => 'showTechInfo',
+      'label' => 'Show technical information',
+      'hideLabel' => True,
+      'noConfirmation' => true,
+      'disableOnSuccessMsg' => true,
+      'icon' => 'tech_info',
+      'rights' => array (
+        'admin'
+      ),
+    ),
+  ),
+
   'ioFormat' => array (
     'mycsv' => array (
       'label' => 'Simple CSV',

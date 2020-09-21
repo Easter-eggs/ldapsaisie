@@ -30,6 +30,20 @@ $GLOBALS['LSobjects']['LScompany'] = array (
   'display_name_format' => '%{ou}',
   'label' => 'Companies',
 
+  'customActions' => array (
+    'showTechInfo' => array (
+      'function' => 'showTechInfo',
+      'label' => 'Show technical information',
+      'hideLabel' => True,
+      'noConfirmation' => true,
+      'disableOnSuccessMsg' => true,
+      'icon' => 'tech_info',
+      'rights' => array (
+        'admin'
+      ),
+    ),
+  ),
+
   'attrs' => array (
 
     /* ----------- start -----------*/
