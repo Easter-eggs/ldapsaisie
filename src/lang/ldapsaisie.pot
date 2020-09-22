@@ -157,11 +157,11 @@ msgid ""
 "attribute %{attr}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:313
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:316
 msgid "Entity %{id} (unrecognized)"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:408
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:411
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select.php:58
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:102
 msgid "%{value} (unrecognized value)"
@@ -1993,6 +1993,66 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/functions.php:254
 msgid "Folder not found"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:53
+msgid "Affiliate"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:54
+msgid "Alumnus"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:55
+msgid "Employee"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:56
+msgid "Faculty"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:57
+msgid "Member"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:58
+msgid "Student"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:59
+msgid "Retired"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:60
+msgid "Teacher"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:61
+msgid "Staff"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:62
+msgid "Researcher"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:63
+msgid "Emeritus teacher"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:64
+msgid "Library - walk-in"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:65
+msgid "Library - registered"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:70
+msgid "Mrs."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:71
+msgid "Mr."
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:18

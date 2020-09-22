@@ -3,7 +3,7 @@
   <para>Cette section décrit la manière de configurer des règles de vérification
   d'intégrité sur les données des attributs. Il est possible de valider la valeur
   de l'attribut par l'intermédiraire de la vérification de résultat d'une
-  recherche paramètrable dans l'annuaire ou encore d'appeler une fonction de 
+  recherche paramètrable dans l'annuaire ou encore d'appeler une fonction de
   votre choix pour effectuer la vérification voulue.</para>
 
 <sect4 id='config-LSattribute-validation-search'>
@@ -12,7 +12,7 @@
   pas en conflit avec d'autres objets de l'annuaire. Ce test peut également
   permetre de vérifier si les valeurs devant faire référence à d'autres objets
   de l'annuaire sont correctes.</para>
-  
+
 <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['validation' => array (
@@ -103,10 +103,10 @@
 <sect4 id='config-LSattribute-validation-function'>
   <title>Validation par l'exécution d'une fonction</title>
   <para>Il est possible d'effectuer la validation de l'attribut par l'exécution
-  d'une fonction de votre choix. Il lui sera passé en paramètre le LSobject
-  complet. Si la fonction ne retourne pas <emphasis>true</emphasis>, la
-  validation échouera.</para>
-  
+  d'une fonction de votre choix. Il lui sera passé en paramètre une référence à
+  l'objet <literal>LSldapObject</literal> courant. Si la fonction ne retourne
+  pas <emphasis>true</emphasis>, la validation échouera.</para>
+
 <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['validation' => array (

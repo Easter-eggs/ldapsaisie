@@ -45,6 +45,32 @@ $GLOBALS['LS_SUPANN_ETABLISSEMENT_DN'] = 'supannCodeEntite=XXX,ou=structures,dc=
 // Exemple : 0753742K
 $GLOBALS['LS_SUPANN_ETABLISSEMENT_UAI'] = '0753742K';
 
+// LSformat de l'attribut eduPersonPrincipalName
+$GLOBALS['LS_SUPANN_EPPN_FORMAT'] = "%{uid}@univ.fr";
+
+// Liste des valeurs possibles des affiliations et leur label
+$GLOBALS['LS_SUPANN_AFFILIATIONS'] = array (
+	'affiliate' => ___('Affiliate'),
+	'alum' => ___('Alumnus'),
+	'employee' => ___('Employee'),
+	'faculty' => ___('Faculty'),
+	'member' => ___('Member'),
+	'student' => ___('Student'),
+	'retired' => ___('Retired'),
+	'teacher' => ___('Teacher'),
+	'staff' => ___('Staff'),
+	'researcher' => ___('Researcher'),
+	'emeritus' => ___('Emeritus teacher'),
+	'library-walk-in' => ___('Library - walk-in'),
+	'registered-reader' => ___('Library - registered'),
+);
+
+// Liste des valeurs possibles de la civilité d'une personne et leur label
+$GLOBALS['LS_SUPANN_CIVILITES'] = array (
+	'Mme' => ___('Mrs.'),
+	'M.' => ___('Mr.'),
+);
+
 /*
  * Nomenclatures SUPANN
  *

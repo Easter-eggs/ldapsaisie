@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-22 14:32+0200\n"
+"PO-Revision-Date: 2020-09-22 16:20+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -208,11 +208,11 @@ msgstr ""
 "Support SUPANN : Impossible de récupérer le basedn des entités. Impossible "
 "de générer l'attribut %{attr}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:313
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:316
 msgid "Entity %{id} (unrecognized)"
 msgstr "Entité %{id} (non-reconnue)"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:408
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:411
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select.php:58
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:102
 msgid "%{value} (unrecognized value)"
@@ -2341,6 +2341,66 @@ msgstr "[pas une chaîne de caractères]"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/functions.php:254
 msgid "Folder not found"
 msgstr "Dossier introuvable"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:53
+msgid "Affiliate"
+msgstr "Affilié"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:54
+msgid "Alumnus"
+msgstr "Ancien apprenant"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:55
+msgid "Employee"
+msgstr "Employé"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:56
+msgid "Faculty"
+msgstr "Faculté"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:57
+msgid "Member"
+msgstr "Membre"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:58
+msgid "Student"
+msgstr "Étudiant"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:59
+msgid "Retired"
+msgstr "Retraité"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:60
+msgid "Teacher"
+msgstr "Enseignant"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:61
+msgid "Staff"
+msgstr "Staff"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:62
+msgid "Researcher"
+msgstr "Chercheur"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:63
+msgid "Emeritus teacher"
+msgstr "Professeur émérite"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:64
+msgid "Library - walk-in"
+msgstr "Bibliothèque - Accès libre"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:65
+msgid "Library - registered"
+msgstr "Bibliothèque - Inscrit"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:70
+msgid "Mrs."
+msgstr "Madame"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:71
+msgid "Mr."
+msgstr "Monsieur"
 
 #: templates/default/LSaccessRightsMatrixView.tpl:18
 msgid "Attributes / Profiles"

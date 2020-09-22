@@ -57,7 +57,8 @@ LSerror :: defineError('SUPANN_02',
       'LS_SUPANN_LSOBJECT_ENTITE_TYPE',
       'LS_SUPANN_LSOBJECT_ENTITE_FORMAT_SHORTNAME',
       'LS_SUPANN_ETABLISSEMENT_UAI',
-      'LS_SUPANN_ETABLISSEMENT_DN'
+      'LS_SUPANN_ETABLISSEMENT_DN',
+      'LS_SUPANN_EPPN_FORMAT',
     );
 
     foreach($MUST_DEFINE_STRING as $string) {
@@ -74,6 +75,8 @@ LSerror :: defineError('SUPANN_02',
     }
 
     $MUST_DEFINE_ARRAY= array(
+      'LS_SUPANN_CIVILITES',
+      'LS_SUPANN_AFFILIATIONS',
       'supannNomenclatures',
     );
     foreach($MUST_DEFINE_ARRAY as $array) {
@@ -425,3 +428,114 @@ LSerror :: defineError('SUPANN_02',
 	  }
 	  return $retval;
   }
+
+/**
+ * Retourne les valeurs possibles de l'attribut supannCivilite.
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * get_possible_values de la configuration HTML de l'attribut
+ * supannCivilite avec un type d'attribut HTML select_list (ou select_box).
+ *
+ * @param[in] $options La configuration HTML de l'attribut
+ * @param[in] $name Le nom de l'attribut
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval array Tableau contenant les valeurs possibles de l'attribut
+ *               (avec les labels traduits).
+ **/
+function supannGetCivilitePossibleValues($options, $name, &$ldapObject) {
+  $retval = array();
+  foreach($GLOBALS['LS_SUPANN_CIVILITES'] as $value => $label)
+    $retval[$value] = __($label);
+  return $retval;
+}
+
+/**
+ * Retourne les valeurs possibles des affiliations.
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * get_possible_values de la configuration HTML de l'attribut
+ * eduPersonAffiliation (par exemple) avec un type d'attribut HTML select_list.
+ *
+ * @param[in] $options La configuration HTML de l'attribut
+ * @param[in] $name Le nom de l'attribut
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval array Tableau contenant les valeurs possibles de l'attribut
+ *               (avec les labels traduits).
+ **/
+function supannGetAffiliationPossibleValues($options, $name, &$ldapObject) {
+  $retval = array();
+  foreach($GLOBALS['LS_SUPANN_AFFILIATIONS'] as $value => $label)
+    $retval[$value] = __($label);
+  return $retval;
+}
+
+/**
+ * Vérifie les valeurs de l'attribut eduPersonAffiliation
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * function de la configuration de validation de l'intégrité des valeurs
+ * de l'attribut eduPersonAffiliation (paramètre validation).
+ *
+ * Elle s'assure que des valeurs affiliate et member n'ont pas été toutes
+ * les deux selectionnées, car elles sont incompatibles.
+ *
+ * @author Benjamin Dauvergne <bdauvergne@entrouvert.com>
+ *
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ * @author Benjamin Dauvergne <bdauvergne@entrouvert.com>
+ *
+ * @retval boolean True si les valeurs sont valides, False sinon
+ **/
+global $_supannCheckEduPersonAffiliation_checked;
+$_supannCheckEduPersonAffiliation_checked = false;
+function supannCheckEduPersonAffiliation(&$ldapObject) {
+       global $_supannCheckEduPersonAffiliation_checked;
+       $values = $ldapObject->getValue('eduPersonAffiliation');
+
+       if (!$_supannCheckEduPersonAffiliation_checked && in_array('affiliate', $values) && in_array('member', $values)) {
+            $_supannCheckEduPersonAffiliation_checked = true;
+            return false;
+       }
+       return true;
+}
+
+/**
+ * Vérifie la valeur de l'attribut eduPersonPrimaryAffiliation
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * function de la configuration de validation de l'intégrité des valeurs
+ * de l'attribut eduPersonPrimaryAffiliation (paramètre validation).
+ *
+ * Elle s'assure que la valeur de l'attribut eduPersonPrimaryAffiliation
+ * fait bien partie des valeurs de l'attribut eduPersonAffiliation.
+ *
+ * @author Benjamin Dauvergne <bdauvergne@entrouvert.com>
+ *
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval boolean True si la valeur est valide, False sinon
+ **/
+function supannCheckEduPersonPrimaryAffiliation(&$ldapObject) {
+       $primary = $ldapObject->getValue('eduPersonPrimaryAffiliation');
+       $affiliations = $ldapObject->getValue('eduPersonAffiliation');
+       if (!array_intersect($primary, $affiliations))
+            return false;
+       return true;
+}
+
+/**
+ * Géneration de la valeur de l'attribut eduPersonPrincipalName
+ * à partir du LSformat configuré dans $GLOBALS['LS_SUPANN_EPPN_FORMAT']
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array La valeur de l'attribut eduPersonOrgDN ou false
+ *               si il y a un problème durant la génération
+ */
+function generate_eduPersonPrincipalName($ldapObject) {
+ return $ldapObject -> getFData($GLOBALS['LS_SUPANN_EPPN_FORMAT']);
+}
