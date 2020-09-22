@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-21 15:46+0200\n"
+"PO-Revision-Date: 2020-09-22 14:32+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -2083,45 +2083,61 @@ msgstr "Discuter avec cette personne."
 msgid "%s (Unparsable value)"
 msgstr "%s (valeur non-analysable)"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:388
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:445
 msgid ""
-"LSattr_html_select_list : Configuration data are missing to generate the "
+"LSattr_html_select_list: Configuration data are missing to generate the "
 "select list of the attribute %{attr}."
 msgstr ""
 "LSattr_html_select_list : Des données de configuration sont manquantes pour "
 "générer la liste de sélection de l'attribut %{attr}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:391
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:448
 msgid ""
-"LSattr_html_select_list : Invalid attribute %{attr} reference as "
+"LSattr_html_select_list: Invalid attribute %{attr} reference as "
 "OTHER_ATTRIBUTE possible values."
 msgstr ""
 "LSattr_html_select_list : Référence invalide à l'attribut %{attr} comme "
 "valeurs possibles (OTHER_ATTRIBUTE)."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:394
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:451
 msgid ""
-"LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE "
+"LSattr_html_select_list: Attribute %{attr} referenced as OTHER_ATTRIBUTE "
 "possible values is not a jsonCompositeAttribute."
 msgstr ""
 "LSattr_html_select_list : L'attribute %{attr} référencé comme valeurs "
 "possibles (OTHER_ATTRIBUTE) n'est pas du type jsonCompositeAttribute."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:397
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:454
 msgid ""
-"LSattr_html_select_list : Fail to decode the following attribute %{attr} "
+"LSattr_html_select_list: Fail to decode the following attribute %{attr} "
 "value as JSON : %{value}"
 msgstr ""
 "LSattr_html_select_list : Impossible de décodé la valeur JSON suivante de "
 "l'attribut %{attr} : %{value}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:400
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:457
 msgid ""
-"LSattr_html_select_list : No component %{component} found in the following "
+"LSattr_html_select_list: No component %{component} found in the following "
 "attribute %{attr} JSON value : %{value}"
 msgstr ""
 "LSattr_html_select_list : Le composant %{component} n'a pas été trouvé dans "
 "la valeur JSON de l'attribut %{attr} : %{value}"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:460
+msgid ""
+"LSattr_html_select_list: Invalid get_possible_values parameter found in "
+"configuration of attribute %{attr}: must be a callable."
+msgstr ""
+"LSattr_html_select_list : Paramètre get_possible_values invalide trouvé dans "
+"la configuration de l'attribut %{attr} : cela doit être un callable."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:463
+msgid ""
+"LSattr_html_select_list: fail to retreive possible values of attribute "
+"%{attr} using configured function %{callable}."
+msgstr ""
+"LSattr_html_select_list : Impossible de récupérer les valeurs possibles de "
+"l'attribut %{attr} en utilisant la fonction configurée %{callable}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_inarray.php:57
 msgid ""

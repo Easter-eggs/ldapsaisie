@@ -46,6 +46,7 @@
        )
      )
    ),
+   'get_possible_values' => [callable],
    'translate_labels' => [booléen],
    'sort' => [Booléen],
    'sortDirection' => '[ASC|DESC]'
@@ -175,6 +176,56 @@
 
    </para>
 
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>get_possible_values</term>
+  <listitem>
+    <para>Paramètre permettant de spécifier un <emphasis>callable</emphasis> qui sera utilisé
+    pour lister les valeurs possibles de l'attribut. Il recevra en paramètres les informations
+    suivantes:
+    <variablelist>
+      <varlistentry>
+        <term>$options</term>
+        <listitem>
+          <simpara>Les options HTML de l'attribut.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>$name</term>
+        <listitem>
+          <simpara>Le nom de l'attribut.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>&amp;$ldapObject</term>
+        <listitem>
+          <simpara>Une référence à l'objet <literal>LSldapObject</literal>.</simpara>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+    </para>
+    <para>La valeur de retour attendue est un tableau associatif des valeurs possibles
+    de l'attribut avec la valeur que prendra l'attribut en tant que clé et le label
+    correspondant en tant que valeur. Tout autre retour sera considéré comme un échec
+    et déclenchera une erreur.</para>
+    <para>Il est également possible de regrouper des valeurs possibles de l'attribut: pour
+    cela, le tableau retourné devra lui-même contenir un tableau associatif contenant la
+    label traduit du groupe sous la clé <literal>label</literal> et les valeurs possibles
+    du groupe sous la clé <literal>possible_values</literal>.</para>
+    <para>Les valeurs retournées pourront être combinées avec les autres valeurs possibles
+    configurées de l'attribut. La prise en charge du tri des valeurs possibles est assurée
+    par la fonction appelante sauf dans le cas des sous-groupes de valeurs possibles. Dans
+    ce cas, la méthode <literal>LSattr_html_select_list :: _sort()</literal> pourra être
+    utilisée pour trier les valeurs du sous-groupe: cette méthode accepte en paramètre une
+    référence du tableau des valeurs possibles ainsi que les options HTML de l'attribut.
+    </para>
+    <para>Si la traduction des labels des valeurs possibles de l'attribut est activées
+    (voir ci-dessous), celle-ci doit être prise en charge par la fonction configurée.</para>
   </listitem>
 </varlistentry>
 

@@ -84,7 +84,7 @@ class LSattr_html_select_list extends LSattr_html{
   /**
    * Return array of possible values with translated labels (if enabled)
    *
-   * @param[in] $options Attribute options (optional)
+   * @param[in] $options Attribute HTML options (optional)
    * @param[in] $name Attribute name (optional)
    * @param[in] &$ldapObject Related LSldapObject (optional)
    *
@@ -93,10 +93,15 @@ class LSattr_html_select_list extends LSattr_html{
    * @retval array Associative array with possible values as key and corresponding
    *               translated label as value.
    */
-  public static function _getPossibleValues($options=false,$name=false,&$ldapObject=false) {
-    $retInfos = array();
-    $translate_labels = LSconfig :: get('translate_labels', true, 'bool', $options);
-    if (isset($options['possible_values']) && is_array($options['possible_values'])) {
+  public static function _getPossibleValues($options=false, $name=false, &$ldapObject=false) {
+    // Handle get_possible_values parameter
+    $retInfos = self :: getCallablePossibleValues($options, $name, $ldapObject);
+    if (!is_array($retInfos))
+      $retInfos = array();
+
+    // Handle other configured possible values
+    if (is_array($options) && isset($options['possible_values']) && is_array($options['possible_values'])) {
+      $translate_labels = LSconfig :: get('translate_labels', true, 'bool', $options);
       foreach($options['possible_values'] as $val_key => $val_label) {
         if($val_key==='OTHER_OBJECT') {
           $objInfos=static :: getLSobjectPossibleValues($val_label,$options,$name);
@@ -136,7 +141,7 @@ class LSattr_html_select_list extends LSattr_html{
       }
     }
 
-    static :: _sort($retInfos,$options);
+    static :: _sort($retInfos, $options);
 
     return $retInfos;
   }
@@ -163,11 +168,11 @@ class LSattr_html_select_list extends LSattr_html{
    * Apply sort feature on possible values if this feature is enabled
    *
    * @param[in] &$retInfos array Possible values array reference to sort
-   * @param[in] $options array|false Attribute options
+   * @param[in] $options array|false Attribute HTML options
    *
    * @retval void
    **/
-  protected static function _sort(&$retInfos, $options) {
+  public static function _sort(&$retInfos, $options) {
     if (!isset($options['sort']) || $options['sort']) {
       if (isset($options['sortDirection']) && $options['sortDirection']=='DESC') {
         uasort($retInfos,array('LSattr_html_select_list','_sortTwoValuesDesc'));
@@ -223,7 +228,7 @@ class LSattr_html_select_list extends LSattr_html{
    * Retourne un tableau des valeurs possibles d'un type d'objet
    *
    * @param[in] $conf OTHER_OBJECT configuration array
-   * @param[in] $options array|false Attribute options
+   * @param[in] $options array|false Attribute HTML options
    * @param[in] $name Attribute name
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -294,7 +299,7 @@ class LSattr_html_select_list extends LSattr_html{
    * Retourne un tableau des valeurs possibles d'un autre attribut
    *
    * @param[in] $attr OTHER_ATTRIBUTE configuration value
-   * @param[in] $options array|false Attribute options
+   * @param[in] $options array|false Attribute HTML options
    * @param[in] $name Attribute name
    * @param[in] $LSldapObject LSldapObject reference
    *
@@ -379,23 +384,81 @@ class LSattr_html_select_list extends LSattr_html{
     return $retInfos;
   }
 
+  /**
+   * Return array of possible values with translated labels (if enabled)
+   * by using specify callable
+   *
+   * @param[in] $options Attribute HTML options
+   * @param[in] $name Attribute name
+   * @param[in] &$ldapObject Related LSldapObject
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval array|false Associative array with possible values as key and corresponding
+   *                     translated label as value, or false in case of error.
+   */
+  public static function getCallablePossibleValues($options, $name, &$ldapObject) {
+    // Handle get_possible_values parameter
+    $get_possible_values = LSconfig :: get('get_possible_values', null, null, $options);
+    if (!$get_possible_values)
+      return array();
+
+    // Check callable
+    if (!is_callable($get_possible_values)) {
+      LSerror :: addErrorCode('LSattr_html_select_list_06', $name);
+      return false;
+    }
+
+    // Run callable
+    try {
+      $retInfos = call_user_func_array(
+        $get_possible_values,
+        array($options, $name, $ldapObject)
+      );
+    }
+    catch (Exception $er) {
+      self :: log_exception($er, strval($this)." -> _getPossibleValues(): exception occured running ".format_callable($get_possible_values));
+      $retInfos = null;
+    }
+
+    // Check result
+    if (!is_array($retInfos)) {
+      LSerror :: addErrorCode(
+        'LSattr_html_select_list_07',
+        array(
+          'attr' => $name,
+          'callable' => format_callable($get_possible_values)
+        )
+      );
+      return false;
+    }
+
+    return $retInfos;
+  }
+
 }
 
 /*
  * Error Codes
  */
 LSerror :: defineError('LSattr_html_select_list_01',
-___("LSattr_html_select_list : Configuration data are missing to generate the select list of the attribute %{attr}.")
+___("LSattr_html_select_list: Configuration data are missing to generate the select list of the attribute %{attr}.")
 );
 LSerror :: defineError('LSattr_html_select_list_02',
-___("LSattr_html_select_list : Invalid attribute %{attr} reference as OTHER_ATTRIBUTE possible values.")
+___("LSattr_html_select_list: Invalid attribute %{attr} reference as OTHER_ATTRIBUTE possible values.")
 );
 LSerror :: defineError('LSattr_html_select_list_03',
-___("LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE possible values is not a jsonCompositeAttribute.")
+___("LSattr_html_select_list: Attribute %{attr} referenced as OTHER_ATTRIBUTE possible values is not a jsonCompositeAttribute.")
 );
 LSerror :: defineError('LSattr_html_select_list_04',
-___("LSattr_html_select_list : Fail to decode the following attribute %{attr} value as JSON : %{value}")
+___("LSattr_html_select_list: Fail to decode the following attribute %{attr} value as JSON : %{value}")
 );
 LSerror :: defineError('LSattr_html_select_list_05',
-___("LSattr_html_select_list : No component %{component} found in the following attribute %{attr} JSON value : %{value}")
+___("LSattr_html_select_list: No component %{component} found in the following attribute %{attr} JSON value : %{value}")
+);
+LSerror :: defineError('LSattr_html_select_list_06',
+___("LSattr_html_select_list: Invalid get_possible_values parameter found in configuration of attribute %{attr}: must be a callable.")
+);
+LSerror :: defineError('LSattr_html_select_list_07',
+___("LSattr_html_select_list: fail to retreive possible values of attribute %{attr} using configured function %{callable}.")
 );

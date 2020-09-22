@@ -1765,34 +1765,46 @@ msgstr ""
 msgid "%s (Unparsable value)"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:388
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:445
 msgid ""
-"LSattr_html_select_list : Configuration data are missing to generate the "
+"LSattr_html_select_list: Configuration data are missing to generate the "
 "select list of the attribute %{attr}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:391
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:448
 msgid ""
-"LSattr_html_select_list : Invalid attribute %{attr} reference as "
+"LSattr_html_select_list: Invalid attribute %{attr} reference as "
 "OTHER_ATTRIBUTE possible values."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:394
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:451
 msgid ""
-"LSattr_html_select_list : Attribute %{attr} referenced as OTHER_ATTRIBUTE "
+"LSattr_html_select_list: Attribute %{attr} referenced as OTHER_ATTRIBUTE "
 "possible values is not a jsonCompositeAttribute."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:397
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:454
 msgid ""
-"LSattr_html_select_list : Fail to decode the following attribute %{attr} "
+"LSattr_html_select_list: Fail to decode the following attribute %{attr} "
 "value as JSON : %{value}"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:400
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:457
 msgid ""
-"LSattr_html_select_list : No component %{component} found in the following "
+"LSattr_html_select_list: No component %{component} found in the following "
 "attribute %{attr} JSON value : %{value}"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:460
+msgid ""
+"LSattr_html_select_list: Invalid get_possible_values parameter found in "
+"configuration of attribute %{attr}: must be a callable."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:463
+msgid ""
+"LSattr_html_select_list: fail to retreive possible values of attribute "
+"%{attr} using configured function %{callable}."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_inarray.php:57
