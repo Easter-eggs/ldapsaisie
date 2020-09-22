@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-22 16:20+0200\n"
+"PO-Revision-Date: 2020-09-22 18:12+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -194,25 +194,29 @@ msgstr "Support SUPPAN : Le tableau global %{array} n'est pas définie."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:38
 msgid ""
-"SUPANN Support : The attribute %{dependency} is missing. Unable to forge the "
+"SUPANN: The attribute %{dependency} is missing. Unable to forge the "
 "attribute %{attr}."
 msgstr ""
-"Support SUPANN : L'attribut %{dependency} est manquant. Impossible de "
-"générer l'attribut %{attr}."
+"SUPANN : L'attribut %{dependency} est manquant. Impossible de générer "
+"l'attribut %{attr}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:41
 msgid ""
-"SUPANN Support : Can't get the basedn of entities. Unable to forge the "
-"attribute %{attr}."
+"SUPANN: Can't get the basedn of entities. Unable to forge the attribute "
+"%{attr}."
 msgstr ""
-"Support SUPANN : Impossible de récupérer le basedn des entités. Impossible "
-"de générer l'attribut %{attr}."
+"SUPANN : Impossible de récupérer le basedn des entités. Impossible de "
+"générer l'attribut %{attr}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:316
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:44
+msgid "SUPANN: This entity have children entities and could be deleted."
+msgstr "SUPANN : Cette entité a des entités filles et ne peut être supprimée."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:319
 msgid "Entity %{id} (unrecognized)"
 msgstr "Entité %{id} (non-reconnue)"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:411
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:414
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select.php:58
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:102
 msgid "%{value} (unrecognized value)"

@@ -147,21 +147,25 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:38
 msgid ""
-"SUPANN Support : The attribute %{dependency} is missing. Unable to forge the "
+"SUPANN: The attribute %{dependency} is missing. Unable to forge the "
 "attribute %{attr}."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:41
 msgid ""
-"SUPANN Support : Can't get the basedn of entities. Unable to forge the "
-"attribute %{attr}."
+"SUPANN: Can't get the basedn of entities. Unable to forge the attribute "
+"%{attr}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:316
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:44
+msgid "SUPANN: This entity have children entities and could be deleted."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:319
 msgid "Entity %{id} (unrecognized)"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:411
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:414
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select.php:58
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:102
 msgid "%{value} (unrecognized value)"

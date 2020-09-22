@@ -35,10 +35,13 @@ LSerror :: defineError('SUPANN_SUPPORT_03',
 
 // Autres erreurs
 LSerror :: defineError('SUPANN_01',
-  ___("SUPANN Support : The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
+  ___("SUPANN: The attribute %{dependency} is missing. Unable to forge the attribute %{attr}.")
 );
 LSerror :: defineError('SUPANN_02',
-  ___("SUPANN Support : Can't get the basedn of entities. Unable to forge the attribute %{attr}.")
+  ___("SUPANN: Can't get the basedn of entities. Unable to forge the attribute %{attr}.")
+);
+LSerror :: defineError('SUPANN_03',
+  ___("SUPANN: This entity have children entities and could be deleted.")
 );
 
  /**
@@ -538,4 +541,34 @@ function supannCheckEduPersonPrimaryAffiliation(&$ldapObject) {
  */
 function generate_eduPersonPrincipalName($ldapObject) {
  return $ldapObject -> getFData($GLOBALS['LS_SUPANN_EPPN_FORMAT']);
+}
+
+/**
+ * Vérifie si une entité SUPANN peux être suprimée.
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * before_delete de la configuration du type d'objet correspondant aux
+ * entités SUPANN. Elle vérifie que l'entité n'a pas d'entité fille
+ * avant suppression. Si au moins une entité fille est trouvée, la
+ * suppression est bloquée et une message d'erreur est affiché.
+ *
+ * Note: Cette fonction peut également être utilisé pour le type d'objet
+ * correspond aux établissements.
+ *
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval boolean True si la valeur est valide, False sinon
+ **/
+function supannCheckEntityCouldBeDeleted($ldapObject) {
+  $children = $ldapObject -> listObjectsInRelation(
+    $ldapObject,
+    'supannCodeEntiteParent',
+    $GLOBALS['LS_SUPANN_LSOBJECT_ENTITE_TYPE'],
+    'supannCodeEntite'
+  );
+  if ($children) {
+    LSerror :: addErrorCode('SUPANN_03');
+    return false;
+  }
+  return true;
 }
