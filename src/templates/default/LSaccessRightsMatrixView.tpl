@@ -83,6 +83,74 @@
 {else}
     <p>{tr msg="This object type has no configured relation."}
 {/if}
+
+    <h3>{tr msg="Custom actions"}</h3>
+{if !empty($LSobjects[$LSobject]['customActions'])}
+    <table class="table-header-rotated">
+      <thead>
+        <th>
+          {tr msg="Custom actions / Profiles"}
+          <div id="LSaccessRightsMatrixView_legend">
+            <label>{tr msg="Legend:"}</label>
+            <span class='LSaccessRightsMatrixView_allowed'>X</span> = {tr msg="Allowed"}
+          </div>
+        </th>
+        {foreach $LSprofiles as $name => $label}
+        <th class="rotate-45"><div><span>{if $name != $label}<img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/>{/if} {$label}</span></div></th>
+        {/foreach}
+      </thead>
+      <tbody>
+      {foreach $LSobjects[$LSobject]['customActions'] as $name => $conf}
+        <tr>
+          <th class="row-header">{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
+          {foreach $LSprofiles as $profil => $profil_label}
+          <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
+          {if $conf.rights[$profil]}
+            <span class='LSaccessRightsMatrixView_allowed'>X</span>
+          {/if}
+          </td>
+          {/foreach}
+        </tr>
+      {/foreach}
+      </tbody>
+    </table>
+{else}
+    <p>{tr msg="This object type has no configured custom action."}
+{/if}
+
+    <h3>{tr msg="Custom search actions"}</h3>
+{if !empty($LSobjects[$LSobject]['customSearchActions'])}
+    <table class="table-header-rotated">
+      <thead>
+        <th>
+          {tr msg="Custom actions / Profiles"}
+          <div id="LSaccessRightsMatrixView_legend">
+            <label>{tr msg="Legend:"}</label>
+            <span class='LSaccessRightsMatrixView_allowed'>X</span> = {tr msg="Allowed"}
+          </div>
+        </th>
+        {foreach $LSprofiles as $name => $label}
+        <th class="rotate-45"><div><span>{if $name != $label}<img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/>{/if} {$label}</span></div></th>
+        {/foreach}
+      </thead>
+      <tbody>
+      {foreach $LSobjects[$LSobject]['customSearchActions'] as $name => $conf}
+        <tr>
+          <th class="row-header">{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
+          {foreach $LSprofiles as $profil => $profil_label}
+          <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
+          {if $conf.rights[$profil]}
+            <span class='LSaccessRightsMatrixView_allowed'>X</span>
+          {/if}
+          </td>
+          {/foreach}
+        </tr>
+      {/foreach}
+      </tbody>
+    </table>
+{else}
+    <p>{tr msg="This object type has no configured custom search action."}
+{/if}
   </div>
 </div>
 {/block}

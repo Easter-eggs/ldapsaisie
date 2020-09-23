@@ -136,10 +136,42 @@ function LSaccessRightsMatrixView() {
 			);
 		}
 
+    // List customActions and rigths on their
+    $customActions = array();
+    foreach(LSconfig :: get("LSobjects.$LSobject.customActions", array()) as $action_name => $action_config) {
+			$raw_action_rights = LSconfig :: get('rights', array(), 'array', $action_config);
+			$action_rights = array();
+			if (array_key_exists($LSobject, $authObjTypes))
+				$action_rights['self'] = in_array('self', $raw_action_rights);
+			foreach(array_keys($LSprofiles) as $LSprofile)
+				$action_rights[$LSprofile] = in_array($LSprofile, $raw_action_rights);
+			$customActions[$action_name] = array (
+				'label' => __(LSconfig :: get('label', $action_name, 'string', $action_config)),
+				'rights' => $action_rights,
+			);
+		}
+
+    // List customSearchActions and rigths on their
+    $customSearchActions = array();
+    foreach(LSconfig :: get("LSobjects.$LSobject.LSsearch.customActions", array()) as $action_name => $action_config) {
+			$raw_action_rights = LSconfig :: get('rights', array(), 'array', $action_config);
+			$action_rights = array();
+			if (array_key_exists($LSobject, $authObjTypes))
+				$action_rights['self'] = in_array('self', $raw_action_rights);
+			foreach(array_keys($LSprofiles) as $LSprofile)
+				$action_rights[$LSprofile] = in_array($LSprofile, $raw_action_rights);
+			$customSearchActions[$action_name] = array (
+				'label' => __(LSconfig :: get('label', $action_name, 'string', $action_config)),
+				'rights' => $action_rights,
+			);
+		}
+
 		$LSobjects[$LSobject] = array (
 			'label' => __(LSconfig :: get("LSobjects.$LSobject.label", $LSobject, 'string')),
 			'attrs' => $attrs,
 			'relations' => $relations,
+			'customActions' => $customActions,
+			'customSearchActions' => $customSearchActions,
 		);
 	}
 

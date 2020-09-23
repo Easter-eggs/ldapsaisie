@@ -176,7 +176,7 @@ msgid "Access Right Matrix Support : The global array %{array} is not defined."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:52
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:155
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:187
 msgid "Access rights matrix"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "All connected users"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:151
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:183
 msgid "The user him-self"
 msgstr ""
 
@@ -2059,6 +2059,11 @@ msgstr ""
 msgid "Mr."
 msgstr ""
 
+#: templates/default/LSaccessRightsMatrixView.tpl:95
+#: templates/default/LSaccessRightsMatrixView.tpl:129
+msgid "Allowed"
+msgstr ""
+
 #: templates/default/LSaccessRightsMatrixView.tpl:18
 msgid "Attributes / Profiles"
 msgstr ""
@@ -2073,6 +2078,19 @@ msgstr ""
 
 #: templates/default/base_connected.tpl:49
 msgid "Connected as"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:87
+msgid "Custom actions"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:92
+#: templates/default/LSaccessRightsMatrixView.tpl:126
+msgid "Custom actions / Profiles"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:121
+msgid "Custom search actions"
 msgstr ""
 
 #: templates/default/error.tpl:16
@@ -2120,6 +2138,8 @@ msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:20
 #: templates/default/LSaccessRightsMatrixView.tpl:56
+#: templates/default/LSaccessRightsMatrixView.tpl:94
+#: templates/default/LSaccessRightsMatrixView.tpl:128
 msgid "Legend:"
 msgstr ""
 
@@ -2213,6 +2233,14 @@ msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:49
 msgid "Their relations with other objects"
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:118
+msgid "This object type has no configured custom action."
+msgstr ""
+
+#: templates/default/LSaccessRightsMatrixView.tpl:152
+msgid "This object type has no configured custom search action."
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:84

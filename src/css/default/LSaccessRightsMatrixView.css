@@ -90,9 +90,9 @@
 }
 
 /*
- * Readable/Writable tips
+ * Readable/Writable/Allowed tips
  */
-span.LSaccessRightsMatrixView_readable, span.LSaccessRightsMatrixView_writable {
+span.LSaccessRightsMatrixView_readable, span.LSaccessRightsMatrixView_writable, span.LSaccessRightsMatrixView_allowed {
   color: #fff;
   border: 1px solid;
   border-radius: 0.3em;
@@ -110,6 +110,11 @@ span.LSaccessRightsMatrixView_readable {
 span.LSaccessRightsMatrixView_writable {
   background-color: #ffc107;
   border-color: #ffc107;
+}
+
+span.LSaccessRightsMatrixView_allowed {
+  background-color: #28a745;
+  border-color: #28a745;
 }
 
 /*
@@ -163,6 +168,14 @@ div.LSaccessRightsMatrixView_tab_content h2 {
   padding-top: 1em;
   font-style: italic;
   font-weight: normal;
+}
+
+/*
+ * Subtitle
+ */
+#LSaccessRightsMatrixView h3 {
+  border-bottom: 1px solid #dddddd;
+  max-width: 60em;
 }
 
 

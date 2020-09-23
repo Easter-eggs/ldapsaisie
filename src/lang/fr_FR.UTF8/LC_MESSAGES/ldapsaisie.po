@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-22 18:12+0200\n"
+"PO-Revision-Date: 2020-09-23 14:08+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -229,7 +229,7 @@ msgstr ""
 "défini."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:52
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:155
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:187
 msgid "Access rights matrix"
 msgstr "Matrice des droits d'accès"
 
@@ -237,7 +237,7 @@ msgstr "Matrice des droits d'accès"
 msgid "All connected users"
 msgstr "Tous les utilisateurs connectés"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:151
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:183
 msgid "The user him-self"
 msgstr "L'utilisateur lui-même"
 
@@ -2406,6 +2406,11 @@ msgstr "Madame"
 msgid "Mr."
 msgstr "Monsieur"
 
+#: templates/default/LSaccessRightsMatrixView.tpl:95
+#: templates/default/LSaccessRightsMatrixView.tpl:129
+msgid "Allowed"
+msgstr "Autorisé"
+
 #: templates/default/LSaccessRightsMatrixView.tpl:18
 msgid "Attributes / Profiles"
 msgstr "Attributs / Profils"
@@ -2421,6 +2426,19 @@ msgstr "Se connecter"
 #: templates/default/base_connected.tpl:49
 msgid "Connected as"
 msgstr "Connecté en tant que"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:87
+msgid "Custom actions"
+msgstr "Actions personnalisées"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:92
+#: templates/default/LSaccessRightsMatrixView.tpl:126
+msgid "Custom actions / Profiles"
+msgstr "Actions personnalisées / Profils"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:121
+msgid "Custom search actions"
+msgstr "Actions personnalisées sur les recherches"
 
 #: templates/default/error.tpl:16
 msgid "Details"
@@ -2467,6 +2485,8 @@ msgstr "Langue"
 
 #: templates/default/LSaccessRightsMatrixView.tpl:20
 #: templates/default/LSaccessRightsMatrixView.tpl:56
+#: templates/default/LSaccessRightsMatrixView.tpl:94
+#: templates/default/LSaccessRightsMatrixView.tpl:128
 msgid "Legend:"
 msgstr "Légende :"
 
@@ -2561,6 +2581,16 @@ msgstr "Sujet"
 #: templates/default/LSaccessRightsMatrixView.tpl:49
 msgid "Their relations with other objects"
 msgstr "Leurs relations avec les autres objets"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:118
+msgid "This object type has no configured custom action."
+msgstr "Ce type d'objet n'a aucune action personnalisée de configurée."
+
+#: templates/default/LSaccessRightsMatrixView.tpl:152
+msgid "This object type has no configured custom search action."
+msgstr ""
+"Ce type d'objet n'a aucune action personnalisée sur les recherches de "
+"configurée."
 
 #: templates/default/LSaccessRightsMatrixView.tpl:84
 msgid "This object type has no configured relation."
