@@ -1,3 +1,29 @@
+ldapsaisie (3.0.2-1) unstable; urgency=medium
+
+    This release include a lot of small fixes and improvements, especially in logging.
+    It also include some noteworthy improvements :
+    - Empty LSldapObject PHP classes for your custom object types is now useless: they
+      will be self-generated if they don't exists.
+    - SVG images are now supported as preferred format.
+    - Possible values list of select attributes could now be generated using a custom
+      configurable function (see doc for details).
+    - Date attribute now support configurable special values
+    - LSldapObject :: getValue() method now accept $first and $default parameters that
+      could be useful to simplify your custom code.
+    - LSldapObject :: loadData() explicitly list need attributes in LDAP request. More
+      than permit to be more efficient, this permit to handle special LDAP attributes
+      which must be explicitly requested to be return by LDAP server.
+    - LSformElement::getEmptyField() / LSformElement.tpl now provide value index as
+      $value_idx template variable. This could be useful to handle composite attribute.
+    - Improve POSIX, Samba and Supann support: handle some new attributes
+    - Add showTechInfo LSaddon that could be useful for admin to see technical information
+      of LDAP object.
+    - "0" (zero string) value are finally properly managed.
+    Please see /usr/share/doc/ldapsaisie/changelog.Debian.gz for complete list of
+    changes.
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 30 Sep 2020 11:35:29 +0200
+
 ldapsaisie (3.0.0-1) unstable; urgency=medium
 
     This release introduce important modifications and especially :

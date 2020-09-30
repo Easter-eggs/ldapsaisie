@@ -1,3 +1,88 @@
+ldapsaisie (3.0.2-1) unstable; urgency=medium
+
+  * LSsession:
+    * includeFile(): improve logging
+    * loadLSprofiles(): restructuring code and improve comments and logging
+    * loadLSobject(): auto declare simple PHP class for simple LSObject type if
+      PHP class file not found
+    * Improve error messages
+  * LSauthMethod :: authenticate(): fix PHP warning
+  * LSurl::redirect: fix handling absolute URL without protocol
+    For instance "//localhost/phpldapadmin/")
+  * light-blue.css: fix objet link color in list when table row is hover
+  * LStemplate::getImagePath(): handle SVG image type/ext as preferred format
+  * LSsearch:
+    * Fix/improve logging
+    * Remove buggy _hash cache parameter and replace it by an hash accessible key
+    * getHash(): fix handling onlyAccessible parameter
+  * LSsearchEntry: remove useless $hash private property
+  * LScli: add --trace parameter
+  * modify page: fix URL encode object DN in redirection URL
+  * LSlang:
+    * Fix warning about return not True
+    * generate_lang_file CLI command:
+      * Add Q choice in interactive mode to quit
+      * Factor handling possible_values of select list&box
+      * Improve logging
+  * Handle redirections of old-style URL even if user not authenticated
+  * Translate LSerror message at formating/diplaying time
+  * Attribute types:
+    * image: fix error on non-AJAX form when no file is submitted
+    * date:
+     * Add special_values parameter (also add for LSformRule::date)
+     * Make today button working even if input is empty
+     * Add clear button
+    * select_box: fix double translation of labels on unfreeze field
+    * select_list:
+      * clean code of getPossibleValues() method
+      * add get_possible_values parameter
+    * shadowExpire: fix getUpdateData() method to return string values and
+      add doc about this undocumented LDAP attribute type
+  * LSformRule:
+    * provide reference to LSformElement instead of copied value
+    * imagesize: use self :: log_debug() instead of LSdebug()
+    * date: add special_values parameter
+  * LSldapObject:
+    * getValue(): add $first and $default parameters
+    * submitChange(): improve logging
+    * add isValidTypeName() method and use it in LSsession::loadLSobject().
+      LSobject type name must now only contains letter, digits, dash or underscore.
+    * loadData(): explicitly list need attributes in LDAP request
+  * LSrelation:
+    * fix error codes prefix
+    * check relation is correctly configured before using it to avoid some unreal warnings
+      in case of misconfigured relation
+  * LSformElement::getEmptyField() / LSformElement.tpl: Provide value index as $value_idx
+    template variable
+  * Improve POSIX and Samba support:
+    * Improve LSaddons samba & posix
+    * Add LSattr LDAP & HTML sambaAcctFlags type
+    * Fix home and profile path formats in default configuration
+    * Improve POSIX & Samba config in LSexample
+  * LSaddons:
+    * Add showTechInfo LSaddon
+    * Improve LSaddons samba & posix
+    * LSmail: add possibility to send HTML email
+    * SUPPAN: add support for some attributes
+    * LSaccessRightsMatrixView: handle customActions & customSearchActions
+  * LSldap: fix/improve update() and getEntry() methods
+  * Logging:
+    * Improve logging on LSobject & LSattribute triggers executions
+    * Extend LSlog_handler using LSlog_staticLoggerClass
+    * Add warning on unknown key requested using __get methods
+    * Add __toString() method to all common extendable PHP classes to make context logging
+      easier
+    * Log referrer URL in case of old-style URL redirection
+  * LSform:
+    * fix non-AJAX form submission (or form with input[type=file])
+    * fix/improve handling config (especially, fix handling ajaxSubmit configuration parameter)
+  * Fix handling "0" (zero string) value
+  * Doc:
+    * some fixes and improvements
+    * Publish and complete contrib section about LSaddons, LSformElements and LSformRules
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Wed, 30 Sep 2020 11:35:29 +0200
+
 ldapsaisie (3.0.1-1) unstable; urgency=medium
 
   * LSformElement JS: fire change event on input field cleared
