@@ -167,7 +167,7 @@ function handle_global_search($request) {
   $onlyOneObject = false;
   $pages=array();
   foreach ($LSaccess as $LSobject => $label) {
-    if ( $LSobject == SELF || !LSsession :: loadLSobject($LSobject) )
+    if ( $LSobject == "SELF" || !LSsession :: loadLSobject($LSobject) )
       continue;
     if (!LSconfig::get("LSobjects.$LSobject.globalSearch", true, 'bool'))
       continue;
