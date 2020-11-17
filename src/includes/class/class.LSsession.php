@@ -557,24 +557,25 @@ class LSsession {
   }
 
  /**
-  * Chargement des addons LdapSaisie
+  * Load globally required LSaddons
   *
-  * Chargement des LSaddons contenue dans la variable
-  * $GLOBALS['LSaddons']['loads']
+  * Load LSaddons list in $GLOBALS['LSaddons']['loads']
   *
-  * @retval boolean true si le chargement a rÃ©ussi, false sinon.
+  * @retval boolean True on success, False otherwise
   */
   public static function loadLSaddons() {
-    $conf=LSconfig :: get('LSaddons.loads');
+    $conf = LSconfig :: get('LSaddons.loads');
     if(!is_array($conf)) {
       LSerror :: addErrorCode('LSsession_01',"LSaddons['loads']");
       return;
     }
 
+    $error = false;
     foreach ($conf as $addon) {
-      self :: loadLSaddon($addon);
+      if (!self :: loadLSaddon($addon))
+        $false = true;
     }
-    return true;
+    return !$error;
   }
 
 
