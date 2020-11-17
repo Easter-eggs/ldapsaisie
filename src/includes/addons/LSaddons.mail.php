@@ -164,7 +164,7 @@ LSerror :: defineError('MAIL_01',
 
 
 if (php_sapi_name() != 'cli')
-  return;
+  return true;
 
 function cli_test_send_mail($command_args) {
   $recipient = null;
