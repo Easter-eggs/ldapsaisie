@@ -64,6 +64,21 @@ LSerror :: defineError('MAIL_01',
       }
     }
 
+    if ($retval)
+      LScli :: add_command(
+        'test_send_mail',
+        'cli_test_send_mail',
+        'Send a test email',
+        "[-s subject] [-b body] [recipient]",
+        array (
+          "  -s/--subject             The test email subject (optional)",
+          "  -b/--body                The test email body (optional)",
+          "  recipient                The test email recipient (required)",
+        ),
+        false,  // This command does not need LDAP connection
+        'cli_test_send_mail_autocompleter'
+      );
+
     return $retval;
   }
 
@@ -146,3 +161,72 @@ LSerror :: defineError('MAIL_01',
     }
     return true;
   }
+
+
+if (php_sapi_name() != 'cli')
+  return;
+
+function cli_test_send_mail($command_args) {
+  $recipient = null;
+  $subject = "Test email";
+  $body = "This is a test message.";
+  for ($i=0; $i < count($command_args); $i++) {
+    switch ($command_args[$i]) {
+      case '--subject':
+      case '-s':
+        $i++;
+        if (!isset($command_args[$i]))
+          LScli :: usage("You must provide the email subject after -s/--subject parameter.");
+        $subject = $command_args[$i];
+        if (!$subject)
+          LScli :: usage("Invalid subject provided.");
+        break;
+
+      case '--body':
+      case '-b':
+        $i++;
+        if (!isset($command_args[$i]))
+          LScli :: usage("You must provide the email body after -b/--body parameter.");
+        $body = $command_args[$i];
+        if (!$body)
+          LScli :: usage("Invalid body provided.");
+        break;
+
+      default:
+        if (!$recipient && checkEmail($command_args[$i]))
+          $recipient = $command_args[$i];
+        else
+          LScli :: usage("Invalid parameter '".$command_args[$i]."'.");
+    }
+  }
+
+  if (!$recipient)
+    LScli :: usage("You must provide test email recipient as first positional parameter");
+
+  $logger = LSlog :: get_logger('LSaddon_mail');
+  if (!sendMail($recipient, $subject, $body)) {
+    $logger -> error("Fail to send test email sent to '$recipient'.");
+    return false;
+  }
+  $logger -> info("Test email sent to '$recipient'.");
+  return true;
+}
+
+function cli_test_send_mail_autocompleter($comp_words, $comp_word_num, $comp_word, $opts) {
+  switch ($comp_words[$comp_word_num-1]) {
+    case '-s':
+    case '--subject':
+    case '-b':
+    case '--body':
+      return array();
+      break;
+  }
+  $opts = array_merge(
+    $opts,
+    array (
+      '-s', '--subject',
+      '-b', '--body',
+    )
+  );
+  return LScli :: autocomplete_opts($opts, $comp_word);
+}
