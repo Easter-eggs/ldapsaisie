@@ -570,7 +570,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_options' => array (
         'selectable_object' => array(
             'object_type' => 'LSpeople',
-            'value_attribute' => '%{dn}'
+            'value_attribute' => 'dn'
         ),
       ),
       'validation' => array (
