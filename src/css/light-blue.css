@@ -210,6 +210,14 @@ td.LSobject-list, tr.LSobject-list {
 		width: calc(32vw - 10rem - 16px);
 	}
 
+	.LSform select.LSformElement_labeledValue {
+    width: 8em;
+  }
+
+  .LSform input.LSformElement_labeledValue {
+    width: calc(32vw - 8em);
+  }
+
 	input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_searchAdd {
 		width: 17vw!important;
 		box-sizing: border-box;

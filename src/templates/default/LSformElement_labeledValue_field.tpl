@@ -16,6 +16,5 @@
 {else}
   <select name='{$attr_name|escape:"htmlall"}_labels[]' class='LSformElement_labeledValue'>
     {html_options options=$labels selected=$parseValue.label}
-  </select>
-  <input type="text" name='{$attr_name|escape:"htmlall"}_values[]' class='LSformElement_labeledValue' value='{if $parseValue.value}{$parseValue.value|escape:'htmlall'}{else}{$parseValue.raw_value|escape:'htmlall'}{/if}'/>
+  </select><input type="text" name='{$attr_name|escape:"htmlall"}_values[]' class='LSformElement_labeledValue' value='{if $parseValue.value}{$parseValue.value|escape:'htmlall'}{else}{$parseValue.raw_value|escape:'htmlall'}{/if}'/>
 {/if}
