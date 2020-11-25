@@ -50,8 +50,16 @@ class LSformElement_labeledValue extends LSformElement {
     foreach($this -> values as $val) {
       $parseValues[]=$this -> parseValue($val);
     }
+
+    // Translate labels
+    $labels = $this -> getParam('html_options.labels', array());
+    if ($this -> getParam('html_options.translate_labels', true, 'bool')) {
+      foreach($labels as $value => $label)
+        $labels[$value] = __($label);
+    }
+
     $return['html'] = $this -> fetchTemplate(NULL,array(
-      'labels' => $this -> getParam('html_options.labels'),
+      'labels' => $labels,
       'parseValues' => $parseValues,
       'unrecognizedValueTxt' => __('(unrecognized value)'),
       'unrecognizedLabelTxt' => __('(unrecognized label)'),

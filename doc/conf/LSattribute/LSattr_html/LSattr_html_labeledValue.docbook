@@ -12,6 +12,7 @@
     'label2' => 'Libellé label2',
     [...]
   ),
+  'translate_labels' => [booléen],
 ),]]>
 ...
 </programlisting>
@@ -25,6 +26,13 @@
     <simpara>Tableau associatif obligatoire contenant en valeur clé, le
     <literal>label</literal> utilisé dans la valeur stockée et en valeur
     associée, le valeur d'affichage du <literal>label</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>translate_labels</term>
+  <listitem>
+    <simpara>Booléen permettant d'activer/désactiver la traduction des labels (Par defaut : <literal>Vrai</literal>).</simpara>
   </listitem>
 </varlistentry>
 

@@ -626,7 +626,8 @@ function cli_generate_lang_file($command_args) {
             }
             break;
           case 'labeledValue':
-            addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.labels.*");
+            if (LSconfig :: get("LSobjects.$obj.attrs.$attr.html_options.translate_labels", True, "bool"))
+              addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.labels.*");
             break;
           case 'password':
             addFromLSconfig("LSobjects.$obj.attrs.$attr.html_options.mail.subject");
