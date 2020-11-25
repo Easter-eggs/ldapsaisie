@@ -40,7 +40,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       'disableOnSuccessMsg' => true,
       'icon' => 'tech_info',
       'rights' => array (
-        'admin'
+        'admin',
       ),
     ),
   ),
@@ -80,7 +80,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       'check_data' => array (
         'regex' => array(
           'msg' => "Identifier must contain alphanumeric values, dots (.) and dashes (-) only.",
-          'params' => array('regex' => '/^[a-zA-Z0-9-_\.]*$/')
+          'params' => array('regex' => '/^[a-zA-Z0-9-_\.]*$/'),
         ),
       ),
       'validation' => array (
@@ -89,7 +89,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
           'result' => 0,
           'msg' => 'This identifier is already used.',
           'except_current_object' => true,
-        )
+        ),
       ),
       'rights' => array(
         'self' => 'r',
@@ -99,7 +99,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
+        'create' => 1,
       ),
     ),
     /* ----------- end -----------*/
@@ -109,7 +109,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       'label' => 'Password',
       'ldap_type' => 'password',
       'ldap_options' => array (
-        'encode' => 'ssha'
+        'encode' => 'ssha',
       ),
       'html_type' => 'password',
       'html_options' => array(
@@ -120,10 +120,10 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
         'chars' => array (
           array(
             'nb' => 3,
-            'chars' => 'abcdefijklmnopqrstuvwxyz'
+            'chars' => 'abcdefijklmnopqrstuvwxyz',
           ),
           '0123456789',
-          '*$.:/_-[]{}=~'
+          '*$.:/_-[]{}=~',
         ),
       ),
       'check_data' => array(
@@ -131,18 +131,18 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
           'msg' => 'This password must contain at least 12 characters.',
           'params' => array(
             'minLength' => 12,
-          )
-        )
+          ),
+        ),
       ),
       'required' => 1,
       'rights' => array(
         'self' => 'w',
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'form' => array (
         'modify' => 1,
         'create' => 1,
-        'lostPassword' => 1
+        'lostPassword' => 1,
       ),
     ),
     /* ----------- end -----------*/
@@ -161,10 +161,10 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
-  ) // Fin args
+  ), // Fin args
 );

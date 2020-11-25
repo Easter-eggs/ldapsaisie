@@ -295,7 +295,7 @@ $GLOBALS['supannNomenclatures'] = array (
 			"X60" => "SECRETAIRE DE  CABINET",
 			"X70" => "ACMO H&S",
 			"X71" => "Chargé de service de prévention H&S",
-			"X80" => "Assesseur"
+			"X80" => "Assesseur",
 		),
 		'typeEntite' => array (
 			"C000" => "Bureau du président",
@@ -387,7 +387,7 @@ $GLOBALS['supannNomenclatures'] = array (
 			"S312" => "Centre de recherche",
 			"S330" => "Campus",
 			"S340" => "Plate-forme de recherche ou plateau technique",
-		)
+		),
 	),
 	'UAI' => array (
 		'codeEtablissement' => array (
@@ -750,7 +750,7 @@ $GLOBALS['supannNomenclatures'] = array (
 			"0911975C" => "UNIVERSITE EVRY VAL D ESSONNE",
 			"0921204J" => "UNIVERSITE PARIS 10",
 			"0911101C" => "UNIVERSITE PARIS 11",
-		)
+		),
 	),
 	'SISE' => array (
 		'etuRegimeInscription' => array (
@@ -1019,7 +1019,7 @@ $GLOBALS['supannNomenclatures'] = array (
 			'ZF' => "DIPLOME COMPTABILITE ET DE GESTION",
 			'ZG' => "DIPL SUP COMPTABILITE ET DE GESTION",
 			'ZH' => "CERTIFICATS DE COMPETENCES",
-		)
+		),
 	),
 	'NCORPS' => array (
 		'empCorps' => array (
@@ -1490,7 +1490,7 @@ $GLOBALS['supannNomenclatures'] = array (
 			'998' => "MEDECIN DE L'E.N.- CONSEILLER TECHNIQUE",
 			'999' => "SANS CORRESPONDANCE CORPS",
 			'***' => "CONVENTION ETOILE, DECLINAISON TOUT CODE",
-		)
+		),
 	),
 	'CNU' => array(
 		'supannActivite' => array(

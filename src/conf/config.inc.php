@@ -46,7 +46,7 @@ $GLOBALS['LSconfig'] = array(
             'basedn'   => 'o=ls',
             'options'  => array(),
             'filter'   => '(objectClass=*)',
-            'scope'    => 'sub'
+            'scope'    => 'sub',
       ),
       'LSauth' => array (
         //'method' => 'basic', // Auth method : basic(default), HTTP, CAS or anonymous
@@ -69,9 +69,9 @@ $GLOBALS['LSconfig'] = array(
           'ou=people,o=ls' => array (
             'cn=adminldap,ou=groups,o=ls' => array (
               'attr' => 'uniqueMember',
-              'LSobject' => 'LSgroup'
-            )
-          )
+              'LSobject' => 'LSgroup',
+            ),
+          ),
         ),
         'godfather' => array (
           'label' => 'Godfather',
@@ -79,13 +79,13 @@ $GLOBALS['LSconfig'] = array(
             'LSpeople' => array (
               'attr' => 'lsGodfatherDn',
               'attr_value' => '%{dn}',
-              'basedn' => 'ou=people,o=ls'
+              'basedn' => 'ou=people,o=ls',
             ),
             'LSgroup' => array (
-              'filter' => '(lsGodfatherDn=%{dn})'
-            )
-          )
-        )
+              'filter' => '(lsGodfatherDn=%{dn})',
+            ),
+          ),
+        ),
       ),
       'cacheLSprofiles' => true,
       'cacheSearch' => true,
@@ -100,14 +100,14 @@ $GLOBALS['LSconfig'] = array(
         'recoveryEmailSender' => 'noreply-recover@ls.com',
         'recoveryHashMail' => array(
           'subject' => 'LSexample : Recovering your password.',
-          'msg' => "To proceed password recovery procedure, please follow that link:\n%{url}"
+          'msg' => "To proceed password recovery procedure, please follow that link:\n%{url}",
         ),
         'newPasswordMail' => array(
           'subject' => 'LSexample : Your new credentials.',
-          'msg' => "Your new password : %{mdp}"
-        )
+          'msg' => "Your new password : %{mdp}",
+        ),
       ),
-      'emailSender' => 'noreply@ls.com'
+      'emailSender' => 'noreply@ls.com',
     ),
     array (
       'name' => 'LSexample - multi-company',
@@ -121,7 +121,7 @@ $GLOBALS['LSconfig'] = array(
         'basedn'   => 'o=ls',
         'options'  => array(),
         'filter'   => '(objectClass=*)',
-        'scope'    => 'sub'
+        'scope'    => 'sub',
       ),
       'LSauth' => array (
         'LSobjects' => array('LSpeople'),
@@ -132,15 +132,15 @@ $GLOBALS['LSconfig'] = array(
             'uid=eeggs,ou=people,o=ls' => NULL,
             'cn=adminldap,ou=groups,o=ls' => array (
               'attr' => 'uniqueMember',
-              'LSobject' => 'LSgroup'
-            )
-          )
+              'LSobject' => 'LSgroup',
+            ),
+          ),
         ),
         'admingroup' => array (
           'ou=company1,ou=companies,o=ls' => array (
-            'uid=user1,ou=people,ou=company1,ou=companies,o=ls' => NULL
-          )
-        )
+            'uid=user1,ou=people,ou=company1,ou=companies,o=ls' => NULL,
+          ),
+        ),
       ),
       'subDnLabel' => 'Company',
       'subDn' => array(
@@ -150,17 +150,17 @@ $GLOBALS['LSconfig'] = array(
             'LSpeople',
             'LSgroup',
             'LScompany',
-            'LSsysaccount'
-          )
+            'LSsysaccount',
+          ),
         ),
         'LSobject' => array(
           'LScompany' => array(
             'LSobjects' => array(
               'LSpeople',
-              'LSgroup'
-            )
-          )
-        )
+              'LSgroup',
+            ),
+          ),
+        ),
       ),
       'cacheLSprofiles' => true,
       'cacheSearch' => true,
@@ -171,16 +171,16 @@ $GLOBALS['LSconfig'] = array(
         'recoveryEmailSender' => 'noreply-recover@lsexample.net',
         'recoveryHashMail' => array(
           'subject' => 'LSexample : Recovering your password.',
-          'msg' => "To proceed password recovery procedure, please follow that link:\n%{url}"
+          'msg' => "To proceed password recovery procedure, please follow that link:\n%{url}",
         ),
         'newPasswordMail' => array(
           'subject' => 'LSexample : Your new credentials.',
-          'msg' => "Your new password : %{mdp}"
-        )
+          'msg' => "Your new password : %{mdp}",
+        ),
       ),
-      'emailSender' => 'noreply@lsexample.net'
-    )
-  )
+      'emailSender' => 'noreply@lsexample.net',
+    ),
+  ),
 );
 
 // Interface

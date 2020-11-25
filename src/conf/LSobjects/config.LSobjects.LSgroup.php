@@ -23,18 +23,18 @@
 $GLOBALS['LSobjects']['LSgroup'] = array (
   'objectclass' => array(
     'lsgroup',
-    'posixGroup'
+    'posixGroup',
   ),
   'rdn' => 'cn',
   'container_dn' => 'ou=groups',
   'container_auto_create' => array(
     'objectclass' => array(
       'top',
-      'organizationalUnit'
+      'organizationalUnit',
     ),
     'attrs' => array(
-      'ou' => 'groups'
-    )
+      'ou' => 'groups',
+    ),
   ),
   'display_name_format' => '%{cn}',
   'label' => 'Groups',
@@ -48,7 +48,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'disableOnSuccessMsg' => true,
       'icon' => 'tech_info',
       'rights' => array (
-        'admin'
+        'admin',
       ),
     ),
   ),
@@ -63,25 +63,25 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'required' => 1,
       'check_data' => array (
         'alphanumeric' => array(
-          'msg' => 'Name must contain alphanumeric values only.'
+          'msg' => 'Name must contain alphanumeric values only.',
         ),
       ),
       'validation' => array (
         array (
           'filter' => 'cn=%{val}',
-          'result' => 0
-        )
+          'result' => 0,
+        ),
       ),
       'view' => 1,
       'rights' => array(
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'r'
+        'godfather' => 'r',
       ),
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -95,17 +95,17 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'validation' => array (
         array (
           'filter' => 'gidNumber=%{val}',
-          'result' => 0
-        )
+          'result' => 0,
+        ),
       ),
       'view' => 1,
       'rights' => array(
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'form' => array (
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -127,7 +127,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
           array(
             'object_type' => 'LSsysaccount',
             'value_attribute' => 'dn',
-          )
+          ),
         ),
         'ordered' => true,
       ),
@@ -136,19 +136,19 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'validation' => array (
         array (
           'basedn' => '%{val}',
-          'result' => 1
-        )
+          'result' => 1,
+        ),
       ),
       'view' => 1,
       'rights' => array(
         'admin' => 'w',
         'admingroup' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -161,13 +161,13 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'rights' => array(
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'r'
+        'godfather' => 'r',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -179,27 +179,27 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'html_options' => array (
         'selectable_object' => array(
             'object_type' => 'LSpeople',
-            'value_attribute' => 'dn'
+            'value_attribute' => 'dn',
         ),
       ),
       'validation' => array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => "One or several of these users don't exist."
-        )
+          'msg' => "One or several of these users don't exist.",
+        ),
       ),
       'multiple' => 0,
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
-  )
+  ),
 );

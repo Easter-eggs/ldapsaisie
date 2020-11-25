@@ -23,7 +23,7 @@
 $GLOBALS['LSobjects']['LScompany'] = array (
   'objectclass' => array(
     'top',
-    'lscompany'
+    'lscompany',
   ),
   'rdn' => 'ou',
   'container_dn' => 'ou=companies',
@@ -39,7 +39,7 @@ $GLOBALS['LSobjects']['LScompany'] = array (
       'disableOnSuccessMsg' => true,
       'icon' => 'tech_info',
       'rights' => array (
-        'admin'
+        'admin',
       ),
     ),
   ),
@@ -53,17 +53,17 @@ $GLOBALS['LSobjects']['LScompany'] = array (
       'html_type' => 'text',
       'required' => 1,
       'check_data' => array (
-        'alphanumeric' => NULL
+        'alphanumeric' => NULL,
       ),
       'view' => 1,
       'rights' => array(
         'user' => 'r',
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'form' => array (
         'modify' => 0,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -76,13 +76,13 @@ $GLOBALS['LSobjects']['LScompany'] = array (
       'rights' => array(
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -94,26 +94,26 @@ $GLOBALS['LSobjects']['LScompany'] = array (
       'html_options' => array(
         'selectable_object' => array(
           'object_type' => 'LSpeople',
-          'value_attribute' => 'dn'
-        )
+          'value_attribute' => 'dn',
+        ),
       ),
       'validation' => array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => "One or several of these users don't exist."
-        )
+          'msg' => "One or several of these users don't exist.",
+        ),
       ),
       'multiple' => 1,
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
-    )
+        'create' => 1,
+      ),
+    ),
     /* ----------- end -----------*/
-  )
+  ),
 );

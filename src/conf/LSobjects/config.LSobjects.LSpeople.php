@@ -34,11 +34,11 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
   'container_auto_create' => array(
     'objectclass' => array(
       'top',
-      'organizationalUnit'
+      'organizationalUnit',
     ),
     'attrs' => array(
-      'ou' => 'people'
-    )
+      'ou' => 'people',
+    ),
   ),
 
   'LSaddons' => array (
@@ -54,7 +54,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'disableOnSuccessMsg' => true,
       'icon' => 'tech_info',
       'rights' => array (
-        'admin'
+        'admin',
       ),
     ),
   ),
@@ -67,7 +67,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'delimiter' => ';',
         'escape' => '"',
         'eol' => ';',
-        'length' => 2
+        'length' => 2,
       ),
       'fields' => array (
         'login' => 'uid',
@@ -80,9 +80,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'shell' => 'loginShell',
       ),
       'generated_fields' => array (
-        'cn' => '%{personalTitle} %{givenName} %{sn}'
-      )
-    )
+        'cn' => '%{personalTitle} %{givenName} %{sn}',
+      ),
+    ),
   ),
 
   'before_modify' => 'valid',
@@ -108,8 +108,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'rights' => array(
         'self' => 'r',
         'admin' => 'w',
-        'admingroup' => 'w'
-      )
+        'admingroup' => 'w',
+      ),
     ),
     'godfather' => array(
       'label' => 'Godfather of ...',
@@ -120,9 +120,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'rights' => array(
         'self' => 'r',
         'admin' => 'w',
-        'admingroup' => 'w'
-      )
-    )
+        'admingroup' => 'w',
+      ),
+    ),
   ),
 
   // LSform
@@ -143,8 +143,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'userPassword',
           'description',
           'jpegPhoto',
-          'lsGodfatherDn'
-        )
+          'lsGodfatherDn',
+        ),
       ),
       'Posix' => array (
         'label' => 'Posix',
@@ -158,7 +158,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'shadowMax',
           'shadowInactive',
           'shadowLastChange',
-        )
+        ),
       ),
       'Samba' => array (
         'label' => 'Samba',
@@ -178,8 +178,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'sambaPwdLastSet',
           'sambaPwdMustChange',
           'sambaPwdCanChange',
-        )
-      )
+        ),
+      ),
     ), // fin Layout
     'dataEntryForm' => array (
       'simple' => array (
@@ -192,15 +192,15 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'sn',
           'cn',
           'mail',
-          'userPassword'
+          'userPassword',
         ),
         'defaultValues' => array (
           'description' => 'Create with the simple data entry form',
           'loginShell' => 'no',
-          'gidNumber' => '102001'
-        )
-      )
-    ) // fin dataEntryForm
+          'gidNumber' => '102001',
+        ),
+      ),
+    ), // fin dataEntryForm
   ), // fin LSform
 
   'LSsearch' => array (
@@ -209,7 +209,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'sn',
       'cn',
       'uid',
-      'mail'
+      'mail',
     ),
     'params' => array (
       'recursive' => true,
@@ -218,12 +218,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     ),
     'predefinedFilters' => array (
       '(jpegPhoto=*)' => 'With photo',
-      '(!(jpegPhoto=*))' => 'Without photo'
+      '(!(jpegPhoto=*))' => 'Without photo',
     ),
     'extraDisplayedColumns' => array (
       'mail' => array (
         'label' => 'Mail',
-        'LSformat' => '%{mail}'
+        'LSformat' => '%{mail}',
       ),
     ),
     'customActions' => array (
@@ -234,8 +234,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'noConfirmation' => true,
         'disableOnSuccessMsg' => true,
         'rights' => array (
-          'admin'
-        )
+          'admin',
+        ),
       ),
     ),
   ),
@@ -253,13 +253,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'autoGenerateOnModify' => true,   // default : false
         'withoutAccent' => 1,
         'replaceSpaces' => '.',
-        'lowerCase' => 1
+        'lowerCase' => 1,
       ),
       'required' => 1,
       'check_data' => array (
         'regex' => array(
           'msg' => "Identifier must contain alphanumeric values, dots (.) and dashes (-) only.",
-          'params' => array('regex' => '/^[a-zA-Z0-9-_\.]*$/')
+          'params' => array('regex' => '/^[a-zA-Z0-9-_\.]*$/'),
         ),
       ),
       'validation' => array (
@@ -268,23 +268,23 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'result' => 0,
           'msg' => 'This identifier is already used.',
           'except_current_object' => true,
-        )
+        ),
       ),
       'rights' => array(
         'self' => 'r',
         'admin' => 'w',
-        'godfather' => 'r'
+        'godfather' => 'r',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
+        'create' => 1,
       ),
       'dependAttrs' => array(
         'homeDirectory',
         'sambaHomePath',
         'sambaProfilePath',
-      )
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -298,21 +298,21 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'check_data' => array (
           'alphanumeric' => array(
               'params' => array('withAccents' => true),
-              'msg' => 'The first name must contain alphanumeric values only.'
+              'msg' => 'The first name must contain alphanumeric values only.',
           ),
       ),
       'rights' => array(
         'self' => 'r',
         'users' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
+        'create' => 1,
       ),
-      'onDisplay' => 'return_data'
+      'onDisplay' => 'return_data',
     ),
     /* ----------- end -----------*/
 
@@ -326,13 +326,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'self' => 'r',
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -351,12 +351,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'self' => 'r',
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
+        'create' => 1,
       ),
       'dependAttrs' => array('gecos'),
     ),
@@ -371,26 +371,26 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'generate_value_format' => '%{givenName}.%{sn}@ls.com',
         'withoutAccent' => 1,
         'replaceSpaces' => '.',
-        'lowerCase' => 1
+        'lowerCase' => 1,
       ),
       'required' => 1,
       'check_data' => array (
         'email' => array(
           'msg' => "Given email address is invalid.",
-          'params' => array('checkDomain' => false)
+          'params' => array('checkDomain' => false),
         ),
       ),
       'rights' => array(
         'self' => 'r',
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -403,8 +403,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'possible_values' => array(
           'M.' => 'Mr',
           'Mme' => 'Mrs',
-          'Mlle' => 'Ms'
-        )
+          'Mlle' => 'Ms',
+        ),
       ),
       'required' => 1,
       'default_value' => 'M.',
@@ -412,13 +412,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'self' => 'r',
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -432,13 +432,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'self' => 'r',
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
+        'godfather' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -447,7 +447,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'label' => 'Password',
       'ldap_type' => 'password',
       'ldap_options' => array (
-        'encode' => 'md5'
+        'encode' => 'md5',
       ),
       'html_type' => 'password',
       'html_options' => array(
@@ -459,17 +459,17 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'chars' => array (
           array(
             'nb' => 3,
-            'chars' => 'abcdefijklmnopqrstuvwxyz'
+            'chars' => 'abcdefijklmnopqrstuvwxyz',
           ),
           '0123456789',
-          '*$.:/_-[]{}=~'
+          '*$.:/_-[]{}=~',
         ),
         'mail' => array(
           'send' => 1,
           'ask' => 1,
           'subject' => "LSexample : Your new credentials.",
           'msg' => "Your password has been changed.\nLogin : %{uid}\nNew password : %{password}",
-          'mail_attr' => 'mail'
+          'mail_attr' => 'mail',
         ),
         'confirmChange' => True,
         'confirmChangeQuestion' => "Do you confirm change of this user's password?",
@@ -486,14 +486,14 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
               '/[0-9]/',
               '/[^A-Za-z0-9]/',
             ),
-            'minValidRegex' => 3
-          )
-        )
+            'minValidRegex' => 3,
+          ),
+        ),
       ),
       'required' => 1,
       'rights' => array(
         'self' => 'w',
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'dependAttrs' => array(
         'sambaLMPassword',
@@ -504,9 +504,9 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'form' => array (
         'modify' => 1,
         'create' => 1,
-        'lostPassword' => 1
+        'lostPassword' => 1,
       ),
-      'after_modify' => 'valid'
+      'after_modify' => 'valid',
     ),
     /* ----------- end -----------*/
 
@@ -517,12 +517,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_type' => 'text',
       'required' => 0,
       'form' => array (
-        'lostPassword' => 1
+        'lostPassword' => 1,
       ),
       'rights' => array(
         'self' => 'w',
-        'admin' => 'w'
-      )
+        'admin' => 'w',
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -537,28 +537,28 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'imagesize' => array(
           'msg' => "Picture size is not valid.",
           'params' => array(
-            'maxWidth' => 2000
-          )
+            'maxWidth' => 2000,
+          ),
         ),
         'filesize' => array(
           'msg' => "File size is not valid.",
           'params' => array(
-            'maxSize' => 3000000   // taille du fichier en octets
-          )
+            'maxSize' => 3000000,   // taille du fichier en octets
+          ),
         ),
         'imagefile' => array(
-          'msg' => "File type is not valid."
-        )
+          'msg' => "File type is not valid.",
+        ),
       ),
       'form' => array (
-        'modify' => 1
+        'modify' => 1,
       ),
       'rights' => array(
         'self' => 'w',
         'user' => 'r',
         'admin' => 'w',
-        'godfather' => 'w'
-      )
+        'godfather' => 'w',
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -570,25 +570,25 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_options' => array (
         'selectable_object' => array(
             'object_type' => 'LSpeople',
-            'value_attribute' => 'dn'
+            'value_attribute' => 'dn',
         ),
       ),
       'validation' => array (
         array (
           'basedn' => '%{val}',
           'result' => 1,
-          'msg' => "One or several users don't exist."
-        )
+          'msg' => "One or several users don't exist.",
+        ),
       ),
       'multiple' => 1,
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'modify' => 1,
-        'create' => 1
-      )
+        'create' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -605,23 +605,23 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
        'generate_function' => 'generate_samba_uidNumber',
        'check_data' => array (
          'numeric' => array(
-           'msg' => "The numeric identifier must be an integer."
+           'msg' => "The numeric identifier must be an integer.",
          ),
        ),
        'validation' => array (
          array (
            'filter' => 'uidNumber=%{val}',
            'result' => 0,
-           'msg' => 'This uid is already used.'
-         )
+           'msg' => 'This uid is already used.',
+         ),
        ),
        'rights' => array(
-         'admin' => 'w'
+         'admin' => 'w',
        ),
        'view' => 1,
        'form' => array (
          'modify' => 0,
-       )
+       ),
      ),
      /* ----------- end -----------*/
 
@@ -649,12 +649,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
                      'filter' => 'cn=*a*',
                      //'basedn' => 'o=company',
                      'scope' => 'sub',
-                   )
+                   ),
                  )*/
-               )
-             )
-           )
-         )
+               ),
+             ),
+           ),
+         ),
        ),
        'multiple' => false,
        'required' => 1,
@@ -664,21 +664,21 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
            'object_type' => 'LSgroup',           // 'object_type' : Permet definir le type d'objet recherchés
            //'basedn' => 'o=company',                    // et d'utiliser les objectClass définis dans le fichier de configuration
            'filter' => '(gidNumber=%{val})',       // pour la recherche
-           'result' => 1
-         )
+           'result' => 1,
+         ),
        ),
        'rights' => array(
          'admin' => 'w',
-         'godfather' => 'r'
+         'godfather' => 'r',
        ),
        'view' => 1,
        'form' => array (
          'modify' => 1,
-         'create' => 1
+         'create' => 1,
        ),
        'dependAttrs' => array(
          'sambaPrimaryGroupSID',
-       )
+       ),
      ),
      /* ----------- end -----------*/
 
@@ -689,19 +689,19 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
        'ldap_type' => 'boolean',
        'ldap_options' => array (
          'true_value' => '/bin/bash',
-         'false_value' => '/bin/false'
+         'false_value' => '/bin/false',
        ),
        'html_type' => 'boolean',
        'required' => 1,
        'default_value' => 'no',
        'rights' => array(
-         'admin' => 'w'
+         'admin' => 'w',
        ),
        'view' => 1,
        'form' => array (
          'modify' => 1,
-         'create' => 1
-       )
+         'create' => 1,
+       ),
      ),
      /* ----------- end -----------*/
 
@@ -727,17 +727,17 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
        'html_options' => array(
          'generate_value_format' => '%{cn~}',
          'autoGenerateOnModify' => true,   // default : false
-         'autoGenerateOnCreate' => true    // default : false
+         'autoGenerateOnCreate' => true,   // default : false
        ),
        'required' => 1,
        'generate_value_format' => '%{cn~}',
        'rights' => array(
-         'admin' => 'w'
+         'admin' => 'w',
        ),
        'view' => 1,
        'form' => array(
          'modify' => 1,
-       )
+       ),
      ),
      /* ----------- end -----------*/
 
@@ -756,12 +756,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
        'required' => 0,
        'generate_function' => 'generate_shadowExpire_from_sambaPwdMustChange',
        'rights' => array(
-         'admin' => 'w'
+         'admin' => 'w',
        ),
        'view' => 1,
        'form' => array(
          'modify' => 1,
-       )
+       ),
      ),
      /* ----------- end -----------*/
 
@@ -781,13 +781,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
        ),
        'required' => 0,
        'rights' => array(
-         'admin' => 'w'
+         'admin' => 'w',
        ),
        'view' => 1,
        'form' => array(
          'create' => 1,
          'modify' => 1,
-       )
+       ),
      ),
      /* ----------- end -----------*/
 
@@ -807,13 +807,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
        ),
        'required' => 0,
        'rights' => array(
-         'admin' => 'w'
+         'admin' => 'w',
        ),
        'view' => 1,
        'form' => array(
          'create' => 1,
          'modify' => 1,
-       )
+       ),
      ),
      /* ----------- end -----------*/
 
@@ -829,7 +829,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
        'generate_function' => 'generate_shadowLastChange',
        'no_value_label' => 'Never',
        'rights' => array(
-         'admin' => 'w'
+         'admin' => 'w',
        ),
        'view' => 1,
      ),
@@ -847,12 +847,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'generate_function' => 'generate_user_sambaSID',
       'rights' => array(
-        'admin' => 'r'
+        'admin' => 'r',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -864,12 +864,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'generate_function' => 'generate_sambaPrimaryGroupSID',
       'rights' => array(
-        'admin' => 'r'
+        'admin' => 'r',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -881,13 +881,13 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'default_value' => array('U'),
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
         'create' => 1,
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -899,12 +899,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'default_value' => 'Z:',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -916,12 +916,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'generate_function' => 'generate_sambaHomePath',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -933,12 +933,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'generate_function' => 'generate_sambaProfilePath',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -950,12 +950,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'default_value' => 'logon.bat',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -973,12 +973,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
       'no_value_label' => 'Never',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -996,12 +996,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
       'no_value_label' => 'Never',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -1023,12 +1023,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
       'no_value_label' => 'Default (never)',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -1040,8 +1040,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'generate_function' => 'generate_sambaLMPassword',
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -1053,8 +1053,8 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'required' => 1,
       'generate_function' => 'generate_sambaNTPassword',
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -1073,12 +1073,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'generate_function' => 'generate_sambaPwdLastSet',
       'no_value_label' => 'Never',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 0
-      )
+        'modify' => 0,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -1100,12 +1100,12 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
       'no_value_label' => 'Default (never)',
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
@@ -1129,14 +1129,14 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'no_value_label' => 'Default (whenever)',
       'multiple' => true,
       'rights' => array(
-        'admin' => 'w'
+        'admin' => 'w',
       ),
       'view' => 1,
       'form' => array (
-        'modify' => 1
-      )
+        'modify' => 1,
+      ),
     ),
     /* ----------- end -----------*/
 
-  ) // Fin args
+  ), // Fin args
 );
