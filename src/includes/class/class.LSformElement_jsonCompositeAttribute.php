@@ -151,9 +151,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   protected function translateComponentValue($c,$value,$inLoop=false) {
     if (!$inLoop && isset($this -> components[$c]['multiple']) && $this -> components[$c]['multiple']) {
       $retval = array();
-      if (!is_array($value))
-        $value = array($value);
-      foreach($value as $val)
+      foreach(ensureIsArray($value) as $val)
         $retval[] = $this -> translateComponentValue($c, $val, true);
     }
     else {

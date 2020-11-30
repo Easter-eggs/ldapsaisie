@@ -56,11 +56,8 @@ class LSformRule_password extends LSformRule {
       return;
     }
 
-    $regex = LSconfig :: get('params.regex', null, null, $options);
-    if(!is_null($regex)) {
-      if (!is_array($regex))
-        $regex = array($regex);
-
+    $regex = ensureIsArray(LSconfig :: get('params.regex', null, null, $options));
+    if($regex) {
       $minValidRegex = LSconfig :: get('params.minValidRegex', count($regex), 'int', $options);
       if ($minValidRegex == 0 || $minValidRegex > count($regex))
         $minValidRegex = count($regex);
@@ -85,8 +82,8 @@ class LSformRule_password extends LSformRule {
       }
     }
 
-    $prohibitedValues = LSconfig :: get('params.prohibitedValues', null, null, $options);
-    if(is_array($prohibitedValues) && in_array($value, $prohibitedValues)) {
+    $prohibitedValues = ensureIsArray(LSconfig :: get('params.prohibitedValues', null, null, $options));
+    if(in_array($value, $prohibitedValues)) {
       self :: log_debug("this password is prohibited");
       return;
     }

@@ -139,9 +139,7 @@ class LSformElement_mailQuota extends LSformElement {
     }
     if (isset($_POST[$this -> name.'_size'])) {
       $return[$this -> name]=array();
-      if(!is_array($_POST[$this -> name.'_size'])) {
-        $_POST[$this -> name.'_size'] = array($_POST[$this -> name.'_size']);
-      }
+      $_POST[$this -> name.'_size'] = ensureIsArray($_POST[$this -> name.'_size']);
       if(isset($_POST[$this -> name.'_sizeFact']) && !is_array($_POST[$this -> name.'_sizeFact'])) {
         $_POST[$this -> name.'_sizeFact'] = array($_POST[$this -> name.'_sizeFact']);
       }

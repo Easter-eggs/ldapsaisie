@@ -1354,25 +1354,24 @@ class LSldapObject extends LSlog_staticLoggerClass {
    *
    * @retval Mixed La valeur clef d'un objet en relation
    **/
-  public static function getObjectKeyValueInRelation($object,$objectType,$attrValues='dn') {
+  public static function getObjectKeyValueInRelation($object, $objectType, $attrValues='dn') {
     if (!$objectType) {
       LSerror :: addErrorCode('LSrelation_05','getObjectKeyValueInRelation');
       return;
     }
-    if (!is_array($attrValues)) $attrValues=array($attrValues);
-    $keyValues=array();
-    foreach ($attrValues as $attrValue) {
-      if ($attrValue=='dn') {
+    $keyValues = array();
+    foreach (ensureIsArray($attrValues) as $attrValue) {
+      if ($attrValue == 'dn') {
         $dn=$object -> getDn();
-        if (!in_array($dn,$keyValues))
+        if (!in_array($dn, $keyValues))
           $keyValues[] = $dn;
       }
       else {
-        $values=$object -> getValue($attrValue);
+        $values = $object -> getValue($attrValue);
         if (is_array($values))
           foreach ($values as $keyValue)
-            if (!in_array($keyValue,$keyValues))
-              $keyValues[]=$keyValue;
+            if (!in_array($keyValue, $keyValues))
+              $keyValues[] = $keyValue;
       }
     }
     return $keyValues;
@@ -1396,20 +1395,28 @@ class LSldapObject extends LSlog_staticLoggerClass {
    *
    * @retval Array of $objectType Les objets en relations
    **/
-  public function listObjectsInRelation($object,$attr,$objectType,$attrValues='dn') {
+  public function listObjectsInRelation($object, $attr, $objectType, $attrValues='dn') {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelation_05','listObjectsInRelation');
       return;
     }
-    if (!is_array($attrValues)) $attrValues=array($attrValues);
-    $keyValues=self :: getObjectKeyValueInRelation($object,$objectType,$attrValues);
+    $keyValues = self :: getObjectKeyValueInRelation($object, $objectType, $attrValues);
     if (!empty($keyValues)) {
-      $keyValuesFilters=array();
+      $keyValuesFilters = array();
       foreach($keyValues as $keyValue) {
         $keyValuesFilters[] = Net_LDAP2_Filter::create($attr,'equals',$keyValue);
       }
       $filter = LSldap::combineFilters('or', $keyValuesFilters);
-      return $this -> listObjects($filter,LSsession :: getRootDn(),array('scope' => 'sub','recursive' => true,'withoutCache'=>true, 'onlyAccessible' => false));
+      return $this -> listObjects(
+        $filter,
+        LSsession :: getRootDn(),
+        array(
+          'scope' => 'sub',
+          'recursive' => true,
+          'withoutCache'=>true,
+          'onlyAccessible' => false
+        )
+      );
     }
 
     return array();
@@ -1511,17 +1518,13 @@ class LSldapObject extends LSlog_staticLoggerClass {
         return;
       }
       if ($this -> attrs[$attr] instanceof LSattribute) {
-        if (!is_array($attrValues)) $attrValues=array($attrValue);
-        $keyValues=self :: getObjectKeyValueInRelation($object,$objectType,$attrValues);
-        $values = $this -> attrs[$attr] -> getValue();
-        if ((!is_array($values)) && (!empty($values))) {
-          $values = array($values);
-        }
-        if (is_array($values)) {
-          $updateData=array();
+        $keyValues = self :: getObjectKeyValueInRelation($object, $objectType, $attrValues);
+        $values = ensureIsArray($this -> attrs[$attr] -> getValue());
+        if ($values) {
+          $updateData = array();
           foreach($values as $value) {
-            if (!in_array($value,$keyValues)) {
-              $updateData[]=$value;
+            if (!in_array($value, $keyValues)) {
+              $updateData[] = $value;
             }
           }
           return $this -> _updateData(array($attr => $updateData));
@@ -1545,40 +1548,36 @@ class LSldapObject extends LSlog_staticLoggerClass {
   *
   * @retval boolean True en cas de succès, False sinon
   */
-  public function renameOneObjectInRelation($object,$oldValues,$attr,$objectType,$attrValue='dn') {
+  public function renameOneObjectInRelation($object, $oldValues, $attr, $objectType, $attrValue='dn') {
     if ((!$attr)||(!$objectType)) {
       LSerror :: addErrorCode('LSrelation_05','renameOneObjectInRelation');
       return;
     }
-    if (!is_array($oldValues)) $oldValues=array($oldValues);
-    if ($object instanceof $objectType) {
-      if ($this -> attrs[$attr] instanceof LSattribute) {
-        $values = $this -> attrs[$attr] -> getValue();
-        if ((!is_array($values)) && (!empty($values))) {
-          $values = array($values);
+    if (!($object instanceof $objectType))
+      return;
+    if (!($this -> attrs[$attr] instanceof LSattribute))
+      return;
+    $values = ensureIsArray($this -> attrs[$attr] -> getValue());
+    if (!$values)
+      return;
+    $updateData = array();
+    $oldValues = ensureIsArray($oldValues);
+    foreach($values as $value) {
+      if (!in_array($value, $oldValues)) {
+        $updateData[] = $value;
+      }
+      else {
+        if ($attrValue == 'dn') {
+          $val = $object -> getDn();
         }
-        if (is_array($values)) {
-          $updateData=array();
-          foreach($values as $value) {
-            if (!in_array($value,$oldValues)) {
-              $updateData[] = $value;
-            }
-            else {
-              if ($attrValue=='dn') {
-                $val = $object -> getDn();
-              }
-              else {
-                $val = $object -> getValue($attrValue);
-                $val = $val[0];
-              }
-              $updateData[] = $val;
-            }
-          }
-          return $this -> _updateData(array($attr => $updateData));
+        else {
+          $val = $object -> getValue($attrValue);
+          $val = $val[0];
         }
+        $updateData[] = $val;
       }
     }
-    return;
+    return $this -> _updateData(array($attr => $updateData));
   }
 
   /**
@@ -1606,29 +1605,28 @@ class LSldapObject extends LSlog_staticLoggerClass {
       LSerror :: addErrorCode('LSrelation_05','updateObjectsInRelation');
       return;
     }
-    if (!is_array($attrValues)) $attrValues=array($attrValue);
-    $currentDns=array();
-    $currentObjects = $this -> listObjectsInRelation($object,$attr,$objectType,$attrValues);
-    if(is_array($currentObjects)) {
-      for ($i=0;$i<count($currentObjects);$i++) {
-        $currentDns[]=$currentObjects[$i] -> getDn();
-      }
+    $currentDns = array();
+    $currentObjects = $this -> listObjectsInRelation($object, $attr, $objectType, $attrValues);
+    if(!is_array($currentObjects))
+      return;
+    for ($i=0; $i<count($currentObjects); $i++) {
+      $currentDns[] = $currentObjects[$i] -> getDn();
     }
-    $dontTouch=array_intersect($listDns,$currentDns);
+    $dontTouch = array_intersect($listDns, $currentDns);
 
-    for($i=0;$i<count($currentObjects);$i++) {
-      if (in_array($currentObjects[$i] -> getDn(),$dontTouch)) continue;
-      if (!$currentObjects[$i] -> deleteOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction,$attrValues)) {
+    for($i=0; $i<count($currentObjects); $i++) {
+      if (in_array($currentObjects[$i] -> getDn(), $dontTouch)) continue;
+      if (!$currentObjects[$i] -> deleteOneObjectInRelation($object, $attr, $objectType, $attrValue, $canEditFunction, $attrValues)) {
         return;
       }
     }
 
-    $type=$this -> getType();
+    $type = $this -> getType();
     foreach($listDns as $dn) {
-      if (in_array($dn,$dontTouch)) continue;
+      if (in_array($dn, $dontTouch)) continue;
       $obj = new $type();
       if ($obj -> loadData($dn)) {
-        if (!$obj -> addOneObjectInRelation($object,$attr,$objectType,$attrValue,$canEditFunction)) {
+        if (!$obj -> addOneObjectInRelation($object, $attr, $objectType, $attrValue, $canEditFunction)) {
           return;
         }
       }
@@ -1863,7 +1861,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * @retval mixed Array of valid IOformats of this object type
    **/
   public function listValidIOformats() {
-    $ret=array();
+    $ret = array();
     $ioFormats = $this -> getConfig('ioFormat');
     if (is_array($ioFormats)) {
       foreach($ioFormats as $name => $conf) {
@@ -2109,7 +2107,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
     if (empty($values)) {
       return $return." empty\n";
     }
-    if (!is_array($values)) $values = array($values);
+    $values = ensureIsArray($values);
 
     // Truncate values if too long
     for ($i=0; $i < count($values); $i++)

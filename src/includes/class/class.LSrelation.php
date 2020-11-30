@@ -112,7 +112,7 @@ class LSrelation extends LSlog_staticLoggerClass {
       case 'canEdit_attribute':
         return $this -> getConfig($key);
       case 'linkAttributeValues':
-        $linkAttributeValues = (is_array($this -> linkAttributeOtherValues)?$this -> linkAttributeOtherValues:array());
+        $linkAttributeValues = ensureIsArray($this -> linkAttributeOtherValues);
         if ($this -> linkAttributeValue)
           $linkAttributeValues[] = $this -> linkAttributeValue;
         return $linkAttributeValues;
@@ -761,9 +761,7 @@ class LSrelation extends LSlog_staticLoggerClass {
 
     // Check additional required parameters
     if ($additional_required_parameters) {
-      if (!is_array($additional_required_parameters))
-        $additional_required_parameters = array($additional_required_parameters);
-      foreach($additional_required_parameters as $p) {
+      foreach(ensureIsArray($additional_required_parameters) as $p) {
         if (!isset($_REQUEST[$p])) {
           self :: log_warning("Parameter '$p' is missing.");
           LSerror :: addErrorCode('LSsession_12');

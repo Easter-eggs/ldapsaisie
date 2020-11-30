@@ -184,10 +184,8 @@ class LSattribute extends LSlog_staticLoggerClass {
 
     $onDisplay = $this -> getConfig('onDisplay');
     if ($onDisplay) {
-      if (!is_array($onDisplay))
-        $onDisplay = array($onDisplay);
       $result = $data;
-      foreach($onDisplay as $func) {
+      foreach(ensureIsArray($onDisplay) as $func) {
         if (function_exists($func)) {
           $result = call_user_func($func, $result);
         }
@@ -615,8 +613,7 @@ class LSattribute extends LSlog_staticLoggerClass {
     self :: log_debug(strval($this)." -> fireEvent($event)");
     $return = true;
     if(isset($this -> config[$event])) {
-      $funcs = (!is_array($this -> config[$event])?array($this -> config[$event]):$this -> config[$event]);
-      foreach($funcs as $func) {
+      foreach(ensureIsArray($this -> config[$event]) as $func) {
         if(function_exists($func)) {
           self :: log_debug(strval($this)." -> fireEvent($event): run ".format_callable($func));
           if(!call_user_func_array($func, array(&$this -> ldapObject))) {

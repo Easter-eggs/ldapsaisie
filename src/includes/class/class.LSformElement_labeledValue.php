@@ -121,15 +121,11 @@ class LSformElement_labeledValue extends LSformElement {
       return true;
     }
     if (isset($_POST[$this -> name."_labels"]) && isset($_POST[$this -> name."_values"])) {
-      $return[$this -> name]=array();
-      if(!is_array($_POST[$this -> name."_labels"])) {
-        $_POST[$this -> name."_labels"] = array($_POST[$this -> name."_labels"]);
-      }
-      if(!is_array($_POST[$this -> name."_values"])) {
-        $_POST[$this -> name."_values"] = array($_POST[$this -> name."_values"]);
-      }
+      $return[$this -> name] = array();
+      $_POST[$this -> name."_labels"] = ensureIsArray($_POST[$this -> name."_labels"]);
+      $_POST[$this -> name."_values"] = ensureIsArray($_POST[$this -> name."_values"]);
       foreach($_POST[$this -> name."_labels"] as $key => $label) {
-        $val=$_POST[$this -> name."_values"][$key];
+        $val = $_POST[$this -> name."_values"][$key];
         if (!empty($label) && !is_empty($val)) {
           $return[$this -> name][$key] = "[$label]$val";
         }

@@ -74,12 +74,9 @@ class LSformElement_date extends LSformElement {
    * @retval boolean Retourne True
    */
   public function setValue($data) {
-    if (!is_array($data)) {
-      $data=array($data);
-    }
     $special_values = $this -> getSpecialValues();
     $values = array();
-    foreach ($data as $value) {
+    foreach (ensureIsArray($data) as $value) {
       if(is_numeric($value)) {
         if (array_key_exists($value, $special_values)) {
           $values[] = $special_values[$value];
@@ -239,11 +236,7 @@ class LSformElement_date extends LSformElement {
       }
     }
     else {
-      if(!is_array($values))
-        $values = array();
-      if(!is_array($special_values))
-        $special_values = array();
-      $return[$this -> name] = $special_values + $values;
+      $return[$this -> name] = ensureIsArray($special_values) + ensureIsArray($values);
       self :: log_trace($this." -> merged values=".varDump($return[$this -> name]));
     }
     return true;

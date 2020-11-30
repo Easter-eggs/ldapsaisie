@@ -159,9 +159,7 @@ class LSformElement_valueWithUnit extends LSformElement {
     }
     $return[$this -> name]=array();
     if (isset($_POST[$this -> name.'_valueWithUnit'])) {
-      if(!is_array($_POST[$this -> name.'_valueWithUnit'])) {
-        $_POST[$this -> name.'_valueWithUnit'] = array($_POST[$this -> name.'_valueWithUnit']);
-      }
+      $_POST[$this -> name.'_valueWithUnit'] = ensureIsArray($_POST[$this -> name.'_valueWithUnit']);
       if(isset($_POST[$this -> name.'_unitFact']) && !is_array($_POST[$this -> name.'_unitFact'])) {
         $_POST[$this -> name.'_unitFact'] = array($_POST[$this -> name.'_unitFact']);
       }
@@ -186,16 +184,12 @@ class LSformElement_valueWithUnit extends LSformElement {
       }
     }
     if (isset($_POST[$this -> name])) {
-      if(!is_array($_POST[$this -> name])) {
-        $_POST[$this -> name] = array($_POST[$this -> name]);
-      }
-      $return[$this -> name]=array_merge($return[$this -> name],$_POST[$this -> name]);
+      $_POST[$this -> name] = ensureIsArray($_POST[$this -> name]);
+      $return[$this -> name] = array_merge($return[$this -> name], $_POST[$this -> name]);
     }
     if (isset($_POST[$this -> name.'_value'])) {
-      if (!is_array($_POST[$this -> name.'_value'])) {
-        $_POST[$this -> name.'_value']=array($_POST[$this -> name.'_value']);
-      }
-      $return[$this -> name]=array_merge($return[$this -> name],$_POST[$this -> name.'_value']);
+      $_POST[$this -> name.'_value'] = ensureIsArray($_POST[$this -> name.'_value']);
+      $return[$this -> name] = array_merge($return[$this -> name], $_POST[$this -> name.'_value']);
     }
     return true;
   }

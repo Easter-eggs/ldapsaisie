@@ -47,14 +47,8 @@ class LSattr_html_image extends LSattr_html {
       LSerror :: addErrorCode('LSattr_html_03','password');
     }
 
-    if ($data) {
-      if(is_array($data)) {
-        $element -> setValue($data[0]);
-      }
-      else {
-        $element -> setValue($data);
-      }
-    }
+    if ($data)
+      $element -> setValue(ensureIsArray($data)[0]);
     return $element;
   }
 

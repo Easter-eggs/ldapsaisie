@@ -42,17 +42,9 @@ class LSformRule_mimetype extends LSformRule {
     $file = LSsession :: getTmpFile($value);
     $real_mimetype = mime_content_type($file);
 
-    $mimetype = LSconfig :: get('params.mimeType', null, null, $options);
-    if (!is_null($mimetype)) {
-      if (is_array($mimetype)) {
-        if (!in_array($real_mimetype, $mimetype))
-          return;
-      }
-      else {
-        if ($real_mimetype != $mimetype)
-          return;
-      }
-    }
+    $mimetypes = ensureIsArray(LSconfig :: get('params.mimeType', null, null, $options));
+    if ($mimetypes && !in_array($real_mimetype, $mimetypes))
+      return false;
 
     $mimeTypeRegEx = LSconfig :: get('params.mimeTypeRegEx', null, 'string', $options);
     if (is_string($mimeTypeRegEx) && !preg_match($mimeTypeRegEx, $real_mimetype))

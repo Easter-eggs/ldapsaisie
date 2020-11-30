@@ -46,10 +46,7 @@ class LSattr_html_select_object extends LSattr_html{
       return;
     }
     if ($data) {
-      if (!is_array($data)) {
-        $data=array($data);
-      }
-      $values=$this -> getFormValues($data);
+      $values = $this -> getFormValues(ensureIsArray($data));
       if ($values) {
         $element -> setValue($values);
       }

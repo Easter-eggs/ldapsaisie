@@ -87,11 +87,7 @@ class LSformElement extends LSlog_staticLoggerClass {
    * @retval boolean Retourne True
    */
   public function setValue($data) {
-    if (!is_array($data)) {
-      $data=array($data);
-    }
-
-    $this -> values = $data;
+    $this -> values = ensureIsArray($data);
     return true;
   }
 
@@ -109,10 +105,7 @@ class LSformElement extends LSlog_staticLoggerClass {
    * @retval boolean Retourne True
    */
   public function setValueFromPostData($data) {
-    if (!is_array($data)) {
-      $data=array($data);
-    }
-    $this -> values = $data;
+    $this -> values = ensureIsArray($data);
     return true;
   }
 
@@ -137,12 +130,7 @@ class LSformElement extends LSlog_staticLoggerClass {
    * @retval void
    */
   public function addValue($data) {
-    if (is_array($data)) {
-      $this -> values = array_merge($this -> values, $data);
-    }
-    else {
-      $this -> values[] = $data;
-    }
+    $this -> values = array_merge($this -> values, ensureIsArray($data));
   }
 
   /**
@@ -253,10 +241,8 @@ class LSformElement extends LSlog_staticLoggerClass {
    */
   protected static function getData(&$post, $name) {
     if (isset($post[$name])) {
-      $return=array();
-      if(!is_array($post[$name])) {
-        $post[$name] = array($post[$name]);
-      }
+      $return = array();
+      $post[$name] = ensureIsArray($post[$name]);
       foreach($post[$name] as $key => $val) {
         if (!is_empty($val)) {
           $return[$key] = $val;

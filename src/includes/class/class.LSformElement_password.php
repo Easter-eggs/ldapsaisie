@@ -278,19 +278,14 @@ class LSformElement_password extends LSformElement {
       $mail = (String)$this -> sendMail['mail'];
       self :: log_debug("send(): mail from params: '$mail'");
       if (!$mail) {
-        $mail_attrs = $this -> getMailAttrs();
-        if (!is_array($mail_attrs)) {
-          $mail_attrs=array($mail_attrs);
-        }
+        $mail_attrs = ensureIsArray($this -> getMailAttrs());
         self :: log_debug('send(): mail attrs: '.varDump($mail_attrs));
         $checkDomainsList = $this -> getParam('html_options.mail.domain');
         $checkDomain = $this -> getParam('html_options.mail.checkDomain', true, 'bool');
         foreach($mail_attrs as $attr) {
           $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$attr];
           if ($mail_attr instanceOf LSattribute) {
-            $mail_values = $mail_attr -> getValue();
-            if (!is_array($mail_values))
-              $mail_values = array($mail_values);
+            $mail_values = ensureIsArray($mail_attr -> getValue());
             foreach($mail_values as $mail_value) {
               if ($mail_value && checkEmail($mail_value, $checkDomainsList, $checkDomain)) {
                 $mail = $mail_value;

@@ -85,8 +85,7 @@ class LSformElement_mail extends LSformElement_text {
   public function autocomplete($pattern) {
     $ret = array();
     if ($this -> getParam('html_options.autocomplete')) {
-      $mail_attributes = $this -> getParam('html_options.autocomplete.mail_attributes', array('mail'));
-      if (!is_array($mail_attributes)) $mail_attributes = array($mail_attributes);
+      $mail_attributes = ensureIsArray($this -> getParam('html_options.autocomplete.mail_attributes', array('mail')));
 
       $obj_type = $this -> getParam('html_options.autocomplete.object_type');
       if ($obj_type) {
@@ -124,9 +123,8 @@ class LSformElement_mail extends LSformElement_text {
           $search -> run();
           foreach($search -> getSearchEntries() as $e) {
             foreach($mail_attributes as $attr) {
-              $mails = $e->get($attr);
+              $mails = ensureIsArray($e->get($attr));
               if (!$mails) continue;
-              if (!is_array($mails)) $mails = array($mails);
               foreach($mails as $mail)
                 $ret[$mail] = $e->displayName;
             }
@@ -170,8 +168,7 @@ class LSformElement_mail extends LSformElement_text {
             $displayName = ($displayNameFormat?getFData($displayNameFormat, $object['attrs']):null);
             foreach($mail_attributes as $attr) {
               if (!isset($object['attrs'][$attr])) continue;
-              $mails = $object['attrs'][$attr];
-              if (!is_array($mails)) $mails = array($mails);
+              $mails = ensureIsArray($object['attrs'][$attr]);
               foreach($mails as $mail)
                 $ret[$mail] = ($displayName?$displayName:$mail);
             }
