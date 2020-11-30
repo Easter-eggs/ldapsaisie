@@ -36,10 +36,9 @@ class LSattr_ldap_shadowExpire extends LSattr_ldap {
    * @retval mixed Array of timestamp
    */
   public function getDisplayValue($data) {
-    $ret=array();
-    foreach($data as $val) {
-      $ret[]=((int)$val)*86400;
-    }
+    $ret = array();
+    foreach(ensureIsArray($data) as $val)
+      $ret[] = intval($val)*86400;
     return $ret;
   }
 
@@ -52,9 +51,8 @@ class LSattr_ldap_shadowExpire extends LSattr_ldap {
    */
   public function getUpdateData($data) {
     $ret=array();
-    foreach($data as $val) {
-      $ret[]=(string)round(((int)$val)/86400);
-    }
+    foreach(ensureIsArray($data) as $val)
+      $ret[] = strval(round(intval($val) / 86400));
     return $ret;
   }
 

@@ -38,11 +38,8 @@ class LSattr_ldap_naiveDate extends LSattr_ldap {
    * @retval mixed The display value ot the attribute
    */
   public function getDisplayValue($data) {
-    if(!is_array($data)) {
-      $data=array($data);
-    }
-    $retval=array();
-    foreach($data as $val) {
+    $retval = array();
+    foreach(ensureIsArray($data) as $val) {
       $date = strptime($val, self::FORMAT);
       if (is_array($date)) {
         $retval[] = mktime(
@@ -66,11 +63,9 @@ class LSattr_ldap_naiveDate extends LSattr_ldap {
    * @retval mixed The LDAP value of the attribute
    */
   public function getUpdateData($data) {
-    $retval=array();
-    if(is_array($data)) {
-      foreach($data as $val) {
-        $retval[] = strftime(self::FORMAT, $val).'Z';
-      }
+    $retval = array();
+    foreach(ensureIsArray($data) as $val) {
+      $retval[] = strftime(self::FORMAT, $val).'Z';
     }
     return $retval;
   }

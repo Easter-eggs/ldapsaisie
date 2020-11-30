@@ -782,3 +782,11 @@ function is_empty($val) {
   }
   return empty($val);
 }
+
+function ensureIsArray($value) {
+  if (is_array($value))
+    return $value;
+  if (is_empty($value))
+    return array();
+  return array($value);
+}

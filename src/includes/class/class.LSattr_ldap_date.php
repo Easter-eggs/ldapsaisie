@@ -34,9 +34,7 @@ class LSattr_ldap_date extends LSattr_ldap {
    * @retval mixed La valeur d'affichage de l'attribut
    */
   public function getDisplayValue($data) {
-    if(!is_array($data)) {
-      $data=array($data);
-    }
+    $data = ensureIsArray($data);
     if ($this -> getConfig('ldap_options.timestamp', false, 'bool')) {
       return $data;
     }
@@ -58,22 +56,21 @@ class LSattr_ldap_date extends LSattr_ldap {
    * @retval mixed La valeur traitée de l'attribut
    */
   public function getUpdateData($data) {
+    $data = ensureIsArray($data);
     if ($this -> getConfig('ldap_options.timestamp', false, 'bool')) {
       return $data;
     }
     $timezone = timezone_open($this -> getConfig('ldap_options.timezone', 'UTC', 'string'));
-    $retval=array();
-    if(is_array($data)) {
-      foreach($data as $val) {
-        $datetime = date_create("@$val");
-        $datetime -> setTimezone($timezone);
-        $datetime_string = $datetime -> format($this -> getFormat());
+    $retval = array();
+    foreach($data as $val) {
+      $datetime = date_create("@$val");
+      $datetime -> setTimezone($timezone);
+      $datetime_string = $datetime -> format($this -> getFormat());
 
-        // Replace +0000 or -0000 end by Z
-        $datetime_string = preg_replace('/[\+\-]0000$/', 'Z', $datetime_string);
+      // Replace +0000 or -0000 end by Z
+      $datetime_string = preg_replace('/[\+\-]0000$/', 'Z', $datetime_string);
 
-        $retval[] = $datetime_string;
-      }
+      $retval[] = $datetime_string;
     }
     return $retval;
   }

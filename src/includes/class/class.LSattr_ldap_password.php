@@ -37,25 +37,17 @@ class LSattr_ldap_password extends LSattr_ldap {
    */
   public function getDisplayValue($data) {
     if ($this -> getConfig('ldap_options.displayClearValue', false, 'bool')) {
-      if (is_array($data)) {
-        $ret=array();
-        $wildcardPassword = $this -> getConfig('ldap_options.wildcardPassword');
-        $encodedWildcardPassword = $this -> getConfig('ldap_options.encodedWildcardPassword');
-        foreach($data as $p) {
-          if ($p == $wildcardPassword || $p == $encodedWildcardPassword) {
-            continue;
-          }
-          $ret[]=$p;
-        }
-        return $ret;
+      $ret=array();
+      $wildcardPassword = $this -> getConfig('ldap_options.wildcardPassword');
+      $encodedWildcardPassword = $this -> getConfig('ldap_options.encodedWildcardPassword');
+      foreach(ensureIsArray($data) as $p) {
+        if ($p == $wildcardPassword || $p == $encodedWildcardPassword)
+          continue;
+        $ret[] = $p;
       }
-      else {
-        return $data;
-      }
+      return $ret;
     }
-    else {
-      return '********';
-    }
+    return array('********');
   }
 
   /**
@@ -69,36 +61,21 @@ class LSattr_ldap_password extends LSattr_ldap {
    * @retval mixed The value of this attribute to be stocked
    */
   public function getUpdateData($data) {
-    $this -> clearPassword = $data[0];
-    $data=array();
-
-    $data[]=$this -> encodePassword($this -> clearPassword);
+    $ret = array();
+    foreach(ensureIsArray($data) as $val) {
+      $this -> clearPassword = $val;
+      $ret[] = $this -> encodePassword($val);
+    }
 
     // Wildcard Password
-    $wildcardPassword = $this -> getConfig('ldap_options.wildcardPassword');
-    if ($wildcardPassword) {
-      if (!is_array($wildcardPassword)) {
-        $data[] = $this -> encodePassword($wildcardPassword);
-      }
-      else {
-        foreach($wildcardPassword as $pwd) {
-          $data[] = $this -> encodePassword($pwd);
-        }
-      }
-    }
+    foreach(ensureIsArray($this -> getConfig('ldap_options.wildcardPassword')) as $pwd)
+      $ret[] = $this -> encodePassword($pwd);
 
     // Wildcard Password already encoded
-    $encodedWildcardPassword = $this -> getConfig('ldap_options.encodedWildcardPassword');
-    if ($encodedWildcardPassword) {
-      if (!is_array($encodedWildcardPassword)) {
-        $data[] = $encodedWildcardPassword;
-      }
-      else {
-        $data = array_merge($data, $encodedWildcardPassword);
-      }
-    }
+    foreach(ensureIsArray($this -> getConfig('ldap_options.encodedWildcardPassword')) as $pwd)
+      $ret[] = $pwd;
 
-    return $data;
+    return $ret;
   }
 
   /**

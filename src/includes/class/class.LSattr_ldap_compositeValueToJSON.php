@@ -37,15 +37,10 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
    * @retval mixed La valeur d'affichage de l'attribut
    */
   public function getDisplayValue($data) {
-    if ($data) {
-      if (!is_array($data))
-        $data = array($data);
-      $ret = array();
-      foreach($data as $key => $val)
-        $ret[$key] = json_encode(self :: parseValue($val));
-      return $ret;
-    }
-    return $data;
+    $ret = array();
+    foreach(ensureIsArray($data) as $key => $val)
+      $ret[$key] = json_encode(self :: parseValue($val));
+    return $ret;
   }
 
   /**
@@ -56,22 +51,17 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
    * @retval mixed La valeur traitée de l'attribut
    */
   public function getUpdateData($data) {
-    if ($data) {
-      if (!is_array($data))
-        $data = array($data);
-      $ret = array();
-      foreach($data as $key => $val)
-        $ret[$key] = self :: encodeValue(json_decode($val, true));
-      return $ret;
-    }
-    return $data;
+    $ret = array();
+    foreach(ensureIsArray($data) as $key => $val)
+      $ret[$key] = self :: encodeValue(json_decode($val, true));
+    return $ret;
   }
 
   public static function parseValue($value) {
-    if (preg_match_all('/\[([^=]*)=([^\]]*)\]/',$value,$matches)) {
-      $parseValue=array();
-      for($i=0;$i<count($matches[0]);$i++) {
-        $parseValue[$matches[1][$i]]=$matches[2][$i];
+    if (preg_match_all('/\[([^=]*)=([^\]]*)\]/', $value, $matches)) {
+      $parseValue = array();
+      for($i=0; $i<count($matches[0]); $i++) {
+        $parseValue[$matches[1][$i]] = $matches[2][$i];
       }
       return $parseValue;
     }
@@ -80,9 +70,9 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
 
   public static function encodeValue($value) {
     if (is_array($value)) {
-      $ret="";
+      $ret = "";
       foreach($value as $key => $val)
-        $ret.="[$key=$val]";
+        $ret .= "[$key=$val]";
       return $ret;
     }
     return False;

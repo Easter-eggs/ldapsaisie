@@ -48,11 +48,14 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    * @retval mixed Attribute data
    **/
   public function getUpdateData($data) {
-    if ($data[0]=='yes') {
-      return array($this -> getTrue());
-    }
-    if ($data[0]=='no') {
-      return array($this -> getFalse());
+    $data = ensureIsArray($data);
+    if ($data) {
+      if ($data[0] == 'yes') {
+        return array($this -> getTrue());
+      }
+      if ($data[0] == 'no') {
+        return array($this -> getFalse());
+      }
     }
     return array();
   }
@@ -65,13 +68,11 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    * @retval boolean True or False
    **/
   public function isTrue($data) {
-    if (!is_array($data)) {
-      $data=array($data);
-    }
-    if ($data[0] == $this -> getTrue()) {
+    $data = ensureIsArray($data);
+    if ($data && $data[0] == $this -> getTrue()) {
       return true;
     }
-    return;
+    return false;
   }
 
   /**
@@ -82,13 +83,11 @@ class LSattr_ldap_boolean extends LSattr_ldap {
    * @retval boolean True or False
    **/
   public function isFalse($data) {
-    if (!is_array($data)) {
-      $data=array($data);
-    }
-    if ($data[0] == $this -> getFalse()) {
+    $data = ensureIsArray($data);
+    if ($data && $data[0] == $this -> getFalse()) {
       return true;
     }
-    return;
+    return false;
   }
 
   /**

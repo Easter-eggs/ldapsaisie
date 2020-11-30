@@ -61,9 +61,7 @@ class LSattr_ldap_sambaAcctFlags extends LSattr_ldap {
    * @retval array Array of enabled flags
    **/
   public static function parse_flags($data) {
-    if (!is_array($data)) {
-      $data = array($data);
-    }
+    $data = ensureIsArray($data);
     if (count($data) > 1) {
       LSerror :: addErrorCode('LSattr_ldap_sambaAcctFlags_01');
       return;
@@ -99,8 +97,7 @@ class LSattr_ldap_sambaAcctFlags extends LSattr_ldap {
    * @retval array Array of LDAP attribute value
    **/
   public static function format_flags($flags) {
-    if (!is_array($flags))
-      $flags = array($flags);
+    $flags = ensureIsArray($flags);
     foreach($flags as $flag) {
       if (!self :: check_flag($flag)) {
         LSerror :: addErrorCode('LSattr_ldap_sambaAcctFlags_03', $flag);

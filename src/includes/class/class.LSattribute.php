@@ -115,11 +115,7 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @retval boolean true
    */
   public function loadData($attr_data) {
-    if (is_empty($attr_data) || $attr_data === false)
-      $attr_data = null;
-    elseif (!is_array($attr_data))
-      $attr_data = array($attr_data);
-    $this -> data = $attr_data;
+    $this -> data = ensureIsArray($attr_data);
     return true;
   }
 
@@ -131,12 +127,9 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @retval boolean true
    */
   public function reloadData($attr_data) {
-    if ((!is_array($attr_data))&&(!empty($attr_data))) {
-      $attr_data = array($attr_data);
-    }
-    $this -> data = $attr_data;
-    $this -> updateData=false;
-    $this -> is_validate=false;
+    $this -> data = ensureIsArray($attr_data);
+    $this -> updateData = false;
+    $this -> is_validate = false;
     return true;
   }
 
@@ -392,14 +385,7 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @retval string La valeur a afficher dans le formulaire.
    */
   public function getFormVal() {
-    $data=$this -> html -> getFormVal($this -> data);
-    if ($data==NULL) {
-      $data=array();
-    }
-    if(!is_array($data)) {
-      $data=array($data);
-    }
-    return $data;
+    return ensureIsArray($this -> html -> getFormVal($this -> data));
   }
 
   /**
@@ -413,7 +399,7 @@ class LSattribute extends LSlog_staticLoggerClass {
    */
   public function setUpdateData($data) {
     if($this -> ldap -> isUpdated($data)) {
-      $this -> updateData=$data;
+      $this -> updateData = ensureIsArray($data);
     }
   }
 
@@ -499,15 +485,7 @@ class LSattribute extends LSlog_staticLoggerClass {
       $value = $this -> ldapObject -> getFData($format);
     }
     if ($value !== false) {
-      if (!empty($value)) {
-        if (!is_array($value)) {
-          $value=array($value);
-        }
-        $this -> updateData=$value;
-      }
-      else {
-        $this -> updateData=array();
-      }
+      $this -> updateData = ensureIsArray($value);
       return true;
     }
     return;

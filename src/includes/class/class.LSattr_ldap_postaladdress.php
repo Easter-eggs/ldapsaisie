@@ -34,7 +34,10 @@ class LSattr_ldap_postaladdress extends LSattr_ldap {
    * @retval mixed La valeur d'affichage de l'attribut
    */
   public function getDisplayValue($data) {
-    return str_replace("$","\n",$data);
+    $ret = array();
+    foreach(ensureIsArray($data) as $val)
+      $ret[] = str_replace("$", "\n", $val);
+    return $ret;
   }
 
   /**
@@ -45,7 +48,10 @@ class LSattr_ldap_postaladdress extends LSattr_ldap {
    * @retval mixed La valeur traitée de l'attribut
    */
   public function getUpdateData($data) {
-    return str_replace("\n","$",$data);
+    $ret = array();
+    foreach(ensureIsArray($data) as $val)
+      $ret[] = str_replace("\n", "$", $val);;
+    return $ret;
   }
 
 }

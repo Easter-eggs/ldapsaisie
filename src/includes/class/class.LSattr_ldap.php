@@ -70,7 +70,7 @@ class LSattr_ldap extends LSlog_staticLoggerClass {
    * @retval mixed La valeur traitée de l'attribut
    */
   public function getUpdateData($data) {
-    return $data;
+    return ensureIsArray($data);
   }
 
   /**
@@ -81,7 +81,7 @@ class LSattr_ldap extends LSlog_staticLoggerClass {
    * @retval mixed La valeur d'affichage de l'attribut
    */
   public function getDisplayValue($data) {
-    return $data;
+    return ensureIsArray($data);
   }
 
   /**
@@ -93,7 +93,7 @@ class LSattr_ldap extends LSlog_staticLoggerClass {
    * @retval boolean True uniquement si la valeur passer en paramètre différe de l'actuelle
    */
   public function isUpdated($data) {
-    $data=$this -> getUpdateData($data);
+    $data = $this -> getUpdateData($data);
     if ($this -> attribute -> data != $data) {
       return true;
     }
