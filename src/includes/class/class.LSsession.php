@@ -1144,10 +1144,18 @@ class LSsession {
   * @retval boolean True on succes, false otherwise
   */
  public static function changeAuthUser($object) {
-  if($object instanceof LSldapObject)
+  if(!($object instanceof LSldapObject)) {
+    self :: log_error("changeAuthUser(): An LSldapObject must be provided, not ".get_class($object));
     return;
-  if(!in_array($object -> getType(), LSauth :: getAuthObjectTypes()))
+  }
+  if(!array_key_exists($object -> getType(), LSauth :: getAuthObjectTypes())) {
+    self :: log_error(
+      "changeAuthUser(): Invalid object provided, must be one of following types (not a ".
+      $object -> getType().') : '.implode(', ', array_keys(LSauth :: getAuthObjectTypes()))
+    );
     return;
+  }
+  self :: log_info("Change authenticated user info ('".self :: $dn."' -> '".$object -> getDn()."')");
   self :: $dn = $object -> getDn();
   $rdn = $object -> getValue('rdn');
   if(is_array($rdn)) {
@@ -1161,8 +1169,10 @@ class LSsession {
     self :: loadLSaccess();
     self :: loadLSaddonsViewsAccess();
     $_SESSION['LSsession']=self :: getContextInfos();
+    self :: log_debug("changeAuthUser(): authenticated user successfully updated.");
     return true;
   }
+  self :: log_error("Fail to reload LSprofiles after updating auth user info.");
   return;
  }
 
