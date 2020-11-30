@@ -112,28 +112,26 @@ class LSioFormatDriver {
    *
    * @retval array All objects data of the loaded file formated
    **/
-  public function getAllFormated($fields,$generated_fields) {
+  public function getAllFormated($fields, $generated_fields) {
     if (!is_array($fields)) return False;
     if (!is_array($generated_fields)) $generated_fields=array();
-    $all=$this -> getAll();
+    $all = $this -> getAll();
     if (!is_array($all)) return False;
-    $retall=array();
+    $retall = array();
     foreach($all as $one) {
-      $retone=array();
+      $retone = array();
       foreach($fields as $key => $attr) {
         if (!isset($one[$key])) continue;
-        if (!isset($retone[$attr])) $retone[$attr]=array();
-        $retone[$attr][]=$one[$key];
+        if (!isset($retone[$attr])) $retone[$attr] = array();
+        $retone[$attr][] = $one[$key];
       }
-      if (is_array($generated_fields)) {
-        foreach ($generated_fields as $attr => $format) {
-          $value=getFData($format,$retone);
-          if (!empty($value)) {
-            $retone[$attr]=array($value);
-          }
+      foreach ($generated_fields as $attr => $format) {
+        $value = getFData($format, $retone);
+        if (!empty($value)) {
+          $retone[$attr] = array($value);
         }
       }
-      $retall[]=$retone;
+      $retall[] = $retone;
     }
 
     return $retall;

@@ -63,18 +63,18 @@ class LSformRule_password extends LSformRule {
         $minValidRegex = count($regex);
       self :: log_debug("password must match with $minValidRegex regex on ".count($regex));
 
-      $valid=0;
+      $valid = 0;
       foreach($regex as $r) {
         if ($r[0] != '/') {
           LSerror :: addErrorCode('LSformRule_password_01');
           continue;
         }
         if (preg_match($r, $value)) {
-	  self :: log_debug("password match with regex '$r'");
+	        self :: log_debug("password match with regex '$r'");
           $valid++;
- 	}
-	else
-	  self :: log_debug("password does not match with regex '$r'");
+       	}
+      	else
+	        self :: log_debug("password does not match with regex '$r'");
       }
       if ($valid < $minValidRegex) {
         self :: log_warning("password match with only $valid regex on ".count($regex).". $minValidRegex valid regex is required");

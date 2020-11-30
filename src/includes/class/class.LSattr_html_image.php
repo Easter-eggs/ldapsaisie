@@ -36,14 +36,14 @@ class LSattr_html_image extends LSattr_html {
    *
    * @retval LSformElement L'element du formulaire ajouté
    */
-  function addToForm (&$form,$idForm,$data=NULL) {
+  function addToForm (&$form, $idForm, $data=NULL) {
     $element=$form -> addElement('image', $this -> name, $this -> getLabel(), $this -> config, $this);
     if(!$element) {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
     }
 
-    if ($data && count($data)>1) {
+    if ($data && count($data) > 1) {
       LSerror :: addErrorCode('LSattr_html_03','password');
     }
 

@@ -53,13 +53,13 @@ class LSformElement_postaladdress extends LSformElement_textarea {
           else {
             LSerror::addErrorCode('LSformElement_postaladdress_01', $map_url_pattern_generate_function);
           }
-	}
-	elseif ($map_url_pattern_format) {
+      	}
+      	elseif ($map_url_pattern_format) {
           $pattern = $this -> attr_html -> attribute -> ldapObject -> getFData($map_url_pattern_format);
           $pattern = str_replace("\n"," ",$pattern);
           $pattern = urlencode($pattern);
           $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern', $pattern);
-	}
+      	}
         else {
           $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('pattern', LSformElement_postaladdress__generate_pattern($this));
         }
