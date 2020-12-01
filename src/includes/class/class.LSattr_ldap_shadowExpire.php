@@ -52,7 +52,8 @@ class LSattr_ldap_shadowExpire extends LSattr_ldap {
   public function getUpdateData($data) {
     $ret=array();
     foreach(ensureIsArray($data) as $val)
-      $ret[] = strval(round(intval($val) / 86400));
+      $ret[] = strval(floor(intval($val) / 86400));
+    self :: log_debug($this."->getUpdateData(): input data=".varDump($data)." / update data=".varDump($ret));
     return $ret;
   }
 
