@@ -236,7 +236,11 @@ class LSformElement_date extends LSformElement {
       }
     }
     else {
-      $return[$this -> name] = ensureIsArray($special_values) + ensureIsArray($values);
+      $return[$this -> name] = array();
+      if ($special_values !== false)
+        $return[$this -> name] += ensureIsArray($special_values);
+      if ($values !== false)
+        $return[$this -> name] += ensureIsArray($values);
       self :: log_trace($this." -> merged values=".varDump($return[$this -> name]));
     }
     return true;
