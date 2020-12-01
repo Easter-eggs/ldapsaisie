@@ -289,7 +289,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * Update LDAP object data from one form specify by it's ID.
    *
    * This method just valid form ID, extract form data and call
-   * _updateData() private method.
+   * _updateData() protected method.
    *
    * @param[in] $idForm Form ID
    * @param[in] $justValidate Boolean to enable just validation mode
@@ -344,7 +344,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * @see validateAttrsData()
    * @see submitChange()
    */
-  private function _updateData($new_data,$idForm=null,$justValidate=False) {
+  protected function _updateData($new_data,$idForm=null,$justValidate=False) {
     if(!is_array($new_data)) {
       return;
     }
