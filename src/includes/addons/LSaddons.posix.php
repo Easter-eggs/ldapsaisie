@@ -268,6 +268,11 @@ LSerror :: defineError('POSIX_01',
  *
  * Just return a shadowLastChange value corresponding to current date.
  *
+ * Important: this function is designed to be used with LSattr_html_date
+ * & LSattr_ldap_shadowExpire classes. The returned value is just a timestamp
+ * and it will be converted by LSattr_ldap_shadowExpire as raw LDAP value, that is,
+ * divided by 86400.
+ *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  *
  * @param[in] $anything anything
@@ -275,5 +280,5 @@ LSerror :: defineError('POSIX_01',
  * @retval integer The shadowLastChange attribute value (=current date)
  */
 function generate_shadowLastChange($anything) {
-  return time()/86400;
+  return time();
 }
