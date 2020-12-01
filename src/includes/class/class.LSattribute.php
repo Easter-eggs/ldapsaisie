@@ -484,6 +484,7 @@ class LSattribute extends LSlog_staticLoggerClass {
     }
     if ($value !== false) {
       $this -> updateData = ensureIsArray($value);
+      self :: log_debug($this."generateValue(): generated values = ".varDump($this -> updateData));
       return true;
     }
     return;

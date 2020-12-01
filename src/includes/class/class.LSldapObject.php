@@ -323,6 +323,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
     }
     $new_data = $LSform -> exportValues();
+    self :: log_debug($this. "->updateData($idForm, $justValidate): new data=".varDump($new_data));
     return $this -> _updateData($new_data,$idForm,$justValidate);
   }
 
@@ -354,9 +355,9 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
     }
     if($this -> validateAttrsData($idForm)) {
-      self :: log_debug("les données sont validées");
+      self :: log_debug($this."->_updateData(): Update data are validated");
       if ($justValidate) {
-        self :: log_debug('Just validate mode');
+        self :: log_debug($this."->_updateData(): Just validate mode");
         return True;
       }
 
@@ -372,7 +373,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
 
       if ($this -> submitChange($idForm)) {
-        self :: log_debug('Les modifications sont submitÃ©es');
+        self :: log_debug($this."->_updateData(): changes are submited");
         // Event After Modify
         $this -> fireEvent('after_modify');
 
@@ -563,6 +564,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
           LSerror :: addErrorCode('LSldapObject_14',array('attr_depend' => $dependAttr, 'attr' => $attr -> getLabel()));
           continue;
         }
+        self :: log_debug('Attribute '.$attr->name.' updated: generate new value for attribute '.$dependAttr);
         if($this -> attrs[$dependAttr] -> canBeGenerated()) {
           if (!$this -> attrs[$dependAttr] -> generateValue()) {
             LSerror :: addErrorCode('LSattribute_07',$this -> attrs[$dependAttr] -> getLabel());
@@ -655,6 +657,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
         if (!LSldap :: update($this -> getType(),$dn, $submitData)) {
           return;
         }
+        self :: log_debug($this." -> submitChange($idForm): changes applied in LDAP");
         if ($new) {
           if (!$this -> fireEvent('after_create')) {
             LSerror :: addErrorCode('LSldapObject_21');

@@ -106,6 +106,7 @@ class LSformElement extends LSlog_staticLoggerClass {
    */
   public function setValueFromPostData($data) {
     $this -> values = ensureIsArray($data);
+    self :: log_trace($this." -> setValueFromPostData(): input data=".varDump($data)." / values=".varDump($this -> values));
     return true;
   }
 
