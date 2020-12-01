@@ -302,7 +302,7 @@ class LSattribute extends LSlog_staticLoggerClass {
     else {
       $whoami = $this -> ldapObject -> whoami();
       foreach($whoami as $who) {
-        $right = $this -> getConfig("rights.$who", ($who=='admin'?'r':null));
+        $right = $this -> getConfig("rights.$who", null);
         if (in_array($right, array('r', 'w'))) {
           $return = $right;
           if ($return == 'w') break;

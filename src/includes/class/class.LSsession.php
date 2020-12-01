@@ -2116,11 +2116,11 @@ class LSsession {
   }
 
   /**
-   * Retourne qui est l'utilisateur par rapport Ã  l'object
+   * Return connected user's LSprofiles on a specific object.
    *
-   * @param[in] string Le DN de l'objet
+   * @param[in] string The object's DN
    *
-   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
+   * @retval array Array of LSprofiles of the connected user on the specified object
    */
   public static function whoami($dn) {
     $retval = array('user');

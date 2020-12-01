@@ -1043,11 +1043,11 @@ class LSldapObject extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retourne qui est l'utilisateur par rapport Ã  cet object
+   * Return connected user's LSprofiles on this object
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval string 'admin'/'self'/'user' pour Admin , l'utilisateur lui mÃªme ou un simple utilisateur
+   * @retval array Array of LSprofiles of connected user's LSprofiles on this object
    */
   public function whoami() {
     if (!$this -> _whoami)
