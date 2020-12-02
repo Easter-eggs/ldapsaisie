@@ -39,7 +39,7 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
   public function getDisplayValue($data) {
     $ret = array();
     foreach(ensureIsArray($data) as $key => $val)
-      $ret[$key] = json_encode(self :: parseValue($val));
+      $ret[$key] = json_encode(static :: parseValue($val));
     return $ret;
   }
 
@@ -53,7 +53,7 @@ class LSattr_ldap_compositeValueToJSON extends LSattr_ldap {
   public function getUpdateData($data) {
     $ret = array();
     foreach(ensureIsArray($data) as $key => $val)
-      $ret[$key] = self :: encodeValue(json_decode($val, true));
+      $ret[$key] = static :: encodeValue(json_decode($val, true));
     return $ret;
   }
 
