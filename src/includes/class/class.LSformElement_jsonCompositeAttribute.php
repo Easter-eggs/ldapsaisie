@@ -95,6 +95,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
     $return['html'] = $this -> fetchTemplate(NULL,
       array(
         'parseValues' => $parseValues,
+        'fullWidth' => $this -> getParam('html_options.fullWidth', false, 'bool'),
       )
     );
     LStemplate :: addCssFile('LSformElement_jsonCompositeAttribute.css');

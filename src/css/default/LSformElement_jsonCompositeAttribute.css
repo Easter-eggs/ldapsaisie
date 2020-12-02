@@ -1,6 +1,7 @@
 ul.LSformElement_jsonCompositeAttribute li {
 	border: 1px dotted #CCC;
 	padding: 2px;
+	overflow: auto;
 }
 
 ul.LSformElement_jsonCompositeAttribute li.noValue {
@@ -19,6 +20,10 @@ ul.LSformElement_jsonCompositeAttribute div label {
 	width: 10em;
 	font-weight: bold;
 	color: #666;
+}
+
+ul.LSformElement_jsonCompositeAttribute_fullWidth div label {
+	width: 16em;
 }
 
 ul.LSformElement_jsonCompositeAttribute div ul {
@@ -55,8 +60,12 @@ ul.LSformElement_jsonCompositeAttribute div select {
 	margin: 2px;
 }
 
+ul.LSformElement_jsonCompositeAttribute_fullWidth, ul.LSformElement_jsonCompositeAttribute_fullWidth > li {
+	width: 100%;
+}
+
 @media (max-width: 1024px) {
-	ul.LSformElement_jsonCompositeAttribute {
+	ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) {
 		width: 40vw;
 	}
 
@@ -64,26 +73,26 @@ ul.LSformElement_jsonCompositeAttribute div select {
 		width: auto;
 	}
 
-	ul.LSformElement_jsonCompositeAttribute div input[type=text], ul.LSformElement_jsonCompositeAttribute div select {
+	ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) div input[type=text], ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) div select {
 		width: calc(40vw - 10px);
 		box-sizing: border-box;
 	}
 }
 
 @media (max-width: 400px) {
-	ul.LSformElement_jsonCompositeAttribute {
+	ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth), ul.LSformElement_jsonCompositeAttribute_fullWidth {
 		width: calc(100% - 1em);
 	}
 
-	ul.LSformElement_jsonCompositeAttribute div ul {
+	ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) div ul, ul.LSformElement_jsonCompositeAttribute_fullWidth div ul {
 		width: 100%;
 	}
 
-	ul.LSformElement_jsonCompositeAttribute div ul input[type=text] {
+	ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) div ul input[type=text], ul.LSformElement_jsonCompositeAttribute_fullWidth div ul input[type=text] {
 		width: 100%;
 	}
 
-	ul.LSformElement_jsonCompositeAttribute div select {
+	ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) div select, ul.LSformElement_jsonCompositeAttribute_fullWidth div select {
 		width: calc(100% - 4px);
 	}
 }

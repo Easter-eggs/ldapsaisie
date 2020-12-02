@@ -2,7 +2,7 @@
   <title>LSattr_html_jsonCompositeAttribute</title>
   <para>Ce type est utilisé pour la gestion des attributs dont les valeurs sont
   des dictionnaires de valeurs encodées aux formats <emphasis>JSON</emphasis>.</para>
-  
+
   <programlisting linenumbering="unnumbered">
 <citetitle>Exemple de valeur gérée</citetitle>
 <![CDATA[{"component1": "value1", "component2": "value2", "component3": "value3"}]]>
@@ -12,7 +12,7 @@
   par leur clé et stockant une valeur dont le type peut être un texte libre ou
   bien être issue d'une liste déroulante configurable selon le même principe que
   le type d'attribut &LSattr_html_select_list;.</para>
-  
+
   <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['html_options' => array (
@@ -37,6 +37,7 @@
      ),
      [...]
    ),
+   'fullWidth' => [booléen],
 ),]]>
 ...
 </programlisting>
@@ -108,13 +109,21 @@
     <listitem>
 	  <simpara>Tableau associatif contenant les règles de vérification syntaxique
 	  des données du composant. Ces règles sont configurables de la même manière
-	  que les celles des valeurs attributs. 
+	  que les celles des valeurs attributs.
 	  <link linkend='config-LSattribute-check-data'>Voir la section concernée.</link>
 	  </simpara>
     </listitem>
   </varlistentry>
 </variablelist>
 
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>fullWidth</term>
+  <listitem>
+    <simpara>Booléen permettant de définir si l'affichage dans le formulaire doit se faire
+    sur toute la largeur disponible de la page (Défaut : <emphasis>Faux</emphasis>).</simpara>
   </listitem>
 </varlistentry>
 

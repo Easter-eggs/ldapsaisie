@@ -198,15 +198,27 @@ td.LSobject-list, tr.LSobject-list {
 		padding: 2px;
 	}
 
-	.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit, div.LSformElement_wysiwyg_container, ul.LSformElement_jsonCompositeAttribute, dd.LSform-errors {
+	.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_mail_autocomplete, ul.LSformElement_select_object_edit, div.LSformElement_wysiwyg_container, ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth), dd.LSform-errors {
 		width: 32vw;
 	}
 
 	ul.LSformElement_jsonCompositeAttribute div label {
 		width: 10rem;
 	}
+	ul.LSformElement_jsonCompositeAttribute_fullWidth div label {
+		width: 16rem;
+	}
+	ul.LSformElement_jsonCompositeAttribute_fullWidth div ul, ul.LSformElement_jsonCompositeAttribute_fullWidth div select {
+		width: calc(100% - 16rem - 1em);
+	}
+	ul.LSformElement_jsonCompositeAttribute_fullWidth div ul li {
+		width: 100%;
+	}
+	ul.LSformElement_jsonCompositeAttribute_fullWidth div ul li input[type=text] {
+		width: 100%;
+	}
 
-	ul.LSformElement_jsonCompositeAttribute div input[type=text], ul.LSformElement_jsonCompositeAttribute div select {
+	ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) div input[type=text], ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth) div select {
 		width: calc(32vw - 10rem - 16px);
 	}
 
