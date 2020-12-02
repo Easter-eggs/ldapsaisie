@@ -12,6 +12,7 @@
   &conf-LSattr_ldap_numeric;
   &conf-LSattr_ldap_password;
   &conf-LSattr_ldap_postaladdress;
+  &conf-LSattr_ldap_pwdHistory;
   &conf-LSattr_ldap_sambaAcctFlags;
   &conf-LSattr_ldap_shadowExpire;
 </sect3>

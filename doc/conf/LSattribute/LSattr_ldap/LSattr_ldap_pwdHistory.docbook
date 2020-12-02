@@ -1,0 +1,74 @@
+<sect4 id="config-LSattr_ldap_pwdHistory">
+  <title>LSattr_ldap_pwdHistory</title>
+  <para>Ce type est utilisé pour la gestion de l'attribut standard <emphasis>pwdHistory</emphasis>.
+  Cet attribut, accessible en lecture uniquement, stocke dans un format prédéfini l'historique des
+  mots de passe d'une utilisateur avec pour chaque entrée :
+  <itemizedlist>
+    <listitem><simpara>la date et heure de l'ajout du mot de passe dans l'historique</simpara></listitem>
+    <listitem><simpara>l'OID de la syntaxe du mot de passe</simpara></listitem>
+    <listitem><simpara>la longueur du mot de passe</simpara></listitem>
+    <listitem><simpara>le mot de passe (hâché)</simpara></listitem>
+  </itemizedlist>
+  </para>
+  <para>Ce type d'attribut LDAP permettra de convertir la valeur en son équivalent <literal>JSON</literal>
+  pour pouvoir être traité à l'aide du type d'attribut HTML &LSattr_html_jsonCompositeAttribute;.</para>
+  <programlisting linenumbering="unnumbered">
+<citetitle>Exemple de valeur de l'attribut pwdHistory</citetitle>
+<![CDATA[20201202144718Z#1.3.6.1.4.1.1466.115.121.1.40#105#{SSHA512}XDSiR6Sh6W7gyVIk6Rr2OUv8rNPr+0rHF99d9lcirE/TnnEdkjkncIi5iPubErL5lpfgh8gXLgSfmqvmFcMqXLToC25xIqyk]]>
+</programlisting>
+<programlisting linenumbering="unnumbered">
+<citetitle>Exemple de valeur tranformée</citetitle>
+<![CDATA[{"time":1606920438,"syntaxOID":"1.3.6.1.4.1.1466.115.121.1.40","length":105,"hashed_password":"{SSHA512}XDSiR6Sh6W7gyVIk6Rr2OUv8rNPr+0rHF99d9lcirE/TnnEdkjkncIi5iPubErL5lpfgh8gXLgSfmqvmFcMqXLToC25xIqyk"}]]>
+</programlisting>
+<programlisting linenumbering="unnumbered">
+<citetitle>Exemple de configuration complète de l'attribut</citetitle>
+<![CDATA['pwdHistory' => array (
+    'label' => 'Passwords in history',
+    'ldap_type' => 'pwdHistory',
+    'html_type' => 'jsonCompositeAttribute',
+    'html_options' => array (
+      'components' => array (
+        'time' => array (
+          'label' => 'Date added to history',
+          'type' => 'text',
+          'required' => true,
+          'multiple' => false,
+        ),
+        'syntaxOID' => array (
+          'label' => 'Syntax OID',
+          'type' => 'text',
+          'required' => true,
+          'multiple' => false,
+        ),
+        'length' => array (
+          'label' => 'Length',
+          'type' => 'text',
+          'required' => true,
+          'multiple' => false,
+        ),
+        'hashed_password' => array (
+          'label' => 'Hashed password',
+          'type' => 'text',
+          'required' => true,
+          'multiple' => false,
+        ),
+      ),
+    ),
+    'no_value_label' => 'History is empty.',
+    'multiple' => 1,
+    'rights' => array(
+      'admin' => 'r',
+    ),
+    'view' => 1,
+),]]>
+</programlisting>
+  <para>La date et heure de l'ajout du mot de passe dans l'historique est convertie dans un format lisible.
+  Par défaut, ce format est <literal>AAAA/MM/JJ HH:MM:SS</literal>, mais il peut aussi est personnalisé via
+  le paramètre <literal>date_format</literal>. Ce format est composé à partir des motifs clés gérés par la
+  fonction <function>date()</function> de &php;. Pour plus d'information, consulter
+  <ulink url='http://www.php.net/date'>la documentation officielle</ulink>.</para>
+  <note><simpara>La valeur par défaut est <emphasis>YmdHisO</emphasis>, correspondant à la syntaxe
+  <literal>Generalized Time</literal> telle que définie dans la <ulink url='https://tools.ietf.org/html/rfc4517'>RFC4517
+  </ulink> et prévu par le <ulink url='http://tools.ietf.org/id/draft-behera-ldap-password-policy-10.txt'>
+  Draft-behera-ldap-password-policy</ulink> spécifiant cet attribut standard.</simpara></note>
+</sect4>
