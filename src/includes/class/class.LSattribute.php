@@ -470,9 +470,9 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @retval boolean true si la valeur à put être générée, false sinon
    */
   public function generateValue() {
-    $value = false;
+    $value = $this -> getConfig('default_value', false);
     $generate_function = $this -> getConfig('generate_function');
-    $format = $this -> getConfig('generate_value_format', $this -> getConfig('default_value'));
+    $format = $this -> getConfig('generate_value_format');
     if ($generate_function && function_exists($generate_function)) {
       $value = call_user_func_array($generate_function, array(&$this -> ldapObject));
     }
