@@ -5,6 +5,64 @@
   liste l'ensemble des drapeaux actifs d'un compte Samba. Il est conçu pour être utilisé
   conjointement avec le type d'attribut LDAP &LSattr_ldap_sambaAcctFlags;.</para>
 
+  <para>Pour définir la valeur par défaut de cet attribut, il faut définir paramètre <literal>
+  default_value</literal> comme un tableau des drapeaux telque prévu par Samba :
+
+  <variablelist>
+    <title>Listes des drapeaux Samba</title>
+    <varlistentry>
+      <term>U</term>
+      <listitem><simpara>Compte utilisateur standard</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>W</term>
+      <listitem><simpara>Compte de poste de travail approuvé</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>S</term>
+      <listitem><simpara>Compte de serveur approuvé</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>I</term>
+      <listitem><simpara>Compte de domaine approuvé</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>M</term>
+      <listitem><simpara>Compte de connexion Majority Node Set (MNS)</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>H</term>
+      <listitem><simpara>Dossier personnel requis</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>N</term>
+      <listitem><simpara>Compte sans mot de passe</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>X</term>
+      <listitem><simpara>Le mot de passe n'expire jamais</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>D</term>
+      <listitem><simpara>Compte désactivé</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>T</term>
+      <listitem><simpara>Copie temporaire d'un autre compte</simpara></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>L</term>
+      <listitem><simpara>Compte automatiquement bloqué</simpara></listitem>
+    </varlistentry>
+  </variablelist>
+  </para>
+
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Exemple de valeur par défaut</citetitle>...
+<![CDATA['default_value' => array('U', 'X'),]]>
+...
+</programlisting>
+
   <note><simpara>Ce type d'attribut est implémenté en dérivant le type
   <emphasis>LSattr_html_select_box</emphasis> dont les valeurs possibles sont
   pré-configurées (paramètre <literal>possible_values</literal>). Même si cela n'est pas
