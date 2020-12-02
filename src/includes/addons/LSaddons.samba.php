@@ -287,7 +287,7 @@ function generate_sambaPrimaryGroupSID($ldapObject) {
  * @retval integer UNIX ID value on succes, false otherwise
  */
 function get_samba_unix_pool_next_id($attr) {
-  $unix_id_pool_dn = (constant('LS_SAMBA_UNIX_ID_POOL_DN')?LS_SAMBA_UNIX_ID_POOL_DN:LS_SAMBA_DOMAIN_OBJECT_DN);
+  $unix_id_pool_dn = (defined('LS_SAMBA_UNIX_ID_POOL_DN')?constant('LS_SAMBA_UNIX_ID_POOL_DN'):LS_SAMBA_DOMAIN_OBJECT_DN);
   $unix_id_pool = LSldap :: getLdapEntry ($unix_id_pool_dn);
   if ($unix_id_pool === false) {
     LSerror :: addErrorCode('SAMBA_02');
