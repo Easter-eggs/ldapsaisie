@@ -46,12 +46,19 @@
     de &php;. Pour plus d'information, consulter
     <ulink url='http://www.php.net/date'>la documentation officielle</ulink>.
     <note><simpara>La valeur par défaut est <emphasis>YmdHisO</emphasis>,
-    correspondant à la syntaxe <literal>Generalized Time</literal> telle que
-    définie dans la <ulink url='https://tools.ietf.org/html/rfc4517'>RFC4517
-    </ulink>. Exemples : <literal>20091206230506Z</literal>
+    correspondant à la syntaxe <literal>Generalized Time</literal> (sans les
+    micro-secondes) telle que définie dans la
+    <ulink url='https://tools.ietf.org/html/rfc4517'>RFC4517</ulink>. Exemples :
+    <literal>20091206230506Z</literal>
     <emphasis>(=2009/12/06 23:05:66 UTC)</emphasis> ou
     <literal>20190613143537+0200</literal>
     <emphasis>(=2019/06/13 14:35:37 UTC+0200)</emphasis>.</simpara></note>
+    <warning><simpara>Si vous exploitez un attribut stockant une date incluant les
+    micro-secondes, ce type d'attribut LDAP sera capable de gérer l'interpratation des
+    valeurs stockées en configurant le format <literal>YmdHis.uO</literal>. En outre,
+    le type d'attribut &LSattr_html_date;, s'appuyant sur les méthodes standards
+    <literal>strftime()</literal> et <literal>strptime()</literal>, ne permettra pas
+    aujourd'hui la saisie et l'affichage des millisecondes.</simpara></warning>
     </para>
 
   </listitem>
