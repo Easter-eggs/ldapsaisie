@@ -96,9 +96,6 @@ class LSformElement_labeledValue extends LSformElement {
     $ret=array('raw_value' => $value);
     if (preg_match('/^\[([^\]]*)\](.*)$/',$value,$m)) {
       $ret['label'] = $m[1];
-      $label = $this -> getParam('html_options.labels.'.$ret['label']);
-      if ($label)
-	      $ret['translated_label'] = $label;
       $ret['value'] = $m[2];
     }
     return $ret;

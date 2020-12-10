@@ -1,8 +1,8 @@
 {if $freeze}
   {if isset($parseValue)}
     {if $parseValue.label}
-      {if $parseValue.translated_label}
-        <span title='[{$parseValue.label|escape:'htmlall'}]'>{$parseValue.translated_label|escape:"htmlall"}</span>
+      {if isset($labels[$parseValue.label])}
+        <span title='[{$parseValue.label|escape:'htmlall'}]'>{$labels[$parseValue.label]|escape:"htmlall"}</span>
       {else}
         <span>{$parseValue.label|escape:"htmlall"} {$unrecognizedLabelTxt|escape:"htmlall"}</span>
       {/if}
