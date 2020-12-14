@@ -462,102 +462,123 @@ class LSldapObject extends LSlog_staticLoggerClass {
   public function validateAttrData(&$LSform,&$attr) {
     $retval = true;
 
-    $vconfig=$attr -> getValidateConfig();
+    $vconfig = $attr -> getValidateConfig();
 
-    $data=$attr -> getUpdateData();
-    if(!is_array($data)) {
-      $data=array($data);
-    }
+    // Validate attribute values
+    foreach($attr -> getConfig('validation', array(), 'array') as $test) {
+      self :: log_trace("validateAttrData(".$LSform->idForm.", ".$attr->name."): run validation with following config:\n".varDump($test));
 
-    // Validation des valeurs de l'attribut
-    if(is_array($vconfig)) {
-      foreach($vconfig as $test) {
-        // DÃ©finition du basedn par dÃ©faut
-        if (!isset($test['basedn'])) {
-          $test['basedn']=LSsession :: getTopDn();
-        }
+      // Generate error message
+      $msg_error = LSconfig :: get('msg', null, 'string', $test);
+      if ($msg_error) {
+        $msg_error = $this -> getFData(__($msg_error));
+      }
+      else {
+        $msg_error = getFData(_("The attribute %{attr} is not valid."), $attr -> getLabel());
+      }
 
-        // DÃ©finition du message d'erreur
-        if (!empty($test['msg'])) {
-          $msg_error=getFData(__($test['msg']),$this,'getValue');
-        }
-        else {
-          $msg_error=getFData(_("The attribute %{attr} is not valid."),$attr -> getLabel());
-        }
-        foreach($data as $val) {
-          // validation par check LDAP
-          if((isset($test['filter'])||isset($test['basedn']))&&(isset($test['result']))) {
-            $sparams=array('onlyAccessible' => False);
-            if (isset($test['scope']))
-              $sparams['scope'] = $test['scope'];
-            $this -> other_values['val']=$val;
-            // Filter from test configuration
-            if (isset($test['filter']) && !empty($test['filter'])) {
-              $sfilter_user=getFData($test['filter'],$this,'getValue');
-              if ($sfilter_user[0]!='(') $sfilter_user="(".$sfilter_user.")";
-              $sfilter_user=Net_LDAP2_Filter::parse($sfilter_user);
-            }
-            else {
-              $sfilter_user=NULL;
-            }
-            if(isset($test['object_type']) && LSsession :: loadLSobject($test['object_type']) ) {
-              $sfilter=self :: _getObjectFilter($test['object_type']);
+      // Iter on attribute values to check all of it
+      foreach(ensureIsArray($attr -> getUpdateData()) as $val) {
+        // Validation using LDAP search
+        if((isset($test['filter'])||isset($test['basedn']))&&(isset($test['result']))) {
+          $this -> other_values['val'] = $val;
+          $sparams = array(
+            'scope' => LSconfig :: get('scope', 'sub', 'string', $test),
+            'onlyAccessible' => False,
+          );
 
-              if ($sfilter_user) {
-                $sfilter=LSldap::combineFilters('and',array($sfilter_user,$sfilter));
-              }
-            }
-            else {
-              $sfilter=$sfilter_user;
-            }
-            $sbasedn=(isset($test['basedn']))?getFData($test['basedn'],$this,'getValue'):NULL;
-            if (isset($test['except_current_object']) && (bool)$test['except_current_object'] && !$LSform -> idForm!='create') {
-              $sret=LSldap :: search ($sfilter,$sbasedn,$sparams);
-              $dn=$this->getDn();
-              $ret=0;
-              foreach($sret as $obj) {
-                if ($obj['dn']!=$dn)
-                  $ret++;
-              }
-            }
-            else {
-              $ret=LSldap :: getNumberResult ($sfilter,$sbasedn,$sparams);
-            }
-            if($test['result']==0) {
-              if($ret!=0) {
-                if ($LSform) $LSform -> setElementError($attr,$msg_error);
-                $retval = false;
-              }
-            }
-            else {
-              if($ret<0) {
-                if ($LSform) $LSform -> setElementError($attr,$msg_error);
-                $retval = false;
-              }
-            }
+          // Handle filter parameter
+          $sfilter_user = LSconfig :: get('filter', null, 'string', $test);
+          if ($sfilter_user) {
+            $sfilter_user = $this -> getFData($test['filter']);
+            // Check if filter format is surronded by '()'
+            if ($sfilter_user[0]!='(')
+              $sfilter_user = "($sfilter_user)";
+            $sfilter_user = Net_LDAP2_Filter::parse($sfilter_user);
           }
-          // Validation par fonction externe
-          else if(isset($test['function'])) {
-            if (function_exists($test['function'])) {
-              if(!call_user_func_array($test['function'],array(&$this))) {
-                if ($LSform) $LSform -> setElementError($attr,$msg_error);
-                $retval = false;
-              }
-            }
-            else {
-              LSerror :: addErrorCode('LSldapObject_04',array('attr' => $attr->name,'obj' => $this->getType(),'func' => $test['function']));
+
+          // Handle object_type parameter & compose final LDAP filter string
+          $object_type = LSconfig :: get('object_type', null, 'string', $test);
+          if($object_type && LSsession :: loadLSobject($object_type) ) {
+            $sfilter = self :: _getObjectFilter($object_type);
+            if ($sfilter_user)
+              $sfilter = LSldap::combineFilters('and', array($sfilter_user, $sfilter));
+          }
+          else {
+            $sfilter = $sfilter_user;
+          }
+
+          // Handle base_dn parameter
+          $sbasedn = LSconfig :: get('basedn', null, 'string', $test);
+          if ($sbasedn)
+            $sbasedn = $this -> getFData($sbasedn);
+
+          // If except_current_object (and not create form), list matching objets to exclude current one
+          if (LSconfig :: get('except_current_object', false, 'bool', $test) && $LSform -> idForm != 'create') {
+            $sret = LSldap :: search($sfilter, $sbasedn, $sparams);
+            $dn = $this->getDn();
+            $ret = 0;
+            foreach($sret as $obj)
+              if ($obj['dn'] != $dn)
+                $ret++;
+          }
+          else {
+            // Otherwise, just retreive number of matching objets
+            $ret=LSldap :: getNumberResult($sfilter, $sbasedn, $sparams);
+          }
+
+          // Check result
+          if(LSconfig :: get('result', null, 'int', $test) == 0) {
+            if($ret != 0) {
+              if ($LSform)
+                $LSform -> setElementError($attr, $msg_error);
               $retval = false;
             }
           }
           else {
-            LSerror :: addErrorCode('LSldapObject_05',array('attr' => $attr->name,'obj' => $this->getType()));
+            if($ret < 0) {
+              if ($LSform)
+                $LSform -> setElementError($attr, $msg_error);
+              $retval = false;
+            }
+          }
+        }
+        // Validation using external function
+        else if(isset($test['function'])) {
+          if (function_exists($test['function'])) {
+            if(!call_user_func_array($test['function'], array(&$this))) {
+              if ($LSform)
+                $LSform -> setElementError($attr,$msg_error);
+              $retval = false;
+            }
+          }
+          else {
+            LSerror :: addErrorCode(
+              'LSldapObject_04',
+              array(
+                'attr' => $attr->name,
+                'obj' => $this->getType(),
+                'func' => $test['function']
+              )
+            );
             $retval = false;
           }
         }
+        else {
+          LSerror :: addErrorCode(
+            'LSldapObject_05',
+            array(
+              'attr' => $attr->name,
+              'obj' => $this->getType()
+            )
+          );
+          $retval = false;
+        }
       }
     }
-    // GÃ©nÃ©ration des valeurs des attributs dÃ©pendants
-    $dependsAttrs=$attr->getDependsAttrs();
+
+    // Generate values of dependent attributes
+    $dependsAttrs = $attr->getDependsAttrs();
     if (!empty($dependsAttrs)) {
       foreach($dependsAttrs as $dependAttr) {
         if(!isset($this -> attrs[$dependAttr])){
@@ -580,6 +601,9 @@ class LSldapObject extends LSlog_staticLoggerClass {
           $retval = false;
         }
       }
+    }
+    else {
+      self :: log_trace("validateAttrData(".$LSform->idForm.", ".$attr->name."): no dependent attribute");
     }
 
     $attr -> validate();
