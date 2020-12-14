@@ -271,6 +271,19 @@ class LSldap extends LSlog_staticLoggerClass {
     }
   }
 
+  /**
+   * Check if an LDAP object exists
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $dn string DN of the LDAP entry to check
+   *
+   * @retval boolean  True if entry exists, false otherwise
+   */
+  public static function exists($dn) {
+    return is_a(self :: getLdapEntry($dn), 'Net_LDAP2_Entry');
+  }
+
  /**
   * Retourne une nouvelle entr�e
   *

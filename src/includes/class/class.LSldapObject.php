@@ -663,10 +663,15 @@ class LSldapObject extends LSlog_staticLoggerClass {
     }
     if(!empty($submitData)) {
       $dn=$this -> getDn();
+
       if($dn) {
         $this -> dn=$dn;
         self :: log_debug($this." -> submitChange($idForm): submitData=".varDump($submitData));
         if ($new) {
+          // Check DN is not already exist
+          if (LSldap :: exists($dn)) {
+            return;
+          }
           if (!$this -> fireEvent('before_create')) {
             LSerror :: addErrorCode('LSldapObject_20');
             return;
@@ -3043,6 +3048,9 @@ ___("LSldapObject : The function %{func} to generate container DN is not callabl
 );
 LSerror :: defineError('LSldapObject_34',
 ___("LSldapObject : Error during generating container DN : %{error}")
+);
+LSerror :: defineError('LSldapObject_35',
+___("LSldapObject : An LDAP object with the same DN as generated for this new one already exists. Please verify your configuration.")
 );
 
 // LSrelation
