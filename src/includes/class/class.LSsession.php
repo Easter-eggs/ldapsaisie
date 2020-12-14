@@ -1830,7 +1830,7 @@ class LSsession {
     foreach ($set as $object) {
       $DNs[] = $object -> getDn();
     }
-    if (!is_array(self :: $LSprofiles[$profile])) {
+    if (!isset(self :: $LSprofiles[$profile])) {
       self :: $LSprofiles[$profile]=$DNs;
     }
     else {
