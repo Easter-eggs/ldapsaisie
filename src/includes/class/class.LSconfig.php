@@ -88,6 +88,8 @@ class LSconfig {
         return floatval($value);
       case 'string':
         return strval($value);
+      case 'array':
+        return ensureIsArray($value);
       default:
         return $value;
     }
