@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-12-14 19:40+0100\n"
+"PO-Revision-Date: 2020-12-16 17:41+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -508,9 +508,9 @@ msgstr "Confirmez-vous votre choix ?"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSconfirmBox.php:37
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsmoothbox.php:39
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:70
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:605
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1227
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1363
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:611
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1233
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1375
 #: templates/default/recoverpassword.tpl:21
 msgid "Validate"
 msgstr "Valider"
@@ -650,10 +650,10 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:62
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:174
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:987
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1155
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1240
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1376
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:993
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1161
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1246
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1388
 msgid "Modify"
 msgstr "Modifier"
 
@@ -1060,11 +1060,11 @@ msgstr "LSsession : Des informations sont manquant pour afficher cette page."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2839
 msgid ""
-"LSsession : The function of the custom action '%{name}' does not exists or "
-"is not configured."
+"LSsession : The function '%{function}' of the custom action "
+"'%{customAction}' does not exists or is not configured."
 msgstr ""
-"LSsearch : La fonction de l'action personnalisée '%{name}' n'existe pas ou "
-"n'est pas configurée."
+"LSsession : La fonction '%{function}' de l'action personnalisée "
+"'%{customAction}' n'existe pas ou n'est pas configurée."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2842
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
@@ -1489,8 +1489,8 @@ msgstr "Attention"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:69
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:85
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:190
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1003
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1147
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1009
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1153
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -1501,7 +1501,7 @@ msgstr "Aucun objet."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:712
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:442
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:932
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:938
 msgid "New"
 msgstr "Nouveau"
 
@@ -1699,14 +1699,14 @@ msgid "Delete this field."
 msgstr "Supprimer cette valeur."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:224
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:601
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:607
 msgid "Do you really want to execute custom action %{title} on this search ?"
 msgstr ""
 "Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée %{title} "
 "sur cette recherche ?"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:230
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1357
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1369
 msgid ""
 "Do you really want to execute custom action %{customAction} on "
 "%{objectname} ?"
@@ -1851,6 +1851,8 @@ msgid "Display RSS stack."
 msgstr "Afficher la file RSS."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_password.php:100
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:567
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1319
 msgid "undefined"
 msgstr "non-définie"
 
@@ -2237,14 +2239,14 @@ msgid "Unknown error : %{error}"
 msgstr "Erreur inconnu : %{error}"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:166
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1139
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1232
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1368
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1145
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1238
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1380
 msgid "View"
 msgstr "Voir"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:182
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:995
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1001
 msgid "Copy"
 msgstr "Copier"
 
@@ -2275,7 +2277,7 @@ msgid "You must provide pattern for global search."
 msgstr "Vous devez fournir un mot clé pour les recherches globales."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:448
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:790
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:796
 msgid "Import"
 msgstr "Importer"
 
@@ -2298,46 +2300,46 @@ msgstr "Recherche approximative"
 msgid "Recursive search"
 msgstr "Recherche récursive"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:580
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:586
 msgid ""
 "The custom action %{title} have been successfully execute on this search."
 msgstr ""
 "L'action personnalisée %{title} a été correctement exécutée sur cette "
 "recherche."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:891
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:897
 msgid "Data entry form"
 msgstr "Masque de saisie"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:897
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:903
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1034
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1040
 msgid "My account"
 msgstr "Mon compte"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1097
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1103
 msgid "The object has been partially modified."
 msgstr "L'objet a été partiellement modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1100
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1106
 msgid "The object has been modified successfully."
 msgstr "L'objet a bien été modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1215
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1221
 msgid "%{objectname} has been successfully deleted."
 msgstr "%{objectname} a bien été supprimé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1224
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1230
 msgid "Deleting : %{objectname}"
 msgstr "Suppression : %{objectname}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1225
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1231
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr "Voulez-vous vraiment supprimer <strong>%{displayName}</strong> ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1329
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1341
 msgid ""
 "The custom action %{customAction} have been successfully execute on "
 "%{objectname}."

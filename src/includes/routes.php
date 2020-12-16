@@ -556,16 +556,22 @@ function handle_LSobject_search_customAction($request) {
   }
 
   $config = LSconfig :: get("LSobjects.$LSobject.LSsearch.customActions.$customAction");
+  $title = isset($config['label'])?__($config['label']):$customAction;
 
   // Check search customAction function
   if (!isset($config['function']) || !is_callable($config['function'])) {
-    LSerror :: addErrorCode('LSsession_13');
+    LSerror :: addErrorCode(
+      'LSsession_13',
+      array(
+        'customAction' => $title,
+        'function' => (isset($config['function'])?getCallableName($config['function']):_('undefined'))
+      )
+    );
     LSsession :: displayTemplate();
     return false;
   }
 
   $objectname = $object -> getDisplayName();
-  $title = isset($config['label'])?__($config['label']):$customAction;
 
   // Define page title
   LStemplate :: assign('pagetitle', $title);
@@ -1302,16 +1308,22 @@ function handle_LSobject_customAction($request) {
   }
 
   $config = LSconfig :: get("LSobjects.$LSobject.customActions.$customAction");
+  $title = isset($config['label'])?__($config['label']):$customAction;
 
   // Check customAction function
   if (!isset($config['function']) || !is_callable($config['function'])) {
-    LSerror :: addErrorCode('LSsession_13');
+    LSerror :: addErrorCode(
+      'LSsession_13',
+      array(
+        'customAction' => $title,
+        'function' => (isset($config['function'])?getCallableName($config['function']):_('undefined'))
+      )
+    );
     LSsession :: displayTemplate();
     return;
   }
 
   $objectname = $object -> getDisplayName();
-  $title = isset($config['label'])?__($config['label']):$customAction;
   // Define page title
   LStemplate :: assign('pagetitle', $title.' : '.$objectname);
 

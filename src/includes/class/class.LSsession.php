@@ -2836,7 +2836,7 @@ class LSsession {
     ___("LSsession : Some informations are missing to display this page.")
     );
     LSerror :: defineError('LSsession_13',
-    ___("LSsession : The function of the custom action '%{name}' does not exists or is not configured.")
+    ___("LSsession : The function '%{function}' of the custom action '%{customAction}' does not exists or is not configured.")
     );
     LSerror :: defineError('LSsession_14',
     ___("LSsession : Fail to retreive user's LDAP credentials from LSauth.")
