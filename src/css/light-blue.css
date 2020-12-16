@@ -85,21 +85,21 @@ li.menu a {
 /* ---- Objects list ---- */
 
 @media (min-width: 1024px) {
-	table.LSobject-list {
+	table.LSobject-list, table.LStable {
 		width: 98%;
 		border: none;
 		margin-top: 1.8em;
 	}
 }
 
-th.LSobject-list {
+th.LSobject-list, table.LStable th {
 	font-weight: bold;
 	font-size: 0.9em;
 	border: none;
 	background-color: transparent;
 }
 
-td.LSobject-list, tr.LSobject-list {
+td.LSobject-list, tr.LSobject-list, table.LStable tbody td, table.LStable th {
 	border: none;
 	transition: all 0.25s linear;
 }
@@ -270,7 +270,7 @@ ul.LSformElement_image_actions {
 
 
 /*  ---- Medium ---- */
-li.LSform_layout_active, tr.LSobject-list:hover, ul.LSaccessRightsMatrixView_tabs li {
+li.LSform_layout_active, tr.LSobject-list:hover, table.LStable tr:hover, table.LStable tr.bis:hover, ul.LSaccessRightsMatrixView_tabs li {
 	background-color:	var(--medium-color);
 }
 
@@ -289,11 +289,11 @@ h1, li.LSview-actions, li.menu a:hover {
 }
 
 /* ---- Light ---- */
-ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobject-list, td.LSobject-list, div.LSinfosBox, select#LSview_search_predefinedFilter {
+ul.LSformElement_select_object_edit, li.LSformElement_select_object, table.LSobject-list, table.LStable, td.LSobject-list, table.LStable td, div.LSinfosBox, select#LSview_search_predefinedFilter {
 	border-color:		var(--light-color);
 }
 
-tr.LSobject-list-bis, .LSform input[type=text], .LSform input[type=password], .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox, dl.LSmail input, dl.LSmail textarea {
+tr.LSobject-list-bis, table.LStable tr.bis, .LSform input[type=text], .LSform input[type=password], .LSform textarea, li.LSformElement_select_object_addBtn, div.LSinfosBox, dl.LSmail input, dl.LSmail textarea {
 	background-color:	var(--light-color);
 }
 
@@ -334,12 +334,12 @@ input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSacce
 }
 
 /* ---- Dark grey ---- */
-body, input, select, textarea, #status, th.LSobject-list, th.LSobject-list a, .LSform dt, dl.LSmail dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label, p.LSform_listAvailableDataEntryForm, dd.LSform, a.LSview-actions, a.LSobject-list, a.LSrelation, a.LSformElement_select_object, div.LSformElement_password_confirm label {
+body, input, select, textarea, #status, th.LSobject-list, table.LStable th, th.LSobject-list a, table.LStable a, .LSform dt, dl.LSmail dt, a, div.LSinfosBox, strong.LSobject-list-page, strong.LSobject-list-nb-by-page, a.LSobject-list-page:hover, a.LSobject-list-nb-by-page:hover, ul.LSformElement_jsonCompositeAttribute div label, p.LSform_listAvailableDataEntryForm, dd.LSform, a.LSview-actions, a.LSobject-list, a.LSrelation, a.LSformElement_select_object, div.LSformElement_password_confirm label {
 	color:			var(--dark-grey);
 }
 
 /* ---- Contrasted grey ---- */
-tr.LSobject-list:hover, tr.LSobject-list:hover a.LSobject-list, .LSform input[type=submit], input[type='submit'].LSview_search, li.LSform_layout_current {
+tr.LSobject-list:hover, table.LStable tr.bis:hover, tr.LSobject-list:hover a.LSobject-list, table.LStable tbody tr:hover a, .LSform input[type=submit], input[type='submit'].LSview_search, li.LSform_layout_current {
 	color: var(--contrasted-text-color);
 }
 
@@ -413,7 +413,7 @@ input[type=radio]:checked {
 }
 
 @media (max-width: 1024px) {
-  table.LSobject-list {
+  table.LSobject-list, table.LStable {
     width: 98vw;
   }
 }

@@ -152,7 +152,7 @@ a.menu {
  ****************
  */
 
-table.LSobject-list {
+table.LSobject-list, table.LStable {
   margin-left:        1em;
   margin-top:         0.5em;
   border:             1px solid #0072b8;
@@ -164,7 +164,7 @@ table.LSobject-list {
 /*
  * th
  */
-th.LSobject-list {
+th.LSobject-list, table.LStable th {
   background-color:   #0072b8;
   color:              #fff;
 }
@@ -181,7 +181,7 @@ img.LSobject-list-ordersense {
   vertical-align:     middle;
 }
 
-th.LSobject-list a {
+th.LSobject-list a, table.LStable th a {
   color:              #fff;
   text-decoration:    none;
 }
@@ -189,18 +189,18 @@ th.LSobject-list a {
 /*
  * tr
  */
-tr.LSobject-list-bis {
+tr.LSobject-list-bis, table.LStable tr.bis {
   background-color:   #c1d7e3;
 }
 
-tr.LSobject-list:hover {
+tr.LSobject-list:hover, table.LStable tr:hover {
   background-color:   #729EB6;
 }
 
 /*
  * td
  */
-td.LSobject-list {
+td.LSobject-list, table.LStable tbody td {
   border:             1px solid #0072b8;
   padding:            0.1em;
 }
@@ -209,7 +209,7 @@ td.LSobject-list-without-result {
   text-align:         center;
 }
 
-a.LSobject-list {
+a.LSobject-list, table.LStable tbody a {
   color:              #000;
   text-decoration:    none;
 }
