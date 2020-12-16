@@ -311,7 +311,7 @@ tr.LSobject-list-bis, table.LStable tr.bis, .LSform input[type=text], .LSform in
 }
 
 /* ---- Dark ---- */
-li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search, ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab {
+li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search, button, ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab {
 	background-color:	var(--dark-color);
 }
 
@@ -319,7 +319,7 @@ li.menu a, a.menu, h1 {
 	color:				var(--dark-color);
 }
 
-input[type='submit'].LSview_search, input[type='text'].LSview_search, div.LSaccessRightsMatrixView_tab_content  {
+input[type='submit'].LSview_search, input[type='text'].LSview_search, button, div.LSaccessRightsMatrixView_tab_content  {
 	border-color:		var(--dark-color);
 }
 
@@ -339,7 +339,7 @@ body, input, select, textarea, #status, th.LSobject-list, table.LStable th, th.L
 }
 
 /* ---- Contrasted grey ---- */
-tr.LSobject-list:hover, table.LStable tr.bis:hover, tr.LSobject-list:hover a.LSobject-list, table.LStable tbody tr:hover a, .LSform input[type=submit], input[type='submit'].LSview_search, li.LSform_layout_current {
+tr.LSobject-list:hover, table.LStable tr.bis:hover, tr.LSobject-list:hover a.LSobject-list, table.LStable tbody tr:hover a, .LSform input[type=submit], input[type='submit'].LSview_search, button, li.LSform_layout_current {
 	color: var(--contrasted-text-color);
 }
 

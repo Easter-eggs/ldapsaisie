@@ -353,7 +353,7 @@ input[type='text'].LSview_search {
   width:              12em;
 }
 
-input[type='submit'].LSview_search {
+input[type='submit'].LSview_search, button {
   border:             1px solid #0072b8;
   width:              8rem;
   background-color:   #0072b8;
