@@ -424,6 +424,7 @@ input[type='submit'].LSview_search {
     z-index: 1001;
     top: 0px;
     height: 100%;
+    overflow: auto;
   }
 
   #status {
