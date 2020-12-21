@@ -24,8 +24,8 @@
  * Ldap attribute type for stanard pwdHistory attribute (see draft-behera-ldap-password-policy-10)
  *
  * Convert pwdHistory attribute value :
- * From : 
- *   
+ * From :
+ *
  *   20201202144718Z#1.3.6.1.4.1.1466.115.121.1.40#105#{SSHA512}XDSiR6Sh6W7gyVIk6Rr2OUv8rNPr+0rHF99d9lcirE/TnnEdkjkncIi5iPubErL5lpfgh8gXLgSfmqvmFcMqXLToC25xIqyk
  * To:
  *
@@ -89,6 +89,10 @@ class LSattr_ldap_pwdHistory extends LSattr_ldap {
       return;
     }
     $datetime = date_create_from_format('YmdHisO', $value['time']);
+    if (!is_a($datetime, 'DateTime')) {
+      self :: log_warning($this."->encodeValue($value): Fail to create DateTime object from timestamp '".varDump($value['time'])."'.");
+      return;
+    }
     $datetime -> setTimezone('UTC');
     $datetime_string = $datetime -> format('YmdHisO');
     $datetime_string = preg_replace('/[\+\-]0000$/', 'Z', $datetime_string);
