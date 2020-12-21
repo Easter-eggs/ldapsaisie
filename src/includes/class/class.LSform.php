@@ -381,20 +381,22 @@ class LSform extends LSlog_staticLoggerClass {
         }
       }
 
-      foreach($values as $value) {
-        if (empty($value)) {
-          continue;
-        }
-        if (!isset($this -> _rules[$element]) || !is_array($this -> _rules[$element]))
-          continue;
-        LSsession :: loadLSclass('LSformRule', null, true);
-        foreach($this -> _rules[$element] as $rule) {
-          $ruleType="LSformRule_".$rule['name'];
-          LSsession :: loadLSclass($ruleType);
-          if (! call_user_func_array(array( $ruleType,'validate') , array($value, $rule['options'], &$this -> elements[$element]))) {
-            $retval=false;
-            $this -> setElementError($this -> elements[$element],$rule['options']['msg']);
-          }
+      // If no rule configured for this attribute, just ignore this check
+      if (!isset($this -> _rules[$element]) || !is_array($this -> _rules[$element]))
+        continue;
+
+      // Load LSformRule class
+      LSsession :: loadLSclass('LSformRule', null, true);
+
+      // Iter on rules and check element values with each of them
+      foreach($this -> _rules[$element] as $rule) {
+        if (
+          !LSformRule :: validate_values(
+            $rule['name'], $values, $rule['options'], $this -> elements[$element]
+          )
+        ) {
+          $retval = false;
+          $this -> setElementError($this -> elements[$element], $rule['options']['msg']);
         }
       }
     }
