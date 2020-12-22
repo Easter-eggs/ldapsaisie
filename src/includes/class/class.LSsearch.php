@@ -1325,11 +1325,11 @@ class LSsearch extends LSlog_staticLoggerClass {
   }
 
   /**
-   * List objects name
+   * List LSsearchEntry objects
    *
    * @retval Array DN associate with name
    **/
-  public function listObjectsName() {
+  public function listEntries() {
     if (!LSsession::loadLSclass('LSsearchEntry')) {
       LSerror::addErrorCode('LSsession_05',$this -> LSobject);
       return;
@@ -1348,10 +1348,25 @@ class LSsearch extends LSlog_staticLoggerClass {
           $this -> result['list'],
           $id
         );
-        $retval[$entry -> dn] = $entry -> displayName;
+        $retval[$entry -> dn] = $entry;
       }
     }
 
+    return $retval;
+  }
+
+  /**
+   * List objects name
+   *
+   * @retval Array DN associate with name
+   **/
+  public function listObjectsName() {
+    $entries = $this -> listEntries();
+    if (!is_array($entries))
+      return;
+    $retval = array();
+    foreach($entries as $entry)
+      $retval[$entry -> dn] = $entry -> displayName;
     return $retval;
   }
 
@@ -1432,6 +1447,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       'extraDisplayedColumns' => false,
     );
     $page_nb = 1;
+    $all = false;
     for ($i=0; $i < count($command_args); $i++) {
       switch ($command_args[$i]) {
         case '-f':
@@ -1497,6 +1513,9 @@ class LSsearch extends LSlog_staticLoggerClass {
         case '--page':
           $page_nb = intval($command_args[++$i]);
           break;
+        case '--all':
+          $all = true;
+          break;
         default:
           if (is_null($objType)) {
             $objType = $command_args[$i];
@@ -1532,21 +1551,30 @@ class LSsearch extends LSlog_staticLoggerClass {
     if (!$search -> run())
       self :: log_fatal('Fail to run search.');
 
-    // Retrieve page
-    $page = $search -> getPage(($page_nb-1));
-    /*
-     * $page = array(
-     *   'nb' => $page,
-     *   'nbPages' => 1,
-     *   'list' => array(),
-     *   'total' => $this -> total
-     * );
-     */
 
-    // Check page
-    if (!is_array($page) || $page_nb > $page['nbPages'])
-      self :: log_fatal("Fail to retreive page #$page_nb.");
-    if (empty($page['list'])) {
+    if ($all) {
+      $entries = $search -> listEntries();
+      if (!is_array($entries))
+        self :: log_fatal("Fail to retreive search result");
+    }
+    else {
+      // Retrieve page
+      $page = $search -> getPage(($page_nb-1));
+      /*
+       * $page = array(
+       *   'nb' => $page,
+       *   'nbPages' => 1,
+       *   'list' => array(),
+       *   'total' => $this -> total
+       * );
+       */
+
+      // Check page
+      if (!is_array($page) || $page_nb > $page['nbPages'])
+        self :: log_fatal("Fail to retreive page #$page_nb.");
+    }
+
+    if (empty($all?$entries:$page['list'])) {
       echo "No $objType object found.\n";
       exit(0);
     }
@@ -1564,7 +1592,7 @@ class LSsearch extends LSlog_staticLoggerClass {
     $tbl->setHeaders($headers);
 
     // Add one line for each object found (in page)
-    foreach($page['list'] as $obj) {
+    foreach($all?$entries:$page['list'] as $obj) {
       $row = array(
         $obj -> dn,
         $obj -> displayName,
@@ -1579,7 +1607,11 @@ class LSsearch extends LSlog_staticLoggerClass {
       $tbl->addRow($row);
     }
     echo $tbl->getTable();
-    echo "Page ".($page['nb']+1)." on ".$page['nbPages']."\n";
+    if ($all)
+      echo "Total: ".$search -> total."\n";
+    else
+      echo "Page ".($page['nb']+1)." on ".$page['nbPages']." / Total: ".$search -> total."\n";
+
     return true;
   }
 
@@ -1610,6 +1642,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       '-W', '--without-cache',
       '-e', '--extra-columns',
       '-p', '--page',
+      '--all',
     );
 
     // Detect positional args
@@ -1786,6 +1819,7 @@ LScli :: add_command(
     '     - -W|--without-cache : Disable cache',
     '     - -e|--extra-columns : Display extra columns',
     '     - -p|--page : page number to show (starting by 1, default: first one)',
+    '     - --all : list all matching objects (no pagination)',
   ),
   true,
   array('LSsearch', 'cli_search_args_autocompleter')
