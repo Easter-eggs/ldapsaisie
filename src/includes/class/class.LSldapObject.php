@@ -524,7 +524,12 @@ class LSldapObject extends LSlog_staticLoggerClass {
           }
           else {
             // Otherwise, just retreive number of matching objets
-            $ret=LSldap :: getNumberResult($sfilter, $sbasedn, $sparams);
+            $ret = LSldap :: getNumberResult($sfilter, $sbasedn, $sparams);
+            if (!is_int($ret)) {
+              // An error occured
+              $retval = false;
+              continue;
+            }
           }
 
           // Check result
@@ -542,6 +547,12 @@ class LSldapObject extends LSlog_staticLoggerClass {
               $retval = false;
             }
           }
+
+          self :: log_trace(
+            "validateAttrData(".$LSform->idForm.", ".$attr->name."): ".
+            "validation with LDAP search on base DN='$sbasedn' and ".
+            "filter='".$sfilter->as_string()."' success ($ret object(s) found)"
+          );
         }
         // Validation using external function
         else if(isset($test['function'])) {
