@@ -1977,9 +1977,15 @@ class LSldapObject extends LSlog_staticLoggerClass {
     $objType = null;
     $dn = null;
     $raw_values = false;
+    $json = false;
+    $pretty = false;
     foreach ($command_args as $arg) {
       if ($arg == '-r' || $arg == '--raw-values')
         $raw_values = true;
+      elseif ($arg == '-j' || $arg == '--json')
+        $json = true;
+      elseif ($arg == '-p' || $arg == '--pretty')
+        $pretty = true;
       elseif (is_null($objType)) {
         $objType = $arg;
       }
@@ -2002,7 +2008,10 @@ class LSldapObject extends LSlog_staticLoggerClass {
       return false;
     }
 
-    $obj -> _cli_show($raw_values);
+    if ($json)
+      $obj -> _cli_json_export($raw_values, $pretty);
+    else
+      $obj -> _cli_show($raw_values);
     return true;
   }
 
@@ -2017,7 +2026,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * @retval array List of available options for the word to autocomplete
    **/
   public static function cli_show_args_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
-    $opts = array_merge($opts, array ('-r', '--raw-values'));
+    $opts = array_merge($opts, array ('-r', '--raw-values', '-j', '--json', '-p', '--pretty'));
 
     // Handle positional args
     $objType = null;
@@ -2166,6 +2175,70 @@ class LSldapObject extends LSlog_staticLoggerClass {
     foreach ($attrs_values as $attr => $values)
       $return .= self :: _cli_show_attr_values($attr, $values, $prefix);
     return $return;
+  }
+
+
+  /**
+   * CLI helper to export the object info as JSON
+   *
+   * @param[in] $raw_values bool Export attributes raw values (instead of display ones)
+   * @param[in] $pretty bool Prettify JSON export 
+   *
+   * @retval void
+   **/
+  private function _cli_json_export($raw_values=false, $pretty=false) {
+    $export = array(
+      'dn' => $this -> dn,
+      'attrs' => array(),
+      'relations' => array(),
+    );
+
+    // Export attributes values
+    foreach (array_keys($this -> attrs) as $attr_name) {
+      $export['attrs'][$attr_name] = array(
+        'label' => $this -> attrs[$attr_name]->getLabel(),
+        'values' => (
+          $raw_values?
+          $this -> attrs[$attr_name]->getValue():
+          $this -> attrs[$attr_name]->getDisplayValue()
+        ),
+      );
+      // If attribute value can't be encoded as JSON, encode it as base64
+      if ($export['attrs'][$attr_name]['values'] && json_encode($export['attrs'][$attr_name]['values']) === false ) {
+        $base64_values = array();
+        foreach($export['attrs'][$attr_name]['values'] as $value)
+          $base64_values[] = base64_encode($value);
+        $export['attrs'][$attr_name]['values'] = $base64_values;
+      }
+    }
+
+    // Export LSrelations
+    if (LSsession :: loadLSclass('LSrelation') && is_array($this -> getConfig('LSrelation'))) {
+      foreach ($this -> getConfig('LSrelation') as $rel_name => $rel_conf) {
+        $export['relations'][$rel_name] = array(
+          'label' => (isset($rel_conf['label'])?$rel_conf['label']:null),
+          'relatedObjects' => array(),
+        );
+        $relation = new LSrelation($this, $rel_name);
+        $list = $relation -> listRelatedObjects();
+        if (is_array($list)) {
+          foreach($list as $o) {
+            $export['relations'][$rel_name]['relatedObjects'][$o -> getDn()] = array(
+              'name' => $o -> getDisplayName(NULL,true),
+              'type' => get_class($o),
+            );
+          }
+        }
+        else {
+          self :: log_error("Fail to load related objects.");
+        }
+      }
+    }
+    $data = json_encode($export, ($pretty?JSON_PRETTY_PRINT:0));
+    if ($data === false)
+      self :: log_error("Fail to encode data as JSON");
+    else
+      echo $data;
   }
 
     /**
@@ -3063,7 +3136,7 @@ LScli :: add_command(
     'show',
     array('LSldapObject', 'cli_show'),
     'Show an LSobject',
-    '[object type] [dn] [-r|--raw-values]',
+    '[object type] [dn] [-r|--raw-values] [-j|--json [-p|--pretty]]',
     null,
     true,
     array('LSldapObject', 'cli_show_args_autocompleter')
