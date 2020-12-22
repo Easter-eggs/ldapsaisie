@@ -1448,6 +1448,8 @@ class LSsearch extends LSlog_staticLoggerClass {
     );
     $page_nb = 1;
     $all = false;
+    $json = false;
+    $pretty = false;
     for ($i=0; $i < count($command_args); $i++) {
       switch ($command_args[$i]) {
         case '-f':
@@ -1516,6 +1518,13 @@ class LSsearch extends LSlog_staticLoggerClass {
         case '--all':
           $all = true;
           break;
+        case '-j':
+        case '--json':
+          $json = true;
+          break;
+        case '--pretty':
+          $pretty = true;
+          break;
         default:
           if (is_null($objType)) {
             $objType = $command_args[$i];
@@ -1572,6 +1581,37 @@ class LSsearch extends LSlog_staticLoggerClass {
       // Check page
       if (!is_array($page) || $page_nb > $page['nbPages'])
         self :: log_fatal("Fail to retreive page #$page_nb.");
+    }
+
+    // Handle JSON output
+    if ($json) {
+      $export = array(
+        'objects' => array(),
+        'total' => $search -> total,
+      );
+      if (!$all) {
+        $export['page'] = $page['nb'] + 1;
+        $export['nbPages'] = $page['nbPages'];
+      }
+      foreach(($all?$entries:$page['list']) as $obj) {
+        $export['objects'][$obj -> dn] = array(
+          'name' => $obj -> displayName,
+        );
+        if ($search -> displaySubDn)
+          $export['objects'][$obj -> dn][$search -> label_level] = $obj -> subDn;
+        if ($search -> extraDisplayedColumns) {
+          foreach ($search -> visibleExtraDisplayedColumns as $cid => $conf) {
+            $export['objects'][$obj -> dn][$conf['label']] = $obj -> $cid;
+          }
+        }
+      }
+      $output = json_encode($export, ($pretty?JSON_PRETTY_PRINT:0));
+      if ($output === false) {
+        self :: log_error("Fail to encode data as JSON");
+        exit(1);
+      }
+      echo $output;
+      exit(0);
     }
 
     if (empty($all?$entries:$page['list'])) {
@@ -1643,6 +1683,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       '-e', '--extra-columns',
       '-p', '--page',
       '--all',
+      '-j', '--json', '--pretty',
     );
 
     // Detect positional args
@@ -1820,6 +1861,8 @@ LScli :: add_command(
     '     - -e|--extra-columns : Display extra columns',
     '     - -p|--page : page number to show (starting by 1, default: first one)',
     '     - --all : list all matching objects (no pagination)',
+    '     - -j|--json : JSON output',
+    '     - --pretty : prettify the JSON output',
   ),
   true,
   array('LSsearch', 'cli_search_args_autocompleter')
