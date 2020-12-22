@@ -248,7 +248,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
                   $errors[]=getFData(_('Invalid value "%{value}" for component %{component}.'),array('value' => $val, 'component' => __($cconf['label'])));
                 }
               }
-              if (is_array($cconf['check_data'])) {
+              if (isset($cconf['check_data']) && is_array($cconf['check_data'])) {
                 foreach($cconf['check_data'] as $ruleType => $rconf) {
                   $className='LSformRule_'.$ruleType;
                   if (LSsession::loadLSclass($className)) {
