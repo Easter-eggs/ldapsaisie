@@ -2182,7 +2182,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    * CLI helper to export the object info as JSON
    *
    * @param[in] $raw_values bool Export attributes raw values (instead of display ones)
-   * @param[in] $pretty bool Prettify JSON export 
+   * @param[in] $pretty bool Prettify JSON export
    *
    * @retval void
    **/
@@ -2234,11 +2234,11 @@ class LSldapObject extends LSlog_staticLoggerClass {
         }
       }
     }
-    $data = json_encode($export, ($pretty?JSON_PRETTY_PRINT:0));
-    if ($data === false)
+    $output = json_encode($export, ($pretty?JSON_PRETTY_PRINT:0));
+    if ($output === false)
       self :: log_error("Fail to encode data as JSON");
     else
-      echo $data;
+      echo $output;
   }
 
     /**
