@@ -675,49 +675,48 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
     }
     if(!empty($submitData)) {
-      $dn=$this -> getDn();
-
-      if($dn) {
-        $this -> dn=$dn;
-        self :: log_debug($this." -> submitChange($idForm): submitData=".varDump($submitData));
-        if ($new) {
-          // Check DN is not already exist
-          if (LSldap :: exists($dn)) {
-            return;
-          }
-          if (!$this -> fireEvent('before_create')) {
-            LSerror :: addErrorCode('LSldapObject_20');
-            return;
-          }
-          foreach ($submitData as $attr_name => $attr) {
-            if (!$this -> attrs[$attr_name] -> fireEvent('before_create')) {
-              LSerror :: addErrorCode('LSldapObject_20');
-              return;
-            }
-          }
-        }
-        if (!LSldap :: update($this -> getType(),$dn, $submitData)) {
-          return;
-        }
-        self :: log_debug($this." -> submitChange($idForm): changes applied in LDAP");
-        if ($new) {
-          if (!$this -> fireEvent('after_create')) {
-            LSerror :: addErrorCode('LSldapObject_21');
-            return;
-          }
-          foreach ($submitData as $attr_name => $attr) {
-            if (!$this -> attrs[$attr_name] -> fireEvent('after_create')) {
-              LSerror :: addErrorCode('LSldapObject_21');
-              return;
-            }
-          }
-        }
-        return true;
-      }
-      else {
+      $dn = $this -> getDn();
+      if (!$dn) {
         LSerror :: addErrorCode('LSldapObject_13');
         return;
       }
+
+      $this -> dn = $dn;
+      self :: log_debug($this." -> submitChange($idForm): submitData=".varDump($submitData));
+      if ($new) {
+        // Check DN is not already exist
+        if (LSldap :: exists($dn)) {
+          return;
+        }
+        if (!$this -> fireEvent('before_create')) {
+          LSerror :: addErrorCode('LSldapObject_20');
+          return;
+        }
+        foreach ($submitData as $attr_name => $attr) {
+          if (!$this -> attrs[$attr_name] -> fireEvent('before_create')) {
+            LSerror :: addErrorCode('LSldapObject_20');
+            return;
+          }
+        }
+      }
+      if (!LSldap :: update($this -> getType(),$dn, $submitData)) {
+        self :: log_debug($this." -> submitChange($idForm): LSldap :: update() failed");
+        return;
+      }
+      self :: log_debug($this." -> submitChange($idForm): changes applied in LDAP");
+      if ($new) {
+        if (!$this -> fireEvent('after_create')) {
+          LSerror :: addErrorCode('LSldapObject_21');
+          return;
+        }
+        foreach ($submitData as $attr_name => $attr) {
+          if (!$this -> attrs[$attr_name] -> fireEvent('after_create')) {
+            LSerror :: addErrorCode('LSldapObject_21');
+            return;
+          }
+        }
+      }
+      return true;
     }
     else {
       self :: log_debug($this." -> submitChange($idForm): no change");
