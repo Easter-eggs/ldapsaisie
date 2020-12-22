@@ -1978,7 +1978,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
     $dn = null;
     $raw_values = false;
     foreach ($command_args as $arg) {
-      if ($arg == '-r' || $arg == '--raw-value')
+      if ($arg == '-r' || $arg == '--raw-values')
         $raw_values = true;
       elseif (is_null($objType)) {
         $objType = $arg;
