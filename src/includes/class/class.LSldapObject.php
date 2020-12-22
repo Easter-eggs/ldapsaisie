@@ -634,6 +634,8 @@ class LSldapObject extends LSlog_staticLoggerClass {
   public function submitChange($idForm) {
     $submitData=array();
     $new = $this -> isNew();
+    if (!$new && $idForm == 'create')
+      self :: log_fatal("submitChange($idForm): object isn't considered as new !?");
     foreach($this -> attrs as $attr) {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
         if(($attr -> name == $this -> getConfig('rdn')) && (!$new)) {
