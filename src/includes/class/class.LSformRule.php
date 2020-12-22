@@ -30,7 +30,7 @@ LSsession :: loadLSclass('LSlog_staticLoggerClass');
 class LSformRule extends LSlog_staticLoggerClass {
 
   // Validate values one by one or all together
-  public const validate_one_by_one = True;
+  const validate_one_by_one = True;
 
  /**
   * Validate form element values with specified rule
