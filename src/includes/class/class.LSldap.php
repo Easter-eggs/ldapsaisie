@@ -135,20 +135,33 @@ class LSldap extends LSlog_staticLoggerClass {
    *               - ['attrs'] : tableau associatif contenant les attributs (clé)
    *                             et leur valeur (valeur).
    */
-  public static function search ($filter,$basedn=NULL,$params = array()) {
-    $ret = self :: $cnx -> search($basedn,$filter,$params);
+  public static function search($filter, $basedn=NULL, $params=array()) {
+    $filterstr = (is_a($filter, 'Net_LDAP2_Filter')?$filter->as_string():$filter);
+    if (is_empty($basedn)) {
+      $basedn = self :: getConfig('basedn');
+      if (is_empty($basedn)) {
+        LSerror :: addErrorCode('LSldap_08');
+        return;
+      }
+      self :: log_debug("LSldap::search($filterstr): empty basedn provided, use basedn from configuration: ".varDump($basedn));
+    }
+    self :: log_trace("LSldap::search($filterstr, $basedn): run search with parameters: ".varDump($params));
+    $ret = self :: $cnx -> search($basedn, $filter, $params);
     if (Net_LDAP2::isError($ret)) {
-      LSerror :: addErrorCode('LSldap_02',$ret -> getMessage());
+      LSerror :: addErrorCode('LSldap_02', $ret -> getMessage());
       return;
     }
-    self :: log_debug("LSldap::search() : return ".$ret->count()." objet(s)");
-    $retInfos=array();
+    self :: log_debug("LSldap::search($filterstr, $basedn) : return ".$ret->count()." objet(s)");
+    $retInfos = array();
     foreach($ret as $dn => $entry) {
       if (!$entry instanceof Net_LDAP2_Entry) {
-        LSerror :: addErrorCode('LSldap_02',"LDAP search return an ".get_class($entry).". object");
+        LSerror :: addErrorCode('LSldap_02', "LDAP search return an ".get_class($entry).". object");
         continue;
       }
-      $retInfos[]=array('dn' => $dn, 'attrs' => $entry -> getValues());
+      $retInfos[] = array(
+        'dn' => $dn,
+        'attrs' => $entry -> getValues()
+      );
     }
     return $retInfos;
   }
@@ -169,15 +182,27 @@ class LSldap extends LSlog_staticLoggerClass {
    *
    * @retval numeric Le nombre d'entré trouvées
    */
-  public static function getNumberResult ($filter,$basedn=NULL,$params = array() ) {
+  public static function getNumberResult($filter, $basedn=NULL, $params=array()) {
     if (empty($filter))
-      $filter=NULL;
-    $ret = self :: $cnx -> search($basedn,$filter,$params);
+      $filter = NULL;
+    $filterstr = (is_a($filter, 'Net_LDAP2_Filter')?$filter->as_string():$filter);
+    if (is_empty($basedn)) {
+      $basedn = self :: getConfig('basedn');
+      if (is_empty($basedn)) {
+        LSerror :: addErrorCode('LSldap_08');
+        return;
+      }
+      self :: log_debug("LSldap::getNumberResult($filterstr): empty basedn provided, use basedn from configuration: ".varDump($basedn));
+    }
+    self :: log_trace("LSldap::getNumberResult($filterstr, $basedn): run search with parameters: ".varDump($params));
+    $ret = self :: $cnx -> search($basedn, $filter, $params);
     if (Net_LDAP2::isError($ret)) {
       LSerror :: addErrorCode('LSldap_02',$ret -> getMessage());
       return;
     }
-    return $ret -> count();
+    $count = $ret -> count();
+    self :: log_trace("LSldap::getNumberResult($filterstr, $basedn): result=$count");
+    return $count;
   }
 
   /**
@@ -534,29 +559,45 @@ class LSldap extends LSlog_staticLoggerClass {
     }
     return;
   }
+
+  /**
+   * Return a configuration parameter (or default value)
+   *
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  private static function getConfig($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, self :: $config);
+  }
 }
 
 /*
  * Error Codes
  */
 LSerror :: defineError('LSldap_01',
-  ___("LSldap : Error during the LDAP server connection (%{msg}).")
+  ___("LSldap: Error during the LDAP server connection (%{msg}).")
 );
 LSerror :: defineError('LSldap_02',
-  ___("LSldap : Error during the LDAP search (%{msg}).")
+  ___("LSldap: Error during the LDAP search (%{msg}).")
 );
 LSerror :: defineError('LSldap_03',
-  ___("LSldap : Object type unknown.")
+  ___("LSldap: Object type unknown.")
 );
 LSerror :: defineError('LSldap_04',
-  ___("LSldap : Error while fetching the LDAP entry.")
+  ___("LSldap: Error while fetching the LDAP entry.")
 );
 LSerror :: defineError('LSldap_05',
-  ___("LSldap : Error while changing the LDAP entry (DN : %{dn}).")
+  ___("LSldap: Error while changing the LDAP entry (DN : %{dn}).")
 );
 LSerror :: defineError('LSldap_06',
-  ___("LSldap : Error while deleting empty attributes.")
+  ___("LSldap: Error while deleting empty attributes.")
 );
 LSerror :: defineError('LSldap_07',
-  ___("LSldap : Error while changing the DN of the object.")
+  ___("LSldap: Error while changing the DN of the object.")
+);
+LSerror :: defineError('LSldap_08',
+  ___("LSldap: LDAP server base DN not configured.")
 );
