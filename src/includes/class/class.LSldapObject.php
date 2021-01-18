@@ -533,26 +533,27 @@ class LSldapObject extends LSlog_staticLoggerClass {
           }
 
           // Check result
-          if(LSconfig :: get('result', null, 'int', $test) == 0) {
-            if($ret != 0) {
-              if ($LSform)
-                $LSform -> setElementError($attr, $msg_error);
-              $retval = false;
-            }
+          $configured_result = LSconfig :: get('result', null, 'int', $test);
+          if(
+              ($configured_result == 0 && $ret != 0) ||
+              ($configured_result > 0 && $ret <= 0)
+            ) {
+            $retval = false;
+            self :: log_warning(
+              "validateAttrData(".$LSform->idForm.", ".$attr->name."): ".
+              "validation with LDAP search on base DN='$sbasedn' and ".
+              "filter='".$sfilter->as_string()."' error ($ret object(s) found)"
+            );
+            if ($LSform)
+              $LSform -> setElementError($attr, $msg_error);
           }
           else {
-            if($ret < 0) {
-              if ($LSform)
-                $LSform -> setElementError($attr, $msg_error);
-              $retval = false;
-            }
+            self :: log_trace(
+              "validateAttrData(".$LSform->idForm.", ".$attr->name."): ".
+              "validation with LDAP search on base DN='$sbasedn' and ".
+              "filter='".$sfilter->as_string()."' success ($ret object(s) found)"
+            );
           }
-
-          self :: log_trace(
-            "validateAttrData(".$LSform->idForm.", ".$attr->name."): ".
-            "validation with LDAP search on base DN='$sbasedn' and ".
-            "filter='".$sfilter->as_string()."' success ($ret object(s) found)"
-          );
         }
         // Validation using external function
         else if(isset($test['function'])) {
@@ -1884,7 +1885,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
       return false;
     }
     // Unknown key, log warning
-		self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
+    self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
   }
 
 
