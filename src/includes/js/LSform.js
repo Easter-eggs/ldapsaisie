@@ -359,12 +359,14 @@ var LSform = new Class({
       this.submitting = false;
       this.LSform.removeClass('submitting');
       var data = JSON.decode(responseText);
-      if ( varLSdefault.checkAjaxReturn(data) ) {
-        this.resetErrors();
-        if ($type(data.LSformErrors) == 'object') {
-          data.LSformErrors = new Hash(data.LSformErrors);
-          data.LSformErrors.each(this.addError,this);
-        }
+      // Handle common Ajax return checks
+      varLSdefault.checkAjaxReturn(data);
+
+      // Handle LSform errors
+      this.resetErrors();
+      if (data && $type(data.LSformErrors) == 'object') {
+        data.LSformErrors = new Hash(data.LSformErrors);
+        data.LSformErrors.each(this.addError, this);
       }
     },
 
