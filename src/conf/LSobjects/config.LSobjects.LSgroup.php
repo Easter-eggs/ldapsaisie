@@ -91,7 +91,7 @@ $GLOBALS['LSobjects']['LSgroup'] = array (
       'ldap_type' => 'numeric',
       'html_type' => 'text',
       'required' => 1,
-      'generate_function' => 'generate_gidNumber_withSambaDomainObject',
+      'generate_function' => 'generate_samba_gidNumber',
       'validation' => array (
         array (
           'filter' => 'gidNumber=%{val}',
