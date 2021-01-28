@@ -640,7 +640,6 @@ class LSldapObject extends LSlog_staticLoggerClass {
     foreach($this -> attrs as $attr) {
       if(($attr -> isUpdate())&&($attr -> isValidate())) {
         if(($attr -> name == $this -> getConfig('rdn')) && (!$new)) {
-          $new = true;
           self :: log_debug("$this -> submitChange($idForm): renaming detected");
           if (!$this -> fireEvent('before_rename')) {
             LSerror :: addErrorCode('LSldapObject_16');
@@ -650,8 +649,9 @@ class LSldapObject extends LSlog_staticLoggerClass {
           $this -> dn = false;
           $newDn = $this -> getDn();
           if ($newDn) {
-            self :: log_debug("$this -> submitChange($idForm): Rename me to '$newDn'");
-            if (!LSldap :: move($oldDn,$newDn)) {
+            self :: log_debug("$this -> submitChange($idForm): Rename me from '$oldDn' to '$newDn'");
+            if (!LSldap :: move($oldDn, $newDn)) {
+              self :: log_error("$this -> submitChange($idForm): Fail to rename me from '$oldDn' to '$newDn'. Stop.");
               return;
             }
             $this -> dn = $newDn;
