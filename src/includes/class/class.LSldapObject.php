@@ -542,7 +542,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
             self :: log_warning(
               "validateAttrData(".$LSform->idForm.", ".$attr->name."): ".
               "validation with LDAP search on base DN='$sbasedn' and ".
-              "filter='".$sfilter->as_string()."' error ($ret object(s) found)"
+              "filter='".($sfilter?$sfilter->as_string():null)."' error ($ret object(s) found)"
             );
             if ($LSform)
               $LSform -> setElementError($attr, $msg_error);
@@ -551,7 +551,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
             self :: log_trace(
               "validateAttrData(".$LSform->idForm.", ".$attr->name."): ".
               "validation with LDAP search on base DN='$sbasedn' and ".
-              "filter='".$sfilter->as_string()."' success ($ret object(s) found)"
+              "filter='".($sfilter?$sfilter->as_string():null)."' success ($ret object(s) found)"
             );
           }
         }
