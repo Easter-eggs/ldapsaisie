@@ -1127,7 +1127,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         ),
       ),
       'no_value_label' => 'Default (whenever)',
-      'multiple' => true,
+      'multiple' => false,
       'rights' => array(
         'admin' => 'w',
       ),
