@@ -105,7 +105,7 @@
 <varlistentry>
   <term>ldap_type</term>
   <listitem>
-    <simpara>Le type LDAP de l'attribut.
+    <simpara>Le type LDAP de l'attribut (facultatif, par défaut: &LSattr_ldap_ascii;).
     <link linkend='config-LSattr_ldap'>Voir la section concernée.</link></simpara>
   </listitem>
 </varlistentry>
@@ -122,7 +122,7 @@
 <varlistentry>
   <term>html_type</term>
   <listitem>
-    <simpara>Le type HTML de l'attribut.
+    <simpara>Le type HTML de l'attribut (facultatif, par défaut: &LSattr_html_text;).
     <link linkend='config-LSattr_html'>Voir la section concernée.</link></simpara>
   </listitem>
 </varlistentry>

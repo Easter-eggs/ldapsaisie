@@ -28,4 +28,5 @@
 <!ENTITY LSattr_html_jsonCompositeAttribute "<link linkend='config-LSattr_html_jsonCompositeAttribute'>LSattr_html_jsonCompositeAttribute</link>">
 <!ENTITY LSattr_html_sambaAcctFlags "<link linkend='config-LSattr_html_sambaAcctFlags'>LSattr_html_sambaAcctFlags</link>">
 <!ENTITY LSattr_html_select_list "<link linkend='config-LSattr_html_select_list'>LSattr_html_select_list</link>">
+<!ENTITY LSattr_html_text "<link linkend='config-LSattr_html_text'>LSattr_html_text</link>">
 <!ENTITY LSattr_html_textarea "<link linkend='config-LSattr_html_textarea'>LSattr_html_textarea</link>">

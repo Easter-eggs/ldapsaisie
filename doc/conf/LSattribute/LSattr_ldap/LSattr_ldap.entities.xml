@@ -12,5 +12,6 @@
 <!ENTITY conf-LSattr_ldap_sambaAcctFlags SYSTEM "LSattr_ldap_sambaAcctFlags.docbook">
 <!ENTITY conf-LSattr_ldap_shadowExpire SYSTEM "LSattr_ldap_shadowExpire.docbook">
 
+<!ENTITY LSattr_ldap_ascii "<link linkend='config-LSattr_ldap_ascii'>LSattr_ldap_ascii</link>">
 <!ENTITY LSattr_ldap_date "<link linkend='config-LSattr_ldap_date'>LSattr_ldap_date</link>">
 <!ENTITY LSattr_ldap_sambaAcctFlags "<link linkend='config-LSattr_ldap_sambaAcctFlags'>LSattr_ldap_sambaAcctFlags</link>">

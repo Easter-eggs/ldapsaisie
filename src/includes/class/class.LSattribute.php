@@ -65,16 +65,21 @@ class LSattribute extends LSlog_staticLoggerClass {
     $this -> name = $name;
     $this -> config = $config;
     $this -> ldapObject =& $ldapObject;
-    $html_type = "LSattr_html_".$config['html_type'];
-    $ldap_type = "LSattr_ldap_".$config['ldap_type'];
-    LSsession :: loadLSclass($html_type);
-    LSsession :: loadLSclass($ldap_type);
-    if((class_exists($html_type))&&(class_exists($ldap_type))) {
-      $this -> html = new $html_type($name,$config,$this);
-      $this -> ldap = new $ldap_type($name,$config,$this);
+    $html_type = $this -> getConfig('html_type', 'text', 'string');
+    $html_class = "LSattr_html_".$html_type;
+    $ldap_type = $this -> getConfig('ldap_type', 'ascii', 'string');
+    $ldap_class = "LSattr_ldap_".$ldap_type;
+    LSsession :: loadLSclass($html_class);
+    LSsession :: loadLSclass($ldap_class);
+    if (class_exists($html_class) && class_exists($ldap_class)) {
+      $this -> html = new $html_class($name, $config, $this);
+      $this -> ldap = new $ldap_class($name, $config, $this);
     }
     else {
-      LSerror :: addErrorCode('LSattribute_01',array('attr' => $name,'html'=>$config['html_type'],'ldap'=>$config['ldap_type']));
+      LSerror :: addErrorCode(
+        'LSattribute_01',
+        array('attr' => $name, 'html'=> $html_type, 'ldap' => $ldap_type)
+      );
       return;
     }
     return true;
