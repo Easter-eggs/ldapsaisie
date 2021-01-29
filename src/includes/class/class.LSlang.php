@@ -232,7 +232,7 @@ if (php_sapi_name() != "cli") return true;
  **/
  global $LSlang_cli_logger, $available_onlys, $available_withouts;
 
- $available_onlys = array("config", "templates", "addons");
+ $available_onlys = array("config", "templates", "addons", "auth_methods", "includes");
  $available_withouts = array_merge($available_onlys, array("select-list"));
 function cli_generate_lang_file($command_args) {
   // Use global variables to share it with sub-functions
@@ -251,6 +251,7 @@ function cli_generate_lang_file($command_args) {
   // Parameters
   $only = null;
   $withouts = array();
+  $include_upstream = false;
   $copyoriginalvalue = False;
   $interactive = False;
   $interactive_exit = False; // Exit flag set when user type 'q'
@@ -306,6 +307,11 @@ function cli_generate_lang_file($command_args) {
           LScli :: usage("Invalid -O/--only parameter. Must be one of the following values : '".implode("','", $available_onlys)."'.");
         elseif ($without)
           LScli :: usage("You could not use only -O/--only parameter combined with -W/--without parameter.");
+        break;
+
+      case '-I':
+      case '--include-upstream':
+        $include_upstream=True;
         break;
 
       case '--copy-original-value':
@@ -687,86 +693,117 @@ function cli_generate_lang_file($command_args) {
       }
     }
     $LSlang_cli_logger -> info("Looking for string to translate in templates file");
-    find_and_parse_template_file(LS_ROOT_DIR.'/'.LS_TEMPLATES_DIR);
+    if ($include_upstream) find_and_parse_template_file(LS_ROOT_DIR.'/'.LS_TEMPLATES_DIR);
     find_and_parse_template_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_TEMPLATES_DIR);
+  }
+
+  /*
+  * Manage custom PHP code/config files
+   */
+  function parse_php_file($file) {
+    global $LSlang_cli_logger;
+    $LSlang_cli_logger -> debug("Looking for string to translate in '$file' PHP file");
+    $count = 0;
+    $quote='';
+    $res='';
+    foreach(file($file) as $line) {
+      $count++;
+      $LSlang_cli_logger -> trace("Handle line #$count of '$file' PHP file");
+      $offset=0;
+      while ($pos = strpos($line,'__(',$offset)) {
+        $LSlang_cli_logger -> trace("$file:$count: detect keyword at position #$pos ('$line')");
+        for ($i=$pos+3;$i<strlen($line);$i++) {
+          $offset=$i; // Always increase offset to avoid infinity-loop
+          if (empty($quote)) {
+            // Quote char not detected : try to detect it
+            if ($line[$i]=='\\' || $line[$i]==" " || $line[$i]=="\t") {
+              // Space or escape char : pass
+              $i++;
+            }
+            elseif ($line[$i]=='"' || $line[$i]=="'") {
+              // Quote detected
+              $quote=$line[$i];
+            }
+            elseif ($line[$i]=='$' || $line[$i]==')') {
+              // Variable translation not possible or end function call detected
+              break;
+            }
+            else {
+              // Unknown case : continue
+              $i++;
+            }
+          }
+          elseif (!empty($quote)) {
+            // Quote char already detected : try to detect end quote char
+            if ($line[$i]=='\\') {
+              // Escape char detected : pass this char and the following one
+              $res.=$line[$i];
+              $i++;
+              $res.=$line[$i];
+            }
+            elseif ($line[$i]==$quote) {
+              // End quote char detected : reset quote char detection and break detection
+              $quote='';
+              break;
+            }
+            else {
+              // End quote char not detected : append current char to result
+              $res.=$line[$i];
+            }
+          }
+        }
+        // Include detected string if not empty and quote char was detected and reseted
+        if (!empty($res) && empty($quote)) {
+          add($res, absolute2relative_path($file).":$count");
+          $res='';
+        }
+      }
+    }
+  }
+
+  function find_and_parse_php_file($dir, $filename_regex) {
+    if (is_dir($dir)) {
+      if ($dh = opendir($dir)) {
+        while (($file = readdir($dh)) !== false) {
+          if (preg_match($filename_regex, $file)) {
+            parse_php_file($dir.'/'.$file);
+          }
+        }
+        closedir($dh);
+      }
+    }
+  }
+
+  /*
+   * Manage includes files
+   */
+  if (!in_array('includes', $withouts) && (!$only || $only == 'includes')) {
+    // Note: Upstream code most only use gettext translation, do not handle it here
+    if ($include_upstream) find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_INCLUDE_DIR, '/^(.+)\.php$/');
+    find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_INCLUDE_DIR, '/^(.+)\.php$/');
+    if ($include_upstream) find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_CLASS_DIR, '/^class\.(.+)\.php$/');
+    find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_CLASS_DIR, '/^class\.(.+)\.php$/');
   }
 
   /*
    * Manage addons files
    */
-
   if (!in_array('addons', $withouts) && (!$only || $only == 'addons')) {
-    function parse_addon_file($file) {
-      global $LSlang_cli_logger;
-      $LSlang_cli_logger -> debug("Looking for string to translate in '$file' LSaddon file");
-      $count = 0;
-      foreach(file($file) as $line) {
-        $count++;
-        $offset=0;
-        while ($pos = strpos($line,'__(',$offset)) {
-          $quote='';
-          $res='';
-          for ($i=$pos+3;$i<strlen($line);$i++) {
-            if (empty($quote)) {
-              // Quote char not detected : try to detect it
-              if ($line[$i]=='\\' || $line[$i]==" " || $line[$i]=="\t") {
-                // Space or escape char : pass
-                $i++;
-              }
-              elseif ($line[$i]=='"' || $line[$i]=="'") {
-                // Quote detected
-                $quote=$line[$i];
-              }
-              elseif ($line[$i]=='$' || $line[$i]==')') {
-                // Variable translation not possible or end function call detected
-                $offset=$i;
-                break;
-              }
-              else {
-                // Unknown case : continue
-                $i++;
-              }
-            }
-            elseif (!empty($quote)) {
-              // Quote char already detected : try to detect end quote char
-              if ($line[$i]=='\\') {
-                // Escape char detected : pass this char and the following one
-                $res.=$line[$i];
-                $i++;
-                $res.=$line[$i];
-              }
-              elseif ($line[$i]==$quote) {
-                // End quote char detected : set offset for next detection and break this one
-                $offset=$i;
-                break;
-              }
-              else {
-                // End quote char not detected : append current char to result
-                $res.=$line[$i];
-              }
-            }
-          }
-          if (!empty($res)) add($res, absolute2relative_path($file).":$count");
-        }
-      }
-    }
-
-    function find_and_parse_addon_file($dir) {
-      if (is_dir($dir)) {
-        if ($dh = opendir($dir)) {
-          while (($file = readdir($dh)) !== false) {
-            if (preg_match('/^LSaddons\.(.+)\.php$/',$file)) {
-              parse_addon_file($dir.'/'.$file);
-            }
-          }
-          closedir($dh);
-        }
-      }
-    }
-
     $LSlang_cli_logger -> info("Looking for string to translate in LSaddons PHP code");
-    find_and_parse_addon_file(LS_ROOT_DIR.'/'.LS_ADDONS_DIR);
-    find_and_parse_addon_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_ADDONS_DIR);
+    if ($include_upstream) find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_ADDONS_DIR, '/^LSaddons\.(.+)\.php$/');
+    find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_ADDONS_DIR, '/^LSaddons\.(.+)\.php$/');
+    $LSlang_cli_logger -> info("Looking for string to translate in LSaddons configuration files");
+    if ($include_upstream) find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_CONF_DIR.'/LSaddons', '/^config\.LSaddons\.(.+)\.php$$/');
+    find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_CONF_DIR.'/LSaddons', '/^config\.LSaddons\.(.+)\.php$$/');
+  }
+
+  /*
+   * Manage auth methods files
+   */
+  if (!in_array('auth_methods', $withouts) && (!$only || $only == 'auth_methods')) {
+    $LSlang_cli_logger -> info("Looking for string to translate in LSauthMethods configuration files");
+    if ($include_upstream) find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_CONF_DIR.'/LSauth', '/^config\.(.+)\.php$$/');
+    find_and_parse_php_file(LS_ROOT_DIR.'/'.LS_LOCAL_DIR.LS_CONF_DIR.'/LSauth', '/^config\.(.+)\.php$$/');
   }
 
   // Sort resulting strings
@@ -909,6 +946,7 @@ function cli_generate_lang_file_args_autocompleter($comp_words, $comp_word_num, 
       '-l', '--lang',
       '-o', '--output',
       '-f', '--format',
+      '-I', '--include-upstream',
     )
   );
   return LScli :: autocomplete_opts($opts, $comp_word);
@@ -926,6 +964,7 @@ LScli :: add_command(
     "  -O/--only                   Only handle specified messages. Must be one",
     "                              of the following values :",
     "                               - ".implode("\n                               - ", $available_onlys),
+    "  -I/--include-upstream       Include upstream code to message lookup",
     "  -c/--copy-original-value    Copy original value as translated value when",
     "                              no translated value exists",
     "  -i/--interactive            Interactive mode : ask user to enter",
@@ -1000,6 +1039,7 @@ function cli_generate_ldapsaisie_pot($command_args) {
       "-o", LS_I18N_DIR_PATH."/ldapsaisie-templates.pot",
       "-f", "pot",
       "--only", "templates",
+      "--include-upstream",
     ),
     false // do not exit
   );
