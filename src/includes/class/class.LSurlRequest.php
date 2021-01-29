@@ -20,12 +20,13 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 /**
  * URL request abstraction use by LSurl
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSurlRequest {
+class LSurlRequest extends LSlog_staticLoggerClass {
 
   // The URL requested handler
   private $current_url = null;
