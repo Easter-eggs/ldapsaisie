@@ -2213,10 +2213,7 @@ class LSsession {
       self :: log_trace("canAccess($LSobject,$dn,$right,$attr): right detected = '$r'");
 
       if (($right=='r')||($right=='w')) {
-        if ($r==$right) {
-          return true;
-        }
-        return;
+        return self :: checkRight($right, $r);
       }
       else {
         if ( ($r=='r') || ($r=='w') ) {
@@ -2232,7 +2229,7 @@ class LSsession {
       if (($right=='r')||($right=='w')) {
         foreach($whoami as $who) {
           foreach ($attrs_conf as $attr_name => $attr_config) {
-            if (isset($attr_config['rights'][$who]) && $attr_config['rights'][$who]==$right) {
+            if (isset($attr_config['rights'][$who]) && self :: checkRight($right, $attr_config['rights'][$who])) {
               return true;
             }
           }
@@ -2249,6 +2246,20 @@ class LSsession {
       }
     }
     return;
+  }
+
+  /**
+   * Check a requested right against maximum right of a user
+   * @param  string $requested  The requested right
+   * @param  string $authorized The authorized maximum right
+   * @return boolean
+   */
+  public function checkRight($requested, $authorized) {
+    if ($requested == $authorized)
+      return true;
+    if ($requested == 'r' && $authorized == 'w')
+      return true;
+    return false;
   }
 
   /**
