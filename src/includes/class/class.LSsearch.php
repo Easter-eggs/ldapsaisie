@@ -556,11 +556,11 @@ class LSsearch extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Define search parameters by reading Post Data ($_REQUEST)
+   * Define search parameters by reading request data ($_REQUEST)
    *
    * @retval void
    */
-  public function setParamsFormPostData() {
+  public function setParamsFromRequest() {
     $data = $_REQUEST;
 
     if (self::formIsSubmited()) {

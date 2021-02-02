@@ -176,7 +176,7 @@ function handle_global_search($request) {
     LStemplate :: assign('pagetitle', $object -> getLabel());
 
     $LSsearch = new LSsearch($LSobject, 'LSview');
-    $LSsearch -> setParamsFormPostData();
+    $LSsearch -> setParamsFromRequest();
 
     $LSsearch -> run();
 
@@ -433,7 +433,7 @@ function handle_LSobject_search($request) {
   // Instanciate a LSsearch
   $LSsearch = new LSsearch($LSobject, 'LSview', null, (isset($_REQUEST['reset'])));
   $LSsearch -> setParam('extraDisplayedColumns', True);
-  $LSsearch -> setParamsFormPostData();
+  $LSsearch -> setParamsFromRequest();
 
   // List user available actions for this LSobject type
   $LSview_actions = array();
@@ -546,7 +546,7 @@ function handle_LSobject_search_customAction($request) {
   // Instanciate a LSsearch
   $LSsearch = new LSsearch($LSobject, 'LSview');
   $LSsearch -> setParam('extraDisplayedColumns', True);
-  $LSsearch -> setParamsFormPostData();
+  $LSsearch -> setParamsFromRequest();
 
   // Check user right on this search customAction
   if ( !LSsession :: canExecuteLSsearchCustomAction($LSsearch, $customAction) ) {
@@ -676,7 +676,7 @@ function handle_LSobject_select($request) {
   $object = new $LSobject();
 
   // Handle form POST data
-  $LSsearch -> setParamsFormPostData();
+  $LSsearch -> setParamsFromRequest();
   $LSsearch -> setParam('nbObjectsByPage', NB_LSOBJECT_LIST_SELECT);
 
   $page = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
