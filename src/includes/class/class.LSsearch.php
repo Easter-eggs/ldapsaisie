@@ -558,10 +558,66 @@ class LSsearch extends LSlog_staticLoggerClass {
   /**
    * Define search parameters by reading request data ($_REQUEST)
    *
-   * @retval void
+   * @retval boolean True if all parameters found in request data are handled, False otherwise
    */
   public function setParamsFromRequest() {
-    $data = $_REQUEST;
+    $allowedParams = array(
+      'pattern', 'approx',  'recursive', 'extraDisplayedColumns', 'nbObjectsByPage',
+      'attributes', 'sortBy', 'sortDirection', 'withoutCache', 'predefinedFilter',
+      // Following parameters are allowed from request but need additional checks
+      'filter', 'basedn', 'subDn', 'scope', 'attributes', 'displayFormat',
+    );
+
+    foreach($_REQUEST as $key => $value) {
+      if (!in_array($key, $allowedParams))
+        continue;
+      switch($key) {
+        case 'filter':
+          // Parse filter to extract attribute name and check if user have read access on it
+          // FIXME: Net_LDAP2_Filter could only permit to extract attribute name from a simple
+          // filter (without sub-filters), so we currently only access this type of filter.
+          $filter = Net_LDAP2_Filter::parse($value);
+          if (Net_LDAP2::isError($filter)) {
+            LSerror :: addErrorCode('LSsearch_03', 'filter');
+            return;
+          }
+          $filter_parts = $filter -> getComponents();
+          if (!is_array($filter_parts) || !LSsession :: canAccess($this -> LSobject, null, 'r', $filter_parts[0])) {
+            LSerror :: addErrorCode('LSsearch_03', 'filter');
+            return;
+          }
+          return;
+          break;
+
+        case 'basedn':
+        case 'subDn':
+        case 'scope':
+          // These parameters could only be used if combined with onlyAccessible==True
+          $data['onlyAccessible'] = True;
+          break;
+
+        case 'attributes':
+          foreach(ensureIsArray($value) as $attr) {
+            if (!is_string($attr)) {
+              LSerror :: addErrorCode('LSsearch_06');
+              return;
+            }
+            if (!LSsession :: canAccess($this -> LSobject, null, 'r', $attr)) {
+              LSerror :: addErrorCode('LSsearch_11', $attr);
+              return;
+            }
+          }
+          break;
+
+        case 'displayFormat':
+          if (!LSsession :: canComputeLSformat($value, $this -> LSobject)) {
+            LSerror :: addErrorCode('LSsearch_11', 'displayFormat');
+            return;
+          }
+          break;
+      }
+      $data[$key] = $value;
+    }
 
     if (self::formIsSubmited()) {
       // Recursive
@@ -585,7 +641,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       }
     }
 
-    $this -> setParams($data);
+    return $this -> setParams($data);
   }
 
   /**
