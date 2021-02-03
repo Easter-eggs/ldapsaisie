@@ -2146,16 +2146,16 @@ class LSsession {
   }
 
   /**
-   * Retourne le droit de l'utilisateur Ã  accÃ¨der Ã  un objet
+   * Return user access right to access to specify LSobject
    *
-   * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
-   * @param[in] string $right Le type de droit d'accÃ¨s Ã  tester ('r'/'w')
-   * @param[in] string $attr Le nom de l'attribut auquel on test l'accÃ¨s
+   * @param[in] $LSobject string The LSobject type
+   * @param[in] $dn string The LSobject DN (optional, default: the container_dn of the LSobject type)
+   * @param[in] $right string The requested access right ('r' or 'w', optional, default: 'r' or 'w')
+   * @param[in] $attr string The requested attribute name (optional, default: any)
    *
-   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
+   * @retval boolean True is user can access to the specify LSobject, False otherwise
    */
-  public static function canAccess($LSobject,$dn=NULL,$right=NULL,$attr=NULL) {
+  public static function canAccess($LSobject, $dn=NULL, $right=NULL, $attr=NULL) {
     if (!self :: loadLSobject($LSobject)) {
       return;
     }
@@ -2166,7 +2166,7 @@ class LSsession {
 
     if ($dn) {
       $whoami = self :: whoami($dn);
-      if ($dn==self :: getLSuserObject() -> getValue('dn')) {
+      if ($dn == self :: getLSuserObject() -> getValue('dn')) {
         if (!self :: in_menu('SELF')) {
           self :: log_trace("canAccess('$LSobject', '$dn', '$right', '$attr'): SELF not in menu");
           return;
@@ -2202,10 +2202,12 @@ class LSsession {
       foreach($whoami as $who) {
         $nr = LSconfig :: get('LSobjects.'.$LSobject.'.attrs.'.$attr.'.rights.'.$who);
         if($nr == 'w') {
+          self :: log_trace("canAccess('$LSobject', '$dn', '$right', '$attr'): grant WRITE access via LSprofile '$who'.");
           $r = 'w';
         }
         else if($nr == 'r') {
           if ($r=='n') {
+            self :: log_trace("canAccess('$LSobject', '$dn', '$right', '$attr'): grant READ access via LSprofile '$who'.");
             $r='r';
           }
         }
@@ -2316,36 +2318,43 @@ class LSsession {
    */
   public static function relationCanAccess($dn,$LSobject,$relationName,$right=NULL) {
     $relConf=LSconfig :: get('LSobjects.'.$LSobject.'.LSrelation.'.$relationName);
-    if (!is_array($relConf))
+    if (!is_array($relConf)) {
+      self :: log_trace("relationCanAccess($dn,$LSobject,$relationName,$right): unknown relation");
       return;
+    }
 
     // Access always granted in CLI mode
     if (php_sapi_name() == "cli")
       return true;
 
     $whoami = self :: whoami($dn);
+    self :: log_trace("relationCanAccess($dn,$LSobject,$relationName,$right): whoami = ".varDump($whoami));
 
     if (($right=='w') || ($right=='r')) {
       $r = 'n';
       foreach($whoami as $who) {
         $nr = ((isset($relConf['rights'][$who]))?$relConf['rights'][$who]:'');
         if($nr == 'w') {
+          self :: log_trace("relationCanAccess($dn,$LSobject,$relationName,$right): grant WRITE access via LSprofile '$who'.");
           $r = 'w';
         }
         else if($nr == 'r') {
           if ($r=='n') {
+            self :: log_trace("relationCanAccess($dn,$LSobject,$relationName,$right): grant READ access via LSprofile '$who'.");
             $r='r';
           }
         }
       }
+      self :: log_trace("relationCanAccess($dn,$LSobject,$relationName,$right): right detected = '$r'");
 
-      if ($r == $right) {
+      if (self :: checkRight($right, $r)) {
         return true;
       }
     }
     else {
       foreach($whoami as $who) {
         if ((isset($relConf['rights'][$who])) && ( ($relConf['rights'][$who] == 'w') || ($relConf['rights'][$who] == 'r') ) ) {
+          self :: log_trace("relationCanAccess($dn,$LSobject,$relationName,$right): granted via LSprofile '$who'.");
           return true;
         }
       }
