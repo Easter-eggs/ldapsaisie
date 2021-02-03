@@ -61,21 +61,23 @@ class LSurl extends LSlog_staticLoggerClass {
    * @param[in] $handler        callable      The URL pattern handler (must be callable, required)
    * @param[in] $authenticated  boolean       Permit to define if this URL is accessible only for authenticated users (optional, default: true)
    * @param[in] $override       boolean       Allow override if a command already exists with the same name (optional, default: false)
+   * @param[in] $api_mode       boolean       Enable API mode (optional, default: false)
    **/
-  public static function add_handler($pattern, $handler=null, $authenticated=true, $override=true) {
+  public static function add_handler($pattern, $handler=null, $authenticated=true, $override=true, $api_mode=false) {
     if (is_array($pattern)) {
       if (is_null($handler))
         foreach($pattern as $p => $h)
-          self :: add_handlers($p, $h, $override);
+          self :: add_handler($p, $h, $override, $api_mode);
       else
         foreach($pattern as $p)
-          self :: add_handlers($p, $handler, $override);
+          self :: add_handler($p, $handler, $override, $api_mode);
     }
     else {
       if (!isset(self :: $patterns[$pattern])) {
         self :: $patterns[$pattern] = array(
           'handler' => $handler,
           'authenticated' => $authenticated,
+          'api_mode' => $api_mode,
         );
       }
       elseif ($override) {
@@ -83,6 +85,7 @@ class LSurl extends LSlog_staticLoggerClass {
         self :: $patterns[$pattern] = array(
           'handler' => $handler,
           'authenticated' => $authenticated,
+          'api_mode' => $api_mode,
         );
       }
       else {
@@ -128,12 +131,15 @@ class LSurl extends LSlog_staticLoggerClass {
       self :: redirect($default_url);
       exit();
     }
-    self :: log_debug("Current URL match with no pattern. Use error 404 handler.");
+    // Error 404
+    $api_mode = (strpos($current_url, 'api/') === 0);
+    self :: log_debug("Current URL match with no pattern. Use error 404 handler (API mode=$api_mode).");
     return new LSurlRequest(
       $current_url,
       array(
         'handler' => array('LSurl', 'error_404'),
         'authenticated' => false,
+        'api_mode' => $api_mode,
       )
     );
   }
@@ -228,9 +234,17 @@ class LSurl extends LSlog_staticLoggerClass {
    * @retval void
    **/
   public static function error_404($request=null) {
-    LStemplate :: assign('error', _("The requested page was not found."));
-    LSsession :: setTemplate('error.tpl');
-    LSsession :: displayTemplate();
+    http_response_code(404);
+    $error = _("The requested page was not found.");
+    if (LSsession :: getAjaxDisplay() || ($request && $request->api_mode)) {
+      LSerror :: addErrorCode(null, $error);
+      LSsession :: displayAjaxReturn();
+    }
+    else {
+      LStemplate :: assign('error', $error);
+      LSsession :: setTemplate('error.tpl');
+      LSsession :: displayTemplate();
+    }
   }
 
   /**
@@ -249,7 +263,9 @@ class LSurl extends LSlog_staticLoggerClass {
       self :: log_fatal(_("This request could not be handled."));
     }
 
-    if (class_exists('LStemplate'))
+    if ($request -> api_mode)
+      LSsession :: setApiMode();
+    elseif (class_exists('LStemplate'))
       LStemplate :: assign('request', $request);
 
     // Check authentication (if need)

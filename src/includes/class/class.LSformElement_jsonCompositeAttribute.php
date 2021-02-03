@@ -67,6 +67,29 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   var $components = array();
 
  /**
+  * Parse values
+  *
+  * @retval array Parsed values
+  */
+ private function parseValues() {
+   self :: log_trace('values: '.varDump($this -> values));
+   $parseValues=array();
+   foreach($this -> values as $val) {
+     $decodedValue = json_decode($val, true);
+     self :: log_trace('decoded value: '.varDump($decodedValue));
+     if (is_array($decodedValue)) {
+       $parseValue = array('value' => $val);
+       foreach($decodedValue as $c => $cvalue) {
+         $parseValue[$c] = $this -> translateComponentValue($c,$cvalue);
+       }
+       $parseValues[] = $parseValue;
+     }
+   }
+   self :: log_trace('parsed values: '.varDump($parseValues));
+   return $parseValues;
+ }
+
+ /**
   * Retourne les infos d'affichage de l'élément
   *
   * Cette méthode retourne les informations d'affichage de l'élement
@@ -76,25 +99,9 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   public function getDisplay(){
     $return = $this -> getLabelInfos();
 
-    $parseValues=array();
-    $invalidValues=array();
-    foreach($this -> values as $val) {
-      $decodedValue=json_decode($val, true);
-      if (is_array($decodedValue)) {
-        $parseValue=array('value' => $val);
-        foreach($decodedValue as $c => $cvalue) {
-          $parseValue[$c]=$this -> translateComponentValue($c,$cvalue);
-        }
-        $parseValues[]=$parseValue;
-      }
-      else {
-        $invalidValues[]=$val;
-      }
-    }
-
     $return['html'] = $this -> fetchTemplate(NULL,
       array(
-        'parseValues' => $parseValues,
+        'parseValues' => $this -> parseValues(),
         'fullWidth' => $this -> getParam('html_options.fullWidth', false, 'bool'),
       )
     );
@@ -181,7 +188,14 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   protected function getSelectListComponentPossibleValues($c) {
     if (!isset($this -> _cache_getSelectListComponentPossibleValues[$c])) {
       if (!LSsession :: loadLSclass('LSattr_html_select_list')) return;
-      $this -> _cache_getSelectListComponentPossibleValues[$c]=LSattr_html_select_list :: _getPossibleValues($this -> components[$c]['options'], $this -> name, $this->attr_html->attribute->ldapObject);
+      $this -> _cache_getSelectListComponentPossibleValues[$c] = LSattr_html_select_list :: _getPossibleValues(
+        $this -> components[$c]['options'],
+        $this -> name,
+        $this->attr_html->attribute->ldapObject
+      );
+      self :: log_trace(
+        "Component $c possible values: ".varDump($this -> _cache_getSelectListComponentPossibleValues[$c])
+      );
     }
     return $this -> _cache_getSelectListComponentPossibleValues[$c];
   }
@@ -194,7 +208,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
    *
    * @retval array
    **/
-  protected function getSelectListComponentValueLabel($c,$value) {
+  protected function getSelectListComponentValueLabel($c, $value) {
     if ($this -> getSelectListComponentPossibleValues($c)) {
       foreach ($this -> _cache_getSelectListComponentPossibleValues[$c] as $v => $label) {
         if (is_array($label)) {
@@ -205,6 +219,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
         if ($v == $value) return $label;
       }
     }
+    self :: log_trace("No label found for value '$value'");
     return;
   }
 
@@ -225,78 +240,241 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
       return true;
     }
 
-    $return[$this -> name]=array();
-    if (is_array($_POST[$this -> name.'__values_uuid'])) {
-      foreach ($_POST[$this -> name.'__values_uuid'] as $uuid) {
-        $value=array();
-        $parseValue=array();
-        $errors=array();
-        $unemptyComponents=array();
+    // Extract value form POST data
+    $parseValues = array();
+    // API mode
+    if ($this -> form -> api_mode) {
+      $json_values = $this -> getData($_POST, $this -> name);
+      if (!is_array($json_values) || empty($json_values)) {
+        self :: log_trace($this." -> getPostData(): not in POST data");
+        return true;
+      }
 
-        foreach ($this -> components as $c => $cconf) {
-          if (isset($_POST[$this -> name.'__'.$c.'__'.$uuid])) {
-            if (!is_array($_POST[$this -> name.'__'.$c.'__'.$uuid]))
-              $_POST[$this -> name.'__'.$c.'__'.$uuid] = array($_POST[$this -> name.'__'.$c.'__'.$uuid]);
-
-            $parseValue[$c]=array();
-            foreach($_POST[$this -> name.'__'.$c.'__'.$uuid] as $val) {
-              if (empty($val))
-                continue;
-              $parseValue[$c][] = $val;
-              if ($cconf['type']=='select_list') {
-                if (!$this -> getSelectListComponentValueLabel($c, $val)) {
-                  $errors[]=getFData(_('Invalid value "%{value}" for component %{component}.'),array('value' => $val, 'component' => __($cconf['label'])));
-                }
-              }
-              if (isset($cconf['check_data']) && is_array($cconf['check_data'])) {
-                foreach($cconf['check_data'] as $ruleType => $rconf) {
-                  $className='LSformRule_'.$ruleType;
-                  if (LSsession::loadLSclass($className)) {
-                    $r=new $className();
-                    if (!$r -> validate($val,$rconf,$this)) {
-                      if (isset($rconf['msg'])) {
-                        $errors[]=getFData(__($rconf['msg']),__($cconf['label']));
-                      }
-                      else {
-                        $errors[]=getFData(_('Invalid value "%{value}" for component %{component}.'),array('value' => $val, 'component' => __($cconf['label'])));
-                      }
-                    }
-                  }
-                  else {
-                    $errors[]=getFData(_("Can't validate value of component %{c}."),__($cconf['label']));
-                  }
-                }
-              }
-            }
-
-            if (empty($parseValue[$c]))
-              continue;
-
-            if (!isset($cconf['multiple']) || !$cconf['multiple']) {
-              $parseValue[$c] = $parseValue[$c][0];
-            }
-
-            $unemptyComponents[]=$c;
-            $value[$c]=$parseValue[$c];
-          }
+      $json_value_count = 0;
+      foreach($json_values as $json_value) {
+        $json_value_count += 1;
+        $input_value = json_decode($json_value, true);
+        if (!is_array($input_value)) {
+          $this -> form -> setElementError(
+            $this -> attr_html,
+            getFData(_('Fail to decode JSON value #%{idx}.'), $json_value_count)
+          );
+          continue;
         }
 
-        if (!empty($unemptyComponents)) {
-          // Check required components
-          foreach ($this -> components as $c => $cconf) {
-            if ($cconf['required'] && !isset($value[$c])) {
-              $errors[]=getFData(_('Component %{c} must be defined'),__($cconf['label']));
-              continue;
+        $parseValue = array();
+        $unemptyComponents = array();
+
+        foreach (array_keys($this -> components) as $c) {
+          if (!isset($input_value[$c]))
+            continue;
+          if ($this -> getComponentConfig($c, 'multiple', false, 'bool')) {
+            $parseValue[$c] = array();
+            if (is_array($input_value[$c])) {
+              foreach($input_value[$c] as $val) {
+                if (is_empty($val))
+                  continue;
+                $parseValue[$c][] = $val;
+              }
             }
           }
-          foreach($errors as $e) {
-            $this -> form -> setElementError($this -> attr_html,$e);
+          else {
+            $parseValue[$c] = $input_value[$c];
           }
-          $return[$this -> name][]=json_encode($value);
+
+          if (is_empty($parseValue[$c])) {
+            unset($parseValue[$c]);
+            continue;
+          }
+          $unemptyComponents[] = $c;
         }
+
+        // Ignore empty value from form
+        if (empty($unemptyComponents))
+          continue;
+
+        $parseValues[] = $parseValue;
       }
     }
+    elseif (is_array($_POST[$this -> name.'__values_uuid'])) {
+      // HTML form mode
+      foreach ($_POST[$this -> name.'__values_uuid'] as $uuid) {
+        $parseValue = array();
+        $unemptyComponents = array();
+
+        foreach (array_keys($this -> components) as $c) {
+          if (!isset($_POST[$this -> name.'__'.$c.'__'.$uuid]))
+            continue;
+          $parseValue[$c] = array();
+          foreach($_POST[$this -> name.'__'.$c.'__'.$uuid] as $val) {
+            if (empty($val))
+              continue;
+            $parseValue[$c][] = $val;
+          }
+
+          if (empty($parseValue[$c])) {
+            unset($parseValue[$c]);
+            continue;
+          }
+          if (!$this -> getComponentConfig($c, 'multiple', false, 'bool')) {
+            $parseValue[$c] = $parseValue[$c][0];
+          }
+          $unemptyComponents[] = $c;
+        }
+
+        // Ignore empty value from form
+        if (empty($unemptyComponents))
+          continue;
+
+        $parseValues[] = $parseValue;
+      }
+    }
+
+    // Check extracted values
+    foreach ($parseValues as $parseValue) {
+      // Check component value
+      foreach ($parseValue as $c => $value)
+        $this -> checkComponentValues($c, $value);
+
+      // Check required components
+      foreach (array_keys($this -> components) as $c) {
+        if ($this -> getComponentConfig($c, 'required', false, 'bool') && !isset($parseValue[$c])) {
+          $this -> form -> setElementError(
+            $this -> attr_html,
+            getFData(
+              _('Component %{c} must be defined'),
+              __($this -> getComponentConfig($c, 'label'))
+            )
+          );
+        }
+      }
+      $return[$this -> name][] = json_encode($parseValue);
+    }
+
     return true;
+  }
+
+  /**
+   * Check one component's values
+   *
+   * @param[] $c	The component name
+   * @param[] $value	The values of the component
+   *
+   * @retval void
+   **/
+  private function checkComponentValues($c, $value) {
+    if ($this -> getComponentConfig($c, 'multiple', false, 'bool')) {
+      foreach ($value as $val) {
+        $this -> checkComponentValue($c, $val);
+      }
+    }
+    else
+      $this -> checkComponentValue($c, $value);
+  }
+
+  /**
+   * Check one component's value
+   *
+   * @param[] $c	The component name
+   * @param[] $value	The value to check
+   *
+   * @retval void
+   **/
+  private function checkComponentValue($c, $value) {
+    $label = __($this -> getComponentConfig($c, 'label'));
+
+    // select_list components : check values
+    if ($this -> getComponentConfig($c, 'type') == 'select_list') {
+      if (!$this -> getSelectListComponentValueLabel($c, $value)) {
+        $this -> form -> setElementError(
+          $this -> attr_html,
+          getFData(
+            _('Invalid value "%{value}" for component %{component}.'),
+            array('value' => $value, 'component' => $label)
+          )
+        );
+      }
+    }
+
+    // Apply check data rules
+    foreach($this -> getComponentConfig($c, 'check_data', array(), 'array') as $ruleType => $rconf) {
+      $className = 'LSformRule_'.$ruleType;
+      if (LSsession::loadLSclass($className)) {
+        $r = new $className();
+        if (!$r -> validate($value, $rconf, $this)) {
+          if (isset($rconf['msg'])) {
+            $this -> form -> setElementError(
+              $this -> attr_html,
+              getFData(__($rconf['msg']), $label)
+            );
+          }
+          else {
+            $this -> form -> setElementError(
+              $this -> attr_html,
+              getFData(
+                _('Invalid value "%{value}" for component %{component}.'),
+                array('value' => $value, 'component' => $label)
+              )
+            );
+          }
+        }
+      }
+      else {
+        $this -> form -> setElementError(
+          $this -> attr_html,
+          getFData(_("Can't validate value of component %{c}."), $label)
+        );
+      }
+    }
+  }
+
+  /**
+   * Return a configuration parameter for a specific component (or default value)
+   *
+   * @param[] $component	The component name
+   * @param[] $param	The configuration parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The configuration parameter value or default value if not set
+   **/
+  public function getComponentConfig($component, $param, $default=null, $cast=null) {
+    return LSconfig :: get(
+      $param, $default, $cast,
+      (array_key_exists($component, $this -> components)?$this -> components[$component]:array())
+    );
+  }
+
+  /**
+   * Retreive value as return in API response
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue() {
+    $values = array();
+    foreach(ensureIsArray($this -> values) as $value) {
+      $decodedValue = json_decode($value, true);
+      if (is_array($decodedValue)) {
+        $parsedValue = array();
+        foreach(array_keys($this -> components) as $c) {
+          if (!isset($decodedValue[$c]))
+            continue;
+          if ($this -> getComponentConfig($c, 'multiple', false, 'bool')) {
+            $parsedValue[$c] = ensureIsArray($decodedValue[$c]);
+          }
+          else {
+            $parsedValue[$c] = $decodedValue[$c];
+          }
+        }
+        $values[] = $parsedValue;
+      }
+    }
+    if ($this -> isMultiple()) {
+      return $values;
+    }
+    if (!$values)
+      return null;
+    return $values[0];
   }
 
 }

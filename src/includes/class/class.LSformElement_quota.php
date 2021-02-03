@@ -38,8 +38,45 @@ class LSformElement_quota extends LSformElement {
     1     => 'o',
     1024   => 'Ko',
     1048576  => 'Mo',
-    1073741824 => 'Go'
+    1073741824 => 'Go',
+    1099511627776 => 'To',
   );
+
+
+  /**
+   * Parse one value
+   *
+   * @param[in] $value string The value to parse
+   *
+   * @retval array Parsed value
+   */
+  public function parseValue($value) {
+    if (preg_match('/^([0-9]+)$/', $value, $regs)) {
+      $infos = array(
+        'size' => ceil($regs[1]/$this -> getFactor()),
+      );
+      if ($infos['size'] == 0) {
+        return array(
+          'size' => 0,
+          'valueSize' => 0,
+          'valueSizeFact' => 1,
+          'valueTxt' => "0",
+        );
+      }
+      krsort($this -> sizeFacts, SORT_NUMERIC);
+      foreach($this -> sizeFacts as $fact => $unit) {
+        if ($infos['size'] >= $fact) {
+          $infos['valueSize'] = round($infos['size'] / $fact, 2);
+          $infos['valueSizeFact'] = $fact;
+          $infos['valueTxt'] = $infos['valueSize'].$unit;
+          break;
+        }
+      }
+      ksort($this -> sizeFacts, SORT_NUMERIC);
+      return $infos;
+    }
+    return false;
+  }
 
  /**
   * Retourne les infos d'affichage de l'élément
@@ -54,26 +91,9 @@ class LSformElement_quota extends LSformElement {
     $quotas=array();
 
     foreach ($this -> values as $value) {
-      if (preg_match('/^([0-9]*)$/',$value,$regs)) {
-        $infos = array(
-          'size' => ceil($regs[1]/$this -> getFactor())
-        );
-        if ($infos['size'] >= 1073741824) {
-          $infos['valueSizeFact']=1073741824;
-        }
-        else if ($infos['size'] >= 1048576) {
-          $infos['valueSizeFact']=1048576;
-        }
-        else if ($infos['size'] >= 1024) {
-          $infos['valueSizeFact']=1024;
-        }
-        else {
-          $infos['valueSizeFact']=1;
-        }
-        $infos['valueSize'] = $infos['size'] / $infos['valueSizeFact'];
-        $infos['valueTxt'] = $infos['valueSize'].$this ->sizeFacts[$infos['valueSizeFact']];
-
-        $quotas[$value] = $infos;
+      $parsed_value = $this -> parseValue($value);
+      if ($parsed_value) {
+        $quotas[$value] = $parsed_value;
       }
       else {
         $quotas[$value] = array(
@@ -128,36 +148,71 @@ class LSformElement_quota extends LSformElement {
     if($this -> isFreeze()) {
       return true;
     }
-    if (isset($_POST[$this -> name.'_size'])) {
-      $return[$this -> name]=array();
+    $values = array();
+    if ($this -> form -> api_mode) {
+      if (isset($_POST[$this -> name])) {
+        foreach(ensureIsArray($_POST[$this -> name]) as $value) {
+          $values[] = ceil($value*$this -> getFactor());
+        }
+      }
+    }
+    elseif (isset($_POST[$this -> name.'_size'])) {
       $_POST[$this -> name.'_size'] = ensureIsArray($_POST[$this -> name.'_size']);
       if(isset($_POST[$this -> name.'_sizeFact']) && !is_array($_POST[$this -> name.'_sizeFact'])) {
         $_POST[$this -> name.'_sizeFact'] = array($_POST[$this -> name.'_sizeFact']);
       }
       foreach($_POST[$this -> name.'_size'] as $key => $val) {
-        if (!empty($val)) {
-          $f = 1;
-          if (isset($_POST[$this -> name.'_sizeFact'][$key]) && ($_POST[$this -> name.'_sizeFact'][$key]!=1)) {
-            $f = $_POST[$this -> name.'_sizeFact'][$key];
-          }
-          $val=preg_replace('/,/','.',$val);
-          $return[$this -> name][$key] = ceil(ceil(($val*$f)*$this -> getFactor()));
+        if (empty($val))
+          continue;
+        $f = 1;
+        if (isset($_POST[$this -> name.'_sizeFact'][$key]) && ($_POST[$this -> name.'_sizeFact'][$key]!=1)) {
+          $f = $_POST[$this -> name.'_sizeFact'][$key];
         }
+        $val = preg_replace('/,/', '.', $val);
+        $values[$key] = ceil(ceil(($val*$f)*$this -> getFactor()));
       }
-      return true;
+    }
+
+    if ($values) {
+      $return[$this -> name] = $values;
     }
     elseif ($onlyIfPresent) {
       self :: log_debug($this -> name.": not in POST data => ignore it");
-      return true;
     }
     else {
       $return[$this -> name] = array();
-      return true;
     }
+    return true;
   }
 
+  /**
+   * Retreive factor value
+   *
+   * @retval integer Factor value
+   */
   private function getFactor() {
-    return $this -> getParam('html_options.factor', 1);
+    return $this -> getParam('html_options.factor', 1, 'int');
+  }
+
+  /**
+   * Retreive value as return in API response
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue() {
+    $values = array();
+    foreach(ensureIsArray($this -> values) as $value) {
+      $parsed_value = $this -> parseValue($value);
+      if (is_array($parsed_value)) {
+        $values[] = $parsed_value['size'];
+      }
+    }
+    if ($this -> isMultiple()) {
+      return $values;
+    }
+    if (!$values)
+      return null;
+    return $values[0];
   }
 
 }

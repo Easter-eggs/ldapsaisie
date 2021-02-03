@@ -1181,7 +1181,8 @@ class LSsearch extends LSlog_staticLoggerClass {
     $params = array (
       'basedn',
       'sortBy',
-      'sortDirection'
+      'sortDirection',
+      'attributes',
     );
     if ($key=='LSobject') {
       return $this -> LSobject;
@@ -1266,7 +1267,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       return $this -> getHash();
     }
     else {
-      throw new Exception('Incorrect property !');
+      throw new Exception("Incorrect property '$key'!");
     }
   }
 

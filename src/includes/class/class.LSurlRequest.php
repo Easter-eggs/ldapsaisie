@@ -37,6 +37,9 @@ class LSurlRequest extends LSlog_staticLoggerClass {
   // Request need authentication ?
   private $authenticated = true;
 
+  // API mode enabled ?
+  private $api_mode = false;
+
   // Parameters detected on requested URL
   private $url_params = array();
 
@@ -44,6 +47,7 @@ class LSurlRequest extends LSlog_staticLoggerClass {
     $this -> current_url = $current_url;
     $this -> handler = $handler_infos['handler'];
     $this -> authenticated = (isset($handler_infos['authenticated'])?boolval($handler_infos['authenticated']):true);
+    $this -> api_mode = (isset($handler_infos['api_mode'])?boolval($handler_infos['api_mode']):false);
     $this -> url_params = $url_params;
   }
 
@@ -61,6 +65,8 @@ class LSurlRequest extends LSlog_staticLoggerClass {
       return $this -> handler;
     if ($key == 'authenticated')
       return $this -> authenticated;
+    if ($key == 'api_mode')
+      return $this -> api_mode;
     if ($key == 'referer')
       return $this -> get_referer();
     if (array_key_exists($key, $this->url_params)) {

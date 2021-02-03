@@ -34,6 +34,7 @@ class LSauth extends LSlog_staticLoggerClass {
   static private $authData=NULL;
   static private $authObject=NULL;
   static private $config=array();
+  static private $method=NULL;
   static private $provider=NULL;
 
   static private $params = array (
@@ -52,21 +53,28 @@ class LSauth extends LSlog_staticLoggerClass {
       self :: log_debug('Failed to load LSauthMethod class');
       return;
     }
-    if (!isset(self :: $config['method'])) {
-      self :: $config['method']='basic';
-    }
-    $class='LSauthMethod_'.self :: $config['method'];
+    $api_mode = LSsession :: get('api_mode');
+    if ($api_mode)
+      self :: $method = self :: getConfig('api_method', 'HTTP');
+    else
+      self :: $method = self :: getConfig('method', 'basic');
+    $class = "LSauthMethod_".self :: $method;
     self :: log_debug('provider -> '.$class);
     if (LSsession :: loadLSclass($class)) {
+      if ($api_mode && !$class :: apiModeSupported()) {
+        LSerror :: addErrorCode('LSauth_08', self :: $method);
+        return;
+      }
       self :: $provider = new $class();
       if (!self :: $provider) {
-        LSerror :: addErrorCode('LSauth_05',self :: $config['method']);
+        LSerror :: addErrorCode('LSauth_05', self :: $method);
+        return;
       }
       self :: log_debug('Provider Started !');
       return true;
     }
     else {
-      LSerror :: addErrorCode('LSauth_04',self :: $config['method']);
+      LSerror :: addErrorCode('LSauth_04', self :: $method);
       return;
     }
   }
@@ -107,25 +115,43 @@ class LSauth extends LSlog_staticLoggerClass {
   public static function getAuthObjectTypes() {
     $objTypes = array();
     foreach(self :: getConfig('LSobjects', array()) as $objType => $objParams) {
+      if (!self :: checkAuthObjectTypeAccess($objType))
+        continue;
       if (is_int($objType) && is_string($objParams)) {
-        // We just have the object type
         $objTypes[$objParams] = array('filter' => null, 'password_attribute' => 'userPassword');
         continue;
       }
+
       $objTypes[$objType] = array(
         'filter' => self :: getConfig("LSobjects.$objType.filter", null, 'string'),
         'password_attribute' => self :: getConfig("LSobjects.$objType.password_attribute", 'userPassword', 'string'),
       );
     }
-    // For retro-compatibility, also retreived old parameters:
+    // For retro-compatibility, also retreived old parameters (excepted in API mode):
     $oldAuthObjectType = LSconfig :: get('authObjectType', null, 'string', LSsession :: $ldapServer);
-    if ($oldAuthObjectType && !array_key_exists($oldAuthObjectType, $objTypes)) {
+    if ($oldAuthObjectType && !array_key_exists($oldAuthObjectType, $objTypes) && self :: checkAuthObjectTypeAccess($oldAuthObjectType)) {
       $objTypes[$oldAuthObjectType] = array(
         'filter' => LSconfig :: get('authObjectFilter', null, 'string', LSsession :: $ldapServer),
         'password_attribute' => LSconfig :: get('authObjectTypeAttrPwd', 'userPassword', 'string', LSsession :: $ldapServer),
       );
     }
     return $objTypes;
+  }
+
+
+  /**
+   * Check if the specified auth object type have acces to LdapSaisie (on the current mode)
+   *
+   * @param[in] $objType string The LSobject type
+   *
+   * @return boolean True if specified auth object type have acces to LdapSaisie, False otherwise
+   */
+  public static function checkAuthObjectTypeAccess($objType) {
+    // Check Web/API access rights
+    if (LSsession :: get('api_mode')) {
+      return self :: getConfig("LSobjects.$objType.api_access", false, 'bool');
+    }
+    return self :: getConfig("LSobjects.$objType.web_access", true, 'bool');
   }
 
   /**
@@ -298,4 +324,7 @@ ___("LSauth : Not correctly initialized.")
 );
 LSerror :: defineError('LSauth_07',
 ___("LSauth : Failed to get authentication informations from provider.")
+);
+LSerror :: defineError('LSauth_08',
+___("LSauth : Method %{method} configured doesn't support API mode.")
 );

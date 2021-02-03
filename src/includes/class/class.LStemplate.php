@@ -455,10 +455,22 @@ class LStemplate extends LSlog_staticLoggerClass {
    * @retval void
    **/
   public static function fatal_error($error=null) {
-    self :: assign('pagetitle', _("A fatal error occured."));
-    self :: assign('error', _("A fatal error occured. If problem persist, please contact support."));
-    self :: assign('details', $error);
-    self :: display("error.tpl");
+    http_response_code(500);
+    if (LSsession :: get('api_mode')) {
+      $errors = array(_("A fatal error occured. If problem persist, please contact support."));
+      if ($error)
+        $errors[] = $error;
+      echo json_encode(
+        array('errors' => $errors, 'success' => false),
+        (isset($_REQUEST['pretty'])?JSON_PRETTY_PRINT:0)
+      );
+    }
+    else {
+      self :: assign('pagetitle', _("A fatal error occured."));
+      self :: assign('error', _("A fatal error occured. If problem persist, please contact support."));
+      self :: assign('details', $error);
+      self :: display("error.tpl");
+    }
     exit();
   }
 

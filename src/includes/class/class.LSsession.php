@@ -99,6 +99,9 @@ class LSsession {
   // List of currently loaded LSaddons
   private static $loadedAddons = array();
 
+  // API mode
+  private static $api_mode = false;
+
   /**
    * Get session info by key
    *
@@ -128,6 +131,8 @@ class LSsession {
         return self :: globalSearch();
       case 'email_sender':
         return self :: getEmailSender();
+      case 'api_mode':
+        return boolval(self :: $api_mode);
     }
     return null;
   }
@@ -1608,6 +1613,8 @@ class LSsession {
   * @retval void
   */
   public static function displayTemplate() {
+    if (self :: $api_mode)
+      return self :: displayAjaxReturn();
     $KAconf = LSconfig :: get('keepLSsessionActive');
     if (
           (
@@ -1671,10 +1678,10 @@ class LSsession {
   }
 
  /**
-  * Défini que l'affichage se fera ou non via un retour Ajax
+  * Set Ajax display mode
   *
-  * @param[in] $val boolean True pour que l'affichage se fasse par un retour
-  *                         Ajax, false sinon
+  * @param[in] $val boolean True to enable Ajax display mode (optional, default: true)
+  *
   * @retval void
   */
   public static function setAjaxDisplay($val=true) {
@@ -1682,43 +1689,68 @@ class LSsession {
   }
 
  /**
+  * Check if Ajax display mode is enabled
+  *
+  * @retval boolean True if Ajax display mode is enabled, False otherwise
+  */
+  public static function getAjaxDisplay() {
+    return (boolean)self :: $ajaxDisplay;
+  }
+
+ /**
   * Affiche un retour Ajax
   *
   * @retval void
   */
-  public static function displayAjaxReturn($data=array()) {
+  public static function displayAjaxReturn($data=array(), $pretty=false) {
     if (isset($data['LSredirect']) && (!LSdebugDefined()) ) {
       echo json_encode($data);
       return;
     }
 
-    if (class_exists('LStemplate'))
+    if (!self :: $api_mode && class_exists('LStemplate'))
       $data['LSjsConfig'] = LStemplate :: getJSconfigParam();
 
     // Infos
     if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
-      $txt_infos="<ul>\n";
-      foreach($_SESSION['LSsession_infos'] as $info) {
-        $txt_infos.="<li>$info</li>\n";
+      if (self :: $api_mode) {
+        $data['messages'] = $_SESSION['LSsession_infos'];
       }
-      $txt_infos.="</ul>\n";
-      $data['LSinfos'] = $txt_infos;
+      else {
+        $txt_infos="<ul>\n";
+        foreach($_SESSION['LSsession_infos'] as $info) {
+          $txt_infos.="<li>$info</li>\n";
+        }
+        $txt_infos.="</ul>\n";
+        $data['LSinfos'] = $txt_infos;
+      }
       $_SESSION['LSsession_infos']=array();
     }
 
     if (LSerror :: errorsDefined()) {
-      $data['LSerror'] = LSerror :: getErrors();
+      $data[(self :: $api_mode?'errors':'LSerror')] = LSerror :: getErrors(self :: $api_mode);
     }
 
-    if (isset($_REQUEST['imgload'])) {
+    if (!self :: $api_mode && isset($_REQUEST['imgload'])) {
       $data['imgload'] = $_REQUEST['imgload'];
     }
 
-    if (LSdebugDefined()) {
+    if (!self :: $api_mode && LSdebugDefined()) {
       $data['LSdebug'] = LSdebug_print(true,false);
     }
 
-    echo json_encode($data);
+    echo json_encode($data, (($pretty||isset($_REQUEST['pretty']))?JSON_PRETTY_PRINT:0));
+  }
+
+  /**
+   * Set API mode
+   *
+   * @param[in] $val boolean True to enable API mode (optional, default: true)
+   *
+   * @retval void
+   */
+  public static function setApiMode($val=true) {
+    self :: $api_mode = (boolean)$val;
   }
 
  /**
@@ -2304,6 +2336,22 @@ class LSsession {
       return;
     }
     return self :: canAccess($LSobject,NULL,'w','rdn');
+  }
+
+  /**
+   * Check user right to compute the result of a LSformat
+   *
+   * @param[in] $LSformat string The LSformat string to check
+   * @param[in] $LSobject string The LSobject type
+   * @param[in] $dn string The LSobject DN (optional, default: the container_dn of the LSobject type)
+   *
+   * @retval boolean True is user can compute the result of the LSformat, False otherwise
+   */
+  public static function canComputeLSformat($LSformat, $LSobject, $dn=NULL) {
+    foreach (getFieldInFormat($LSformat) as $attr)
+      if (!self :: canAccess($LSobject, $dn, 'r', $attr))
+        return false;
+    return true;
   }
 
   /**

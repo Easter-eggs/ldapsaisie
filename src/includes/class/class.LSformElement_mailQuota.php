@@ -41,6 +41,41 @@ class LSformElement_mailQuota extends LSformElement {
     1000000000 => 'Go'
   );
 
+  /**
+   * Parse one value
+   *
+   * @param[in] $value string The value to parse
+   *
+   * @retval array Parsed value
+   */
+  public function parseValue($value) {
+    if (preg_match('/^([0-9]+)'.$this -> getSuffix().'$/',$value,$regs)) {
+      $infos = array(
+        'size' => $regs[1],
+      );
+      if ($infos['size'] == 0) {
+        return array(
+          'size' => 0,
+          'valueSize' => 0,
+          'valueSizeFact' => 1,
+          'valueTxt' => "0",
+        );
+      }
+      krsort($this -> sizeFacts, SORT_NUMERIC);
+      foreach($this -> sizeFacts as $fact => $unit) {
+        if ($infos['size'] >= $fact) {
+          $infos['valueSize'] = round($infos['size'] / $fact, 2);
+          $infos['valueSizeFact'] = $fact;
+          $infos['valueTxt'] = $infos['valueSize'].$unit;
+          break;
+        }
+      }
+      ksort($this -> sizeFacts, SORT_NUMERIC);
+      return $infos;
+    }
+    return false;
+  }
+
  /**
   * Retourne les infos d'affichage de l'élément
   *
@@ -54,26 +89,9 @@ class LSformElement_mailQuota extends LSformElement {
     $quotas=array();
 
     foreach ($this -> values as $value) {
-      if (preg_match('/([0-9]*)/'.$this -> getSuffix(),$value,$regs)) {
-        $infos = array(
-          'size' => $regs[1]
-        );
-        if ($infos['size'] >= 1000000000) {
-          $infos['valueSizeFact']=1000000000;
-        }
-        else if ($infos['size'] >= 1000000) {
-          $infos['valueSizeFact']=1000000;
-        }
-        else if ($infos['size'] >= 1000) {
-          $infos['valueSizeFact']=1000;
-        }
-        else {
-          $infos['valueSizeFact']=1;
-        }
-        $infos['valueSize'] = $infos['size'] / $infos['valueSizeFact'];
-        $infos['valueTxt'] = $infos['valueSize'].$this ->sizeFacts[$infos['valueSizeFact']];
-
-        $quotas[$value] = $infos;
+      $parsed_value = $this -> parseValue($value);
+      if ($parsed_value) {
+        $quotas[$value] = $parsed_value;
       }
       else {
         $quotas[$value] = array(
@@ -137,36 +155,69 @@ class LSformElement_mailQuota extends LSformElement {
     if($this -> isFreeze()) {
       return true;
     }
-    if (isset($_POST[$this -> name.'_size'])) {
-      $return[$this -> name]=array();
+    $values = array();
+    if ($this -> form -> api_mode) {
+      if (isset($_POST[$this -> name])) {
+        foreach(ensureIsArray($_POST[$this -> name]) as $value) {
+          if ($this -> parseValue($value) !== false) {
+            $values[] = $value;
+          }
+          else {
+            $this -> form -> setElementError(
+              $this -> attr_html,
+              getFData(_('Invalid value : "%{value}".'), $value)
+            );
+          }
+        }
+      }
+    }
+    elseif (isset($_POST[$this -> name.'_size'])) {
       $_POST[$this -> name.'_size'] = ensureIsArray($_POST[$this -> name.'_size']);
       if(isset($_POST[$this -> name.'_sizeFact']) && !is_array($_POST[$this -> name.'_sizeFact'])) {
         $_POST[$this -> name.'_sizeFact'] = array($_POST[$this -> name.'_sizeFact']);
       }
       foreach($_POST[$this -> name.'_size'] as $key => $val) {
-        if (!empty($val)) {
-          $f = 1;
-          if (isset($_POST[$this -> name.'_sizeFact'][$key]) && ($_POST[$this -> name.'_sizeFact'][$key]!=1)) {
-            $f = $_POST[$this -> name.'_sizeFact'][$key];
-          }
-          $return[$this -> name][$key] = ($val*$f).$this->getSuffix();
+        if (empty($val))
+          continue;
+        $f = 1;
+        if (isset($_POST[$this -> name.'_sizeFact'][$key]) && ($_POST[$this -> name.'_sizeFact'][$key]!=1)) {
+          $f = $_POST[$this -> name.'_sizeFact'][$key];
         }
+        $values[$key] = ($val*$f).$this->getSuffix();
       }
-      return true;
     }
-    // Accept raw value to make import easier
-    elseif (isset($_POST[$this -> name])) {
-      $return[$this -> name]=$_POST[$this -> name];
-      return true;
+
+    if ($values) {
+      $return[$this -> name] = $values;
     }
     elseif ($onlyIfPresent) {
       self :: log_debug($this -> name.": not in POST data => ignore it");
-      return true;
     }
     else {
       $return[$this -> name] = array();
-      return true;
     }
+    return true;
+  }
+
+  /**
+   * Retreive value as return in API response
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue() {
+    $values = array();
+    foreach(ensureIsArray($this -> values) as $value) {
+      $parsed_value = $this -> parseValue($value);
+      if (is_array($parsed_value)) {
+        $values[] = $parsed_value['size'];
+      }
+    }
+    if ($this -> isMultiple()) {
+      return $values;
+    }
+    if (!$values)
+      return null;
+    return $values[0];
   }
 
 }

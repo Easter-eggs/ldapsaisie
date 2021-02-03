@@ -157,43 +157,70 @@ class LSformElement_valueWithUnit extends LSformElement {
     if($this -> isFreeze()) {
       return true;
     }
-    $return[$this -> name]=array();
-    if (isset($_POST[$this -> name.'_valueWithUnit'])) {
-      $_POST[$this -> name.'_valueWithUnit'] = ensureIsArray($_POST[$this -> name.'_valueWithUnit']);
-      if(isset($_POST[$this -> name.'_unitFact']) && !is_array($_POST[$this -> name.'_unitFact'])) {
-        $_POST[$this -> name.'_unitFact'] = array($_POST[$this -> name.'_unitFact']);
-      }
-      foreach($_POST[$this -> name.'_valueWithUnit'] as $key => $val) {
-        if (!empty($val)) {
-          $f = 1;
-          if (isset($_POST[$this -> name.'_unitFact'][$key]) && ($_POST[$this -> name.'_unitFact'][$key]!=1)) {
-            $f = $_POST[$this -> name.'_unitFact'][$key];
-	  }
-	  if ($this -> getParam('html_options.store_integer')) {
-           if ($this -> getParam('html_options.round_down')) {
-              $return[$this -> name][$key] = floor($val*$f);
-	    }
-	    else {
-              $return[$this -> name][$key] = ceil($val*$f);
-	    }
-	  }
-	  else {
-            $return[$this -> name][$key] = ($val*$f);
-	  }
+
+    if ($this -> form -> api_mode) {
+      if (isset($_POST[$this -> name]) && $_POST[$this -> name]) {
+        $return[$this -> name] = array();
+        foreach(ensureIsArray($_POST[$this -> name]) as $value) {
+          if ($this -> getParam('html_options.store_integer')) {
+            $value = ($this -> getParam('html_options.round_down')?floor($value):ceil($value));
+          }
+          $return[$this -> name][] = $value;
         }
       }
     }
-    if (isset($_POST[$this -> name])) {
-      $_POST[$this -> name] = ensureIsArray($_POST[$this -> name]);
-      $return[$this -> name] = array_merge($return[$this -> name], $_POST[$this -> name]);
-    }
-    if (isset($_POST[$this -> name.'_value'])) {
-      $_POST[$this -> name.'_value'] = ensureIsArray($_POST[$this -> name.'_value']);
-      $return[$this -> name] = array_merge($return[$this -> name], $_POST[$this -> name.'_value']);
+    else {
+      $return[$this -> name] = array();
+      if (isset($_POST[$this -> name.'_valueWithUnit'])) {
+        $_POST[$this -> name.'_valueWithUnit'] = ensureIsArray($_POST[$this -> name.'_valueWithUnit']);
+        if(isset($_POST[$this -> name.'_unitFact']) && !is_array($_POST[$this -> name.'_unitFact'])) {
+          $_POST[$this -> name.'_unitFact'] = array($_POST[$this -> name.'_unitFact']);
+        }
+        foreach($_POST[$this -> name.'_valueWithUnit'] as $key => $val) {
+          if (empty($val))
+            continue;
+          $f = 1;
+          if (isset($_POST[$this -> name.'_unitFact'][$key]) && ($_POST[$this -> name.'_unitFact'][$key]!=1)) {
+            $f = $_POST[$this -> name.'_unitFact'][$key];
+          }
+          if ($this -> getParam('html_options.store_integer')) {
+            $return[$this -> name][$key] = (
+              $this -> getParam('html_options.round_down')?
+              floor($val*$f):
+              ceil($val*$f)
+            );
+          }
+          else {
+            $return[$this -> name][$key] = ($val*$f);
+          }
+        }
+      }
+
+      if (isset($_POST[$this -> name.'_value'])) {
+        $_POST[$this -> name.'_value'] = ensureIsArray($_POST[$this -> name.'_value']);
+        $return[$this -> name] = array_merge($return[$this -> name], $_POST[$this -> name.'_value']);
+      }
     }
     return true;
   }
 
+  /**
+   * Retreive value as return in API response
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue() {
+    $values = array();
+    foreach (ensureIsArray($this -> values) as $value)
+      if (preg_match('/^([0-9]*)$/', $value, $regs))
+        $values[] = intval($regs[1]);
+    if ($this -> isMultiple()) {
+      return $values;
+    }
+    if (!$values)
+      return null;
+    return $values[0];
+  }
 }
 
 /*

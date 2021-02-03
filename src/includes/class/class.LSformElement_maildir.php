@@ -89,7 +89,7 @@ class LSformElement_maildir extends LSformElement_text {
     $retval = parent :: getPostData($return);
 
     // Si une valeur est recupérée
-    if ($retval&&$_POST['LSformElement_maildir_'.$this -> name.'_do']) {
+    if ($retval && !$this -> form -> api_mode && $_POST['LSformElement_maildir_'.$this -> name.'_do']) {
       $cur = $this -> form -> ldapObject -> attrs[$this -> name] -> getValue();
       $cur=$cur[0];
       $new = $return[$this -> name][0];

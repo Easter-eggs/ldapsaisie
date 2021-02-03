@@ -117,26 +117,48 @@ class LSformElement_labeledValue extends LSformElement {
     if($this -> isFreeze()) {
       return true;
     }
-    if (isset($_POST[$this -> name."_labels"]) && isset($_POST[$this -> name."_values"])) {
-      $return[$this -> name] = array();
+    // Extract value form POST data
+    $values = array();
+    // API mode
+    if ($this -> form -> api_mode) {
+      if (isset($_POST[$this -> name])) {
+        foreach(ensureIsArray($_POST[$this -> name]) as $val) {
+          if (is_empty($val))
+            continue;
+          $parseValue = self :: parseValue($val);
+          if (isset($parseValue['label']) && isset($parseValue['value'])) {
+            $values[] = '['.$parseValue['label'].']'.$parseValue['value'];
+          }
+          else {
+            $this -> form -> setElementError(
+              $this -> attr_html,
+              getFData(_('Invalid value : "%{value}".'), $val)
+            );
+          }
+        }
+      }
+    }
+    elseif (isset($_POST[$this -> name."_labels"]) && isset($_POST[$this -> name."_values"])) {
       $_POST[$this -> name."_labels"] = ensureIsArray($_POST[$this -> name."_labels"]);
       $_POST[$this -> name."_values"] = ensureIsArray($_POST[$this -> name."_values"]);
       foreach($_POST[$this -> name."_labels"] as $key => $label) {
         $val = $_POST[$this -> name."_values"][$key];
         if (!empty($label) && !is_empty($val)) {
-          $return[$this -> name][$key] = "[$label]$val";
+          $values[$key] = "[$label]$val";
         }
       }
-      return true;
+    }
+
+    if ($values) {
+      $return[$this -> name] = $values;
     }
     elseif ($onlyIfPresent) {
       self :: log_debug($this -> name.": not in POST data => ignore it");
-      return true;
     }
     else {
       $return[$this -> name] = array();
-      return true;
     }
+    return true;
   }
 
 }

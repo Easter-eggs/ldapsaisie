@@ -19,11 +19,14 @@ serveur LDAP.</para>
       'useUserCredentials' => [boolean],
       'LSauth' => array (
         'method' => [LSauth method],
+        'api_method' => [LSauth method],
         'LSobjects' => array(
           '[object type 1]',
           '[object type 2]' => array(
             'filter' => '[LDAP filter]',
             'password_attribute' => '[attribute name]',
+            'web_access' => [booléen],
+            'api_access' => [booléen],
           )
         )
       ),
@@ -121,6 +124,18 @@ serveur LDAP.</para>
     </varlistentry>
 
     <varlistentry>
+      <term>api_method</term>
+      <listitem>
+        <simpara>Nom de la méthode d'authentification &LSauthMethod; à utilisée lors d'une connexion à
+        l'API. Exemple : pour utiliser la classe <literal>LSauthMethod_HTTP</literal>, la valeur de ce
+        paramètre sera <literal>HTTP</literal>. <emphasis>Paramètre facultatif, méthode par défaut :
+        <literal>HTTP</literal>.</emphasis></simpara>
+        <warning><simpara>Toutes les &LSauthMethod; ne supportent pas forcément le mode API.</simpara>
+        </warning>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>LSobjects</term>
       <listitem>
         <simpara>Tableau listant les types &LSobjects; pouvant se connecter à l'application. Les valeurs
@@ -148,6 +163,22 @@ serveur LDAP.</para>
     Paramètre facultatif, valeur par défaut : <literal>userPassword</literal>.</emphasis></simpara>
     <note><simpara>C'est cet attribut de l'utilisateur qui sera modifié par la fonctionnalité
     de récupération de mot de passe.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>web_access</term>
+  <listitem>
+    <simpara>Permet de définir si ce type d'objet à le droit d'utiliser l'interface web (facultatif,
+    par défaut : <literal>True</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>api_access</term>
+  <listitem>
+    <simpara>Permet de définir si ce type d'objet à le droit d'utiliser l'API (facultatif,
+    par défaut : <literal>False</literal>).</simpara>
   </listitem>
 </varlistentry>
 

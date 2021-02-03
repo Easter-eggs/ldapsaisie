@@ -403,4 +403,18 @@ class LSformElement extends LSlog_staticLoggerClass {
       $opts[] = $opt;
   }
 
+  /**
+   * Retreive value as return in API response
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue() {
+    if ($this -> isMultiple()) {
+      return ensureIsArray($this -> values);
+    }
+    if (!$this -> values)
+      return null;
+    return $this -> values[0];
+  }
+
 }

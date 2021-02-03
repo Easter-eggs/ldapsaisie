@@ -123,13 +123,17 @@ class LSerror {
   *
   * @retvat string Le texte des erreurs
   */
-  public static function getErrors() {
+  public static function getErrors($raw=false) {
     if(!empty($_SESSION['LSerror'])) {
-      $txt = '';
-      foreach ($_SESSION['LSerror'] as $error)
-        $txt .= $error."<br />\n";
+      if ($raw)
+        $return = $_SESSION['LSerror'];
+      else {
+        $return = '';
+        foreach ($_SESSION['LSerror'] as $error)
+          $return .= $error."<br />\n";
+      }
       self :: resetError();
-      return $txt;
+      return $return;
     }
     return;
   }

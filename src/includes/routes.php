@@ -354,11 +354,12 @@ LSurl :: add_handler('#^tmp/(?P<filename>[^/]+)$#', 'handle_tmp_file');
  * @param[in] $request LSurlRequest The request
  * @param[in] $instanciate boolean Instanciate and return an object (optional, default: true)
  * @param[in] $check_access callable|null Permit to specify check access method (optional, default: LSsession :: canAccess())
+ * @param[in] $api_mode boolean Enable API mode (optional, default: false)
  *
  * @retval LSobject|boolean The instanciated LSobject (or True if $instanciate=false), or False
  *                          on error/access refused
  */
-function get_LSobject_from_request($request, $instanciate=true, $check_access=null) {
+function get_LSobject_from_request($request, $instanciate=true, $check_access=null, $api_mode=false) {
     $LSobject = $request -> LSobject;
     $dn = (isset($request -> dn)?$request -> dn:null);
 
@@ -367,7 +368,7 @@ function get_LSobject_from_request($request, $instanciate=true, $check_access=nu
       $check_access = array('LSsession', 'canAccess');
 
     // Handle SELF redirect
-    if ( $LSobject == 'SELF' ) {
+    if ( !$api_mode && $LSobject == 'SELF' ) {
       $LSobject = LSsession :: getLSuserObject() -> getType();
       $dn = LSsession :: getLSuserObjectDn();
       LSurl :: redirect("object/$LSobject/".urlencode($dn));
@@ -377,13 +378,19 @@ function get_LSobject_from_request($request, $instanciate=true, $check_access=nu
     if ($dn) {
       if (!call_user_func($check_access, $LSobject, $dn)) {
         LSerror :: addErrorCode('LSsession_11');
-        LSsession :: displayTemplate();
+        if ($api_mode)
+          LSsession :: displayAjaxReturn();
+        else
+          LSsession :: displayTemplate();
         return false;
       }
     }
     else if (!LSsession :: in_menu($LSobject) && !call_user_func($check_access, $LSobject)) {
       LSerror :: addErrorCode('LSsession_11');
-      LSsession :: displayTemplate();
+      if ($api_mode)
+        LSsession :: displayAjaxReturn();
+      else
+        LSsession :: displayTemplate();
       return false;
     }
 
@@ -1469,3 +1476,429 @@ function handle_old_addon_view($request) {
  LSurl :: redirect();
 }
 LSurl :: add_handler('#^addon_view\.php#', 'handle_old_addon_view', false);
+
+/*
+ * API
+ */
+
+/*
+ * LSobject API view helper to retreive LSobject from request
+ *
+ * Just a wrapper on get_LSobject_from_request() helper function to
+ * correctly set parameters for API context.
+ *
+ * See get_LSobject_from_request() for details.
+ *
+ * @param[in] $request LSurlRequest The request
+ * @param[in] $instanciate boolean Instanciate and return an object (optional, default: true)
+ * @param[in] $check_access callable|null Permit to specify check access method (optional, default: see get_LSobject_from_request())
+ *
+ * @retval LSobject|boolean The instanciated LSobject (or True if $instanciate=false), or False
+ *                          on error/access refused
+ */
+function get_LSobject_from_API_request($request, $instanciate=true, $check_access=null) {
+  return get_LSobject_from_request($request, $instanciate, $check_access, true);
+}
+
+ /*
+  * Handle API LSobject search
+  *
+  * @param[in] $request LSurlRequest The request
+  *
+  * @retval void
+  **/
+function handle_api_LSobject_search($request) {
+  LSsession :: setAjaxDisplay();
+  $object = get_LSobject_from_API_request($request);
+  if (!$object)
+    return;
+
+  $LSobject = $object -> getType();
+
+  if (!LSsession :: loadLSclass('LSsearch')) {
+    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSsession :: displayAjaxReturn();
+    return false;
+  }
+
+  // Instanciate a LSsearch
+  $search = new LSsearch($LSobject, 'api', null, isset($_REQUEST['reset']));
+  $search -> setParam('onlyAccessible', True);
+  if (!$search -> setParamsFromRequest()) {
+    LSsession :: displayAjaxReturn();
+    return;
+  }
+
+  // Run search
+  if (!$search -> run())
+    LSlog :: fatal('Fail to run search.');
+
+  $all = isset($_REQUEST['all']);
+
+  if ($all) {
+    $entries = $search -> listEntries();
+    if (!is_array($entries))
+      LSlog :: fatal("Fail to retreive search result");
+  }
+  else {
+    // Retrieve page
+    $page_nb = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
+    $page = $search -> getPage($page_nb);
+
+    /*
+     * $page = array(
+     *   'nb' => $page,
+     *   'nbPages' => 1,
+     *   'list' => array(),
+     *   'total' => $this -> total
+     * );
+     */
+
+    // Check page
+    if (!is_array($page) || $page_nb > $page['nbPages'])
+      LSlog :: fatal("Fail to retreive page #$page_nb.");
+  }
+
+  // Handle JSON output
+  $data = array(
+    'success' => true,
+    'objects' => array(),
+    'total' => $search -> total,
+  );
+  if (!$all) {
+    $data['page'] = $page['nb'] + 1;
+    $data['nbPages'] = $page['nbPages'];
+  }
+  foreach(($all?$entries:$page['list']) as $obj) {
+    $data['objects'][$obj -> dn] = array(
+      'name' => $obj -> displayName,
+    );
+    if ($search -> displaySubDn)
+      $data['objects'][$obj -> dn][$search -> label_level] = $obj -> subDn;
+    if ($search -> extraDisplayedColumns) {
+      foreach ($search -> visibleExtraDisplayedColumns as $cid => $conf) {
+        $data['objects'][$obj -> dn][$conf['label']] = $obj -> $cid;
+      }
+    }
+    foreach ($search -> attributes as $attr) {
+      if (LSsession :: canAccess($LSobject, $obj -> dn, 'r', $attr))
+        $data['objects'][$obj -> dn][$attr] = $obj -> $attr;
+    }
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/?$#', 'handle_api_LSobject_search', true, false, true);
+
+/*
+ * Handle API LSobject create request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_api_LSobject_create($request) {
+  LSsession :: setAjaxDisplay();
+  $object = get_LSobject_from_API_request(
+    $request,
+    true,                             // instanciate object
+    array('LSsession', 'canCreate')   // Check access method
+  );
+
+  if (!$object)
+    return;
+
+  $data = array('success' => false);
+  $LSobject = $object -> getType();
+  $form = $object -> getForm('create', null, true); // Create form in API mode
+
+  if (isset($_REQUEST['dataEntryForm'])) {
+    $form -> applyDataEntryForm((string)$_REQUEST['dataEntryForm']);
+  }
+  $form -> setSubmited();
+
+  if ($form->validate(true)) {
+    // Data update for LDAP object
+    if ($object -> updateData('create')) {
+      $data['success'] = true;
+      $data['type'] = $object -> getType();
+      $data['dn'] = $object -> getDn();
+      $data['name'] = $object -> getDisplayName();
+      LSsession :: addInfo(_("Object has been added."));
+    }
+    else {
+      $data['fields_errors'] = $form -> getErrors();
+    }
+  }
+  else if ($form -> definedError()) {
+    $data['fields_errors'] = $form -> getErrors();
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/create/?$#', 'handle_api_LSobject_create', true, false, true);
+
+/*
+ * Handle API LSobject show request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_api_LSobject_show($request) {
+  LSsession :: setAjaxDisplay();
+  $object = get_LSobject_from_API_request($request);
+  if (!$object)
+    return;
+
+  $data = array(
+    'success' => true,
+    'dn' => $object -> getDn(),
+    'type' => $object -> getType(),
+    'name' => $object -> getDisplayName(),
+    'attributes' => array(),
+    'relations' => array(),
+  );
+
+  $view = $object -> getView();
+  foreach($view -> elements as $element) {
+    $data['attributes'][$element -> name] = $element -> getApiValue();
+  }
+
+  if (LSsession :: loadLSclass('LSrelation')) {
+    foreach ($object -> getConfig('LSrelation', array(), 'array') as $rel_name => $rel_conf) {
+      $data['relations'][$rel_name] = array();
+      $relation = new LSrelation($object, $rel_name);
+      $list = $relation -> listRelatedObjects();
+      if (is_array($list)) {
+        foreach($list as $o) {
+          $data['relations'][$rel_name][$o -> getDn()] = $o -> getDisplayName(NULL,true);
+        }
+      }
+      else {
+        LSlog :: error("Fail to load related objects.");
+      }
+    }
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/?(?P<dn>[^/]+)/?$#', 'handle_api_LSobject_show', true, false, true);
+
+/*
+ * Handle API LSobject modify request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_api_LSobject_modify($request) {
+  LSsession :: setAjaxDisplay();
+  $object = get_LSobject_from_API_request(
+    $request,
+    true,                             // instanciate object
+    array('LSsession', 'canEdit')     // Check access method
+  );
+  if (!$object)
+    return;
+
+  $data = array(
+    'dn' => $object -> getDn(),
+    'type' => $object -> getType(),
+    'name' => $object -> getDisplayName(),
+    'success' => false,
+  );
+  $form = $object -> getForm('modify', null, true);  // Create form in API mode
+  $form -> setSubmited();
+
+  if ($form->validate(true)) {
+    // Update LDAP object data
+    if ($object -> updateData('modify')) {
+      // Update successful
+      if (LSerror::errorsDefined()) {
+        LSsession :: addInfo(_("The object has been partially modified."));
+      }
+      else {
+        LSsession :: addInfo(_("The object has been modified successfully."));
+        $data['success'] = true;
+      }
+    }
+    elseif ($form -> definedError()) {
+      $data['fields_errors'] = $form -> getErrors();
+    }
+  }
+  else if ($form -> definedError()) {
+    $data['fields_errors'] = $form -> getErrors();
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/modify/?$#', 'handle_api_LSobject_modify', true, false, true);
+
+/*
+ * Handle API LSobject remove request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_api_LSobject_remove($request) {
+  LSsession :: setAjaxDisplay();
+  $object = get_LSobject_from_API_request(
+    $request,
+    true,                             // instanciate object
+    array('LSsession', 'canRemove')   // Check access method
+  );
+  if (!$object)
+    return;
+
+  $data = array(
+   'dn' => $object -> getDn(),
+   'type' => $object -> getType(),
+   'name' => $object -> getDisplayName(),
+   'success' => false,
+  );
+
+  // Remove object (if validated)
+  if ($object -> remove()) {
+    LSsession :: addInfo(getFData(_('%{objectname} has been successfully deleted.'), $data['name']));
+    $data['success'] = true;
+  }
+  else {
+    LSerror :: addErrorCode('LSldapObject_15', $objectname);
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/remove/?$#', 'handle_api_LSobject_remove', true, false, true);
+
+/*
+ * Handle API LSobject relation request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_api_LSobject_relation($request) {
+  LSsession :: setAjaxDisplay();
+  $object = get_LSobject_from_API_request(
+    $request,
+    true,                             // instanciate object
+  );
+  if (!$object)
+    return;
+
+  $LSobject = $object -> getType();
+
+  // Handle relation URL parameter
+  $relationName = $request -> relation;
+  if (!is_array($object -> getConfig("LSrelation.$relationName"))) {
+    LSlog :: log_error("LSobject $LSobject have no relation '$relationName'.");
+    LSsession :: displayAjaxReturn();
+    return false;
+  }
+
+  // Check user access to this relation
+  if (
+    (isset($_REQUEST['add']) || isset($_REQUEST['remove'])) &&
+    !LSsession :: relationCanEdit($object -> dn, $LSobject, $relationName)
+  ) {
+    LSerror :: addErrorCode('LSsession_11');
+    LSsession :: displayAjaxReturn();
+    return false;
+  }
+
+  // Load LSrelation PHP class (with warning)
+  if (!LSsession :: loadLSclass('LSrelation', null, true)) {
+    LSsession :: displayAjaxReturn();
+    return false;
+  }
+
+  $relation = new LSrelation($object, $relationName);
+
+  $data = array(
+   'dn' => $object -> getDn(),
+   'type' => $object -> getType(),
+   'name' => $object -> getDisplayName(),
+   'relation' => $relationName,
+   'success' => false,
+  );
+  $warnings = array();
+
+  // List current related objects
+  $list = $relation -> listRelatedObjects();
+  $listDns = array();
+  if (is_array($list)) {
+    foreach($list as $o) {
+      $listDns[] = $o -> getDn();
+    }
+  }
+  LSlog :: debug("Current related object(s): ".varDump($listDns));
+
+  // Keep a copy of initial related objects list
+  $initialListDns = $listDns;
+
+  // Handle add
+  $relatedLSobject = $object -> getConfig("LSrelation.$relationName.LSobject");
+  $search = new LSsearch(
+    $relatedLSobject,
+    "LSrelation.api.$LSobject.$relationName",
+    array(
+      'scope' => 'base',
+    )
+  );
+  if (isset($_REQUEST['add'])) {
+    foreach (ensureIsArray($_REQUEST['add']) as $dn) {
+      $dn = urldecode($dn);
+      // Check if DN is already in relation
+      if (in_array($dn, $listDns)) {
+        LSlog :: debug("LSobject $relatedLSobject $dn is already in relation with ".$object -> getDn().".");
+        continue;
+      }
+
+      // Check DN refer to a related object
+      $search -> setParam('basedn', $dn);
+      $search -> run(false);
+      $result = $search -> listObjectsDn();
+      if (!is_array($result) || count($result) != 1) {
+        $warnings[] = "No $relatedLSobject found for DN $dn";
+      }
+      $listDns[] = $dn;
+    }
+  }
+
+  if (isset($_REQUEST['remove'])) {
+    // Handle remove
+    foreach (ensureIsArray($_REQUEST['remove']) as $dn) {
+      $dn = urldecode($dn);
+      $found = false;
+      while(true) {
+        $key = array_search($dn, $listDns);
+        if ($key === false) break;
+        $found = true;
+        unset($listDns[$key]);
+      }
+      if (!$found)
+        LSlog :: debug("LSobject $relatedLSobject $dn is not in relation with ".$object -> getDn().".");
+    }
+  }
+
+  // Add new related objects list in result
+  $data['relatedObjects'] = array_values($listDns);
+
+  if ($warnings) {
+    LSerror :: addErrorCode(false, "Some problems detected on requested changes.");
+    $data['warnings'] = $warnings;
+  }
+  else if ($initialListDns == $listDns) {
+    LSsession :: addInfo('No changes done.');
+    $data['success'] = true;
+  }
+  else {
+    LSlog :: debug("New related object(s) list: ".varDump($listDns));
+    if ($relation -> updateRelations($listDns)) {
+      LSsession :: addInfo('Objects in relation updated.');
+      $data['success'] = true;
+    }
+    else {
+      LSerror :: addErrorCode(false, "Fail to update objects in relation");
+    }
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/relation/(?P<relation>[^/]+)/?$#', 'handle_api_LSobject_relation', true, false, true);

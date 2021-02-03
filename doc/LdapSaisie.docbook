@@ -22,6 +22,7 @@ book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
   <!ENTITY install SYSTEM "install/install.docbook">
   <!ENTITY install-arbo SYSTEM "install/arbo.docbook">
   <!ENTITY upgrade SYSTEM "upgrade/upgrade.docbook">
+  <!ENTITY api SYSTEM "api/api.docbook">
   <!ENTITY contrib SYSTEM "contrib/contrib.docbook">
 ]>
 
@@ -52,6 +53,8 @@ book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
 &upgrade;
 
 &conf;
+
+&api;
 
 &contrib;
 </book>

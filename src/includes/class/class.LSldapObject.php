@@ -199,22 +199,22 @@ class LSldapObject extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Construit un formulaire de l'objet
+   * Constuct a form for this object
    *
-   * Cette mÃ©thode construit un formulaire LSform Ã  partir de la configuration de l'objet
-   * et de chaque attribut.
+   * This method create a LSform from the object and its attributes configurations.
    *
-   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a crÃ©er
-   * @param[in] $load DN d'un objet similaire dont la valeur des attribut doit Ãªtre chargÃ© dans le formulaire.
+   * @param[in] $idForm string Form identifier (required)
+   * @param[in] $load string DN of a similar object. If defined, attributes values of this object will be loaded in the form.
+   * @param[in] $api_mode boolean Enable API mode (defaut: false)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval LSform Le formulaire crÃ©e
+   * @retval LSform The created LSform object
    */
-  public function getForm($idForm,$load=NULL) {
+  public function getForm($idForm, $load=NULL, $api_mode=false) {
     LSsession :: loadLSclass('LSform');
-    $LSform = new LSform($this,$idForm);
-    $this -> forms[$idForm] = array($LSform,$load);
+    $LSform = new LSform($this, $idForm, null, $api_mode);
+    $this -> forms[$idForm] = array($LSform, $load);
 
     if ($load) {
       $type = $this -> getType();
@@ -1890,6 +1890,9 @@ class LSldapObject extends LSlog_staticLoggerClass {
       }
       return false;
     }
+    elseif ($key=='type') {
+      return $this -> getType();
+    }
     // Unknown key, log warning
     self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
   }
@@ -2460,8 +2463,8 @@ class LSldapObject extends LSlog_staticLoggerClass {
       if (is_null($objType) || empty($attrs_values))
         LScli :: usage('You must provide LSobject type, DN and at least one change.');
 
-      // Instanciate a create LSform
-      $form = $obj -> getForm('create');
+      // Instanciate a create LSform (in API mode)
+      $form = $obj -> getForm('create', null, true);
 
       // Check all changed attributes are in modify form and are'nn freezed
       foreach ($attrs_values as $attr => $value) {
@@ -2559,7 +2562,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
       elseif ($objType && class_exists($objType)) {
         LScli :: need_ldap_con();
         $obj = new $objType();
-        $form = $obj -> getForm('create');
+        $form = $obj -> getForm('create', null, true);  // Instanciate create form in API mode
         $form -> autocomplete_attrs_values($opts, $comp_word);
       }
 
@@ -2639,8 +2642,8 @@ class LSldapObject extends LSlog_staticLoggerClass {
           return True;
       }
 
-      // Instanciate a modify LSform
-      $form = $obj -> getForm('modify');
+      // Instanciate a modify LSform (in API mode)
+      $form = $obj -> getForm('modify', null, true);
 
       // Check all changed attributes are in modify form and are'nn freezed
       foreach ($changes as $attr => $value) {
@@ -2742,7 +2745,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
           self :: log_error("Fail to load object $dn data from LDAP");
         }
         else {
-          $form = $obj -> getForm('modify');
+          $form = $obj -> getForm('modify', null, True);  // Instanciate modify form in API mode
           $form -> autocomplete_attrs_values($opts, $comp_word);
         }
       }

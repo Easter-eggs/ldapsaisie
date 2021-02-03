@@ -27,6 +27,9 @@
  */
 class LSauthMethod_anonymous extends LSauthMethod {
 
+  // Boolean flag to specify if this LSauthMethod support API mode
+  protected static $api_mode_supported = true;
+
   public function __construct() {
 		LSauth :: disableLoginForm();
 		LSauth :: disableSelfAccess();

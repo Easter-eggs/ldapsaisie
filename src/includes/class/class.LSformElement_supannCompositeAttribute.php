@@ -184,8 +184,8 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
   public function getPostData(&$return, $onlyIfPresent=false) {
-    if ($onlyIfPresent) {
-      self :: log_warning("getPostData : does not support \$onlyIfPresent mode => Post data ignored");
+    if ($onlyIfPresent || $this -> form -> api_mode) {
+      self :: log_warning("getPostData : does not support \$onlyIfPresent / API mode => Post data ignored");
       return true;
     }
 

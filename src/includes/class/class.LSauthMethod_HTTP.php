@@ -29,6 +29,9 @@ LSsession :: loadLSclass('LSauthMethod_basic');
  */
 class LSauthMethod_HTTP extends LSauthMethod_basic {
 
+  // Boolean flag to specify if this LSauthMethod support API mode
+  protected static $api_mode_supported = true;
+
   public function __construct() {
     parent :: __construct();
     LSauth :: disableLoginForm();
@@ -53,6 +56,7 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
       self :: log_debug('HTTP method to retreive auth data is "'.LSAUTHMETHOD_HTTP_METHOD.'"');
     }
 
+    $missing_info = null;
     switch(constant('LSAUTHMETHOD_HTTP_METHOD')) {
       case 'AUTHORIZATION':
         if (isset($_SERVER['HTTP_AUTHORIZATION']) && !empty($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -62,11 +66,12 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
               'username' => $authData[0],
               'password' => $authData[1],
             );
+            return $this -> authData;
           }
-          return $this -> authData;
+          else
+            self :: log_warning("Fail to decode and parse $missing_info environment variable.");
         }
-        else
-          LSerror :: addErrorCode('LSauthMethod_HTTP_01', 'HTTP_AUTHORIZATION');
+        $missing_info = 'HTTP_AUTHORIZATION';
         break;
       case 'REMOTE_USER':
         if (isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
@@ -76,8 +81,7 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
           );
           return $this -> authData;
         }
-        else
-          LSerror :: addErrorCode('LSauthMethod_HTTP_01', 'REMOTE_USER');
+        $missing_info = 'REMOTE_USER';
         break;
       case 'PHP_AUTH':
       default:
@@ -88,10 +92,20 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
           );
           return $this -> authData;
         }
-        else
-          LSerror :: addErrorCode('LSauthMethod_HTTP_01', 'PHP_AUTH_USER');
+        $missing_info = 'PHP_AUTH_USER';
     }
-    return;
+    self :: log_warning("$missing_info variable not available in environment, trigger 403 error.");
+
+    // Auth data not available, trigger HTTP 403 error
+    if (defined('LSAUTHMETHOD_HTTP_REALM') && constant('LSAUTHMETHOD_HTTP_REALM'))
+      $realm = __(LSAUTHMETHOD_HTTP_REALM);
+    else
+      $realm = _('LdapSaisie - Authentication required');
+    header('WWW-Authenticate: Basic realm="'.$realm.'", charset="UTF-8"');
+    header('HTTP/1.0 401 Unauthorized');
+    LSerror :: addErrorCode(null, $realm);
+    LSsession :: displayAjaxReturn();
+    exit();
   }
 
   /**

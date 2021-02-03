@@ -50,12 +50,16 @@ $GLOBALS['LSconfig'] = array(
       ),
       'LSauth' => array (
         //'method' => 'basic', // Auth method : basic(default), HTTP, CAS or anonymous
+        //'api_method' => 'HTTP', // Auth method that must support API mode : HTTP(default) or anonymous
         'LSobjects' => array(
           'LSpeople' => array(
             'filter' => '(|(uid=%{user})(mail=%{user}))',
             'password_attribute' => 'userPassword',
+            'api_access' => false,
           ),
-          'LSsysaccount',
+          'LSsysaccount' => array(
+            'api_access' => true,
+          )
         ),
         //'allow_multi_match' => false, // Allow username multiple match (default: false)
       ),

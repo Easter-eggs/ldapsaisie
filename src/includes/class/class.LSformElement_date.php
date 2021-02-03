@@ -223,9 +223,14 @@ class LSformElement_date extends LSformElement {
       return true;
     }
     $values = self :: getData($_POST, $this -> name);
-    $special_values = self :: getData($_POST, $this -> name.'__special_value');
     self :: log_trace($this." -> getPostData(): values=".varDump($values));
-    self :: log_trace($this." -> getPostData(): special_values=".varDump($special_values));
+    if ($this -> form -> api_mode) {
+      $special_values = false;
+    }
+    else {
+      $special_values = self :: getData($_POST, $this -> name.'__special_value');
+      self :: log_trace($this." -> getPostData(): special_values=".varDump($special_values));
+    }
     if (!is_array($values) && !is_array($special_values)) {
       self :: log_trace($this." -> getPostData(): not in POST data");
       if ($onlyIfPresent) {

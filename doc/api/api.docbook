@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<chapter>
+<title>API</title>
+
+  <para>Depuis la version 4.0, LdapSaisie offre une API visant à permettre de faire
+  les mêmes choses que ce qu'il est possible d'accomplir via l'interface web. L'idée
+  n'est bien entendue pas de se substituer systématiquement à la possibilité de se
+  connecter directement à l'annuaire, mais plutôt d'offrir une API web pour l'intégration
+  d'outil préférant ce mode d'interaction, ou encore, pour exposer des méthodes accès aux
+  données de l'annuaire tout en profitant des logiques métiers implémentées/configurées
+  dans LdapSaisie : validation syntaxique et d'unicité, règle de génération et
+  d'interdépendances des attributs, déclencheurs, ...</para>
+
+  <note><simpara>Cette API est actuellement dans une phase de test et n'offre pas encore
+  toutes les fonctionnalités proposées dans l'interface web. Elle est vouée à évoluer pour
+  intégrer petit à petit un maximum de fonctionnalités. Des contributions à ce sujet seront
+  plus qu'appréciée !</simpara></note>
+
+  <sect1>
+    <title>Authentification</title>
+
+    <para>L'authentification à l'API utilise le même composant <literal>LSauth</literal> que
+    lors d'une authentification à l'interface web, cependant, ce composant s'adapte pour
+    prendre en compte de mode de connexion. Par défaut, la méthode d'authentification utilisée
+    sera &LSauthMethod_HTTP; et permettra de se connecter en spécifiant le nom d'utilisateur
+    et le mot de l'utilisateur cherchant à se connecter via une authentification basique HTTP.
+    </para>
+
+    <warning><simpara>Il est à noter que tous les types d'utilisateur ne peuvent pas forcément
+    utiliser l'API : le paramètre <literal>api_access</literal> doit être explicitement
+    positionné à <literal>True</literal> dans <link linkend='config-srv-ldap'>la configuration
+    du serveur LDAP</link>.</simpara></warning>
+
+    <para>Une fois connecté, l'utilisateur endossera les droits associés à ses &LSprofiles;,
+    tout comme un utilisateur connecté à l'interface web.</para>
+  </sect1>
+
+  <sect1>
+    <title>Méthodes exposées</title>
+
+    <para>Les URLs des méthodes de l'API ont été construites par mimétisme sur celle de l'interface
+    web et sous la racine web <literal>api/</literal>. Par ailleurs, un numéro de version d'API a
+    été insérée dans chacune d'elles afin d'anticiper toutes évolutions futures majeures nécéssitants
+    de conserver une rétrocompatibilité avec les anciennes versions de l'API.</para>
+
+    <para>Toutes les méthodes retournent des informations au format JSON et accepte le paramètre
+    <literal>pretty</literal> permettant d'obtenir un retour plus facilement lisible. Les chaines de
+    caractères échangées doivent par ailleurs être encodées en UTF-8. On trouvera par ailleurs dans
+    le retour JSON :
+    <variablelist>
+      <varlistentry>
+        <term>success</term>
+        <listitem><simpara>Booléen précisant si l'action demandée a correctement été exécutée.</simpara>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>messages</term>
+        <listitem><simpara>Ce tableau pourra être présent et lister les messages d'informations générées
+        par l'action demandée. Il s'agira des mêmes messages que ceux affichés dans l'interface web
+        lorsque les actions équivalentes y sont faites.</simpara></listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>errors</term>
+        <listitem><simpara>Ce tableau pourra être présent et lister les messages d'erreurs générées
+        par l'action demandée.</simpara></listitem>
+      </varlistentry>
+    </variablelist>
+    </para>
+
+    <note><simpara>Les messages d'informations et d'erreurs générées par l'application sont traduites dans
+    la langue courante qui peut être spécifiée via le paramètre <literal>lang</literal> accepté par toutes
+    les méthodes (exemple : <literal>fr_FR</literal> ou <literal>en_US</literal>).</simpara></note>
+
+    <para>Lorsqu'une méthode cible un type d'objets, voir un objet en particulier, ces informations seront
+    transmises dans l'URL appelée. Si le type d'objet ou l'objet demandé est introuvable, une erreur HTTP
+    404 sera générée.</para>
+
+    <!-- Début Liste des méthodes exposées -->
+    <variablelist>
+    <title>Liste des méthodes exposées</title>
+
+    <varlistentry>
+      <term>/api/1.0/object/[object type]</term>
+      <listitem>
+        <para>Cette méthode permet de rechercher/lister les informations d'un type d'objets de
+        l'annuaire en particulier. Le type de l'objet est précisé dans l'URL et doit être encodé en
+        conséquence. Par mimétisme du comportement de l'interface web, la recherche est paginée et
+        accepte des paramètres similaires en plus de paramètre plus appropriés à un fonctionnement
+        programmatique :
+        <variablelist>
+          <title>Paramètres acceptés</title>
+
+          <varlistentry>
+            <term>filter</term>
+            <listitem><simpara>Permet de spécifier un filtre de recherche LDAP personnalisé. Celui-ci
+            sera combiné avec les paramètres propres au type d'objets recherchés et aux autres
+            paramètres spécifiés (<literal>pattern</literal> par exemple).</simpara>
+            <warning><simpara>Pour le moment, seuls les filtres simples du type <literal>attribut=valeur
+            </literal> sont acceptés ici.</simpara></warning>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>predefinedFilter</term>
+            <listitem><simpara>Permet de spécifier un des filtres de recherche LDAP prédéfinis dans la
+            configuration du type d'objet.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>pattern</term>
+            <listitem><simpara>Permet de spécifier un mot clé de recherche, comme proposé dans
+            l'interface web.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>approx</term>
+            <listitem><simpara>Booléen permettant d'activer/désactiver la recherche approximative
+            sur le mot clé. Les valeurs acceptées sont <literal>1</literal> ou <literal>0</literal>.
+            </simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>basedn</term>
+            <listitem><simpara>Permet de spécifier une base de recherche personnalisé pour la recherche.
+            </simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>subDn</term>
+            <listitem><simpara>Dans le cas d'un serveur LDAP configuré avec des <link linkend="config-subDn">
+            sous-niveaux de connexion</link>, permet de spécifier le sous-niveau pour la recherche.</simpara>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>scope</term>
+            <listitem><simpara>Permet de spécifier l'étendue de la recherche dans l'annuaire. Valeurs acceptées:
+            <literal>sub</literal>, <literal>one</literal> et <literal>base</literal>.</simpara>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>recursive</term>
+            <listitem><simpara>Booléen permettant d'activer/désactiver la recherche recursive, c'est à dire une
+            recherche à la racine de l'annuaire (ou du <link linkend="config-subDn">sous-niveau de connexion</link>)
+            avec une étendue de recherche maximale. Les valeurs acceptées sont <literal>1</literal> ou
+            <literal>0</literal>.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>displayFormat</term>
+            <listitem><simpara>Permet de spécifier un &LSformat; personnalisé pour le nom des objets dans le résultat
+            de recherche.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>extraDisplayedColumns</term>
+            <listitem><simpara>Booléen permettant d'activer le retour des colonnes personnalisées dans le résultat
+            de recherche. Les valeurs acceptées sont <literal>1</literal> ou <literal>0</literal>.</simpara>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>attributes</term>
+            <listitem><simpara>Liste des attributs supplémentaires que devra retourner la recherche.</simpara>
+            <warning><simpara>Attention, ici ce sont les valeurs brutes des attributs qui seront retournées et
+            par forcément les valeurs telle que retournées habituellement.</simpara></warning>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>sortBy</term>
+            <listitem><simpara>Permet de préciser sur quelle information le résultat de recherche doit être
+            trié. Valeurs acceptées : <literal>displayName</literal>, <literal>subDn</literal> ou un des noms
+            des colonnes personnalisées.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>sortDirection</term>
+            <listitem><simpara>Permet de préciser l'ordre de tri du résultat de recherche. Valeurs acceptées :
+            <literal>ASC</literal> (A-Z) ou <literal>DESC</literal> (Z-A).</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>page</term>
+            <listitem><simpara>Permet de préciser la page du résultat de recherche.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>nbObjectsByPage</term>
+            <listitem><simpara>Permet de préciser le nombre maximum d'objets retournés par page du résultat de
+            recherche.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>all</term>
+            <listitem><simpara>Permet de réclamer le résultat complet de la recherche (désactivation
+            de la pagination). Seul la présence de ce paramètre suffit à activer ce comportement, sa
+            valeur n'a pas d'importance.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>withoutCache</term>
+            <listitem><simpara>Booléen permettant de désactiver l'utilisation du cache. Les valeurs acceptées
+            sont <literal>1</literal> ou <literal>0</literal>.</simpara></listitem>
+          </varlistentry>
+        </variablelist>
+        </para>
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople?extraDisplayedColumns=1&pretty'
+{
+    "success": true,
+    "objects": {
+        "uid=hmartin,ou=people,o=ls": {
+            "name": "Henri MARTIN",
+            "Mail": "henri.martin@ls.com"
+        },
+        "uid=s.ldapsaisie,ou=people,o=ls": {
+            "name": "Secretariat LdapSaisie",
+            "Mail": "secretariat@ldapsaisie.biz"
+        },
+        "uid=ls,ou=people,o=ls": {
+            "name": "LdapSaisie",
+            "Mail": "ldap.saisie@ls.com"
+        },
+        "uid=erwpa,ou=people,o=ls": {
+            "name": "Erwan PAGE",
+            "Mail": "erwan.page@ldapsaisie.biz"
+        },
+        "uid=user2,ou=people,ou=company1,ou=companies,o=ls": {
+            "name": "prenom2 nom2",
+            "Mail": "user2@ls.com"
+        }
+    },
+    "total": 14,
+    "page": 1,
+    "nbPages": 3
+}]]>
+        </programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>/api/1.0/object/[object type]/[dn]</term>
+      <listitem>
+        <para>Cette méthode permet de récupérer les informations d'un objet de l'annuaire au format
+        JSON. Le type de l'objet et son DN sont précisés dans l'URL et doivent être encodés en
+        conséquence.
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=hmartin,ou=people,o=ls?pretty'
+{
+    "dn": "uid=hmartin,ou=people,o=ls",
+    "type": "LSpeople",
+    "name": "Henri MARTIN",
+    "attributes": {
+        "uid": "hmartin",
+        "givenName": "Henri",
+        "sn": "MARTIN",
+        "cn": "Henri MARTIN",
+        "mail": "henri.martin@ls.com",
+        "personalTitle": "M.",
+        "description": [],
+        "jpegPhoto": null,
+        "lsGodfatherDn": {
+            "uid=eeggs,ou=people,o=ls": {
+                "name": "Easter Eggs",
+                "object_type": "LSpeople"
+            }
+        },
+        "uidNumber": "101022",
+        "gidNumber": "102001",
+        "loginShell": "no",
+        "homeDirectory": "\/home\/com",
+        "gecos": null,
+        "shadowExpire": null,
+        "shadowMax": null,
+        "shadowInactive": null,
+        "shadowLastChange": null,
+        "sambaSID": "S-1-5-21-2421470416-3566881284-3047381809-203044",
+        "sambaPrimaryGroupSID": "S-1-5-21-2421470416-3566881284-3047381809-205003",
+        "sambaAcctFlags": [
+            "U"
+        ],
+        "sambaHomeDrive": null,
+        "sambaHomePath": null,
+        "sambaProfilePath": null,
+        "sambaLogonScript": null,
+        "sambaLogonTime": null,
+        "sambaLogoffTime": null,
+        "sambaKickoffTime": null,
+        "sambaPwdLastSet": null,
+        "sambaPwdMustChange": null,
+        "sambaPwdCanChange": null
+    },
+    "relations": {
+        "groups": {
+            "cn=direction,ou=groups,o=ls": "direction",
+            "cn=secretariat,ou=groups,o=ls": "secretariat"
+        },
+        "godfather": []
+    }
+}]]>
+        </programlisting>
+      </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>/api/1.0/object/[object type]/create</term>
+      <listitem>
+        <para>Cette méthode permet de créer un objet dans l'annuaire. Le type de l'objet qui sera créé est
+        précisé dans l'URL et doit être encodé en conséquence. Les informations de l'objet doivent est
+        transmises au format <literal>x-www-form-urlencoded</literal>. Elles peuvent également être au
+        format <literal>multipart/form-data</literal>, en particulier si votre requête contient une image.
+        Par mimétisme avec l'interface web, seuls les attributs prévus dans le formulaire de création du
+        type d'objet peuvent être passées ici. De la même manière, les attributs non-spécifiés ici, pouront
+        être auto-générés en accord avec leur configuration et la requête sera acceptée uniquement si tous les
+        attributs obligatoires y sont spécifiés ou s'ils peuvent être auto-générés.</para>
+        <para>Le format et la syntaxe des valeurs des attributs dépends de leur type HTML. Ainsi, par exemple,
+        un attribut de type HTML <literal>boolean</literal> acceptera comme valeurs possibles <literal>yes
+        </literal> ou <literal>no</literal>. Pour plus de détails sur le type de valeur acceptée par un type
+        d'attribut HTML en particulier, consultez sa documentation. Vous pouvez également analyser le code de
+        la méthode <literal>getPostData()</literal> de la classe PHP correspondante.</para>
+        <para>Si l'application détecte un souci avec les informations transmises pour les attributs, un tableau
+        <literal>fields_errors</literal> sera présent dans la réponse JSON et contiendra pour chacun des attributs
+        problématique, un tableau des messages d'erreurs générées par l'application.</para>
+        <para>Si le type d'objet en prévoit, vous pouvez également utiliser un
+        <link linkend="config-LSobject-LSform-dataEntryForm">masque de saisie</link> via le paramètre <literal>
+        dataEntryForm</literal>.</para>
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/create?pretty' -d "uid=foo.bar&personalTitle=M.&givenName=foo&sn=bar&cn=Foo Bar&mail=foo.bar@example.com&userPassword=Y0urS3cr3t&lsGodfatherDn[]=uid=admin,ou=people,o=ls&gidNumber=70000"
+{
+    "success": true,
+    "type": "LSpeople",
+    "dn": "uid=foo.bar,ou=people,o=ls",
+    "name": "Foo Bar",
+    "messages": [
+        "Le mail de notification a \u00e9t\u00e9 envoy\u00e9.",
+        "L'objet a \u00e9t\u00e9 ajout\u00e9."
+    ]
+}]]>
+        </programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>/api/1.0/object/[object type]/[dn]/modify</term>
+      <listitem>
+        <para>Cette méthode permet de modifier un objet dans l'annuaire. Le type de l'objet et son DN sont
+        précisés dans l'URL et doivent être encodés en conséquence. Les informations de l'objet à modifier
+        doivent être transmises au même format que pour la méthode <literal>create</literal> (voir ci-dessus).
+        Comme pour cette dernière, seuls les attributs prévus dans le formulaire de modification du type
+        d'objet peuvent être passées ici et la réponse JSON pourra contenir un tableau <literal>fields_errors
+        </literal> contenant les erreurs générées par l'application au sujet des valeurs transmises pour les
+        attributs.</para>
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=foo.bar,ou=peopleo=ls/modify?pretty' -d "givenName=foo&sn=bar&cn=Foo Bar"
+{
+    "dn": "uid=foo.bar,ou=people,o=ls",
+    "type": "LSpeople",
+    "name": "Foo Bar",
+    "success": true,
+    "messages": [
+        "L'objet a bien \u00e9t\u00e9 modifi\u00e9."
+    ]
+}]]>
+        </programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>/api/1.0/object/[object type]/[dn]/remove</term>
+      <listitem>
+        <para>Cette méthode permet de supprimer un objet dans l'annuaire. Le type de l'objet et son DN sont
+        précisés dans l'URL et doivent être encodés en conséquence.</para>
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=foo.bar,ou=people,o=ls/remove?pretty'
+{
+    "dn": "uid=foo.bar,ou=people,o=ls",
+    "type": "LSpeople",
+    "name": "Foo Bar",
+    "success": true,
+    "messages": [
+        "Foo Bar a bien \u00e9t\u00e9 supprim\u00e9."
+    ]
+}]]>
+        </programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>/api/1.0/object/[object type]/[dn]/relation/[relation]</term>
+      <listitem>
+        <para>Cette méthode permet de gérer les objets en relation avec un objet en particulier de
+        l'annuaire. Le type de l'objet, son DN et le nom de la relation sont précisés dans l'URL et
+        doivent être encodés en conséquence. Cette méthode accepte les paramètres <literal>add
+        </literal> et <literal>remove</literal> permettant de lister le ou les DN d'objet(s) à
+        respectivement ajouter ou supprimer parmis les objets actuellement en relation avec l'objet
+        spécifié. Si aucun DN n'est spécifié comme devant être ajouté ou supprimé, la méthode
+        retournera simplement les DN des objets en relation. En cas de modification demandée, la
+        méthode retournera la nouvelle liste des DNs des objets en relation, quel que soit le résultat
+        de l'opération de mise à jour.</para>
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=foo.bar,ou=people,o=ls/relation/groups?pretty&add[]=cn=test34,ou=groups,o=ls&add[]=cn=testbr,ou=groups,o=ls'
+{
+    "dn": "uid=foo.bar,ou=people,o=ls",
+    "type": "LSpeople",
+    "name": "Foo Bar",
+    "relation": "groups",
+    "success": true,
+    "relatedObjects": [
+        "cn=test34,ou=groups,o=ls",
+        "cn=testbr,ou=groups,o=ls"
+    ],
+    "messages": [
+        "Objects in relation updated."
+    ]
+}]]>
+        </programlisting>
+      </listitem>
+    </varlistentry>
+
+  </variablelist>
+
+  </sect1>
+
+</chapter>

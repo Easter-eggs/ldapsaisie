@@ -170,8 +170,8 @@ class LSimport {
                 $globalErrors=array();
                 // Instanciate an LSobject
                 $object = new $LSobject();
-                // Instanciate a creation LSform
-                $form = $object -> getForm('create');
+                // Instanciate a creation LSform (in API mode)
+                $form = $object -> getForm('create', null, true);
                 // Set form data from inputed data
                 if ($form -> setPostData($objData,true)) {
                   // Validate form
@@ -204,8 +204,8 @@ class LSimport {
                           // Instanciate a new LSobject and load data from it's DN
                           $object = new $LSobject();
                           if ($object -> loadData($dn)) {
-                            // Instanciate a modify form
-                            $form = $object -> getForm('modify');
+                            // Instanciate a modify form (in API mode)
+                            $form = $object -> getForm('modify', null, true);
                             // Set form data from inputed data
                             if ($form -> setPostData($objData,true)) {
                               // Validate form

@@ -29,7 +29,10 @@ LSsession :: loadLSclass('LSlog_staticLoggerClass');
  */
 class LSauthMethod extends LSlog_staticLoggerClass {
 
-  var $authData = array();
+  protected $authData = array();
+
+  // Boolean flag to specify if this LSauthMethod support API mode
+  protected static $api_mode_supported = false;
 
   public function __construct() {
     // Load config (without warning if not found)
@@ -113,6 +116,15 @@ class LSauthMethod extends LSlog_staticLoggerClass {
       );
     }
     return false;
+  }
+
+  /**
+   * Check API mode support of this method
+   *
+   * @retval boolean True if API mode is support, false otherwise
+   */
+  static public function apiModeSupported() {
+    return static :: $api_mode_supported;
   }
 
 }

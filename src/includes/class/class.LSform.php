@@ -52,6 +52,10 @@ class LSform extends LSlog_staticLoggerClass {
 
   var $warnings = array();
 
+  var $api_mode = false;
+
+  private $submited = false;
+
   /**
    * Constructeur
    *
@@ -64,7 +68,7 @@ class LSform extends LSlog_staticLoggerClass {
    *
    * @retval void
    */
-  public function __construct(&$ldapObject, $idForm, $submit=NULL){
+  public function __construct(&$ldapObject, $idForm, $submit=NULL, $api_mode=false){
     $this -> idForm = $idForm;
     if (!$submit) {
       $this -> submit = _("Validate");
@@ -72,6 +76,7 @@ class LSform extends LSlog_staticLoggerClass {
     else {
       $this -> submit = $submit;
     }
+    $this -> api_mode = $api_mode;
     $this -> ldapObject =& $ldapObject;
     $this -> config = $ldapObject -> getConfig('LSform');
     LSsession :: loadLSclass('LSformElement');
@@ -428,9 +433,20 @@ class LSform extends LSlog_staticLoggerClass {
    * @retval boolean true si la saisie du formulaire est présente en POST, false sinon
    */
   public function isSubmit() {
+    if ($this -> submited)
+      return true;
     if( (isset($_POST['validate']) && ($_POST['validate']=='LSform')) && (isset($_POST['idForm']) && ($_POST['idForm'] == $this -> idForm)) )
       return true;
     return;
+  }
+
+  /**
+   * Set form as submited
+   *
+   * @retval void
+   */
+  public function setSubmited() {
+    $this -> submited = true;
   }
 
   /**

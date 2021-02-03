@@ -1,19 +1,32 @@
 <sect2 id="config-LSauthMethod_HTTP">
   <title>LSauthMethod_HTTP</title>
   <para>Cette &LSauthMethod; est utilisée pour gérer l'authentification
-  via les variables d'environnements définies suite à une authentification
-  gérée par le serveur HTTP. En &php;, ces informations sont consultables
-  via les variables <literal>$_SERVER['PHP_AUTH_USER']</literal> et
-  <literal>$_SERVER['PHP_AUTH_PW']</literal>. Si la variable
-  <literal>$_SERVER['PHP_AUTH_USER']</literal> est présente, une recherche
-  dans l'annuaire est effectué pour trouver l'utilisateur correspondant.
-  L'authentification réussie uniquement si un et un seul utilisateur est
-  retourné par la recherche et si une authentification auprès de l'annuaire
-  LDAP réussie à l'aide du DN de l'objet LDAP trouvé et du mot de passe issu
-  de la variable <literal>$_SERVER['PHP_AUTH_PW']</literal>.</para>
+  via les variables d'environnements définies suite à une authentification,
+  potentiellement déléguée au serveur web.</para>
+  <para>Cette méthode récupère dans l'environment d'exécution PHP, le nom
+  d'utilisateur et le mot de passe de l'utilisateur connecté. À partir du
+  nom d'utilisateur, une recherche dans l'annuaire sera effectuée pour
+  trouver l'utilisateur correspondant. L'authentification sera réussie
+  uniquement si un et un seul utilisateur est retourné par la recherche et
+  si une authentification auprès de l'annuaire LDAP réussie à l'aide du DN
+  de l'objet LDAP trouvé et du mot de passe fourni.</para>
+
+  <note><simpara>En cas d'authentification déléguée au serveur web, il est
+  possible de désactiver la vérification du mot de passe via le paramètre
+  <literal>LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE</literal>
+  (voir ci-dessous).</simpara></note>
+
+  <para>Les variables d'environnements utilisées pour authentifier l'utilisateur
+  connecté dépendent de la méthode configurée via la constante <literal>
+  LSAUTHMETHOD_HTTP_METHOD</literal> (voir ci-dessous). Si ces variables ne sont
+  pas disponibles, une erreur HTTP 403 sera générée pour réclamer une
+  authentification à l'utilisateur.</para>
+
+  <note><simpara>Cette &LSauthMethod; supporte le mode API et il s'agit de la
+  méthode utilisée par défaut dans ce mode.</simpara></note>
 
   <para>Cette librairie peut être configurée en éditant le fichier de
-  configiration
+  configuration
   <literal>conf/LSauth/config.LSauthMethod_HTTP.php</literal>.</para>
 
 <programlisting linenumbering="unnumbered">
@@ -25,6 +38,9 @@
 
 // Don't check HTTP server's login/password by LDAP authentication challenge
 //define('LSAUTHMETHOD_HTTP_TRUST_WITHOUT_PASSWORD_CHALLENGE',true);
+
+// Authentication realm (API mode only)
+//define('LSAUTHMETHOD_HTTP_API_REALM', ___('LdapSaisie API - Authentication required'));
 </programlisting>
 
 <!-- Début Paramètres Configuration -->
@@ -43,7 +59,7 @@
 <varlistentry>
   <term>LSAUTHMETHOD_HTTP_METHOD</term>
   <listitem>
-    <para>Permet de définir la méthode utilisée par le serveur HTTP pour passer
+    <para>Permet de définir la méthode utilisée par le serveur web pour passer
     à PHP l'identifiant de l'utilisateur connecté et son mot de passe.</para>
     <para>Cette constance peut pendre les valeurs suivantes :
     <variablelist>
@@ -51,7 +67,7 @@
 <varlistentry>
   <term>PHP_PASS</term>
   <listitem>
-    <para>Dans cette méthode, le serveur HTTP défini les variables
+    <para>Dans cette méthode, le serveur web défini les variables
     d'environnement <literal>PHP_AUTH_USER</literal> et <literal>
     PHP_AUTH_PW</literal>. Cette méthode est la méthode par défaut et
     convient en cas d'utilisation de <literal>mod_php</literal>.</para>
@@ -61,7 +77,7 @@
 <varlistentry>
   <term>REMOTE_USER</term>
   <listitem>
-    <para>Dans cette méthode, le serveur HTTP défini la variable
+    <para>Dans cette méthode, le serveur web défini la variable
     d'environnement <literal>REMOTE_USER</literal>. Cette variable ne contient
     que l'identifiant de l'utilisateur connecté. Cette méthode ne peut donc
     être utilisée que conjointement avec l'activation du paramètre
@@ -73,12 +89,12 @@
 <varlistentry>
   <term>AUTHORIZATION</term>
   <listitem>
-    <para>Dans cette méthode, le serveur HTTP passe le contenu de l'entête
+    <para>Dans cette méthode, le serveur web passe le contenu de l'entête
     HTTP <literal>Authorization</literal> dans la variable d'environnement
     <literal>HTTP_AUTHORIZATION</literal>. Cette méthode convient en cas d'
     utilisation de PHP en mode CGI ou encore via PHP-FPM.</para>
     <para>Pour utiliser cette méthode, il faudra adapter la configuration du
-    serveur HTTP. Par exemple, pour Apache HTTPd, vous pouvez utiliser le
+    serveur web. Par exemple, pour Apache HTTPd, vous pouvez utiliser le
     module <literal>rewrite</literal> et la règle de réécriture suivante :
     <programlisting linenumbering="unnumbered">
 <![CDATA[RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]]]>
@@ -101,6 +117,16 @@
     vers cette URL après sa déconnexion effective au niveau d'LdapSaisie.</para>
     <note><simpara>Si cette URL de déconnexion n'est pas défini, le bouton de
     déconnexion sera masqué.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>LSAUTHMETHOD_HTTP_REALM</term>
+  <listitem>
+    <para>Domaine d'authentification (<literal>reaml</literal>) utilisé pour
+    réclamer l'authentification de l'utilisateur (facultatif).</para>
+    <note><simpara>Pour que le message soit traduit, utilisez la fonction
+    <literal>___()</literal> (voir exemple).</simpara></note>
   </listitem>
 </varlistentry>
 

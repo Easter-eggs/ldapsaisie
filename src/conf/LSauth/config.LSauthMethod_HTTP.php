@@ -49,3 +49,6 @@
 
 // Remote logout URL (in SSO context for instance)
 //define('LSAUTHMETHOD_HTTP_LOGOUT_REMOTE_URL', 'https://idp.domain.tld/logout');
+
+// Authentication realm
+//define('LSAUTHMETHOD_HTTP_REALM', ___('LdapSaisie - Authentication required'));

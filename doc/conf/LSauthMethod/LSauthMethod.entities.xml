@@ -3,6 +3,4 @@
 <!ENTITY conf-LSauthMethod_CAS SYSTEM "LSauthMethod_CAS.docbook">
 <!ENTITY conf-LSauthMethod_anonymous SYSTEM "LSauthMethod_anonymous.docbook">
 
-
-
-
+<!ENTITY LSauthMethod_HTTP "<link linkend='config-LSauthMethod_HTTP'>LSauthMethod_HTTP</link>">

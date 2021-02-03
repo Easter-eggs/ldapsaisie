@@ -62,7 +62,7 @@ class LSformElement_password extends LSformElement {
         return true;
       }
 
-      if ($this -> getParam('html_options.confirmInput', False, 'bool')) {
+      if (!$this -> form -> api_mode && $this -> getParam('html_options.confirmInput', False, 'bool')) {
         $confirm_data = self :: getData($_POST, $this -> name . '_confirm');
         $confirmed = false;
         if (!is_array($confirm_data)) {
