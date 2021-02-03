@@ -1778,7 +1778,7 @@ function handle_api_LSobject_relation($request) {
   LSsession :: setAjaxDisplay();
   $object = get_LSobject_from_API_request(
     $request,
-    true,                             // instanciate object
+    true  // instanciate object
   );
   if (!$object)
     return;
