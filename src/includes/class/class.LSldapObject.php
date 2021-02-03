@@ -1563,6 +1563,8 @@ class LSldapObject extends LSlog_staticLoggerClass {
         return;
       }
       if ($this -> attrs[$attr] instanceof LSattribute) {
+        if (!$attrValues)
+          $attrValues = array($attrValue);
         $keyValues = self :: getObjectKeyValueInRelation($object, $objectType, $attrValues);
         $values = ensureIsArray($this -> attrs[$attr] -> getValue());
         if ($values) {
@@ -1650,6 +1652,8 @@ class LSldapObject extends LSlog_staticLoggerClass {
       LSerror :: addErrorCode('LSrelation_05','updateObjectsInRelation');
       return;
     }
+    if (!$attrValues)
+      $attrValues = array($attrValue);
     $currentDns = array();
     $currentObjects = $this -> listObjectsInRelation($object, $attr, $objectType, $attrValues);
     if(!is_array($currentObjects))
@@ -1657,7 +1661,9 @@ class LSldapObject extends LSlog_staticLoggerClass {
     for ($i=0; $i<count($currentObjects); $i++) {
       $currentDns[] = $currentObjects[$i] -> getDn();
     }
+    self :: log_trace("updateObjectsInRelation($object, $attr, $objectType, $attrValue): current DNs=".varDump($currentDns));
     $dontTouch = array_intersect($listDns, $currentDns);
+    self :: log_trace("updateObjectsInRelation($object, $attr, $objectType, $attrValue): dontTouch=".varDump($dontTouch));
 
     for($i=0; $i<count($currentObjects); $i++) {
       if (in_array($currentObjects[$i] -> getDn(), $dontTouch)) continue;
