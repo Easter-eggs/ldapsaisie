@@ -409,7 +409,7 @@
         de l'opération de mise à jour.</para>
         <programlisting linenumbering="unnumbered">
         <citetitle>Exemple</citetitle>
-<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=foo.bar,ou=people,o=ls/relation/groups?pretty&add[]=cn=test34,ou=groups,o=ls&add[]=cn=testbr,ou=groups,o=ls'
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=foo.bar,ou=people,o=ls/relation/groups?pretty&add[]=cn=ls,ou=groups,o=ls&add[]=cn=invite,ou=groups,o=ls'
 {
     "dn": "uid=foo.bar,ou=people,o=ls",
     "type": "LSpeople",
@@ -417,8 +417,8 @@
     "relation": "groups",
     "success": true,
     "relatedObjects": [
-        "cn=test34,ou=groups,o=ls",
-        "cn=testbr,ou=groups,o=ls"
+        "cn=ls,ou=groups,o=ls",
+        "cn=invite,ou=groups,o=ls"
     ],
     "messages": [
         "Objects in relation updated."
