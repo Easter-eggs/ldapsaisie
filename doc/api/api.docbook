@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<chapter>
+<chapter id="api">
 <title>API</title>
 
   <para>Depuis la version 4.0, LdapSaisie offre une API visant à permettre de faire
@@ -16,7 +16,7 @@
   intégrer petit à petit un maximum de fonctionnalités. Des contributions à ce sujet seront
   plus qu'appréciée !</simpara></note>
 
-  <sect1>
+  <sect1 id="api-auth">
     <title>Authentification</title>
 
     <para>L'authentification à l'API utilise le même composant <literal>LSauth</literal> que
@@ -35,7 +35,7 @@
     tout comme un utilisateur connecté à l'interface web.</para>
   </sect1>
 
-  <sect1>
+  <sect1 id="api-methods">
     <title>Méthodes exposées</title>
 
     <para>Les URLs des méthodes de l'API ont été construites par mimétisme sur celle de l'interface
