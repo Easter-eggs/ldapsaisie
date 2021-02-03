@@ -360,7 +360,7 @@
         attributs.</para>
         <programlisting linenumbering="unnumbered">
         <citetitle>Exemple</citetitle>
-<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=foo.bar,ou=peopleo=ls/modify?pretty' -d "givenName=foo&sn=bar&cn=Foo Bar"
+<![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=foo.bar,ou=people,o=ls/modify?pretty' -d "givenName=foo&sn=bar&cn=Foo Bar"
 {
     "dn": "uid=foo.bar,ou=people,o=ls",
     "type": "LSpeople",
