@@ -1703,8 +1703,13 @@ class LSsession {
   * @retval void
   */
   public static function displayAjaxReturn($data=array(), $pretty=false) {
+    // Adjust content-type
+    header('Content-Type: application/json');
+
+    // If redirection set, just redirect user before handling messages/errors to
+    // keep it in session and show it on next page
     if (isset($data['LSredirect']) && (!LSdebugDefined()) ) {
-      echo json_encode($data);
+      echo json_encode($data, (($pretty||isset($_REQUEST['pretty']))?JSON_PRETTY_PRINT:0));
       return;
     }
 
