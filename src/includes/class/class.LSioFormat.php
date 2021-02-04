@@ -44,7 +44,7 @@ class LSioFormat {
       $this -> config=$conf;
       if (isset($this -> config['driver']) && LSsession :: loadLSclass('LSioFormat'.$this -> config['driver'])) {
         $driverClass='LSioFormat'.$this -> config['driver'];
-	$driverOptions=array();
+        $driverOptions=array();
         if (isset($this -> config['driver_options'])) $driverOptions = $this -> config['driver_options'];
         $this -> driver = new $driverClass($driverOptions);
       }

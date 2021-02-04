@@ -11,13 +11,27 @@
   <dd class='LSform'><input type='file' name='importfile'/></dd>
 
   <dt class='LSform'><label for='ioFormat'>{tr msg='Format'}</label></dt>
-  <dd class='LSform'><select name='ioFormat'>{html_options options=$ioFormats}</select></dd>
+  <dd class='LSform'>
+    <select name='ioFormat'>
+      {if isset($result['ioFormat'])}
+        {html_options options=$ioFormats selected=$result.ioFormat}
+      {else}
+        {html_options options=$ioFormats}
+      {/if}
+    </select>
+  </dd>
 
   <dt class='LSform'><label for='justTry'>{tr msg='Update objects if exists'}</label></dt>
-  <dd class='LSform'><input type='radio' name='updateIfExists' value='yes'/>{tr msg='yes'} <input type='radio' name='updateIfExists' value='no' checked/>{tr msg='no'}</select></dd>
+  <dd class='LSform'>
+    <input type='radio' name='updateIfExists' value='yes' {if isset($result['updateIfExists']) && $result['updateIfExists']}checked{/if}/>{tr msg='yes'}
+    <input type='radio' name='updateIfExists' value='no'  {if !isset($result['updateIfExists']) || !$result['updateIfExists']}checked{/if}/>{tr msg='no'}
+  </dd>
 
   <dt class='LSform'><label for='justTry'>{tr msg='Only validate data'}</label></dt>
-  <dd class='LSform'><input type='radio' name='justTry' value='yes'/>{tr msg='yes'} <input type='radio' name='justTry' value='no' checked/>{tr msg='no'}</select></dd>
+  <dd class='LSform'>
+    <input type='radio' name='justTry' value='yes' {if isset($result['justTry']) && $result['justTry']}checked{/if}/>{tr msg='yes'}
+    <input type='radio' name='justTry' value='no'  {if !isset($result['justTry']) || !$result['justTry']}checked{/if}/>{tr msg='no'}
+  </dd>
 
   <dd class='LSform'><input type='submit' value='{tr msg='Valid'}'/></dd>
 </dl>

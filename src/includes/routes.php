@@ -787,7 +787,7 @@ function handle_LSobject_import($request) {
     if (is_array($ioFormats) && !empty($ioFormats)) {
       if (LSimport::isSubmit()) {
         $result = LSimport::importFromPostData();
-        LSdebug($result, 1);
+        LSlog :: debug("LSimport::importFromPostData(): result = ".varDump($result));
       }
     }
     else {

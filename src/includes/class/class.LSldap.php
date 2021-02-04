@@ -498,7 +498,7 @@ class LSldap extends LSlog_staticLoggerClass {
    * @retval boolean True si l'objet a �t� d�plac�, false sinon
    */
   public static function move($old,$new) {
-    $ret = self :: $cnx -> move($old,$new);
+    $ret = self :: $cnx -> move($old, $new);
     if (Net_LDAP2::isError($ret)) {
       LSerror :: addErrorCode('LSldap_07');
       LSerror :: addErrorCode(0,'NetLdap-Error : '.$ret->getMessage());

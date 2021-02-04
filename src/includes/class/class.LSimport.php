@@ -20,6 +20,7 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
 LSsession::loadLSclass('LSioFormat');
 
 /**
@@ -27,7 +28,7 @@ LSsession::loadLSclass('LSioFormat');
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSimport {
+class LSimport extends LSlog_staticLoggerClass {
 
   /**
    * Check if the form was posted by check POST data
@@ -142,152 +143,153 @@ class LSimport {
    */
   public static function importFromPostData() {
     // Get data from $_POST
-    $data=self::getPostData();
-    if (is_array($data)) {
-      LSdebug($data,1);
-      // Load LSobject
-      if (!isset($data['LSobject']) || LSsession::loadLSobject($data['LSobject'])) {
-        $LSobject=$data['LSobject'];
-        // Validate ioFormat
-        $object = new $LSobject();
-        if($object -> isValidIOformat($data['ioFormat'])) {
-          // Create LSioFormat object
-          $ioFormat = new LSioFormat($LSobject,$data['ioFormat']);
-          if ($ioFormat -> ready()) {
-            // Load data in LSioFormat object
-            if ($ioFormat -> loadFile($data['importfile'])) {
-              LSdebug('file loaded');
-              $return=array(
-                'imported' => array(),
-                'updated' => array(),
-              );
-              // Retreive object from ioFormat
-              $objectsData=$ioFormat -> getAll();
-              $objectsInError=array();
-              LSdebug($objectsData);
-              // Browse inputed objects
-              foreach($objectsData as $objData) {
-                $globalErrors=array();
-                // Instanciate an LSobject
-                $object = new $LSobject();
-                // Instanciate a creation LSform (in API mode)
-                $form = $object -> getForm('create', null, true);
-                // Set form data from inputed data
-                if ($form -> setPostData($objData,true)) {
-                  // Validate form
-                  if ($form -> validate(true)) {
-                    // Validate data (just validate)
-                    if ($object -> updateData('create',True)) {
-                      LSdebug('Data is correct, retreive object DN');
-                      $dn = $object -> getDn();
-                      if ($dn) {
-                        // Check if object already exists
-                        $entry=LSldap::getLdapEntry($dn);
-                        if ($entry===False) {
-                          LSdebug('New object, perform creation');
-                          if ($data['justTry'] || $object -> updateData('create')) {
-                            LSdebug('Object '.$object -> getDn().' imported');
-                            $return['imported'][$object -> getDn()]=$object -> getDisplayName();
-                            continue;
-                          }
-                          else {
-                            LSdebug('Failed to updateData on : '.print_r($objData,True));
-                            $globalErrors[]=_('Error creating object on LDAP server.');
-                          }
-                        }
-                        // This object already exist, check 'updateIfExists' mode
-                        elseif ($data['updateIfExists']) {
-                          LSdebug('Object exist, perform update');
+    $data = self::getPostData();
+    $return = array(
+      'success' => false,
+      'imported' => array(),
+      'updated' => array(),
+      'errors' => array(),
+    );
+    if (!is_array($data)) {
+      LSerror :: addErrorCode('LSimport_01');
+      return $return;
+    }
+    self :: log_trace("importFromPostData(): POST data=".varDump($data));
+    $return = array_merge($return, $data);
+    // Load LSobject
+    if (!isset($data['LSobject']) || !LSsession::loadLSobject($data['LSobject'])) {
+      LSerror :: addErrorCode('LSimport_02');
+      return $return;
+    }
 
-                          // Restart import in update mode
+    $LSobject = $data['LSobject'];
 
-                          // Instanciate a new LSobject and load data from it's DN
-                          $object = new $LSobject();
-                          if ($object -> loadData($dn)) {
-                            // Instanciate a modify form (in API mode)
-                            $form = $object -> getForm('modify', null, true);
-                            // Set form data from inputed data
-                            if ($form -> setPostData($objData,true)) {
-                              // Validate form
-                              if ($form -> validate(true)) {
-                                // Update data on LDAP server
-                                if ($data['justTry'] || $object -> updateData('modify')) {
-                                  LSdebug('Object '.$object -> getDn().' updated');
-                                  $return['updated'][$object -> getDn()]=$object -> getDisplayName();
-                                  continue;
-                                }
-                                else {
-                                  LSdebug('Failed to updateData (modify) on : '.print_r($objData,True));
-                                  $globalErrors[]=_('Error updating object on LDAP server.');
-                                }
-                              }
-                              else {
-                                LSdebug('Failed to validate update form on : '.print_r($objData,True));
-                                LSdebug('Form errors : '.print_r($form->getErrors(),True));
-                                $globalErrors[]=_('Error validating update form.');
-                              }
-                            }
-                            else {
-                              LSdebug('Failed to setPostData on update form : '.print_r($objData,True));
-                              $globalErrors[]=_('Failed to set post data on update form.');
-                            }
-                          }
-                          else {
-                            LSdebug('Failed to load data of '.$dn);
-                            $globalErrors[]=getFData(_("Failed to load existing object %{dn} from LDAP server. Can't update object."));
-                          }
-                        }
-                        else {
-                          LSdebug('Object '.$dn.' already exist');
-                          $globalErrors[]=getFData(_('An object already exist on LDAP server with DN %{dn}.'),$dn);
-                        }
-                      }
-                      else {
-                        $globalErrors[]=_('Failed to generate DN for this object.');
-                      }
-                    }
-                    else {
-                      $globalErrors[]=_('Failed to validate object data.');
-                    }
-                  }
-                  else {
-                    LSdebug('Failed to validate form on : '.print_r($objData,True));
-                    LSdebug('Form errors : '.print_r($form->getErrors(),True));
-                    $globalErrors[]=_('Error validating creation form.');
-                  }
-                }
-                else {
-                  LSdebug('Failed to setPostData on : '.print_r($objData,True));
-                  $globalErrors[]=_('Failed to set post data on creation form.');
-                }
-                $objectsInError[]=array(
-                  'data' => $objData,
-                  'errors' => array (
-                    'globals' => $globalErrors,
-                    'attrs' => $form->getErrors()
-                  )
-                );
-              }
-              $return['errors']=$objectsInError;
-              return $return;
-            }
-          }
-          else {
-            LSerror :: addErrorCode('LSimport_04');
-          }
-        }
-        else {
-          LSerror :: addErrorCode('LSimport_03',$data['ioFormat']);
-        }
+    // Validate ioFormat
+    $object = new $LSobject();
+    if(!$object -> isValidIOformat($data['ioFormat'])) {
+      LSerror :: addErrorCode('LSimport_03',$data['ioFormat']);
+      return $return;
+    }
+
+    // Create LSioFormat object
+    $ioFormat = new LSioFormat($LSobject,$data['ioFormat']);
+    if (!$ioFormat -> ready()) {
+      LSerror :: addErrorCode('LSimport_04');
+      return $return;
+    }
+
+    // Load data in LSioFormat object
+    if (!$ioFormat -> loadFile($data['importfile'])) {
+      LSerror :: addErrorCode('LSimport_05');
+      return $return;
+    }
+    self :: log_debug("importFromPostData(): file loaded");
+
+    // Retreive object from ioFormat
+    $objectsData = $ioFormat -> getAll();
+    $objectsInError = array();
+    self :: log_trace("importFromPostData(): objects data=".varDump($objectsData));
+
+    // Browse inputed objects
+    foreach($objectsData as $objData) {
+      $globalErrors = array();
+      // Instanciate an LSobject
+      $object = new $LSobject();
+      // Instanciate a creation LSform (in API mode)
+      $form = $object -> getForm('create', null, true);
+      // Set form data from inputed data
+      if (!$form -> setPostData($objData, true)) {
+        self :: log_debug('importFromPostData(): Failed to setPostData on: '.print_r($objData,True));
+        $globalErrors[] = _('Failed to set post data on creation form.');
+      }
+      // Validate form
+      else if (!$form -> validate(true)) {
+        self :: log_debug('importFromPostData(): Failed to validate form on: '.print_r($objData,True));
+        self :: log_debug('importFromPostData(): Form errors: '.print_r($form->getErrors(),True));
+        $globalErrors[] = _('Error validating creation form.');
+      }
+      // Validate data (just check mode)
+      else if (!$object -> updateData('create', True)) {
+        self :: log_debug('importFromPostData(): fail to validate object data: '.varDump($objData));
+        $globalErrors[] = _('Failed to validate object data.');
       }
       else {
-        LSerror :: addErrorCode('LSimport_02');
+        self :: log_debug('importFromPostData(): Data is correct, retreive object DN');
+        $dn = $object -> getDn();
+        if (!$dn) {
+          self :: log_debug('importFromPostData(): fail to generate for this object: '.varDump($objData));
+          $globalErrors[] = _('Failed to generate DN for this object.');
+        }
+        else {
+          // Check if object already exists
+          if (!LSldap :: exists($dn)) {
+            // Creation mode
+            self :: log_debug('importFromPostData(): New object, perform creation');
+            if ($data['justTry'] || $object -> updateData('create')) {
+              self :: log_info('Object '.$object -> getDn().' imported');
+              $return['imported'][$object -> getDn()] = $object -> getDisplayName();
+              continue;
+            }
+            else {
+              self :: log_error('Failed to updateData on : '.print_r($objData,True));
+              $globalErrors[]=_('Error creating object on LDAP server.');
+            }
+          }
+          // This object already exist, check 'updateIfExists' mode
+          elseif (!$data['updateIfExists']) {
+            self :: log_debug('importFromPostData(): Object '.$dn.' already exist');
+            $globalErrors[] = getFData(_('An object already exist on LDAP server with DN %{dn}.'),$dn);
+          }
+          else {
+            self :: log_info('Object '.$object -> getDn().' exist, perform update');
+
+            // Restart import in update mode
+
+            // Instanciate a new LSobject and load data from it's DN
+            $object = new $LSobject();
+            if (!$object -> loadData($dn)) {
+              self :: log_debug('importFromPostData(): Failed to load data of '.$dn);
+              $globalErrors[] = getFData(_("Failed to load existing object %{dn} from LDAP server. Can't update object."));
+            }
+            else {
+              // Instanciate a modify form (in API mode)
+              $form = $object -> getForm('modify', null, true);
+              // Set form data from inputed data
+              if (!$form -> setPostData($objData,true)) {
+                self :: log_debug('importFromPostData(): Failed to setPostData on update form : '.print_r($objData,True));
+                $globalErrors[] = _('Failed to set post data on update form.');
+              }
+              // Validate form
+              else if (!$form -> validate(true)) {
+                self :: log_debug('importFromPostData(): Failed to validate update form on : '.print_r($objData,True));
+                self :: log_debug('importFromPostData(): Form errors : '.print_r($form->getErrors(),True));
+                $globalErrors[] = _('Error validating update form.');
+              }
+              // Update data on LDAP server
+              else if ($data['justTry'] || $object -> updateData('modify')) {
+                self :: log_info('Object '.$object -> getDn().' updated');
+                $return['updated'][$object -> getDn()] = $object -> getDisplayName();
+                continue;
+              }
+              else {
+                self :: log_error('Object '.$object -> getDn().': Failed to updateData (modify) on : '.print_r($objData,True));
+                $globalErrors[] = _('Error updating object on LDAP server.');
+              }
+            }
+          }
+        }
       }
+      $objectsInError[] = array(
+        'data' => $objData,
+        'errors' => array (
+          'globals' => $globalErrors,
+          'attrs' => $form->getErrors()
+        )
+      );
     }
-    else {
-      LSerror :: addErrorCode('LSimport_01');
-    }
-    return False;
+    $return['errors'] = $objectsInError;
+    $return['success'] = empty($objectsInError);
+    return $return;
   }
 
 }
@@ -327,4 +329,7 @@ ___("LSimport : input/output format %{format} invalid.")
 );
 LSerror :: defineError('LSimport_04',
 ___("LSimport : Fail to initialize input/output driver")
+);
+LSerror :: defineError('LSimport_05',
+___("LSimport : Fail to load objects's data from input file")
 );
