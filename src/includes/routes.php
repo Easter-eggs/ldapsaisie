@@ -781,26 +781,21 @@ function handle_LSobject_import($request) {
    return;
 
   $ioFormats = array();
-  $result = null;
-  if ( LSsession :: loadLSclass('LSimport')) {
+  $result = array();
+  if ( LSsession :: loadLSclass('LSimport', null, true)) {  // import class with warning
     $ioFormats = $object->listValidIOformats();
-    if (is_array($ioFormats) && !empty($ioFormats)) {
-      if (LSimport::isSubmit()) {
-        $result = LSimport::importFromPostData();
-        LSlog :: debug("LSimport::importFromPostData(): result = ".varDump($result));
-      }
-    }
-    else {
+    if (!is_array($ioFormats) || empty($ioFormats)) {
       $ioFormats = array();
       LSerror :: addErrorCode('LSsession_16');
     }
-  }
-  else {
-    LSerror :: addErrorCode('LSsession_05','LSimport');
+    else if (LSimport::isSubmit()) {
+      $result = LSimport::importFromPostData();
+      LSlog :: debug("LSimport::importFromPostData(): result = ".varDump($result));
+    }
   }
 
   // Define page title & template variables
-  LStemplate :: assign('pagetitle',_('Import').' : '.$object->getLabel());
+  LStemplate :: assign('pagetitle', _('Import').' : '.$object->getLabel());
   LStemplate :: assign('LSobject', $object -> getType());
   LStemplate :: assign('ioFormats', $ioFormats);
   LStemplate :: assign('result', $result);

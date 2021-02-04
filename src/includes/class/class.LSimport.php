@@ -98,7 +98,7 @@ class LSimport extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Import objects form POST data
+   * Import objects from POST data
    *
    * This method retreive, validate and import POST data.
    *
@@ -106,6 +106,11 @@ class LSimport extends LSlog_staticLoggerClass {
    *
    *
    *   array (
+   *     'success' => boolean,
+   *     'LSobject' => '[object type]',
+   *     'ioFormat' => '[ioFormat name]',
+   *     'justTry' => boolean,
+   *     'updateIfExists' => boolean,
    *     'imported' => array (
    *       '[object1 dn]' => '[object1 display name]',
    *       '[object2 dn]' => '[object2 display name]',
@@ -139,7 +144,7 @@ class LSimport extends LSlog_staticLoggerClass {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean Array of the import result, false on error
+   * @retval array Array of the import result
    */
   public static function importFromPostData() {
     // Get data from $_POST

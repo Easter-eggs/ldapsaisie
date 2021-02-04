@@ -37,7 +37,7 @@
 </dl>
 </form>
 </div>
-{if is_array($result)}
+{if $result}
 <h1>{tr msg='Result'}</h1>
 {if !empty($result.errors)}
 <h2>{tr msg='Errors'}</h2>
