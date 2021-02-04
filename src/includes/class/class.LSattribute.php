@@ -459,7 +459,7 @@ class LSattribute extends LSlog_staticLoggerClass {
    */
   public function canBeGenerated() {
     $format = $this -> getConfig('generate_value_format', $this -> getConfig('default_value'));
-    self :: log_debug($this."->canBeGenerated(): format='$format'");
+    self :: log_debug($this."->canBeGenerated(): format=".varDump($format));
     return (
               (function_exists($this -> getConfig('generate_function')))
               ||
