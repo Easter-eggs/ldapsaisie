@@ -40,7 +40,7 @@ class LSio extends LSlog_staticLoggerClass {
    * @retval boolean true if the form was posted, false otherwise
    */
   public static function isSubmit($action) {
-    if (isset($_POST['validate']) && ($_POST['validate']==$action))
+    if (isset($_REQUEST['validate']) && ($_REQUEST['validate']==$action))
       return true;
     return;
   }
