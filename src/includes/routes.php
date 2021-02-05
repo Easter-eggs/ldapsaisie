@@ -1693,13 +1693,14 @@ function handle_api_LSobject_show($request) {
     'dn' => $object -> getDn(),
     'type' => $object -> getType(),
     'name' => $object -> getDisplayName(),
+    'details' => isset($_REQUEST['details']),
     'attributes' => array(),
     'relations' => array(),
   );
 
   $view = $object -> getView();
   foreach($view -> elements as $element) {
-    $data['attributes'][$element -> name] = $element -> getApiValue();
+    $data['attributes'][$element -> name] = $element -> getApiValue($data['details']);
   }
 
   if (LSsession :: loadLSclass('LSrelation')) {

@@ -167,9 +167,12 @@ class LSformElement_image extends LSformElement {
   /**
    * Retreive value as return in API response
    *
+   * @param[in] $details boolean If true, returned values will contain details if this field type
+   *                             support it (optional, default: false)
+   *
    * @retval mixed API value(s) or null/empty array if no value
    */
-  public function getApiValue() {
+  public function getApiValue($details=false) {
     if ($this -> isMultiple()) {
       $values = array();
       for ($i=0; $i < count($this -> values); $i++)

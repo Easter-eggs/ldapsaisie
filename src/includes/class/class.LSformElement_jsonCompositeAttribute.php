@@ -71,23 +71,23 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   *
   * @retval array Parsed values
   */
- private function parseValues() {
-   self :: log_trace('values: '.varDump($this -> values));
-   $parseValues=array();
-   foreach($this -> values as $val) {
-     $decodedValue = json_decode($val, true);
-     self :: log_trace('decoded value: '.varDump($decodedValue));
-     if (is_array($decodedValue)) {
-       $parseValue = array('value' => $val);
-       foreach($decodedValue as $c => $cvalue) {
-         $parseValue[$c] = $this -> translateComponentValue($c,$cvalue);
-       }
-       $parseValues[] = $parseValue;
-     }
-   }
-   self :: log_trace('parsed values: '.varDump($parseValues));
-   return $parseValues;
- }
+  private function parseValues() {
+    self :: log_trace('values: '.varDump($this -> values));
+    $parseValues=array();
+    foreach($this -> values as $val) {
+      $decodedValue = json_decode($val, true);
+      self :: log_trace('decoded value: '.varDump($decodedValue));
+      if (is_array($decodedValue)) {
+        $parseValue = array('value' => $val);
+        foreach($decodedValue as $c => $cvalue) {
+          $parseValue[$c] = $this -> translateComponentValue($c,$cvalue);
+        }
+        $parseValues[] = $parseValue;
+      }
+    }
+    self :: log_trace('parsed values: '.varDump($parseValues));
+    return $parseValues;
+  }
 
  /**
   * Retourne les infos d'affichage de l'élément
@@ -448,9 +448,12 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   /**
    * Retreive value as return in API response
    *
+   * @param[in] $details boolean If true, returned values will contain details if this field type
+   *                             support it (optional, default: false)
+   *
    * @retval mixed API value(s) or null/empty array if no value
    */
-  public function getApiValue() {
+  public function getApiValue($details=false) {
     $values = array();
     foreach(ensureIsArray($this -> values) as $value) {
       $decodedValue = json_decode($value, true);

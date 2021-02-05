@@ -248,14 +248,19 @@
       <listitem>
         <para>Cette méthode permet de récupérer les informations d'un objet de l'annuaire au format
         JSON. Le type de l'objet et son DN sont précisés dans l'URL et doivent être encodés en
-        conséquence.
+        conséquence. Par défaut, les valeurs des attributs retournées sont au format tel qu'attendu
+        en cas de création/modification de l'objet. Il est cependant possible d'ajouter le paramètre
+        <literal>details</literal> afin d'obtenir des informations complémentaires sur les valeurs
+        des attributs.
         <programlisting linenumbering="unnumbered">
         <citetitle>Exemple</citetitle>
 <![CDATA[# curl -u username:secret 'https://ldapsaisie/api/1.0/object/LSpeople/uid=hmartin,ou=people,o=ls?pretty'
 {
+    "success": true,
     "dn": "uid=hmartin,ou=people,o=ls",
     "type": "LSpeople",
     "name": "Henri MARTIN",
+    "details": false,
     "attributes": {
         "uid": "hmartin",
         "givenName": "Henri",
@@ -265,12 +270,9 @@
         "personalTitle": "M.",
         "description": [],
         "jpegPhoto": null,
-        "lsGodfatherDn": {
-            "uid=eeggs,ou=people,o=ls": {
-                "name": "Easter Eggs",
-                "object_type": "LSpeople"
-            }
-        },
+        "lsGodfatherDn": [
+            "uid=eeggs,ou=people,o=ls"
+        ],
         "uidNumber": "101022",
         "gidNumber": "102001",
         "loginShell": "no",

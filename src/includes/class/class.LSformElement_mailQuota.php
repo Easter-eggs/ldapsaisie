@@ -45,14 +45,17 @@ class LSformElement_mailQuota extends LSformElement {
    * Parse one value
    *
    * @param[in] $value string The value to parse
+   * @param[in] $details boolean Enable/disable details return (optional, default: true)
    *
    * @retval array Parsed value
    */
-  public function parseValue($value) {
-    if (preg_match('/^([0-9]+)'.$this -> getSuffix().'$/',$value,$regs)) {
+  public function parseValue($value, $details=true) {
+    if (preg_match('/^([0-9]+)'.$this -> getSuffix().'$/', $value, $regs)) {
       $infos = array(
         'size' => $regs[1],
       );
+      if (!$details)
+        return $infos['size'];
       if ($infos['size'] == 0) {
         return array(
           'size' => 0,
@@ -197,27 +200,6 @@ class LSformElement_mailQuota extends LSformElement {
       $return[$this -> name] = array();
     }
     return true;
-  }
-
-  /**
-   * Retreive value as return in API response
-   *
-   * @retval mixed API value(s) or null/empty array if no value
-   */
-  public function getApiValue() {
-    $values = array();
-    foreach(ensureIsArray($this -> values) as $value) {
-      $parsed_value = $this -> parseValue($value);
-      if (is_array($parsed_value)) {
-        $values[] = $parsed_value['size'];
-      }
-    }
-    if ($this -> isMultiple()) {
-      return $values;
-    }
-    if (!$values)
-      return null;
-    return $values[0];
   }
 
 }

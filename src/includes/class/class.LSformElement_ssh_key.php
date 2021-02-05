@@ -35,6 +35,32 @@ class LSformElement_ssh_key extends LSformElement {
   var $template = 'LSformElement_ssh_key.tpl';
   var $fieldTemplate = 'LSformElement_ssh_key_field.tpl';
 
+
+  /**
+   * Parse one value
+   *
+   * @param[in] $value string The value to parse
+   * @param[in] $details boolean Enable/disable details return (optional, default: true)
+   *
+   * @retval array Parsed value
+   */
+  public function parseValue($value, $details=true) {
+    if (!$details)
+      return $value;
+    if (preg_match('/^ssh-([a-z0-9]+) +([^ ]+) +(.*)$/', $value, $regs)) {
+      return array(
+        'type' => $regs[1],
+        'mail' => $regs[3],
+        'value' => $value
+      );
+    }
+    return array(
+      'type' => null,
+      'mail' => null,
+      'value' => $value
+    );
+  }
+
  /**
   * Retourne les infos d'affichage de l'élément
   *
@@ -60,20 +86,9 @@ class LSformElement_ssh_key extends LSformElement {
 
       $values_txt = array();
       foreach ($this -> values as $value) {
-        if (preg_match('/^ssh-([a-z0-9]+) +([^ ]+) +(.*)$/',$value,$regs)) {
-          $values_txt[] = array(
-            'type' => $regs[1],
-            'shortTxt' => substr($regs[2],0,10),
-            'mail' => $regs[3],
-            'value' => $value
-          );
-        }
-        else {
-          $values_txt[] = array(
-            'shortTxt' => substr($value,0,15),
-            'value' => $value
-          );
-        }
+        $parsedValue = $this -> parseValue($value);
+        $parsedValue['shortTxt'] = substr($value, 0, 15);
+        $values_txt[] = $parsedValue;
       }
       $params['values_txt'] = $values_txt;
       $params['unknowTypeTxt'] = _('Unknown type');

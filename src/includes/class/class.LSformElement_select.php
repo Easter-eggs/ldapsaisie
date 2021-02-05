@@ -141,6 +141,37 @@ class LSformElement_select extends LSformElement {
     }
   }
 
+
+  /**
+   * Retreive value as return in API response
+   *
+   * @param[in] $details boolean If true, returned values will contain details if this field type
+   *                             support it (optional, default: false)
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue($details=false) {
+    $values = array();
+    foreach(ensureIsArray($this -> values) as $value) {
+      $label = $this -> _isValidValue($value, $this -> params['text_possible_values']);
+      if ($label === false) continue;
+      if ($details)
+        $values[] = array(
+          'label' => $label,
+          'value' => $value,
+        );
+      else
+        $values[] = $value;
+    }
+    if ($this -> isMultiple()) {
+      return ensureIsArray($values);
+    }
+    if (!$values)
+      return null;
+    if ($details)
+    return $values[0];
+  }
+
 }
 
 /**

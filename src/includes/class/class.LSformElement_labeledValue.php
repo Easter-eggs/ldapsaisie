@@ -85,14 +85,17 @@ class LSformElement_labeledValue extends LSformElement {
     );
   }
 
- /**
-  * Parse une valeur
-  *
-  * @param[in] $value La valeur
-  *
-  * @retval array Un tableau cle->valeur contenant value et label
-  **/
-  public function parseValue($value) {
+  /**
+   * Parse one value
+   *
+   * @param[in] $value string The value to parse
+   * @param[in] $details boolean Enable/disable details return (optional, default: true)
+   *
+   * @retval array Parsed value
+   */
+  public function parseValue($value, $details=true) {
+    if (!$details)
+      return $value;
     $ret=array('raw_value' => $value);
     if (preg_match('/^\[([^\]]*)\](.*)$/',$value,$m)) {
       $ret['label'] = $m[1];

@@ -322,4 +322,23 @@ class LSformElement_select_object extends LSformElement {
     }
   }
 
+  /**
+   * Retreive value as return in API response
+   *
+   * @param[in] $details boolean If true, returned values will contain details if this field type
+   *                             support it (optional, default: false)
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue($details=false) {
+    $values = ($details?$this -> values:array_keys(ensureIsArray($this -> values)));
+    self :: log_debug("getApiValue(): ".varDump($values));
+    if ($this -> isMultiple()) {
+      return ensureIsArray($values);
+    }
+    if (!$values)
+      return null;
+    return $values[0];
+  }
+
 }

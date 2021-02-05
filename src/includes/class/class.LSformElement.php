@@ -406,15 +406,28 @@ class LSformElement extends LSlog_staticLoggerClass {
   /**
    * Retreive value as return in API response
    *
+   * @param[in] $details boolean If true, returned values will contain details if this field type
+   *                             support it (optional, default: false)
+   *
    * @retval mixed API value(s) or null/empty array if no value
    */
-  public function getApiValue() {
-    if ($this -> isMultiple()) {
-      return ensureIsArray($this -> values);
+  public function getApiValue($details=false) {
+    if (method_exists($this, 'parseValue')) {
+      $values = array();
+      foreach(ensureIsArray($this -> values) as $value) {
+        $parsed_value = $this -> parseValue($value, $details);
+        if ($parsed_value != false)
+          $values[] = $parsed_value;
+      }
     }
-    if (!$this -> values)
+    else {
+      $values = ensureIsArray($this -> values);
+    }
+    if ($this -> isMultiple())
+      return $values;
+    if (!$values)
       return null;
-    return $this -> values[0];
+    return $values[0];
   }
 
 }

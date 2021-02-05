@@ -74,6 +74,37 @@ class LSformElement_valueWithUnit extends LSformElement {
     );
   }
 
+  /**
+   * Parse one value
+   *
+   * @param[in] $value string The value to parse
+   * @param[in] $details boolean Enable/disable details return (optional, default: true)
+   *
+   * @retval array Parsed value
+   */
+  public function parseValue($value, $details=true) {
+    if (preg_match('/^([0-9]*)$/' ,$value, $regs)) {
+      $infos = array(
+        'value' => intval($regs[1]),
+      );
+      if (!$details)
+        return $infos['value'];
+      $units = $this -> getUnits();
+      if ($units) {
+        foreach($units as $sill => $label) {
+          if ($infos['value'] >= $sill) {
+            $infos['valueWithUnit'] = $this -> formatNumber($infos['value']/$sill);
+            $infos['unitSill'] = $sill;
+            $infos['unitLabel'] = $label;
+            break;
+          }
+        }
+      }
+      return $infos;
+    }
+    return false;
+  }
+
  /**
   * Retourne les infos d'affichage de l'élément
   *
@@ -89,24 +120,14 @@ class LSformElement_valueWithUnit extends LSformElement {
 
     if ($units) {
       foreach ($this -> values as $value) {
-        if (preg_match('/^([0-9]*)$/',$value,$regs)) {
-          $infos = array(
-            'value' => $regs[1]
-          );
-          foreach($units as $sill => $label) {
-            if ($infos['value'] >= $sill) {
-              $infos['valueWithUnit']=$this -> formatNumber($infos['value']/$sill);
-              $infos['unitSill']=$sill;
-              $infos['unitLabel']=$label;
-              break;
-            }
-          }
-          $values_and_units[$value] = $infos;
-        }
-        else {
+        $parsedValue = $this -> parseValue($value);
+        if ($parsedValue === false) {
           $values_and_units[$value] = array(
             'unknown' => _('Incorrect value')
           );
+        }
+        else {
+          $values_and_units[$value] = $parsedValue;
         }
       }
     }
@@ -204,23 +225,6 @@ class LSformElement_valueWithUnit extends LSformElement {
     return true;
   }
 
-  /**
-   * Retreive value as return in API response
-   *
-   * @retval mixed API value(s) or null/empty array if no value
-   */
-  public function getApiValue() {
-    $values = array();
-    foreach (ensureIsArray($this -> values) as $value)
-      if (preg_match('/^([0-9]*)$/', $value, $regs))
-        $values[] = intval($regs[1]);
-    if ($this -> isMultiple()) {
-      return $values;
-    }
-    if (!$values)
-      return null;
-    return $values[0];
-  }
 }
 
 /*
