@@ -30,8 +30,40 @@ LSsession :: loadLSclass('LSioFormatDriver');
  */
 class LSioFormatCSV extends LSioFormatDriver {
 
-  // File_CSV_DataSource object
-  private $csv=false;
+  private $delimiter = null;
+  private $enclosure = null;
+  private $escape = null;
+  private $length = null;
+
+  private $rows = null;
+  private $headers = null;
+
+  /**
+   * Constructor
+   *
+   * @param[in] array $options Driver's options
+   *
+   * @retval void
+   **/
+  public function __construct($options) {
+    parent :: __construct($options);
+    // As recommend in PHP doc, we enable this ini parameter to allow detection of
+    // Macintosh line-ending convention.
+    ini_set("auto_detect_line_endings", true);
+
+    // Set CSV input/output parameters
+    $this -> delimiter = $this -> getOption('delimiter', ",", "string");
+    $this -> enclosure = $this -> getOption('enclosure', '"', "string");
+    $this -> escape = $this -> getOption('escape', "\\", "string");
+    $this -> length = $this -> getOption('length', 0, "int");
+    $this -> multiple_value_delimiter = $this -> getOption('multiple_value_delimiter', '|', "string");
+    self :: log_debug(
+      'New LSioFormatCSV objet started with delimiter="'.$this -> delimiter.'", '.
+      'enclosure = <'.$this -> enclosure.'>, escape = "'.$this -> escape.'", '.
+      'length = '.$this -> length.' and multiple value delimiter = "'.
+      $this -> multiple_value_delimiter.'"'
+    );
+  }
 
   /**
    * Load file
@@ -41,17 +73,29 @@ class LSioFormatCSV extends LSioFormatDriver {
    * @retval boolean True if file is loaded, false otherwise
    **/
   public function loadFile($path) {
-    $this->csv=new File_CSV_DataSource;
-    if (is_array($this -> options)) {
-      foreach ($this -> options as $opt_key => $opt_val) {
-        if (isset($this->csv -> settings[$opt_key]))
-          $this->csv -> settings[$opt_key] = $opt_val;
-      }
+    self :: log_debug("loadFile($path)");
+    $fd = fopen($path, 'r');
+    if ($fd === false) {
+      self :: log_error("Fail to open file '$path'.");
+      return false;
     }
-    if ($this->csv->load($path)) {
-      return True;
+
+    $this -> rows = array();
+    while (
+      (
+        $row = fgetcsv(
+          $fd, $this -> length, $this -> delimiter,
+          $this -> enclosure, $this -> escape
+        )
+      ) !== FALSE) {
+      $this -> rows[] = $row;
     }
-    return false;
+    if (!$this -> rows)
+      return false;
+    $this -> headers = array_shift($this -> rows);
+    self :: log_trace("loadFile($path): headers = ".varDump($this -> headers));
+    self :: log_debug("loadFile($path): ".count($this -> rows)." row(s) loaded.");
+    return true;
   }
 
   /**
@@ -60,10 +104,26 @@ class LSioFormatCSV extends LSioFormatDriver {
    * @retval boolean True if loaded file data are valid, false otherwise
    **/
   public function isValid() {
-    if ($this -> csv && $this -> csv -> isSymmetric()) {
-      return True;
+    if (!is_array($this -> rows) && empty($this -> rows)) {
+      self :: log_error("No data loaded from input file");
+      return false;
     }
-    return False;
+
+    if (!$this -> headers) {
+      self :: log_error("Header line seem empty");
+      return false;
+    }
+    for($i = 0; $i < count($this -> rows); $i++) {
+      if (count($this -> rows[$i]) != count($this -> headers)) {
+        self :: log_error(
+          "Input row #$i contain ".count($this -> rows[$i])." field(s) when ".
+          "headers has ".count($this -> headers)
+        );
+        return false;
+      }
+    }
+    self :: log_debug("isValid(): all ".count($this -> rows)." row(s) are symetric.");
+    return True;
   }
 
   /**
@@ -87,7 +147,17 @@ class LSioFormatCSV extends LSioFormatDriver {
    * @retval array The objects contained by the loaded file
    **/
   public function getAll() {
-    return $this -> csv -> connect();
+    $objects = array();
+    foreach($this -> rows as $row) {
+      $object = array();
+      foreach ($this -> headers as $idx => $key) {
+        $values = explode($this -> multiple_value_delimiter, $row[$idx]);
+        $object[$key] = (count($values) == 1?$values[0]:$values);
+      }
+      $objects[] = $object;
+    }
+    self :: log_trace("getAll(): objects = ".varDump($objects));
+    return $objects;
   }
 
   /**
@@ -104,7 +174,67 @@ class LSioFormatCSV extends LSioFormatDriver {
    * @retval array The fields names of the loaded file
    **/
   public function getFieldNames() {
-    return $this -> csv -> getHeaders();
+    return $this -> headers;
   }
 
+
+  /**
+   * Export objects data
+   *
+   * @param[in] $stream The stream where objects's data have to be exported
+   * @param[in] $objects_data Array of objects data to export
+   *
+   * @return boolean True on succes, False otherwise
+   */
+  public function exportObjectsData($objects_data) {
+    if (!function_exists('fputcsv')) {
+      LSerror :: addErrorCode('LSioFormatCSV_01');
+      return false;
+    }
+
+    $first = true;
+    $stream = fopen('php://temp/maxmemory:'. (5*1024*1024), 'w+');
+    foreach($objects_data as $dn => $object_data) {
+      if ($first) {
+        $this -> writeRow($stream, array_keys($object_data));
+        $first = false;
+      }
+      $row = array();
+      foreach($object_data as $values)
+        $row[] = (is_array($values)?implode($this -> multiple_value_delimiter, $values):$values);
+      $this -> writeRow($stream, $row);
+    }
+    header("Content-disposition: attachment; filename=export.csv");
+    header("Content-type: text/csv");
+    rewind($stream);
+    print stream_get_contents($stream);
+    @fclose($stream);
+    exit();
+  }
+
+  /**
+   * Write CSV row to stream
+   *
+   * @param[in] $stream The CSV file description reference
+   * @param[in] $row An array of a CSV row fields to write
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean True if CSV row is successfully writed, false in other case
+   */
+  private function writeRow($stream, $row) {
+    // Escape character could only be specified since php 5.5.4
+    if (!defined('PHP_VERSION_ID') or PHP_VERSION_ID < 50504) {
+      $result = fputcsv($stream, $row, $this -> delimiter, $this -> enclosure);
+    }
+    else {
+      $result = fputcsv($stream, $row, $this -> delimiter, $this -> enclosure, $this -> escape);
+    }
+    return ($result !== false);
+   }
+
 }
+
+LSerror :: defineError('LSioFormatCSV_01',
+  ___("LSioFormatCSV: function fputcsv is not available.")
+);

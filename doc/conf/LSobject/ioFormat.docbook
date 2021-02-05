@@ -103,18 +103,23 @@ création du type d'&LSobject;. En conséquence :
 <sect4 id="config-LSobject-ioFormat-drivers-CSV">
     <title>Pilote de fichiers CSV</title>
     <para>Ce pilote permet de gérer l'import/export de &LSobject; à partir d'un fichier
-    <literal>CSV</literal>. Ce pilote utilise la classe PEAR <application>
+    <literal>CSV</literal>. Depuis la version 4 d'LdapSaisie, ce pilote utilise les
+    fonctions standards <literal>fgetcsv()</literal> et <literal>fputcsv</literal>
+    fournis par PHP. Avant cela, la classe PEAR <application>
     <ulink url='http://pear.php.net/package/File_CSV_DataSource'>File_CSV_DataSource
-    </ulink></application>. Par défaut, les paramètres de lecture et d'écriture des
-    fichiers sont : la virgule sert de délimiteur, le caractère <literal>"</literal> peut
-    être utilisé pour encadrer les valeurs des champs et la longueur maximale d'une ligne
-    est 999999. Ces paramètres peuvent être modifiés en configurant les options du pilote.
+    </ulink></application> était utilisée. Par défaut, les paramètres de lecture et
+    d'écriture des fichiers sont : la virgule sert de délimiteur, le caractère
+    <literal>"</literal> peut être utilisé pour encadrer les valeurs des champs et la
+    longueur maximale d'une ligne est infini. Ces paramètres peuvent être modifiés en
+    configurant les options du pilote.
 <programlisting>
 <citetitle>Structure</citetitle>
 <![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['ioFormat']['[ID ioFormat]']['driver_options'] = array (
   'delimiter' => '[délimiteur]',
+  'enclosure' => '[caractère d'encadrement de texte]',
   'length' => [longueur maximale d'une ligne],
-  'escape' => '[caratère d'encadrement]'
+  'escape' => '[caractère d'échappement]',
+  'multiple_value_delimiter' => '[délimiteur]',
 );]]>
 </programlisting>
 
@@ -132,17 +137,37 @@ création du type d'&LSobject;. En conséquence :
   <term>length</term>
   <listitem>
     <simpara>La longueur maximale d'une ligne du fichier. Si zéro est spécifié, la longueur d'une
-    ligne ne sera pas limité, mais la lecture du fichier sera ralenti. (Par défaut : <literal>999999
+    ligne ne sera pas limité, mais la lecture du fichier sera ralentie. (Par défaut : <literal>0
     </literal>)
     </simpara>
   </listitem>
 </varlistentry>
 
 <varlistentry>
-  <term>escape</term>
+  <term>enclosure</term>
   <listitem>
     <simpara>Le caractère utilisé pour encadrer les valeurs des champs
     (Par défaut : <literal>"</literal>).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>escape</term>
+  <listitem>
+    <simpara>Le caractère d'échappement utilisé si un des champs d'une ligne de fichier contient le
+    caractère utilisé pour encadrer les valeurs. (Par défaut : <literal>\</literal>).</simpara>
+    <note><simpara>Selon la RFC4180, l'echappement du caractère utilisé pour encadrer les valeurs des
+    champs doit se faire en le doublant. Le caractère défini ici est une alternative à ce comportement
+    par défaut. Pour désactiver ce caractère d'échappement alternatif, il est possible depuis de la
+    version 7.4.0 de PHP de mettre ici une chaine vide.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>multiple_value_delimiter</term>
+  <listitem>
+    <simpara>Le caractère utilisé pour délimiter au sein d'un champs, les valeurs valeurs multiples d'un
+    attribut (Par défaut : <literal>|</literal>).</simpara>
   </listitem>
 </varlistentry>
 

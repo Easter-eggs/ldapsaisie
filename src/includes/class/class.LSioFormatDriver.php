@@ -20,12 +20,14 @@
 
 ******************************************************************************/
 
+LSsession :: loadLSclass('LSlog_staticLoggerClass');
+
 /**
  * Driver to manage ioFormat file of LSldapObject import/export
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSioFormatDriver {
+class LSioFormatDriver extends LSlog_staticLoggerClass {
 
   protected $options=array();
 
@@ -135,6 +137,31 @@ class LSioFormatDriver {
     }
 
     return $retall;
+  }
+
+  /**
+   * Export objects data
+   *
+   * @param[in] $objects_data Array of objects data to export
+   *
+   * @return boolean True on succes, False otherwise
+   */
+  public function exportObjectsData($objects_data) {
+    // Must be implement in real drivers
+    return False;
+  }
+
+  /**
+   * Return a option parameter (or default value)
+   *
+   * @param[] $param	The option parameter
+   * @param[] $default	The default value (default : null)
+   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   *
+   * @retval mixed The option parameter value or default value if not set
+   **/
+  public function getOption($param, $default=null, $cast=null) {
+    return LSconfig :: get($param, $default, $cast, $this -> options);
   }
 
 }

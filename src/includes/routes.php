@@ -456,6 +456,11 @@ function handle_LSobject_search($request) {
       'url' => "object/$LSobject/import",
       'action' => 'import'
      );
+     $LSview_actions['export'] = array (
+      'label' => _('Export'),
+      'url' => "object/$LSobject/export",
+      'action' => 'export'
+     );
     }
   }
   $LSview_actions['refresh'] = array (
@@ -834,6 +839,45 @@ function handle_old_import_php($request) {
   LSurl :: redirect($url);
 }
 LSurl :: add_handler('#^import\.php#', 'handle_old_import_php', false);
+
+
+/*
+ * Handle LSobject export request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_LSobject_export($request) {
+  $object = get_LSobject_from_request($request, true);
+  if (!$object)
+   return;
+
+  $ioFormats = array();
+  $result = null;
+  if ( LSsession :: loadLSclass('LSexport', null, true)) {  // Load class with warning
+    $ioFormats = $object->listValidIOformats();
+    if (!is_array($ioFormats) || empty($ioFormats)) {
+      $ioFormats = array();
+      LSerror :: addErrorCode('LSsession_16');
+    }
+    else if (isset($_REQUEST['ioFormat'])) {
+      if (!LSexport::export($object, $_REQUEST['ioFormat']))
+        LSlog :: error("An error occurred exporting ".$object -> type);
+    }
+  }
+
+  // Define page title & template variables
+  LStemplate :: assign('pagetitle', _('Export').' : '.$object->getLabel());
+  LStemplate :: assign('LSobject', $object -> getType());
+  LStemplate :: assign('ioFormats', $ioFormats);
+
+  // Set & display template
+  LSsession :: setTemplate('export.tpl');
+  LStemplate :: addCssFile('LSform.css');
+  LSsession :: displayTemplate();
+}
+LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/export/?$#', 'handle_LSobject_export');
 
 /*
  * Handle LSobject create request

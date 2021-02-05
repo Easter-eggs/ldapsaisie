@@ -6,7 +6,7 @@ Maintainer: Benjamin Renard <brenard@easter-eggs.com>
 
 Package: ldapsaisie
 Architecture: all
-Depends: apache2 | httpd, php-ldap | php5-ldap, php-fpm | libapache2-mod-php5 | libapache2-mod-php | php5-cli | php-cli, smarty | smarty3, php-net-ldap2, php-net-ftp, php-mail, php-mail-mime, php-file-csv-datasource, php-console-table
+Depends: apache2 | httpd, php-ldap | php5-ldap, php-fpm | libapache2-mod-php5 | libapache2-mod-php | php5-cli | php-cli, smarty | smarty3, php-net-ldap2, php-net-ftp, php-mail, php-mail-mime, php-console-table
 Recommends: php-mbstring, php-phpseclib
 Description:  web based interface for managing LDAP servers content
  LdapSaisie is a Web application developed to manage LDAP directory.

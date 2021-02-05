@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-04 11:51+0100\n"
+"PO-Revision-Date: 2021-02-05 10:32+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -437,68 +437,68 @@ msgstr "LSformRule_%{type} : Le paramètre %{param} n'est pas défini."
 msgid "LSformRule: Unknown rule type %{type}."
 msgstr "LSformRule : Type de règle %{type} inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:203
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:208
 msgid "Failed to set post data on creation form."
 msgstr "Impossible de définir les données dans le formulaire de création."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:209
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:214
 msgid "Error validating creation form."
 msgstr "Une erreur est survenue en validant le formulaire de création."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:214
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:219
 msgid "Failed to validate object data."
 msgstr "Impossible de valider les données de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:221
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:226
 msgid "Failed to generate DN for this object."
 msgstr "Impossible de générer le DN de cet objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:235
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:240
 msgid "Error creating object on LDAP server."
 msgstr "Une erreur est survenue en création cet objet dans l'annuaire LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:241
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:246
 msgid "An object already exist on LDAP server with DN %{dn}."
 msgstr "Un objet existe déjà dans l'annuaire LDAP avec le DN %{dn}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:252
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:257
 msgid ""
 "Failed to load existing object %{dn} from LDAP server. Can't update object."
 msgstr ""
 "Impossible de charger l'objet existant %{dn} depuis l'annuaire LDAP. "
 "Impossible de mettre à jour cet objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:260
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:265
 msgid "Failed to set post data on update form."
 msgstr "Impossible de définir les données dans le formulaire de mise à jours."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:266
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:271
 msgid "Error validating update form."
 msgstr "Une erreur est survenue en validant le formulaire de mise à jour."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:276
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:281
 msgid "Error updating object on LDAP server."
 msgstr ""
 "Une erreur est survenue en mettant à jour cet objet dans l'annuaire LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:322
-msgid "LSimport : Post data not found or not completed."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:327
+msgid "LSimport: Post data not found or not completed."
 msgstr "LSimport : les données transmises sont introuvables ou incomplètes."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:325
-msgid "LSimport : object type invalid."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:330
+msgid "LSimport: object type invalid."
 msgstr "LSimport : type d'objet invalide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:328
-msgid "LSimport : input/output format %{format} invalid."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:333
+msgid "LSimport: input/output format %{format} invalid."
 msgstr "LSimport : Le format d'entrée/sortie %{format} est invalide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:331
-msgid "LSimport : Fail to initialize input/output driver"
-msgstr "LSimport : Impossible d'initialiser le pilote d'entrée/sortie"
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:336
+msgid "LSimport: Fail to initialize input/output driver."
+msgstr "LSimport : Impossible d'initialiser le pilote d'entrée/sortie."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:334
-msgid "LSimport : Fail to load objects's data from input file"
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:339
+msgid "LSimport: Fail to load objects's data from input file."
 msgstr ""
 "LSimport: Impossible de charger les données des objets depuis le fichier "
 "d'import."
@@ -518,9 +518,9 @@ msgstr "Confirmez-vous votre choix ?"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSconfirmBox.php:37
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsmoothbox.php:39
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:74
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:618
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1240
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1382
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:623
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1279
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1421
 #: templates/default/recoverpassword.tpl:21
 msgid "Validate"
 msgstr "Valider"
@@ -665,10 +665,10 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:62
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:174
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1000
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1168
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1253
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1395
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1039
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1207
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1292
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1434
 msgid "Modify"
 msgstr "Modifier"
 
@@ -846,6 +846,24 @@ msgstr ""
 "LSattr_html_select_objet : l'objet sélectionné %{name} n'a pas de valeur "
 "dans son attribut %{attr}, vous ne pouvez pas le sélectionner."
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:93
+msgid "LSexport: input/output format %{format} invalid."
+msgstr "LSimport : Le format d'entrée/sortie %{format} est invalide."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:96
+msgid "LSexport: Fail to initialize input/output driver."
+msgstr "LSexport : Impossible d'initialiser le pilote d'entrée/sortie."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:99
+msgid "LSexport: Fail to load objects's data to export from LDAP directory."
+msgstr ""
+"LSexport: Impossible de charger les données des objets à exporter depuis "
+"l'annuaire LDAP."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:102
+msgid "LSexport: Fail to export objects's data."
+msgstr "LSexport: Impossible d'exporter les données des objets."
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:90
 msgid ""
 "LSformRule_differentPassword : Other password attribute is not configured."
@@ -884,11 +902,11 @@ msgstr ""
 "LSformRule_differentPassword : Les autres attributs mots de passe doivent "
 "utiliser LSattr_ldap :: password. Ce n'est pas le cas de l'attribut %{attr}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:266
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:250
 msgid "The value of field %{label} is invalid."
 msgstr "La valeur du champ %{label} est incorrecte."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:720
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:738
 msgid ""
 "LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} "
 "& HTML = %{html})."
@@ -896,7 +914,7 @@ msgstr ""
 "LSattribute : Attribut %{attr} : Les types LDAP ou HTML sont inconnus (LDAP "
 "= %{ldap} & HTML = %{html})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:723
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:741
 msgid ""
 "LSattribute : The function %{func} to display the attribute %{attr} is "
 "unknow."
@@ -904,14 +922,14 @@ msgstr ""
 "LSattribute : La fonction %{func} pour afficher l'attribut %{attr} est "
 "inconnue."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:726
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:744
 msgid ""
 "LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
 msgstr ""
 "LSattribute : La règle %{rule} de validation de l'attribut %{attr} n'existe "
 "pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:729
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:747
 msgid ""
 "LSattribute : Configuration data to verify the attribute %{attr} are "
 "incorrect."
@@ -919,22 +937,22 @@ msgstr ""
 "LSattribute : Les données de configuration pour vérifier l'attribut %{attr} "
 "sont incorrecte."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:732
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:750
 msgid ""
 "LSattribute : The function %{func} to save the attribute %{attr} is unknow."
 msgstr ""
 "LSattribute : La fonction %{func} pour sauvegarder l'attribut %{attr} est "
 "inconnue."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:735
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:753
 msgid "LSattribute : The value of the attribute %{attr} can't be generated."
 msgstr "LSattribute : La valeur de l'attribut %{attr} ne peut être générée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:738
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:756
 msgid "LSattribute : Generation of the attribute %{attr} failed."
 msgstr "LSattribute : La génération de l'attribut %{attr} a échouée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:741
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:759
 msgid ""
 "LSattribute : Generation of the attribute %{attr} did not return a correct "
 "value."
@@ -942,7 +960,7 @@ msgstr ""
 "LSattribute : La génération de l'attribut %{attr} n'a pas retournée de "
 "valeur correcte."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:744
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:762
 msgid ""
 "LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
 msgstr ""
@@ -1005,7 +1023,7 @@ msgstr "Votre nouveau mot de passe vous a été envoyé à l'adresse %{mail}."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1640
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:156
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:462
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:467
 #: templates/default/select.tpl:29
 msgid "Refresh"
 msgstr "Rafraîchir"
@@ -1509,8 +1527,8 @@ msgstr "Attention"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:69
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:85
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:190
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1016
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1160
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1055
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1199
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -1521,7 +1539,7 @@ msgstr "Aucun objet."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:712
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:449
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:945
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:984
 msgid "New"
 msgstr "Nouveau"
 
@@ -1719,14 +1737,14 @@ msgid "Delete this field."
 msgstr "Supprimer cette valeur."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:229
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:614
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:619
 msgid "Do you really want to execute custom action %{title} on this search ?"
 msgstr ""
 "Êtes-vous vraiment sûre de vouloir exécuter l'action personnalisée %{title} "
 "sur cette recherche ?"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:235
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1376
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1415
 msgid ""
 "Do you really want to execute custom action %{customAction} on "
 "%{objectname} ?"
@@ -1875,8 +1893,8 @@ msgid "Display RSS stack."
 msgstr "Afficher la file RSS."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_password.php:100
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:574
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1326
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:579
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1365
 msgid "undefined"
 msgstr "non-définie"
 
@@ -2249,6 +2267,10 @@ msgstr ""
 "LScli : La fonction de prise en charge de la commande CLI '%{command}' n'est "
 "pas exécutable."
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSioFormatCSV.php:236
+msgid "LSioFormatCSV: function fputcsv is not available."
+msgstr "LSioFormatCSV : la fonction fputcsv n'est pas disponible."
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSlog.php:478
 msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr "LSlog : Impossible de charger l'handler %{handler}."
@@ -2271,14 +2293,14 @@ msgid "Unknown error : %{error}"
 msgstr "Erreur inconnu : %{error}"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:166
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1152
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1245
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1387
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1191
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1284
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1426
 msgid "View"
 msgstr "Voir"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:182
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1008
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1047
 msgid "Copy"
 msgstr "Copier"
 
@@ -2294,7 +2316,7 @@ msgstr ""
 "LSsearchEntry : formaterFunction %{func} invalide utilisé pour "
 "l'extraDisplayedColumns %{column}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSioFormat.php:92
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSioFormat.php:144
 msgid "LSioFormat : IOformat driver %{driver} invalid or unavailable."
 msgstr ""
 "LSioFormat : Le pilote d'IOformat %{driver} est invalide ou n'est pas "
@@ -2313,69 +2335,74 @@ msgstr "Vous devez fournir un mot clé pour les recherches globales."
 msgid "Import"
 msgstr "Importer"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:467
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:460
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:871
+msgid "Export"
+msgstr "Exporter"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:472
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:505
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:510
 #: templates/default/select.tpl:28 templates/default/global_search.tpl:6
 msgid "Search"
 msgstr "Rechercher"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:506
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:511
 #: templates/default/select.tpl:31
 msgid "Approximative search"
 msgstr "Recherche approximative"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:507
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:512
 #: templates/default/select.tpl:32
 msgid "Recursive search"
 msgstr "Recherche récursive"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:593
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:598
 msgid ""
 "The custom action %{title} have been successfully execute on this search."
 msgstr ""
 "L'action personnalisée %{title} a été correctement exécutée sur cette "
 "recherche."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:904
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:943
 msgid "Data entry form"
 msgstr "Masque de saisie"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:910
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1626
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:949
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1665
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1047
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1086
 msgid "My account"
 msgstr "Mon compte"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1110
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1716
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1149
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1755
 msgid "The object has been partially modified."
 msgstr "L'objet a été partiellement modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1113
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1719
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1152
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1758
 msgid "The object has been modified successfully."
 msgstr "L'objet a bien été modifié."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1228
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1760
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1267
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1799
 msgid "%{objectname} has been successfully deleted."
 msgstr "%{objectname} a bien été supprimé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1237
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1276
 msgid "Deleting : %{objectname}"
 msgstr "Suppression : %{objectname}"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1238
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1277
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr "Voulez-vous vraiment supprimer <strong>%{displayName}</strong> ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1348
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1387
 msgid ""
 "The custom action %{customAction} have been successfully execute on "
 "%{objectname}."
@@ -2506,7 +2533,7 @@ msgstr "Fichier"
 msgid "Forgot your password ?"
 msgstr "Mot de passe perdu ?"
 
-#: templates/default/import.tpl:13
+#: templates/default/export.tpl:8 templates/default/import.tpl:13
 msgid "Format"
 msgstr "Format"
 
@@ -2654,7 +2681,7 @@ msgstr "Mise à jour des objets existants"
 msgid "Updated objects"
 msgstr "Objets mis à jour"
 
-#: templates/default/import.tpl:36
+#: templates/default/export.tpl:15 templates/default/import.tpl:36
 msgid "Valid"
 msgstr "Valider"
 

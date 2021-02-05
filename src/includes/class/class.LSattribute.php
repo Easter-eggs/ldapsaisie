@@ -220,66 +220,46 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
    */
   public function addToForm(&$form,$idForm,&$obj=NULL,$value=NULL) {
-    if($this -> getConfig("form.$idForm")) {
-      if (!$this -> html) {
-        LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
-        return;
-      }
-      if($this -> myRights() == 'n') {
-        return true;
-      }
-      if (!is_null($value)) {
-        $data = $value;
-      }
-      else if(!is_empty($this -> data)) {
-        $data = $this -> getFormVal();
-      }
-      else if (!is_empty($this -> getConfig('default_value'))) {
-        $data = $obj -> getFData($this -> getConfig('default_value'));
-      }
-      else {
-        $data = NULL;
-      }
+    $form_mode = $this -> getConfig("form.$idForm", false);
+    self :: log_debug("$this -> addToForm($idForm): mode = ".varDump($form_mode));
+    if($form_mode === false) {
+      self :: log_debug("Attribute ".$this -> name." not in form $idForm.");
+      return True;
+    }
 
-      $element = $this -> html -> addToForm($form,$idForm,$data);
-      if(!$element) {
-        LSerror :: addErrorCode('LSform_06',$this -> name);
-      }
+    $element = $this -> _addToForm($form, $idForm, $obj, $value);
+    if(!$element)
+      return false;
 
-      if($this -> getConfig('required')) {
-        $form -> setRequired($this -> name);
-      }
+    if($this -> getConfig('required', false, 'bool'))
+      $form -> setRequired($this -> name);
 
-      if ( ($this -> getConfig("form.$idForm")==0) || ($this -> myRights() == 'r') ) {
-        self :: log_debug("Attribute ".$this -> name." is freeze in form $idForm.");
-        $element -> freeze();
-      }
-      else {
-        $check_data = $this -> getConfig('check_data', array());
-        if(is_array($check_data)) {
-          foreach ($check_data as $rule => $rule_infos) {
-            if((!$form -> isRuleRegistered($rule))&&($rule!='')) {
-              LSerror :: addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
-              return;
-            }
-            if(!isset($rule_infos['msg'])) {
-              $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> getLabel());
-            }
-            else {
-              $rule_infos['msg']=__($rule_infos['msg']);
-            }
-            if(!isset($rule_infos['params']))
-              $rule_infos['params']=NULL;
-            $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'params' => $rule_infos['params']));
-          }
-        }
-        else {
-          LSerror :: addErrorCode('LSattribute_04',$this->name);
-        }
-      }
+    if ( ($form_mode == 0) || ($this -> myRights() == 'r') ) {
+      self :: log_debug("Attribute ".$this -> name." is freeze in form $idForm.");
+      $element -> freeze();
     }
     else {
-      self :: log_debug("Attribute ".$this -> name." not in form $idForm.");
+      $check_data = $this -> getConfig('check_data', array());
+      if(is_array($check_data)) {
+        foreach ($check_data as $rule => $rule_infos) {
+          if((!$form -> isRuleRegistered($rule))&&($rule!='')) {
+            LSerror :: addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
+            return;
+          }
+          if(!isset($rule_infos['msg'])) {
+            $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> getLabel());
+          }
+          else {
+            $rule_infos['msg']=__($rule_infos['msg']);
+          }
+          if(!isset($rule_infos['params']))
+            $rule_infos['params']=NULL;
+          $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'params' => $rule_infos['params']));
+        }
+      }
+      else {
+        LSerror :: addErrorCode('LSattribute_04', $this->name);
+      }
     }
     return true;
   }
@@ -319,37 +299,75 @@ class LSattribute extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Ajoute l'attribut au formualaire de vue
-   *
-   * Cette méthode ajoute l'attribut au formulaire $form de vue si il doit l'être
+   * Add attribute to LSview
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] object $form Le formulaire dans lequel doit être ajouté l'attribut
+   * @param[in] $form LSform The LSform object
    *
-   * @retval boolean true si l'ajout a fonctionner ou qu'il n'est pas nécessaire, false sinon
+   * @retval boolean True on succes, False otherwise
    */
   public function addToView(&$form) {
-    if ($this -> getConfig('view', false, 'bool') && ($this -> myRights() != 'n') ) {
-      if (!$this -> html) {
-        LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
-        return;
-      }
-      if(!is_empty($this -> data)) {
-        $data = $this -> getFormVal();
-      }
-      else {
-        $data=null;
-      }
-      $element = $this -> html -> addToForm($form,'view',$data);
-      if(!$element instanceof LSformElement) {
-        LSerror :: addErrorCode('LSform_06',$this -> name);
-        return;
-      }
+    if (!$this -> getConfig('view', false, 'bool') || ($this -> myRights() == 'n') )
+      return true;
+    $element = $this -> _addToForm($form, 'view');
+    if ($element) {
       $element -> freeze();
       return true;
     }
-    return true;
+    return false;
+  }
+
+  /**
+   * Add attribute to export
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $form LSform The LSform object
+   *
+   * @retval boolean True on succes, False otherwise
+   */
+  public function addToExport(&$form) {
+    if ($this -> myRights() == 'n')
+      return False;
+    $element = $this -> _addToForm($form, 'export');
+    if ($element) {
+      $element -> freeze();
+      return True;
+    }
+    return False;
+  }
+
+  /**
+   * Add attribute to a LSform for export
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] object $form The LSform object
+   *
+   * @retval LSformElement|False LSformElement object on succes, False otherwise
+   */
+  private function _addToForm(&$form, $idForm, &$obj=NULL, $data=NULL) {
+    if (!$this -> html) {
+      LSerror :: addErrorCode('LSattribute_09',array('type' => 'html','name' => $this -> name));
+      return;
+    }
+
+    if (is_null($data)) {
+      if(!is_empty($this -> data)) {
+        $data = $this -> getFormVal();
+      }
+      else if ($obj && !is_empty($this -> getConfig('default_value'))) {
+        $data = $obj -> getFData($this -> getConfig('default_value'));
+      }
+    }
+
+    $element = $this -> html -> addToForm($form, $idForm, $data);
+    if(!$element instanceof LSformElement) {
+      LSerror :: addErrorCode('LSform_06',$this -> name);
+      return;
+    }
+    return $element;
   }
 
   /**
