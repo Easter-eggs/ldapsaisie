@@ -168,7 +168,6 @@ class LSformElement_select extends LSformElement {
     }
     if (!$values)
       return null;
-    if ($details)
     return $values[0];
   }
 
