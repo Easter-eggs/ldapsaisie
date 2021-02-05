@@ -4,6 +4,7 @@
 
 <div class='LSform'>
 <form action='object/{$LSobject|escape:"url"}/export' method='get'>
+<input type='hidden' name='validate' value='export'/>
 <dl class='LSform'>
   <dt class='LSform'><label for='ioFormat'>{tr msg='Format'}</label></dt>
   <dd class='LSform'>

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-05 10:32+0100\n"
+"PO-Revision-Date: 2021-02-05 18:27+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -437,71 +437,81 @@ msgstr "LSformRule_%{type} : Le paramètre %{param} n'est pas défini."
 msgid "LSformRule: Unknown rule type %{type}."
 msgstr "LSformRule : Type de règle %{type} inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:208
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:240
 msgid "Failed to set post data on creation form."
 msgstr "Impossible de définir les données dans le formulaire de création."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:214
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:246
 msgid "Error validating creation form."
 msgstr "Une erreur est survenue en validant le formulaire de création."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:219
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:251
 msgid "Failed to validate object data."
 msgstr "Impossible de valider les données de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:226
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:258
 msgid "Failed to generate DN for this object."
 msgstr "Impossible de générer le DN de cet objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:240
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:272
 msgid "Error creating object on LDAP server."
 msgstr "Une erreur est survenue en création cet objet dans l'annuaire LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:246
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:278
 msgid "An object already exist on LDAP server with DN %{dn}."
 msgstr "Un objet existe déjà dans l'annuaire LDAP avec le DN %{dn}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:257
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:289
 msgid ""
 "Failed to load existing object %{dn} from LDAP server. Can't update object."
 msgstr ""
 "Impossible de charger l'objet existant %{dn} depuis l'annuaire LDAP. "
 "Impossible de mettre à jour cet objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:265
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:297
 msgid "Failed to set post data on update form."
 msgstr "Impossible de définir les données dans le formulaire de mise à jours."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:271
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:303
 msgid "Error validating update form."
 msgstr "Une erreur est survenue en validant le formulaire de mise à jour."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:281
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:313
 msgid "Error updating object on LDAP server."
 msgstr ""
 "Une erreur est survenue en mettant à jour cet objet dans l'annuaire LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:327
-msgid "LSimport: Post data not found or not completed."
-msgstr "LSimport : les données transmises sont introuvables ou incomplètes."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:681
+msgid "LSio: Post data not found or not completed."
+msgstr "LSio : les données transmises sont introuvables ou incomplètes."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:330
-msgid "LSimport: object type invalid."
-msgstr "LSimport : type d'objet invalide."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:684
+msgid "LSio: object type invalid."
+msgstr "LSio : type d'objet invalide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:333
-msgid "LSimport: input/output format %{format} invalid."
-msgstr "LSimport : Le format d'entrée/sortie %{format} est invalide."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:687
+msgid "LSio: input/output format %{format} invalid."
+msgstr "LSio : Le format d'entrée/sortie %{format} est invalide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:336
-msgid "LSimport: Fail to initialize input/output driver."
-msgstr "LSimport : Impossible d'initialiser le pilote d'entrée/sortie."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:690
+msgid "LSio: Fail to initialize input/output driver."
+msgstr "LSio : Impossible d'initialiser le pilote d'entrée/sortie."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSimport.php:339
-msgid "LSimport: Fail to load objects's data from input file."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:693
+msgid "LSio: Fail to load objects's data from input file."
 msgstr ""
-"LSimport: Impossible de charger les données des objets depuis le fichier "
+"LSio: Impossible de charger les données des objets depuis le fichier "
 "d'import."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:696
+msgid "LSio: Fail to load objects's data to export from LDAP directory."
+msgstr ""
+"LSio: Impossible de charger les données des objets à exporter depuis "
+"l'annuaire LDAP."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSio.php:699
+msgid "LSio: Fail to export objects's data."
+msgstr "LSio: Impossible d'exporter les données des objets."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_pwdHistory.php:76
 msgid "Unknown (%{raw_value})"
@@ -541,15 +551,15 @@ msgstr ""
 msgid "Attribute"
 msgstr "Attribut"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mailQuota.php:98
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_valueWithUnit.php:108
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_quota.php:100
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mailQuota.php:101
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_valueWithUnit.php:126
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_quota.php:102
 #: templates/default/LSformElement_mailQuota_field.tpl:17
 msgid "Incorrect value"
 msgstr "Valeur incorrecte"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mailQuota.php:168
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_labeledValue.php:135
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mailQuota.php:171
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_labeledValue.php:138
 msgid "Invalid value : \"%{value}\"."
 msgstr "Valeur invalide : \"%{value}\"."
 
@@ -629,15 +639,15 @@ msgstr ""
 "LSattr_ldap_sambaAcctFlags : drapeau '%{flag}' invalide. Impossible de "
 "formater la valeur de l'attribut LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_ssh_key.php:57
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_ssh_key.php:83
 msgid "Display the full key."
 msgstr "Affichier la clé en entier."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_ssh_key.php:79
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_ssh_key.php:94
 msgid "Unknown type"
 msgstr "Type inconnu"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_valueWithUnit.php:230
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_valueWithUnit.php:234
 msgid ""
 "LSformElement_valueWithUnit : Units configuration data are missing for the "
 "attribute %{attr}."
@@ -845,24 +855,6 @@ msgid ""
 msgstr ""
 "LSattr_html_select_objet : l'objet sélectionné %{name} n'a pas de valeur "
 "dans son attribut %{attr}, vous ne pouvez pas le sélectionner."
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:93
-msgid "LSexport: input/output format %{format} invalid."
-msgstr "LSimport : Le format d'entrée/sortie %{format} est invalide."
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:96
-msgid "LSexport: Fail to initialize input/output driver."
-msgstr "LSexport : Impossible d'initialiser le pilote d'entrée/sortie."
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:99
-msgid "LSexport: Fail to load objects's data to export from LDAP directory."
-msgstr ""
-"LSexport: Impossible de charger les données des objets à exporter depuis "
-"l'annuaire LDAP."
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSexport.php:102
-msgid "LSexport: Fail to export objects's data."
-msgstr "LSexport: Impossible d'exporter les données des objets."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:90
 msgid ""
@@ -2257,17 +2249,17 @@ msgstr ""
 "Note: Les paramètres/arguments de la commande doivent être placés après "
 "celle-ci."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:779
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:804
 msgid "LScli : The CLI command '%{command}' already exists."
 msgstr "LScli : La commande CLI '%{command}' existe déjà."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:782
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:807
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 "LScli : La fonction de prise en charge de la commande CLI '%{command}' n'est "
 "pas exécutable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSioFormatCSV.php:236
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSioFormatCSV.php:247
 msgid "LSioFormatCSV: function fputcsv is not available."
 msgstr "LSioFormatCSV : la fonction fputcsv n'est pas disponible."
 
@@ -2316,7 +2308,7 @@ msgstr ""
 "LSsearchEntry : formaterFunction %{func} invalide utilisé pour "
 "l'extraDisplayedColumns %{column}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSioFormat.php:144
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSioFormat.php:145
 msgid "LSioFormat : IOformat driver %{driver} invalid or unavailable."
 msgstr ""
 "LSioFormat : Le pilote d'IOformat %{driver} est invalide ou n'est pas "
@@ -2380,17 +2372,17 @@ msgid "My account"
 msgstr "Mon compte"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1149
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1755
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1756
 msgid "The object has been partially modified."
 msgstr "L'objet a été partiellement modifié."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1152
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1758
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1759
 msgid "The object has been modified successfully."
 msgstr "L'objet a bien été modifié."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1267
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1799
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1800
 msgid "%{objectname} has been successfully deleted."
 msgstr "%{objectname} a bien été supprimé."
 
@@ -2692,6 +2684,12 @@ msgstr "non"
 #: templates/default/import.tpl:26 templates/default/import.tpl:32
 msgid "yes"
 msgstr "oui"
+
+#~ msgid "LSexport: input/output format %{format} invalid."
+#~ msgstr "LSimport : Le format d'entrée/sortie %{format} est invalide."
+
+#~ msgid "LSexport: Fail to initialize input/output driver."
+#~ msgstr "LSexport : Impossible d'initialiser le pilote d'entrée/sortie."
 
 #~ msgid ""
 #~ "LSsession : call function %{func} do not provided from LSaddon %{addon}."

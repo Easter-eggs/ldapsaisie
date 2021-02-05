@@ -28,17 +28,19 @@ LSsession::loadLSclass('LSioFormat');
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
-class LSimport extends LSlog_staticLoggerClass {
+class LSio extends LSlog_staticLoggerClass {
 
   /**
    * Check if the form was posted by check POST data
+   *
+   * @param[in] $action string The action name used as POST validate flag value
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval boolean true if the form was posted, false otherwise
    */
-  public static function isSubmit() {
-    if (isset($_POST['validate']) && ($_POST['validate']=='LSimport'))
+  public static function isSubmit($action) {
+    if (isset($_POST['validate']) && ($_POST['validate']==$action))
       return true;
     return;
   }
@@ -111,7 +113,7 @@ class LSimport extends LSlog_staticLoggerClass {
     // Get data from $_POST
     $data = self::getPostData();
     if (!is_array($data)) {
-      LSerror :: addErrorCode('LSimport_01');
+      LSerror :: addErrorCode('LSio_01');
       return array(
         'success' => false,
         'imported' => array(),
@@ -195,27 +197,27 @@ class LSimport extends LSlog_staticLoggerClass {
 
     // Load LSobject
     if (!isset($LSobject) || !LSsession::loadLSobject($LSobject)) {
-      LSerror :: addErrorCode('LSimport_02');
+      LSerror :: addErrorCode('LSio_02');
       return $return;
     }
 
     // Validate ioFormat
     $object = new $LSobject();
     if(!$object -> isValidIOformat($ioFormat)) {
-      LSerror :: addErrorCode('LSimport_03',$ioFormat);
+      LSerror :: addErrorCode('LSio_03',$ioFormat);
       return $return;
     }
 
     // Create LSioFormat object
     $ioFormat = new LSioFormat($LSobject,$ioFormat);
     if (!$ioFormat -> ready()) {
-      LSerror :: addErrorCode('LSimport_04');
+      LSerror :: addErrorCode('LSio_04');
       return $return;
     }
 
     // Load data in LSioFormat object
     if (!$ioFormat -> loadFile($input_file)) {
-      LSerror :: addErrorCode('LSimport_05');
+      LSerror :: addErrorCode('LSio_05');
       return $return;
     }
     self :: log_debug("import(): file loaded");
@@ -325,6 +327,65 @@ class LSimport extends LSlog_staticLoggerClass {
     $return['errors'] = $objectsInError;
     $return['success'] = empty($objectsInError);
     return $return;
+  }
+
+  /**
+   * Export objects
+   *
+   * @param[in] $LSobject LSldapObject An instance of the object type
+   * @param[in] $ioFormat string The LSioFormat name
+   * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @retval boolean True on success, False otherwise
+   */
+  public static function export($object, $ioFormat, $stream=null) {
+    // Load LSobject
+    if (is_string($object)) {
+      if (!LSsession::loadLSobject($object, true)) {  // Load with warning
+        return false;
+      }
+      $object = new $object();
+    }
+
+    // Validate ioFormat
+    if(!$object -> isValidIOformat($ioFormat)) {
+      LSerror :: addErrorCode('LSio_03', $ioFormat);
+      return false;
+    }
+
+    // Create LSioFormat object
+    $ioFormat = new LSioFormat($object -> type, $ioFormat);
+    if (!$ioFormat -> ready()) {
+      LSerror :: addErrorCode('LSio_04');
+      return false;
+    }
+
+    // Load LSsearch class (with warning)
+    if (!LSsession :: loadLSclass('LSsearch', null, true)) {
+      return false;
+    }
+
+    // Search objects
+    $search = new LSsearch($object -> type, 'LSio');
+    $search -> run();
+
+    // Retreive objets
+    $objects = $search -> listObjects();
+    if (!is_array($objects)) {
+      LSerror :: addErrorCode('LSio_06');
+      return false;
+    }
+    self :: log_debug(count($objects)." object(s) found to export");
+
+    // Export objects using LSioFormat object
+    if (!$ioFormat -> exportObjects($objects, $stream)) {
+      LSerror :: addErrorCode('LSio_07');
+      return false;
+    }
+    self :: log_debug("export(): objects exported");
+    return true;
   }
 
   /**
@@ -486,11 +547,115 @@ class LSimport extends LSlog_staticLoggerClass {
     return LScli :: autocomplete_opts($opts, $comp_word);
   }
 
+  /**
+   * CLI export command
+   *
+   * @param[in] $command_args array Command arguments:
+   *   - Positional arguments:
+   *     - LSobject type
+   *     - LSioFormat name
+   *   - Optional arguments:
+   *     - -o|--output: Output path ("-" == stdout, default: "-")
+   *
+   * @retval boolean True on succes, false otherwise
+   **/
+  public static function cli_export($command_args) {
+    $objType = null;
+    $ioFormat = null;
+    $output = '-';
+    for ($i=0; $i < count($command_args); $i++) {
+      switch ($command_args[$i]) {
+        case '-o':
+        case '--output':
+          $output = $command_args[++$i];
+          break;
+        default:
+          if (is_null($objType)) {
+            $objType = $command_args[$i];
+          }
+          elseif (is_null($ioFormat)) {
+            $ioFormat = $command_args[$i];
+          }
+          else
+            LScli :: usage("Invalid $arg parameter.");
+      }
+    }
+
+    if (is_null($objType) || is_null($ioFormat))
+      LScli :: usage('You must provide LSobject type, ioFormat.');
+
+    // Check output
+    if ($output != '-' && file_exists($output))
+      LScli :: usage("Output file '$output' already exists.");
+
+    // Open output stream
+    $stream = fopen(($output=='-'?'php://stdout':$output), "w");
+    if ($stream === false)
+      LSlog :: fatal("Fail to open output file '$output'.");
+
+    // Run export
+    return self :: export($objType, $ioFormat, $stream);
+  }
+
+  /**
+   * Args autocompleter for CLI export command
+   *
+   * @param[in] $command_args array List of already typed words of the command
+   * @param[in] $comp_word_num int The command word number to autocomplete
+   * @param[in] $comp_word string The command word to autocomplete
+   * @param[in] $opts array List of global available options
+   *
+   * @retval array List of available options for the word to autocomplete
+   **/
+  public static function cli_export_args_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
+    $opts = array_merge($opts, array ('-o', '--output'));
+
+    // Handle positional args
+    $objType = null;
+    $objType_arg_num = null;
+    $ioFormat = null;
+    $ioFormat_arg_num = null;
+    for ($i=0; $i < count($command_args); $i++) {
+      if (!in_array($command_args[$i], $opts)) {
+        // If object type not defined
+        if (is_null($objType)) {
+          // Defined it
+          $objType = $command_args[$i];
+          LScli :: unquote_word($objType);
+          $objType_arg_num = $i;
+
+          // Check object type exists
+          $objTypes = LScli :: autocomplete_LSobject_types($objType);
+
+          // Load it if exist and not trying to complete it
+          if (in_array($objType, $objTypes) && $i != $comp_word_num) {
+            LSsession :: loadLSobject($objType, false);
+          }
+        }
+        elseif (is_null($ioFormat)) {
+          $ioFormat = $command_args[$i];
+          LScli :: unquote_word($ioFormat);
+          $ioFormat_arg_num = $i;
+        }
+      }
+    }
+
+    // If objType not already choiced (or currently autocomplete), add LSobject types to available options
+    if (!$objType || $objType_arg_num == $comp_word_num)
+      $opts = array_merge($opts, LScli :: autocomplete_LSobject_types($comp_word));
+
+    // If dn not alreay choiced (or currently autocomplete), try autocomplete it
+    elseif (!$ioFormat || $ioFormat_arg_num == $comp_word_num)
+      $opts = array_merge($opts, LScli :: autocomplete_LSobject_ioFormat($objType, $comp_word));
+
+    return LScli :: autocomplete_opts($opts, $comp_word);
+  }
+
 }
 
 
 /*
- * LSimport_implodeValues template function
+ * LSio_implodeValues template function
  *
  * This function permit to implode field values during
  * template processing. This function take as parameters
@@ -502,30 +667,36 @@ class LSimport extends LSlog_staticLoggerClass {
  *
  * @retval void
  **/
-function LSimport_implodeValues($params, $template) {
+function LSio_implodeValues($params, $template) {
   extract($params);
 
   if (isset($values) && is_array($values)) {
     echo implode(',',$values);
   }
 }
-LStemplate :: registerFunction('LSimport_implodeValues','LSimport_implodeValues');
+LStemplate :: registerFunction('LSio_implodeValues','LSio_implodeValues');
 
 
-LSerror :: defineError('LSimport_01',
-___("LSimport: Post data not found or not completed.")
+LSerror :: defineError('LSio_01',
+___("LSio: Post data not found or not completed.")
 );
-LSerror :: defineError('LSimport_02',
-___("LSimport: object type invalid.")
+LSerror :: defineError('LSio_02',
+___("LSio: object type invalid.")
 );
-LSerror :: defineError('LSimport_03',
-___("LSimport: input/output format %{format} invalid.")
+LSerror :: defineError('LSio_03',
+___("LSio: input/output format %{format} invalid.")
 );
-LSerror :: defineError('LSimport_04',
-___("LSimport: Fail to initialize input/output driver.")
+LSerror :: defineError('LSio_04',
+___("LSio: Fail to initialize input/output driver.")
 );
-LSerror :: defineError('LSimport_05',
-___("LSimport: Fail to load objects's data from input file.")
+LSerror :: defineError('LSio_05',
+___("LSio: Fail to load objects's data from input file.")
+);
+LSerror :: defineError('LSio_06',
+___("LSio: Fail to load objects's data to export from LDAP directory.")
+);
+LSerror :: defineError('LSio_07',
+___("LSio: Fail to export objects's data.")
 );
 
 // Defined CLI commands functions only on CLI context
@@ -535,7 +706,7 @@ if (php_sapi_name() != 'cli')
 // LScli
 LScli :: add_command(
     'import',
-    array('LSimport', 'cli_import'),
+    array('LSio', 'cli_import'),
     'Import LSobject',
     '[object type] [ioFormat name] -i /path/to/input.file',
     array(
@@ -549,5 +720,23 @@ LScli :: add_command(
     '     - -j|--just-try Enable just-try mode',
   ),
   true,
-  array('LSimport', 'cli_import_args_autocompleter')
+  array('LSio', 'cli_import_args_autocompleter')
+);
+
+// LScli
+LScli :: add_command(
+    'export',
+    array('LSio', 'cli_export'),
+    'Export LSobject',
+    '[object type] [ioFormat name] -o /path/to/output.file',
+    array(
+    '   - Positional arguments :',
+    '     - LSobject type',
+    '     - LSioFormat name',
+    '',
+    '   - Optional arguments :',
+    '     - -o|--output:  The output file path. Use "-" for STDOUT (optional, default: "-")',
+  ),
+  true,
+  array('LSio', 'cli_export_args_autocompleter')
 );

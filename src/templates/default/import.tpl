@@ -5,7 +5,7 @@
 <div class='LSform'>
 <form action='object/{$LSobject|escape:"url"}/import' method='post' enctype="multipart/form-data">
 <input type='hidden' name='LSobject' value='{$LSobject}'/>
-<input type='hidden' name='validate' value='LSimport'/>
+<input type='hidden' name='validate' value='import'/>
 <dl class='LSform'>
   <dt class='LSform'><label for='importfile'>{tr msg='File'}</label></dt>
   <dd class='LSform'><input type='file' name='importfile'/></dd>
@@ -42,22 +42,22 @@
 {if !empty($result.errors)}
 <h2>{tr msg='Errors'}</h2>
 {foreach $result.errors as $error}
-<h3 class='LSimport'>Object {$error@iteration}</h3>
-<div class='LSimport_error'>
+<h3 class='LSio'>Object {$error@iteration}</h3>
+<div class='LSio_error'>
 {if !empty($error.errors.globals)}
-  <ul class='LSimport_global_errors'>
+  <ul class='LSio_global_errors'>
   {foreach $error.errors.globals as $e}
     <li>{$e}</li>
   {/foreach}
   </ul>
 {/if}
-<ul class='LSimport_data_errors'>
+<ul class='LSio_data_errors'>
 {foreach $error.data as $key => $val}
   <li>
     <strong>{$key|escape:"htmlall"} :</strong>
-    {if empty($val)}{tr msg='No value'}{else}{LSimport_implodeValues values=$val}{/if}
+    {if empty($val)}{tr msg='No value'}{else}{LSio_implodeValues values=$val}{/if}
     {if isset($error.errors.attrs[$key])}
-    <ul class='LSimport_attr_errors'>
+    <ul class='LSio_attr_errors'>
       {foreach $error.errors.attrs.$key as $e}
       <li>{$e|escape:"htmlall"}</li>
       {/foreach}
@@ -69,7 +69,7 @@
   {if !in_array($a,$error.data)}
   <li>
     <strong>{$a|escape:"htmlall"} :</strong>
-    <ul class='LSimport_attr_errors'>
+    <ul class='LSio_attr_errors'>
       {foreach $es as $e}
         <li>{$e|escape:"htmlall"}</li>
       {/foreach}
@@ -82,8 +82,8 @@
 {/foreach}
 {/if}
 
-<h2 class='LSimport_imported_objects'>{tr msg='Imported objects'} ({count($result.imported)})</h2>
-<ul class='LSimport_imported_objects'>
+<h2 class='LSio_imported_objects'>{tr msg='Imported objects'} ({count($result.imported)})</h2>
+<ul class='LSio_imported_objects'>
 {foreach $result.imported as $dn => $name}
   <li><a href='object/{$LSobject|escape:"url"}/{$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
 {foreachelse}
@@ -92,8 +92,8 @@
 </ul>
 
 {if !empty($result.updated)}
-<h2 class='LSimport_updated_objects'>{tr msg='Updated objects'} ({count($result.updated)})</h2>
-<ul class='LSimport_updated_objects'>
+<h2 class='LSio_updated_objects'>{tr msg='Updated objects'} ({count($result.updated)})</h2>
+<ul class='LSio_updated_objects'>
 {foreach $result.updated as $dn => $name}
   <li><a href='object/{$LSobject|escape:"url"}/{$dn|escape:"url"}'>{$name|escape:"htmlall"}</a></li>
 {/foreach}

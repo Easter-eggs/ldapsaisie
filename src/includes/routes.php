@@ -787,15 +787,15 @@ function handle_LSobject_import($request) {
 
   $ioFormats = array();
   $result = array();
-  if ( LSsession :: loadLSclass('LSimport', null, true)) {  // import class with warning
+  if ( LSsession :: loadLSclass('LSio', null, true)) {  // import class with warning
     $ioFormats = $object->listValidIOformats();
     if (!is_array($ioFormats) || empty($ioFormats)) {
       $ioFormats = array();
       LSerror :: addErrorCode('LSsession_16');
     }
-    else if (LSimport::isSubmit()) {
-      $result = LSimport::importFromPostData();
-      LSlog :: debug("LSimport::importFromPostData(): result = ".varDump($result));
+    else if (LSio::isSubmit('import')) {
+      $result = LSio::importFromPostData();
+      LSlog :: debug("LSio::importFromPostData(): result = ".varDump($result));
     }
   }
 
@@ -808,7 +808,7 @@ function handle_LSobject_import($request) {
   // Set & display template
   LSsession :: setTemplate('import.tpl');
   LStemplate :: addCssFile('LSform.css');
-  LStemplate :: addCssFile('LSimport.css');
+  LStemplate :: addCssFile('LSio.css');
   LSsession :: displayTemplate();
 }
 LSurl :: add_handler('#^object/(?P<LSobject>[^/]+)/import/?$#', 'handle_LSobject_import');
@@ -855,14 +855,14 @@ function handle_LSobject_export($request) {
 
   $ioFormats = array();
   $result = null;
-  if ( LSsession :: loadLSclass('LSexport', null, true)) {  // Load class with warning
+  if ( LSsession :: loadLSclass('LSio', null, true)) {  // Load class with warning
     $ioFormats = $object->listValidIOformats();
     if (!is_array($ioFormats) || empty($ioFormats)) {
       $ioFormats = array();
       LSerror :: addErrorCode('LSsession_16');
     }
-    else if (isset($_REQUEST['ioFormat'])) {
-      if (!LSexport::export($object, $_REQUEST['ioFormat']))
+    else if (LSio::isSubmit('export') && isset($_REQUEST['ioFormat'])) {
+      if (!LSio::export($object, $_REQUEST['ioFormat']))
         LSlog :: error("An error occurred exporting ".$object -> type);
     }
   }
