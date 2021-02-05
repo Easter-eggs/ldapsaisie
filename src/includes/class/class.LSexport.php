@@ -35,12 +35,13 @@ class LSexport extends LSlog_staticLoggerClass {
    *
    * @param[in] $LSobject LSldapObject An instance of the object type
    * @param[in] $ioFormat string The LSioFormat name
+   * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval boolean True on success, False otherwise
    */
-  public static function export($object, $ioFormat) {
+  public static function export($object, $ioFormat, $stream=null) {
     // Load LSobject
     if (is_string($object)) {
       if (!LSsession::loadLSobject($object, true)) {  // Load with warning
@@ -80,12 +81,116 @@ class LSexport extends LSlog_staticLoggerClass {
     self :: log_debug(count($objects)." object(s) found to export");
 
     // Export objects using LSioFormat object
-    if (!$ioFormat -> exportObjects($objects)) {
+    if (!$ioFormat -> exportObjects($objects, $stream)) {
       LSerror :: addErrorCode('LSexport_04');
       return false;
     }
     self :: log_debug("export(): objects exported");
     return true;
+  }
+
+  /**
+   * CLI export command
+   *
+   * @param[in] $command_args array Command arguments:
+   *   - Positional arguments:
+   *     - LSobject type
+   *     - LSioFormat name
+   *   - Optional arguments:
+   *     - -o|--output: Output path ("-" == stdout, default: "-")
+   *
+   * @retval boolean True on succes, false otherwise
+   **/
+  public static function cli_export($command_args) {
+    $objType = null;
+    $ioFormat = null;
+    $output = '-';
+    for ($i=0; $i < count($command_args); $i++) {
+      switch ($command_args[$i]) {
+        case '-o':
+        case '--output':
+          $output = $command_args[++$i];
+          break;
+        default:
+          if (is_null($objType)) {
+            $objType = $command_args[$i];
+          }
+          elseif (is_null($ioFormat)) {
+            $ioFormat = $command_args[$i];
+          }
+          else
+            LScli :: usage("Invalid $arg parameter.");
+      }
+    }
+
+    if (is_null($objType) || is_null($ioFormat))
+      LScli :: usage('You must provide LSobject type, ioFormat.');
+
+    // Check output
+    if ($output != '-' && file_exists($output))
+      LScli :: usage("Output file '$output' already exists.");
+
+    // Open output stream
+    $stream = fopen(($output=='-'?'php://stdout':$output), "w");
+    if ($stream === false)
+      LSlog :: fatal("Fail to open output file '$output'.");
+
+    // Run export
+    return self :: export($objType, $ioFormat, $stream);
+  }
+
+  /**
+   * Args autocompleter for CLI export command
+   *
+   * @param[in] $command_args array List of already typed words of the command
+   * @param[in] $comp_word_num int The command word number to autocomplete
+   * @param[in] $comp_word string The command word to autocomplete
+   * @param[in] $opts array List of global available options
+   *
+   * @retval array List of available options for the word to autocomplete
+   **/
+  public static function cli_export_args_autocompleter($command_args, $comp_word_num, $comp_word, $opts) {
+    $opts = array_merge($opts, array ('-o', '--output'));
+
+    // Handle positional args
+    $objType = null;
+    $objType_arg_num = null;
+    $ioFormat = null;
+    $ioFormat_arg_num = null;
+    for ($i=0; $i < count($command_args); $i++) {
+      if (!in_array($command_args[$i], $opts)) {
+        // If object type not defined
+        if (is_null($objType)) {
+          // Defined it
+          $objType = $command_args[$i];
+          LScli :: unquote_word($objType);
+          $objType_arg_num = $i;
+
+          // Check object type exists
+          $objTypes = LScli :: autocomplete_LSobject_types($objType);
+
+          // Load it if exist and not trying to complete it
+          if (in_array($objType, $objTypes) && $i != $comp_word_num) {
+            LSsession :: loadLSobject($objType, false);
+          }
+        }
+        elseif (is_null($ioFormat)) {
+          $ioFormat = $command_args[$i];
+          LScli :: unquote_word($ioFormat);
+          $ioFormat_arg_num = $i;
+        }
+      }
+    }
+
+    // If objType not already choiced (or currently autocomplete), add LSobject types to available options
+    if (!$objType || $objType_arg_num == $comp_word_num)
+      $opts = array_merge($opts, LScli :: autocomplete_LSobject_types($comp_word));
+
+    // If dn not alreay choiced (or currently autocomplete), try autocomplete it
+    elseif (!$ioFormat || $ioFormat_arg_num == $comp_word_num)
+      $opts = array_merge($opts, LScli :: autocomplete_LSobject_ioFormat($objType, $comp_word));
+
+    return LScli :: autocomplete_opts($opts, $comp_word);
   }
 
 }
@@ -100,4 +205,26 @@ ___("LSexport: Fail to load objects's data to export from LDAP directory.")
 );
 LSerror :: defineError('LSexport_04',
 ___("LSexport: Fail to export objects's data.")
+);
+
+// Defined CLI commands functions only on CLI context
+if (php_sapi_name() != 'cli')
+    return true;  // Always return true to avoid some warning in log
+
+// LScli
+LScli :: add_command(
+    'export',
+    array('LSexport', 'cli_export'),
+    'Export LSobject',
+    '[object type] [ioFormat name] -o /path/to/output.file',
+    array(
+    '   - Positional arguments :',
+    '     - LSobject type',
+    '     - LSioFormat name',
+    '',
+    '   - Optional arguments :',
+    '     - -o|--output:  The output file path. Use "-" for STDOUT (optional, default: "-")',
+  ),
+  true,
+  array('LSexport', 'cli_export_args_autocompleter')
 );

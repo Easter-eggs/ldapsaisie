@@ -108,10 +108,11 @@ class LSioFormat extends LSlog_staticLoggerClass {
    * Export objects
    *
    * @param  $objects array of LSldapObject The objects to export
+   * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
    *
    * @return boolean True on succes, False otherwise
    */
-  public function exportObjects(&$objects) {
+  public function exportObjects(&$objects, $stream=null) {
     self :: log_trace('exportObjects(): start');
     $fields = $this -> getConfig('fields');
     if (!$fields) {
@@ -131,11 +132,11 @@ class LSioFormat extends LSlog_staticLoggerClass {
       // Add attributes to export and put their values to data to export
       foreach($fields as $key => $attr_name) {
         $object -> attrs[$attr_name] -> addToExport($export);
-        $objects_data[$object -> getDn()][$key] = $export -> elements[$attr_name] -> getApiValue();
+        $objects_data[$object -> getDn()][$key] = $export -> elements[$attr_name] -> getApiValue(false);
       }
     }
     self :: log_trace('exportObjects(): objects data = '.varDump($objects_data));
-    return $this -> driver -> exportObjectsData($objects_data);
+    return $this -> driver -> exportObjectsData($objects_data, $stream);
   }
 
 }

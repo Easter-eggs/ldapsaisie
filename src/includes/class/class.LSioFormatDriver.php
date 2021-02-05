@@ -143,10 +143,11 @@ class LSioFormatDriver extends LSlog_staticLoggerClass {
    * Export objects data
    *
    * @param[in] $objects_data Array of objects data to export
+   * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
    *
    * @return boolean True on succes, False otherwise
    */
-  public function exportObjectsData($objects_data) {
+  public function exportObjectsData($objects_data, $stream=null) {
     // Must be implement in real drivers
     return False;
   }

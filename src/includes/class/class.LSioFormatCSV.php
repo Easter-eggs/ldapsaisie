@@ -183,17 +183,23 @@ class LSioFormatCSV extends LSioFormatDriver {
    *
    * @param[in] $stream The stream where objects's data have to be exported
    * @param[in] $objects_data Array of objects data to export
+   * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
    *
    * @return boolean True on succes, False otherwise
    */
-  public function exportObjectsData($objects_data) {
+  public function exportObjectsData($objects_data, $stream=null) {
     if (!function_exists('fputcsv')) {
       LSerror :: addErrorCode('LSioFormatCSV_01');
       return false;
     }
 
+    $stdout = false;
+    if (is_null($stream)) {
+      $stream = fopen('php://temp/maxmemory:'. (5*1024*1024), 'w+');
+      $stdout = true;
+    }
+
     $first = true;
-    $stream = fopen('php://temp/maxmemory:'. (5*1024*1024), 'w+');
     foreach($objects_data as $dn => $object_data) {
       if ($first) {
         $this -> writeRow($stream, array_keys($object_data));
@@ -204,6 +210,8 @@ class LSioFormatCSV extends LSioFormatDriver {
         $row[] = (is_array($values)?implode($this -> multiple_value_delimiter, $values):$values);
       $this -> writeRow($stream, $row);
     }
+    if (!$stdout)
+      return true;
     header("Content-disposition: attachment; filename=export.csv");
     header("Content-type: text/csv");
     rewind($stream);

@@ -739,6 +739,31 @@ class LScli extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Autocomplete LSobject ioFormat option
+   *
+   * @param[in] $objType        string    LSobject type
+   * @param[in] $prefix         string    Option prefix (optional, default=empty string)
+   * @param[in] $case_sensitive boolean   Set to false if options are case insensitive (optional, default=true)
+   * @param[in] $quote_char     boolean   Quote character (optional, if not set, $prefix will be unquoted and its
+   *                                      quote char (if detected) will be used to quote options)
+   *
+   * @retval array List of available options
+   **/
+  public static function autocomplete_LSobject_ioFormat($objType, $prefix='', $case_sensitive=true, $quote_char='') {
+    if (!LSsession ::loadLSobject($objType, false))
+      return array();
+
+    // Make sure to unquote prefix
+    if (!$quote_char && $prefix)
+      $quote_char = self :: unquote_word($prefix);
+
+    $obj = new $objType();
+    $ioFormats = array_keys($obj -> listValidIOformats());
+
+    return self :: autocomplete_opts($ioFormats, $prefix, $case_sensitive, $quote_char);
+  }
+
+  /**
    * Unquote a word
    *
    * @param[in] &$word string  Reference of the word to unquote
