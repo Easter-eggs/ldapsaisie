@@ -29,3 +29,4 @@
 <!ENTITY conf-LSattribute-validation SYSTEM "LSattribute/validation.docbook">
 <!ENTITY conf-LSattribute-triggers SYSTEM "LSattribute/triggers.docbook">
 
+<!ENTITY ioFormat "<link linkend='config-LSobject-ioFormat'>ioFormat</link>">

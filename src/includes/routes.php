@@ -840,7 +840,6 @@ function handle_old_import_php($request) {
 }
 LSurl :: add_handler('#^import\.php#', 'handle_old_import_php', false);
 
-
 /*
  * Handle LSobject export request
  *
@@ -854,7 +853,6 @@ function handle_LSobject_export($request) {
    return;
 
   $ioFormats = array();
-  $result = null;
   if ( LSsession :: loadLSclass('LSio', null, true)) {  // Load class with warning
     $ioFormats = $object->listValidIOformats();
     if (!is_array($ioFormats) || empty($ioFormats)) {
@@ -1674,6 +1672,89 @@ function handle_api_LSobject_create($request) {
   LSsession :: displayAjaxReturn($data);
 }
 LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/create/?$#', 'handle_api_LSobject_create', true, false, true);
+
+/*
+ * Handle API LSobject import request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_api_LSobject_import($request) {
+  $object = get_LSobject_from_API_request($request, true);
+  $data = array(
+    'success' => false,
+    'LSobject' => $object -> type,
+    'ioFormat' => (isset($_REQUEST['ioFormat'])?$_REQUEST['ioFormat']:null),
+    'updateIfExists' => (isset($_REQUEST['updateIfExists'])?boolval($_REQUEST['updateIfExists']):false),
+    'justTry' => (isset($_REQUEST['justTry'])?boolval($_REQUEST['justTry']):false),
+  );
+
+  if (!LSsession :: loadLSclass('LSio', null, true)) { // Load LSio class (with warning)
+    LSsession :: displayAjaxReturn($data);
+    return;
+  }
+
+  $ioFormats = $object->listValidIOformats();
+  if (!is_array($ioFormats) || empty($ioFormats)) {
+    $ioFormats = array();
+    LSerror :: addErrorCode('LSsession_16');
+  }
+  else {
+    $data = LSio::import(
+      $data['LSobject'],
+      $data['ioFormat'],
+      'php://input',
+      $data['updateIfExists'],
+      $data['justTry']
+    );
+    LSlog :: debug("LSio::importFromPostData(): result = ".varDump($result));
+  }
+
+  LSsession :: displayAjaxReturn($data);
+  return $data['success'];
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/import/?$#', 'handle_api_LSobject_import', true, false, true);
+
+/*
+ * Handle API LSobject export request
+ *
+ * @param[in] $request LSurlRequest The request
+ *
+ * @retval void
+**/
+function handle_api_LSobject_export($request) {
+  $object = get_LSobject_from_API_request($request, true);
+  if (!$object)
+   return;
+  $data = array(
+    'success' => false,
+    'LSobject' => $object -> type,
+    'ioFormat' => (isset($_REQUEST['ioFormat'])?$_REQUEST['ioFormat']:null),
+  );
+
+  if (!LSsession :: loadLSclass('LSio', null, true)) { // Load LSio class (with warning)
+    LSsession :: displayAjaxReturn($data);
+    return;
+  }
+
+  if (!$data['ioFormat']) {
+    LSerror :: addErrorCode(null, "ioFormat not specified");
+    LSsession :: displayAjaxReturn($data);
+    return;
+  }
+
+  $ioFormats = $object->listValidIOformats();
+  if (!is_array($ioFormats) || empty($ioFormats)) {
+    $ioFormats = array();
+    LSerror :: addErrorCode('LSsession_16');
+  }
+  else if (!LSio::export($object, $data['ioFormat'])) {
+    LSlog :: error("An error occurred exporting ".$object -> type);
+  }
+  LSsession :: displayAjaxReturn($data);
+}
+LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/export/?$#', 'handle_api_LSobject_export', true, false, true);
 
 /*
  * Handle API LSobject show request

@@ -398,6 +398,152 @@
     </varlistentry>
 
     <varlistentry>
+      <term>/api/1.0/object/[object type]/import</term>
+      <listitem>
+        <para>Cette méthode permet d'importer des objets d'un type en particulier à partir de données
+        d'import formatées selon un &ioFormat; configuré pour ce type d'objets. Le type de l'objet
+        est précisé dans l'URL et doit être encodé en conséquence. Par mimétisme du comportement de
+        l'interface web, cette méthode accepte des paramètres similaires et s'attend à récupérer les
+        données d'import dans le corps de la requête.
+        <variablelist>
+          <title>Paramètres acceptés</title>
+
+          <varlistentry>
+            <term>ioFormat</term>
+            <listitem><simpara>Le nom de l'&ioFormat; des données d'import.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>updateIfExists</term>
+            <listitem><simpara>Booléen permettant d'activer/désactiver la mise à jour des données
+            des objets s'ils existent déjà. Si ce mode est inactif et qu'un objet des données
+            d'import existe déjà, une erreur sera remontée. Les valeurs acceptées sont <literal>1
+            </literal> ou <literal>0</literal>.
+            </simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>justTry</term>
+            <listitem><simpara>Booléen permettant d'activer/désactiver le mode de vérification des
+            données d'import uniquement. Si ce mode est actif, les données d'import seront analysées
+            pour vérifier qu'elles sont correctes, mais l'import en lui-même ne sera pas effectué.
+            Les valeurs acceptées sont <literal>1</literal> ou <literal>0</literal>.
+            </simpara>
+            <note><simpara>Le retour de cette méthode en mode <literal>justTry</literal> est identique
+            à une exécution en mode normal. Ce mode permet donc d'anticiper le résultat d'un import à
+            partir d'un jeu de données sources.</simpara></note>
+            <warning><simpara>En mode <literal>justTry</literal>, seul la vérification syntaxique des
+            données est fiable, car les informations doublonnées au sein des données d'import ne pourront
+            être détectées.</simpara></warning>
+            </listitem>
+          </varlistentry>
+
+        </variablelist>
+        </para>
+        <para>En cas d'erreurs détectées dans les informations des objets des données d'import, le tableau
+        <literal>errors</literal> du retour de la méthode contiendra une entrée pour chaque objet en erreur
+        sous le format d'un dictionnaire dont la clé <literal>data</literal> reprendra les informations de
+        l'objet telle que chargé (ou générée) depuis les données sources, ainsi qu'un dictionnaire sous la
+        clé <literal>errors</literal> qui contiendra les erreurs globales concernant l'objet sous la clé
+        <literal>globals</literal> et les erreurs propres à ses attributs dans un dictionnaire sous la clé
+        <literal>attrs</literal>.</para>
+
+        <note><simpara>Les erreurs d'importation sur un objet sont non-bloquantes : l'importation des autres
+        objets ne sera pas interrompue.</simpara></note>
+
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret --data-binary @/path/to/input.file 'https://ldapsaisie/api/1.0/object/LSpeople/import?ioFormat=mycsv&pretty'
+{
+    "success": false,
+    "LSobject": "LSpeople",
+    "ioFormat": "mycsv",
+    "updateIfExists": false,
+    "justTry": false,
+    "imported": {
+        "uid=rturin,ou=people,o=ls": "M. Roger TURIN"
+    },
+    "updated": [],
+    "errors": [
+        {
+            "data": {
+                "uid": [
+                    "lmartin"
+                ],
+                "personalTitle": [
+                    "Mme"
+                ],
+                "givenName": [
+                    "Ludivine"
+                ],
+                "sn": [
+                    "MARTIN"
+                ],
+                "mail": [
+                    "lmartin@gmail.com"
+                ],
+                "userPassword": [
+                    "123Yh%uT"
+                ],
+                "gidNumber": [
+                    "102009"
+                ],
+                "loginShell": [
+                    "no"
+                ],
+                "cn": [
+                    "Mme Ludivine MARTIN"
+                ]
+            },
+            "errors": {
+                "globals": [
+                    "Un objet existe d\u00e9j\u00e0 dans l'annuaire LDAP avec le DN uid=lmartin,ou=people,o=ls."
+                ],
+                "attrs": []
+            }
+        }
+    ],
+    "messages": [
+        "Le mail de notification a \u00e9t\u00e9 envoy\u00e9."
+    ]
+}]]>
+        </programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>/api/1.0/object/[object type]/export</term>
+      <listitem>
+        <para>Cette méthode permet d'exporter les objets d'un type en particulier dans un &ioFormat;
+        configuré pour ce type d'objets. Le type de l'objet est précisé dans l'URL et doit être encodé
+        en conséquence.</para>
+        <variablelist>
+          <title>Paramètres acceptés</title>
+
+          <varlistentry>
+            <term>ioFormat</term>
+            <listitem><simpara>Le nom de l'&ioFormat;.</simpara></listitem>
+          </varlistentry>
+
+        </variablelist>
+        <para>En tant normal, le retour de cette méthode sera directement le fichier d'export demandé.
+        Cependant, si une erreur survient, les paramètres d'export seront repris dans le retour
+        <literal>JSON</literal> de la méthode qui contiendra également les erreurs survenues.</para>
+
+        <programlisting linenumbering="unnumbered">
+        <citetitle>Exemple</citetitle>
+<![CDATA[# curl -u username:secret --data-binary @/path/to/input.file 'https://ldapsaisie/api/1.0/object/LSpeople/export?ioFormat=mycsv&pretty'
+login;civility;firstname;name;mail;password;gid;shell
+hmartin;M.;Henri;MARTIN;henri.martin@ls.com;********;102001;no
+s.ldapsaisie;M.;Secretariat;LdapSaisie;secretariat@ldapsaisie.biz;********;70000;no
+ls;M.;Ldap;Saisie;ldap.saisie@ls.com;********;102001;no
+erwpa;M.;Erwan;PAGEARD;erwan.page@ldapsaisie.biz;********;102009;no
+[...]]]>
+        </programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>/api/1.0/object/[object type]/[dn]/relation/[relation]</term>
       <listitem>
         <para>Cette méthode permet de gérer les objets en relation avec un objet en particulier de
