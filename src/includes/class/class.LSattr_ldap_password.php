@@ -262,8 +262,12 @@ class LSattr_ldap_password extends LSattr_ldap {
       case 'ssha512':
       case 'smd5':
         $data = base64_decode($hashedPasswordData);
-        # Salt = last 4 bytes
-        $salt = substr($data, -4);
+        # Salt = last 4 bytes for SSHA / SMD5 and last 8 bytes for SSH256 / SSHA512
+        if ($cypher == 'ssha' || $cypher == 'smd5')
+          $salt_size = 4;
+        else
+          $salt_size = 8;
+        $salt = substr($data, -$salt_size);
         $new_hash = $this -> encodePassword($clearPassword, $cypher, null, $salt);
         return (strcmp($hashedPassword,$new_hash) == 0);
         break;
