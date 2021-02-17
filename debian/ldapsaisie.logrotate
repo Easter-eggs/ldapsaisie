@@ -1,4 +1,4 @@
-/var/log/ldapsaisie/ldapsaisie.log {
+/var/log/ldapsaisie/*.log {
 	daily
 	missingok
 	rotate 7
