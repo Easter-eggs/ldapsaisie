@@ -786,7 +786,11 @@ class LSsession {
                 self :: $userLDAPcreds = false;
                 return;
               }
-              if (!LSldap :: reconnectAs(self :: $userLDAPcreds['dn'],self :: $userLDAPcreds['pwd'])) {
+              if (!LSldap :: reconnectAs(
+                  self :: $userLDAPcreds['dn'],
+                  self :: $userLDAPcreds['pwd'],
+                  self :: $ldapServer['ldap_config']
+                )) {
                 LSerror :: addErrorCode('LSsession_15');
                 return;
               }
@@ -1239,7 +1243,11 @@ class LSsession {
         return;
       }
       if (self :: $dn && isset(self :: $ldapServer['useUserCredentials']) && self :: $ldapServer['useUserCredentials']) {
-        LSldap :: reconnectAs(self :: $userLDAPcreds['dn'], self :: $userLDAPcreds['pwd'],self :: $ldapServer['ldap_config']);
+        LSldap :: reconnectAs(
+          self :: $userLDAPcreds['dn'],
+          self :: $userLDAPcreds['pwd'],
+          self :: $ldapServer['ldap_config']
+        );
       }
       else {
         LSldap :: connect(self :: $ldapServer['ldap_config']);

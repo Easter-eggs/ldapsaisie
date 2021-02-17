@@ -81,26 +81,27 @@ class LSldap extends LSlog_staticLoggerClass {
    * @param[in] $dn string Bind DN
    * @param[in] $pwd array Bind password
    * @param[in] $config array LDAP configuration array in format of Net_LDAP2
+   *                          (optional, default: keep current)
    *
    * @retval boolean true if connected, false instead
    */
-  public static function reconnectAs($dn,$pwd,$config) {
+  public static function reconnectAs($dn, $pwd, $config=null) {
     if ($config) {
       self :: setConfig($config);
     }
-	if (self :: $cnx) {
-	  self :: $cnx -> done();
-	}
-	$config=self :: $config;
-	$config['binddn']=$dn;
-	$config['bindpw']=$pwd;
-	self :: $cnx = Net_LDAP2::connect($config);
-	if (Net_LDAP2::isError(self :: $cnx)) {
-	  LSerror :: addErrorCode('LSldap_01',self :: $cnx -> getMessage());
-	  self :: $cnx = NULL;
-	  return;
-	}
-	return true;
+    if (self :: $cnx) {
+      self :: $cnx -> done();
+    }
+    $config = self :: $config;
+    $config['binddn'] = $dn;
+    $config['bindpw'] = $pwd;
+    self :: $cnx = Net_LDAP2::connect($config);
+    if (Net_LDAP2::isError(self :: $cnx)) {
+      LSerror :: addErrorCode('LSldap_01', self :: $cnx -> getMessage());
+      self :: $cnx = NULL;
+      return;
+    }
+    return true;
   }
 
   /**
