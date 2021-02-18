@@ -131,7 +131,16 @@ class LSioFormat extends LSlog_staticLoggerClass {
 
       // Add attributes to export and put their values to data to export
       foreach($fields as $key => $attr_name) {
+        $objects_data[$object -> getDn()][$key] = null;
+        if (!isset($object -> attrs[$attr_name])) {
+          self :: log_warning("exportObjects($object): attribute '$attr_name' does not exist !");
+          continue;
+        }
         $object -> attrs[$attr_name] -> addToExport($export);
+        if (!isset($export -> elements[$attr_name])) {
+          self :: log_warning("exportObjects($object): fail to add attribute '$attr_name' to export !");
+          continue;
+        }
         $objects_data[$object -> getDn()][$key] = $export -> elements[$attr_name] -> getApiValue(false);
       }
     }
