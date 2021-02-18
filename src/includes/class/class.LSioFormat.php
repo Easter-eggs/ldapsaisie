@@ -138,7 +138,7 @@ class LSioFormat extends LSlog_staticLoggerClass {
         }
         $object -> attrs[$attr_name] -> addToExport($export);
         if (!isset($export -> elements[$attr_name])) {
-          self :: log_warning("exportObjects($object): fail to add attribute '$attr_name' to export !");
+          self :: log_debug("exportObjects($object): attribute '$attr_name' not added to export : may be user can't read it");
           continue;
         }
         $objects_data[$object -> getDn()][$key] = $export -> elements[$attr_name] -> getApiValue(false);
