@@ -20,7 +20,6 @@
 
 ******************************************************************************/
 
-require 'File/CSV/DataSource.php';
 LSsession :: loadLSclass('LSioFormatDriver');
 
 /**
