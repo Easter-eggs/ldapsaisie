@@ -227,6 +227,12 @@ class LSattribute extends LSlog_staticLoggerClass {
       return True;
     }
 
+    $myRights = $this -> myRights();
+    if($myRights == 'n') {
+      self :: log_debug("User can't read or write the attribute ".$this -> name.", don't add it to $idForm form.");
+      return True;
+    }
+
     $element = $this -> _addToForm($form, $idForm, $obj, $value);
     if(!$element)
       return false;
@@ -234,7 +240,7 @@ class LSattribute extends LSlog_staticLoggerClass {
     if($this -> getConfig('required', false, 'bool'))
       $form -> setRequired($this -> name);
 
-    if ( ($form_mode == 0) || ($this -> myRights() == 'r') ) {
+    if ( ($form_mode === false) || ($myRights != 'w') ) {
       self :: log_debug("Attribute ".$this -> name." is freeze in form $idForm.");
       $element -> freeze();
     }
