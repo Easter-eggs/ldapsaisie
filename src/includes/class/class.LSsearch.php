@@ -61,7 +61,6 @@ class LSsearch extends LSlog_staticLoggerClass {
     'displayFormat' => NULL,
     'nbObjectsByPage' => NB_LSOBJECT_LIST,
     'nbObjectsByPageChoices' => NULL,
-    'nbPageLinkByPage' => 10,
     'customInfos' => array(),
     'withoutCache' => false,
     'extraDisplayedColumns' => false,
@@ -335,7 +334,7 @@ class LSsearch extends LSlog_staticLoggerClass {
 
     // nbObjectsByPage
     if (isset($params['nbObjectsByPage'])) {
-      if (((int)$params['nbObjectsByPage'])>1 ) {
+      if (((int)$params['nbObjectsByPage'])>=1 ) {
         $this -> params['nbObjectsByPage'] = (int)$params['nbObjectsByPage'];
       }
       else {
@@ -1102,31 +1101,33 @@ class LSsearch extends LSlog_staticLoggerClass {
    *
    * @retval array The information of the page
    **/
-  public function getPage($page=0) {
+  public function getPage($page=1) {
     if (!LSsession::loadLSclass('LSsearchEntry')) {
       LSerror::addErrorCode('LSsession_05',$this -> LSobject);
       return;
     }
     $page = (int)$page;
+    if ($page < 1)
+      $page = 1;
 
-    $retval=array(
+    $retval = array(
       'nb' => $page,
       'nbPages' => 1,
       'list' => array(),
       'total' => $this -> total
     );
 
-    if ($retval['total']>0) {
+    if ($retval['total'] > 0) {
       if (!$this->params['nbObjectsByPage']) {
-        $this->params['nbObjectsByPage']=NB_LSOBJECT_LIST;
+        $this->params['nbObjectsByPage'] = NB_LSOBJECT_LIST;
       }
-      $retval['nbPages']=ceil($retval['total']/$this->params['nbObjectsByPage']);
+      $retval['nbPages'] = ceil($retval['total'] / $this->params['nbObjectsByPage']);
 
       $sortTable=$this -> getSortTable();
 
       $list = array_slice(
         $sortTable,
-        ($page * $this->params['nbObjectsByPage']),
+        (($page - 1) * $this->params['nbObjectsByPage']),
         $this->params['nbObjectsByPage']
       );
 
@@ -1625,7 +1626,7 @@ class LSsearch extends LSlog_staticLoggerClass {
     }
     else {
       // Retrieve page
-      $page = $search -> getPage(($page_nb-1));
+      $page = $search -> getPage($page_nb);
       /*
        * $page = array(
        *   'nb' => $page,
@@ -1647,7 +1648,7 @@ class LSsearch extends LSlog_staticLoggerClass {
         'total' => $search -> total,
       );
       if (!$all) {
-        $export['page'] = $page['nb'] + 1;
+        $export['page'] = $page['nb'];
         $export['nbPages'] = $page['nbPages'];
       }
       foreach(($all?$entries:$page['list']) as $obj) {
@@ -1707,7 +1708,7 @@ class LSsearch extends LSlog_staticLoggerClass {
     if ($all)
       echo "Total: ".$search -> total."\n";
     else
-      echo "Page ".($page['nb']+1)." on ".$page['nbPages']." / Total: ".$search -> total."\n";
+      echo "Page ".($page['nb'])." on ".$page['nbPages']." / Total: ".$search -> total."\n";
 
     return true;
   }

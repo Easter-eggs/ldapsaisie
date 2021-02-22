@@ -35,7 +35,6 @@ configuration des &LSobjects;, dans la variable <varname>LSsearch</varname>
     'displayFormat' => [LSformat],
     'nbObjectsByPage' => [integer],
     'nbObjectsByPageChoices' => array([integer], [integer], ...),
-    'nbPageLinkByPage' => [integer],
     'validPatternRegex' => '[regex]'
   ),
   'predefinedFilters' => array(
@@ -240,15 +239,6 @@ contexte dans lequel cette recherche est effectuée.</para>
   <listitem>
     <simpara>Tableau des choix proposés à l'utilisateur pour le nombre d'objets maximum affichés dans une page
     de résultat de la recherche.</simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>nbPageLinkByPage</term>
-  <listitem>
-    <simpara>Entier déterminant le nombre maximum de liens vers d'autres pages
-    affichés sous le résultat de la recherche.</simpara>
-    <simpara>Par défaut : <literal>10</literal></simpara>
   </listitem>
 </varlistentry>
 

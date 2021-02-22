@@ -53,36 +53,5 @@
     {/foreach}
 </table>
 <span id='LSobject_list_nbresult'>{$LSsearch->label_total|escape:'htmlall'}</span>
-{if $page.nbPages > 1}
-  <p class='LSobject-list-page'>
-
-  {if $page.nbPages > 10}
-    {if $page.nb > 5}
-      {if $page.nb > $page.nbPages-6}
-        {assign var=start value=$page.nbPages-12}
-       {else}
-        {assign var=start value=$page.nb-6}
-      {/if}
-    {else}
-      {assign var=start value=0}
-    {/if}
-    <a href='object/{$LSsearch->LSobject|escape:'url'}?page=0' class='LSobject-list-page'>&lt;</a>
-    {foreach from=0|range:10 item=i}
-      {if $page.nb==$start+$i}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
-      {else}
-        <a href='object/{$LSsearch->LSobject|escape:'url'}?page={$i+$start}'  class='LSobject-list-page'>{$i+$start+1}</a>
-      {/if}
-    {/foreach}
-    <a href='object/{$LSsearch->LSobject|escape:'url'}?page={$page.nbPages-1}' class='LSobject-list-page'>&gt;</a>
-  {else}
-    {section name=listpage loop=$page.nbPages step=1}
-      {if $page.nb == $smarty.section.listpage.index}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
-      {else}
-        <a href='object/{$LSsearch->LSobject|escape:'url'}?page={$smarty.section.listpage.index}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a>
-      {/if}
-    {/section}
-  {/if}
-  </p>
-{/if}
+{assign var=pagination_url value="object/{$LSsearch->LSobject|escape:"url"}"}
+{include file='ls:pagination.tpl'}

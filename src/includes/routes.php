@@ -125,7 +125,7 @@ function handle_old_index_ajax_php($request) {
 LSurl :: add_handler('#^index_ajax\.php#', 'handle_old_index_ajax_php', false);
 
 /*
- * Handle global seearch request
+ * Handle global search request
  *
  * @param[in] $request LSurlRequest The request
  *
@@ -181,7 +181,7 @@ function handle_global_search($request) {
     $LSsearch -> run();
 
     if ($LSsearch -> total > 0) {
-      $page = $LSsearch -> getPage(0);
+      $page = $LSsearch -> getPage(1);
       LStemplate :: assign('page', $page);
       LStemplate :: assign('LSsearch', $LSsearch);
       $pages[] = LSsession :: fetchTemplate('global_search_one_page.tpl');
@@ -496,8 +496,8 @@ function handle_LSobject_search($request) {
   $LSsearch -> redirectWhenOnlyOneResult();
 
   // Handle page parameter and retreive corresponding page from search
-  $page = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
-  $page = $LSsearch -> getPage($page);
+  $page_nb = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:1);
+  $page = $LSsearch -> getPage($page_nb);
 
   // Set template variables
   LStemplate :: assign('page', $page);
@@ -691,7 +691,7 @@ function handle_LSobject_select($request) {
   $LSsearch -> setParamsFromRequest();
   $LSsearch -> setParam('nbObjectsByPage', NB_LSOBJECT_LIST_SELECT);
 
-  $page = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
+  $page_nb = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:1);
 
   // Run search
   $LSsearch -> run();
@@ -730,7 +730,7 @@ function handle_LSobject_select($request) {
       )
     )
   );
-  LStemplate :: assign('page', $LSsearch -> getPage($page));
+  LStemplate :: assign('page', $LSsearch -> getPage($page_nb));
   LStemplate :: assign('LSsearch', $LSsearch);
   LStemplate :: assign('LSselect_id', $request->LSselect_id);
   LStemplate :: assign('selectable_object_types', LSselect :: getSelectableObjectTypes($request->LSselect_id));
@@ -1579,7 +1579,7 @@ function handle_api_LSobject_search($request) {
   }
   else {
     // Retrieve page
-    $page_nb = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:0);
+    $page_nb = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:1);
     $page = $search -> getPage($page_nb);
 
     /*
@@ -1603,7 +1603,7 @@ function handle_api_LSobject_search($request) {
     'total' => $search -> total,
   );
   if (!$all) {
-    $data['page'] = $page['nb'] + 1;
+    $data['page'] = $page['nb'];
     $data['nbPages'] = $page['nbPages'];
   }
   foreach(($all?$entries:$page['list']) as $obj) {

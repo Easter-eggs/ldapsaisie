@@ -43,39 +43,7 @@
 {/foreach}
 </table>
 
-
-{if $page.nbPages > 1}
-  <p class='LSobject-list-page'>
-  {if $page.nbPages > 10}
-    {if $page.nb > 5}
-      {if $page.nb > $page.nbPages-6}
-        {assign var=start value=$page.nbPages-12}
-       {else}
-        {assign var=start value=$page.nb-6}
-      {/if}
-    {else}
-      {assign var=start value=0}
-    {/if}
-    <a href='object/select/{$LSselect_id|escape:"url"}?page=0' class='LSobject-list-page'>&lt;</a>
-    {foreach from=0|range:10 item=i}
-      {if $page.nb==$start+$i}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
-      {else}
-        <a href='object/select/{$LSselect_id|escape:"url"}?page={$i+$start}'  class='LSobject-list-page'>{$i+$start+1}</a>
-      {/if}
-    {/foreach}
-    <a href='object/select/{$LSselect_id|escape:"url"}?page={$page.nbPages-1}' class='LSobject-list-page'>&gt;</a>
-  {else}
-    {section name=listpage loop=$page.nbPages step=1}
-      {if $page.nb == $smarty.section.listpage.index}
-        <strong class='LSobject-list-page'>{$page.nb+1}</strong>
-      {else}
-        <a href='object/select/{$LSselect_id|escape:"url"}?page={$smarty.section.listpage.index}'  class='LSobject-list-page'>{$smarty.section.listpage.index+1}</a>
-      {/if}
-    {/section}
-  {/if}
-  </p>
-{/if}
+{include file='ls:pagination.tpl'}
 
 <div id='LSdebug_txt_ajax' style='display: none'>{$LSdebug_txt}</div>
 <div id='LSerror_txt_ajax' style='display: none'>{$LSerror_txt}</div>
