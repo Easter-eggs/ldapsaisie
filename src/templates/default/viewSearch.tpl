@@ -65,7 +65,7 @@
       {/if}
       {if $LSsearch->extraDisplayedColumns}
         {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
-        <th class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>
+        <th class='LSobject-list'{if isset($conf.cssStyle) && $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>
         {if $LSsearch->sort}
           <a href='object/{$LSsearch->LSobject|escape:"url"}?sortBy={$cid|escape:"url"}&amp;nocache={$smarty.now}'>
           {if $LSsearch->sortBy == $cid}
@@ -89,7 +89,7 @@
         {if $LSsearch->displaySubDn}<td class='LSobject-list'>{$object->subDn|escape:"htmlall"}</td>{/if}
         {if $LSsearch->extraDisplayedColumns}
           {foreach from=$LSsearch->visibleExtraDisplayedColumns item=conf key=cid}
-          <td class='LSobject-list'{if $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>{if !isset($conf.escape) || $conf.escape}{$object->$cid|escape:"htmlall"}{else}{$object->$cid}{/if}</td>
+          <td class='LSobject-list'{if isset($conf.cssStyle) && $conf.cssStyle} style='{$conf.cssStyle|escape:"htmlall"}'{/if}>{if !isset($conf.escape) || $conf.escape}{$object->$cid|escape:"htmlall"}{else}{$object->$cid}{/if}</td>
           {/foreach}
         {/if}
         <td class='LSobject-list LSobject-list-actions'>

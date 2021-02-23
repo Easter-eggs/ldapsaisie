@@ -566,6 +566,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       // Following parameters are allowed from request but need additional checks
       'filter', 'basedn', 'subDn', 'scope', 'attributes', 'displayFormat',
     );
+    $data = array();
 
     foreach($_REQUEST as $key => $value) {
       if (!in_array($key, $allowedParams))
@@ -640,7 +641,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       }
     }
 
-    return $this -> setParams($data);
+    return (empty($data)?true:$this -> setParams($data));
   }
 
   /**
