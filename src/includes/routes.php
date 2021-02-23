@@ -571,12 +571,13 @@ function handle_LSobject_search_customAction($request) {
   $title = isset($config['label'])?__($config['label']):$customAction;
 
   // Check search customAction function
-  if (!isset($config['function']) || !is_callable($config['function'])) {
+  $function = LSconfig :: get('function', null, null, $config);
+  if (!is_callable($function)) {
     LSerror :: addErrorCode(
       'LSsession_13',
       array(
         'customAction' => $title,
-        'function' => (isset($config['function'])?getCallableName($config['function']):_('undefined'))
+        'function' => ($function?getCallableName($function):_('undefined'))
       )
     );
     LSsession :: displayTemplate();
@@ -589,16 +590,23 @@ function handle_LSobject_search_customAction($request) {
   LStemplate :: assign('pagetitle', $title);
 
   // Run search customAction (if validated or no confirmation need)
-  if (isset($_GET['valid']) || $config['noConfirmation']) {
-    if (call_user_func_array($config['function'], array(&$LSsearch))) {
-      if (isset($config['disableOnSuccessMsg']) && $config['disableOnSuccessMsg'] != true) {
+  if (isset($_GET['valid']) || LSconfig :: get('noConfirmation', false, 'bool', $config)) {
+    if (call_user_func_array($function, array(&$LSsearch))) {
+      if (!LSconfig :: get('disableOnSuccessMsg', false, 'bool', $config)) {
         LSsession :: addInfo(
-          (isset($config['onSuccessMsgFormat']) && $config['onSuccessMsgFormat'])?
-          getFData(__($config['onSuccessMsgFormat']), $objectname):
-          getFData(_('The custom action %{title} have been successfully execute on this search.'), $title)
+          getFData(
+            __(
+              LSconfig :: get(
+                'onSuccessMsgFormat',
+                ___('The custom action %{title} have been successfully execute on this search.'),
+                'string', $config
+              )
+            ),
+            $title
+          )
         );
       }
-      if (!isset($config['redirectToObjectList']) || $config['redirectToObjectList']) {
+      if (LSconfig :: get('redirectToObjectList', true, 'bool', $config)) {
         LSurl :: redirect("object/$LSobject?refresh");
       }
     }
@@ -1355,12 +1363,13 @@ function handle_LSobject_customAction($request) {
   $title = isset($config['label'])?__($config['label']):$customAction;
 
   // Check customAction function
-  if (!isset($config['function']) || !is_callable($config['function'])) {
+  $function = LSconfig :: get('function', null, null, $config);
+  if (!is_callable($function)) {
     LSerror :: addErrorCode(
       'LSsession_13',
       array(
         'customAction' => $title,
-        'function' => (isset($config['function'])?getCallableName($config['function']):_('undefined'))
+        'function' => ($function?getCallableName($function):_('undefined'))
       )
     );
     LSsession :: displayTemplate();
@@ -1372,31 +1381,32 @@ function handle_LSobject_customAction($request) {
   LStemplate :: assign('pagetitle', $title.' : '.$objectname);
 
   // Run customAction (if validated or noConfirmation required)
-  if (isset($_GET['valid']) || (isset($config['noConfirmation']) && $config['noConfirmation'])) {
+  if (isset($_GET['valid']) || LSconfig :: get('noConfirmation', false, 'bool', $config)) {
     LStemplate :: assign('pagetitle', $title.' : '.$objectname);
-    if (call_user_func_array($config['function'], array(&$object))) {
-      if ($config['disableOnSuccessMsg'] != true) {
-        if ($config['onSuccessMsgFormat']) {
-          LSsession :: addInfo(getFData(__($config['onSuccessMsgFormat']), $objectname));
-        }
-        else {
-          LSsession :: addInfo(
-            getFData(
-              _('The custom action %{customAction} have been successfully execute on %{objectname}.'),
-              array('objectname' => $objectname, 'customAction' => $customAction)
-            )
-          );
-        }
+    if (call_user_func_array($function, array(&$object))) {
+      $msg_format = LSconfig :: get('onSuccessMsgFormat', null, 'string', $config);
+      if ($msg_format) {
+        $msg = getFData(__($msg_format), $objectname);
+      } else {
+        $msg = getFData(
+          _('The custom action %{customAction} have been successfully execute on %{objectname}.'),
+          array('objectname' => $objectname, 'customAction' => $customAction)
+        );
       }
-      if (isset($config['redirectToObjectList']) && $config['redirectToObjectList']) {
+      LSsession :: addInfo($msg);
+
+      if (LSconfig :: get('redirectToObjectList', false, 'bool', $config)) {
         LSurl :: redirect("object/$LSobject?refresh");
       }
-      else if (!isset($config['noRedirect']) || !$config['noRedirect']) {
+      else if (LSconfig :: get('noRedirect', false, 'bool', $config)) {
         LSurl :: redirect("object/$LSobject/".urlencode($dn));
       }
     }
     else {
-      LSerror :: addErrorCode('LSldapObject_31', array('objectname' => $objectname, 'customAction' => $customAction));
+      LSerror :: addErrorCode(
+        'LSldapObject_31',
+        array('objectname' => $objectname, 'customAction' => $customAction)
+      );
     }
     // Custom action executed: show its template (if not already redirect)
     LSsession :: displayTemplate();
