@@ -659,3 +659,29 @@ description: test
 lsGodfatherDn: uid=eeggs,ou=people,o=ls
 structuralObjectClass: posixGroup
 
+dn: ou=ppolicies,o=ls
+objectclass: organizationalUnit
+ou: ppolicies
+
+dn: cn=default,ou=ppolicies,o=ls
+cn: default
+objectclass: top
+objectclass: device
+objectclass: pwdPolicy
+objectclass: pwdPolicyChecker
+pwdAttribute: userPassword
+pwdMinAge: 0
+pwdMaxAge: 0
+pwdInHistory: 0
+pwdCheckQuality: 1
+pwdMinLength: 8
+pwdExpireWarning: 0
+pwdGraceAuthnLimit: 0
+pwdLockout: FALSE
+pwdLockoutDuration: 0
+pwdMaxFailure: 0
+pwdMaxRecordedFailure: 0
+pwdFailureCountInterval: 0
+pwdMustChange: FALSE
+pwdAllowUserChange: FALSE
+pwdSafeModify: FALSE

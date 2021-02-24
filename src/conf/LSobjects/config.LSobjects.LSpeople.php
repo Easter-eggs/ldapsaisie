@@ -20,6 +20,8 @@
 
 ******************************************************************************/
 
+LSsession :: includeFile(LS_OBJECTS_DIR.'config.LSobjects.common-pwdPolicyAccount.php');
+
 $GLOBALS['LSobjects']['LSpeople'] = array (
   'objectclass' => array(
     'top',
@@ -215,6 +217,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
           'sambaPwdCanChange',
         ),
       ),
+      'ppolicy' => $GLOBALS['pwdPolicyAccountAttrs_LSform_layout'],
     ), // fin Layout
     'dataEntryForm' => array (
       'simple' => array (
@@ -276,7 +279,7 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
   ),
 
   // Attributes
-  'attrs' => array (
+  'attrs' => array_merge($GLOBALS['pwdPolicyAccountAttrs'], array (
 
     /* ----------- start -----------*/
     'uid' => array (
@@ -1173,5 +1176,5 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     ),
     /* ----------- end -----------*/
 
-  ), // Fin args
+  )), // Fin args & array_merge()
 );

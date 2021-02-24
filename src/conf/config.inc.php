@@ -97,6 +97,7 @@ $GLOBALS['LSconfig'] = array(
         'LSpeople',
         'LSgroup',
         'LSsysaccount',
+        'pwdPolicy',
       ),
       'recoverPassword' => array(
         'mailAttr' => 'mail',

@@ -20,6 +20,8 @@
 
 ******************************************************************************/
 
+LSsession :: includeFile(LS_OBJECTS_DIR.'config.LSobjects.common-pwdPolicyAccount.php');
+
 $GLOBALS['LSobjects']['LSsysaccount'] = array (
   'objectclass' => array(
     'top',
@@ -45,6 +47,23 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
     ),
   ),
 
+  // LSform
+  'LSform' => array (
+    'ajaxSubmit' => 1,
+    // Layout
+    'layout' => array (
+      'general' => array(
+        'label' => 'General information',
+        'args' => array (
+                'uid',
+                'userPassword',
+                'description',
+        ),
+      ),
+      'ppolicy' => $GLOBALS['pwdPolicyAccountAttrs_LSform_layout'],
+    ) // fin Layout
+  ), // fin LSform
+
   'LSsearch' => array (
     'attrs' => array (
       'uid',
@@ -69,7 +88,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
   ),
 
   // Attributes
-  'attrs' => array (
+  'attrs' => array_merge($GLOBALS['pwdPolicyAccountAttrs'], array (
 
     /* ----------- start -----------*/
     'uid' => array (
@@ -166,5 +185,5 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
     ),
     /* ----------- end -----------*/
 
-  ), // Fin args
+  )), // Fin attrs & array_merge()
 );
