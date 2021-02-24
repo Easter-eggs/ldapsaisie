@@ -187,3 +187,7 @@ $GLOBALS['LSobjects']['LSsysaccount'] = array (
 
   )), // Fin attrs & array_merge()
 );
+
+$GLOBALS['LSobjects']['LSsysaccount']['attrs']['pwdPolicySubentry']['default_value'] = 'cn=sysaccounts,ou=ppolicies,o=ls';
+unset($GLOBALS['LSobjects']['LSsysaccount']['attrs']['pwdPolicySubentry']['form']['create']);
+$GLOBALS['LSobjects']['LSsysaccount']['attrs']['pwdPolicySubentry']['required'] = 1;

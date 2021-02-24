@@ -26,6 +26,7 @@ objectClass: top
 objectClass: lssysaccount
 uid: mail
 userPassword: toto
+pwdPolicySubentry: cn=sysaccounts,ou=ppolicies,o=ls
 structuralObjectClass: lssysaccount
 
 dn: uid=samba,ou=sysaccounts,o=ls
@@ -33,6 +34,7 @@ objectClass: top
 objectClass: lssysaccount
 uid: samba
 userPassword: toto
+pwdPolicySubentry: cn=sysaccounts,ou=ppolicies,o=ls
 structuralObjectClass: lssysaccount
 
 dn: uid=ldapsaisie,ou=sysaccounts,o=ls
@@ -40,6 +42,7 @@ objectClass: top
 objectClass: lssysaccount
 uid: ldapsaisie
 userPassword: toto
+pwdPolicySubentry: cn=sysaccounts,ou=ppolicies,o=ls
 structuralObjectClass: lssysaccount
 
 dn: ou=groups,o=ls
@@ -672,9 +675,32 @@ objectclass: pwdPolicyChecker
 pwdAttribute: userPassword
 pwdMinAge: 0
 pwdMaxAge: 0
-pwdInHistory: 0
+pwdInHistory: 3
 pwdCheckQuality: 1
 pwdMinLength: 8
+pwdExpireWarning: 0
+pwdGraceAuthnLimit: 0
+pwdLockout: FALSE
+pwdLockoutDuration: 0
+pwdMaxFailure: 0
+pwdMaxRecordedFailure: 0
+pwdFailureCountInterval: 0
+pwdMustChange: FALSE
+pwdAllowUserChange: FALSE
+pwdSafeModify: FALSE
+
+dn: cn=sysaccounts,ou=ppolicies,o=ls
+cn: sysaccounts
+objectclass: top
+objectclass: device
+objectclass: pwdPolicy
+objectclass: pwdPolicyChecker
+pwdAttribute: userPassword
+pwdMinAge: 0
+pwdMaxAge: 0
+pwdInHistory: 0
+pwdCheckQuality: 1
+pwdMinLength: 10
 pwdExpireWarning: 0
 pwdGraceAuthnLimit: 0
 pwdLockout: FALSE
