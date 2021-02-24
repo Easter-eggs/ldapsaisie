@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#
+# Script to restore LSexample from source
+#
+# Installation:
+#   ln -s /path/to/ldapsaisie/src/lsexample/restore_lsexample /usr/local/sbin/
+#
+
+# Configuration
+SRC_DIR="$( realpath "$( dirname $0 )/../" )"
+SLAPD_CONF_DIR=/etc/ldap/slapd.d
+SLAPD_DB_DIR=/var/lib/ldap
+SLAPD_USER=openldap
+SLAPD_GROUP=openldap
+
+# Deducted configuration
+LDIF="$SRC_DIR/lsexample/lsexample.ldif"
+SCHEMA_LDIF="$SRC_DIR/lsexample/schema/cn={10}ls.ldif"
+SCHEMA_DEST="$SLAPD_CONF_DIR/cn=config/cn=schema/"
+
+#
+# Start restoration
+#
+
+# Stop slapd
+/usr/sbin/service slapd stop > /dev/null
+
+# Purge old DB data
+rm -fr $SLAPD_DB_DIR/*
+
+# Restore schema file
+cp -f "$SCHEMA_LDIF" "$SCHEMA_DEST"
+
+# Restore DB data from LDIF file
+/usr/sbin/slapadd -l $LDIF -q
+
+# Fix rights on restored data
+chown $SLAPD_USER:$SLAPD_GROUP -R $SLAPD_DB_DIR $SCHEMA_DEST
+
+# Start slapd
+/usr/sbin/service slapd start > /dev/null
