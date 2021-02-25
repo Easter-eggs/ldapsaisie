@@ -270,7 +270,7 @@ ul.LSformElement_image_actions {
 
 
 /*  ---- Medium ---- */
-li.LSform_layout_active, tr.LSobject-list:hover, table.LStable tr:hover, table.LStable tr.bis:hover, ul.LSaccessRightsMatrixView_tabs li {
+li.LSform_layout_active, tr.LSobject-list:hover, table.LStable tr:hover, table.LStable tr.bis:hover, ul.LSaccessRightsMatrixView_tabs li, ul.LSselect_selectable_object_types li {
 	background-color:	var(--medium-color);
 }
 
@@ -311,7 +311,7 @@ tr.LSobject-list-bis, table.LStable tr.bis, .LSform input[type=text], .LSform in
 }
 
 /* ---- Dark ---- */
-li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search, button, ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab {
+li.LSform_layout_current, .LSform input[type=submit], input[type='submit'].LSview_search, button, ul.LSaccessRightsMatrixView_tabs li.LSaccessRightsMatrixView_active_tab, ul.LSselect_selectable_object_types li.current {
 	background-color:	var(--dark-color);
 }
 
@@ -319,7 +319,7 @@ li.menu a, a.menu, h1 {
 	color:				var(--dark-color);
 }
 
-input[type='submit'].LSview_search, input[type='text'].LSview_search, button, div.LSaccessRightsMatrixView_tab_content  {
+input[type='submit'].LSview_search, input[type='text'].LSview_search, button, div.LSaccessRightsMatrixView_tab_content, ul.LSselect_selectable_object_types {
 	border-color:		var(--dark-color);
 }
 
