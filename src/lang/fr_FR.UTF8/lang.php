@@ -701,7 +701,7 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.pwdPolicy.attrs.pwdExpireWarning.label
 "Warning delay before password expiration" =>
-  "Délai d'avertissement avec expiration du mot de passe",
+  "Délai d'avertissement avant expiration du mot de passe",
 
 # LSobjects.LSpeople.attrs.sambaPwdCanChange.html_options.special_values.0
 "Whenever" =>
