@@ -43,7 +43,7 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.pwdPolicy.LSform.layout.bruteforce.label
 "Brute-force attacks protection" =>
-  "Proctection anti brute-force",
+  "Proctetion anti brute-force",
 
 # LSobjects.pwdPolicy.attrs.pwdCheckModule.label
 "Check OpenLDAP module to used" =>
