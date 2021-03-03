@@ -22,16 +22,6 @@ var LSformElement_mail = new Class({
           this.addBtnAfter.bind(this)(a);
         }
       }, this);
-      var getName = /^(.*)\[\]$/;
-      el.getElements('input.LSformElement_mail_autocomplete').each(function(input) {
-        this.fields.push(
-          new LSformElement_mail_field(
-            getName.exec(input.name)[1],
-            input
-          )
-        );
-      }, this);
-
     },
 
     addBtnAfter: function(el) {

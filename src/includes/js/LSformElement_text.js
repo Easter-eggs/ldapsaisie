@@ -8,11 +8,10 @@ var LSformElement_text = new Class({
     },
 
     initialiseLSformElement_text: function(el) {
-
       if (typeof(el) == 'undefined') {
         el = document;
       }
-      var getName = /^(.*)\[\]$/
+      var getName = /^(.*)\[\]$/;
       el.getElements('input.LSformElement_text').each(function(input) {
         var name = getName.exec(input.name)[1];
         if (!$type(this.elements[name])) {

@@ -101,6 +101,9 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
     elseif ($key=='subDn' || $key=='subDnName') {
       return $this -> subDn;
     }
+    elseif ($key=='dn') {
+      return $this -> dn;
+    }
   }
 
   /**
@@ -111,7 +114,7 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
    *
    * @retval void
    **/
-  private function registerOtherValue($name,$value) {
+  public function registerOtherValue($name,$value) {
     $this -> other_values[$name]=$value;
   }
 

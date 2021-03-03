@@ -34,7 +34,7 @@ LSsession :: loadLSclass('LSformElement_text');
 class LSformElement_tel extends LSformElement_text {
 
   var $fetchVariables = array(
-    'uriClass' => 'LSformElement_tel',
+    'additionalCssClass' => array('LSformElement_tel'),
     'uriPrefix' => 'tel:'
   );
 

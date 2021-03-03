@@ -59,7 +59,9 @@ class LSformElement_maildir extends LSformElement_text {
     'LSformElement_maildir.js'
   );
 
-  var $fieldTemplate = 'LSformElement_maildir_field.tpl';
+  var $fetchVariables = array(
+    'additionalCssClass' => array('LSformElement_maildir'),
+  );
 
   public function getDisplay() {
     LStemplate :: addHelpInfo(

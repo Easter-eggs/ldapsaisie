@@ -13,7 +13,23 @@
   'withoutAccent' => [booleen],
   'replaceSpaces' => "[chaîne de remplacement]",
   'upperCase' => [booleen],
-  'lowerCase' => [booleen]
+  'lowerCase' => [booleen],
+
+  // Autocomplétion
+  'autocomplete' => array (
+    'object_type' => '[Type d'LSobject]', // facultatif (voir ci-dessous)
+    'value_attributes' => array (
+      '[attr1]',
+      '[attr2]',
+      [...]
+    ),
+    'filter' => '[filtre LDAP]',
+    'basedn' => '[base DN spécifique]',
+    'scope' => '[scope de recherche]',
+    'displayFormat' => '[LSformat]',
+    'onlyAccessible' => [booléen],
+  ),
+
 ),]]>
 ...
 </programlisting>
@@ -31,8 +47,8 @@
     dans le format. Une seule valeur par attribut sera utilisée pour la
     génération : celle du premier champ (dans l'ordre d'apparition dans le
     formulaire).</simpara>
-    <important><simpara>Seuls les éléments du formulaire de type HTML 
-    <emphasis>input</emphasis>, <emphasis>select</emphasis> ou 
+    <important><simpara>Seuls les éléments du formulaire de type HTML
+    <emphasis>input</emphasis>, <emphasis>select</emphasis> ou
     <emphasis>textarea</emphasis> peuvent être utilisés.</simpara></important>
   </listitem>
 </varlistentry>
@@ -89,6 +105,97 @@
     <simpara>Activation de la mise en minuscule de la valeur générée
     automatiquement.</simpara>
     <note><simpara>La valeur par défaut est <emphasis>False</emphasis>.</simpara></note>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>autocomplete</term>
+  <listitem>
+    <para>Paramètrage de l'autocomplétion des valeurs saisies : on paramètre ici la
+    recherche des valeurs possibles de l'attribut dans l'annuaire qui peut se faire :
+    <itemizedlist>
+      <listitem><simpara>Sur la base d'un type d'&LSobject; donné : l'autocomplétion se fera
+      alors comme n'importe quelle recherche d'un type d'objet donné.</simpara></listitem>
+      <listitem><simpara>Sur la base d'une recherche brute dans l'annuaire : l'autocomplétion se
+      fera alors au travers une recherche brute dans l'annuaire sur n'importe quels objets ayant
+      un des attributs spécifiés dans le paramètre <literal>value_attributes</literal>
+      correspondant.</simpara></listitem>
+    </itemizedlist>
+    </para>
+    <para>Les paramètres associés à ces deux cas de figure sont décrits ci-dessous :
+      <variablelist>
+
+<varlistentry>
+  <term>object_type</term>
+  <listitem>
+    <simpara>Le type d'&LSobject; recherché.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>value_attributes</term>
+  <listitem>
+    <simpara>Le(s) nom de l'attribut stockant les valeurs possibles recherchées. Il peut s'agir
+    d'une chaîne de caractères ou d'un tableau s'il y a plusieurs attributs.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>pattern_filter</term>
+  <listitem>
+    <simpara>Le &LSformat; du filtre de recherche à partir du mot clé recherché. Ce paramètre est
+    facultatif et utile que dans le cas d'une recherche sans type d'&LSobject; précis. S'il est
+    défini, ce &LSformat; sera composé à l'aide du mot clé recherché. À défaut, le filtre de
+    recherche sera composé à l'aide des différents <literal>value_attributes</literal> configurés.
+    </simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>filter</term>
+  <listitem>
+    <simpara>Un filtre de recherche facultatif venant en plus de celui calculé automatiquement à partir
+    du mot clé de recherche.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>basedn</term>
+  <listitem>
+    <simpara>Le <emphasis>basedn</emphasis> de la recherche. <emphasis>Paramètre
+    facultatif.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>scope</term>
+  <listitem>
+    <simpara>Le <emphasis>scope</emphasis> de la recherche. <emphasis>Paramètre
+    facultatif, par défaut : <literal>sub</literal>.</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>display_name_format</term>
+  <listitem>
+    <simpara>Le &LSformat; d'affichage des objets trouvés. Ce paramètre est facultatif et par défaut,
+    il s'agira du format d'affichage propre au type d'&LSobject; (si défini) et à défaut, la valeur
+    possible trouvée sera affichée. Si est configuré, ce &LSformat; sera composé à l'aide des valeurs
+    brutes des attributs des objets correspondants avec en plus la valeur possible trouvée dans le mot
+    clé <literal>value</literal>.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>only_accessible</term>
+  <listitem>
+    <simpara>Booléen falcultatif définissant si seul les &LSobjects; auxquels l'utilisateur connecté à accès
+    doivent être considérés comme sélectionnables (Faux par défaut). Ce paramètre n'est appliqué que dans
+    le cas d'une recherche pour un type d'&LSobject; donné.</simpara>
+  </listitem>
+</varlistentry>
+      </variablelist>
+    </para>
   </listitem>
 </varlistentry>
 

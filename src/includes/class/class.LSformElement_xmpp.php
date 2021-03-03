@@ -37,7 +37,7 @@ class LSformElement_xmpp extends LSformElement_text {
   );
 
   var $fetchVariables = array(
-    'uriClass' => 'LSformElement_xmpp',
+    'additionalCssClass' => array('LSformElement_xmpp'),
     'uriPrefix' => 'xmpp:'
   );
 

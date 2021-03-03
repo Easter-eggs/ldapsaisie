@@ -37,7 +37,7 @@ class LSformElement_rss extends LSformElement_text {
     'LSformElement_rss.js'
   );
   var $fetchVariables = array(
-    'uriClass' => 'LSformElement_rss',
+    'additionalCssClass' => array('LSformElement_rss'),
     'uriPrefix' => ''
   );
 

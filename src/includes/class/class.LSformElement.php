@@ -44,18 +44,17 @@ class LSformElement extends LSlog_staticLoggerClass {
   var $fetchVariables = array();
 
   /**
-   * Constructeur
-   *
-   * Cette methode construit l'objet et définis sa configuration de base.
+   * Constructor
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] &$form [<b>required</b>] LSform L'objet LSform parent
-   * @param[in] $name [<b>required</b>] string Le nom de référence de l'élément
-   * @param[in] $label [<b>required</b>] string Le label de l'élément
-   * @param[in] $params mixed Paramètres supplémentaires
+   * @param[in] &$form LSform The LSform parent object
+   * @param[in] $name string The name of the element
+   * @param[in] $label string The label of the element
+   * @param[in] $params array The parameters of the element
+   * @param[in] &$attr_html LSattr_html The LSattr_html object of the corresponding attribute
    *
-   * @retval true
+   * @retval void
    */
   public function __construct(&$form, $name, $label, $params, &$attr_html){
     $this -> name = $name;
@@ -63,7 +62,6 @@ class LSformElement extends LSlog_staticLoggerClass {
     $this -> params = $params;
     $this -> form =& $form;
     $this -> attr_html =& $attr_html;
-    return true;
   }
 
   /**
@@ -278,12 +276,12 @@ class LSformElement extends LSlog_staticLoggerClass {
   }
 
  /**
-  * Retournne un template Smarty compilé dans le contexte d'un LSformElement
+  * Return HTML code of the LSformElement based on its (smarty) template file
   *
-  * @param[in] string $template Le template à retourner
-  * @param[in] array $variables Variables Smarty à assigner avant l'affichage
+  * @param[in] $template string The template filename (optional, default: $this -> template)
+  * @param[in] $variables array Array of template variables to assign before template compilation (optional)
   *
-  * @retval string Le HTML compilé du template
+  * @retval string HTML code of the LSformElement
   */
   public function fetchTemplate($template=NULL,$variables=array()) {
     if (!$template) {
