@@ -693,7 +693,7 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.pwdPolicy.attrs.pwdSafeModify.label
 "User must provide its old password to change it" =>
-  "L'utilisateur doit fournir son mot de passe actuell pour le changer",
+  "L'utilisateur doit fournir son mot de passe actuel pour le changer",
 
 # LSobjects.LSpeople.label
 "Users" =>
