@@ -1714,6 +1714,10 @@ class LSsession {
     // Adjust content-type
     header('Content-Type: application/json');
 
+    // Adjust HTTP error code on unsuccessfull request
+    if (isset($data['success']) && !$data['success'] && http_response_code() == 200)
+      http_response_code(400);
+
     // If redirection set, just redirect user before handling messages/errors to
     // keep it in session and show it on next page
     if (isset($data['LSredirect']) && (!LSdebugDefined()) ) {
