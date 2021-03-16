@@ -17,10 +17,17 @@
           <th>
             {tr msg="Attributes / Profiles"}
             <div id="LSaccessRightsMatrixView_legend">
-              <label>{tr msg="Legend:"}</label>
-              <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span> = {tr msg="Readable"}
-              |
-              <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span> = {tr msg="Readable / Writable"}
+              <p><label>{tr msg="Legend:"}</label></p>
+              <p>
+                <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span> = {tr msg="Readable"}
+                |
+                <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span> = {tr msg="Readable / Writable"}
+              </p>
+              <p>
+                <span class='LSaccessRightsMatrixView_readable LSaccessRightsMatrixView_inherit'>{tr msg="R"}</span> /
+                <span class='LSaccessRightsMatrixView_writable LSaccessRightsMatrixView_inherit'>{tr msg="R/W"}</span>
+                = {tr msg="Right inherited from all connected users profile"}
+              </p>
             </div>
           </th>
           {foreach $LSprofiles as $name => $label}
@@ -37,34 +44,12 @@
           {foreach $tab.attrs as $name}
           {if !isset($LSobjects[$LSobject]['attrs'][$name])}{continue}{/if}
           {assign var=conf value=$LSobjects[$LSobject]['attrs'][$name]}
-          <tr>
-            <th class="row-header">{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
-            {foreach $LSprofiles as $profil => $profil_label}
-            <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
-            {if $conf.rights[$profil] == 'r'}
-              <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span>
-            {elseif $conf.rights[$profil] == 'w'}
-              <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span>
-            {/if}
-            </td>
-            {/foreach}
-          </tr>
+          {include file='ls:LSaccessRightsMatrixView_attr_row.tpl'}
           {/foreach}
         {/foreach}
       {else}
         {foreach $LSobjects[$LSobject]['attrs'] as $name => $conf}
-        <tr>
-          <th class="row-header">{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
-          {foreach $LSprofiles as $profil => $profil_label}
-          <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
-          {if $conf.rights[$profil] == 'r'}
-            <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span>
-          {elseif $conf.rights[$profil] == 'w'}
-            <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span>
-          {/if}
-          </td>
-          {/foreach}
-        </tr>
+        {include file='ls:LSaccessRightsMatrixView_attr_row.tpl'}
         {/foreach}
       {/if}
       </tbody>
@@ -77,10 +62,17 @@
         <th>
           {tr msg="Relations / Profiles"}
           <div id="LSaccessRightsMatrixView_legend">
-            <label>{tr msg="Legend:"}</label>
-            <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span> = {tr msg="Readable"}
-            |
-            <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span> = {tr msg="Readable / Writable"}
+            <p><label>{tr msg="Legend:"}</label></p>
+            <p>
+              <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span> = {tr msg="Readable"}
+              |
+              <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span> = {tr msg="Readable / Writable"}
+            </p>
+            <p>
+              <span class='LSaccessRightsMatrixView_readable LSaccessRightsMatrixView_inherit'>{tr msg="R"}</span> /
+              <span class='LSaccessRightsMatrixView_writable LSaccessRightsMatrixView_inherit'>{tr msg="R/W"}</span>
+              = {tr msg="Right inherited from all connected users profile"}
+            </p>
           </div>
         </th>
         {foreach $LSprofiles as $name => $label}
@@ -93,10 +85,14 @@
           <th class="row-header">{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
           {foreach $LSprofiles as $profil => $profil_label}
           <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
-          {if $conf.rights[$profil] == 'r'}
-            <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span>
-          {elseif $conf.rights[$profil] == 'w'}
+          {if $conf.rights[$profil] == 'w'}
             <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span>
+          {elseif $profil != 'user' && $conf.rights['user'] == 'w'}
+            <span class='LSaccessRightsMatrixView_writable LSaccessRightsMatrixView_inherit'>{tr msg="R/W"}</span>
+          {elseif $conf.rights[$profil] == 'r'}
+            <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span>
+          {elseif $profil != 'user' && $conf.rights['user'] == 'r'}
+            <span class='LSaccessRightsMatrixView_readable LSaccessRightsMatrixView_inherit'>{tr msg="R"}</span>
           {/if}
           </td>
           {/foreach}
@@ -115,8 +111,12 @@
         <th>
           {tr msg="Custom actions / Profiles"}
           <div id="LSaccessRightsMatrixView_legend">
-            <label>{tr msg="Legend:"}</label>
-            <span class='LSaccessRightsMatrixView_allowed'>X</span> = {tr msg="Allowed"}
+            <p><label>{tr msg="Legend:"}</label></p>
+            <p><span class='LSaccessRightsMatrixView_allowed'>X</span> = {tr msg="Allowed"}</p>
+            <p>
+              <span class='LSaccessRightsMatrixView_allowed LSaccessRightsMatrixView_inherit'>X</span>
+              = {tr msg="Right inherited from all connected users profile"}
+            </p>
           </div>
         </th>
         {foreach $LSprofiles as $name => $label}
@@ -131,6 +131,8 @@
           <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
           {if $conf.rights[$profil]}
             <span class='LSaccessRightsMatrixView_allowed'>X</span>
+          {elseif $profil != 'user' && $conf.rights['user']}
+            <span class='LSaccessRightsMatrixView_allowed LSaccessRightsMatrixView_inherit'>X</span>
           {/if}
           </td>
           {/foreach}
@@ -149,8 +151,12 @@
         <th>
           {tr msg="Custom actions / Profiles"}
           <div id="LSaccessRightsMatrixView_legend">
-            <label>{tr msg="Legend:"}</label>
-            <span class='LSaccessRightsMatrixView_allowed'>X</span> = {tr msg="Allowed"}
+            <p><label>{tr msg="Legend:"}</label></p>
+            <p><span class='LSaccessRightsMatrixView_allowed'>X</span> = {tr msg="Allowed"}</p>
+            <p>
+              <span class='LSaccessRightsMatrixView_allowed LSaccessRightsMatrixView_inherit'>X</span>
+              = {tr msg="Right inherited from all connected users profile"}
+            </p>
           </div>
         </th>
         {foreach $LSprofiles as $name => $label}
@@ -165,6 +171,8 @@
           <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
           {if $conf.rights[$profil]}
             <span class='LSaccessRightsMatrixView_allowed'>X</span>
+          {elseif $profil != 'user' && $conf.rights['user']}
+            <span class='LSaccessRightsMatrixView_allowed LSaccessRightsMatrixView_inherit'>X</span>
           {/if}
           </td>
           {/foreach}

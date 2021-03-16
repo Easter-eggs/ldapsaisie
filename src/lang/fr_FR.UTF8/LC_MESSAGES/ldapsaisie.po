@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-03-16 17:23+0100\n"
+"PO-Revision-Date: 2021-03-16 17:50+0100\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -2492,8 +2492,8 @@ msgstr "Mme."
 msgid "Mr."
 msgstr "M."
 
-#: templates/default/LSaccessRightsMatrixView.tpl:119
-#: templates/default/LSaccessRightsMatrixView.tpl:153
+#: templates/default/LSaccessRightsMatrixView.tpl:115
+#: templates/default/LSaccessRightsMatrixView.tpl:155
 msgid "Allowed"
 msgstr "Autorisé"
 
@@ -2513,16 +2513,16 @@ msgstr "Se connecter"
 msgid "Connected as"
 msgstr "Connecté en tant que"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:111
+#: templates/default/LSaccessRightsMatrixView.tpl:107
 msgid "Custom actions"
 msgstr "Actions personnalisées"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:116
-#: templates/default/LSaccessRightsMatrixView.tpl:150
+#: templates/default/LSaccessRightsMatrixView.tpl:112
+#: templates/default/LSaccessRightsMatrixView.tpl:152
 msgid "Custom actions / Profiles"
 msgstr "Actions personnalisées / Profils"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:145
+#: templates/default/LSaccessRightsMatrixView.tpl:147
 msgid "Custom search actions"
 msgstr "Actions personnalisées sur les recherches"
 
@@ -2570,9 +2570,9 @@ msgid "Language"
 msgstr "Langue"
 
 #: templates/default/LSaccessRightsMatrixView.tpl:20
-#: templates/default/LSaccessRightsMatrixView.tpl:80
-#: templates/default/LSaccessRightsMatrixView.tpl:118
-#: templates/default/LSaccessRightsMatrixView.tpl:152
+#: templates/default/LSaccessRightsMatrixView.tpl:65
+#: templates/default/LSaccessRightsMatrixView.tpl:114
+#: templates/default/LSaccessRightsMatrixView.tpl:154
 msgid "Legend:"
 msgstr "Légende :"
 
@@ -2620,29 +2620,35 @@ msgstr "Mot de passe"
 msgid "Please confirm new password:"
 msgstr "Merci de confirmer le nouveau mot de passe :"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:21
-#: templates/default/LSaccessRightsMatrixView.tpl:45
-#: templates/default/LSaccessRightsMatrixView.tpl:61
-#: templates/default/LSaccessRightsMatrixView.tpl:81
-#: templates/default/LSaccessRightsMatrixView.tpl:97
+#: templates/default/LSaccessRightsMatrixView.tpl:22
+#: templates/default/LSaccessRightsMatrixView.tpl:27
+#: templates/default/LSaccessRightsMatrixView.tpl:67
+#: templates/default/LSaccessRightsMatrixView.tpl:72
+#: templates/default/LSaccessRightsMatrixView.tpl:93
+#: templates/default/LSaccessRightsMatrixView.tpl:95
+#: templates/default/LSaccessRightsMatrixView_attr_row.tpl:10
+#: templates/default/LSaccessRightsMatrixView_attr_row.tpl:12
 msgid "R"
 msgstr "L"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:23
-#: templates/default/LSaccessRightsMatrixView.tpl:47
-#: templates/default/LSaccessRightsMatrixView.tpl:63
-#: templates/default/LSaccessRightsMatrixView.tpl:83
-#: templates/default/LSaccessRightsMatrixView.tpl:99
+#: templates/default/LSaccessRightsMatrixView.tpl:24
+#: templates/default/LSaccessRightsMatrixView.tpl:28
+#: templates/default/LSaccessRightsMatrixView.tpl:69
+#: templates/default/LSaccessRightsMatrixView.tpl:73
+#: templates/default/LSaccessRightsMatrixView.tpl:89
+#: templates/default/LSaccessRightsMatrixView.tpl:91
+#: templates/default/LSaccessRightsMatrixView_attr_row.tpl:6
+#: templates/default/LSaccessRightsMatrixView_attr_row.tpl:8
 msgid "R/W"
 msgstr "L/É"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:21
-#: templates/default/LSaccessRightsMatrixView.tpl:81
+#: templates/default/LSaccessRightsMatrixView.tpl:22
+#: templates/default/LSaccessRightsMatrixView.tpl:67
 msgid "Readable"
 msgstr "Lecture"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:23
-#: templates/default/LSaccessRightsMatrixView.tpl:83
+#: templates/default/LSaccessRightsMatrixView.tpl:24
+#: templates/default/LSaccessRightsMatrixView.tpl:69
 msgid "Readable / Writable"
 msgstr "Lecture / Écriture"
 
@@ -2650,13 +2656,20 @@ msgstr "Lecture / Écriture"
 msgid "Refresh my access rights"
 msgstr "Rafraîchir mes droits d'accès"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:78
+#: templates/default/LSaccessRightsMatrixView.tpl:63
 msgid "Relations / Profiles"
 msgstr "Relations / Profils"
 
 #: templates/default/import.tpl:41
 msgid "Result"
 msgstr "Résultat"
+
+#: templates/default/LSaccessRightsMatrixView.tpl:29
+#: templates/default/LSaccessRightsMatrixView.tpl:74
+#: templates/default/LSaccessRightsMatrixView.tpl:118
+#: templates/default/LSaccessRightsMatrixView.tpl:158
+msgid "Right inherited from all connected users profile"
+msgstr "Droit hérité du profile \"Tous les utilisateurs connectés\""
 
 #: templates/default/base_connected.tpl:6
 msgid "Show/hide menu"
@@ -2666,21 +2679,21 @@ msgstr "Afficher/cacher le menu"
 msgid "Subject"
 msgstr "Sujet"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:73
+#: templates/default/LSaccessRightsMatrixView.tpl:58
 msgid "Their relations with other objects"
 msgstr "Leurs relations avec les autres objets"
 
-#: templates/default/LSaccessRightsMatrixView.tpl:142
+#: templates/default/LSaccessRightsMatrixView.tpl:144
 msgid "This object type has no configured custom action."
 msgstr "Ce type d'objet n'a aucune action personnalisée de configurée."
 
-#: templates/default/LSaccessRightsMatrixView.tpl:176
+#: templates/default/LSaccessRightsMatrixView.tpl:184
 msgid "This object type has no configured custom search action."
 msgstr ""
 "Ce type d'objet n'a aucune action personnalisée sur les recherches de "
 "configurée."
 
-#: templates/default/LSaccessRightsMatrixView.tpl:108
+#: templates/default/LSaccessRightsMatrixView.tpl:104
 msgid "This object type has no configured relation."
 msgstr "Ce type d'objet n'a aucune relation de configurée."
 

@@ -121,6 +121,10 @@ span.LSaccessRightsMatrixView_allowed {
   border-color: #28a745;
 }
 
+span.LSaccessRightsMatrixView_inherit {
+  opacity: 0.3;
+}
+
 /*
  * Tabs
  */
@@ -172,6 +176,16 @@ div.LSaccessRightsMatrixView_tab_content h2 {
   padding-top: 1em;
   font-style: italic;
   font-weight: normal;
+}
+
+#LSaccessRightsMatrixView_legend label {
+  display: block;
+  text-decoration: underline;
+}
+
+#LSaccessRightsMatrixView_legend p {
+  margin: 0;
+  margin-bottom: 0.3em;
 }
 
 /*
