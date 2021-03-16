@@ -19,6 +19,10 @@
   text-align: left;
 }
 
+#LSaccessRightsMatrixView table tbody th.LSaccessRightsMatrixView_layout_label {
+  text-align: center;
+}
+
 /*
  * Table rotated header
  */

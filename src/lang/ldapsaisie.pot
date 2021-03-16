@@ -176,7 +176,7 @@ msgid "Access Right Matrix Support : The global array %{array} is not defined."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:52
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:187
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:209
 msgid "Access rights matrix"
 msgstr ""
 
@@ -184,7 +184,11 @@ msgstr ""
 msgid "All connected users"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:183
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:184
+msgid "Masked attributes"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.LSaccessRightsMatrixView.php:205
 msgid "The user him-self"
 msgstr ""
 
@@ -866,133 +870,133 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2726
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2730
 #: templates/default/select.tpl:20 templates/default/recoverpassword.tpl:17
 #: templates/default/login.tpl:16
 msgid "Level"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2884
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2888
 msgid "LSsession : The constant '%{const}' is not defined."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2887
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2891
 msgid ""
 "LSsession : The addon '%{addon}' support is uncertain. Verify system "
 "compatibility and the add-on configuration."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2890
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2894
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2893
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2897
 msgid "LSsession : Failed to load LSobject type '%{type}' : unknon type."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2896
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2900
 msgid "LSsession : Failed to load LSclass '%{class}'."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2899
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2903
 msgid "LSsession : Login or password incorrect."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2902
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2906
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2905
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2909
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2908
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2912
 msgid "LSsession : Can't connect to LDAP server."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2911
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2915
 msgid "LSsession : Impossible to authenticate you."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2914
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2918
 msgid "LSsession : Your are not authorized to do this action."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2917
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2921
 msgid "LSsession : Some informations are missing to display this page."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2920
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2924
 msgid ""
 "LSsession : The function '%{function}' of the custom action "
 "'%{customAction}' does not exists or is not configured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2923
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2927
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2926
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2930
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2929
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2933
 msgid "LSsession : No import/export format define for this object type."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2932
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2936
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2935
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2939
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2938
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2942
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2941
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2945
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2944
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2948
 msgid ""
 "LSsession : The function '%{func}' configured for the view '%{view}' of the "
 "LSaddon '%{addon}' is not declared in the LSaddon file."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2948
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2952
 msgid ""
 "LSsession : The function '%{func}' configured for the view '%{view}' of the "
 "LSaddon '%{addon}' doesn't exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2951
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2955
 msgid "LSsession : invalid related object's DN pass in parameter."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2954
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2958
 msgid ""
 "LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please "
 "upgrade it."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2957
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2961
 msgid ""
 "LSsession : You have been redirect from an old-style URL %{url}. Please "
 "upgrade this link."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2960
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2964
 msgid ""
 "LSsession : You always seem to use %{old} in your custom code: Please "
 "upgrade it and use %{new}.<pre>\n"
@@ -1574,11 +1578,11 @@ msgstr ""
 msgid "LSauthMethod_HTTP : the %{var} environnement variable is missing."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mail.php:88
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mail.php:87
 msgid "Send a mail from here."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mail.php:120
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mail.php:119
 msgid ""
 "LSformElement_mail: the autocomplete feature was moved to parent "
 "LSformElement_text class and you still use old configuration style with "
@@ -2130,8 +2134,8 @@ msgstr ""
 msgid "Mr."
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:95
-#: templates/default/LSaccessRightsMatrixView.tpl:129
+#: templates/default/LSaccessRightsMatrixView.tpl:119
+#: templates/default/LSaccessRightsMatrixView.tpl:153
 msgid "Allowed"
 msgstr ""
 
@@ -2151,16 +2155,16 @@ msgstr ""
 msgid "Connected as"
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:87
+#: templates/default/LSaccessRightsMatrixView.tpl:111
 msgid "Custom actions"
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:92
-#: templates/default/LSaccessRightsMatrixView.tpl:126
+#: templates/default/LSaccessRightsMatrixView.tpl:116
+#: templates/default/LSaccessRightsMatrixView.tpl:150
 msgid "Custom actions / Profiles"
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:121
+#: templates/default/LSaccessRightsMatrixView.tpl:145
 msgid "Custom search actions"
 msgstr ""
 
@@ -2208,9 +2212,9 @@ msgid "Language"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:20
-#: templates/default/LSaccessRightsMatrixView.tpl:56
-#: templates/default/LSaccessRightsMatrixView.tpl:94
-#: templates/default/LSaccessRightsMatrixView.tpl:128
+#: templates/default/LSaccessRightsMatrixView.tpl:80
+#: templates/default/LSaccessRightsMatrixView.tpl:118
+#: templates/default/LSaccessRightsMatrixView.tpl:152
 msgid "Legend:"
 msgstr ""
 
@@ -2259,26 +2263,28 @@ msgid "Please confirm new password:"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:21
-#: templates/default/LSaccessRightsMatrixView.tpl:38
-#: templates/default/LSaccessRightsMatrixView.tpl:57
-#: templates/default/LSaccessRightsMatrixView.tpl:73
+#: templates/default/LSaccessRightsMatrixView.tpl:45
+#: templates/default/LSaccessRightsMatrixView.tpl:61
+#: templates/default/LSaccessRightsMatrixView.tpl:81
+#: templates/default/LSaccessRightsMatrixView.tpl:97
 msgid "R"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:23
-#: templates/default/LSaccessRightsMatrixView.tpl:40
-#: templates/default/LSaccessRightsMatrixView.tpl:59
-#: templates/default/LSaccessRightsMatrixView.tpl:75
+#: templates/default/LSaccessRightsMatrixView.tpl:47
+#: templates/default/LSaccessRightsMatrixView.tpl:63
+#: templates/default/LSaccessRightsMatrixView.tpl:83
+#: templates/default/LSaccessRightsMatrixView.tpl:99
 msgid "R/W"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:21
-#: templates/default/LSaccessRightsMatrixView.tpl:57
+#: templates/default/LSaccessRightsMatrixView.tpl:81
 msgid "Readable"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:23
-#: templates/default/LSaccessRightsMatrixView.tpl:59
+#: templates/default/LSaccessRightsMatrixView.tpl:83
 msgid "Readable / Writable"
 msgstr ""
 
@@ -2286,7 +2292,7 @@ msgstr ""
 msgid "Refresh my access rights"
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:54
+#: templates/default/LSaccessRightsMatrixView.tpl:78
 msgid "Relations / Profiles"
 msgstr ""
 
@@ -2302,19 +2308,19 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:49
+#: templates/default/LSaccessRightsMatrixView.tpl:73
 msgid "Their relations with other objects"
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:118
+#: templates/default/LSaccessRightsMatrixView.tpl:142
 msgid "This object type has no configured custom action."
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:152
+#: templates/default/LSaccessRightsMatrixView.tpl:176
 msgid "This object type has no configured custom search action."
 msgstr ""
 
-#: templates/default/LSaccessRightsMatrixView.tpl:84
+#: templates/default/LSaccessRightsMatrixView.tpl:108
 msgid "This object type has no configured relation."
 msgstr ""
 

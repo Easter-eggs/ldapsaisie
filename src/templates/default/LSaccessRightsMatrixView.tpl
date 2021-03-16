@@ -29,7 +29,30 @@
         </tr>
       </thead>
       <tbody>
-      {foreach $LSobjects[$LSobject]['attrs'] as $name => $conf}
+      {if $LSobjects[$LSobject]['layout']}
+        {foreach $LSobjects[$LSobject]['layout'] as $tab_name => $tab}
+          <tr>
+            <th colspan="{count($LSprofiles)+1}" class="LSaccessRightsMatrixView_layout_label">{$tab.label}</th>
+          </tr>
+          {foreach $tab.attrs as $name}
+          {if !isset($LSobjects[$LSobject]['attrs'][$name])}{continue}{/if}
+          {assign var=conf value=$LSobjects[$LSobject]['attrs'][$name]}
+          <tr>
+            <th class="row-header">{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
+            {foreach $LSprofiles as $profil => $profil_label}
+            <td class='LStips' title="{if $profil != $profil_label}{$profil_label} ({$profil}){else}{$profil}{/if}">
+            {if $conf.rights[$profil] == 'r'}
+              <span class='LSaccessRightsMatrixView_readable'>{tr msg="R"}</span>
+            {elseif $conf.rights[$profil] == 'w'}
+              <span class='LSaccessRightsMatrixView_writable'>{tr msg="R/W"}</span>
+            {/if}
+            </td>
+            {/foreach}
+          </tr>
+          {/foreach}
+        {/foreach}
+      {else}
+        {foreach $LSobjects[$LSobject]['attrs'] as $name => $conf}
         <tr>
           <th class="row-header">{$conf.label} <img class='LStips' src="{img name='help'}" alt='?' title='{$name|escape:'htmlall'}'/></th>
           {foreach $LSprofiles as $profil => $profil_label}
@@ -42,7 +65,8 @@
           </td>
           {/foreach}
         </tr>
-      {/foreach}
+        {/foreach}
+      {/if}
       </tbody>
     </table>
 

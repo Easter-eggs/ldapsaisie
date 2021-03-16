@@ -166,12 +166,34 @@ function LSaccessRightsMatrixView() {
 			);
 		}
 
+    // Handle LSform layout
+    $layout = false;
+    if (LSconfig :: get("LSobjects.$LSobject.LSform.layout")) {
+      $layout = array();
+      $displayed_attrs = array();
+      foreach(LSconfig :: get("LSobjects.$LSobject.LSform.layout") as $tab => $tab_config) {
+        $layout[$tab] = array(
+          'label' => __(LSconfig :: get('label', $tab, 'string', $tab_config)),
+          'attrs' => LSconfig :: get('args', $tab, 'array', $tab_config),
+        );
+        $displayed_attrs = array_merge($displayed_attrs, $layout[$tab]['attrs']);
+      }
+      $masked_attrs = array_diff(array_keys(LSconfig :: get("LSobjects.$LSobject.attrs", array(), 'array')), $displayed_attrs);
+      if ($masked_attrs) {
+        $layout['masked_attrs'] = array(
+          'label' => _('Masked attributes'),
+          'attrs' => $masked_attrs,
+        );
+      }
+    }
+
 		$LSobjects[$LSobject] = array (
 			'label' => __(LSconfig :: get("LSobjects.$LSobject.label", $LSobject, 'string')),
 			'attrs' => $attrs,
 			'relations' => $relations,
 			'customActions' => $customActions,
 			'customSearchActions' => $customSearchActions,
+			'layout' => $layout,
 		);
 	}
 
