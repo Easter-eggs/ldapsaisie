@@ -202,6 +202,13 @@
           </varlistentry>
 
           <varlistentry>
+            <term>as_list</term>
+            <listitem><simpara>Permet de réclamer un résultat de recherche dans lequel, la clé <literal>
+            objects</literal> sera une liste et non un dictionnaire. Dans ce cas, le DN de l'objet est fourni
+            dans la clé <literal>dn</literal> des détails des objets.</simpara></listitem>
+          </varlistentry>
+
+          <varlistentry>
             <term>withoutCache</term>
             <listitem><simpara>Booléen permettant de désactiver l'utilisation du cache. Les valeurs acceptées
             sont <literal>1</literal> ou <literal>0</literal>.</simpara></listitem>

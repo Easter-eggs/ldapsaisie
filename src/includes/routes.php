@@ -1620,6 +1620,9 @@ function handle_api_LSobject_search($request) {
     $data['objects'][$obj -> dn] = array(
       'name' => $obj -> displayName,
     );
+    // When as_list enabled, put object DN in object details (otherwise, is present as key)
+    if (isset($_REQUEST['as_list']))
+      $data['objects'][$obj -> dn]['dn'] = $obj -> dn;
     if ($search -> displaySubDn)
       $data['objects'][$obj -> dn][$search -> label_level] = $obj -> subDn;
     if ($search -> extraDisplayedColumns) {
@@ -1632,6 +1635,9 @@ function handle_api_LSobject_search($request) {
         $data['objects'][$obj -> dn][$attr] = $obj -> $attr;
     }
   }
+  // Handle as_list parameter
+  if (isset($_REQUEST['as_list']))
+    $data['objects'] = array_values($data['objects']);
   LSsession :: displayAjaxReturn($data);
 }
 LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/?$#', 'handle_api_LSobject_search', true, false, true);
