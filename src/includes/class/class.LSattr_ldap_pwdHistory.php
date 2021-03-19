@@ -69,6 +69,7 @@ class LSattr_ldap_pwdHistory extends LSattr_ldap {
     }
     $datetime = date_create_from_format('YmdHisO', $parts[0]);
     if ($datetime instanceof DateTime) {
+      $datetime -> setTimezone(timezone_open(date_default_timezone_get()));
       $time = $datetime -> format($this -> getFormat());
     }
     else {
