@@ -379,7 +379,6 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.LSpeople.attrs.pwdChangedTime.no_value_label
 # LSobjects.LSpeople.attrs.pwdGraceUseTime.no_value_label
-# LSobjects.LSpeople.attrs.pwdFailureTime.no_value_label
 # LSobjects.LSpeople.attrs.shadowLastChange.no_value_label
 # LSobjects.LSpeople.attrs.sambaLogonTime.no_value_label
 # LSobjects.LSpeople.attrs.sambaLogoffTime.no_value_label
@@ -389,7 +388,6 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSpeople.attrs.sambaPwdCanChange.html_options.special_values.2147483647
 # LSobjects.LSsysaccount.attrs.pwdChangedTime.no_value_label
 # LSobjects.LSsysaccount.attrs.pwdGraceUseTime.no_value_label
-# LSobjects.LSsysaccount.attrs.pwdFailureTime.no_value_label
 "Never" =>
   "Jamais",
 
@@ -398,6 +396,11 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.pwdPolicy.attrs.pwdMustChange.no_value_label
 "No (default)" =>
   "Non (par défaut)",
+
+# LSobjects.LSpeople.attrs.pwdFailureTime.no_value_label
+# LSobjects.LSsysaccount.attrs.pwdFailureTime.no_value_label
+"No fail since last successful connection" =>
+  "Aucun échec depuis la dernière connexion réussie",
 
 # LSobjects.pwdPolicy.attrs.pwdGraceAuthNLimit.no_value_label
 "No grace delay (default)" =>

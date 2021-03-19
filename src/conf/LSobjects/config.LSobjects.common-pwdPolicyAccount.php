@@ -64,7 +64,7 @@ $GLOBALS['pwdPolicyAccountAttrs'] = array (
 			'html_options' => array(
 				'firstDayOfWeek' => 1,
 			),
-			'no_value_label' => 'Never',
+			'no_value_label' => 'No fail since last successful connection',
 			'multiple' => 1,
 			'rights' => array(
 				'self' => 'r',
