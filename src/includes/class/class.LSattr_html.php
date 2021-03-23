@@ -118,7 +118,7 @@ class LSattr_html extends LSlog_staticLoggerClass {
    * @retval array The values to be displayed in the LSform
    **/
   public function getFormVal($data) {
-    return $this -> attribute -> getDisplayValue();
+    return $this -> attribute -> getDisplayValue($data);
   }
 
   /**

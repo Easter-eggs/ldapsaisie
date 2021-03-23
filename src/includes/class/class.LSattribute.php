@@ -410,14 +410,19 @@ class LSattribute extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retourne la valeur a afficher dans le formulaire
+   * Return the form display value
+   *
+   * @param[in] $data mixed Custom attribute data (optional, default: current attribute data)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval string La valeur a afficher dans le formulaire.
+   * @retval string The form display value
    */
-  public function getFormVal() {
-    return ensureIsArray($this -> html -> getFormVal($this -> data));
+  public function getFormVal($data=null) {
+    if (is_null($data)) {
+      $data = ($this -> isUpdate()?$this -> updateData:$this -> data);
+    }
+    return ensureIsArray($this -> html -> getFormVal($data));
   }
 
   /**
