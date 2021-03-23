@@ -227,6 +227,10 @@ class LSio extends LSlog_staticLoggerClass {
     $objectsInError = array();
     self :: log_trace("import(): objects data=".varDump($objectsData));
 
+    // Reset & increase time limit: allow one seconds by object to handle,
+    // with a minimum of 30 seconds
+    set_time_limit((count($objectsData)>30?count($objectsData):30));
+
     // Browse inputed objects
     foreach($objectsData as $objData) {
       $globalErrors = array();
@@ -378,6 +382,10 @@ class LSio extends LSlog_staticLoggerClass {
       return false;
     }
     self :: log_debug(count($objects)." object(s) found to export");
+
+    // Reset & increase time limit: allow one seconds by object to handle,
+    // with a minimum of 30 seconds
+    set_time_limit((count($objects)>30?count($objects):30));
 
     // Export objects using LSioFormat object
     if (!$ioFormat -> exportObjects($objects, $stream)) {
