@@ -1612,6 +1612,16 @@ function handle_api_LSobject_search($request) {
     'objects' => array(),
     'total' => $search -> total,
   );
+
+  // Instanciate LSform export to handle custom requested attributes
+  if (!LSsession :: loadLSclass('LSform'))
+    LSlog :: fatal("Fail to load LSform.");
+  $export = new LSform($object, 'export');
+  foreach ($search -> attributes as $attr) {
+    if (array_key_exists($attr, $object -> attrs))
+      $object -> attrs[$attr] -> addToExport($export);
+  }
+
   if (!$all) {
     $data['page'] = $page['nb'];
     $data['nbPages'] = $page['nbPages'];
@@ -1631,8 +1641,12 @@ function handle_api_LSobject_search($request) {
       }
     }
     foreach ($search -> attributes as $attr) {
-      if (LSsession :: canAccess($LSobject, $obj -> dn, 'r', $attr))
-        $data['objects'][$obj -> dn][$attr] = $obj -> $attr;
+      if (!LSsession :: canAccess($LSobject, $obj -> dn, 'r', $attr))
+        continue;
+      $export -> elements[$attr] -> setValue(
+        $object -> attrs[$attr] -> getDisplayValue($obj -> $attr)
+      );
+      $data['objects'][$obj -> dn][$attr] = $export -> elements[$attr] -> getApiValue(false);
     }
   }
   // Handle as_list parameter

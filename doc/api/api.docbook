@@ -165,8 +165,6 @@
           <varlistentry>
             <term>attributes</term>
             <listitem><simpara>Liste des attributs supplémentaires que devra retourner la recherche.</simpara>
-            <warning><simpara>Attention, ici ce sont les valeurs brutes des attributs qui seront retournées et
-            par forcément les valeurs telle que retournées habituellement.</simpara></warning>
             </listitem>
           </varlistentry>
 

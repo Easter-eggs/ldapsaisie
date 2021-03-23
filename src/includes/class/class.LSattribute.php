@@ -168,19 +168,24 @@ class LSattribute extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retourne la valeur d'affichage de l'attribut
+   * Return attribute's display value
+   *
+   * @param[in] $data mixed Custom attribute data (optional, default: current attribute data)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval string La valeur d'affichage de l'attribut
+   * @retval mixed The display value of the attribute
    */
-  public function getDisplayValue() {
+  public function getDisplayValue($data=false) {
     if (!$this -> ldap) {
       LSerror :: addErrorCode('LSattribute_09',array('type' => 'ldap','name' => $this -> name));
       return;
     }
 
-    if ($this -> isUpdate()) {
+    if ($data !== false) {
+      $data = $this -> ldap -> getDisplayValue($data);
+    }
+    elseif ($this -> isUpdate()) {
       $data = $this -> ldap -> getDisplayValue($this -> updateData);
     }
     else {
