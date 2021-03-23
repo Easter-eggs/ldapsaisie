@@ -1644,7 +1644,9 @@ function handle_api_LSobject_search($request) {
       if (!LSsession :: canAccess($LSobject, $obj -> dn, 'r', $attr))
         continue;
       $export -> elements[$attr] -> setValue(
-        $object -> attrs[$attr] -> getDisplayValue($obj -> $attr)
+        $object -> attrs[$attr] -> html -> refreshForm(
+          $object -> attrs[$attr] -> getFormVal($obj -> $attr)
+        )
       );
       $data['objects'][$obj -> dn][$attr] = $export -> elements[$attr] -> getApiValue(false);
     }
