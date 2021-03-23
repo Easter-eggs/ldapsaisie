@@ -1648,7 +1648,7 @@ function handle_api_LSobject_search($request) {
           $object -> attrs[$attr] -> getFormVal($obj -> $attr)
         )
       );
-      $data['objects'][$obj -> dn][$attr] = $export -> elements[$attr] -> getApiValue(false);
+      $data['objects'][$obj -> dn][$attr] = $export -> elements[$attr] -> getApiValue(isset($_REQUEST['attributesDetails']));
     }
   }
   // Handle as_list parameter

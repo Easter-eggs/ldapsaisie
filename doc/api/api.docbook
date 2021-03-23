@@ -169,6 +169,14 @@
           </varlistentry>
 
           <varlistentry>
+            <term>attributesDetails</term>
+            <listitem><simpara>Permet d'obtenir les détails sur les valeurs des attributs (au lieu des valeurs
+            au format attendu en cas de création/modification de l'objet). Seul la présence de ce paramètre
+            suffit à activer ce comportement, sa valeur n'a pas d'importance.</simpara>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
             <term>sortBy</term>
             <listitem><simpara>Permet de préciser sur quelle information le résultat de recherche doit être
             trié. Valeurs acceptées : <literal>displayName</literal>, <literal>subDn</literal> ou un des noms
