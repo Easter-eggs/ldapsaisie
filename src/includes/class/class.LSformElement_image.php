@@ -176,7 +176,7 @@ class LSformElement_image extends LSformElement {
     if ($this -> isMultiple()) {
       $values = array();
       for ($i=0; $i < count($this -> values); $i++)
-        $values[] = base64_encode($this -> values[0]);
+        $values[] = base64_encode($this -> values[$i]);
       return $values;
     }
     if (!$this -> values)
