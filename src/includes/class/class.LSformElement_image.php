@@ -116,7 +116,7 @@ class LSformElement_image extends LSformElement {
     }
     else {
       if (isset($_POST[$this -> name.'_delete'])) {
-        $return[$this -> name][0]='';
+        $return[$this -> name] = array();
       }
     }
     return true;
