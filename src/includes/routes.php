@@ -1626,6 +1626,13 @@ function handle_api_LSobject_search($request) {
     $data['page'] = $page['nb'];
     $data['nbPages'] = $page['nbPages'];
   }
+
+  // Reset & increase time limit: allow one seconds by object to handle,
+  // with a minimum of 30 seconds
+  $timeout = count(($all?$entries:$page['list']));
+  set_time_limit(($timeout>30?$timeout:30));
+
+  // Handle objects
   foreach(($all?$entries:$page['list']) as $obj) {
     $data['objects'][$obj -> dn] = array(
       'name' => $obj -> displayName,
