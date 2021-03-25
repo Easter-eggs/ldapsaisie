@@ -202,6 +202,10 @@ td.LSobject-list, tr.LSobject-list, table.LStable tbody td, table.LStable th {
 		width: 32vw;
 	}
 
+	select.LSformElement_valueWithUnit {
+		width: auto;
+	}
+
 	ul.LSformElement_jsonCompositeAttribute div label {
 		width: 10rem;
 	}
