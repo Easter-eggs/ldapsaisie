@@ -13,7 +13,7 @@
     {$noValueTxt|escape:"htmlall"}
   {/if}
 {else}
-  {if $values_and_units[$value].valueWithUnit || !$values_and_units[$value]}
+  {if isset($values_and_units[$value].valueWithUnit) || !$values_and_units[$value]}
     <input name='{$attr_name|escape:"htmlall"}_valueWithUnit[]' type=text class='LSformElement_valueWithUnit' value='{$values_and_units[$value].valueWithUnit|escape:"htmlall"}'/>
     <select name='{$attr_name|escape:"htmlall"}_unitFact[]' class='LSform LSformElement_valueWithUnit'>
       {html_options options=$units selected=$values_and_units[$value].unitSill}

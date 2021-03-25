@@ -90,16 +90,25 @@ class LSformElement_valueWithUnit extends LSformElement {
       if (!$details)
         return $infos['value'];
       $units = $this -> getUnits();
-      if ($units) {
-        foreach($units as $sill => $label) {
-          if ($infos['value'] >= $sill) {
-            $infos['valueWithUnit'] = $this -> formatNumber($infos['value']/$sill);
-            $infos['unitSill'] = $sill;
-            $infos['unitLabel'] = $label;
-            break;
-          }
+      if (!$units)
+        return $infos;
+      if ($infos['value'] == 0) {
+        ksort($units);
+        $infos['valueWithUnit'] = $this -> formatNumber(0);
+        $infos['unitSill'] = key($units);
+        $infos['unitLabel'] = $units[$infos['unitSill']];
+        return $infos;
+      }
+
+      foreach($units as $sill => $label) {
+        if ($infos['value'] >= $sill) {
+          $infos['valueWithUnit'] = $this -> formatNumber($infos['value']/$sill);
+          $infos['unitSill'] = $sill;
+          $infos['unitLabel'] = $label;
+          break;
         }
       }
+
       return $infos;
     }
     return false;
