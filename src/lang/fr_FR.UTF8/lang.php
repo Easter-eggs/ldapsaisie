@@ -24,6 +24,18 @@ $GLOBALS['LSlang'] = array (
 "After the number of login failures, the action defined by attribute <em>pwdLockout</em> will be executed. If zero (default), no limit." =>
   "Après le nombre de connexions en échécs, l'action définie par l'attribut <em>pwdLockout</em> sera exécutée. Si zéro (par défaut), pas de limite.",
 
+# LSobjects.pwdPolicy.attrs.pwdFailureCountInterval.help_info
+"After this delay, authentication fail count will be reseted if no fail occured in the meantime. If zero (default), authentication fail count will be reseted only after a successful connection." =>
+  "Passé ce délai, le nombre d'échecs d'authentification sera réinitialisé si aucune tentative en échec n'a eut lieu entre-temps. Si zéro (par défaut), le nombre d'échecs d'authentification sera réinitialisé qu'après une connexion réussie.",
+
+# LSobjects.pwdPolicy.attrs.pwdLockoutDuration.help_info
+"After this delay, the account will be automatically unlocked. If zero (default), the account will be locked until an administrator manually unlock it." =>
+  "Passé ce délai, le compte de sera automatiquement débloqué. Si zéro (par défaut), le compte sera bloqué tant qu'un administrateur ne le débloque pas manuellement.",
+
+# LSobjects.pwdPolicy.attrs.pwdMaxAge.help_info
+"After this delay, the password will expired and must be changed. If zero (default), no password expiration." =>
+  "Passé ce délai, le mot de passe expirera et devra être changé. Si zéro (par défaut), pas d'expiration du mot de passe.",
+
 # LSobjects.LSpeople.attrs.loginShell.help_info
 "Allow user to connect a POSIX system." =>
   "Autorisie l'utilisateur à se connecter aux systèmes POSIX.",
@@ -226,25 +238,9 @@ $GLOBALS['LSlang'] = array (
 "If zero (default), no minimum length. Note: if password is provided already hashed, this check could not be performed and the policy define by the attribute <em>pwdCheckQuality</em> is applied." =>
   "Si zéro (par défaut), pas de longueur minimum. Remarque : si le mot de passe est fourni hâché, cette vérification sera impossible et la politique définie par l'attribut <em>pwdCheckQuality</em> sera appliquée.",
 
-# LSobjects.pwdPolicy.attrs.pwdLockoutDuration.help_info
-"In second. After this delay, the account will be automatically unlocked. If zero (default), the account will be locked until an administrator manually unlock it." =>
-  "En seconde. Passé ce délai, le compte de sera automatiquement débloqué. Si zéro (par défaut), le compte sera bloqué tant qu'un administrateur ne le débloque pas manuellement.",
-
-# LSobjects.pwdPolicy.attrs.pwdMaxAge.help_info
-"In second. After this delay, the password will expired and must be changed. If zero (default), no password expiration." =>
-  "En seconde. Passé ce délai, le mot de passe expirera et devra être changé. Si zéro (par défaut), pas d'expiration du mot de passe.",
-
 # LSobjects.pwdPolicy.attrs.pwdMinAge.help_info
-"In second. If zero (default), no minimum time." =>
-  "En seconde. Si zéro (par défaut), pas de durée minimum.",
-
-# LSobjects.pwdPolicy.attrs.pwdFailureCountInterval.help_info
-"In seconds. After this delay, authentication fail count will be reseted if no fail occured in the meantime. If zero (default), authentication fail count will be reseted only after a successful connection." =>
-  "En seconde. Passé ce délai, le nombre d'échecs d'authentification sera réinitialisé si aucune tentative en échec n'a eut lieu entre-temps. Si zéro (par défaut), le nombre d'échecs d'authentification sera réinitialisé qu'après une connexion réussie.",
-
-# LSobjects.pwdPolicy.attrs.pwdExpireWarning.help_info
-"In seconds. Put zero to disabled." =>
-  "En seconde. Saisir zéro pour désactiver.",
+"If zero (default), no minimum time." =>
+  "Si zéro (par défaut), pas de durée minimum.",
 
 # LSobjects.LSpeople.attrs.shadowInactive.label
 "Inactivity allowed (in days)" =>
@@ -523,6 +519,10 @@ $GLOBALS['LSlang'] = array (
 "Posix" =>
   "Posix",
 
+# LSobjects.pwdPolicy.attrs.pwdExpireWarning.help_info
+"Put zero to disabled." =>
+  "Saisir zéro pour désactiver.",
+
 # LSobjects.LSpeople.LSform.layout.Samba.label
 "Samba" =>
   "Samba",
@@ -738,5 +738,37 @@ Nouveau mot de passe : %{password}",
 # LSobjects.LSpeople.attrs.userPassword.check_data.password.msg
 "Your password must contain from 8 to 10 characters and contains at least one caracter that match with 3 of this types :<ul><li>Uppercase unaccent character</li><li>Lowercase unaccent character</li><li>Digit</li><li>Anything that is not a letter or a digit</li></ul>" =>
   "Votre mot de passe doit contenir entre 8 et 10 caractères et comprendre au moins un caractère correspondant à au moins trois des types suivant :<ul><li>Une lettre majuscule sans accent</li><li>Une lettre minuscule sans accent</li><li>Un chiffre</li><li>Un caractère autre qu'une lettre ou un chiffre</li></ul>",
+
+# LSobjects.pwdPolicy.attrs.pwdMaxAge.html_options.units.86400
+# LSobjects.pwdPolicy.attrs.pwdMinAge.html_options.units.86400
+# LSobjects.pwdPolicy.attrs.pwdExpireWarning.html_options.units.86400
+# LSobjects.pwdPolicy.attrs.pwdLockoutDuration.html_options.units.86400
+# LSobjects.pwdPolicy.attrs.pwdFailureCountInterval.html_options.units.86400
+"days" =>
+  "jours",
+
+# LSobjects.pwdPolicy.attrs.pwdMaxAge.html_options.units.3600
+# LSobjects.pwdPolicy.attrs.pwdMinAge.html_options.units.3600
+# LSobjects.pwdPolicy.attrs.pwdExpireWarning.html_options.units.3600
+# LSobjects.pwdPolicy.attrs.pwdLockoutDuration.html_options.units.3600
+# LSobjects.pwdPolicy.attrs.pwdFailureCountInterval.html_options.units.3600
+"hours" =>
+  "heures",
+
+# LSobjects.pwdPolicy.attrs.pwdMaxAge.html_options.units.60
+# LSobjects.pwdPolicy.attrs.pwdMinAge.html_options.units.60
+# LSobjects.pwdPolicy.attrs.pwdExpireWarning.html_options.units.60
+# LSobjects.pwdPolicy.attrs.pwdLockoutDuration.html_options.units.60
+# LSobjects.pwdPolicy.attrs.pwdFailureCountInterval.html_options.units.60
+"minutes" =>
+  "minutes",
+
+# LSobjects.pwdPolicy.attrs.pwdMaxAge.html_options.units.1
+# LSobjects.pwdPolicy.attrs.pwdMinAge.html_options.units.1
+# LSobjects.pwdPolicy.attrs.pwdExpireWarning.html_options.units.1
+# LSobjects.pwdPolicy.attrs.pwdLockoutDuration.html_options.units.1
+# LSobjects.pwdPolicy.attrs.pwdFailureCountInterval.html_options.units.1
+"seconds" =>
+  "secondes",
 
 );

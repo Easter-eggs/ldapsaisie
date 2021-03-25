@@ -289,9 +289,17 @@ $GLOBALS['LSobjects']['pwdPolicy'] = array (
 		/* ----------- start -----------*/
 		'pwdMaxAge' => array (
 			'label' => 'Maximum validity duration of a password',
-			'help_info' => "In second. After this delay, the password will expired and must be changed. If zero (default), no password expiration.",
+			'help_info' => "After this delay, the password will expired and must be changed. If zero (default), no password expiration.",
 			'ldap_type' => 'numeric',
-			'html_type' => 'text',
+			'html_type' => 'valueWithUnit',
+			'html_options' => array(
+				'units' => array(
+					1 => 'seconds',
+					60 => 'minutes',
+					3600 => 'hours',
+					86400 => 'days',
+				),
+			),
 			'no_value_label' => 'No password expiration (default)',
 			'check_data' => array (
 				'integer' => array(
@@ -313,9 +321,17 @@ $GLOBALS['LSobjects']['pwdPolicy'] = array (
 		/* ----------- start -----------*/
 		'pwdMinAge' => array (
 			'label' => 'Minimum time between two password changes',
-			'help_info' => "In second. If zero (default), no minimum time.",
+			'help_info' => "If zero (default), no minimum time.",
 			'ldap_type' => 'numeric',
-			'html_type' => 'text',
+			'html_type' => 'valueWithUnit',
+			'html_options' => array(
+				'units' => array(
+					1 => 'seconds',
+					60 => 'minutes',
+					3600 => 'hours',
+					86400 => 'days',
+				),
+			),
 			'no_value_label' => 'No minimum time (default)',
 			'check_data' => array (
 				'integer' => array(
@@ -337,9 +353,17 @@ $GLOBALS['LSobjects']['pwdPolicy'] = array (
 		/* ----------- start -----------*/
 		'pwdExpireWarning' => array (
 			'label' => 'Warning delay before password expiration',
-			'help_info' => 'In seconds. Put zero to disabled.',
+			'help_info' => 'Put zero to disabled.',
 			'ldap_type' => 'numeric',
-			'html_type' => 'text',
+			'html_type' => 'valueWithUnit',
+			'html_options' => array(
+				'units' => array(
+					1 => 'seconds',
+					60 => 'minutes',
+					3600 => 'hours',
+					86400 => 'days',
+				),
+			),
 			'no_value_label' => 'No warning (default)',
 			'check_data' => array (
 				'integer' => array(
@@ -459,9 +483,17 @@ $GLOBALS['LSobjects']['pwdPolicy'] = array (
 		/* ----------- start -----------*/
 		'pwdLockoutDuration' => array (
 			'label' => 'Lock duration of an account',
-			'help_info' => "In second. After this delay, the account will be automatically unlocked. If zero (default), the account will be locked until an administrator manually unlock it.",
+			'help_info' => "After this delay, the account will be automatically unlocked. If zero (default), the account will be locked until an administrator manually unlock it.",
 			'ldap_type' => 'numeric',
-			'html_type' => 'text',
+			'html_type' => 'valueWithUnit',
+			'html_options' => array(
+				'units' => array(
+					1 => 'seconds',
+					60 => 'minutes',
+					3600 => 'hours',
+					86400 => 'days',
+				),
+			),
 			'no_value_label' => 'Until an administrator manually unlock it (default)',
 			'check_data' => array (
 				'integer' => array(
@@ -483,9 +515,17 @@ $GLOBALS['LSobjects']['pwdPolicy'] = array (
 		/* ----------- start -----------*/
 		'pwdFailureCountInterval' => array (
 			'label' => 'Delay before reseting authentication fail count',
-			'help_info' => 'In seconds. After this delay, authentication fail count will be reseted if no fail occured in the meantime. If zero (default), authentication fail count will be reseted only after a successful connection.',
+			'help_info' => 'After this delay, authentication fail count will be reseted if no fail occured in the meantime. If zero (default), authentication fail count will be reseted only after a successful connection.',
 			'ldap_type' => 'numeric',
-			'html_type' => 'text',
+			'html_type' => 'valueWithUnit',
+			'html_options' => array(
+				'units' => array(
+					1 => 'seconds',
+					60 => 'minutes',
+					3600 => 'hours',
+					86400 => 'days',
+				),
+			),
 			'no_value_label' => 'After successful connection (default)',
 			'check_data' => array (
 				'integer' => array(
