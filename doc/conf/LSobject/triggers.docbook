@@ -5,7 +5,7 @@
   traitements d'un &LSobject;, des fonctions que vous pourrez développer vous
   même. De plus, le résultat de l'exécution de vos fonctions pourra influer
   sur le déroulement des processus.</para>
-  
+
   <para>Actuellement, les évenements suivant sont gérés :
 
 <informaltable>
@@ -65,10 +65,10 @@
 l'exécution des actions liées, si une des fonctions retourne <literal>false
 </literal>, le processus s'arrêtera.</simpara></note>
   </para>
-  <sect3>
+  <sect3 id="config-LSobject-triggers-config">
     <title>Configuration</title>
     <para>La configuration des déclencheurs se fait dans la définition des types
-    d'&LSobjects;. Par exemple, pour définir les fonctions à exécuter après la 
+    d'&LSobjects;. Par exemple, pour définir les fonctions à exécuter après la
     modification des LSobjects de type <emphasis>LSpeople</emphasis>, c'est à
     dire lors de leur évènement <literal>after_modify</literal>, il faut définir
     la variable suivante :
@@ -77,7 +77,7 @@ l'exécution des actions liées, si une des fonctions retourne <literal>false
     nom de la fonction à exécuter, soit un tableau de chaînes de caractères
     correspondant aux noms des fonctions à exécuter.</para>
   </sect3>
-  <sect3>
+  <sect3 id="config-LSobject-triggers-writing">
     <title>Ecriture d'une fonction</title>
     <para>Une fonction exécuté par un déclencheur d'un LSobject se déclare de la
     manière suivante :
@@ -102,7 +102,7 @@ function maFonction ($object) {
 Cette fonction doit prendre pour seul paramètre, le LSobject sur lequel l'évènement
 survient et doit retourner soit <literal>True</literal> si tout s'est bien passé,
 soit <literal>False</literal> en cas de problème. Dans le cas d'un événement
-bloquant, si la fonction retourne <literal>False</literal>, le processus est 
+bloquant, si la fonction retourne <literal>False</literal>, le processus est
 arrêté.</para>
   </sect3>
 

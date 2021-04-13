@@ -221,7 +221,7 @@ du dossier d'installation, c'est à dire dans notre exemple
   <literal>local.sh</literal>). Il s'agit en particulier dans ce fichier
   de configurer la connexion à votre annuaire. Vous pouvez vous inspirer
   du fichier d'exemple fourni et pour plus de détails, reportez-vous à
-  <link linkend="config-globale">la section concernée</link>.
+  <link linkend="config-global">la section concernée</link>.
   </simpara>
   <note><simpara>Notez qu'il est possible de passer l'application en mode
   <emphasis>debug</emphasis> ce qui peut être utile par la suite.</simpara></note>

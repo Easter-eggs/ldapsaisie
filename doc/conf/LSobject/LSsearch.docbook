@@ -503,7 +503,7 @@ contexte dans lequel cette recherche est effectuée.</para>
 
 </variablelist>
 
-<sect4>
+<sect4 id="config-LSobject-customSearchActions-writing">
     <title>Ecriture d'une fonction implémentant une customAction</title>
     <para>Une fonction implémentant une <emphasis>customAction</emphasis> se déclare de
     la manière suivante :

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<chapter>
+<chapter id="config">
 <title>Configuration</title>
-  
+
   <para>
-    La configuration du projet est située principalement dans le dossier 'conf/'. 
+    La configuration du projet est située principalement dans le dossier 'conf/'.
     Les exceptions seront détaillées par la suite.
   </para>
-  
+
   <warning>
     <simpara>Toute la configuration du projet se fait par l'intermédiaire de
     fichiers définissant des variables &php; dont les valeurs sont utilisées par
     le programme. Ceci signifie que la syntaxe de ces fichiers doit être valide
     avec l'interpréteur &php; utilisé.</simpara>
   </warning>
-    
+
 &conf-globale;
 
 &conf-LSobject;

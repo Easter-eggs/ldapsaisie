@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<sect1 id='config-globale'>
+<sect1 id='config-global'>
   <title>Configuration globale</title>
   <para>
     La plus grande partie de la configuration globale se trouve dans le fichier
@@ -23,7 +23,7 @@ define('CONST2','val2')
 ?>]]>
 </programlisting>
 
-<sect2>
+<sect2 id='config-global-variables'>
 <title>Variables globales</title>
 
 <!-- Début Variables globales -->
@@ -97,7 +97,7 @@ define('CONST2','val2')
 
 </variablelist>
 
-<sect3>
+<sect3 id='config-global-preferences'>
 <title>Préférences globales</title>
 
 <important><simpara>Les variables globales suivantes ont une action globale, mais
@@ -173,7 +173,7 @@ chacun des serveurs LDAP.</simpara></important>
 
 </sect2>
 
-<sect2>
+<sect2 id='config-global-independent-variables-constants'>
 <title>Variables et constantes indépendantes</title>
 
 <!-- Début Variables globales -->

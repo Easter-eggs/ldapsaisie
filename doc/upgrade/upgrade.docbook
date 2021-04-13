@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<chapter>
+<chapter id="upgrade">
 
 <title>Mise à jour</title>
 
@@ -7,10 +7,10 @@
 et regroupe des informations pratiques et utiles pour des montées de versions spécifiques entrainant par
 exemple une perte de rétrocompatibilité de la configuration.</para>
 
-<sect1>
+<sect1 id="upgrade-process">
   <title>Procédure de mise à jour</title>
 
-  <sect2>
+  <sect2 id="upgrade-from-debian-packages">
     <title>Installation via paquet Debian</title>
     <para>Lors d’une installation par paquet Debian, la mise à jour est grandement facilité par le packaging:
     Il vous suffit de mettre à jour le paquet <literal>ldapsaisie</literal> :
@@ -22,7 +22,7 @@ apt install ldapsaisie</programlisting>
     la section suivante.</para>
   </sect2>
 
-  <sect2>
+  <sect2 id="upgrade-from-sources">
     <title>Installation à partir des sources</title>
     <para>Lors d’une installation par à partir des sources, le script <literal>upgradeFromGit.sh</literal> permet
     d’automatiser la mise à jour, à condition que vous ayez suivi la procédure d’installation à ce sujet.</para>
@@ -50,7 +50,7 @@ apt install ldapsaisie</programlisting>
 
 </sect1>
 
-<sect1>
+<sect1 id="upgrade-2.4.1-to-3.0.0">
   <title>Mise à jour 2.4.1 -> 3.0.0</title>
 
 <para>Cette mise à jour majeure apporte de nombreuses nouveautés auxquelles il est important de prêter attention.
@@ -59,7 +59,7 @@ url="&GIT_RAW_ROOT_URL;/debian/ldapsaisie.NEWS">debian/ldapsaisie.NEWS
 </ulink> pour cela. Cette section listera en outre les points de vigilances à avoir et les adaptations à apporter
 sur votre configuration et votre code personnalisé.</para>
 
-<sect2>
+<sect2 id="upgrade-2.4.1-to-3.0.0-config.inc.php">
   <title>Fichier config.inc.php</title>
   <itemizedlist>
     <listitem><simpara>ajout du paramètre <literal>ConsoleTable</literal> avec pour valeur par défaut sous
@@ -107,7 +107,7 @@ sur votre configuration et votre code personnalisé.</para>
   </itemizedlist>
 </sect2>
 
-<sect2>
+<sect2 id="upgrade-2.4.1-to-3.0.0-css">
   <title>Fichiers CSS</title>
   <note><para>Les fichiers <literal>light-*.css</literal> ont été retravaillés pour tous <emphasis>hériter
   </emphasis> du fichier <literal>light-blue.css</literal> qui défini les couleurs de l'interface au travers
@@ -133,7 +133,7 @@ grep -Er 'url\(.*\.(png|gif|jpg)' /etc/ldapsaisie/local/css</programlisting></pa
   </itemizedlist>
 </sect2>
 
-<sect2>
+<sect2 id="upgrade-2.4.1-to-3.0.0-php">
   <title>Fichiers PHP</title>
   <itemizedlist>
     <listitem><para><literal>LSsession :: redirect()</literal> devient <literal>LSurl :: redirect()</literal>.
@@ -217,10 +217,10 @@ grep -Er '(LSsession|LStemplate) *:: *addCssFile\(.*\.\.\/' /etc/ldapsaisie/loca
   </itemizedlist>
 </sect2>
 
-<sect2>
+<sect2 id="upgrade-2.4.1-to-3.0.0-templates">
   <title>Fichiers templates :</title>
 
-  <sect3>
+  <sect3 id="upgrade-2.4.1-to-3.0.0-templates-includes">
     <title>Changement de l’inclusion des templates</title>
     <itemizedlist>
       <listitem>
@@ -308,7 +308,7 @@ défaut):
 </para>
 </sect3>
 
-<sect3>
+<sect3 id="upgrade-2.4.1-to-3.0.0-templates-default">
   <title>Fichiers templates fournis par defaut :</title>
   <para>Vérifier les modifications des fichiers templates fourni avec l’application et que vous auriez personnalisé.
   Pour cela, vous pouvez utiliser la commande suivante :<programlisting><![CDATA[for i in $( ls /etc/ldapsaisie/local/templates/* )
@@ -322,7 +322,7 @@ done]]></programlisting>
   recoverpassword.tpl</literal> qui ont particulièrement changés.</simpara></note>
 </sect3>
 
-<sect3>
+<sect3 id="upgrade-2.4.1-to-3.0.0-templates-images-urls">
   <title>Corriger les URL des images :</title>
 <para><literal>../../images/default/find.png</literal> devient <literal>../image/find</literal></para>
 
@@ -332,7 +332,7 @@ grep -Er '\.(png|gif|jpg)' /etc/ldapsaisie/local/templates</programlisting>
 </para>
 </sect3>
 
-<sect3>
+<sect3 id="upgrade-2.4.1-to-3.0.0-LSsession_css-LSsession_js">
   <title>Le cas de variable de template <literal>{$LSsession_css}</literal> et <literal>{$LSsession_js}</literal> :</title>
   <note><simpara>Ceci est déjà géré si vous étendez bien vos templates du fichier <literal>base.tpl</literal> (pour
   les pages non-connectées) ou <literal>base_connected.tpl</literal> (pour les pages connectées).</simpara></note>
@@ -352,7 +352,7 @@ grep -Er '\.(png|gif|jpg)' /etc/ldapsaisie/local/templates</programlisting>
 
 </sect2>
 
-<sect2>
+<sect2 id="upgrade-2.4.1-to-3.0.0-urls">
   <title>Tous les fichiers : Modification des URLs</title>
 
 <itemizedlist>

@@ -130,7 +130,7 @@
 
 </variablelist>
 
-<sect3>
+<sect3 id="config-LSobject-customActions-writing">
     <title>Ecriture d'une fonction implémentant une customAction</title>
     <para>Une fonction implémentant une <emphasis>customAction</emphasis> se déclare de
     la manière suivante :

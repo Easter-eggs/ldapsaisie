@@ -5,7 +5,7 @@
   traitements d'un &LSattribute;, des fonctions que vous pourrez développer vous
   même. De plus, le résultat de l'exécution de vos fonctions pourra influer
   sur le déroulement des processus.</para>
-  
+
   <para>Actuellement, les évènements suivant sont gérés :
 
 <informaltable>
@@ -57,10 +57,10 @@
 l'exécution des actions liées, si une des fonctions retourne <literal>false
 </literal>, le processus s'arrêtera.</simpara></note>
   </para>
-  <sect4>
+  <sect4 id="config-LSattribute-triggers-config">
     <title>Configuration</title>
-    <para>La configuration des déclencheurs se fait dans la définition des 
-    &LSattributes;. Par exemple, pour définir les fonctions à exécuter après la 
+    <para>La configuration des déclencheurs se fait dans la définition des
+    &LSattributes;. Par exemple, pour définir les fonctions à exécuter après la
     modification de la valeur de l'attribut <emphasis>mail</emphasis> du type de
     &LSobject; <emphasis>LSpeople</emphasis>, c'est à dire lors de leur évenement
     <literal>after_modify</literal>, il faut définir la variable suivante :
@@ -69,8 +69,8 @@ l'exécution des actions liées, si une des fonctions retourne <literal>false
     nom de la fonction à exécuter, soit un tableau de chaînes de caractères
     correspondant aux noms des fonctions à exécuter.</para>
   </sect4>
-  <sect4>
-    <title>Ecriture d'une fonction</title>
+  <sect4 id="config-LSattribute-triggers-writing">
+    <title>Écriture d'une fonction</title>
     <para>Une fonction exécuté par un déclencheur d'un LSattribute se déclare de
     la manière suivante :
     <programlisting linenumbering="unnumbered"><![CDATA[
@@ -92,7 +92,7 @@ function maFonction ($object) {
 
 }
     ]]></programlisting>
-Cette fonction doit prendre pour seul paramètre, le LSobject contenant le 
+Cette fonction doit prendre pour seul paramètre, le LSobject contenant le
 LSattribute sur lequel l'évenement survient et doit retourner soit
 <literal>True</literal> si tout s'est bien passé, soit <literal>False</literal>
 en cas de problème. Dans le cas d'un événement bloquant, si la fonction retourne
