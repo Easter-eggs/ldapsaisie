@@ -23,7 +23,6 @@
     <listitem><simpara>&netldap; (paquet <application>php-net-ldap2</application> dans <application>Debian</application> ou <command>pear install net_ldap2</command>)</simpara></listitem>
     <listitem><simpara>Le support <application>mbstring</application> dans &php; (paquet <application>php-mbstring</application> depuis <application>Debian Stretch</application>, intégré au paquet <literal>php-common</literal> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara>&smarty; (paquet <application>smarty3</application> dans <application>Debian</application>)</simpara></listitem>
-    <listitem><simpara>La librairie &PEAR_PearFile_CSV_DataSource; (paquet <application>php-file-csv-datasource</application> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara>La librairie &PEAR_Console_Table; (nécessaire pour le fonctionnement de l'outil CLI, paquet <application>php-console-table</application> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara>Les librairies &PEAR_Mail; et &PEAR_Mail_Mime; (nécessaire pour l'envoi de courriels, paquets <application>php-mail</application> et <application>php-mail-mime</application> dans <application>Debian</application>)</simpara></listitem>
     <listitem><simpara>La librairie &PEAR_Net_FTP; (nécessaire pour le fonctionnement du &LSaddon; FTP, paquet <application>php-console-table</application> dans <application>Debian</application>)</simpara></listitem>
