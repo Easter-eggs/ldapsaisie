@@ -1,5 +1,5 @@
 # LdapSaisie - LDAP Schema - Example
-# Web Site : http://ldapsaisie.labs.libre-entreprise.org
+# Web Site : https://ldapsaisie.org
 objectIdentifier EeRoot                 1.3.6.1.4.1.10650
 objectIdentifier LeRoot                 EeRoot:4
 objectIdentifier LsRoot                 LeRoot:10000
@@ -20,11 +20,11 @@ attributetype ( LsLDAPAttribute:2 NAME 'lsRecoveryHash'
   EQUALITY caseIgnoreMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
-attributetype ( LsLDAPAttribute:3 NAME 'lsGodfatherDn' 
+attributetype ( LsLDAPAttribute:3 NAME 'lsGodfatherDn'
 	SUP distinguishedName
 	DESC 'Godfather dn of this entry' )
 # </Ls attributes>
-        
+
 # <Ls Objectclass>
 objectclass (LsLDAPObjectClass:1
   NAME 'lspeople'
@@ -57,4 +57,3 @@ objectclass ( LsLDAPObjectClass:5
   MAY ( description $ lsGodfatherDn ))
 
 # </Ls Objectclass>
-

@@ -1,7 +1,7 @@
 <?php
 /*******************************************************************************
  * Copyright (C) 2018 Easter-eggs
- * http://ldapsaisie.labs.libre-entreprise.org
+ * https://ldapsaisie.org
  *
  * Author: See AUTHORS file in top-level directory.
  *

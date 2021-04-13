@@ -44,7 +44,7 @@
 L'installation à partir du paquet Debian peut être réalisée soit en téléchargeant manuellement le paquet, soit en
 déclarant le dépôt APT suivant dans votre fichier /etc/apt/sources.list :
 
-      deb http://ldapsaisie.easter-eggs.org/debian stable main
+      deb http://ldapsaisie.org/debian stable main
 
 
 Il ne vous restera ensuite plus qu'a installer le paquet ldapsaisie avec la commande suivante :
@@ -60,7 +60,7 @@ logiciel ce fera ensuite dans le dossier /etc/ldapsaisie/local/.
 
 Le dépôt Git peut être récupéré anonymement en utilisant la commande suivante :
 
-      git clone git://git.labs.libre-entreprise.org/ldapsaisie.git
+      git clone https://gitlab.easter-eggs.com/ee/ldapsaisie.git
 
 
 La racine web de l'application se trouvera alors dans le dossier /ldapsaisie/src/public_html/.
@@ -70,7 +70,7 @@ La racine web de l'application se trouvera alors dans le dossier /ldapsaisie/src
 
 Toutes les nuits, un snapshot de l'arbre Git est réalisé et est téléchargeable au format tar.gz à l'adresse suivante :
 
-      http://ldapsaisie.easter-eggs.org/download/ldapsaisie-snapshoot.tar.gz
+      http://ldapsaisie.org/download/ldapsaisie-snapshoot.tar.gz
 
 3. Arborescence du projet
 =========================
@@ -266,8 +266,8 @@ types d'LSobjects : Pour plus de détails, consulter la documentation du projet.
  4. La dernière étape à ce niveau consiste à lancer le script upgradeFromGit.sh pour qu'il installe les fichiers que
     vous venez de créer. Ce script est conçu pour dire tout ce qu'il fait donc en cas de problème vous devriez
     rapidement comprendre où cela coince. Dans tout les cas, n'hésitez pas à poser vos questions à la communauté sur la
-    liste <ldapsaisie-users@lists.labs.libre-entreprise.org>.
+    liste <ldapsaisie-users@lists.ldapsaisie.org>.
 
 Liens
 =====
- 1. Documentation du projet : http://ldapsaisie.easter-eggs.org/doc
+ 1. Documentation du projet : http://ldapsaisie.org/doc

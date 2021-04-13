@@ -53,7 +53,7 @@
     téléchargeant manuellement le paquet, soit en déclarant le dépôt APT suivant
     dans votre fichier <emphasis>/etc/apt/sources.list</emphasis> :
     <screen>
-      <command>deb http://ldapsaisie.easter-eggs.org/debian stable main</command>
+      <command>deb http://ldapsaisie.org/debian stable main</command>
     </screen>
     Il ne vous restera ensuite plus qu'a installer le paquet <emphasis>ldapsaisie
     </emphasis> avec la commande suivante :
@@ -71,7 +71,7 @@
     <para>Le dépôt Git peut être récupéré anonymement en utilisant la
     commande suivante :
     <screen>
-      <command>git clone git://git.labs.libre-entreprise.org/ldapsaisie.git</command>
+      <command>git clone https://gitlab.easter-eggs.com/ee/ldapsaisie.git</command>
     </screen>
     La racine web de l'application se trouvera alors dans le dossier <emphasis>
     /ldapsaisie/src/public_html/</emphasis>.
@@ -82,8 +82,8 @@
     <title>A partir des snapshot</title>
     <para>Toutes les nuits, un snapshot de l'arbre Git est réalisé et est
     téléchargeable au format <emphasis>tar.gz</emphasis> à l'adresse suivante :
-    <ulink url='http://ldapsaisie.easter-eggs.org/download/ldapsaisie-snapshoot.tar.gz'>
-    http://ldapsaisie.easter-eggs.org/download/ldapsaisie-snapshoot.tar.gz</ulink>
+    <ulink url='http://ldapsaisie.org/download/ldapsaisie-snapshoot.tar.gz'>
+    http://ldapsaisie.org/download/ldapsaisie-snapshoot.tar.gz</ulink>
     </para>
   </sect2>
 

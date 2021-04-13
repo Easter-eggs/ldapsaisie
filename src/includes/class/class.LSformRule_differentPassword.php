@@ -1,7 +1,7 @@
 <?php
 /*******************************************************************************
  * Copyright (C) 2019 Easter-eggs
- * http://ldapsaisie.easter-eggs.org
+ * http://ldapsaisie.org
  *
  * Author: See AUTHORS file in top-level directory.
  *
