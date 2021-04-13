@@ -1,6 +1,8 @@
-# LdapSaisie
+[![LdapSaisie](src/images/default/logo.png)](https://ldapsaisie.org)
 
 LdapSaisie is a Web application developed to manage LDAP directory. It has been written in PHP / JavaScript and is published under the GNU GPL license. This application is designed to abstract the complexity of the directory through a simple and intuitive administration interface. It was designed with the objective of maximal modularity and easy extension or adaptation: you can use modules, extensions and plugins. LdapSaisie allows any system administrator to manage data stored inside a LDAP server, and thus administrate its information system in a simple manner. It's also possible to let users access their own data, with read-only or read-write access.
+
+__[Project website](https://ldapsaisie.org)__ | __[Documentation](https://ldapsaisie.org/doc/full)__ | __[Demonstration](https://ldapsaisie.org/demo)__
 
 ## Key features
 
@@ -30,7 +32,7 @@ http://ldapsaisie.org/demo
 
 This demonstration interface is connected to a sample LDAP directory such that the schema and the imported LDIF file are provided with the sources of the application (in the `lsexample` directory).
 
-Several demonstration accounts exist and have more or less extensive rights. These different accounts are presented on the login page. 
+Several demonstration accounts exist and have more or less extensive rights. These different accounts are presented on the login page.
 
 ## Installation
 
@@ -58,7 +60,9 @@ apt-get install ldapsaisie ldapsaisie-archive-keyring
 
 The Git repos can be cloned anonymously with the command :
 
+```
 git clone https://gitlab.easter-eggs.com/ee/ldapsaisie.git
+```
 
 #### Snapshot
 
