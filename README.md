@@ -40,7 +40,7 @@ Several demonstration accounts exist and have more or less extensive rights. The
 
 * PHP (>= 5.6)
 * PEAR [NetLDAP2](http://pear.php.net/package/Net_LDAP2) package
-* [Smarty](http://www.smarty.net/) package
+* [Smarty](http://www.smarty.net/)
 
 Some others dependencies exists for specific features, please see [documentation](https://ldapsaisie.org/doc/all-in-one/LdapSaisie.html#install-requirements) for details (french).
 
@@ -50,10 +50,17 @@ Some others dependencies exists for specific features, please see [documentation
 
 You can easily install LdapSaisie using Debian packages by using the following command to configure the project's repository :
 ```
-echo "deb http://ldapsaisie.org/debian buster main" | sudo tee /etc/apt/sources.list.d/ldapsaisie.list
-wget -O - http://ldapsaisie.org/debian/ldapsaisie.gpg.key | sudo apt-key add -
+echo "deb http://ldapsaisie.org/debian buster main" | tee /etc/apt/sources.list.d/ldapsaisie.list
+wget -O - http://ldapsaisie.org/debian/ldapsaisie.gpg.key | apt-key add -
 apt-get update
 apt-get install ldapsaisie ldapsaisie-archive-keyring
+```
+
+__Note:__ Hourly generated Debian packages from _master_ branch are also provided in the _sid_ Debian repository of the project.  To use these packages, use the following command to configure the project's _sid_ repository:
+
+```
+echo "deb http://ldapsaisie.org/debian sid main" |
+tee /etc/apt/sources.list.d/ldapsaisie.list
 ```
 
 #### Using Git
@@ -83,8 +90,8 @@ __Note:__ A more details [tutorial](https://ldapsaisie.org/doc/all-in-one/LdapSa
 When using Debian packages, the upgrading process to pretty simple: just upgrade the package:
 
 ```
-apt update
-apt install ldapsaisie
+apt-get update
+apt-get install ldapsaisie
 ```
 
 Once the application has been updated, paid attention to new features and points of vigilance described in [official documentation](https://ldapsaisie.org/doc/all-in-one/LdapSaisie.html#upgrade) (in french).
