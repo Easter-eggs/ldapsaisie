@@ -59,8 +59,7 @@ apt-get install ldapsaisie ldapsaisie-archive-keyring
 __Note:__ Hourly generated Debian packages from _master_ branch are also provided in the _sid_ Debian repository of the project.  To use these packages, use the following command to configure the project's _sid_ repository:
 
 ```
-echo "deb http://ldapsaisie.org/debian sid main" |
-tee /etc/apt/sources.list.d/ldapsaisie.list
+echo "deb http://ldapsaisie.org/debian sid main" | tee /etc/apt/sources.list.d/ldapsaisie.list
 ```
 
 #### Using Git
