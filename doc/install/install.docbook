@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<chapter>
+<chapter id="install">
 
 <title>Installation</title>
 
-<sect1>
+<sect1 id="install-requirements">
   <title>Pré-requis</title>
   <itemizedlist>
     <listitem><simpara>Le service <application>Apache HTTP</application> avec le module <application>mod_rewrite</application>
@@ -47,7 +47,7 @@
 <sect1 id="install-download">
   <title>Téléchargement</title>
 
-  <sect2 id="install-from-git">
+  <sect2 id="install-from-debian-package">
     <title>A partir du paquet Debian</title>
     <para>L'installation à partir du paquet Debian peut être réalisée soit en
     téléchargeant manuellement le paquet, soit en déclarant le dépôt APT suivant
@@ -66,7 +66,7 @@
     </para>
   </sect2>
 
-  <sect2>
+  <sect2 id="install-from-git">
     <title>A partir de Git</title>
     <para>Le dépôt Git peut être récupéré anonymement en utilisant la
     commande suivante :
@@ -78,7 +78,7 @@
     </para>
   </sect2>
 
-  <sect2>
+  <sect2 id="install-from-snapshot">
     <title>A partir des snapshot</title>
     <para>Toutes les nuits, un snapshot de l'arbre Git est réalisé et est
     téléchargeable au format <emphasis>tar.gz</emphasis> à l'adresse suivante :
@@ -91,7 +91,7 @@
 
 &install-arbo;
 
-<sect1>
+<sect1 id="install-tutorial">
   <title>Tutoriel d'installation</title>
   <para>Cette section décrit les différentes étapes de l'installation de
   LdapSaisie. Deux méthodes d'installation sont présentées ici, l'une à
@@ -291,7 +291,7 @@ src/includes/class/class.LSobjects.LSexample.php</programlisting>
   pour qu'il installe les fichiers que vous venez de créer. Ce script est conçu pour
   dire tout ce qu'il fait donc en cas de problème vous devriez rapidement comprendre
   où cela coince. Dans tout les cas, n'hésitez pas à poser vos questions à la
-  communauté sur la liste <email>ldapsaisie-users@lists.labs.libre-entreprise.org</email>.
+  communauté sur la liste <email>ldapsaisie-users@lists.ldapsaisie.org</email>.
   </simpara></listitem>
 
 </orderedlist>
