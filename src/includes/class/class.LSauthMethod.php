@@ -67,12 +67,15 @@ class LSauthMethod extends LSlog_staticLoggerClass {
     if (!$authobjects || !is_array($authobjects)) {
       LSerror :: addErrorCode('LSauth_01');
       self :: log_debug("No user found for provided username '".$this -> authData['username']."'");
+      return false;
     }
-    elseif (count($authobjects) > 1) {
+    
+    if (count($authobjects) > 1) {
       self :: log_debug('Multiple users match with provided username: '.implode(', ', array_keys($authobjects)));
       LSerror :: addErrorCode('LSauth_02');
       return false;
     }
+
     // Authentication succeeded
     return array_pop($authobjects);
   }
