@@ -74,6 +74,17 @@ var LSdefault = new Class({
 
       this.initializeLang();
 
+      document.getElements('.copyable').each(function(el) {
+        var btn = new Element('img');
+        btn.setProperties({
+          src:    this.imagePath('copy')
+        });
+        btn.addClass('btn');
+        btn.injectAfter(el);
+        btn.addEvent('click',this.onCopyBtnClick.bind(this, {btn: btn, element: el}));
+        this.addHelpInfo(btn, 'LSdefault', 'copy_to_clipboard');
+      }, this);
+
       this.toggle_menu = $('toggle-menu');
       if (this.toggle_menu) {
         this.toggle_menu.addEvent('click', this.toggleMenu.bind(this));
@@ -239,28 +250,29 @@ var LSdefault = new Class({
       return new Hash();
     },
 
-    addHelpInfo: function(el,group,name) {
-      if ($type(this.LSjsConfig['helpInfo'])) {
-        if ($type(el)=='element') {
-          if ($type(this.LSjsConfig['helpInfo'][group])) {
-            if ($type(this.LSjsConfig['helpInfo'][group][name])) {
-              this.addTip(el);
-              el.store('tip:title',this.LSjsConfig['helpInfo'][group][name]);
-            }
-          }
-        }
+    addHelpInfo: function(el, group, name) {
+      var helpInfo = this.getHelpInfo(group, name);
+      if (helpInfo && $type(el)=='element') {
+        this.addTip(el);
+        el.store('tip:title',this.LSjsConfig.helpInfo[group][name]);
       }
     },
 
-    setHelpInfo: function(el,group,name) {
-      if ($type(this.LSjsConfig['helpInfo'])) {
-        if ($type(el)=='element') {
-          if ($type(this.LSjsConfig['helpInfo'][group])) {
-            if ($type(this.LSjsConfig['helpInfo'][group][name])) {
-              el.store('tip:title',this.LSjsConfig['helpInfo'][group][name]);
-            }
+    getHelpInfo: function(group, name) {
+      if ($type(this.LSjsConfig.helpInfo)) {
+        if ($type(this.LSjsConfig.helpInfo[group])) {
+          if ($type(this.LSjsConfig.helpInfo[group][name])) {
+            return this.LSjsConfig.helpInfo[group][name];
           }
         }
+      }
+      return null;
+    },
+
+    setHelpInfo: function(el, group, name) {
+      var helpInfo = this.getHelpInfo(group, name);
+      if (helpInfo && $type(el)=='element') {
+        el.store('tip:title', helpInfo);
       }
     },
 
@@ -288,6 +300,16 @@ var LSdefault = new Class({
 
     toggleMenu: function() {
       $('main').toggleClass('menu-visible');
+    },
+
+    onCopyBtnClick: function(params) {
+      var txt = new Element('textarea');
+      txt.value = params.element.textContent;
+      txt.injectInside(document.body);
+      txt.select();
+      document.execCommand("copy");
+      txt.remove();
+      this.LSinfos.addInfo(this.getHelpInfo('LSdefault', 'copied'), true);
     }
 
 });

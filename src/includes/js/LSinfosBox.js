@@ -100,7 +100,8 @@ var LSinfosBox = new Class({
       }
     },
 
-    addInfo: function(html) {
+    addInfo: function(html, clear) {
+      if (clear) this.clear();
       var ul = this.content.getLast("ul");
       var add = 1;
       if (!$type(ul)) {
@@ -151,5 +152,9 @@ var LSinfosBox = new Class({
       else {
         this.displayInUl(html);
       }
+    },
+
+    clear: function() {
+      this.content.empty();
     }
 });

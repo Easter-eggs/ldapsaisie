@@ -354,7 +354,7 @@ class LSsession {
   */
   private static function startLStemplate() {
     if ( self :: loadLSclass('LStemplate') ) {
-      return LStemplate :: start(
+      if (!LStemplate :: start(
         array(
           'smarty_path'   => LSconfig :: get('Smarty'),
           'template_dir'  => LS_ROOT_DIR . '/'. LS_TEMPLATES_DIR,
@@ -366,7 +366,16 @@ class LSsession {
           'debug'         => LSdebug,
           'debug_smarty'  => (isset($_REQUEST) && isset($_REQUEST['LStemplate_debug'])),
         )
+      ))
+        return False;
+      LStemplate :: addHelpInfo(
+        'LSdefault',
+        array(
+          'copy_to_clipboard' => _('Copy to clipboard'),
+          'copied' => _('Copied!'),
+        )
       );
+      return True;
     }
     return False;
   }
