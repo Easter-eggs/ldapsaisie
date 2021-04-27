@@ -38,7 +38,7 @@ création du type d'&LSobject;. En conséquence :
     ),
     'generated_fields' => array (
       '[attribute 3]' => '[LSformat]',
-      '[attribute 4]' => '[LSformat]',
+      '[attribute 4]' => array('[LSformat1]', '[LSformat2]', ...)
       [...]
     )
   ),
@@ -87,8 +87,8 @@ création du type d'&LSobject;. En conséquence :
   <listitem>
     <simpara>Tableau associatif permettant de définir des &LSformats; pour générer des valeurs
     d'attributs automatiquement. Ce tableau contient en clé, le nom de l'attribut à généré,
-    et en valeur associée, le &LSformat; à utilisé. Ce &LSformat; est composé à l'aide des
-    valeurs des autres attributs de l'objet.</simpara>
+    et en valeur associée, un ou plusieurs &LSformat; à utiliser pour générer ses valeurs. Ces
+    &LSformat; sont composés à l'aide des valeurs des autres attributs de l'objet.</simpara>
   </listitem>
 </varlistentry>
 

@@ -127,11 +127,16 @@ class LSioFormatDriver extends LSlog_staticLoggerClass {
         if (!isset($retone[$attr])) $retone[$attr] = array();
         $retone[$attr][] = $one[$key];
       }
-      foreach ($generated_fields as $attr => $format) {
-        $value = getFData($format, $retone);
-        if (!empty($value)) {
-          $retone[$attr] = array($value);
+      foreach ($generated_fields as $attr => $formats) {
+        $retone[$attr] = array();
+        foreach (ensureIsArray($formats) as $format) {
+          $value = getFData($format, $retone);
+          if (!is_empty($value)) {
+            $retone[$attr][] = $value;
+          }
         }
+        if (empty($retone[$attr]))
+          unset($retone[$attr]);
       }
       $retall[] = $retone;
     }
