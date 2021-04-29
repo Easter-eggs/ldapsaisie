@@ -193,12 +193,18 @@ class LSformElement_password extends LSformElement {
 
       if ($params['confirmChange']) {
         $defaultConfirmChangeQuestion = ___('%{label}: Do you confirm the password change?');
-        $params['confirmChangeQuestion'] = getFData(__($this -> getParam('html_options.confirmChangeQuestion', $defaultConfirmChangeQuestion)), $this -> label);
+        $params['confirmChangeQuestion'] = $this -> attr_html -> attribute -> ldapObject -> getDisplayFData(
+          __($this -> getParam('html_options.confirmChangeQuestion', $defaultConfirmChangeQuestion)),
+          $this -> label
+        );
       }
 
       if ($params['confirmInput']) {
         $defaultConfirmInputError = ___('Passwords entered did not match.');
-        $params['confirmInputError'] = getFData(__($this -> getParam('html_options.confirmInputError', $defaultConfirmInputError)), $this -> label);
+        $params['confirmInputError'] = $this -> attr_html -> attribute -> ldapObject -> getDisplayFData(
+          __($this -> getParam('html_options.confirmInputError', $defaultConfirmInputError)),
+          $this -> label
+        );
       }
 
       if ($this -> getParam('html_options.mail')) {
@@ -309,7 +315,7 @@ class LSformElement_password extends LSformElement {
 
       self :: log_info($this -> attr_html -> attribute -> ldapObject -> getDn().": send new '".$this -> name."' to '$mail'.");
       $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password', $this -> sendMail['pwd']);
-      $msg = $this -> attr_html -> attribute -> ldapObject -> getFData($this -> sendMail['msg']);
+      $msg = $this -> attr_html -> attribute -> ldapObject -> getDisplayFData($this -> sendMail['msg']);
       $headers = $this -> getParam('html_options.mail.headers', array());
       $bcc = $this -> getParam('html_options.mail.bcc');
       if ($bcc)
