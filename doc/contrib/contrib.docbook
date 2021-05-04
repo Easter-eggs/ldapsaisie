@@ -187,9 +187,9 @@ les possibilités de contribution.</para>
       <listitem><simpara>de déclarer <link linkend='contrib-LSaddon-CLI-commands'>les commandes <emphasis>CLI</emphasis> personnalisées</link> fournies par cet &LSaddon; ;</simpara></listitem>
     </itemizedlist>
   </para></listitem>
-  <listitem><para>On déclare ensuite les fonctions, classes et éléments fournies et manipulés par l'addon.</para></listitem>
+  <listitem><para>On déclare ensuite les fonctions, classes et éléments fournis et manipulés par l'addon.</para></listitem>
   <listitem><para>Si notre addon offre des <link linkend='contrib-LSaddon-CLI-commands'>commandes <emphasis>CLI</emphasis>
-  personnalisées</link>, les fonctions les implémentants ne seront définies, dans un souci de performance, que dans un contexte
+  personnalisées</link>, les fonctions les implémentant ne seront définies, dans un souci de performance, que dans un contexte
   ou elles seraient potentiellement appelables, c'est à dire dans un contexte d'exécution <literal>CLI</literal>. Pour cela,
   nous utilisons communément la fonction <literal>php_sapi_name</literal> pour déterminer le contexte d'exécution et si celui-ci
   vaut <literal>cli</literal>, nous stoppons l'exécution du reste du code du fichier via un <literal>return true</literal>.
@@ -547,8 +547,8 @@ les possibilités de contribution.</para>
     <literal>LSformElement_type</literal> permettant de référencer le type d'&LSformElement; à utiliser ;</simpara>
     </listitem>
     <listitem><para>Une classe PHP dérivée de la classe <literal>LSformElement</literal> et devant s'appeler
-    <literal>LSformElement_[nom du type d'LSformElement]</literal>. Cette classe implémentera tous ce qui concerne l'affichage du champ
-    dans le formulaire et le traitement d'une valeur retourné par ce dernier. Cela concerne notamment les méthodes suivantes:
+    <literal>LSformElement_[nom du type d'LSformElement]</literal>. Cette classe implémentera tout ce qui concerne l'affichage du champ
+    dans le formulaire et le traitement d'une valeur retournée par ce dernier. Cela concerne notamment les méthodes suivantes&nbsp;:
     <variablelist>
 
       <varlistentry>
@@ -556,7 +556,7 @@ les possibilités de contribution.</para>
         <listitem>
           <simpara>Retourne les informations d'affichage du champ dans un formulaire sous la forme d'un tableau <emphasis>(implémentation
           obligatoire, pas de méthode par défaut)</emphasis>. Il sera possible de s'appuyer sur la méthode <literal>getLabelInfos()</literal>
-          permettant de générer et récupérer tous ce qui concerne le label du champ du formulaire. Il faudra cependant à minima fournir
+          permettant de générer et récupérer tout ce qui concerne le label du champ du formulaire. Il faudra cependant à minima fournir
           également la clé <literal>html</literal> dans le tableau retourné qui devra contenir le bout de code HTML correspondant au champ
           du formulaire. Communément, ce code HTML est généré en appelant la méthode <literal>fetchTemplate()</literal>.</simpara>
         </listitem>
@@ -592,7 +592,7 @@ les possibilités de contribution.</para>
       <varlistentry>
         <term>setValueFromPostData()</term>
         <listitem>
-          <simpara>Défini les valeurs de l'attribut à partir des données reçus du formulaire (et récupérée par la méthode
+          <simpara>Définit les valeurs de l'attribut à partir des données reçues du formulaire (et récupérées par la méthode
           <literal>getPostData</literal>). L'implémentation de cette méthode est facultative et par défaut, aucune transformation ne sera
           faites à cette étape sur les données récupérées depuis le formulaire. Implémenter cette méthode pourra cependant se révéler utile
           en cas de champs de formulaire complexe (attribut composite par exemple).</simpara>

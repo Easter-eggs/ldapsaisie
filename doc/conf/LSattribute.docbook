@@ -247,7 +247,7 @@
   <listitem>
     <simpara>Tableau associatif listant les attributs dépendants de celui-ci.
     Les attributs listés ici seront regénérés lors de chaque modification
-    de l'attribut courant. Cette génération sera effectué avec la fonction
+    de l'attribut courant. Cette génération sera effectuée avec la fonction
     définie dans le paramètre <varname>generate_function</varname> de
     l'attribut.</simpara>
   </listitem>
