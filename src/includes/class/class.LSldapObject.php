@@ -372,15 +372,18 @@ class LSldapObject extends LSlog_staticLoggerClass {
         }
       }
 
+      $new = $this -> isNew();
       if ($this -> submitChange($idForm)) {
         self :: log_debug($this."->_updateData(): changes are submited");
         // Event After Modify
-        $this -> fireEvent('after_modify');
+        if (!$new && $idForm != 'create') {
+          $this -> fireEvent('after_modify');
 
-        // $this -> attrs[*] => After Modify
-        foreach($new_data as $attr_name => $attr_val) {
-          if ($this -> attrs[$attr_name] -> isUpdate()) {
-            $this -> attrs[$attr_name] -> fireEvent('after_modify');
+          // $this -> attrs[*] => After Modify
+          foreach($new_data as $attr_name => $attr_val) {
+            if ($this -> attrs[$attr_name] -> isUpdate()) {
+              $this -> attrs[$attr_name] -> fireEvent('after_modify');
+            }
           }
         }
         $this -> reloadData();
