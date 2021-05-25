@@ -97,8 +97,10 @@
             <listitem><simpara>Permet de spécifier un filtre de recherche LDAP personnalisé. Celui-ci
             sera combiné avec les paramètres propres au type d'objets recherchés et aux autres
             paramètres spécifiés (<literal>pattern</literal> par exemple).</simpara>
-            <warning><simpara>Pour le moment, seuls les filtres simples du type <literal>attribut=valeur
-            </literal> sont acceptés ici.</simpara></warning>
+            <warning><simpara>Du fait d'une limitation de la classe <literal>Net_LDAP2_Filter</literal>
+            utilisée pour analyser le filtre passé en paramètre, seuls les filtres simples du type
+            <literal>(attribut=valeur)</literal> sont acceptés ici. Pour les mêmes raisons, il est
+            important que le filtre spécifié soit toujours entourné de paranthèses.</simpara></warning>
             </listitem>
           </varlistentry>
 
