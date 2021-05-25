@@ -139,7 +139,7 @@ function handle_global_search($request) {
   }
 
   if (!LSsession :: loadLSclass('LSsearch')) {
-    LSsession :: addErrorCode('LSsession_05','LSsearch');
+    LSerror :: addErrorCode('LSsession_05','LSsearch');
     LSsession :: displayTemplate();
     return false;
   }
@@ -429,7 +429,7 @@ function handle_LSobject_search($request) {
   $LSobject = $object -> getType();
 
   if (!LSsession :: loadLSclass('LSsearch')) {
-    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSerror :: addErrorCode('LSsession_05', 'LSsearch');
     LSsession :: displayTemplate();
     return false;
   }
@@ -547,7 +547,7 @@ function handle_LSobject_search_customAction($request) {
    return;
 
   if (!LSsession :: loadLSclass('LSsearch')) {
-    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSerror :: addErrorCode('LSsession_05', 'LSsearch');
     LSsession :: displayTemplate();
     return false;
   }
@@ -674,7 +674,7 @@ LSurl :: add_handler('#^custom_search_action\.php#', 'handle_old_custom_search_a
 **/
 function handle_LSobject_select($request) {
   if (!LSsession :: loadLSclass('LSselect')) {
-    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSerror :: addErrorCode('LSsession_05', 'LSsearch');
     LSsession :: displayTemplate();
     return false;
   }
@@ -1563,7 +1563,7 @@ function handle_api_LSobject_search($request) {
   $LSobject = $object -> getType();
 
   if (!LSsession :: loadLSclass('LSsearch')) {
-    LSsession :: addErrorCode('LSsession_05', 'LSsearch');
+    LSerror :: addErrorCode('LSsession_05', 'LSsearch');
     LSsession :: displayAjaxReturn();
     return false;
   }
