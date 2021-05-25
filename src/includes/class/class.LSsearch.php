@@ -586,7 +586,6 @@ class LSsearch extends LSlog_staticLoggerClass {
             LSerror :: addErrorCode('LSsearch_03', 'filter');
             return;
           }
-          return;
           break;
 
         case 'basedn':
