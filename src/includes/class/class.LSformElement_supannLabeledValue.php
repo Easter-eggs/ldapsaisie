@@ -90,7 +90,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
     }
     else {
       $retval['label'] = 'no';
-      $retval['translated'] = getFData(__('%s (Unparsable value)'),$value);
+      $retval['translated'] = getFData(__('%{value} (Unparsable value)'), $value);
     }
     return $retval;
   }
