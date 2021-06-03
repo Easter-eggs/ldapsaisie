@@ -65,16 +65,16 @@
 <varlistentry>
   <term>basedn</term>
   <listitem>
-    <simpara>Le <emphasis>basedn</emphasis> de la recherche. <emphasis>Paramètre
-    facultatif.</emphasis></simpara>
+    <simpara>Le <emphasis>basedn</emphasis> de la recherche <emphasis>(Paramètre
+    facultatif, par défaut : racine de l'annuaire)</emphasis>.</simpara>
   </listitem>
 </varlistentry>
 
 <varlistentry>
   <term>scope</term>
   <listitem>
-    <simpara>Le <emphasis>scope</emphasis> de la recherche. <emphasis>Paramètre
-    facultatif.</emphasis></simpara>
+    <simpara>Le <emphasis>scope</emphasis> de la recherche <emphasis>(Paramètre
+    facultatif, par défaut : <literal>sub</literal>)</emphasis>.</simpara>
   </listitem>
 </varlistentry>
 
