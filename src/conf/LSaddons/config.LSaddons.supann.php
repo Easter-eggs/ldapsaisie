@@ -48,6 +48,9 @@ $GLOBALS['LS_SUPANN_ETABLISSEMENT_UAI'] = '0753742K';
 // LSformat de l'attribut eduPersonPrincipalName
 $GLOBALS['LS_SUPANN_EPPN_FORMAT'] = "%{uid}@univ.fr";
 
+// LSformat de l'attribut eduPersonUniqueId (%{uniqueId} étant un ID unique généré aléatoirement)
+$GLOBALS['LS_SUPANN_EPUI_FORMAT'] = "%{uniqueId}@univ.fr";
+
 // Liste des valeurs possibles des affiliations et leur label
 $GLOBALS['LS_SUPANN_AFFILIATIONS'] = array (
 	'affiliate' => ___('Affiliate'),

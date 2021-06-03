@@ -62,6 +62,7 @@ LSerror :: defineError('SUPANN_03',
       'LS_SUPANN_ETABLISSEMENT_UAI',
       'LS_SUPANN_ETABLISSEMENT_DN',
       'LS_SUPANN_EPPN_FORMAT',
+      'LS_SUPANN_EPUI_FORMAT',
     );
 
     foreach($MUST_DEFINE_STRING as $string) {
@@ -541,6 +542,22 @@ function supannCheckEduPersonPrimaryAffiliation(&$ldapObject) {
  */
 function generate_eduPersonPrincipalName($ldapObject) {
  return $ldapObject -> getFData($GLOBALS['LS_SUPANN_EPPN_FORMAT']);
+}
+
+/**
+ * Géneration de la valeur de l'attribut eduPersonUniqueId
+ * à partir du LSformat configuré dans $GLOBALS['LS_SUPANN_EPUI_FORMAT']
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array La valeur de l'attribut eduPersonOrgDN ou false
+ *               si il y a un problème durant la génération
+ */
+function generate_eduPersonUniqueId($ldapObject) {
+  $ldapObject -> registerOtherValue('uniqueId', uniqid());
+  return $ldapObject -> getFData($GLOBALS['LS_SUPANN_EPUI_FORMAT']);
 }
 
 /**
