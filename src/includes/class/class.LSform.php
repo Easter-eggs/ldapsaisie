@@ -150,7 +150,7 @@ class LSform extends LSlog_staticLoggerClass {
     }
 
     $fields = array();
-    if (!isset($this -> dataEntryFormConfig['displayedElements']) && !is_array($this -> dataEntryFormConfig['displayedElements'])) {
+    if (!isset($this -> dataEntryFormConfig['displayedElements']) || !is_array($this -> dataEntryFormConfig['displayedElements'])) {
       foreach($this -> elements as $element) {
         $field = array();
         $field = $element -> getDisplay();
