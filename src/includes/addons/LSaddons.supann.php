@@ -381,19 +381,40 @@ LSerror :: defineError('SUPANN_03',
   * Vérifie si une valeur et son étiquette sont valide pour une table donnée
   *
   * @param[in] $table La table de nomenclature
-  * @param[in] $label L'étiquette de la valeur
+  * @param[in] $label L'étiquette de la valeur (optionnel)
   * @param[in] $value La valeur
   *
   * @retval booleab True si valide, False sinon
   **/
-  function supannValidateNomenclatureValue($table,$label,$value) {
-	$label=strtoupper($label);
-    if (isset($GLOBALS['supannNomenclatures'][$label]) &&
-        isset($GLOBALS['supannNomenclatures'][$label][$table]) &&
-        isset($GLOBALS['supannNomenclatures'][$label][$table][$value])) {
-	  return true;
-	}
-	return false;
+  function supannValidateNomenclatureValue($table, $label, $value) {
+    if ($label) {
+	    $label = strtoupper($label);
+      if (
+          isset($GLOBALS['supannNomenclatures'][$label]) &&
+          isset($GLOBALS['supannNomenclatures'][$label][$table]) &&
+          isset($GLOBALS['supannNomenclatures'][$label][$table][$value])
+      ) {
+	      return array(
+          'table' => $table,
+          'label' => $label,
+          'value' => $value,
+          'translated' => $GLOBALS['supannNomenclatures'][$label][$table][$value],
+        );
+	    }
+    }
+    else {
+      foreach($GLOBALS['supannNomenclatures'] as $label => $tables) {
+        if (!array_key_exists($table, $tables) || !array_key_exists($value, $tables[$table]))
+          continue;
+        return array(
+          'table' => $table,
+          'label' => $label,
+          'value' => $value,
+          'translated' => $tables[$table][$value],
+        );
+      }
+    }
+  	return false;
   }
 
  /**
@@ -401,33 +422,57 @@ LSerror :: defineError('SUPANN_03',
   * et de l'étiquette de la valeur.
   *
   * @param[in] $table La table de nomenclature
-  * @param[in] $label L'étiquette de la valeur
+  * @param[in] $label L'étiquette de la valeur (optionnel)
   * @param[in] $value La valeur
   *
   * @retval array Le label de la valeur. En cas de valeur nor-reconnue, retourne
   *               la valeur en spécifiant qu'elle n'est pas reconnue.
   **/
-  function supannGetNomenclatureLabel($table,$label,$value) {
-	if (supannValidateNomenclatureValue($table,$label,$value)) {
-      $label=strtoupper($label);
-	  return $GLOBALS['supannNomenclatures'][$label][$table][$value];
-	}
-	return getFData(__("%{value} (unrecognized value)"),$value);
+  function supannGetNomenclatureLabel($table, $label, $value) {
+	  $translated = supannValidateNomenclatureValue($table, $label, $value);
+    if ($translated)
+	    return $translated['translated'];
+	  return getFData(__("%{value} (unrecognized value)"), $value);
+  }
+
+ /**
+  * Retourne les valeurs possibles d'une table de nomenclature pour chaque fournisseur
+  *
+  * @param[in] $table La table de nomenclature
+  *
+  * @retval array Tableau contenant pour chaque fournisseur, les valeurs possibles de
+  *               la table de nomenclature
+  **/
+  function supannGetNomenclatureTable($table) {
+	  $retval=array();
+	  foreach(array_keys($GLOBALS['supannNomenclatures']) as $provider) {
+		  if (isset($GLOBALS['supannNomenclatures'][$provider][$table])) {
+			  $retval[$provider] = $GLOBALS['supannNomenclatures'][$provider][$table];
+		  }
+	  }
+	  return $retval;
   }
 
  /**
   * Retourne les valeurs possibles d'une table de nomenclature
   *
   * @param[in] $table La table de nomenclature
+  * @param[in] $add_provider_label Booléen définissant si le fournisseur de la valeur
+  *                                doit être ajouté en tant qu'étiquette de la valeur
+  *                                (optinel, par défaut: vrai)
   *
   * @retval array Tableau contenant les valeurs possibles de la table
   *               de nomenclature
   **/
-  function supannGetNomenclatureTable($table) {
-	  $retval=array();
-	  foreach($GLOBALS['supannNomenclatures'] as $label => $tables) {
-		  if (isset($GLOBALS['supannNomenclatures'][$label][$table])) {
-			  $retval[$label]=$GLOBALS['supannNomenclatures'][$label][$table];
+  function supannGetNomenclaturePossibleValues($table, $add_provider_label=True) {
+	  $retval = array();
+	  foreach(array_keys($GLOBALS['supannNomenclatures']) as $provider) {
+		  if (isset($GLOBALS['supannNomenclatures'][$provider][$table])) {
+        foreach($GLOBALS['supannNomenclatures'][$provider][$table] as $value => $label) {
+          if ($add_provider_label)
+            $value = "{$provider}$value";
+          $retval[$value] = __($label);
+        }
 		  }
 	  }
 	  return $retval;

@@ -22,3 +22,25 @@ div.supannLabeledValue_possibleValues li:hover {
 	background-color: #CCC;
 	cursor: pointer;
 }
+
+pre.LSformElement_supannLabeledValue_value {
+	display: inline-block;
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	margin: 0;
+}
+
+@media (min-width: 401px) {
+	select.LSformElement_supannLabeledValue_label, input.LSformElement_supannLabeledValue_label, span.LSformElement_supannLabeledValue_label {
+		width: 50px;
+		vertical-align: top;
+	}
+
+	input.LSformElement_supannLabeledValue_value, textarea.LSformElement_supannLabeledValue_value {
+		scrollbar-width: thin;
+		width: calc(150px - 1em);
+	}
+
+	textarea.LSformElement_supannLabeledValue_value {
+		height: 5em;
+	}
+}

@@ -198,7 +198,7 @@ td.LSobject-list, tr.LSobject-list, table.LStable tbody td, table.LStable th {
 		padding: 2px;
 	}
 
-	.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_text_autocomplete, ul.LSformElement_select_object_edit, div.LSformElement_wysiwyg_container, ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth), dd.LSform-errors {
+	.LSform input[type=text], .LSform input[type=password], .LSform select, .LSform textarea, ul.LSformElement_text_autocomplete, ul.LSformElement_select_object_edit, div.LSformElement_wysiwyg_container, ul.LSformElement_jsonCompositeAttribute:not(.LSformElement_jsonCompositeAttribute_fullWidth), dd.LSform-errors, input.LSformElement_supannLabeledValue_search {
 		width: 32vw;
 	}
 
@@ -232,6 +232,14 @@ td.LSobject-list, tr.LSobject-list, table.LStable tbody td, table.LStable th {
 
   .LSform input.LSformElement_labeledValue {
     width: calc(32vw - 8em);
+  }
+
+  .LSform select.LSformElement_supannLabeledValue_label, .LSform input.LSformElement_supannLabeledValue_label {
+    width: 6em;
+  }
+
+  .LSform input.LSformElement_supannLabeledValue_value, textarea.LSformElement_supannLabeledValue_value {
+    width: calc(32vw - 14rem);
   }
 
 	input.LSformElement_select_object_searchAdd, ul.LSformElement_select_object_searchAdd {

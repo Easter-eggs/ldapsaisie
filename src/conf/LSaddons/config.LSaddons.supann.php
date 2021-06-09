@@ -92,22 +92,46 @@ $GLOBALS['LS_SUPANN_CIVILITES'] = array (
  * 	   ),
  * );
  *
- * [ETIQUETTE] : l'étiquette de la valeur
+ * [ETIQUETTE] : l'étiquette de la valeur (correspondant le plus souvent ou mainteneur de la nomenclature)
  * [table] : le nom de la table :
- *   - roleGenerique : les rôles génériques
- *   - typeEntite : les types d'entités
- *   - empCorps : les corps d'appartenances des personnels
- *   - codeEtablissement : les codes d'établissement
- *   - etuRegimeInscription : les régimes d'inscription étudiant
- *   - etuSecteurDisciplinaire : les secteurs disciplinaires de dîplomes ou d'enseignements
- *   - etuTypeDiplome : les types de diplôme
- *   - etuDiplome : les diplômes
- *   - etuEtape : les étapes des enseignements
- *   - etuElementPedagogique : les éléments pédagogiques
+ *   - mailPriveLabel: le label des mails privés des personnes (supannMailPrive)
+ *   - adressePostalePriveeLabel: le label des adresses privées des personnes (supannAdressePostalePrivee)
+ *   - telephonePriveLabel: le label des télépgones privés des personnes (supannTelephonePrive)
+ *   - roleGenerique : les rôles génériques (supannRoleGenerique)
+ *   - typeEntite : les types d'entités (supannTypeEntite)
+ *   - empCorps : les corps d'appartenances des personnels (supannEmpCorps)
+ *   - codeEtablissement : les codes d'établissement (supannEtablissement)
+ *   - etuRegimeInscription : les régimes d'inscription étudiant (supannEtuRegimeInscription)
+ *   - etuSecteurDisciplinaire : les secteurs disciplinaires de dîplomes ou d'enseignements (supannEtuSecteurDisciplinaire)
+ *   - etuTypeDiplome : les types de diplôme (supannEtuTypeDiplome)
+ *   - etuDiplome : les diplômes (supannEtuDiplome)
+ *   - etuEtape : les étapes des enseignements (supannEtuEtape)
+ *   - etuElementPedagogique : les éléments pédagogiques (supannEtuElementPedagogique)
  *
  */
 $GLOBALS['supannNomenclatures'] = array (
 	'SUPANN' => array (
+		'mailPriveLabel' => array (
+			'SECOURS' => ___('Backup'),
+			'PERSO' => ___('Personal'),
+			'PARENTS' => ___('Parents'),
+			'PRO' => ___('Professional'),
+		),
+		'adressePostalePriveeLabel' => array (
+			'TEMP' => ___('Temporary'),
+			'PERSO' => ___('Personal'),
+			'PARENTS' => ___('Parents'),
+			'PRO' => ___('Professional'),
+		),
+		'telephonePriveLabel' => array (
+			'MOBPERSO' => ___('Personal mobile'),
+			'FIXEPERSO' => ___('Personal landline'),
+			'FIXEPARENTS' => ___('Parents landline'),
+			'MOBPARENTS' => ___('Parents mobile'),
+			'MOBPRO' => ___('Professional mobile'),
+			'FIXEPRO' => ___('Professional landline'),
+			'SECOURS' => ___('Backup'),
+		),
 		'roleGenerique' => array (
 			"D00" => "MINISTRE",
 			"D01" => "DIRECTEUR DU CABINET",

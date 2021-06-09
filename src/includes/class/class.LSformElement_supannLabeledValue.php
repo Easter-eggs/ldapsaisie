@@ -38,6 +38,10 @@ class LSformElement_supannLabeledValue extends LSformElement {
   var $fieldTemplate = 'LSformElement_supannLabeledValue_field.tpl';
 
   var $supannNomenclatureTable = null;
+  var $supannLabelNomenclatureTable = null;
+
+  // HTML field type: text or textarea (only for field without nomenclature table)
+  var $valueFieldType = 'text';
 
  /**
   * Retourne les infos d'affichage de l'élément
@@ -53,12 +57,25 @@ class LSformElement_supannLabeledValue extends LSformElement {
     foreach($this -> values as $val) {
       $parseValues[]=$this -> parseValue($val);
     }
-    $return['html'] = $this -> fetchTemplate(NULL,array('parseValues' => $parseValues));
+    $possibleLabels = (
+      $this -> supannLabelNomenclatureTable?
+      supannGetNomenclaturePossibleValues($this -> supannLabelNomenclatureTable, false):
+      null
+    );
+    $return['html'] = $this -> fetchTemplate(
+      NULL, array(
+        'parseValues' => $parseValues,
+        'nomenclatureTable' => $this -> supannNomenclatureTable,
+        'possibleLabels' => $possibleLabels,
+        'valueFieldType' => $this -> valueFieldType,
+      )
+    );
     LStemplate :: addCssFile('LSformElement_supannLabeledValue.css');
     if (!$this -> isFreeze()) {
       LStemplate :: addJSconfigParam(
         $this -> name,
         array(
+          'nomenclatureTable' => boolval($this -> supannNomenclatureTable),
           'searchBtn' => _('Modify'),
           'noValueLabel' => _('No set value'),
           'noResultLabel' => _('No result'),
@@ -80,13 +97,18 @@ class LSformElement_supannLabeledValue extends LSformElement {
   * @retval array Un tableau cle->valeur contenant value, translated et label
   **/
   public function parseValue($value) {
-    $retval=array(
+    $retval = array(
       'value' => $value,
     );
-    $pv=supannParseLabeledValue($value);
+    $pv = supannParseLabeledValue($value);
     if ($pv) {
       $retval['label'] = $pv['label'];
-      $retval['translated'] = supannGetNomenclatureLabel($this -> supannNomenclatureTable,$pv['label'],$pv['value']);
+      if ($this -> supannLabelNomenclatureTable)
+        $retval['translated_label'] = supannGetNomenclatureLabel($this -> supannLabelNomenclatureTable, null, $pv['label']);
+      if ($this -> supannNomenclatureTable)
+        $retval['translated'] = supannGetNomenclatureLabel($this -> supannNomenclatureTable,$pv['label'],$pv['value']);
+      else
+        $retval['translated'] = $pv['value'];
     }
     else {
       $retval['label'] = 'no';
@@ -101,26 +123,38 @@ class LSformElement_supannLabeledValue extends LSformElement {
    *
    * @param[in] $data The address to the array of data witch will be return by the ajax request
    *
-   * @retval void
+   * @retval boolean True on success, False otherwise
    **/
   public static function ajax_searchPossibleValues(&$data) {
-    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['pattern'])) && (isset($_REQUEST['idform'])) ) {
-      if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
-        $object = new $_REQUEST['objecttype']();
-        $form = $object -> getForm($_REQUEST['idform']);
-        $field=$form -> getElement($_REQUEST['attribute']);
-        $data['possibleValues'] = $field -> searchPossibleValues($_REQUEST['pattern']);
-      }
-    }
+    // Check all parameters is provided
+    foreach(array('attribute', 'objecttype', 'pattern', 'idform') as $parameter)
+      if (!isset($_REQUEST[$parameter]))
+        return;
+    if (!LSsession ::loadLSobject($_REQUEST['objecttype']))
+      return;
+    $object = new $_REQUEST['objecttype']();
+    $form = $object -> getForm($_REQUEST['idform']);
+    $field = $form -> getElement($_REQUEST['attribute']);
+    $data['possibleValues'] = $field -> searchPossibleValues($_REQUEST['pattern']);
+    return true;
   }
 
+  /**
+   * Real private method to search possible values from pattern.
+   *
+   * @param[in] $pattern The search pattern
+   *
+   * @retval boolean|array Array of possible values, or False is case of error
+   **/
   private function searchPossibleValues($pattern) {
-    $pattern=strtolower($pattern);
+    if (!$this -> supannNomenclatureTable)
+      return false;
+    $pattern=withoutAccents(strtolower($pattern));
     $retval=array();
     $table=supannGetNomenclatureTable($this -> supannNomenclatureTable);
     foreach($table as $label => $values) {
       foreach($values as $v => $txt) {
-        if (strpos(strtolower($txt),$pattern)!==false) {
+        if (strpos(withoutAccents(strtolower($txt)),$pattern)!==false) {
           $retval[]=array(
             'label' => $label,
             'value' => "{".$label."}".$v,
