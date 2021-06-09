@@ -79,7 +79,6 @@ class LSformElement_supannLabeledValue extends LSformElement {
           'searchBtn' => _('Modify'),
           'noValueLabel' => _('No set value'),
           'noResultLabel' => _('No result'),
-          'components' => $this->components
         )
       );
       LStemplate :: addJSscript('LSformElement_supannLabeledValue_field_value.js');
