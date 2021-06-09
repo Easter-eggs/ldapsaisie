@@ -386,7 +386,8 @@ var LSform = new Class({
     addError: function(errors,name) {
       var ul = $(name);
       if ($type(ul)) {
-        errors = new Array(errors);
+        if ($type(errors) != 'array')
+          errors = new Array(errors);
         errors.each(function(txt){
           var dd = new Element('dd');
           dd.addClass('LSform');
