@@ -51,29 +51,6 @@ $GLOBALS['LS_SUPANN_EPPN_FORMAT'] = "%{uid}@univ.fr";
 // LSformat de l'attribut eduPersonUniqueId (%{uniqueId} étant un ID unique généré aléatoirement)
 $GLOBALS['LS_SUPANN_EPUI_FORMAT'] = "%{uniqueId}@univ.fr";
 
-// Liste des valeurs possibles des affiliations et leur label
-$GLOBALS['LS_SUPANN_AFFILIATIONS'] = array (
-	'affiliate' => ___('Affiliate'),
-	'alum' => ___('Alumnus'),
-	'employee' => ___('Employee'),
-	'faculty' => ___('Faculty'),
-	'member' => ___('Member'),
-	'student' => ___('Student'),
-	'retired' => ___('Retired'),
-	'teacher' => ___('Teacher'),
-	'staff' => ___('Staff'),
-	'researcher' => ___('Researcher'),
-	'emeritus' => ___('Emeritus teacher'),
-	'library-walk-in' => ___('Library - walk-in'),
-	'registered-reader' => ___('Library - registered'),
-);
-
-// Liste des valeurs possibles de la civilité d'une personne et leur label
-$GLOBALS['LS_SUPANN_CIVILITES'] = array (
-	'Mme' => ___('Mrs.'),
-	'M.' => ___('Mr.'),
-);
-
 /*
  * Nomenclatures SUPANN
  *
@@ -94,6 +71,8 @@ $GLOBALS['LS_SUPANN_CIVILITES'] = array (
  *
  * [ETIQUETTE] : l'étiquette de la valeur (correspondant le plus souvent ou mainteneur de la nomenclature)
  * [table] : le nom de la table :
+ *   - civilite : la civilité des personnes (supannCivilite)
+ *   - affiliation : l'affiliation des personnes (eduPersonAffiliation)
  *   - mailPriveLabel: le label des mails privés des personnes (supannMailPrive)
  *   - adressePostalePriveeLabel: le label des adresses privées des personnes (supannAdressePostalePrivee)
  *   - telephonePriveLabel: le label des télépgones privés des personnes (supannTelephonePrive)
@@ -111,6 +90,17 @@ $GLOBALS['LS_SUPANN_CIVILITES'] = array (
  */
 $GLOBALS['supannNomenclatures'] = array (
 	'SUPANN' => array (
+		'civilite' => array(
+			'Mme' => ___('Mrs.'),
+			'M.' => ___('Mr.'),
+		),
+		'affiliation' => array (
+			'researcher' => 'Chercheur (researcher)',
+			'retired' => 'Retraité (retired)',
+			'emeritus' => 'Professeur émérite (emeritus)',
+			'teacher' => 'Professeur (teacher)',
+			'registered-reader' => 'Lecteur enregistré dans une bibliothèque (registered-reader)',
+		),
 		'mailPriveLabel' => array (
 			'SECOURS' => ___('Backup'),
 			'PERSO' => ___('Personal'),
@@ -2298,6 +2288,18 @@ $GLOBALS['supannNomenclatures'] = array (
 			"J2A22" => "Chargé de la coopération internationale",
 			"J1C24" => "Responsable de l'administration et du pilotage",
 			"J1D25" => "Responsable de la gestion des ressources humaines",
+		),
+	),
+	'eduPerson' => array(
+		'affiliation' => array (
+			'student' => "Étudiant (student)",
+			'faculty' => "Membre du corps professoral (faculty)",
+			'staff' => "Personne exerçant une activité administrative, technique ou de support, autre que l'enseignement et la recherche (staff)",
+			'employee' => "Personne employée par l'établissement (employee)",
+			'member' => "Membre de l'établissement (member)",
+			'affiliate' => "Partenaire en relation avec l'établissement, sans en être membre (affiliate)",
+			'alum' => "Ancien étudiant (alum)",
+			'library-walk-in' => "Personne physiquement présente dans une bibliothèque (library-walk-in)",
 		),
 	),
 );

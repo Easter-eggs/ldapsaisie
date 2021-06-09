@@ -79,8 +79,6 @@ LSerror :: defineError('SUPANN_03',
     }
 
     $MUST_DEFINE_ARRAY= array(
-      'LS_SUPANN_CIVILITES',
-      'LS_SUPANN_AFFILIATIONS',
       'supannNomenclatures',
     );
     foreach($MUST_DEFINE_ARRAY as $array) {
@@ -492,11 +490,8 @@ LSerror :: defineError('SUPANN_03',
  * @retval array Tableau contenant les valeurs possibles de l'attribut
  *               (avec les labels traduits).
  **/
-function supannGetCivilitePossibleValues($options, $name, &$ldapObject) {
-  $retval = array();
-  foreach($GLOBALS['LS_SUPANN_CIVILITES'] as $value => $label)
-    $retval[$value] = __($label);
-  return $retval;
+function supannGetCivilitePossibleValues($options, $name, $ldapObject) {
+  return supannGetNomenclaturePossibleValues('civilite', false);
 }
 
 /**
@@ -513,11 +508,8 @@ function supannGetCivilitePossibleValues($options, $name, &$ldapObject) {
  * @retval array Tableau contenant les valeurs possibles de l'attribut
  *               (avec les labels traduits).
  **/
-function supannGetAffiliationPossibleValues($options, $name, &$ldapObject) {
-  $retval = array();
-  foreach($GLOBALS['LS_SUPANN_AFFILIATIONS'] as $value => $label)
-    $retval[$value] = __($label);
-  return $retval;
+function supannGetAffiliationPossibleValues($options, $name, $ldapObject) {
+  return supannGetNomenclaturePossibleValues('affiliation', false);
 }
 
 /**
