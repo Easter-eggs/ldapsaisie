@@ -2302,4 +2302,11 @@ $GLOBALS['supannNomenclatures'] = array (
 			'library-walk-in' => "Personne physiquement présente dans une bibliothèque (library-walk-in)",
 		),
 	),
+	'oidc' => array(
+		'oidc_genre' => array(
+			'female' => ___('Female'),
+			'male' => ___('Male'),
+			'other' => ___('Other'),
+		),
+	),
 );

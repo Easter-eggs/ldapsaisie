@@ -567,6 +567,24 @@ function supannCheckEduPersonPrimaryAffiliation(&$ldapObject) {
 }
 
 /**
+ * Retourne les valeurs possibles de l'attribut supannOIDCGenre.
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * get_possible_values de la configuration HTML de l'attribut
+ * supannOIDCGenre avec un type d'attribut HTML select_list ou select_box.
+ *
+ * @param[in] $options La configuration HTML de l'attribut
+ * @param[in] $name Le nom de l'attribut
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval array Tableau contenant les valeurs possibles de l'attribut
+ *               (avec les labels traduits).
+ **/
+function supannGetOIDCGenrePossibleValues($options, $name, $ldapObject) {
+  return supannGetNomenclaturePossibleValues('oidc_genre', false);
+}
+
+/**
  * Géneration de la valeur de l'attribut eduPersonPrincipalName
  * à partir du LSformat configuré dans $GLOBALS['LS_SUPANN_EPPN_FORMAT']
  *
