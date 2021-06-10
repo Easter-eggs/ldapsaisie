@@ -35,83 +35,94 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannEtuInscription extends LSformElement_supannCompositeAttribute {
 
-	public function __construct(&$form, $name, $label, $params, &$attr_html){
-		$this -> components = array (
-			'etab' => array (
-				'label' => _('Organism'),
-				'type' => 'table',
-				'table' => 'codeEtablissement',
-				'required' => true,
-			),
-			'anneeinsc' => array (
-				'label' => _('Registration year'),
-				'type' => 'text',
-				'required' => true,
-				'check_data' => array (
-					'integer' => array (
-						'msg' => _('Registration year must be an integer'),
-						'params' => array (
-							'positive' => true,
-							'min' => 1970
-						)
-					),
-				)
-			),
-			'regimeinsc' => array (
-				'label' => _('Registration regime'),
-				'type' => 'table',
-				'table' => 'etuRegimeInscription',
-				'required' => true
-			),
-			'sectdisc' => array (
-				'label' => _('Discipline sector'),
-				'type' => 'table',
-				'table' => 'etuSecteurDisciplinaire',
-				'required' => true
-			),
-			'typedip' => array (
-				'label' => _('Diploma type'),
-				'type' => 'table',
-				'table' => 'etuTypeDiplome',
-				'required' => true
-			),
-			'cursusann' => array (
-				'label' => _('Cursus & Year'),
-				'type' => 'text',
-				'check_data' => array (
-					'regex' => array (
-						'params' => array (
-							'regex' => '/^[LMDXB][0-9]?$/'
-						)
-					),
-				),
-				'required' => true
-			),
-			'affect' => array (
-				'label' => _('Entity'),
-				'type' => 'codeEntite',
-				'required' => false
-			),
-			'diplome' => array (
-				'label' => _('Diploma'),
-				'type' => 'table',
-				'table' => 'etuDiplome',
-				'required' => false
-			),
-			'etape' => array (
-				'label' => _('Step'),
-				'type' => 'table',
-				'table' => 'etuEtape',
-				'required' => false
-			),
-			'eltpedago' => array (
-				'label' => _('Pedagogical element'),
-				'type' => 'table',
-				'table' => 'etuElementPedagogique',
-				'required' => false
-			)
-		);
-		return parent :: __construct($form, $name, $label, $params, $attr_html);
-	}
+  public function __construct(&$form, $name, $label, $params, &$attr_html){
+    $this -> components = array (
+      'etab' => array (
+        'label' => _('Organism'),
+        'type' => 'table',
+        'table' => 'codeEtablissement',
+        'required' => true,
+      ),
+      'anneeinsc' => array (
+        'label' => _('Registration year'),
+        'type' => 'text',
+        'required' => true,
+        'check_data' => array (
+          'integer' => array (
+            'msg' => _('Registration year must be an integer'),
+            'params' => array (
+              'positive' => true,
+              'min' => 1970,
+            ),
+          ),
+        ),
+      ),
+      'regimeinsc' => array (
+        'label' => _('Registration regime'),
+        'type' => 'table',
+        'table' => 'etuRegimeInscription',
+        'required' => true,
+      ),
+      'sectdisc' => array (
+        'label' => _('Discipline sector'),
+        'type' => 'table',
+        'table' => 'etuSecteurDisciplinaire',
+        'required' => true,
+      ),
+      'typedip' => array (
+        'label' => _('Diploma type'),
+        'type' => 'table',
+        'table' => 'etuTypeDiplome',
+        'required' => true,
+      ),
+      'cursusann' => array (
+        'label' => _('Cursus & Year'),
+        'type' => 'text',
+        'check_data' => array (
+          'regex' => array (
+            'params' => array (
+              'regex' => '/^[LMDXB][0-9]?$/'
+            ),
+          ),
+        ),
+        'required' => true,
+      ),
+      'affect' => array (
+        'label' => _('Entity'),
+        'type' => 'codeEntite',
+        'required' => false,
+      ),
+      'diplome' => array (
+        'label' => _('Diploma'),
+        'type' => 'table',
+        'table' => 'etuDiplome',
+        'required' => false,
+      ),
+      'etape' => array (
+        'label' => _('Step'),
+        'type' => 'table',
+        'table' => 'etuEtape',
+        'required' => false,
+      ),
+      'eltpedago' => array (
+        'label' => _('Pedagogical element'),
+        'type' => 'table',
+        'table' => 'etuElementPedagogique',
+        'required' => false,
+      ),
+      'population' => array (
+        'label' => _('Population'),
+        'type' => 'table',
+        'table' => 'codePopulation',
+        'required' => false,
+      ),
+      'datefin' => array (
+        'label' => _('End date'),
+        'type' => 'date',
+        'required' => false,
+      ),
+    );
+    return parent :: __construct($form, $name, $label, $params, $attr_html);
+  }
 
 }
