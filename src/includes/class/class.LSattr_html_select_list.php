@@ -111,28 +111,28 @@ class LSattr_html_select_list extends LSattr_html{
           $attrInfos=static :: getLSattributePossibleValues($val_label, $options, $name, $ldapObject);
           $retInfos=static :: _array_merge($retInfos,$attrInfos);
         }
-      	elseif (is_array($val_label)) {
-      		if (!isset($val_label['possible_values']) || !is_array($val_label['possible_values']) || !isset($val_label['label']))
-      			continue;
-      		$subRetInfos=array();
-      		foreach($val_label['possible_values'] as $vk => $vl) {
-      			if ($vk==='OTHER_OBJECT') {
-      				$objInfos=static :: getLSobjectPossibleValues($vl,$options,$name);
-      				$subRetInfos=static :: _array_merge($subRetInfos,$objInfos);
-      			}
-      			else {
-      				$vk = $ldapObject->getFData($vk);
-    					$vl = $ldapObject->getFData(($translate_labels?__($vl):$vl));
-      				$subRetInfos[$vk] = $vl;
-      			}
-      		}
-      		static :: _sort($subRetInfos,$options);
-      		$subRetLabel = $ldapObject->getFData(($translate_labels?__($val_label['label']):$val_label['label']));
-      		$retInfos[] = array (
-      			'label' => $subRetLabel,
-      			'possible_values' => $subRetInfos
-      		);
-      	}
+        elseif (is_array($val_label)) {
+          if (!isset($val_label['possible_values']) || !is_array($val_label['possible_values']) || !isset($val_label['label']))
+            continue;
+          $subRetInfos=array();
+          foreach($val_label['possible_values'] as $vk => $vl) {
+            if ($vk==='OTHER_OBJECT') {
+              $objInfos=static :: getLSobjectPossibleValues($vl,$options,$name);
+              $subRetInfos=static :: _array_merge($subRetInfos,$objInfos);
+            }
+            else {
+              $vk = $ldapObject->getFData($vk);
+              $vl = $ldapObject->getFData(($translate_labels?__($vl):$vl));
+              $subRetInfos[$vk] = $vl;
+            }
+          }
+          static :: _sort($subRetInfos,$options);
+          $subRetLabel = $ldapObject->getFData(($translate_labels?__($val_label['label']):$val_label['label']));
+          $retInfos[] = array (
+            'label' => $subRetLabel,
+            'possible_values' => $subRetInfos
+          );
+        }
         else {
           $val_key = $ldapObject->getFData($val_key);
           $val_label = $ldapObject->getFData(($translate_labels?__($val_label):$val_label));

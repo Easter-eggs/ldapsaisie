@@ -34,6 +34,6 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannTypeEntite extends LSformElement_supannLabeledValue {
 
-	var $supannNomenclatureTable = 'typeEntite';
+  var $supannNomenclatureTable = 'typeEntite';
 
 }

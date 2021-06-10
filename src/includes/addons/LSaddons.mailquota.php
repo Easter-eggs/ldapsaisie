@@ -164,10 +164,10 @@ function mailquota_show_usage(&$LSldapObject) {
 
 function mailquota_formatValue($value) {
   $sizeFacts = array(
-    1073741824	=> 'Go',
-    1048576	=> 'Mo',
-    1024	=> 'Ko',
-    1		=> 'o',
+    1073741824  => 'Go',
+    1048576     => 'Mo',
+    1024        => 'Ko',
+    1           => 'o',
   );
   krsort($sizeFacts);
   foreach($sizeFacts as $sill => $label) {

@@ -34,7 +34,7 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannAdressePostalePrivee extends LSformElement_supannLabeledValue {
 
-	var $supannLabelNomenclatureTable = 'adressePostalePriveeLabel';
+  var $supannLabelNomenclatureTable = 'adressePostalePriveeLabel';
   var $valueFieldType = 'textarea';
 
 
@@ -45,12 +45,12 @@ class LSformElement_supannAdressePostalePrivee extends LSformElement_supannLabel
   *
   * @retval array Un tableau cle->valeur contenant value, translated et label
   **/
-	public function parseValue($value) {
-		$retval = parent :: parseValue($value);
-		$retval['value'] = str_replace('$', "\n", $retval['value']);
-		$retval['translated'] = str_replace('$', "\n", $retval['translated']);
-	  return $retval;
-	}
+  public function parseValue($value) {
+    $retval = parent :: parseValue($value);
+    $retval['value'] = str_replace('$', "\n", $retval['value']);
+    $retval['translated'] = str_replace('$', "\n", $retval['translated']);
+    return $retval;
+  }
 
 
   /**
@@ -62,15 +62,15 @@ class LSformElement_supannAdressePostalePrivee extends LSformElement_supannLabel
    * @see LSformElement::getPostData()
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
-	public function getPostData(&$return, $onlyIfPresent=false) {
-		$retval = parent :: getPostData($return, $onlyIfPresent);
-	  if (isset($return[$this -> name])) {
-			$fixed_values = array();
-	    foreach($return[$this -> name] as $value)
-				$fixed_values[] = str_replace("\n", "$", $value);
-			$return[$this -> name] = $fixed_values;
-	  }
-	  return $retval;
-	}
+  public function getPostData(&$return, $onlyIfPresent=false) {
+    $retval = parent :: getPostData($return, $onlyIfPresent);
+    if (isset($return[$this -> name])) {
+      $fixed_values = array();
+      foreach($return[$this -> name] as $value)
+        $fixed_values[] = str_replace("\n", "$", $value);
+      $return[$this -> name] = $fixed_values;
+    }
+    return $retval;
+  }
 
 }

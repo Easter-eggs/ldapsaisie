@@ -34,6 +34,6 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannMailPrive extends LSformElement_supannLabeledValue {
 
-	var $supannLabelNomenclatureTable = 'mailPriveLabel';
+  var $supannLabelNomenclatureTable = 'mailPriveLabel';
 
 }

@@ -35,26 +35,26 @@ LSsession :: loadLSaddon('supann');
 class LSformElement_supannRoleEntite extends LSformElement_supannCompositeAttribute {
 
   public function __construct(&$form, $name, $label, $params, &$attr_html){
-	  $this -> components = array (
-		  'role' => array (
-			'label' => _('Role'),
-			'type' => 'table',
-			'table' => 'roleGenerique',
-			'required' => true,
-		  ),
-		  'type' => array (
-			'label' => _('Entity type'),
-			'type' => 'table',
-			'table' => 'typeEntite',
-			'required' => true,
-		  ),
-		  'code' => array (
-			'label' => _('Entity'),
-			'type' => 'codeEntite',
-			'required' => false
-		  )
-	  );
-	  return parent :: __construct($form, $name, $label, $params, $attr_html);
+    $this -> components = array (
+      'role' => array (
+      'label' => _('Role'),
+      'type' => 'table',
+      'table' => 'roleGenerique',
+      'required' => true,
+      ),
+      'type' => array (
+      'label' => _('Entity type'),
+      'type' => 'table',
+      'table' => 'typeEntite',
+      'required' => true,
+      ),
+      'code' => array (
+      'label' => _('Entity'),
+      'type' => 'codeEntite',
+      'required' => false
+      )
+    );
+    return parent :: __construct($form, $name, $label, $params, $attr_html);
   }
 
 }

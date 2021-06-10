@@ -34,6 +34,6 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannEmpCorps extends LSformElement_supannLabeledValue {
 
-	var $supannNomenclatureTable = 'empCorps';
+  var $supannNomenclatureTable = 'empCorps';
 
 }

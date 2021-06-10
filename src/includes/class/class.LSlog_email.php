@@ -27,54 +27,54 @@
  */
 class LSlog_email extends LSlog_handler {
 
-	// The configured email recipient
-	private $recipient = null;
+  // The configured email recipient
+  private $recipient = null;
 
-	// Default datetime prefix (enabled/disabled)
-	protected $default_datetime_prefix = false;
+  // Default datetime prefix (enabled/disabled)
+  protected $default_datetime_prefix = false;
 
-	/**
-	 * Constructor
-	 *
-	 * @param[in] $config array The handler configuration
-	 *
-	 * @retval void
-	 **/
-	public function __construct($config) {
-		parent :: __construct($config);
-		$this -> recipient = self :: getConfig('recipient');
-		if ($this -> enabled)
-			self :: log_trace("$this Enabled", get_class($this));
-	}
+  /**
+   * Constructor
+   *
+   * @param[in] $config array The handler configuration
+   *
+   * @retval void
+   **/
+  public function __construct($config) {
+    parent :: __construct($config);
+    $this -> recipient = self :: getConfig('recipient');
+    if ($this -> enabled)
+      self :: log_trace("$this Enabled", get_class($this));
+  }
 
   /**
    * Return list of details for the string representation of the LSlog_email
    *
    * @retval array List of details for the string representation of the LSlog_email
    */
-	public function __toStringDetails() {
-		return array_merge(
-			array("recipient=".$this -> recipient),
-			parent :: __toStringDetails()
-		);
-	}
+  public function __toStringDetails() {
+    return array_merge(
+      array("recipient=".$this -> recipient),
+      parent :: __toStringDetails()
+    );
+  }
 
-	/**
-	 * Log a message
-	 *
-	 * @param[in] $level string The message level
-	 * @param[in] $message string The message
-	 * @param[in] $logger string|null The logger name (optional, default: null)
-	 *
-	 * @retval void
-	 **/
-	public function logging($level, $message, $logger=null) {
-		if ($this -> recipient)
-			return error_log(
-				$this -> format($level, $message, $logger),
-				1,
-				$this -> recipient
-			);
-		return false;
-	}
+  /**
+   * Log a message
+   *
+   * @param[in] $level string The message level
+   * @param[in] $message string The message
+   * @param[in] $logger string|null The logger name (optional, default: null)
+   *
+   * @retval void
+   **/
+  public function logging($level, $message, $logger=null) {
+    if ($this -> recipient)
+      return error_log(
+        $this -> format($level, $message, $logger),
+        1,
+        $this -> recipient
+      );
+    return false;
+  }
 }

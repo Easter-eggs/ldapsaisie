@@ -51,7 +51,7 @@ class LSauthMethod_basic extends LSauthMethod {
    * @retval LSldapObject|false The LSldapObject of the user authificated or false
    */
   public function authenticate() {
-		$authobjects = LSauth :: username2LSobjects($this -> authData['username']);
+    $authobjects = LSauth :: username2LSobjects($this -> authData['username']);
     if (!$authobjects) {
       LSerror :: addErrorCode('LSauth_01');
       self :: log_debug('No user found with username="'.$this -> authData['username'].'" => Invalid username');
@@ -64,7 +64,7 @@ class LSauthMethod_basic extends LSauthMethod {
         $matched[] = $dn;
       else
         self :: log_trace("Invalid password provided for '$dn'");
-		if (!$matched) {
+    if (!$matched) {
       LSerror :: addErrorCode('LSauth_01');
       self :: log_debug('Invalid password provided');
       return false;
@@ -74,9 +74,9 @@ class LSauthMethod_basic extends LSauthMethod {
       LSerror :: addErrorCode('LSauth_02');
       return false;
     }
-		// Authentication succeeded
-		self :: log_debug('Authentication succeeded for username "'.$this -> authData['username'].'" ("'.$matched[0].'")');
-		return $authobjects[$matched[0]];
+    // Authentication succeeded
+    self :: log_debug('Authentication succeeded for username "'.$this -> authData['username'].'" ("'.$matched[0].'")');
+    return $authobjects[$matched[0]];
   }
 
 }

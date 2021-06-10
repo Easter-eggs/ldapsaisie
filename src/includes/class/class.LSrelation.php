@@ -73,9 +73,9 @@ class LSrelation extends LSlog_staticLoggerClass {
   /**
    * Return a configuration parameter (or default value)
    *
-   * @param[] $param	The configuration parameter
-   * @param[] $default	The default value (default : null)
-   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   * @param[] $param      The configuration parameter
+   * @param[] $default    The default value (default : null)
+   * @param[] $cast       Cast resulting value in specific type (default : disabled)
    *
    * @retval mixed The configuration parameter value or default value if not set
    **/
@@ -123,7 +123,7 @@ class LSrelation extends LSlog_staticLoggerClass {
         );
     }
     // Unknown key, log warning
-		self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
+    self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
   }
 
   /**

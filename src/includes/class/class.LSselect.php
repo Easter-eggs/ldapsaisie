@@ -83,10 +83,11 @@ class LSselect extends LSlog_staticLoggerClass {
   /**
    * Return a configuration parameter (or default value)
    *
-   * @param[] $id string	The LSselect ID
-   * @param[] $param string	The configuration parameter
-   * @param[] $default mixed	The default value (optional, default : null)
-   * @param[] $cast	Cast string|null resulting value in specific type (optional, default : null=disabled)
+   * @param[] $id string      The LSselect ID
+   * @param[] $param string   The configuration parameter
+   * @param[] $default mixed  The default value (optional, default : null)
+   * @param[] $cast           Cast string|null resulting value in specific type
+   *                          (optional, default : null=disabled)
    *
    * @retval mixed The configuration parameter value or default value if not set
    **/

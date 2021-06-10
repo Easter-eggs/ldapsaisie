@@ -34,6 +34,6 @@ LSsession :: loadLSaddon('supann');
 
 class LSformElement_supannTelephonePrive extends LSformElement_supannLabeledValue {
 
-	var $supannLabelNomenclatureTable = 'telephonePriveLabel';
+  var $supannLabelNomenclatureTable = 'telephonePriveLabel';
 
 }

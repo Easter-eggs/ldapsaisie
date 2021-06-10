@@ -1965,9 +1965,9 @@ class LSldapObject extends LSlog_staticLoggerClass {
   /**
    * Return a configuration parameter (or default value)
    *
-   * @param[] $param	The configuration parameter
-   * @param[] $default	The default value (default : null)
-   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   * @param[] $param      The configuration parameter
+   * @param[] $default    The default value (default : null)
+   * @param[] $cast       Cast resulting value in specific type (default : disabled)
    *
    * @retval mixed The configuration parameter value or default value if not set
    **/

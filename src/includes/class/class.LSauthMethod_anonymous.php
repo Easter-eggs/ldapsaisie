@@ -31,23 +31,23 @@ class LSauthMethod_anonymous extends LSauthMethod {
   protected static $api_mode_supported = true;
 
   public function __construct() {
-		LSauth :: disableLoginForm();
-		LSauth :: disableSelfAccess();
+    LSauth :: disableLoginForm();
+    LSauth :: disableSelfAccess();
 
-		if (!parent :: __construct())
-			return;
+    if (!parent :: __construct())
+      return;
 
-		if ( (!defined('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT')) || (constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT') === True)) {
-			self :: log_debug('logout : '.constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT'));
-			LSauth :: disableLogoutBtn();
-		}
+    if ( (!defined('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT')) || (constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT') === True)) {
+      self :: log_debug('logout : '.constant('LSAUTHMETHOD_ANONYMOUS_DISABLE_LOGOUT'));
+      LSauth :: disableLogoutBtn();
+    }
 
-		if ( (!defined('LSAUTHMETHOD_ANONYMOUS_USER')) || (constant('LSAUTHMETHOD_ANONYMOUS_USER') == "")) {
-			LSerror :: addErrorCode('LSauthMethod_anonymous_01');
-			return;
-		}
-		return true;
-	}
+    if ( (!defined('LSAUTHMETHOD_ANONYMOUS_USER')) || (constant('LSAUTHMETHOD_ANONYMOUS_USER') == "")) {
+      LSerror :: addErrorCode('LSauthMethod_anonymous_01');
+      return;
+    }
+    return true;
+  }
 
   /**
    * Check Auth Data
@@ -57,9 +57,9 @@ class LSauthMethod_anonymous extends LSauthMethod {
    * @retval Array|false Array of authentication data or False
    **/
   public function getAuthData() {
-		$this -> authData = array(
-			'username' => LSAUTHMETHOD_ANONYMOUS_USER
-		);
+    $this -> authData = array(
+      'username' => LSAUTHMETHOD_ANONYMOUS_USER
+    );
     return $this -> authData;
   }
 
@@ -69,5 +69,5 @@ class LSauthMethod_anonymous extends LSauthMethod {
  * Error Codes
  */
 LSerror :: defineError('LSauthMethod_anonymous_01',
-___("LSauthMethod_anonymous : You must define the LSAUTHMETHOD_ANONYMOUS_USER contant in the configuration file.")
+  ___("LSauthMethod_anonymous : You must define the LSAUTHMETHOD_ANONYMOUS_USER contant in the configuration file.")
 );

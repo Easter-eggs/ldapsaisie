@@ -27,52 +27,52 @@
  */
 class LSlog_file extends LSlog_handler {
 
-	// The configured logfile path
-	private $path;
+  // The configured logfile path
+  private $path;
 
-	/**
-	 * Constructor
-	 *
-	 * @param[in] $config array The handler configuration
-	 *
-	 * @retval void
-	 **/
-	public function __construct($config) {
-		parent :: __construct($config);
-		// For reto-compatibilty, use LSlog.filename as default log path value
-		$this -> path = self :: getConfig('path', LSlog :: getConfig('filename', 'tmp/LS.log'));
-		if (substr($this -> path, 0, 1) != '/')
-			$this -> path = LS_ROOT_DIR."/".$this -> path;
-		if ($this -> enabled)
-			self :: log_trace("$this Enabled", get_class($this));
-	}
+  /**
+   * Constructor
+   *
+   * @param[in] $config array The handler configuration
+   *
+   * @retval void
+   **/
+  public function __construct($config) {
+    parent :: __construct($config);
+    // For reto-compatibilty, use LSlog.filename as default log path value
+    $this -> path = self :: getConfig('path', LSlog :: getConfig('filename', 'tmp/LS.log'));
+    if (substr($this -> path, 0, 1) != '/')
+      $this -> path = LS_ROOT_DIR."/".$this -> path;
+    if ($this -> enabled)
+      self :: log_trace("$this Enabled", get_class($this));
+  }
 
   /**
    * Return list of details for the string representation of the LSlog_file
    *
    * @retval array List of details for the string representation of the LSlog_file
    */
-	public function __toStringDetails() {
-		return array_merge(
-			array("path=".$this -> path),
-			parent :: __toStringDetails()
-		);
-	}
+  public function __toStringDetails() {
+    return array_merge(
+      array("path=".$this -> path),
+      parent :: __toStringDetails()
+    );
+  }
 
-	/**
-	 * Log a message
-	 *
-	 * @param[in] $level string The message level
-	 * @param[in] $message string The message
-	 * @param[in] $logger string|null The logger name (optional, default: null)
-	 *
-	 * @retval void
-	 **/
-	public function logging($level, $message, $logger=null) {
-		return error_log(
-			$this -> format($level, $message, $logger)."\n",
-			3,
-			$this -> path
-		);
-	}
+  /**
+   * Log a message
+   *
+   * @param[in] $level string The message level
+   * @param[in] $message string The message
+   * @param[in] $logger string|null The logger name (optional, default: null)
+   *
+   * @retval void
+   **/
+  public function logging($level, $message, $logger=null) {
+    return error_log(
+      $this -> format($level, $message, $logger)."\n",
+      3,
+      $this -> path
+    );
+  }
 }

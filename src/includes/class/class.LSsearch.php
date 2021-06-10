@@ -1236,12 +1236,12 @@ class LSsearch extends LSlog_staticLoggerClass {
       return $this -> _canCopy;
     }
     elseif ($key=='predefinedFilters') {
-			$retval=array();
-			if (is_array($this -> config['predefinedFilters'])) {
-				foreach($this -> config['predefinedFilters'] as $filter => $label) {
-					$retval[$filter]=__($label);
-				}
-			}
+      $retval=array();
+      if (is_array($this -> config['predefinedFilters'])) {
+        foreach($this -> config['predefinedFilters'] as $filter => $label) {
+          $retval[$filter]=__($label);
+        }
+      }
       return $retval;
     }
     elseif ($key=='extraDisplayedColumns') {

@@ -27,34 +27,34 @@
  */
 class LSlog_system extends LSlog_handler {
 
-	// Default datetime prefix (enabled/disabled)
-	protected $default_datetime_prefix = false;
+  // Default datetime prefix (enabled/disabled)
+  protected $default_datetime_prefix = false;
 
-	/**
-	 * Constructor
-	 *
-	 * @param[in] $config array The handler configuration
-	 *
-	 * @retval void
-	 **/
-	public function __construct($config) {
-		parent :: __construct($config);
-		if ($this -> enabled)
-			self :: log_trace("$this Enabled", get_class($this));
-	}
+  /**
+   * Constructor
+   *
+   * @param[in] $config array The handler configuration
+   *
+   * @retval void
+   **/
+  public function __construct($config) {
+    parent :: __construct($config);
+    if ($this -> enabled)
+      self :: log_trace("$this Enabled", get_class($this));
+  }
 
-	/**
-	 * Log a message
-	 *
-	 * @param[in] $level string The message level
-	 * @param[in] $message string The message
-	 * @param[in] $logger string|null The logger name (optional, default: null)
-	 *
-	 * @retval void
-	 **/
-	public function logging($level, $message, $logger=null) {
-		error_log(
-			$this -> format($level, $message, $logger)
-		);
-	}
+  /**
+   * Log a message
+   *
+   * @param[in] $level string The message level
+   * @param[in] $message string The message
+   * @param[in] $logger string|null The logger name (optional, default: null)
+   *
+   * @retval void
+   **/
+  public function logging($level, $message, $logger=null) {
+    error_log(
+      $this -> format($level, $message, $logger)
+    );
+  }
 }

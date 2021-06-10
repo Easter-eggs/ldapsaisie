@@ -60,11 +60,11 @@ class LSformRule_differentPassword extends LSformRule {
           return false;
         }
 
-	// Check attribute use LSldap_attr :: password type
+        // Check attribute use LSldap_attr :: password type
         if (!$formElement -> attr_html -> attribute -> ldapObject -> attrs[$attr] -> ldap instanceof LSattr_ldap_password) {
           LSerror :: addErrorCode('LSformRule_differentPassword_05', $attr);
           return false;
-	}
+        }
 
         if ($formElement -> attr_html -> attribute -> ldapObject -> attrs[$attr] -> ldap -> verify($value, $formElement -> form -> getValue($attr))) {
           LSdebug($formElement -> name . " : Password matched with attribute $attr");

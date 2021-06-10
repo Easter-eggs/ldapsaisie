@@ -357,8 +357,8 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   /**
    * Check one component's values
    *
-   * @param[] $c	The component name
-   * @param[] $value	The values of the component
+   * @param[] $c       The component name
+   * @param[] $value   The values of the component
    *
    * @retval void
    **/
@@ -375,8 +375,8 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   /**
    * Check one component's value
    *
-   * @param[] $c	The component name
-   * @param[] $value	The value to check
+   * @param[] $c       The component name
+   * @param[] $value   The value to check
    *
    * @retval void
    **/
@@ -431,10 +431,10 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   /**
    * Return a configuration parameter for a specific component (or default value)
    *
-   * @param[] $component	The component name
-   * @param[] $param	The configuration parameter
-   * @param[] $default	The default value (default : null)
-   * @param[] $cast	Cast resulting value in specific type (default : disabled)
+   * @param[] $component  The component name
+   * @param[] $param      The configuration parameter
+   * @param[] $default    The default value (default : null)
+   * @param[] $cast       Cast resulting value in specific type (default : disabled)
    *
    * @retval mixed The configuration parameter value or default value if not set
    **/

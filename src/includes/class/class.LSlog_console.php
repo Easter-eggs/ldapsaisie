@@ -27,38 +27,38 @@
  */
 class LSlog_console extends LSlog_handler {
 
-	// File-descriptors for stdout/stderr
-	private $stdout;
-	private $stderr;
+  // File-descriptors for stdout/stderr
+  private $stdout;
+  private $stderr;
 
-	/**
-	 * Constructor
-	 *
-	 * @param[in] $config array The handler configuration
-	 *
-	 * @retval void
-	 **/
-	public function __construct($config) {
-		parent :: __construct($config);
-		$this -> stdout = fopen('php://stdout', 'w');
-		$this -> stderr = fopen('php://stderr', 'w');
-		if ($this -> enabled)
-			self :: log_trace("$this Enabled", get_class($this));
-	}
+  /**
+   * Constructor
+   *
+   * @param[in] $config array The handler configuration
+   *
+   * @retval void
+   **/
+  public function __construct($config) {
+    parent :: __construct($config);
+    $this -> stdout = fopen('php://stdout', 'w');
+    $this -> stderr = fopen('php://stderr', 'w');
+    if ($this -> enabled)
+      self :: log_trace("$this Enabled", get_class($this));
+  }
 
-	/**
-	 * Log a message
-	 *
-	 * @param[in] $level string The message level
-	 * @param[in] $message string The message
-	 * @param[in] $logger string|null The logger name (optional, default: null)
-	 *
-	 * @retval void
-	 **/
-	public function logging($level, $message, $logger=null) {
-		return fwrite(
-			(in_array($level, array('INFO', 'DEBUG', 'TRACE'))?$this -> stdout:$this -> stderr),
-			$this -> format($level, $message, $logger)."\n"
-		);
-	}
+  /**
+   * Log a message
+   *
+   * @param[in] $level string The message level
+   * @param[in] $message string The message
+   * @param[in] $logger string|null The logger name (optional, default: null)
+   *
+   * @retval void
+   **/
+  public function logging($level, $message, $logger=null) {
+    return fwrite(
+      (in_array($level, array('INFO', 'DEBUG', 'TRACE'))?$this -> stdout:$this -> stderr),
+      $this -> format($level, $message, $logger)."\n"
+    );
+  }
 }

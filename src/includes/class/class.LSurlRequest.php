@@ -73,7 +73,7 @@ class LSurlRequest extends LSlog_staticLoggerClass {
       return urldecode($this->url_params[$key]);
     }
     // Unknown key, log warning
-		self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
+    self :: log_warning("__get($key): invalid property requested\n".LSlog :: get_debug_backtrace_context());
   }
 
   /**

@@ -69,7 +69,7 @@ $GLOBALS['LS_SUPANN_EPUI_FORMAT'] = "%{uniqueId}@univ.fr";
  *             '[key2]' => '[label2],
  *             [...]
  *         )
- * 	   ),
+ *      ),
  * );
  *
  * [ETIQUETTE] : l'étiquette de la valeur (correspondant le plus souvent ou mainteneur de la nomenclature)
@@ -92,57 +92,57 @@ $GLOBALS['LS_SUPANN_EPUI_FORMAT'] = "%{uniqueId}@univ.fr";
  *
  */
 $GLOBALS['supannNomenclatures'] = array (
-	'SUPANN' => array (
-		'civilite' => array(
-			'Mme' => ___('Mrs.'),
-			'M.' => ___('Mr.'),
-		),
-		'affiliation' => array (
-			'researcher' => 'Chercheur (researcher)',
-			'retired' => 'Retraité (retired)',
-			'emeritus' => 'Professeur émérite (emeritus)',
-			'teacher' => 'Professeur (teacher)',
-			'registered-reader' => 'Lecteur enregistré dans une bibliothèque (registered-reader)',
-		),
-		'mailPriveLabel' => array (
-			'SECOURS' => ___('Backup'),
-			'PERSO' => ___('Personal'),
-			'PARENTS' => ___('Parents'),
-			'PRO' => ___('Professional'),
-		),
-		'adressePostalePriveeLabel' => array (
-			'TEMP' => ___('Temporary'),
-			'PERSO' => ___('Personal'),
-			'PARENTS' => ___('Parents'),
-			'PRO' => ___('Professional'),
-		),
-		'telephonePriveLabel' => array (
-			'MOBPERSO' => ___('Personal mobile'),
-			'FIXEPERSO' => ___('Personal landline'),
-			'FIXEPARENTS' => ___('Parents landline'),
-			'MOBPARENTS' => ___('Parents mobile'),
-			'MOBPRO' => ___('Professional mobile'),
-			'FIXEPRO' => ___('Professional landline'),
-			'SECOURS' => ___('Backup'),
-		),
-	),
-	'eduPerson' => array(
-		'affiliation' => array (
-			'student' => "Étudiant (student)",
-			'faculty' => "Membre du corps professoral (faculty)",
-			'staff' => "Personne exerçant une activité administrative, technique ou de support, autre que l'enseignement et la recherche (staff)",
-			'employee' => "Personne employée par l'établissement (employee)",
-			'member' => "Membre de l'établissement (member)",
-			'affiliate' => "Partenaire en relation avec l'établissement, sans en être membre (affiliate)",
-			'alum' => "Ancien étudiant (alum)",
-			'library-walk-in' => "Personne physiquement présente dans une bibliothèque (library-walk-in)",
-		),
-	),
-	'oidc' => array(
-		'oidc_genre' => array(
-			'female' => ___('Female'),
-			'male' => ___('Male'),
-			'other' => ___('Other'),
-		),
-	),
+  'SUPANN' => array (
+    'civilite' => array(
+      'Mme' => ___('Mrs.'),
+      'M.' => ___('Mr.'),
+    ),
+    'affiliation' => array (
+      'researcher' => 'Chercheur (researcher)',
+      'retired' => 'Retraité (retired)',
+      'emeritus' => 'Professeur émérite (emeritus)',
+      'teacher' => 'Professeur (teacher)',
+      'registered-reader' => 'Lecteur enregistré dans une bibliothèque (registered-reader)',
+    ),
+    'mailPriveLabel' => array (
+      'SECOURS' => ___('Backup'),
+      'PERSO' => ___('Personal'),
+      'PARENTS' => ___('Parents'),
+      'PRO' => ___('Professional'),
+    ),
+    'adressePostalePriveeLabel' => array (
+      'TEMP' => ___('Temporary'),
+      'PERSO' => ___('Personal'),
+      'PARENTS' => ___('Parents'),
+      'PRO' => ___('Professional'),
+    ),
+    'telephonePriveLabel' => array (
+      'MOBPERSO' => ___('Personal mobile'),
+      'FIXEPERSO' => ___('Personal landline'),
+      'FIXEPARENTS' => ___('Parents landline'),
+      'MOBPARENTS' => ___('Parents mobile'),
+      'MOBPRO' => ___('Professional mobile'),
+      'FIXEPRO' => ___('Professional landline'),
+      'SECOURS' => ___('Backup'),
+    ),
+  ),
+  'eduPerson' => array(
+    'affiliation' => array (
+      'student' => "Étudiant (student)",
+      'faculty' => "Membre du corps professoral (faculty)",
+      'staff' => "Personne exerçant une activité administrative, technique ou de support, autre que l'enseignement et la recherche (staff)",
+      'employee' => "Personne employée par l'établissement (employee)",
+      'member' => "Membre de l'établissement (member)",
+      'affiliate' => "Partenaire en relation avec l'établissement, sans en être membre (affiliate)",
+      'alum' => "Ancien étudiant (alum)",
+      'library-walk-in' => "Personne physiquement présente dans une bibliothèque (library-walk-in)",
+    ),
+  ),
+  'oidc' => array(
+    'oidc_genre' => array(
+      'female' => ___('Female'),
+      'male' => ___('Male'),
+      'other' => ___('Other'),
+    ),
+  ),
 );

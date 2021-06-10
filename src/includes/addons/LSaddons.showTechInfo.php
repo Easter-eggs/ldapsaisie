@@ -32,7 +32,7 @@ function LSaddon_showTechInfo_support() {
 }
 
 function showTechInfo($object) {
-	$dn = $object -> getDn();
+  $dn = $object -> getDn();
 
   // Retreive internal attributes
   $internal_attrs = LSldap :: getAttrs(
@@ -111,7 +111,7 @@ function showTechInfo($object) {
   // Sort other internal attributes by name
   ksort($internal_attrs);
 
-	LStemplate :: assign('pagetitle', getFData(_('%{name}: Technical information'), $object -> getDisplayName()));
+  LStemplate :: assign('pagetitle', getFData(_('%{name}: Technical information'), $object -> getDisplayName()));
 
   $LSview_actions=array();
   $LSview_actions['return'] = array (
@@ -125,14 +125,14 @@ function showTechInfo($object) {
     LSform :: loadDependenciesDisplayView();
   }
 
-	LStemplate :: assign('object', $object);
-	LStemplate :: assign('object_classes', $object_classes);
-	LStemplate :: assign('structural_object_class', $structural_object_class);
-	LStemplate :: assign('special_internal_attributes', $special_internal_attributes);
+  LStemplate :: assign('object', $object);
+  LStemplate :: assign('object_classes', $object_classes);
+  LStemplate :: assign('structural_object_class', $structural_object_class);
+  LStemplate :: assign('special_internal_attributes', $special_internal_attributes);
   LStemplate :: assign('other_internal_attrs', $internal_attrs);
 
-	LStemplate :: addCssFile('showTechInfo.css');
-	LSsession :: setTemplate('showTechInfo.tpl');
+  LStemplate :: addCssFile('showTechInfo.css');
+  LSsession :: setTemplate('showTechInfo.tpl');
   // Display template
   LSsession :: displayTemplate();
   exit();

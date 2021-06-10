@@ -35,56 +35,56 @@ LSsession :: loadLSaddon('supann');
 class LSformElement_supannEmpProfil extends LSformElement_supannCompositeAttribute {
 
   public function __construct(&$form, $name, $label, $params, &$attr_html){
-	  $this -> components = array (
-		  'etab' => array (
-  			'label' => _('Establishment'),
-  			'type' => 'table',
-  			'table' => 'codeEtablissement',
-  			'required' => true,
-		  ),
-		  'affil' => array (
-  			'label' => _('eduPerson profil'),
-  			'type' => 'select',
+    $this -> components = array (
+      'etab' => array (
+        'label' => _('Establishment'),
+        'type' => 'table',
+        'table' => 'codeEtablissement',
+        'required' => true,
+      ),
+      'affil' => array (
+        'label' => _('eduPerson profil'),
+        'type' => 'select',
         'possible_values' => array('' => '-'),
-  			'get_possible_values' => 'supannGetAffiliationPossibleValues',
-  			'required' => false,
-		  ),
-		  'corps' => array (
-  			'label' => _('Body of membership'),
-  			'type' => 'table',
-  			'table' => 'empCorps',
-  			'required' => false,
-		  ),
-		  'typeaffect' => array (
-  			'label' => _('Entity type'),
-  			'type' => 'table',
-  			'table' => 'typeEntite',
-  			'required' => false,
-		  ),
-		  'affect' => array (
-  			'label' => _('Assignment entity'),
-  			'type' => 'codeEntite',
-  			'required' => false,
-		  ),
-		  'activite' => array (
-  			'label' => _('Activity'),
-  			'type' => 'table',
-  			'table' => 'supannActivite',
-  			'required' => false,
-		  ),
-		  'population' => array (
-  			'label' => _('Population'),
-  			'type' => 'table',
-  			'table' => 'codePopulation',
-  			'required' => false,
-		  ),
-		  'datefin' => array (
-  			'label' => _('End date'),
-  			'type' => 'date',
-  			'required' => false,
-		  ),
-	  );
-	  return parent :: __construct($form, $name, $label, $params, $attr_html);
+        'get_possible_values' => 'supannGetAffiliationPossibleValues',
+        'required' => false,
+      ),
+      'corps' => array (
+        'label' => _('Body of membership'),
+        'type' => 'table',
+        'table' => 'empCorps',
+        'required' => false,
+      ),
+      'typeaffect' => array (
+        'label' => _('Entity type'),
+        'type' => 'table',
+        'table' => 'typeEntite',
+        'required' => false,
+      ),
+      'affect' => array (
+        'label' => _('Assignment entity'),
+        'type' => 'codeEntite',
+        'required' => false,
+      ),
+      'activite' => array (
+        'label' => _('Activity'),
+        'type' => 'table',
+        'table' => 'supannActivite',
+        'required' => false,
+      ),
+      'population' => array (
+        'label' => _('Population'),
+        'type' => 'table',
+        'table' => 'codePopulation',
+        'required' => false,
+      ),
+      'datefin' => array (
+        'label' => _('End date'),
+        'type' => 'date',
+        'required' => false,
+      ),
+    );
+    return parent :: __construct($form, $name, $label, $params, $attr_html);
   }
 
 }
