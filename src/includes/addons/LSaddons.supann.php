@@ -308,7 +308,7 @@ function supannParseCompositeValue($val) {
   if (preg_match_all('/\[([^=]*)=([^\]]*)\]/',$val,$matches)) {
     $parseValue = array();
     for($i=0; $i<count($matches[0]); $i++) {
-      $parseValue[$matches[1][$i]] = array$matches[2][$i];
+      $parseValue[$matches[1][$i]] = $matches[2][$i];
     }
     return $parseValue;
   }
