@@ -161,11 +161,19 @@ msgstr ""
 msgid "SUPANN: This entity have children entities and could be deleted."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:319
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:47
+msgid "SUPANN: Fail to load nomenclature %{nomenclature}."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:322
 msgid "Entity %{id} (unrecognized)"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:414
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:393
+msgid "Godfather %{dn} (unrecognized)"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:520
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select.php:58
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:102
 msgid "%{value} (unrecognized value)"
@@ -576,10 +584,10 @@ msgid ""
 "LSattr_html_%{type} : Multiple data are not supported for this field type."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:106
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:154
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:701
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:68
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:62
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:79
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:177
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1045
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1213
@@ -588,35 +596,43 @@ msgstr ""
 msgid "Modify"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:107
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:155
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:75
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:63
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:80
 msgid "No set value"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:108
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:156
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_text.php:66
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:76
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:64
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:81
 msgid "No result"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:209
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:244
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:257
+msgid "%{val} (unrecognized)"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:318
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_jsonCompositeAttribute.php:345
 msgid "Component %{c} must be defined"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:220
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:229
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:242
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:331
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:341
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:355
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:361
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:367
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:382
 msgid "Invalid value for component %{c}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:224
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:335
 msgid "Unparsable value for component %{c}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:247
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:387
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_jsonCompositeAttribute.php:425
 msgid "Can't validate value of component %{c}."
 msgstr ""
@@ -850,161 +866,165 @@ msgstr ""
 msgid "Copied!"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1441
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1462
 msgid "Connection"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1463
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1484
 msgid "Recovery of your credentials"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1472
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1493
 msgid "Please fill the identifier field to proceed recovery procedure"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1477
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1498
 msgid ""
 "An email has been sent to  %{mail}. Please follow the instructions on it."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1486
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1507
 msgid "Your new password has been sent to %{mail}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1657
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:1678
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:156
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:467
 #: templates/default/select.tpl:29
 msgid "Refresh"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2739
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2760
 #: templates/default/select.tpl:20 templates/default/recoverpassword.tpl:17
 #: templates/default/login.tpl:16
 msgid "Level"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2897
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2918
 msgid "LSsession : The constant '%{const}' is not defined."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2900
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2921
 msgid ""
 "LSsession : The addon '%{addon}' support is uncertain. Verify system "
 "compatibility and the add-on configuration."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2903
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2924
 msgid ""
 "LSsession : LDAP server's configuration data are invalid. Can't connect."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2906
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2927
 msgid "LSsession : Failed to load LSobject type '%{type}' : unknon type."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2909
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2930
 msgid "LSsession : Failed to load LSclass '%{class}'."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2912
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2933
 msgid "LSsession : Login or password incorrect."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2915
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2936
 msgid "LSsession : Impossible to identify you : Duplication of identities."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2918
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2939
 msgid "LSsession : Can't load class of authentification (%{class})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2921
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2942
 msgid "LSsession : Can't connect to LDAP server."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2924
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2945
 msgid "LSsession : Impossible to authenticate you."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2927
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2948
 msgid "LSsession : Your are not authorized to do this action."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2930
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2951
 msgid "LSsession : Some informations are missing to display this page."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2933
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2954
 msgid ""
 "LSsession : The function '%{function}' of the custom action "
 "'%{customAction}' does not exists or is not configured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2936
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2957
 msgid "LSsession : Fail to retreive user's LDAP credentials from LSauth."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2939
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2960
 msgid ""
 "LSsession : Fail to reconnect to LDAP server with user's LDAP credentials."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2942
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2963
 msgid "LSsession : No import/export format define for this object type."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2945
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2966
 msgid ""
 "LSsession : Error during creation of list of levels. Contact administrators. "
 "(Code : %{code})"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2948
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2969
 msgid "LSsession : The password recovery is disabled for this LDAP server."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2951
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2972
 msgid ""
 "LSsession : Some informations are missing to recover your password. Contact "
 "administrators."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2954
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2975
 msgid ""
 "LSsession : Error during password recovery. Contact administrators.(Step : "
 "%{step})"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2957
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2978
 msgid ""
 "LSsession : The function '%{func}' configured for the view '%{view}' of the "
 "LSaddon '%{addon}' is not declared in the LSaddon file."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2961
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2981
+msgid "LSsession : Failed to load resource file '%{file}'."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2984
 msgid ""
 "LSsession : The function '%{func}' configured for the view '%{view}' of the "
 "LSaddon '%{addon}' doesn't exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2964
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2987
 msgid "LSsession : invalid related object's DN pass in parameter."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2967
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2990
 msgid ""
 "LSsession : the LSaddon %{addon} keep using old-style addon view URL. Please "
 "upgrade it."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2970
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2993
 msgid ""
 "LSsession : You have been redirect from an old-style URL %{url}. Please "
 "upgrade this link."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2973
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsession.php:2996
 msgid ""
 "LSsession : You always seem to use %{old} in your custom code: Please "
 "upgrade it and use %{new}.<pre>\n"
@@ -1533,6 +1553,48 @@ msgstr ""
 msgid "LSformRule_regex : Regex has not been configured to validate data."
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:40
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:40
+msgid "Establishment"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:46
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:46
+msgid "eduPerson profil"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:53
+msgid "Body of membership"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:59
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:53
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRoleEntite.php:46
+msgid "Entity type"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:65
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:59
+msgid "Assignment entity"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:70
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:69
+msgid "Activity"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:76
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEtuInscription.php:114
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:75
+msgid "Population"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:82
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEtuInscription.php:120
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:81
+msgid "End date"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:70
 msgid "Move up"
 msgstr ""
@@ -1830,7 +1892,7 @@ msgstr ""
 msgid "Chat with this person."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:93
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:114
 msgid "%{value} (Unparsable value)"
 msgstr ""
 
@@ -1891,6 +1953,10 @@ msgstr ""
 msgid "Invalid value \"%{value}\" for component %{component}."
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:64
+msgid "Godfather"
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_date.php:66
 msgid "LSformRule_date : No date format specify."
 msgstr ""
@@ -1913,10 +1979,6 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRoleEntite.php:40
 msgid "Role"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRoleEntite.php:46
-msgid "Entity type"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:210
@@ -2081,64 +2143,72 @@ msgstr ""
 msgid "Folder not found"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:53
-msgid "Affiliate"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:54
-msgid "Alumnus"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:55
-msgid "Employee"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:56
-msgid "Faculty"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:57
-msgid "Member"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:58
-msgid "Student"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:59
-msgid "Retired"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:60
-msgid "Teacher"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:61
-msgid "Staff"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:62
-msgid "Researcher"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:63
-msgid "Emeritus teacher"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:64
-msgid "Library - walk-in"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:65
-msgid "Library - registered"
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:70
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:97
 msgid "Mrs."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:71
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:98
 msgid "Mr."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:108
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:126
+msgid "Backup"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:109
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:115
+msgid "Personal"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:110
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:116
+msgid "Parents"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:111
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:117
+msgid "Professional"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:114
+msgid "Temporary"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:120
+msgid "Personal mobile"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:121
+msgid "Personal landline"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:122
+msgid "Parents landline"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:123
+msgid "Parents mobile"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:124
+msgid "Professional mobile"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:125
+msgid "Professional landline"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:143
+msgid "Female"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:144
+msgid "Male"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:145
+msgid "Other"
 msgstr ""
 
 #: templates/default/LSaccessRightsMatrixView.tpl:115

@@ -79,7 +79,7 @@ class LSformElement_supannEmpProfil extends LSformElement_supannCompositeAttribu
   			'required' => false,
 		  ),
 		  'datefin' => array (
-  			'label' => _('Date'),
+  			'label' => _('End date'),
   			'type' => 'date',
   			'required' => false,
 		  ),
