@@ -790,3 +790,40 @@ function ensureIsArray($value) {
     return array();
   return array($value);
 }
+
+function ldapDate2DateTime($value, $naive=False, $format=null) {
+  if (is_null($format))
+    $format = ($naive?'YmdHis*':'YmdHisO');
+  $datetime = date_create_from_format($format, $value);
+  if ($datetime instanceof DateTime)
+    return $datetime;
+  return False;
+}
+
+function ldapDate2Timestamp($value, $naive=False, $format=null) {
+  $datetime = ldapDate2DateTime($value, $naive, $format);
+  if ($datetime instanceof DateTime)
+    return $datetime -> format('U');
+  return False;
+}
+
+function dateTime2LdapDate($datetime, $timezone=null, $format=null) {
+  if ($timezone != 'naive' && $timezone != 'local') {
+    $datetime -> setTimezone(timezone_open(is_null($timezone)?'UTC':$timezone));
+  }
+  if (is_null($format))
+    $format = ($naive?'YmdHis':'YmdHisO');
+  $datetime_string = $datetime -> format($format);
+
+  // Replace +0000 or -0000 end by Z
+  $datetime_string = preg_replace('/[\+\-]0000$/', 'Z', $datetime_string);
+
+  return $datetime_string;
+}
+
+function timestamp2LdapDate($value, $timezone=null, $format=null) {
+  $datetime = date_create("@$value");
+  if ($datetime instanceof DateTime)
+    return dateTime2LdapDate($datetime, $timezone, $format);
+  return false;
+}

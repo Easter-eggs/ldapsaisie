@@ -9,33 +9,33 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
       this.img = p.getElement('img');
       this.span = p.getElement('span');
 
-      if (this.params.components[this.name].type=="table" || this.params.components[this.name].type=="codeEntite") {
-		  this.inputSearch=new Element(
-			'input',
-			{
-				'class': 'LSformElement_supannCompositeAttribute_search',
-				'styles': {
-					'display': 'none'
-				}
-			}
-		  );
-		  this.inputSearch.addEvent('keydown',this.onKeyUpInputSearch.bindWithEvent(this));
-		  this.inputSearch.injectInside(this.p);
+      if (['table', 'codeEntite', 'parrainDN'].includes(this.params.components[this.name].type)) {
+  		  this.inputSearch=new Element(
+    			'input',
+    			{
+    				'class': 'LSformElement_supannCompositeAttribute_search',
+    				'styles': {
+    					'display': 'none'
+    				}
+    			}
+  		  );
+  		  this.inputSearch.addEvent('keydown',this.onKeyUpInputSearch.bindWithEvent(this));
+  		  this.inputSearch.injectInside(this.p);
 
-		  this.searchBtn=new Element(
-			'img',
-			{
-				'src': varLSdefault.imagePath('modify'),
-				'alt': this.params.searchBtn,
-				'title': this.params.searchBtn,
-			}
-		  );
-		  this.searchBtn.addEvent('click',this.toggleInputSearch.bind(this));
-		  this.searchBtn.injectBefore(this.inputSearch);
+  		  this.searchBtn=new Element(
+  			'img',
+  			{
+  				'src': varLSdefault.imagePath('modify'),
+  				'alt': this.params.searchBtn,
+  				'title': this.params.searchBtn,
+  			}
+  		  );
+  		  this.searchBtn.addEvent('click',this.toggleInputSearch.bind(this));
+  		  this.searchBtn.injectBefore(this.inputSearch);
 
-		  this._lastSearch=null;
-		  this._possibleValues=null;
-	  }
+  		  this._lastSearch=null;
+  		  this._possibleValues=null;
+  	  }
     },
 
     toggleInputSearch: function() {

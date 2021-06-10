@@ -60,11 +60,59 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
    *   - 'codeEntite' => Composant stockant le code d'une entite SUPANN de
    *                     l'annuaire.
    *   - 'text' => saisie manuelle
+   *   - 'select' => choix avec une balise HTML select parmi une liste de choix prédéfinis
+   *   - 'date' => saisie manuelle d'une date
+   *   - 'parrainDN' => sélection du DN d'un objet parrain
    *
    */
   var $components = array ();
 
   var $_postParsedData=null;
+
+
+  /**
+   * Constructor
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] &$form LSform The LSform parent object
+   * @param[in] $name string The name of the element
+   * @param[in] $label string The label of the element
+   * @param[in] $params array The parameters of the element
+   * @param[in] &$attr_html LSattr_html The LSattr_html object of the corresponding attribute
+   *
+   * @retval void
+   */
+  public function __construct(&$form, $name, $label, $params, &$attr_html){
+    parent :: __construct($form, $name, $label, $params, $attr_html);
+
+    foreach($this -> components as $c => $cconf) {
+      switch($cconf['type']) {
+        case 'select':
+          if (!isset($cconf['possible_values']))
+            $this -> components[$c]['possible_values'] = array();
+          if (isset($cconf['get_possible_values'])) {
+            $this -> components[$c]['possible_values'] = array_merge(
+              $this -> components[$c]['possible_values'],
+              call_user_func($cconf['get_possible_values'])
+            );
+          }
+          if (LSconfig :: get('sort', true, 'bool', $cconf))
+            asort($this -> components[$c]['possible_values']);
+          break;
+
+        case 'date':
+        case 'datetime':
+          $this -> components[$c]['format'] = 'd/m/Y';
+          $this -> components[$c]['js_format'] = '%d/%m/%Y';
+          if (cconf['type'] == 'datetime') {
+            $this -> components[$c]['format'] .= ' H:i:s';
+            $this -> components[$c]['js_format'] .= ' %H:%M:%S';
+          }
+          break;
+      }
+    }
+  }
 
  /**
   * Retourne les infos d'affichage de l'élément
@@ -88,32 +136,49 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
         $parseValues[]=$parseValue;
       }
       else {
-	    $invalidValues[]=$val;
-	  }
+        $invalidValues[]=$val;
+      }
     }
 
     $return['html'] = $this -> fetchTemplate(NULL,
-		array(
-			'parseValues' => $parseValues,
-			'components' => $this -> components
-		)
-	);
-	LStemplate :: addCssFile('LSformElement_supannCompositeAttribute.css');
-	if (!$this -> isFreeze()) {
-		LStemplate :: addJSconfigParam(
-			$this -> name,
-			array(
-				'searchBtn' => _('Modify'),
-				'noValueLabel' => _('No set value'),
-				'noResultLabel' => _('No result'),
-				'components' => $this->components
-			)
-		);
-		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field_value_component.js');
-		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field_value.js');
-		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field.js');
-		LStemplate :: addJSscript('LSformElement_supannCompositeAttribute.js');
-	}
+    array(
+      'parseValues' => $parseValues,
+      'components' => $this -> components
+    )
+  );
+  LStemplate :: addCssFile('LSformElement_supannCompositeAttribute.css');
+  if (!$this -> isFreeze()) {
+    LStemplate :: addJSconfigParam(
+      $this -> name,
+      array(
+        'searchBtn' => _('Modify'),
+        'noValueLabel' => _('No set value'),
+        'noResultLabel' => _('No result'),
+        'components' => $this->components
+      )
+    );
+    LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field_value_component.js');
+    LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field_value.js');
+    LStemplate :: addJSscript('LSformElement_supannCompositeAttribute_field.js');
+    LStemplate :: addJSscript('LSformElement_supannCompositeAttribute.js');
+
+    // Handle date components JSconfigParams
+    foreach($this -> components as $c => $cconf) {
+      if (in_array($cconf['type'], array('date', 'datetime'))) {
+        LStemplate :: addJSconfigParam(
+          $this -> name.'__'.$c,
+          array(
+            'format' => $cconf['js_format'],
+            'style' => 'vista',
+            'time' => ($cconf['type']=='datetime'),
+            'manual' => LSconfig :: get('manual', true, 'bool', $cconf),
+            'showNowButton' => LSconfig :: get('showNowButton', ($cconf['type']=='datetime'), 'bool', $cconf),
+            'showTodayButton' => LSconfig :: get('showTodayButton', ($cconf['type']=='date'), 'bool', $cconf),
+          )
+        );
+      }
+    }
+  }
     return $return;
   }
 
@@ -149,27 +214,71 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
    *
    * @retval array
    **/
-	function translateComponentValue($c,$val) {
-		$retval = array (
-			'translated' => $val,
-			'label' => 'no',
-			'value' => $val,
-		);
-		if (isset($this -> components[$c])) {
-			if ($this -> components[$c]['type']=='table') {
-				$pv=supannParseLabeledValue($val);
-				if ($pv) {
-					$retval['label'] = $pv['label'];
-					$retval['translated'] = supannGetNomenclatureLabel($this -> components[$c]['table'],$pv['label'],$pv['value']);
-				}
-			}
-			elseif ($this -> components[$c]['type']=='codeEntite') {
-				$retval['translated']=supanGetEntiteNameById($val);
-			}
-			//elseif type == 'text' => aucune transformation
-		}
-		return $retval;
-	}
+  function translateComponentValue($c, $val) {
+    $retval = array (
+      'translated' => $val,
+      'label' => 'no',
+      'value' => $val,
+    );
+    self :: log_debug("translateComponentValue($c, $val)");
+    if (isset($this -> components[$c])) {
+      switch($this -> components[$c]['type']) {
+        case 'table':
+          $pv = supannParseLabeledValue($val);
+          if ($pv) {
+            $retval['label'] = $pv['label'];
+            $retval['translated'] = supannGetNomenclatureLabel(
+              $this -> components[$c]['table'],
+              $pv['label'],
+              $pv['value']
+            );
+          }
+          break;
+
+        case 'select':
+          self :: log_trace("translateComponentValue($c, $val): possible_values=".varDump($this -> components[$c]['possible_values']));
+          if (array_key_exists($val, $this -> components[$c]['possible_values'])) {
+            $retval['translated'] = $this -> components[$c]['possible_values'][$val];
+          }
+          else {
+            $retval['translated'] = getFData(__('%{val} (unrecognized)'), $val);
+          }
+          break;
+
+        case 'date':
+        case 'datetime':
+          $retval['datetime'] = ldapDate2DateTime($val, LSconfig :: get('timezone', null, 'string', $this -> components[$c]) == 'naive');
+          self :: log_trace("translateComponentValue($c, $val): datetime = ".varDump($retval['datetime']));
+          if ($retval['datetime']) {
+            $retval['translated'] = $retval['datetime'] -> format($this -> components[$c]['format']);
+            self :: log_trace("translateComponentValue($c, $val): translated = '".$retval['translated']."'");
+          }
+          else {
+            $retval['translated'] = getFData(__('%{val} (unrecognized)'), $val);
+          }
+          break;
+
+        case 'codeEntite':
+          $retval['translated'] = supanGetEntiteNameById($val);
+          break;
+
+        case 'parrainDN':
+          $info = supanGetParrainInfoByDN($val);
+          $retval['translated'] = $info['name'];
+          $retval['type'] = $info['type'];
+          break;
+
+        case 'text':
+          // Aucune transformation
+          break;
+
+        default:
+          self :: error('Unrecognized component type "'.$this -> components[$c]['type'].'"');
+      }
+    }
+    self :: log_debug("translateComponentValue($c, $val): ".varDump($retval));
+    return $retval;
+  }
 
   /**
    * Recupère la valeur de l'élement passée en POST
@@ -198,77 +307,108 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
     $parseValues=array();
     $return[$this -> name]=array();
     while ($end==false) {
-		$value="";
-		$parseValue=array();
-		$errors=array();
-		$unemptyComponents=array();
-		foreach ($this -> components as $c => $cconf) {
-			if (isset($_POST[$this -> name.'__'.$c][$count])) {
-				$parseValue[$c]=$_POST[$this -> name.'__'.$c][$count];
-				if ($cconf['required'] && empty($parseValue[$c])) {
-					$errors[]=getFData(__('Component %{c} must be defined'),__($cconf['label']));
-					continue;
-				}
-				if (empty($parseValue[$c])) {
-					continue;
-				}
-				$unemptyComponents[]=$c;
-				if ($cconf['type']=='table') {
-					$pv=supannParseLabeledValue($parseValue[$c]);
-					if ($pv) {
-						if (!supannValidateNomenclatureValue($cconf['table'],$pv['label'],$pv['value'])) {
-							$errors[]=getFData(__('Invalid value for component %{c}.'),__($cconf['label']));
-						}
-					}
-					else {
-						$errors[]=getFData(__('Unparsable value for component %{c}.'),__($cconf['label']));
-					}
-				}
-				elseif ($cconf['type']=='codeEntite') {
-					if (!supannValidateEntityId($parseValue[$c])) {
-						$errors[]=getFData(__('Invalid value for component %{c}.'),__($cconf['label']));
-					}
-				}
-				if (is_array($cconf['check_data'])) {
-					foreach($cconf['check_data'] as $ruleType => $rconf) {
-						$className='LSformRule_'.$ruleType;
-						if (LSsession::loadLSclass($className)) {
-							$r=new $className();
-							if (!$r -> validate($parseValue[$c],$rconf,$this)) {
-								if (isset($rconf['msg'])) {
-									$errors[]=getFData(__($rconf['msg']),__($cconf['label']));
-								}
-								else {
-									$errors[]=getFData(__('Invalid value for component %{c}.'),__($cconf['label']));
-								}
-							}
-						}
-						else {
-							$errors[]=getFData(__("Can't validate value of component %{c}."),__($cconf['label']));
-						}
-					}
-				}
-				$value.="[".$c."=".$parseValue[$c].']';
-			}
-			else {
-				// end of value break
-				$end=true;
-				break;
-			}
+    $value="";
+    $parseValue=array();
+    $errors=array();
+    $unemptyComponents=array();
+    foreach ($this -> components as $c => $cconf) {
+      if (isset($_POST[$this -> name.'__'.$c][$count])) {
+        $parseValue[$c]=$_POST[$this -> name.'__'.$c][$count];
+        if ($cconf['required'] && empty($parseValue[$c])) {
+          $errors[]=getFData(__('Component %{c} must be defined'),__($cconf['label']));
+          continue;
+        }
+        if (empty($parseValue[$c])) {
+          continue;
+        }
+        $unemptyComponents[]=$c;
+        switch ($cconf['type']) {
+          case 'table':
+            $pv = supannParseLabeledValue($parseValue[$c]);
+            self :: log_debug("supannParseLabeledValue(".$parseValue[$c].") == ".varDump($pv));
+            if ($pv) {
+              if (!supannValidateNomenclatureValue($cconf['table'],$pv['label'],$pv['value'])) {
+                $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+              }
+            }
+            else {
+              $errors[] = getFData(__('Unparsable value for component %{c}.'), __($cconf['label']));
+            }
+            break;
 
-		}
-		if (!$end) {
-			if (!empty($unemptyComponents)) {
-				foreach($errors as $e) {
-					$this -> form -> setElementError($this -> attr_html,$e);
-				}
-				$return[$this -> name][]=$value;
-				$parseValues[]=$parseValue;
-			}
-			$count++;
-		}
-	}
-	$this -> _postParsedData=$parseValues;
+          case 'select':
+            if (!array_key_exists($parseValue[$c], $cconf['possible_values'])) {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+
+          case 'date':
+          case 'datetime':
+            $datetime = date_create_from_format($cconf['format'], $parseValue[$c]);
+            if ($datetime) {
+              $parseValue[$c] = dateTime2LdapDate(
+                $datetime,
+                LSconfig :: get('timezone', null, 'string', $cconf)
+              );
+            }
+            else {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+
+          case 'codeEntite':
+            if (!supannValidateEntityId($parseValue[$c])) {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+
+          case 'parrainDN':
+            if (!supannValidateParrainDN($parseValue[$c])) {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+        }
+
+        if (isset($cconf['check_data']) && is_array($cconf['check_data'])) {
+          foreach($cconf['check_data'] as $ruleType => $rconf) {
+            $className='LSformRule_'.$ruleType;
+            if (LSsession::loadLSclass($className)) {
+              $r=new $className();
+              if (!$r -> validate($parseValue[$c],$rconf,$this)) {
+                if (isset($rconf['msg'])) {
+                  $errors[]=getFData(__($rconf['msg']),__($cconf['label']));
+                }
+                else {
+                  $errors[]=getFData(__('Invalid value for component %{c}.'),__($cconf['label']));
+                }
+              }
+            }
+            else {
+              $errors[]=getFData(__("Can't validate value of component %{c}."),__($cconf['label']));
+            }
+          }
+        }
+        $value.="[".$c."=".$parseValue[$c].']';
+      }
+      else {
+        // end of value break
+        $end=true;
+        break;
+      }
+
+    }
+    if (!$end) {
+      if (!empty($unemptyComponents)) {
+        foreach($errors as $e) {
+          $this -> form -> setElementError($this -> attr_html,$e);
+        }
+        $return[$this -> name][]=$value;
+        $parseValues[]=$parseValue;
+      }
+      $count++;
+    }
+  }
+  $this -> _postParsedData=$parseValues;
     return true;
   }
 
@@ -284,43 +424,47 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
         $object = new $_REQUEST['objecttype']();
         $form = $object -> getForm($_REQUEST['idform']);
-        $field=$form -> getElement($_REQUEST['attribute']);
+        $field = $form -> getElement($_REQUEST['attribute']);
         if (isset($field->components[$_REQUEST['component']])) {
-			$data['possibleValues'] = $field -> searchComponentPossibleValues($_REQUEST['component'],$_REQUEST['pattern']);
-		}
+          $data['possibleValues'] = $field -> searchComponentPossibleValues(
+            $_REQUEST['component'], $_REQUEST['pattern']
+          );
+        }
       }
     }
   }
 
-  private function searchComponentPossibleValues($c,$pattern) {
-	  $pattern=strtolower($pattern);
-	  $retval=array();
-	  if (isset($this -> components[$c])) {
-		  if ($this -> components[$c]['type'] == 'table') {
-			  $table=supannGetNomenclatureTable($this -> components[$c]['table']);
-			  foreach($table as $label => $values) {
-				  foreach($values as $v => $txt) {
-					if (strpos(strtolower($txt),$pattern)!==false) {
-						$retval[]=array(
-							'label' => $label,
-							'value' => "{".$label."}".$v,
-							'translated' => $txt
-						);
-					}
-				  }
-			  }
-		  }
-		  elseif ($this -> components[$c]['type'] == 'codeEntite') {
-			  foreach (supannSearchEntityByPattern($pattern) as $code => $displayName) {
-				  $retval[]=array(
-					'label' => 'no',
-					'value' => $code,
-					'translated' => $displayName
-				  );
-			  }
-		  }
-	  }
-	  return $retval;
+  private function searchComponentPossibleValues($c, $pattern, $max_matches=10) {
+    $retval = array();
+    if (isset($this -> components[$c])) {
+      if ($this -> components[$c]['type'] == 'table') {
+        $retval = supannSearchNomenclatureValueByPattern(
+          $this -> components[$c]['table'],
+          $pattern,
+          $max_matches
+        );
+      }
+      elseif ($this -> components[$c]['type'] == 'codeEntite') {
+        foreach (supannSearchEntityByPattern($pattern, $max_matches) as $code => $displayName) {
+          $retval[] = array(
+          'label' => 'no',
+          'value' => $code,
+          'translated' => $displayName
+          );
+        }
+      }
+      elseif ($this -> components[$c]['type'] == 'parrainDN') {
+        foreach (supannSearchParrainByPattern($pattern, $max_matches) as $dn => $displayName) {
+          $retval[] = array(
+          'label' => 'no',
+          'value' => $dn,
+          'translated' => $displayName
+          );
+        }
+      }
+    }
+    self :: log_debug("searchComponentPossibleValues('$c', '$pattern'): ".varDump($retval));
+    return $retval;
   }
 
 }

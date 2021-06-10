@@ -536,6 +536,27 @@ class LSsession {
     return;
   }
 
+
+ /**
+  * Load an LdapSaisie resource file
+  *
+  * @param[in] $file              The resource file path/name to load, relative to LS_RESOURCE_DIR
+  *                               (Example : supann/populations.php)
+  * @param[in] $warn (Optionnel)  Trigger LSsession_22 error if an error occured loading this
+  *                               resource file (Default: true)
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com
+  *
+  * @retval boolean true on success, otherwise false
+  */
+  public static function loadResourceFile($path, $warn=true) {
+    if (self :: includeFile(LS_RESOURCE_DIR . $path, false, $warn))
+      return true;
+    if ($warn)
+      LSerror :: addErrorCode('LSsession_22', $path);
+    return False;
+  }
+
  /**
   * Chargement d'une classe d'authentification d'LdapSaisie
   *
@@ -2956,7 +2977,9 @@ class LSsession {
     LSerror :: defineError('LSsession_21',
     ___("LSsession : The function '%{func}' configured for the view '%{view}' of the LSaddon '%{addon}' is not declared in the LSaddon file.")
     );
-    // LSsession_22: Not used
+    LSerror :: defineError('LSsession_22',
+    ___("LSsession : Failed to load resource file '%{file}'.")
+    );
     LSerror :: defineError('LSsession_23',
     ___("LSsession : The function '%{func}' configured for the view '%{view}' of the LSaddon '%{addon}' doesn't exist.")
     );

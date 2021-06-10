@@ -43,6 +43,9 @@ LSerror :: defineError('SUPANN_02',
 LSerror :: defineError('SUPANN_03',
   ___("SUPANN: This entity have children entities and could be deleted.")
 );
+LSerror :: defineError('SUPANN_04',
+  ___("SUPANN: Fail to load nomenclature %{nomenclature}.")
+);
 
  /**
   * Verification du support SUPANN par ldapSaisie
@@ -79,6 +82,7 @@ LSerror :: defineError('SUPANN_03',
     }
 
     $MUST_DEFINE_ARRAY= array(
+      'LS_SUPANN_LSOBJECT_PARRAIN_TYPES',
       'supannNomenclatures',
     );
     foreach($MUST_DEFINE_ARRAY as $array) {
@@ -342,11 +346,12 @@ LSerror :: defineError('SUPANN_03',
   * d'affichage.
   *
   * @param[in] $pattern string Le pattern de recherche
+  * @param[in] $max_matches int Nombre maximum de résultat retournés (optionnel, par défaut : 10)
   *
   * @retval array Tableau du résultat de la recherche mettant en relation
   *               l'identifiant des entités trouvés avec leur nom d'affichage.
   **/
-  function supannSearchEntityByPattern($pattern) {
+  function supannSearchEntityByPattern($pattern, $max_matches=10) {
 		$retval=array();
 		if (LSsession::loadLSclass('LSsearch')) {
 			$search=new LSsearch(
@@ -355,7 +360,7 @@ LSerror :: defineError('SUPANN_03',
 				array(
 					'pattern' => $pattern,
 					'attributes' => array('supannCodeEntite'),
-					'sizelimit' => 10,
+					'sizelimit' => $max_matches,
 					'onlyAccessible' => false
 				)
 			);
@@ -366,6 +371,86 @@ LSerror :: defineError('SUPANN_03',
 				if (is_array($code)) $code=$code[0];
 				$retval[$code]=$e->displayName;
 			}
+		}
+		return $retval;
+  }
+
+/***********************************************************************
+ * Fonctions relatives aux parrains
+ **********************************************************************/
+
+ /**
+  * Retourne les infos d'un parrain en fonction de son DN
+  *
+  * @param[in] $dn Le DN du parrain
+  *
+  * @retval array Le nom, le type et le DN du parrain (Format: array('dn' => [DN], 'type' => [type], 'name' => [name]))
+  **/
+  function supanGetParrainInfoByDN($dn) {
+    $matched = array(
+      'dn' => $dn,
+      'type' => null,
+      'name' => getFData(__("Godfather %{dn} (unrecognized)"), $dn),
+    );
+    foreach($GLOBALS['LS_SUPANN_LSOBJECT_PARRAIN_TYPES'] as $type) {
+      if (!LSsession::loadLSobject($type)) continue;
+      $obj = new $type();
+      $list = $obj -> listObjectsName(
+        NULL, $dn,
+        array('onlyAccessible' => false, 'scope' => 'base'),
+      );
+      if (count($list)==1) {
+        $matched['type'] = $type;
+        $matched['name'] = array_pop($list);
+        break;
+      }
+    }
+    return $matched;
+  }
+
+ /**
+  * Valide le DN d'un parrain
+  *
+  * @param[in] $dn Le DN d'un parrain
+  *
+  * @retval boolean True si un parrain avec ce DN existe, False sinon
+  **/
+  function supannValidateParrainDN($dn) {
+    $info = supanGetParrainInfoByDN($dn);
+    return !is_null($info['type']);
+  }
+
+ /**
+  * Cherche des parrains répondant au pattern de recherche passé en paramètres
+  * et retourne un tableau mettant en relation leur DN et leur nom d'affichage.
+  *
+  * @param[in] $pattern string Le pattern de recherche
+  * @param[in] $max_matches int Nombre maximum de résultat retournés (optionnel, par défaut : 10)
+  *
+  * @retval array Tableau du résultat de la recherche mettant en relation
+  *               le DN des parrains trouvés avec leur nom d'affichage.
+  **/
+  function supannSearchParrainByPattern($pattern, $max_matches=10) {
+		$retval=array();
+		if (LSsession::loadLSclass('LSsearch')) {
+      foreach($GLOBALS['LS_SUPANN_LSOBJECT_PARRAIN_TYPES'] as $type) {
+        if (!LSsession::loadLSobject($type)) continue;
+
+  			$search=new LSsearch(
+  				$type,
+  				'SUPANN:supannSearchParrainByPattern',
+  				array(
+  					'pattern' => $pattern,
+  					'sizelimit' => $max_matches,
+  					'onlyAccessible' => false
+  				)
+  			);
+  			$search -> run();
+
+  			foreach($search -> getSearchEntries() as $obj) {
+  				$retval[$obj->dn] = $obj->displayName;
+  			}
+      }
 		}
 		return $retval;
   }
@@ -385,6 +470,8 @@ LSerror :: defineError('SUPANN_03',
   * @retval booleab True si valide, False sinon
   **/
   function supannValidateNomenclatureValue($table, $label, $value) {
+    if (!supannLoadNomenclature($table))
+      return false;
     if ($label) {
 	    $label = strtoupper($label);
       if (
@@ -442,7 +529,9 @@ LSerror :: defineError('SUPANN_03',
   *               la table de nomenclature
   **/
   function supannGetNomenclatureTable($table) {
-	  $retval=array();
+	  $retval = array();
+    if (!supannLoadNomenclature($table))
+      return $retval;
 	  foreach(array_keys($GLOBALS['supannNomenclatures']) as $provider) {
 		  if (isset($GLOBALS['supannNomenclatures'][$provider][$table])) {
 			  $retval[$provider] = $GLOBALS['supannNomenclatures'][$provider][$table];
@@ -464,6 +553,8 @@ LSerror :: defineError('SUPANN_03',
   **/
   function supannGetNomenclaturePossibleValues($table, $add_provider_label=True) {
 	  $retval = array();
+    if (!supannLoadNomenclature($table))
+      return $retval;
 	  foreach(array_keys($GLOBALS['supannNomenclatures']) as $provider) {
 		  if (isset($GLOBALS['supannNomenclatures'][$provider][$table])) {
         foreach($GLOBALS['supannNomenclatures'][$provider][$table] as $value => $label) {
@@ -474,6 +565,36 @@ LSerror :: defineError('SUPANN_03',
 		  }
 	  }
 	  return $retval;
+  }
+
+  /**
+   * Cherche des valeurs d'une nomenclature répondant au pattern de recherche passé en paramètres
+   * et retourne un tableau de celles-ci.
+   *
+   * @param[in] $pattern string Le pattern de recherche
+   * @param[in] $max_matches int Nombre maximum de résultat retournés (optionnel, par défaut : 10)
+   *
+   * @retval array Tableau du résultat de la recherche
+   **/
+  function supannSearchNomenclatureValueByPattern($table, $pattern, $max_matches=10) {
+    $retval=array();
+    $pattern = withoutAccents(strtolower($pattern));
+    foreach(supannGetNomenclatureTable($table) as $label => $values) {
+      foreach($values as $value => $txt) {
+        if (strpos(withoutAccents(strtolower($txt)), $pattern) === false)
+          continue;
+        $retval[] = array(
+          'label' => $label,
+          'value' => '{'.$label.'}'.$value,
+          'translated' => $txt
+        );
+        if (count($retval) >= $max_matches)
+          break;
+      }
+      if (count($retval) >= $max_matches)
+        break;
+    }
+    return $retval;
   }
 
 /**
@@ -508,7 +629,7 @@ function supannGetCivilitePossibleValues($options, $name, $ldapObject) {
  * @retval array Tableau contenant les valeurs possibles de l'attribut
  *               (avec les labels traduits).
  **/
-function supannGetAffiliationPossibleValues($options, $name, $ldapObject) {
+function supannGetAffiliationPossibleValues($options=null, $name=null, $ldapObject=null) {
   return supannGetNomenclaturePossibleValues('affiliation', false);
 }
 
@@ -582,6 +703,185 @@ function supannCheckEduPersonPrimaryAffiliation(&$ldapObject) {
  **/
 function supannGetOIDCGenrePossibleValues($options, $name, $ldapObject) {
   return supannGetNomenclaturePossibleValues('oidc_genre', false);
+}
+
+/*
+ * Charge une nomenclature SUPANN
+ *
+ * @param[in] $table string La nomenclature à charger
+ *
+ * @retval boolean True si la nomenclature est chargée, False en cas de problème
+ */
+$GLOBALS['_supann_loaded_nomenclatures'] = array();
+function supannLoadNomenclature($table) {
+  if (in_array($table, $GLOBALS['_supann_loaded_nomenclatures']))
+    return true;
+  switch($table) {
+    case 'roleGenerique':
+      if (
+        !LSsession :: loadResourceFile('supann/role_generique.php') ||
+        !isset($GLOBALS['supannRoleGenerique']) ||
+        !is_array($GLOBALS['supannRoleGenerique'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      if (!isset($GLOBALS['supannNomenclatures']['SUPANN']))
+        $GLOBALS['supannNomenclatures']['SUPANN'] = array();
+      $GLOBALS['supannNomenclatures']['SUPANN'][$table] = &$GLOBALS['supannRoleGenerique'];
+      break;
+
+    case 'typeEntite':
+      if (
+        !LSsession :: loadResourceFile('supann/type_entite.php') ||
+        !isset($GLOBALS['supannTypeEntite']) ||
+        !is_array($GLOBALS['supannTypeEntite'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      if (!isset($GLOBALS['supannNomenclatures']['SUPANN']))
+        $GLOBALS['supannNomenclatures']['SUPANN'] = array();
+      $GLOBALS['supannNomenclatures']['SUPANN'][$table] = &$GLOBALS['supannTypeEntite'];
+      break;
+
+    case 'codePopulation':
+      if (
+        !LSsession :: loadResourceFile('supann/populations.php') ||
+        !isset($GLOBALS['supannPopulations']) ||
+        !is_array($GLOBALS['supannPopulations'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+      $GLOBALS['supannNomenclatures']['SUPANN']['codePopulation'] = array();
+
+      function _detectCodesPopulations($populations, $prefix="") {
+        if (!$populations) {
+          return;
+        }
+        foreach($populations as $letter => $infos) {
+          $code = "$prefix$letter";
+          if (isset($infos['label']))
+            $GLOBALS['supannNomenclatures']['SUPANN']['codePopulation'][$code] = $infos['label']." ($code)";
+          _detectCodesPopulations($infos['subpopulations'], $code);
+        }
+      }
+      _detectCodesPopulations($GLOBALS['supannPopulations']);
+      break;
+
+    case 'etuDiplome':
+      if (
+        !LSsession :: loadResourceFile('supann/BCN_diplome_sise.php') ||
+        !isset($GLOBALS['BCN_DIPLOME_SISE']) ||
+        !is_array($GLOBALS['BCN_DIPLOME_SISE'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      if (!isset($GLOBALS['supannNomenclatures']['SISE']))
+        $GLOBALS['supannNomenclatures']['SISE'] = array();
+      $GLOBALS['supannNomenclatures']['SISE'][$table] = &$GLOBALS['BCN_DIPLOME_SISE'];
+      break;
+
+    case 'etuTypeDiplome':
+      if (
+        !LSsession :: loadResourceFile('supann/BCN_type_diplome_sise.php') ||
+        !isset($GLOBALS['BCN_TYPE_DIPLOME_SISE']) ||
+        !is_array($GLOBALS['BCN_TYPE_DIPLOME_SISE'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      if (!isset($GLOBALS['supannNomenclatures']['SISE']))
+        $GLOBALS['supannNomenclatures']['SISE'] = array();
+      $GLOBALS['supannNomenclatures']['SISE'][$table] = &$GLOBALS['BCN_TYPE_DIPLOME_SISE'];
+      break;
+
+    case 'etuRegimeInscription':
+      if (
+        !LSsession :: loadResourceFile('supann/BCN_regime_inscription.php') ||
+        !isset($GLOBALS['BCN_REGIME_INSCRIPTION']) ||
+        !is_array($GLOBALS['BCN_REGIME_INSCRIPTION'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      if (!isset($GLOBALS['supannNomenclatures']['SISE']))
+        $GLOBALS['supannNomenclatures']['SISE'] = array();
+      $GLOBALS['supannNomenclatures']['SISE'][$table] = &$GLOBALS['BCN_REGIME_INSCRIPTION'];
+      break;
+
+    case 'etuSecteurDisciplinaire':
+      if (
+        !LSsession :: loadResourceFile('supann/BCN_secteur_disciplinaire.php') ||
+        !isset($GLOBALS['BCN_SECTEUR_DISCIPLINAIRE']) ||
+        !is_array($GLOBALS['BCN_SECTEUR_DISCIPLINAIRE'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      if (!isset($GLOBALS['supannNomenclatures']['SISE']))
+        $GLOBALS['supannNomenclatures']['SISE'] = array();
+      $GLOBALS['supannNomenclatures']['SISE'][$table] = &$GLOBALS['BCN_SECTEUR_DISCIPLINAIRE'];
+      break;
+
+    case 'codeEtablissement':
+      if (
+        !LSsession :: loadResourceFile('supann/UAI_code_etablissements.php') ||
+        !isset($GLOBALS['UAI_CODE_ETABLISSEMENTS']) ||
+        !is_array($GLOBALS['UAI_CODE_ETABLISSEMENTS'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      if (!isset($GLOBALS['supannNomenclatures']['UAI']))
+        $GLOBALS['supannNomenclatures']['UAI'] = array();
+      $GLOBALS['supannNomenclatures']['UAI'][$table] = &$GLOBALS['UAI_CODE_ETABLISSEMENTS'];
+      break;
+
+    case 'supannActivite':
+      if (
+        !LSsession :: loadResourceFile('supann/activites.php') ||
+        !isset($GLOBALS['supannActivitesTables']) ||
+        !is_array($GLOBALS['supannActivitesTables'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+      foreach (array_keys($GLOBALS['supannActivitesTables']) as $provider) {
+        if (!array_key_exists($provider, $GLOBALS['supannNomenclatures']))
+          $GLOBALS['supannNomenclatures'][$provider] = array();
+        $GLOBALS['supannNomenclatures'][$provider][$table] = &$GLOBALS['supannActivitesTables'][$provider];
+      }
+      break;
+
+    case 'empCorps':
+      if (
+        !LSsession :: loadResourceFile('supann/BCN_emp_corps.php') ||
+        !isset($GLOBALS['BCN_EMP_CORPS']) ||
+        !is_array($GLOBALS['BCN_EMP_CORPS'])
+      ) {
+        LSerror :: addErrorCode('SUPANN_04', $table);
+        return false;
+      }
+
+
+      if (!isset($GLOBALS['supannNomenclatures']['NCORPS']))
+        $GLOBALS['supannNomenclatures']['NCORPS'] = array();
+      $GLOBALS['supannNomenclatures']['NCORPS'][$table] = &$GLOBALS['BCN_EMP_CORPS'];
+      break;
+  }
+  $GLOBALS['_supann_loaded_nomenclatures'][] = $table;
+  return true;
 }
 
 /**

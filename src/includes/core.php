@@ -48,6 +48,7 @@ define('LS_CLASS_DIR', LS_INCLUDE_DIR .'class/');
 define('LS_LIB_DIR', LS_INCLUDE_DIR .'libs/');
 define('LS_ADDONS_DIR', LS_INCLUDE_DIR .'addons/');
 define('LS_JS_DIR', LS_INCLUDE_DIR .'js/');
+define('LS_RESOURCE_DIR', LS_INCLUDE_DIR .'resources/');
 define('LS_TMP_DIR', 'tmp/');
 define('LS_TMP_DIR_PATH', LS_ROOT_DIR . '/' . LS_TMP_DIR);
 define('LS_LOCAL_DIR', 'local/');
