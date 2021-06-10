@@ -52,7 +52,7 @@ class LSformElement_url extends LSformElement_text {
         'fav' => _("Add this website to my bookmarks.")
       )
     );
-    return parent :: getDisplay($return);
+    return parent :: getDisplay();
   }
 
 }
