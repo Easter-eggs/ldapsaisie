@@ -28,8 +28,6 @@
  */
 class LSattr_ldap_naiveDate extends LSattr_ldap {
 
-  const FORMAT = "%Y%m%d%H%M%S";
-
   /**
    * Return the display value of the attribute after handling is LDAP type
    *
@@ -40,7 +38,7 @@ class LSattr_ldap_naiveDate extends LSattr_ldap {
   public function getDisplayValue($data) {
     $retval = array();
     foreach(ensureIsArray($data) as $val) {
-      $date = strptime($val, self::FORMAT);
+      $date = strptime($val, $this -> getFormat());
       if (is_array($date)) {
         $retval[] = mktime(
           $date['tm_hour'],
@@ -65,9 +63,19 @@ class LSattr_ldap_naiveDate extends LSattr_ldap {
   public function getUpdateData($data) {
     $retval = array();
     foreach(ensureIsArray($data) as $val) {
-      $retval[] = strftime(self::FORMAT, $val).'Z';
+      $retval[] = strftime($this -> getFormat(), $val);
     }
     return $retval;
+  }
+
+
+  /**
+  * Return the storage format of the date (as accept by strptime()/strftime())
+  *
+  * @retval string the storage format of the date
+  **/
+  public function getFormat() {
+    return $this -> getConfig('ldap_options.format', "%Y%m%d%H%M%SZ");
   }
 
 }

@@ -6,4 +6,35 @@
   une <emphasis>timezone</emphasis>, cependant celle-ci sera complètement ignorée.
   Ce type peut-être utilisé à la place du type &LSattr_ldap_date;.</para>
 
+  <programlisting linenumbering="unnumbered">
+  <citetitle>Structure</citetitle><![CDATA[...
+'ldap_options' => array (
+  'format' => '[Format de stockage]', // Default : "%Y%m%d%H%M%SZ"
+),
+...]]>
+  </programlisting>
+
+  <variablelist>
+  <title>Paramètres de configuration</title>
+
+  <varlistentry>
+  <term>format</term>
+  <listitem>
+    <para>Format de stockage de la date dans l'annuaire. Ce format est composé à
+    partir des motifs clés gérés par la fonction <function>strftime()</function>
+    de &php;. Pour plus d'information, consulter
+    <ulink url='http://www.php.net/strftime'>la documentation officielle</ulink>.
+    <note><simpara>La valeur par défaut est <emphasis>%Y%m%d%H%M%SZ</emphasis>,
+    correspondant à la syntaxe <literal>Generalized Time</literal> (sans les
+    micro-secondes) telle que définie dans la
+    <ulink url='https://tools.ietf.org/html/rfc4517'>RFC4517</ulink>. Exemples :
+    <literal>20091206230506Z</literal>
+    <emphasis>(=2009/12/06 23:05:66 UTC)</emphasis>.</simpara></note>
+    </para>
+
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+
 </sect4>
