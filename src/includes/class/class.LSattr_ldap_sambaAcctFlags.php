@@ -61,6 +61,8 @@ class LSattr_ldap_sambaAcctFlags extends LSattr_ldap {
    * @retval array Array of enabled flags
    **/
   public static function parse_flags($data) {
+    if (!$data)
+      return array();
     $data = ensureIsArray($data);
     if (count($data) > 1) {
       LSerror :: addErrorCode('LSattr_ldap_sambaAcctFlags_01');
