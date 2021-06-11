@@ -209,4 +209,27 @@ class LSformElement_supannLabeledValue extends LSformElement {
     return $retval;
   }
 
+  /**
+   * Retreive value as return in API response
+   *
+   * @param[in] $details boolean If true, returned values will contain details if this field type
+   *                             support it (optional, default: false)
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue($details=false) {
+    $values = array();
+    foreach(ensureIsArray($this -> values) as $value) {
+      $decodedValue = $this -> parseValue($value);
+      if (is_array($decodedValue)) {
+        $values[] = ($details?$decodedValue:$decodedValue['value']);
+      }
+    }
+    if ($this -> isMultiple()) {
+      return $values;
+    }
+    if (!$values)
+      return null;
+    return $values[0];
+  }
 }
