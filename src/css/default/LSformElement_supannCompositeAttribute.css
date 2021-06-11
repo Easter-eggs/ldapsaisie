@@ -12,7 +12,15 @@ ul.LSformElement_supannCompositeAttribute p {
 }
 
 ul.LSformElement_supannCompositeAttribute p label {
+	display: inline-block;
+	height: 100%;
+	vertical-align: top;
+	width: 11rem;
 	font-weight: bold;
+}
+
+ul.LSformElement_supannCompositeAttribute p span {
+	vertical-align: bottom;
 }
 
 input.LSformElement_supannCompositeAttribute_search {
@@ -20,6 +28,7 @@ input.LSformElement_supannCompositeAttribute_search {
 	width: 200px;
 	background: url('../image/find') no-repeat scroll 0% 0% #FFF !important;
 	padding-left: 18px;
+	margin-left: 11rem;
 }
 
 div.supannCompositeAttribute_possibleValues ul {
@@ -28,6 +37,7 @@ div.supannCompositeAttribute_possibleValues ul {
 	margin: 0;
 	border: 1px solid #CCC;
 	border-collapse: collapse;
+	margin-left: 11rem;
 }
 
 div.supannCompositeAttribute_possibleValues li {
