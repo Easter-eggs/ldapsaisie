@@ -125,6 +125,29 @@ $GLOBALS['supannNomenclatures'] = array (
       'FIXEPRO' => ___('Professional landline'),
       'SECOURS' => ___('Backup'),
     ),
+    'ressource' => array (
+      'COMPTE' => ___('User account'),
+      'MAIL' => ___('Mailbox'),
+    ),
+    'ressourceEtat' => array (
+      'A' => ___('Active'),
+      'I' => ___('Inactive'),
+      'S' => ___('Suspended'),
+    ),
+    'ressourceSousEtat' => array (
+      'SupannPrecree' => ___('Account created in advance, but not yet operational'),
+      'SupannCree' => ___('Account operational, but of which the user has not yet taken possession'),
+      'SupannAnticipe' => ___('Account operational and accessed by the user, in anticipation of their start date of activity'),
+      'SupannActif' => ___('Account operational and accessed by the user in regular activity'),
+      'SupannSursis' => ___('Account operational and accessed by the user, suspended after the date of end of activity'),
+      'SupannExpire' => ___('Account which is no longer operational, the date of end of activity and possible suspension having passed, but whose cancellation deadlines have not yet been reached'),
+      'SupannInactif' => ___('Non-operational account (without specifying the reason) whose deletion deadlines have not yet been reached'),
+      'SupannSupprDonnees' => ___('Expired account that has reached the data deletion deadline'),
+      'SupannSupprCompte' => ___('Expired account pending permanent deletion'),
+      'SupannVerrouille' => ___('Account locked (without specifying the reason)'),
+      'SupannVerrouAdministratif' => ___('Account locked for administrative reasons (account suspension, charter abuse, etc.)'),
+      'SupannVerrouTechnique' => ___("Account locked for a technical reason (detection of a namesake, suspicion of a hacked account, etc.)"),
+    ),
   ),
   'eduPerson' => array(
     'affiliation' => array (

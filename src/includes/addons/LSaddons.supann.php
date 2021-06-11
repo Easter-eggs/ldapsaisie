@@ -682,6 +682,60 @@ function supannGetAffiliationPossibleValues($options=null, $name=null, $ldapObje
 }
 
 /**
+ * Retourne les valeurs possibles des ressources.
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * get_possible_values de la configuration du composant ressource de l'attribut
+ * supannRessourceEtat (entre autre) avec un type de composant select.
+ *
+ * @param[in] $options La configuration HTML de l'attribut
+ * @param[in] $name Le nom de l'attribut
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval array Tableau contenant les valeurs possibles de l'attribut
+ *               (avec les labels traduits).
+ **/
+function supannGetRessourcePossibleValues($options=null, $name=null, $ldapObject=null) {
+  return supannGetNomenclaturePossibleValues('ressource', false);
+}
+
+/**
+ * Retourne les valeurs possibles des états des ressources.
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * get_possible_values de la configuration du composant etat de l'attribut
+ * supannRessourceEtat (entre autre) avec un type de composant select.
+ *
+ * @param[in] $options La configuration HTML de l'attribut
+ * @param[in] $name Le nom de l'attribut
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval array Tableau contenant les valeurs possibles de l'attribut
+ *               (avec les labels traduits).
+ **/
+function supannGetRessourceEtatPossibleValues($options=null, $name=null, $ldapObject=null) {
+  return supannGetNomenclaturePossibleValues('ressourceEtat', false);
+}
+
+/**
+ * Retourne les valeurs possibles des sous-états des ressources.
+ *
+ * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
+ * get_possible_values de la configuration du composant sous_etat de l'attribut
+ * supannRessourceEtat (entre autre) avec un type de composant select.
+ *
+ * @param[in] $options La configuration HTML de l'attribut
+ * @param[in] $name Le nom de l'attribut
+ * @param[in] &$ldapObject Une référence à l'object LSldapObject
+ *
+ * @retval array Tableau contenant les valeurs possibles de l'attribut
+ *               (avec les labels traduits).
+ **/
+function supannGetRessourceSousEtatPossibleValues($options=null, $name=null, $ldapObject=null) {
+  return supannGetNomenclaturePossibleValues('ressourceSousEtat', false);
+}
+
+/**
  * Vérifie les valeurs de l'attribut eduPersonAffiliation
  *
  * Cette fonction est prévue pour pouvoir être utilisé comme paramètre
