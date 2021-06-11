@@ -961,6 +961,189 @@ function supannCheckEntityCouldBeDeleted($ldapObject) {
   return true;
 }
 
+/**
+ * Géneration de la valeur des attributs associés à l'attribut supannEtuInscription
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ * @param[in] $component Le composant associés à l'attribut à généré
+ * @param[in] $ignore_value Valeur possible du composant qui doit être ignoré (optionnel)
+ *
+ * @retval array Les valeurs (uniques) du composant passé en paramètres trouvées dans les
+ *               valeurs de l'attribut supannEtuInscription
+ */
+function generate_from_supannEtuInscription($ldapObject, $component, $ignore_value=null) {
+  $retval = array();
+  $inscriptions = $ldapObject -> getValue('supannEtuInscription');
+  LSlog :: get_logger('LSaddon_supann') -> debug(
+    "generate_from_supannEtuInscription($ldapObject, $component, $ignore_value): inscriptions = ".
+    varDump($inscriptions)
+  );
+  if (is_array($inscriptions)) {
+    foreach($inscriptions as $value) {
+      $inscription = supannParseCompositeValue($value);
+      if (
+        !$inscription ||
+        !array_key_exists($component, $inscription) ||
+        in_array($inscription[$component], $retval) ||
+        is_empty($inscription[$component]) ||
+        ($ignore_value && $inscription[$component] == $ignore_value)
+      )
+        continue;
+      $retval[] = $inscription[$component];
+    }
+  }
+  LSlog :: get_logger('LSaddon_supann') -> debug(
+    "generate_from_supannEtuInscription($ldapObject, $component, $ignore_value): result = '".
+    implode(', ', $retval)."'"
+  );
+  return $retval;
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuDiplome à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuDiplome
+ */
+function generate_supannEtuDiplome($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'diplome');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuTypeDiplome à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuTypeDiplome
+ */
+function generate_supannEtuTypeDiplome($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'typedip');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuRegimeInscription à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuRegimeInscription
+ */
+function generate_supannEtuRegimeInscription($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'regimeinsc', '$');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuSecteurDisciplinaire à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuSecteurDisciplinaire
+ */
+function generate_supannEtuSecteurDisciplinaire($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'sectdisc', '-');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuAnneeInscription à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuAnneeInscription
+ */
+function generate_supannEtuAnneeInscription($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'anneeinsc');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuCursusAnnee à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuCursusAnnee
+ */
+function generate_supannEtuCursusAnnee($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'cursusann');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuElementPedagogique à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuElementPedagogique
+ */
+function generate_supannEtuElementPedagogique($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'eltpedago');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuEtape à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuEtape
+ */
+function generate_supannEtuEtape($ldapObject) {
+  return generate_from_supannEtuInscription($ldapObject, 'etape');
+}
+
+/**
+ * Géneration de la valeur de l'attribut supannEtuDateFin à partir des valeurs
+ * l'attribut supannEtuInscription.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @param[in] $ldapObject L'objet ldap
+ *
+ * @retval array Les valeurs de l'attribut supannEtuDateFin
+ */
+function generate_supannEtuDateFin($ldapObject) {
+  $values = generate_from_supannEtuInscription($ldapObject, 'datefin');
+  LSlog :: get_logger('LSaddon_supann') -> debug(
+    "generate_supannEtuDateFin($ldapObject): value retrieved from datefin component = ".varDump($values)
+  );
+  $max_time = NULL;
+  // On garde que la plus lointaine
+  foreach ($values as $value) {
+    $time = ldapDate2Timestamp($value);
+    if (!$time)
+      continue;
+    if (!$max_time || $time > $max_time) {
+      $max_time = $time;
+    }
+  }
+  LSlog :: get_logger('LSaddon_supann') -> debug(
+    "generate_supannEtuDateFin($ldapObject): result = ".varDump($max_time)
+  );
+  return $max_time;
+}
+
 if (php_sapi_name() != 'cli')
   return true;
 
@@ -968,7 +1151,7 @@ function cli_generate_supann_codeEtablissement_uai_nomenclature($command_args) {
   $data = file_get_contents('https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-principaux-etablissements-enseignement-superieur/download?format=json');
   $items = json_decode($data, true);
   if (!is_array($items))
-    LSlog :: fatal('Fail to retreive UAI dataset from data.enseignementsup-recherche.gouv.fr');
+    LSlog :: get_logger('LSaddon_supann') -> fatal('Fail to retreive UAI dataset from data.enseignementsup-recherche.gouv.fr');
   $codes = array();
   foreach($items as $item) {
     if (!isset($item['fields']) || !isset($item['fields']['uai']) || !$item['fields']['uai'])
