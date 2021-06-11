@@ -78,7 +78,7 @@ class LSformElement_supannRessourceEtatDate extends LSformElement_supannComposit
    * @return array|null La valeur parsée, ou NULL en cas de problème
    */
   public function parseCompositeValue($value) {
-    if (preg_match('/\{(?<ressource>[^\}]+)\}(?<etat>[AIS]):(?<sous_etat>[^\:]*):(?<date_debut>[0-9]{8})?:(?<date_fin>[0-9]{8})?/', $value, $matches)) {
+    if (preg_match('/\{(?<ressource>[^\}]+)\}(?<etat>[^:]+):(?<sous_etat>[^\:]*):(?<date_debut>[0-9]{8})?:(?<date_fin>[0-9]{8})?/', $value, $matches)) {
       $parseValue = array(
         'ressource' => $matches['ressource'],
         'etat' => $matches['etat'],

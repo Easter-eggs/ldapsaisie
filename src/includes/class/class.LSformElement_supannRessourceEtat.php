@@ -66,7 +66,7 @@ class LSformElement_supannRessourceEtat extends LSformElement_supannCompositeAtt
    * @return array|null La valeur parsée, ou NULL en cas de problème
    */
   public function parseCompositeValue($value) {
-    if (preg_match('/\{(?<ressource>[^\}]+)\}(?<etat>[AIS])(:(?<sous_etat>.*))?/', $value, $matches)) {
+    if (preg_match('/\{(?<ressource>[^\}]+)\}(?<etat>[^:]+)(:(?<sous_etat>.*))?/', $value, $matches)) {
       $parseValue = array(
         'ressource' => $matches['ressource'],
         'etat' => $matches['etat'],
