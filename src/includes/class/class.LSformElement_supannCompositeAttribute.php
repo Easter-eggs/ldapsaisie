@@ -107,7 +107,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
           $this -> components[$c]['ldap_format'] = LSconfig :: get('format', null, null, $this -> components[$c]);
           $this -> components[$c]['php_format'] = 'd/m/Y';
           $this -> components[$c]['js_format'] = '%d/%m/%Y';
-          if (cconf['type'] == 'datetime') {
+          if ($cconf['type'] == 'datetime') {
             $this -> components[$c]['php_format'] .= ' H:i:s';
             $this -> components[$c]['js_format'] .= ' %H:%M:%S';
           }
