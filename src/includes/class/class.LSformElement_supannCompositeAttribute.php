@@ -329,128 +329,174 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
    * @retval boolean true si la valeur est présente en POST, false sinon
    */
   public function getPostData(&$return, $onlyIfPresent=false) {
-    if ($onlyIfPresent || $this -> form -> api_mode) {
-      self :: log_warning("getPostData : does not support \$onlyIfPresent / API mode => Post data ignored");
-      return true;
-    }
-
     if($this -> isFreeze()) {
       return true;
     }
 
-    $count = 0;
-    $end = false;
+    // Extract value form POST data and store it in $parseValues
     $parseValues = array();
-    $return[$this -> name] = array();
-    while ($end==false) {
-      $value = array();
-      $parseValue = array();
-      $errors = array();
-      $unemptyComponents = array();
-      foreach ($this -> components as $c => $cconf) {
-        if (isset($_POST[$this -> name.'__'.$c][$count])) {
-          $parseValue[$c] = $_POST[$this -> name.'__'.$c][$count];
-          if ($cconf['required'] && empty($parseValue[$c])) {
-            $errors[] = getFData(__('Component %{c} must be defined'),__($cconf['label']));
-            continue;
-          }
-          if (empty($parseValue[$c])) {
-            continue;
-          }
-          $unemptyComponents[] = $c;
-          // Handle POST component value (by type)
-          switch ($cconf['type']) {
-            case 'table':
-              $pv = supannParseLabeledValue($parseValue[$c]);
-              self :: log_debug("supannParseLabeledValue(".$parseValue[$c].") == ".varDump($pv));
-              if ($pv) {
-                if (!supannValidateNomenclatureValue($cconf['table'],$pv['label'],$pv['value'])) {
-                  $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
-                }
-              }
-              else {
-                $errors[] = getFData(__('Unparsable value for component %{c}.'), __($cconf['label']));
-              }
-              break;
-
-            case 'select':
-              if (!array_key_exists($parseValue[$c], $cconf['possible_values'])) {
-                $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
-              }
-              break;
-
-            case 'date':
-            case 'datetime':
-              $datetime = date_create_from_format($cconf['php_format'], $parseValue[$c]);
-              if ($datetime) {
-                $parseValue[$c] = dateTime2LdapDate(
-                  $datetime,
-                  $this -> components[$c]['timezone'],
-                  $this -> components[$c]['ldap_format']
-                );
-              }
-              else {
-                $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
-              }
-              break;
-
-            case 'codeEntite':
-              if (!supannValidateEntityId($parseValue[$c])) {
-                $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
-              }
-              break;
-
-            case 'parrainDN':
-              if (!supannValidateParrainDN($parseValue[$c])) {
-                $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
-              }
-              break;
-          }
-
-          // Check component value (if configured)
-          if (isset($cconf['check_data']) && is_array($cconf['check_data'])) {
-            foreach($cconf['check_data'] as $ruleType => $rconf) {
-              $className='LSformRule_'.$ruleType;
-              if (LSsession::loadLSclass($className)) {
-                $r=new $className();
-                if (!$r -> validate($parseValue[$c],$rconf,$this)) {
-                  if (isset($rconf['msg'])) {
-                    $errors[]=getFData(__($rconf['msg']),__($cconf['label']));
-                  }
-                  else {
-                    $errors[]=getFData(__('Invalid value for component %{c}.'),__($cconf['label']));
-                  }
-                }
-              }
-              else {
-                $errors[]=getFData(__("Can't validate value of component %{c}."),__($cconf['label']));
-              }
-            }
-          }
-
-          $value[$c] = $parseValue[$c];
-        }
-        else {
-          // end of value break
-          $end=true;
-          break;
-        }
+    if ($this -> form -> api_mode) {
+      // API mode
+      $form_values = $this -> getData($_POST, $this -> name);
+      if (!is_array($form_values) || empty($form_values)) {
+        self :: log_trace($this." -> getPostData(): not in POST data");
+        return true;
       }
-
-      // Format value
-      $value = $this -> formatCompositeValue($value);
-
-      if (!$end) {
-        if (!empty($unemptyComponents)) {
-          foreach($errors as $e) {
-            $this -> form -> setElementError($this -> attr_html,$e);
-          }
-          $return[$this -> name][] = $value;
-          $parseValues[] = $parseValue;
+      foreach($form_values as $idx => $form_value) {
+        // Handle string value (for value provided by CLI for instance) and already decomposed value
+        $input_value = (is_string($form_value)?$this -> parseCompositeValue($form_value):$form_value);
+        if (!is_array($input_value)) {
+          $this -> form -> setElementError(
+            $this -> attr_html,
+            getFData(_('Fail to decode composite value #%{idx}.'), $idx)
+          );
+          continue;
         }
-        $count++;
+
+        $parseValue = array();
+        $unemptyComponents = array();
+
+        foreach (array_keys($this -> components) as $c) {
+          if (!isset($input_value[$c]) || is_empty($input_value))
+            continue;
+          $parseValue[$c] = $input_value[$c];
+          $unemptyComponents[] = $c;
+        }
+
+        // Ignore empty value from form
+        if (empty($unemptyComponents))
+          continue;
+
+        $parseValues[] = $parseValue;
       }
     }
+    else {
+      // HTML Form
+      $end = false;
+      $count = 0;
+      while (!$end) {
+        $parseValue = array();
+        $errors = array();
+        foreach ($this -> components as $c => $cconf) {
+          if (!isset($_POST[$this -> name.'__'.$c][$count])) {
+            // end of value break
+            $end = true;
+            break;
+          }
+
+          if (is_empty($_POST[$this -> name.'__'.$c][$count])) {
+            continue;
+          }
+          $parseValue[$c] = $_POST[$this -> name.'__'.$c][$count];
+        }
+        $count++;
+
+        // Ignore empty value from form
+        if (empty($parseValue))
+          continue;
+
+        $parseValues[] = $parseValue;
+      }
+    }
+    self :: log_debug($this." -> getPostData(): POST data = ".varDump($parseValues));
+
+    // Check extracted values
+    $errors = array();
+    foreach ($parseValues as $parseValue) {
+      // Check component value
+      foreach ($parseValue as $c => $value) {
+        $cconf = $this -> components[$c];
+        switch ($cconf['type']) {
+          case 'table':
+            $pv = supannParseLabeledValue($value);
+            self :: log_debug("supannParseLabeledValue($value) == ".varDump($pv));
+            if ($pv) {
+              if (!supannValidateNomenclatureValue($cconf['table'], $pv['label'], $pv['value'])) {
+                $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+              }
+            }
+            else {
+              $errors[] = getFData(__('Unparsable value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+
+          case 'select':
+            if (!array_key_exists($value, $cconf['possible_values'])) {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+
+          case 'date':
+          case 'datetime':
+            if ($this -> form -> api_mode) {
+              $datetime = ldapDate2DateTime(
+                $value,
+                $this -> components[$c]['naive'],
+                $this -> components[$c]['ldap_format']
+              );
+            }
+            else {
+              $datetime = date_create_from_format($cconf['php_format'], $value);
+            }
+            if ($datetime) {
+              $parseValue[$c] = $value = dateTime2LdapDate(
+                $datetime,
+                $this -> components[$c]['timezone'],
+                $this -> components[$c]['ldap_format']
+              );
+            }
+            else {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+
+          case 'codeEntite':
+            if (!supannValidateEntityId($value)) {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+
+          case 'parrainDN':
+            if (!supannValidateParrainDN($value)) {
+              $errors[] = getFData(__('Invalid value for component %{c}.'), __($cconf['label']));
+            }
+            break;
+        }
+
+        // Check component value (if configured)
+        if (isset($cconf['check_data']) && is_array($cconf['check_data'])) {
+          foreach($cconf['check_data'] as $ruleType => $rconf) {
+            $className = 'LSformRule_'.$ruleType;
+            if (!LSsession::loadLSclass($className)) {
+              $errors[] = getFData(__("Can't validate value of component %{c}."),__($cconf['label']));
+              continue;
+            }
+            $r = new $className();
+            if (!$r -> validate($value, $rconf, $this)) {
+              $errors[] = getFData(
+                __(LSconfig :: get('msg', 'Invalid value for component %{c}.', 'string', $rconf)),
+                __($cconf['label'])
+              );
+            }
+          }
+        }
+      }
+
+      // Check required component is defined
+      foreach($this -> components as $c => $cconf) {
+        if (!LSconfig :: get('required', false, 'bool', $cconf))
+          continue;
+        if (isset($parseValue[$c]) && !is_empty($parseValue[$c]))
+          continue;
+        $errors[] = getFData(__('Component %{c} must be defined'), __($cconf['label']));
+      }
+
+      // Format value and add to return
+      $return[$this -> name][] = $this -> formatCompositeValue($parseValue);
+    }
+
+    foreach($errors as $e)
+      $this -> form -> setElementError($this -> attr_html, $e);
     $this -> _postParsedData = $parseValues;
       return true;
   }
@@ -508,6 +554,41 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
     }
     self :: log_debug("searchComponentPossibleValues('$c', '$pattern'): ".varDump($retval));
     return $retval;
+  }
+
+
+  /**
+   * Retreive value as return in API response
+   *
+   * @param[in] $details boolean If true, returned values will contain details if this field type
+   *                             support it (optional, default: false)
+   *
+   * @retval mixed API value(s) or null/empty array if no value
+   */
+  public function getApiValue($details=false) {
+    $values = array();
+    foreach(ensureIsArray($this -> values) as $value) {
+      $decodedValue = $this -> parseCompositeValue($value, true);
+      if (is_array($decodedValue)) {
+        $parsedValue = array();
+        foreach(array_keys($this -> components) as $c) {
+          if (!isset($decodedValue[$c]))
+            continue;
+          $parsedValue[$c] = (
+            $details?
+            $this -> translateComponentValue($c, $decodedValue[$c]):
+            $decodedValue[$c]
+          );
+        }
+        $values[] = $parsedValue;
+      }
+    }
+    if ($this -> isMultiple()) {
+      return $values;
+    }
+    if (!$values)
+      return null;
+    return $values[0];
   }
 
 }
