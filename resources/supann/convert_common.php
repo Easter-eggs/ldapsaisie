@@ -29,17 +29,13 @@ function load_csv_file($csv_file, $delimiter=';', $enclosure='"', $length=0, $es
 }
 
 function mb_ucfirst($str) {
-    $fc = mb_strtoupper(mb_substr($str, 0, 1));
-    return $fc.mb_substr($str, 1);
-}
-
-function _sort($string) {
-    return preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|tilde|uml);~i', '$1' . chr(255) . '$2', htmlentities($string, ENT_QUOTES, 'UTF-8'));
+  $fc = mb_strtoupper(mb_substr($str, 0, 1));
+  return $fc.mb_substr($str, 1);
 }
 
 function export_nomenclature($array, $fd, $prefix="", $fix_encoding=false) {
   fwrite($fd, $prefix."array (\n");
-  array_multisort(array_map('_sort', $array), $array);
+  ksort($array);
   foreach ($array as $key => $value) {
     if ($fix_encoding)
       $key = iconv($fix_encoding[0], $fix_encoding[1], $key);
