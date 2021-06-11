@@ -436,13 +436,15 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
     'personalTitle' => array (
       'label' => 'Civility',
       'ldap_type' => 'ascii',
-      'html_type' => 'select_list',
+      'html_type' => 'select_box',
       'html_options' => array (
         'possible_values' => array(
-          'M.' => 'Mr',
           'Mme' => 'Mrs',
           'Mlle' => 'Ms',
+          'M.' => 'Mr',
         ),
+        'inline' => true,
+        'sort' => false,
       ),
       'required' => 1,
       'default_value' => 'M.',

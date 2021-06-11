@@ -46,6 +46,7 @@ class LSformElement_select_box extends LSformElement_select {
   public function getDisplay(){
     if (!$this -> isFreeze()) {
       LStemplate :: addCssFile('LSformElement_select_box.css');
+      $this -> fetchVariables['inline'] = $this -> getParam('html_options.inline', false, 'bool');
     }
     return parent :: getDisplay();
   }

@@ -8,3 +8,7 @@ ul.LSformElement_selectbox_sub_values {
   list-style-type: none;
   padding-left: 1em;
 }
+
+ul.LSformElement_select_box_inline li {
+  display: inline-block;
+}

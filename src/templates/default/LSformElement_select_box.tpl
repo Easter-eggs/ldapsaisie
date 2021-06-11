@@ -1,4 +1,4 @@
-<ul class='LSform' id='{$attr_name|escape:"htmlall"}'>
+<ul class='LSform{if $inline} LSformElement_select_box_inline{/if}' id='{$attr_name|escape:"htmlall"}'>
 {if $freeze}
   {foreach from=$values item=value}
     {LSformElement_select_checkIsValidValue value=$value possible_values=$possible_values}

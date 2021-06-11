@@ -4,6 +4,29 @@
   excepté qu'il utilise en lieu et place d'une balise HTML <literal>select</literal>,
   plusieurs balises HTML <literal>input</literal> de type <literal>checkbox</literal>
   en cas de valeurs multiples ou de type <literal>radio</literal> en cas de valeur
-  unique. Les paramètres de configuration sont entièrement hérités de la classe 
-  <emphasis>LSattr_html_select_list</emphasis> et sont donc exactement les mêmes.</para>
+  unique. Les paramètres de configuration de la classe
+  <emphasis>LSattr_html_select_list</emphasis> sont tous hérités et fonctionnent donc
+  de la même manière. Par ailleurs, ce type dispose également de paramètres qui lui
+  sont propre (voir ci-dessous).</para>
+
+  <programlisting linenumbering="unnumbered">
+<citetitle>Structure</citetitle>...
+<![CDATA['html_options' => array (
+   'inline' => [Booléen],
+),]]>
+...
+</programlisting>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>inline</term>
+  <listitem>
+    <simpara>Booléen définissant si les valeurs possibles doivent être
+    affichées sur une même ligne ou non (Faux par défaut).</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
 </sect4>
