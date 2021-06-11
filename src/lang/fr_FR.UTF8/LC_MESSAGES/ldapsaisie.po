@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-06-10 18:05+0200\n"
+"PO-Revision-Date: 2021-06-11 14:36+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -216,15 +216,15 @@ msgstr "SUPANN : Cette entité a des entités filles et ne peut être supprimée
 msgid "SUPANN: Fail to load nomenclature %{nomenclature}."
 msgstr "SUPANN : Erreur de chargement de la nomenclature %{nomenclature}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:322
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:369
 msgid "Entity %{id} (unrecognized)"
 msgstr "Entité %{id} (non-reconnue)"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:393
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:441
 msgid "Godfather %{dn} (unrecognized)"
 msgstr "Parrain %{dn} (non-reconnue)"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:520
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.supann.php:568
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select.php:58
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:102
 msgid "%{value} (unrecognized value)"
@@ -441,6 +441,21 @@ msgstr ""
 msgid "Your message has been sent successfully."
 msgstr "Votre message a bien été envoyé."
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtat.php:40
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtatDate.php:40
+msgid "Resource"
+msgstr "Ressource"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtat.php:46
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtatDate.php:46
+msgid "State"
+msgstr "État"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtat.php:52
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtatDate.php:52
+msgid "Sub-state"
+msgstr "Sous-état"
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:84
 msgid "LSformRule_%{type}: Parameter %{param} is not found."
 msgstr "LSformRule_%{type} : Le paramètre %{param} n'est pas défini."
@@ -525,6 +540,17 @@ msgstr ""
 msgid "LSio: Fail to export objects's data."
 msgstr "LSio: Impossible d'exporter les données des objets."
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtatDate.php:59
+msgid "Start date"
+msgstr "Date de début"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannRessourceEtatDate.php:65
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:82
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEtuInscription.php:120
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:81
+msgid "End date"
+msgstr "Date de fin"
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_ldap_pwdHistory.php:77
 msgid "Unknown (%{raw_value})"
 msgstr "Inconnue (%{raw_value})"
@@ -571,7 +597,6 @@ msgid "Incorrect value"
 msgstr "Valeur incorrecte"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_mailQuota.php:171
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_labeledValue.php:138
 msgid "Invalid value : \"%{value}\"."
 msgstr "Valeur invalide : \"%{value}\"."
 
@@ -682,7 +707,7 @@ msgstr ""
 "LSattr_html_%{type} : Les données multiples ne sont pas supportées pour ce "
 "type de champ."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:154
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:186
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:701
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:68
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:79
@@ -694,43 +719,43 @@ msgstr ""
 msgid "Modify"
 msgstr "Modifier"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:155
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:187
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:75
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:80
 msgid "No set value"
 msgstr "Aucune valeur définie"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:156
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:188
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_text.php:66
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:76
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:81
 msgid "No result"
 msgstr "Aucun résultat"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:244
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:257
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:276
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:293
 msgid "%{val} (unrecognized)"
 msgstr "%{value} (valeur non-reconnue)"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:318
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:354
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_jsonCompositeAttribute.php:345
 msgid "Component %{c} must be defined"
 msgstr "Le composant %{c} est obligatoire"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:331
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:341
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:355
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:361
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:367
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:382
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:368
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:378
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:393
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:399
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:405
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:421
 msgid "Invalid value for component %{c}."
 msgstr "Valeur du composant %{c} invalide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:335
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:372
 msgid "Unparsable value for component %{c}."
 msgstr "Valeur du composant %{c} non-analysable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:387
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannCompositeAttribute.php:426
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_jsonCompositeAttribute.php:425
 msgid "Can't validate value of component %{c}."
 msgstr "Impossible de valider la valeur du composant %{c}."
@@ -742,6 +767,11 @@ msgstr "(valeur non-reconnue)"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_labeledValue.php:65
 msgid "(unrecognized label)"
 msgstr "(label non-reconnue)"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_labeledValue.php:138
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:152
+msgid "Invalid value: \"%{value}\""
+msgstr "Valeur invalide : \"%{value}\""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_date.php:164
 msgid "Now."
@@ -1858,7 +1888,7 @@ msgstr "Établissement"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:46
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:46
-msgid "eduPerson profil"
+msgid "EduPerson profil"
 msgstr "Profile eduPerson"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:53
@@ -1886,12 +1916,6 @@ msgstr "Activité"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:75
 msgid "Population"
 msgstr "Population"
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEmpProfil.php:82
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannEtuInscription.php:120
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannExtProfil.php:81
-msgid "End date"
-msgstr "Date de fin"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_select_object.php:70
 msgid "Move up"
@@ -2225,6 +2249,14 @@ msgstr "Discuter avec cette personne."
 msgid "%{value} (Unparsable value)"
 msgstr "%{value} (valeur non-analysable)"
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:143
+msgid "Invalid label: \"%{label}\""
+msgstr "Étiquette invalide : \"%{label}\""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_supannLabeledValue.php:157
+msgid "Unparsable value"
+msgstr "Valeur non-analysable"
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:436
 msgid ""
 "LSattr_html_select_list: Configuration data are missing to generate the "
@@ -2349,7 +2381,7 @@ msgstr ""
 msgid "LSioFormatCSV: function fputcsv is not available."
 msgstr "LSioFormatCSV : la fonction fputcsv n'est pas disponible."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSlog.php:478
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSlog.php:480
 msgid "LSlog : Fail to load logging handler %{handler}."
 msgstr "LSlog : Impossible de charger l'handler %{handler}."
 
@@ -2557,15 +2589,110 @@ msgstr "Portable professionel"
 msgid "Professional landline"
 msgstr "Fixe professionnel"
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:129
+msgid "User account"
+msgstr "Compte utilisateur"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:130
+msgid "Mailbox"
+msgstr "Boîte mails"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:133
+msgid "Active"
+msgstr "Actif"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:134
+msgid "Inactive"
+msgstr "Inactif"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:135
+msgid "Suspended"
+msgstr "Suspendu"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:138
+msgid "Account created in advance, but not yet operational"
+msgstr "Compte créé par anticipation, mais qui n'est pas encore opérationnel"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:139
+msgid "Account operational, but of which the user has not yet taken possession"
+msgstr ""
+"Compte opérationnel, mais dont l'utilisateur n'a pas encore pris possession"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:140
+msgid ""
+"Account operational and accessed by the user, in anticipation of their start "
+"date of activity"
+msgstr ""
+"Compte opérationnel et accédé par l'utilisateur, en anticipation de sa date "
+"de début d'activité"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:141
+msgid "Account operational and accessed by the user in regular activity"
+msgstr "Compte opérationnel et accédé par l'utilisateur en activité régulière"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:142
+msgid ""
+"Account operational and accessed by the user, suspended after the date of "
+"end of activity"
+msgstr ""
+"Compte opérationnel et accédé par l'utilisateur, en sursis après sa date de "
+"fin d'activité"
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:143
+msgid ""
+"Account which is no longer operational, the date of end of activity and "
+"possible suspension having passed, but whose cancellation deadlines have not "
+"yet been reached"
+msgstr ""
+"Compte qui n'est plus opérationnel, la date de fin d'activité et le sursis "
+"éventuel étant dépassés, mais dont les échéances de suppression ne sont pas "
+"encore atteintes"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:144
+msgid ""
+"Non-operational account (without specifying the reason) whose deletion "
+"deadlines have not yet been reached"
+msgstr ""
+"Compte non opérationnel (sans en préciser la raison) dont les échéances de "
+"suppression ne sont pas encore atteintes"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:145
+msgid "Expired account that has reached the data deletion deadline"
+msgstr "Compte expiré ayant atteint l'échéance de suppression des données"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:146
+msgid "Expired account pending permanent deletion"
+msgstr "Compte expiré en instance de suppression définitive"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:147
+msgid "Account locked (without specifying the reason)"
+msgstr "Compte verrouillé (sans en préciser la raison)"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:148
+msgid ""
+"Account locked for administrative reasons (account suspension, charter "
+"abuse, etc.)"
+msgstr ""
+"Compte verrouillé pour une raison administrative (suspension de compte, abus "
+"de charte…)"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:149
+msgid ""
+"Account locked for a technical reason (detection of a namesake, suspicion of "
+"a hacked account, etc.)"
+msgstr ""
+"Compte verrouillé pour une raison technique (détection d'homonyme, suspicion "
+"de compte piraté…)"
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:166
 msgid "Female"
 msgstr "Femme"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:144
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:167
 msgid "Male"
 msgstr "Homme"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:145
+#: /home/brenard/dev/ldapsaisie_clean3/src/conf/LSaddons/config.LSaddons.supann.php:168
 msgid "Other"
 msgstr "Autre"
 

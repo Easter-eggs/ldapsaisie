@@ -135,7 +135,7 @@ class LSformElement_labeledValue extends LSformElement {
           else {
             $this -> form -> setElementError(
               $this -> attr_html,
-              getFData(_('Invalid value : "%{value}".'), $val)
+              getFData(_('Invalid value: "%{value}"'), $val)
             );
           }
         }

@@ -43,7 +43,7 @@ class LSformElement_supannExtProfil extends LSformElement_supannCompositeAttribu
         'required' => false,
       ),
       'affil' => array (
-        'label' => _('eduPerson profil'),
+        'label' => _('EduPerson profil'),
         'type' => 'select',
         'possible_values' => array('' => '-'),
         'get_possible_values' => 'supannGetAffiliationPossibleValues',

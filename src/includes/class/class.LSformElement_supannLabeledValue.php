@@ -140,7 +140,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
           ) {
             $this -> form -> setElementError(
               $this -> attr_html,
-              getFData(_('Invalid label "%{label}"'), $pv['label'])
+              getFData(_('Invalid label: "%{label}"'), $pv['label'])
             );
           }
           if (
@@ -149,7 +149,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
           ) {
             $this -> form -> setElementError(
               $this -> attr_html,
-              getFData(_('Invalid value "%{value}"'), $value)
+              getFData(_('Invalid value: "%{value}"'), $value)
             );
           }
         }
