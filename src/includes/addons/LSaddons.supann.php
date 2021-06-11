@@ -315,6 +315,38 @@ function supannParseCompositeValue($val) {
   return;
 }
 
+ /**
+  * Format une valeur composite SUPANN
+  *
+  * Exemple de valeur en entrée :
+  *
+  *  array (
+  *    'key1' => 'value1',
+  *    'key2' => 'value2',
+  *    'key3' => 'value3',
+  *  )
+  *
+  * Exemple de valeur généré :
+  *
+  *    [key1=value1][key2=value2][key3=value3]
+  *
+  * Les clés sont traitées dans l'ordre d'apparition dans le tableau et
+  * seul les clés avec une valeur non vide sont présentes dans le résultat.
+  *
+  * @author Benjamin Renard <brenard@easter-eggs.com>
+  *
+  * @param[in] $val Tableau associatif des valeurs
+  *
+  * @retval array Un tableau contenant key->value ou false en cas d'erreur
+  **/
+function supannFormatCompositeValue($val) {
+  $retval = "";
+  foreach($val as $k => $v)
+    if (!is_empty($v))
+      $retval .= "[".$k."=".$v.']';
+  return $retval;
+}
+
 /***********************************************************************
  * Fonctions relatives aux entités
  **********************************************************************/
