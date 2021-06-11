@@ -440,7 +440,6 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       'html_options' => array (
         'possible_values' => array(
           'Mme' => 'Mrs',
-          'Mlle' => 'Ms',
           'M.' => 'Mr',
         ),
         'inline' => true,
