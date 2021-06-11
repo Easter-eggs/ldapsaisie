@@ -305,6 +305,13 @@ function supannParseLabeledValue($value) {
   * @retval array Un tableau contenant key->value ou false en cas d'erreur
   **/
 function supannParseCompositeValue($val) {
+  // Check value is valid
+  if (!preg_match('/^(\[[^=]+=[^\]\]]*\])+$/', $val)) {
+    LSlog :: get_logger('LSaddon_supann') -> warning("supannParseCompositeValue($val): invalid value");
+    return;
+  }
+
+  // Search for components value
   if (preg_match_all('/\[([^=]*)=([^\]]*)\]/',$val,$matches)) {
     $parseValue = array();
     for($i=0; $i<count($matches[0]); $i++) {
