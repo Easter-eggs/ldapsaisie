@@ -116,6 +116,50 @@ class LSformElement_supannLabeledValue extends LSformElement {
     return $retval;
   }
 
+  /**
+   * Recupère la valeur de l'élement passée en POST
+   *
+   * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
+   * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
+   *
+   * @param[in] &$return array Reference of the array for retreived values
+   * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
+   *                                   just ignore it.
+   *
+   * @retval boolean true si la valeur est présente en POST, false sinon
+   */
+  public function getPostData(&$return, $onlyIfPresent=false) {
+    $retval = parent :: getPostData($return, $onlyIfPresent);
+    if (isset($return[$this -> name])) {
+      foreach ($return[$this -> name] as $idx => $value) {
+        $pv = supannParseLabeledValue($value);
+        if ($pv) {
+          if (
+            $this -> supannLabelNomenclatureTable &&
+            !supannValidateNomenclatureValue($this -> supannLabelNomenclatureTable, null, $pv['label'])
+          ) {
+            $this -> form -> setElementError(
+              $this -> attr_html,
+              getFData(_('Invalid label "%{label}"'), $pv['label'])
+            );
+          }
+          if (
+            $this -> supannNomenclatureTable &&
+            !supannValidateNomenclatureValue($this -> supannNomenclatureTable, $pv['label'], $pv['value'])
+          ) {
+            $this -> form -> setElementError(
+              $this -> attr_html,
+              getFData(_('Invalid value "%{value}"'), $value)
+            );
+          }
+        }
+        else {
+          $this -> form -> setElementError($this -> attr_html, _('Unparsable value'));
+        }
+      }
+    }
+    return $retval;
+  }
 
   /**
    * This ajax method is used by the searchPossibleValues function of the form element.
