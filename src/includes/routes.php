@@ -1569,7 +1569,17 @@ function handle_api_LSobject_search($request) {
   }
 
   // Instanciate a LSsearch
-  $search = new LSsearch($LSobject, 'api', null, isset($_REQUEST['reset']));
+  $keepParamsBetweenSearches = (
+    isset($_REQUEST['keepParamsBetweenSearches'])?
+    boolval($_REQUEST['keepParamsBetweenSearches']):
+    false
+  );
+  $search = new LSsearch(
+    $LSobject,
+    'api',
+    null,
+    !$keepParamsBetweenSearches
+  );
   $search -> setParam('onlyAccessible', True);
   if (!$search -> setParamsFromRequest()) {
     LSsession :: displayAjaxReturn();

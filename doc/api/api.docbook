@@ -221,6 +221,13 @@
             <listitem><simpara>Booléen permettant de désactiver l'utilisation du cache. Les valeurs acceptées
             sont <literal>1</literal> ou <literal>0</literal>.</simpara></listitem>
           </varlistentry>
+
+          <varlistentry>
+            <term>keepParamsBetweenSearches</term>
+            <listitem><simpara>Booléen permettant d'activer/désactiver le stockage en session des paramètres de
+            recherche (optionel, par défaut : <literal>Faux</literal>). Les valeurs acceptées sont
+            <literal>1</literal> ou <literal>0</literal>.</simpara></listitem>
+          </varlistentry>
         </variablelist>
         </para>
         <programlisting linenumbering="unnumbered">
