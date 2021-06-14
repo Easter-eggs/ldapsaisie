@@ -1621,7 +1621,24 @@ function handle_api_LSobject_search($request) {
     'success' => true,
     'objects' => array(),
     'total' => $search -> total,
+    'params' => array(
+      'keepParamsBetweenSearches' => $keepParamsBetweenSearches,
+    ),
   );
+
+  // Export search parameters
+  $exportedParams = array(
+    'filter', 'pattern', 'predefinedFilter', 'basedn', 'scope', 'sizelimit', 'attronly',
+    'approx', 'recursive', 'attributes', 'onlyAccessible', 'sortDirection', 'sortBy', 'sortlimit',
+    'displayFormat', 'nbObjectsByPage', 'withoutCache', 'extraDisplayedColumns'
+  );
+  if (LSsession :: subDnIsEnabled())
+    $exportedParams = array_merge($exportedParams, array('displaySubDn', 'subDn'));
+  foreach ($exportedParams as $param) {
+    $data['params'][$param] = $search->getParam($param);
+    if ($param == 'filter' && $data['params'][$param])
+      $data['params'][$param] = $data['params'][$param] -> as_string();
+  }
 
   // Instanciate LSform export to handle custom requested attributes
   if (!LSsession :: loadLSclass('LSform'))

@@ -258,6 +258,27 @@
         }
     },
     "total": 14,
+    "params": {
+        "keepParamsBetweenSearches": false,
+        "filter": null,
+        "pattern": null,
+        "predefinedFilter": false,
+        "basedn": null,
+        "scope": null,
+        "sizelimit": 0,
+        "attronly": false,
+        "approx": false,
+        "recursive": true,
+        "attributes": [],
+        "onlyAccessible": true,
+        "sortDirection": null,
+        "sortBy": null,
+        "sortlimit": 0,
+        "displayFormat": "%{cn}",
+        "nbObjectsByPage": 25,
+        "withoutCache": false,
+        "extraDisplayedColumns": true
+    },
     "page": 1,
     "nbPages": 3
 }]]>
