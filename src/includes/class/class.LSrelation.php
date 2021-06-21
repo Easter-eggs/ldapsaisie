@@ -720,7 +720,10 @@ class LSrelation extends LSlog_staticLoggerClass {
       if (is_array($list)) {
         foreach($list as $o) {
           $return['objectList'][] = array(
-            'text' => $o -> getDisplayName(NULL,true),
+            'text' => $o -> getDisplayName(
+              LSconfig :: get('display_name_format', null, null, $relationConf),
+              true
+            ),
             'dn' => $o -> getDn(),
             'canEdit' => $relation -> canEditRelationWithObject($o)
           );

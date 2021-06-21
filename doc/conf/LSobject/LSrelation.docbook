@@ -9,15 +9,16 @@
   l'attribut de liaison et le type de valeur qu'il contient. Dans le cas d'une
   liaison plus complexe, il sera possible de développer vous même des méthodes
   de mise en relation.</para>
-  
+
 <programlisting>
 <citetitle>Structure</citetitle>
 <![CDATA[$GLOBALS['LSobjects']['[nom du type d'LSobject]']['LSrelation'] = array (
   'relation1' => array(
     'label' => '[label de la relation]',
-    'emptyText' => "[texte affiché si aucune relation avec d'autres objets 
+    'emptyText' => "[texte affiché si aucune relation avec d'autres objets
                      n'existe pour l'objet courant]",
     'LSobject' => '[le type d'LSobjet en relation]',
+    'display_name_format' => '[LSformat du nom d'affichage des LSobjet en relation]',
 
     // Liaison simple
     'linkAttribute' => '[attribut de liaison]',
@@ -66,6 +67,13 @@
   <listitem>
     <simpara>Le type d'&LSobject; en relation avec le type courant.
     <emphasis>(Facultatif en cas de liaison complexe)</emphasis></simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>display_name_format</term>
+  <listitem>
+    <simpara>&LSformat; du nom d'affichage des objets en relation.</simpara>
   </listitem>
 </varlistentry>
 
@@ -138,7 +146,7 @@
   <term>remove_function</term>
   <listitem>
     <simpara>La méthode de la classe du type d'&LSobject; en relation permettant
-    de supprimer une relation existante entre l'objet courant et un objet du 
+    de supprimer une relation existante entre l'objet courant et un objet du
     type concerné. <emphasis>(Facultatif en cas de liaison simple)</emphasis>
     </simpara>
   </listitem>
