@@ -19,6 +19,7 @@
                      n'existe pour l'objet courant]",
     'LSobject' => '[le type d'LSobjet en relation]',
     'display_name_format' => '[LSformat du nom d'affichage des LSobjet en relation]',
+    'canEdit_attribute' => '[nom d'attribut]',
 
     // Liaison simple
     'linkAttribute' => '[attribut de liaison]',
@@ -32,7 +33,6 @@
     'remove_function' => '[methode4]',
     'rename_function' => '[methode5]',
     'canEdit_function' => '[methode6]',
-    'canEdit_attribute' => '[nom d'attribut]',
 
     'rights' => array(
       'LSprofile1' => 'r',
@@ -74,6 +74,16 @@
   <term>display_name_format</term>
   <listitem>
     <simpara>&LSformat; du nom d'affichage des objets en relation.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>canEdit_attribute</term>
+  <listitem>
+    <simpara>Le nom de l'attibut du type d'&LSobject; en relation devant être
+    éditable par l'utilisateur pour que celui-ci puisse modifier la relation.
+    Dans le cadre d'une relation simple, celui-ci peut, si nécessaire, être
+    différent du paramètre <literal>linkAttribute</literal>.</simpara>
   </listitem>
 </varlistentry>
 
@@ -170,16 +180,6 @@
     de vérifier que l'utilisateur à le droit de modifier la relation avec un objet
     en particulier. <emphasis>(Facultatif en cas de liaison simple)</emphasis>
     </simpara>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>canEdit_attribute</term>
-  <listitem>
-    <simpara>Le nom de l'attibut du type d'&LSobject; en relation devant être
-    éditable par l'utilisateur pour que celui-ci puisse modifier la relation.
-    Dans le cadre d'une relation simple, celui-ci peut, si nécessaire, être
-    différent du paramètre <literal>linkAttribute</literal>.</simpara>
   </listitem>
 </varlistentry>
 
