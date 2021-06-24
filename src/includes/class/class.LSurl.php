@@ -62,15 +62,20 @@ class LSurl extends LSlog_staticLoggerClass {
    * @param[in] $authenticated  boolean       Permit to define if this URL is accessible only for authenticated users (optional, default: true)
    * @param[in] $override       boolean       Allow override if a command already exists with the same name (optional, default: false)
    * @param[in] $api_mode       boolean       Enable API mode (optional, default: false)
+   * @param[in] $methods        array|null    HTTP method (optional, default: array('GET', 'POST'))
    **/
-  public static function add_handler($pattern, $handler=null, $authenticated=true, $override=true, $api_mode=false) {
+  public static function add_handler($pattern, $handler=null, $authenticated=true, $override=true, $api_mode=false, $methods=null) {
+    if (is_null($methods))
+      $methods = array('GET', 'POST');
+    else
+      $methods = ensureIsArray($methods);
     if (is_array($pattern)) {
       if (is_null($handler))
         foreach($pattern as $p => $h)
-          self :: add_handler($p, $h, $override, $api_mode);
+          self :: add_handler($p, $h, $override, $api_mode, $methods);
       else
         foreach($pattern as $p)
-          self :: add_handler($p, $handler, $override, $api_mode);
+          self :: add_handler($p, $handler, $override, $api_mode, $methods);
     }
     else {
       if (!isset(self :: $patterns[$pattern])) {
@@ -78,6 +83,7 @@ class LSurl extends LSlog_staticLoggerClass {
           'handler' => $handler,
           'authenticated' => $authenticated,
           'api_mode' => $api_mode,
+          'methods' => $methods,
         );
       }
       elseif ($override) {
@@ -86,6 +92,7 @@ class LSurl extends LSlog_staticLoggerClass {
           'handler' => $handler,
           'authenticated' => $authenticated,
           'api_mode' => $api_mode,
+          'methods' => $methods,
         );
       }
       else {
@@ -116,7 +123,7 @@ class LSurl extends LSlog_staticLoggerClass {
     self :: log_debug("URL : current url = '$current_url'");
     self :: log_debug("URL : check current url with the following URL patterns :\n - ".implode("\n - ", array_keys(self :: $patterns)));
     foreach (self :: $patterns as $pattern => $handler_infos) {
-      $m = self :: url_match($pattern, $current_url);
+      $m = self :: url_match($pattern, $current_url, $handler_infos['methods']);
       if (is_array($m)) {
         $request = new LSurlRequest($current_url, $handler_infos, $m);
         // Reset last redirect
@@ -149,10 +156,13 @@ class LSurl extends LSlog_staticLoggerClass {
    *
    * @param[in] $pattern string The URL pattern
    * @param[in] $current_url string|false The current URL (optional)
+   * @param[in] $methods array|null HTTP method (optional, default: no check)
    *
    * @retval array|false The URL info if pattern matched, false otherwise.
    **/
-  private static function url_match($pattern, $current_url=false) {
+  private static function url_match($pattern, $current_url=false, $methods=null) {
+    if ($methods && !in_array($_SERVER['REQUEST_METHOD'], $methods))
+      return false;
     if ($current_url === false) {
       $current_url = self :: get_current_url();
       if (!$current_url) return False;

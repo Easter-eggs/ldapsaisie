@@ -77,6 +77,10 @@
     transmises dans l'URL appelée. Si le type d'objet ou l'objet demandé est introuvable, une erreur HTTP
     404 sera générée.</para>
 
+    <important><simpara>Sauf précision contraire, toutes les méthodes exposées sont accessibles uniquement
+    via les méthodes HTTP <literal>GET</literal> ou <literal>POST</literal>. L'accès via une autre méthode
+    retournera une erreur 404.</simpara></important>
+
     <!-- Début Liste des méthodes exposées -->
     <variablelist>
     <title>Liste des méthodes exposées</title>

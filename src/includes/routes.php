@@ -280,7 +280,7 @@ function handle_static_file($request) {
   }
   LSurl :: error_404($request);
 }
-LSurl :: add_handler('#^(?P<type>image|css|js)/(?P<file>[^/]+)$#', 'handle_static_file', false);
+LSurl :: add_handler('#^(?P<type>image|css|js)/(?P<file>[^/]+)$#', 'handle_static_file', false, true, false, 'GET');
 
 /*
  * Handle default browser favicon.ico request
@@ -292,7 +292,7 @@ LSurl :: add_handler('#^(?P<type>image|css|js)/(?P<file>[^/]+)$#', 'handle_stati
 function handle_favicon_ico_view($request) {
   LSurl :: redirect('image/favicon');
 }
-LSurl :: add_handler('#^favicon\.ico#', 'handle_favicon_ico_view', false);
+LSurl :: add_handler('#^favicon\.ico#', 'handle_favicon_ico_view', false, true, false, 'GET');
 
 /*
  * Handle libs file request
@@ -318,7 +318,7 @@ function handle_libs_file($request) {
   }
   LSurl :: error_404($request);
 }
-LSurl :: add_handler('#^libs/(?P<file>.+)$#', 'handle_libs_file', false);
+LSurl :: add_handler('#^libs/(?P<file>.+)$#', 'handle_libs_file', false, true, false, 'GET');
 
 /*
  * Handle tmp file request
@@ -334,7 +334,7 @@ function handle_tmp_file($request) {
   }
   LSurl :: error_404($request);
 }
-LSurl :: add_handler('#^tmp/(?P<filename>[^/]+)$#', 'handle_tmp_file');
+LSurl :: add_handler('#^tmp/(?P<filename>[^/]+)$#', 'handle_tmp_file', false, true, false, 'GET');
 
 /*
  ************************************************************

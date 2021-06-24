@@ -69,6 +69,8 @@ class LSurlRequest extends LSlog_staticLoggerClass {
       return $this -> api_mode;
     if ($key == 'referer')
       return $this -> get_referer();
+    if ($key == 'http_method')
+      return $_SERVER['REQUEST_METHOD'];
     if (array_key_exists($key, $this->url_params)) {
       return urldecode($this->url_params[$key]);
     }
