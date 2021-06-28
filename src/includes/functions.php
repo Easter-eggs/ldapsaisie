@@ -531,6 +531,14 @@ function LSdebugDefined() {
     return $msg;
   }
 
+// Try to load unidecode library
+if (!function_exists('unidecode')) {
+  if (file_exists(LS_LIB_DIR."/unidecode/unidecode.php"))
+    @include(LS_LIB_DIR."/unidecode/unidecode.php");
+  if (!function_exists('unidecode') && stream_resolve_include_path("unidecode/unidecode.php"))
+    @include("unidecode/unidecode.php");
+}
+
  /**
   * Supprime les accents d'une chaine
   *
@@ -538,62 +546,25 @@ function LSdebugDefined() {
   *
   * @retval string La chaine sans les accents
   */
-  function withoutAccents($string){
-    $replaceAccent = Array(
-      "à" => "a",
-      "á" => "a",
-      "â" => "a",
-      "ã" => "a",
-      "ä" => "a",
-      "ç" => "c",
-      "è" => "e",
-      "é" => "e",
-      "ê" => "e",
-      "ë" => "e",
-      "ì" => "i",
-      "í" => "i",
-      "î" => "i",
-      "ï" => "i",
-      "ñ" => "n",
-      "ò" => "o",
-      "ó" => "o",
-      "ô" => "o",
-      "õ" => "o",
-      "ö" => "o",
-      "ù" => "u",
-      "ú" => "u",
-      "û" => "u",
-      "ü" => "u",
-      "ý" => "y",
-      "ÿ" => "y",
-      "À" => "A",
-      "Á" => "A",
-      "Â" => "A",
-      "Ã" => "A",
-      "Ä" => "A",
-      "Ç" => "C",
-      "È" => "E",
-      "É" => "E",
-      "Ê" => "E",
-      "Ë" => "E",
-      "Ì" => "I",
-      "Í" => "I",
-      "Î" => "I",
-      "Ï" => "I",
-      "Ñ" => "N",
-      "Ò" => "O",
-      "Ó" => "O",
-      "Ô" => "O",
-      "Õ" => "O",
-      "Ö" => "O",
-      "Ù" => "U",
-      "Ú" => "U",
-      "Û" => "U",
-      "Ü" => "U",
-      "Ý" => "Y"
-    );
-    return strtr($string, $replaceAccent);
-  }
+function withoutAccents($string){
+  // Use unidecode lib if available
+  if (function_exists('unidecode'))
+    return unidecode($string);
+
+  // Otherwise, use historical method
+  $replaceAccent = array(
+    "à" => "a", "á" => "a", "â" => "a", "ã" => "a", "ä" => "a", "ç" => "c",
+    "è" => "e", "é" => "e", "ê" => "e", "ë" => "e", "ì" => "i", "í" => "i",
+    "î" => "i", "ï" => "i", "ñ" => "n", "ò" => "o", "ó" => "o", "ô" => "o",
+    "õ" => "o", "ö" => "o", "ù" => "u", "ú" => "u", "û" => "u", "ü" => "u",
+    "ý" => "y", "ÿ" => "y", "À" => "A", "Á" => "A", "Â" => "A", "Ã" => "A",
+    "Ä" => "A", "Ç" => "C", "È" => "E", "É" => "E", "Ê" => "E", "Ë" => "E",
+    "Ì" => "I", "Í" => "I", "Î" => "I", "Ï" => "I", "Ñ" => "N", "Ò" => "O",
+    "Ó" => "O", "Ô" => "O", "Õ" => "O", "Ö" => "O", "Ù" => "U", "Ú" => "U",
+    "Û" => "U", "Ü" => "U", "Ý" => "Y"
+  );
+  return strtr($string, $replaceAccent);
+}
 
 
  /**
