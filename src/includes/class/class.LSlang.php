@@ -149,7 +149,7 @@ class LSlang extends LSlog_staticLoggerClass {
         $regex = '/^([a-zA-Z_]+)\.[a-zA-Z0-9\-]+$/';
      }
      self :: log_trace("getLangList(".varDump($encoding).", $with_encoding) : regex='$regex'");
-     foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir) {
+     foreach(array(LS_I18N_DIR_PATH, LS_ROOT_DIR.'/'.LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir) {
        if (!is_dir($lang_dir))
        continue;
        if ($handle = opendir($lang_dir)) {
@@ -207,7 +207,7 @@ class LSlang extends LSlog_staticLoggerClass {
      if ($locale == 'en_US.UTF8') {
        return true;
      }
-     foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir)
+     foreach(array(LS_I18N_DIR_PATH, LS_ROOT_DIR.'/'.LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir)
        if (is_dir("$lang_dir/$locale"))
          return true;
      return false;
