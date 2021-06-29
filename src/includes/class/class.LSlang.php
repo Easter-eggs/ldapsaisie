@@ -78,7 +78,7 @@ class LSlang extends LSlog_staticLoggerClass {
 
      // Check
      if (self :: localeExist($lang, $encoding)) {
-       self :: log_debug("setLocale() : Use local '$lang.$encoding'");
+       self :: log_trace("setLocale($lang, $encoding): local '$lang.$encoding' exist, use it");
        if ($encoding) {
          $lang .= '.'.$encoding;
        }
@@ -91,22 +91,23 @@ class LSlang extends LSlog_staticLoggerClass {
 
        // Configure and set the text domain
        $fullpath = bindtextdomain(LS_TEXT_DOMAIN, LS_I18N_DIR_PATH);
-       self :: log_debug("setLocale(): Text domain fullpath is '$fullpath'.");
-       self :: log_debug("setLocale(): Text domain is : ".textdomain(LS_TEXT_DOMAIN));
+       self :: log_trace("setLocale($lang, $encoding): Text domain fullpath is '$fullpath'.");
+       self :: log_trace("setLocale($lang, $encoding): Text domain is : ".textdomain(LS_TEXT_DOMAIN));
 
        // Include local translation file
        $lang_file = LS_I18N_DIR.'/'.$lang.'/lang.php';
        if (LSsession :: includeFile($lang_file, false, false))
-         self :: log_debug("setLocale(): lang file '$lang_file' loaded.");
+         self :: log_trace("setLocale($lang, $encoding): lang file '$lang_file' loaded.");
        else
-         self :: log_debug("setLocale(): no lang file found ($lang_file).");
+         self :: log_trace("setLocale($lang, $encoding): no lang file found ($lang_file).");
 
        // Include other local translation file(s)
-       foreach(array(LS_I18N_DIR_PATH.'/'.$lang, LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang) as $lang_dir) {
+       foreach(array(LS_I18N_DIR_PATH.'/'.$lang, LS_ROOT_DIR.'/'.LS_LOCAL_DIR.'/'.LS_I18N_DIR.'/'.$lang) as $lang_dir) {
+         self :: log_trace("setLocale($lang, $encoding): lookup for translation file in '$lang_dir'");
          if (is_dir($lang_dir)) {
-           foreach (listFiles($lang_dir, '/^lang.+\.php$/') as $file) {
+           foreach (listFiles($lang_dir, '/^lang\..+\.php$/') as $file) {
              $path = "$lang_dir/$file";
-             self :: log_debug("setLocale(): Local '$lang.$encoding' : load translation file '$path'");
+             self :: log_trace("setLocale($lang, $encoding): load translation file '$path'");
              include($path);
            }
          }
@@ -147,7 +148,7 @@ class LSlang extends LSlog_staticLoggerClass {
        else
         $regex = '/^([a-zA-Z_]+)\.[a-zA-Z0-9\-]+$/';
      }
-     self :: log_debug("getLangList(".varDump($encoding).", $with_encoding) : regex='$regex'");
+     self :: log_trace("getLangList(".varDump($encoding).", $with_encoding) : regex='$regex'");
      foreach(array(LS_I18N_DIR_PATH, LS_LOCAL_DIR.'/'.LS_I18N_DIR) as $lang_dir) {
        if (!is_dir($lang_dir))
        continue;
