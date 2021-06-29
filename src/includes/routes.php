@@ -334,7 +334,7 @@ function handle_tmp_file($request) {
   }
   LSurl :: error_404($request);
 }
-LSurl :: add_handler('#^tmp/(?P<filename>[^/]+)$#', 'handle_tmp_file', false, true, false, 'GET');
+LSurl :: add_handler('#^tmp/(?P<filename>[^/]+)$#', 'handle_tmp_file', true, true, false, 'GET');
 
 /*
  ************************************************************
