@@ -242,23 +242,21 @@ class LSldapObject extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Construit un formulaire de l'objet
+   * Constuct a view for this object
    *
-   * Cette mÃ©thode construit un formulaire LSform Ã  partir de la configuration de l'objet
-   * et de chaque attribut.
+   * This method create a LSform in view mode from the object and its attributes configurations.
    *
-   * @param[in] $idForm [<b>required</b>] Identifiant du formulaire a crÃ©er
-   * @param[in] $config Configuration spÃ©cifique pour le formulaire
+   * @param[in] $api_mode boolean Enable API mode (defaut: false)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval LSform Le formulaire crÃ©e
+   * @retval LSform The created LSform object
    */
-  public function getView() {
+  public function getView($api_mode=false) {
     LSsession :: loadLSclass('LSform');
-    $this -> view = new LSform($this,'view');
+    $this -> view = new LSform($this, 'view', null, $api_mode);
     foreach($this -> attrs as $attr_name => $attr) {
-      $this -> attrs[$attr_name] -> addToView($this -> view);
+      $this -> attrs[$attr_name] -> addToView($this -> view, $api_mode);
     }
     $this -> view -> can_validate = false;
     return $this -> view;

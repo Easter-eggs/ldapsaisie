@@ -315,11 +315,13 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @param[in] $form LSform The LSform object
+   * @param[in] $api_mode boolean True if it's a view in API mode (=all accessible attributes present,
+   *                              optional, default: false)
    *
    * @retval boolean True on succes, False otherwise
    */
-  public function addToView(&$form) {
-    if (!$this -> getConfig('view', false, 'bool') || ($this -> myRights() == 'n') )
+  public function addToView(&$form, $api_mode=false) {
+    if ((!$api_mode && !$this -> getConfig('view', false, 'bool')) || ($this -> myRights() == 'n') )
       return true;
     $element = $this -> _addToForm($form, 'view');
     if ($element) {

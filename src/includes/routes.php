@@ -1845,7 +1845,7 @@ function handle_api_LSobject_show($request) {
     'relations' => array(),
   );
 
-  $view = $object -> getView();
+  $view = $object -> getView(true); // get view in API
   foreach($view -> elements as $element) {
     $data['attributes'][$element -> name] = $element -> getApiValue($data['details']);
   }
