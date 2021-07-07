@@ -84,10 +84,10 @@ class LSformElement_supannRessourceEtatDate extends LSformElement_supannComposit
       $parseValue = array(
         'ressource' => $matches['ressource'],
         'etat' => $matches['etat'],
-        'sous_etat' => (isset($matches['sous_etat'])?$matches['sous_etat']:null),
-        'date_debut' => (isset($matches['date_debut'])?$matches['date_debut']:null),
-        'date_fin' => (isset($matches['date_fin'])?$matches['date_fin']:null),
       );
+      foreach(array('sous_etat', 'date_debut', 'date_fin') as $c => $cconf)
+        if (isset($matches[$c]))
+          $parseValue[$c] = $matches[$c];
       return $parseValue;
     }
     return;

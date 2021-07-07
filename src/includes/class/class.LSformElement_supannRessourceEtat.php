@@ -72,8 +72,9 @@ class LSformElement_supannRessourceEtat extends LSformElement_supannCompositeAtt
       $parseValue = array(
         'ressource' => $matches['ressource'],
         'etat' => $matches['etat'],
-        'sous_etat' => (isset($matches['sous_etat'])?$matches['sous_etat']:null),
       );
+      if (isset($matches['sous_etat']))
+        $parseValue['sous_etat'] = $matches['sous_etat'];
       return $parseValue;
     }
     return;
