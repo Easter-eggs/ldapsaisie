@@ -39,12 +39,14 @@ class LSformElement_supannRessourceEtat extends LSformElement_supannCompositeAtt
       'ressource' => array (
         'label' => _('Resource'),
         'type' => 'select',
+        'possible_values' => array('' => '-'),
         'get_possible_values' => 'supannGetRessourcePossibleValues',
         'required' => true,
       ),
       'etat' => array (
         'label' => _('State'),
         'type' => 'select',
+        'possible_values' => array('' => '-'),
         'get_possible_values' => 'supannGetRessourceEtatPossibleValues',
         'required' => true,
       ),
