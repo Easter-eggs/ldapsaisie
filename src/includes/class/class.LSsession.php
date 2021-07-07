@@ -1141,10 +1141,12 @@ class LSsession {
         self :: $LSuserObject = new self :: $LSuserObjectType();
         if (!self :: $LSuserObject -> loadData(self :: $dn)) {
           self :: $LSuserObject = null;
+          self :: log_error("getLSuserObject($dn): Fail to retrieve current connected user information from LDAP");
           return;
         }
       }
       else {
+        self :: log_error("getLSuserObject($dn): Current connected user object type not defined or can not be loaded (".self :: $LSuserObjectType.")");
         return;
       }
     }
