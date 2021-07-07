@@ -8,17 +8,19 @@ var LSformElement_supannCompositeAttribute_field_value = new Class({
     varLSform.addModule(field_type,this);
   },
 
-  initializeLSformElement_supannCompositeAttribute_field_value: function(el) {
+  initializeLSformElement_supannCompositeAttribute_field_value: function(el, reinitialize) {
     if (!$type(el)) {
       el = this.li;
     }
     el.getElements('p').each(function(p) {
       this.components[p.get('data-component')]=new LSformElement_supannCompositeAttribute_field_value_component(p,p.get('data-component'),this.name);
+      if (reinitialize)
+        this.components[p.get('data-component')].reinitialize();
     }, this);
   },
 
   reinitialize: function(el) {
-    this.initializeLSformElement_supannCompositeAttribute_field_value(el);
+    this.initializeLSformElement_supannCompositeAttribute_field_value(el, true);
   },
 
   clear: function() {

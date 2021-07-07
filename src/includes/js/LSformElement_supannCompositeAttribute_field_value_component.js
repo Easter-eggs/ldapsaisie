@@ -45,6 +45,12 @@ var LSformElement_supannCompositeAttribute_field_value_component = new Class({
     }
   },
 
+  reinitialize: function() {
+    if (this.cconf.type == 'date') {
+      varLSform.initializeModule('LSformElement_date', this.p);
+    }
+  },
+
   toggleInputSearch: function() {
     if (this.inputSearch.getStyle('display')=='none') {
       this.inputSearch.setStyle('display','block');
