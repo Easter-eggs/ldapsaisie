@@ -400,6 +400,11 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
     }
     self :: log_debug($this." -> getPostData(): POST data = ".varDump($parseValues));
 
+    if (!$parseValue && $onlyIfPresent)
+      return true;
+
+    $return[$this -> name] = array();
+
     // Check extracted values
     $errors = array();
     foreach ($parseValues as $parseValue) {
@@ -498,7 +503,7 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
     foreach($errors as $e)
       $this -> form -> setElementError($this -> attr_html, $e);
     $this -> _postParsedData = $parseValues;
-      return true;
+    return true;
   }
 
   /**
