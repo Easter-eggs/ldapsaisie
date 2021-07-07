@@ -35,16 +35,16 @@
       {/if}
     {elseif $cconf.type=='select'}
       <select name='{$attr_name|escape:"htmlall"}__{$c|escape:"htmlall"}[]'>
-        {if $parseValue}
+        {if $parseValue && isset($parseValue[$c])}
           {html_options options=$cconf.possible_values selected=$parseValue[$c].value}
         {else}
           {html_options options=$cconf.possible_values}
         {/if}
       </select>
     {elseif $cconf.type=='date' or $cconf.type=='datetime'}
-      <input type='text' class='LSformElement_date' name='{$attr_name|escape:"htmlall"}__{$c|escape:"htmlall"}[]' value='{if $parseValue and $parseValue[$c]}{$parseValue[$c].translated|escape:"htmlall"}{/if}'/>
+      <input type='text' class='LSformElement_date' name='{$attr_name|escape:"htmlall"}__{$c|escape:"htmlall"}[]' value='{if $parseValue and isset($parseValue[$c]) and $parseValue[$c]}{$parseValue[$c].translated|escape:"htmlall"}{/if}'/>
     {else}
-      <input type='text' name='{$attr_name|escape:"htmlall"}__{$c|escape:"htmlall"}[]' value='{if $parseValue and $parseValue[$c]}{$parseValue[$c].value|escape:"htmlall"}{/if}'/>
+      <input type='text' name='{$attr_name|escape:"htmlall"}__{$c|escape:"htmlall"}[]' value='{if $parseValue and isset($parseValue[$c]) and $parseValue[$c]}{$parseValue[$c].value|escape:"htmlall"}{/if}'/>
     {/if}
     </p>
   {/foreach}
