@@ -405,6 +405,7 @@ class LStemplate extends LSlog_staticLoggerClass {
     LStemplate :: assign('defaultCssFiles', $defaultCssFiles);
     LStemplate :: assign('CssFiles', self :: $CssFiles);
     LStemplate :: assign('LibsCssFiles', self :: $LibsCssFiles);
+    LStemplate :: assign('LS_VERSION', LS_VERSION);
   }
 
  /**

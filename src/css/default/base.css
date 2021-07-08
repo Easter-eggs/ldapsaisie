@@ -85,6 +85,14 @@ a img {
   font-weight:        bold;
 }
 
+footer {
+  width:             100%;
+  text-align:        center;
+  color:             #333;
+  font-size:         0.6em;
+  font-style:        italic;
+}
+
 /*
  * LSsession
  */

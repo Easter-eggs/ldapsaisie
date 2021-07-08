@@ -59,4 +59,5 @@
     </td>
   </tr>
 </table>
+<footer>LdapSaisie {$LS_VERSION}</footer>
 {/block}

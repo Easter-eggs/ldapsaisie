@@ -58,6 +58,9 @@ define('LS_TEXT_DOMAIN', 'ldapsaisie');
 define('LS_I18N_DIR', 'lang');
 define('LS_I18N_DIR_PATH', LS_ROOT_DIR.'/lang');
 
+// Version
+define('LS_VERSION', '(git-dev)');
+
 require_once LS_ROOT_DIR.'/'.LS_INCLUDE_DIR.'functions.php';
 
 require_once LS_ROOT_DIR.'/'.LS_CLASS_DIR.'class.LSsession.php';
