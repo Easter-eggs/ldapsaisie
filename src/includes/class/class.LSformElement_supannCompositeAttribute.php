@@ -470,19 +470,18 @@ class LSformElement_supannCompositeAttribute extends LSformElement {
 
         // Check component value (if configured)
         if (isset($cconf['check_data']) && is_array($cconf['check_data'])) {
+          LSsession :: loadLSclass('LSformRule', null, true);
           foreach($cconf['check_data'] as $ruleType => $rconf) {
-            $className = 'LSformRule_'.$ruleType;
-            if (!LSsession::loadLSclass($className)) {
-              $errors[] = getFData(__("Can't validate value of component %{c}."),__($cconf['label']));
-              continue;
-            }
-            $r = new $className();
-            if (!$r -> validate($value, $rconf, $this)) {
-              $errors[] = getFData(
-                __(LSconfig :: get('msg', 'Invalid value for component %{c}.', 'string', $rconf)),
-                __($cconf['label'])
-              );
-            }
+            $cerrors = LSformRule :: validate_values($ruleType, $value, $rconf, $this);
+            if (is_array($cerrors))
+              foreach ($cerrors as $cerror)
+                $errors[] = getFData(
+                  __('%{label}: %{error}'),
+                  array(
+                    'label' => __($cconf['label']),
+                    'error' => $cerror,
+                  )
+                );
           }
         }
       }

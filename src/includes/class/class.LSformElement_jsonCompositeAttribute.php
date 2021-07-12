@@ -363,68 +363,59 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
    * @retval void
    **/
   private function checkComponentValues($c, $value) {
-    if ($this -> getComponentConfig($c, 'multiple', false, 'bool')) {
-      foreach ($value as $val) {
-        $this -> checkComponentValue($c, $val);
+    // Check select_list component's values
+    if ($this -> getComponentConfig($c, 'type') == 'select_list') {
+      if ($this -> getComponentConfig($c, 'multiple', false, 'bool')) {
+        foreach ($value as $val) {
+          $this -> checkSelectListComponentValue($c, $val);
+        }
+      }
+      else
+        $this -> checkSelectListComponentValue($c, $value);
+    }
+
+    // Apply check data rules
+    LSsession :: loadLSclass('LSformRule', null, true);
+    foreach($this -> getComponentConfig($c, 'check_data', array(), 'array') as $ruleType => $rconf) {
+      $errors = LSformRule :: validate_values($ruleType, $value, $rconf, $this);
+      if (is_array($errors)) {
+        $retval = false;
+        foreach ($errors as $error) {
+          $this -> form -> setElementError(
+            $this -> attr_html,
+            getFData(
+              __('%{label}: %{error}'),
+              array(
+                'label' => __($this -> getComponentConfig($c, 'label')),
+                'error' => $error,
+              )
+            )
+          );
+        }
       }
     }
-    else
-      $this -> checkComponentValue($c, $value);
   }
 
   /**
-   * Check one component's value
+   * Check one select_list component's value
    *
    * @param[] $c       The component name
    * @param[] $value   The value to check
    *
    * @retval void
    **/
-  private function checkComponentValue($c, $value) {
-    $label = __($this -> getComponentConfig($c, 'label'));
-
-    // select_list components : check values
-    if ($this -> getComponentConfig($c, 'type') == 'select_list') {
-      if (!$this -> getSelectListComponentValueLabel($c, $value)) {
-        $this -> form -> setElementError(
-          $this -> attr_html,
-          getFData(
-            _('Invalid value "%{value}" for component %{component}.'),
-            array('value' => $value, 'component' => $label)
+  private function checkSelectListComponentValue($c, $value) {
+    if (!$this -> getSelectListComponentValueLabel($c, $value)) {
+      $this -> form -> setElementError(
+        $this -> attr_html,
+        getFData(
+          _('Invalid value "%{value}" for component %{component}.'),
+          array(
+            'value' => $value,
+            'component' => __($this -> getComponentConfig($c, 'label'))
           )
-        );
-      }
-    }
-
-    // Apply check data rules
-    foreach($this -> getComponentConfig($c, 'check_data', array(), 'array') as $ruleType => $rconf) {
-      $className = 'LSformRule_'.$ruleType;
-      if (LSsession::loadLSclass($className)) {
-        $r = new $className();
-        if (!$r -> validate($value, $rconf, $this)) {
-          if (isset($rconf['msg'])) {
-            $this -> form -> setElementError(
-              $this -> attr_html,
-              getFData(__($rconf['msg']), $label)
-            );
-          }
-          else {
-            $this -> form -> setElementError(
-              $this -> attr_html,
-              getFData(
-                _('Invalid value "%{value}" for component %{component}.'),
-                array('value' => $value, 'component' => $label)
-              )
-            );
-          }
-        }
-      }
-      else {
-        $this -> form -> setElementError(
-          $this -> attr_html,
-          getFData(_("Can't validate value of component %{c}."), $label)
-        );
-      }
+        )
+      );
     }
   }
 
