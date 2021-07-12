@@ -48,18 +48,32 @@ class LSformRule extends LSlog_staticLoggerClass {
 
     // Load PHP class (with error if fail)
     if (!LSsession :: loadLSclass($rule_class)) {
-      LSerror :: addErrorCode('LSformRule_02', $rule_name);
-      return False;
+      return array(
+        getFData(_('Invalid syntax checking configuration: unknown rule %{rule}.'), $rule_name)
+      );
     }
 
-    if (! $rule_class :: validate_one_by_one)
-      return $rule_class :: validate($values, $options, $formElement);
-
-    foreach ($values as $value) {
-      if (!$rule_class :: validate($value, $options, $formElement))
-        return False;
+    $errors = false;
+    try {
+      if (! $rule_class :: validate_one_by_one) {
+        if (!$rule_class :: validate($values, $options, $formElement))
+          throw new LSformRuleException();
+      }
+      else {
+        foreach ($values as $value) {
+          if (!$rule_class :: validate($value, $options, $formElement))
+            throw new LSformRuleException();
+        }
+      }
     }
-    return True;
+    catch (LSformRuleException $e) {
+      $errors = $e->errors;
+      $msg = LSconfig :: get('msg', null, null, $options);
+      if ($msg || !$errors) {
+        $errors[] = ($msg?__($msg):_('Invalid value'));
+      }
+    }
+    return ($errors?$errors:true);
   }
 
  /**
@@ -77,12 +91,22 @@ class LSformRule extends LSlog_staticLoggerClass {
 
 }
 
+class LSformRuleException extends Exception {
+
+  public $errors = array();
+
+  public function __construct($errors=array(), $code = 0, Throwable $previous = null) {
+    $this -> errors = ensureIsArray($errors);
+    $message = _("Invalid value");
+    if ($this -> errors)
+      $message .= ': '.implode(", ", $this -> errors);
+    parent::__construct($message, $code, $previous);
+  }
+}
+
 /**
  * Error Codes
  **/
 LSerror :: defineError('LSformRule_01',
 ___("LSformRule_%{type}: Parameter %{param} is not found.")
-);
-LSerror :: defineError('LSformRule_02',
-___("LSformRule: Unknown rule type %{type}.")
 );

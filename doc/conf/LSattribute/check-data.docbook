@@ -3,14 +3,14 @@
   <para>Cette section décrit la manière de configuer des règles de vérification
   syntaxique sur les données des attributs. Ces règles seront utilisées pour vérifier
   que les valeurs saisies par un utilisateur dans un formulaire sont correctes.</para>
-  
+
 <programlisting linenumbering="unnumbered">
 <citetitle>Structure</citetitle>...
 <![CDATA['check_data' => array (
   '[regle1]' => array(
     'msg' => "[Message d'erreur]",
     'params' => array(
-      // Paramètres de la règle 
+      // Paramètres de la règle
     )
   ),
   ...
@@ -18,7 +18,7 @@
 ...
 </programlisting>
 
-<para>Le paramètre <parameter>check_data</parameter> est un tableau associatif 
+<para>Le paramètre <parameter>check_data</parameter> est un tableau associatif
 dont les clés sont les noms des règles de vérification syntaxique actives et les
 valeurs associées sont des tableaux associatifs contenant les paramètres des
 règles.</para>
@@ -29,7 +29,7 @@ règles.</para>
 <varlistentry>
   <term>msg</term>
   <listitem>
-    <simpara>Le message d'erreur à afficher lors que la règle n'est pas respectée.</simpara>
+    <simpara>Le message d'erreur à afficher lors que la règle n'est pas respectée (optionel).</simpara>
   </listitem>
 </varlistentry>
 

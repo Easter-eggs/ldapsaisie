@@ -395,13 +395,13 @@ class LSform extends LSlog_staticLoggerClass {
 
       // Iter on rules and check element values with each of them
       foreach($this -> _rules[$element] as $rule) {
-        if (
-          !LSformRule :: validate_values(
-            $rule['name'], $values, $rule['options'], $this -> elements[$element]
-          )
-        ) {
+        $errors = LSformRule :: validate_values(
+          $rule['name'], $values, $rule['options'], $this -> elements[$element]
+        );
+        if (is_array($errors)) {
           $retval = false;
-          $this -> setElementError($this -> elements[$element], $rule['options']['msg']);
+          foreach ($errors as $error)
+            $this -> setElementError($this -> elements[$element], $error);
         }
       }
     }
