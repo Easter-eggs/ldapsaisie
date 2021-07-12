@@ -660,7 +660,16 @@ les possibilités de contribution.</para>
     </variablelist>
   </para>
   <para>Cette méthode devra retourner <literal>True</literal> ou <literal>False</literal> si la valeur testée est respectivement valide ou
-  invalide.</para>
+  invalide. Elle pourra également déclencher une exception <literal>LSformRuleException</literal> qui lui permettra de donner des messages
+  d'erreurs elle-même sur le(s) problème(s) detecté(s) durant l'analyse de la valeur passée. Le constructeur de ce type d'exception prend
+  en tant que premier paramètre un tableau de messages d'erreurs (ou un simple message d'erreur) qui seront retournés à l'utilisateur.</para>
+
+  <note><simpara>Par défaut, les valeurs de l'attribut sont testées une à une via la méthode <literal>validate()</literal>. Cependant, il est
+  possible d'implémenter une méthode de validation pour toutes les valeurs de l'attribut en une seule fois en affectant la valeur <literal>
+  false</literal> à la constante de classe <literal>validate_one_by_one</literal>. Dans ce cas, l'ensemble des valeurs de l'attribut seront
+  passées via le paramètre <literal>$value</literal> à la méthode <literal>validate()</literal> (sous la forme d'un tableau). Cela pourra par
+  exemple être utile pour implémenter une validation de la cohérence des valeurs les unes vis à vis des autres (unicité, nombre maximum de
+  valeurs, …).</simpara></note>
 </sect1>
 
 </chapter>
