@@ -388,13 +388,16 @@ var LSform = new Class({
       if ($type(ul)) {
         if ($type(errors) != 'array')
           errors = new Array(errors);
+        var ctx = new Object();
+        ctx.injectAfter = ul.getParent();
         errors.each(function(txt){
           var dd = new Element('dd');
           dd.addClass('LSform');
           dd.addClass('LSform-errors');
           dd.set('html',txt);
-          dd.injectAfter(this.getParent());
-        },ul);
+          dd.injectAfter(this.injectAfter);
+          this.injectAfter = dd;
+        }, ctx);
 
         var dt = ul.getParent('dd.LSform').getPrevious('dt');
         if ($type(dt)) {
