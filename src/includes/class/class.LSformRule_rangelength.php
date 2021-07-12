@@ -45,7 +45,15 @@ class LSformRule_rangelength extends LSformRule {
       return;
     }
     $len = strlen($value);
-    return ($len >= $limits[0] && $len <= $limits[1]);
+    if ($len < $limits[0])
+      throw new LSformRuleException(
+        getFData(_('Value is too short (minimum: %{limit}).'), $limits[0])
+      );
+    if ($len > $limits[1])
+      throw new LSformRuleException(
+        getFData(_('Value is too long (maximum: %{limit}).'), $limits[1])
+      );
+    return True;
   }
 
 }

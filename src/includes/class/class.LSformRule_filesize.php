@@ -46,11 +46,11 @@ class LSformRule_filesize extends LSformRule {
 
     $maxSize = LSconfig :: get('params.maxSize', null, 'int', $options);
     if (is_int($maxSize) && $size > $maxSize)
-      return;
+      throw new LSformRuleException(_('File is too big.'));
 
     $minSize = LSconfig :: get('params.minSize', null, 'int', $options);
     if (is_int($minSize) && $size < $minSize)
-      return;
+      throw new LSformRuleException(_('File is too light.'));
 
     return true;
   }

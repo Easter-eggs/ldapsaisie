@@ -44,11 +44,11 @@ class LSformRule_mimetype extends LSformRule {
 
     $mimetypes = ensureIsArray(LSconfig :: get('params.mimeType', null, null, $options));
     if ($mimetypes && !in_array($real_mimetype, $mimetypes))
-      return false;
+      throw new LSformRuleException(getFData(_('Invalid file type (%{type}).'), $real_mimetype));
 
     $mimeTypeRegEx = LSconfig :: get('params.mimeTypeRegEx', null, 'string', $options);
     if (is_string($mimeTypeRegEx) && !preg_match($mimeTypeRegEx, $real_mimetype))
-      return false;
+      throw new LSformRuleException(getFData(_('Invalid file type (%{type}).'), $real_mimetype));
 
     return true;
   }

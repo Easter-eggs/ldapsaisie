@@ -44,16 +44,16 @@ class LSformRule_password extends LSformRule {
    * @return boolean true si la valeur est valide, false sinon
    */
   public static function validate($value, $options=array(), &$formElement) {
+    $errors = array();
+
     $maxLength = LSconfig :: get('params.maxLength', null, 'int', $options);
     if(!is_null($maxLength) && $maxLength != 0 && strlen($value) > $maxLength) {
-      self :: log_debug("password is too long (".strlen($value)." > $maxLength)");
-      return;
+      $errors[] = getFData(_("Password is too long (maximum: %{maxLength})."), $maxLength);
     }
 
     $minLength = LSconfig :: get('params.minLength', null, 'int', $options);
     if(!is_null($minLength) && $minLength != 0 && strlen($value) < $minLength) {
-      self :: log_debug("password is too short (".strlen($value)." < $minLength)");
-      return;
+      $errors[] = getFData(_("Password is too short (minimum: %{minLength})."), $minLength);
     }
 
     $regex = ensureIsArray(LSconfig :: get('params.regex', null, null, $options));
@@ -77,17 +77,23 @@ class LSformRule_password extends LSformRule {
           self :: log_debug("password does not match with regex '$r'");
       }
       if ($valid < $minValidRegex) {
-        self :: log_warning("password match with only $valid regex on ".count($regex).". $minValidRegex valid regex is required");
-        return;
+        $errors[] = getFData(
+          _("Password match with only %{valid} rule(s) (at least %{minValidRegex} are required)."),
+          array(
+            'valid' => $valid,
+            'minValidRegex' => $minValidRegex
+          )
+        );
       }
     }
 
     $prohibitedValues = ensureIsArray(LSconfig :: get('params.prohibitedValues', null, null, $options));
     if(in_array($value, $prohibitedValues)) {
-      self :: log_debug("this password is prohibited");
-      return;
+      $errors[] = _("This password is prohibited.");
     }
 
+    if ($errors)
+      throw new LSformRuleException($errors);
     return true;
   }
 
