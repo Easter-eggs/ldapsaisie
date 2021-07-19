@@ -60,6 +60,7 @@ règles.</para>
 &conf-LSattribute-check-data-mimetype;
 &conf-LSattribute-check-data-nonzero;
 &conf-LSattribute-check-data-nopunctuation;
+&conf-LSattribute-check-data-numberOfValues;
 &conf-LSattribute-check-data-numeric;
 &conf-LSattribute-check-data-password;
 &conf-LSattribute-check-data-rangelength;

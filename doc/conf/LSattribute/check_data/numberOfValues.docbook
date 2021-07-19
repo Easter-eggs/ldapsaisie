@@ -1,0 +1,25 @@
+<sect4 id="config-LSattribute-check-data-numberOfValues">
+  <title>numberOfValues</title>
+  <para>Cette règle vérifie que le nombre de valeurs de l'attribut est comprise entre les limites
+  passées en paramètre.</para>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>min</term>
+  <listitem>
+    <simpara>Nombre minimum de valeurs (paramètre optionnel).</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>max</term>
+  <listitem>
+    <simpara>Nombre maximum de valeurs (paramètre optionnel).</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

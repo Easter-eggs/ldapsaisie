@@ -15,6 +15,7 @@
 <!ENTITY conf-LSattribute-check-data-minlength SYSTEM "minlength.docbook">
 <!ENTITY conf-LSattribute-check-data-nonzero SYSTEM "nonzero.docbook">
 <!ENTITY conf-LSattribute-check-data-nopunctuation SYSTEM "nopunctuation.docbook">
+<!ENTITY conf-LSattribute-check-data-numberOfValues SYSTEM "numberOfValues.docbook">
 <!ENTITY conf-LSattribute-check-data-numeric SYSTEM "numeric.docbook">
 <!ENTITY conf-LSattribute-check-data-password SYSTEM "password.docbook">
 <!ENTITY conf-LSattribute-check-data-rangelength SYSTEM "rangelength.docbook">
