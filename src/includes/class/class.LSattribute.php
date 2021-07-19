@@ -253,6 +253,11 @@ class LSattribute extends LSlog_staticLoggerClass {
       $check_data = $this -> getConfig('check_data', array());
       if(is_array($check_data)) {
         foreach ($check_data as $rule => $rule_options) {
+          // Handle rule without options or message
+          if (is_int($rule) && is_string($rule_options)) {
+            $rule = $rule_options;
+            $rule_options = array();
+          }
           // Check rule
           if(!is_empty($rule) && !$form -> isRuleRegistered($rule)) {
             LSerror :: addErrorCode('LSattribute_03', array('attr' => $this->name, 'rule' => $rule));
