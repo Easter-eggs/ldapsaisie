@@ -584,22 +584,22 @@ class LSform extends LSlog_staticLoggerClass {
    *
    * @retval boolean
    */
-  public function addRule($element, $rule, $options=array()) {
+  public function addRule($element, $rule, $options=null) {
     if ( isset($this ->elements[$element]) ) {
       if ($this -> isRuleRegistered($rule)) {
-        $this -> _rules[$element][]=array(
-                  'name' => $rule,
-                  'options' => $options
-                  );
+        $this -> _rules[$element][] = array(
+          'name' => $rule,
+          'options' => (is_array($options)?$options:array()),
+        );
         return true;
       }
       else {
-        LSerror :: addErrorCode('LSattribute_03',array('attr' => $element,'rule'=>$rule));
+        LSerror :: addErrorCode('LSattribute_03', array('attr' => $element, 'rule' => $rule));
         return;
       }
     }
     else {
-      LSerror :: addErrorCode('LSform_04',array('element' => $element));
+      LSerror :: addErrorCode('LSform_04', array('element' => $element));
       return;
     }
   }

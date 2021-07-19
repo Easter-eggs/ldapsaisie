@@ -252,20 +252,14 @@ class LSattribute extends LSlog_staticLoggerClass {
     else {
       $check_data = $this -> getConfig('check_data', array());
       if(is_array($check_data)) {
-        foreach ($check_data as $rule => $rule_infos) {
-          if((!$form -> isRuleRegistered($rule))&&($rule!='')) {
-            LSerror :: addErrorCode('LSattribute_03',array('attr' => $this->name,'rule' => $rule));
+        foreach ($check_data as $rule => $rule_options) {
+          // Check rule
+          if(!is_empty($rule) && !$form -> isRuleRegistered($rule)) {
+            LSerror :: addErrorCode('LSattribute_03', array('attr' => $this->name, 'rule' => $rule));
             return;
           }
-          if(!isset($rule_infos['msg'])) {
-            $rule_infos['msg']=getFData(_('The value of field %{label} is invalid.'),$this -> getLabel());
-          }
-          else {
-            $rule_infos['msg']=__($rule_infos['msg']);
-          }
-          if(!isset($rule_infos['params']))
-            $rule_infos['params']=NULL;
-          $form -> addRule($this -> name,$rule,array('msg' => $rule_infos['msg'], 'params' => $rule_infos['params']));
+          // Add rule to form
+          $form -> addRule($this -> name, $rule, (is_array($rule_options)?$rule_options:array()));
         }
       }
       else {
