@@ -233,7 +233,7 @@ du dossier d'installation, c'est à dire dans notre exemple
 
     <orderedlist>
 
-    <listitem><para>Création du fichier de classe <emphasis>(optionel)</emphasis>
+    <listitem><para>Création du fichier de classe <emphasis>(optionnel)</emphasis>
     : Ce fichier contient la déclaration de la classe PHP correspondant au type de
     LSobject. Cette classe étend la classe <emphasis>LSldapObject</emphasis> qui
     contient pour ainsi dire toute les méthodes et proprités nécessaires pour les

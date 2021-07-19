@@ -29,7 +29,7 @@ règles.</para>
 <varlistentry>
   <term>msg</term>
   <listitem>
-    <simpara>Le message d'erreur à afficher lors que la règle n'est pas respectée (optionel).</simpara>
+    <simpara>Le message d'erreur à afficher lors que la règle n'est pas respectée (optionnel).</simpara>
   </listitem>
 </varlistentry>
 
