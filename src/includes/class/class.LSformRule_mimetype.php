@@ -27,6 +27,12 @@
  */
 class LSformRule_mimetype extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'mimeType' => null,
+    'mimeTypeRegEx' => null,
+  );
+
   /**
    * Vérification de la valeur.
    *

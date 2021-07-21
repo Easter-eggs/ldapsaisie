@@ -27,6 +27,11 @@
  */
 class LSformRule_minlength extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'limit' => array('LScli', 'autocomplete_int'),
+  );
+
   /**
    * Vérification de la valeur.
    *

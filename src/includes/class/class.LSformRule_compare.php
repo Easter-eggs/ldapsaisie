@@ -27,6 +27,11 @@
  */
 class LSformRule_compare extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'operator' => null,
+  );
+
   /**
    * Retourne l'operateur de comparaison.
    *

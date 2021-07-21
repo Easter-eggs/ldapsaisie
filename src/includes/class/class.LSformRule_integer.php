@@ -27,6 +27,14 @@
  */
 class LSformRule_integer extends LSformRule{
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'positive' => array('LScli', 'autocomplete_bool'),
+    'negative' => array('LScli', 'autocomplete_bool'),
+    'minHeight' => array('LScli', 'autocomplete_int'),
+    'maxHeight' => array('LScli', 'autocomplete_int'),
+  );
+
   /**
    * Verification value.
    *

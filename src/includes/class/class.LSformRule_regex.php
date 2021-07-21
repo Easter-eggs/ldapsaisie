@@ -27,6 +27,11 @@
  */
 class LSformRule_regex extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'regex' => null,
+  );
+
   /**
    * Vérification de la valeur.
    *

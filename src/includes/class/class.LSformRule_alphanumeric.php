@@ -27,6 +27,11 @@
  */
 class LSformRule_alphanumeric extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'withAccents' => array('LScli', 'autocomplete_bool'),
+  );
+
   /**
    * Vérification de la valeur.
    *

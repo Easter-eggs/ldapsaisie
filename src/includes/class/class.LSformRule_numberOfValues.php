@@ -30,6 +30,12 @@ class LSformRule_numberOfValues extends LSformRule {
   // Validate values one by one or all together
   const validate_one_by_one = False;
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'min' => array('LScli', 'autocomplete_int'),
+    'max' => array('LScli', 'autocomplete_int'),
+  );
+
   /**
    * Validate value
    *

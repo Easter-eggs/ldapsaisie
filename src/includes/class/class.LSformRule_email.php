@@ -27,6 +27,12 @@
  */
 class LSformRule_email extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'domain' => null,
+    'checkDomain' => array('LScli', 'autocomplete_bool'),
+  );
+
  /**
    * Vérification de la valeur.
    *

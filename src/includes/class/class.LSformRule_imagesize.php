@@ -27,6 +27,14 @@
  */
 class LSformRule_imagesize extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'minWidth' => array('LScli', 'autocomplete_int'),
+    'maxWitdh' => array('LScli', 'autocomplete_int'),
+    'minHeight' => array('LScli', 'autocomplete_int'),
+    'maxHeight' => array('LScli', 'autocomplete_int'),
+  );
+
   /**
    * Vérification de la valeur.
    *

@@ -27,6 +27,11 @@
  */
 class LSformRule_rangelength extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'limits' => null,
+  );
+
   /**
    * Vérification de la valeur.
    *

@@ -27,6 +27,12 @@
  */
 class LSformRule_filesize extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'minSize' => array('LScli', 'autocomplete_int'),
+    'maxSize' => array('LScli', 'autocomplete_int'),
+  );
+
   /**
    * Vérification de la valeur.
    *

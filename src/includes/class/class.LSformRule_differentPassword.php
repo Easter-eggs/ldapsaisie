@@ -27,6 +27,11 @@
  */
 class LSformRule_differentPassword extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'otherPasswordAttributes' => null,
+  );
+
   /**
    * Check the value
    *

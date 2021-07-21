@@ -27,6 +27,15 @@
  */
 class LSformRule_password extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'minlength' => array('LScli', 'autocomplete_int'),
+    'maxlength' => array('LScli', 'autocomplete_int'),
+    'prohibitedValues' => null,
+    'regex' => null,
+    'minValidRegex' => array('LScli', 'autocomplete_int'),
+  );
+
   /**
    * Vérification de la valeur.
    *

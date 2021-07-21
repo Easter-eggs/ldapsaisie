@@ -27,6 +27,11 @@
  */
 class LSformRule_callable extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'callable' => null,
+  );
+
   /**
    * Check the value using the callable object
    *

@@ -27,6 +27,11 @@
  */
 class LSformRule_inarray extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'possible_values' => null,
+  );
+
   /**
    * Vérification de la valeur.
    *

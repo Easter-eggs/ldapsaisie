@@ -27,6 +27,12 @@
  */
 class LSformRule_date extends LSformRule {
 
+  // CLI parameters autocompleters
+  protected static $cli_params_autocompleters = array(
+    'format' => null,
+    'special_values' => null,
+  );
+
   /**
    * Validation de données
   *
