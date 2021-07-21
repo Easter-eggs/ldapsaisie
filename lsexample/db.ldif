@@ -1,0 +1,750 @@
+# /!\ Caution : LDAPVI syntax
+add olcDatabase={1}mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: {1}mdb
+olcSuffix: o=ls
+olcDbDirectory: /var/lib/ldap/
+olcRootDN: uid=admin,o=ls
+olcLastMod: TRUE
+olcAddContentACL: FALSE
+olcMonitoring: TRUE
+olcSyncUseSubentry: FALSE
+olcMaxDerefDepth: 0
+olcDbMaxSize: 1073741824
+olcLimits: {0}dn.regex="uid=[^,]*,ou=sysaccounts,o=ls"  time.soft=unlimited time.hard=unlimited size.soft=unlimited size.hard=unlimited
+olcLimits: {1}dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" size.soft=unlimited  size.hard=unlimited  time.soft=unlimited  time.hard=unlimited
+olcLimits: {2}* size.pr=1000 size.prtotal=unlimited
+olcReadOnly: FALSE
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth manage by * break
+olcAccess: {1}to dn.regex="^o=ls$"  attrs=entry,children,objectclass  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * read
+olcAccess: {2}to dn.regex="^ou=groups,o=ls$"  attrs=children,objectclass  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * none
+olcAccess: {3}to dn.regex="^cn=[^,]+,ou=groups,o=ls$"  attrs=entry,objectclass  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * none
+olcAccess: {4}to dn.regex="^cn=[^,]+,ou=groups,o=ls$"  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * none
+olcAccess: {5}to dn.regex="^ou=people,o=ls$"  filter="(loginShell=/bin/bash)"  attrs=children,objectclass  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * read
+olcAccess: {6}to dn.regex="^uid=[^,]+,ou=people,o=ls$"  filter="(loginShell=/bin/bash)"  attrs=entry,objectclass  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * read
+olcAccess: {7}to dn.regex="^uid=[^,]+,ou=people,o=ls$"  attrs=userPassword  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=samba,ou=sysaccounts,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by self write  by anonymous auth  by * none
+olcAccess: {8}to dn.regex="^uid=[^,]+,ou=sysaccounts,o=ls$"  attrs=userPassword  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by anonymous auth  by * none
+olcAccess: {9}to dn.regex="^uid=[^,]+,ou=people,o=ls$"  filter="(loginShell=/bin/bash)"  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by * none
+olcAccess: {10}to dn.regex="^uid=[^,]+,ou=people,o=ls$"  attrs=uid,lsallowedservices,uidNumber,gidNumber,homeDirectory,loginShell,sambaSID,sambaAcctFlags,sambaPrimaryGroupSID  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * none
+olcAccess: {11}to dn.regex="^uid=[^,]+,ou=people,o=ls$"  attrs=sambaLMPassword,sambaNTPassword  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by dn.base="uid=samba,ou=sysaccounts,o=ls" write  by self write  by * none
+olcAccess: {12}to dn.regex="^uid=[^,]+,ou=people,o=ls$"  filter="(loginShell=/bin/bash)"  attrs=c,cn,jpegPhoto,personalTitle,sn,givenName,postalAddress,postalCode,l,st,telephoneNumber,mobile,fax,mail,description  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by self write  by users read  by * read
+olcAccess: {13}to attrs=entry  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by users read  by * none
+olcAccess: {14}to *  by group/lsgroup/uniqueMember.exact="cn=adminldap,ou=groups,o=ls" write  by dn.base="uid=ldapsaisie,ou=sysaccounts,o=ls" write  by * none
+olcDbIndex: objectClass eq
+olcDbIndex: cn eq,approx,sub
+olcDbIndex: uid eq,approx,sub
+olcDbIndex: uidNumber eq
+olcDbIndex: gidNumber eq
+olcDbIndex: sambaSID eq
+olcDbIndex: lsAllowedServices eq
+olcDbIndex: memberUid eq
+olcDbIndex: sambaDomainName eq
+olcDbIndex: sn eq,approx,sub
+olcDbIndex: givenName eq,approx,sub
+olcDbIndex: mail eq,approx,sub
+olcDbIndex: uniqueMember eq
+
+add olcOverlay={0}ppolicy,olcDatabase={1}mdb,cn=config
+objectclass: olcOverlayConfig
+objectclass: olcPPolicyConfig
+objectclass: top
+olcoverlay: {0}ppolicy
+olcppolicydefault: cn=default,ou=ppolicies,o=ls
+olcppolicyforwardupdates: FALSE
+olcppolicyhashcleartext: TRUE
+olcppolicyuselockout: TRUE
+
+add olcOverlay={1}dynlist,olcDatabase={1}mdb,cn=config
+objectclass: olcOverlayConfig
+objectclass: olcDynamicList
+objectclass: top
+olcdlattrset: {0}LSdyngroup lsDynGroupMemberDnURI lsDynGroupMemberDn
+olcdlattrset: {1}LSdyngroup lsDynGroupMemberUidURI lsDynGroupMemberUid:uid
+
+add o=ls
+objectClass: top
+objectClass: organization
+o: ls
+
+add sambaDomainName=LS,o=ls
+objectClass: sambaDomain
+objectClass: sambaUnixIdPool
+objectClass: top
+sambaDomainName: LS
+sambaSID: S-1-5-21-4207250186-2406131440-3849861866
+uidNumber: 800000
+gidNumber: 800002
+
+add ou=sysaccounts,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: sysaccounts
+
+add uid=mail,ou=sysaccounts,o=ls
+objectClass: top
+objectClass: lssysaccount
+uid: mail
+userPassword: toto
+pwdPolicySubentry: cn=sysaccounts,ou=ppolicies,o=ls
+
+add uid=samba,ou=sysaccounts,o=ls
+objectClass: top
+objectClass: lssysaccount
+uid: samba
+userPassword: toto
+pwdPolicySubentry: cn=sysaccounts,ou=ppolicies,o=ls
+
+add uid=ldapsaisie,ou=sysaccounts,o=ls
+objectClass: top
+objectClass: lssysaccount
+uid: ldapsaisie
+userPassword: toto
+pwdPolicySubentry: cn=sysaccounts,ou=ppolicies,o=ls
+
+add ou=groups,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+add cn=adminldap,ou=groups,o=ls
+objectClass: top
+objectClass: lsgroup
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: adminldap
+gidNumber: 70000
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-70000
+sambaGroupType: 2
+uniqueMember: uid=admin,ou=people,o=ls
+
+add cn=invite,ou=groups,o=ls
+objectClass: top
+objectClass: lsgroup
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: invite
+gidNumber: 101009
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-203019
+sambaGroupType: 2
+
+add cn=ls,ou=groups,o=ls
+objectClass: top
+objectClass: lsgroup
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: ls
+gidNumber: 102001
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205003
+sambaGroupType: 2
+uniqueMember: uid=invite,ou=people,o=ls
+
+add cn=informatique,ou=groups,o=ls
+objectClass: top
+objectClass: lsgroup
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 102009
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205019
+sambaGroupType: 2
+cn: informatique
+uniqueMember: uid=eeggs,ou=people,o=ls
+uniqueMember: uid=admin,ou=people,o=ls
+
+add cn=direction,ou=groups,o=ls
+objectClass: top
+objectClass: lsgroup
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: direction
+gidNumber: 102007
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205015
+sambaGroupType: 2
+uniqueMember: uid=hmartin,ou=people,o=ls
+uniqueMember: uid=eeggs,ou=people,o=ls
+
+add cn=administratif,ou=groups,o=ls
+objectClass: top
+objectClass: lsgroup
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: administratif
+gidNumber: 102005
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205011
+sambaGroupType: 2
+
+add cn=communication,ou=groups,o=ls
+objectClass: top
+objectClass: lsgroup
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: communication
+gidNumber: 102003
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-205007
+sambaGroupType: 2
+
+add ou=people,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+add uid=hmartin,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+uid: hmartin
+homeDirectory: /home/com
+loginShell: /bin/false
+uidNumber: 101022
+sambaAcctFlags: [U          ]
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-203044
+givenName: Henri
+sn: MARTIN
+gidNumber: 102001
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
+cn: Henri MARTIN
+sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-205003
+personalTitle: M.
+lsGodfatherDn: uid=eeggs,ou=people,o=ls
+userPassword: toto
+sambaLMPassword: 0182BD0BD4444BF836077A718CCDF409
+sambaNTPassword: 259745CB123A52AA2E693AAACCA2DB52
+mail: henri.martin@ls.com
+
+add uid=s.ldapsaisie,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+loginShell: /bin/false
+uidNumber: 101036
+userPassword: toto
+sambaAcctFlags: [U          ]
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-203072
+sambaNTPassword: 8DB716B655D71DF6BD056A41B22B9EA9
+sambaLMPassword: 6CE56DC112C920EF0F5E44C88BF9DC39
+givenName: Secretariat
+mail: secretariat@ldapsaisie.biz
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
+sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-513
+personalTitle: M.
+sn: LdapSaisie
+cn: Secretariat LdapSaisie
+gidNumber: 70000
+uid: s.ldapsaisie
+homeDirectory: /home/s.ldapsaisie
+
+add uid=ls,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+uid: ls
+homeDirectory: /home/ls
+loginShell: /bin/false
+uidNumber: 101068
+userPassword: toto
+sambaAcctFlags: [U          ]
+sambaLMPassword: 6E72264E11F708C0AAD3B435B51404EE
+sambaNTPassword: 8D9B9B87EE8C0423691F4F0E00C5BDE1
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-203136
+gidNumber: 102001
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
+sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-205003
+personalTitle: M.
+givenName: Ldap
+sn: Saisie
+cn: LdapSaisie
+mail: ldap.saisie@ls.com
+description: toto
+
+add uid=erwpa,ou=people,o=ls
+uid: erwpa
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+uidNumber: 101082
+sambaAcctFlags: [U          ]
+homeDirectory: /home/erwpa
+loginShell: /bin/false
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-203164
+sn: PAGEARD
+gidNumber: 102009
+mail: erwan.page@ldapsaisie.biz
+lsAllowedServices: MAIL
+lsAllowedServices: SAMBA
+lsAllowedServices: FTP
+cn: Erwan PAGE
+sambaPrimaryGroupSID: S-1-5-21-2421470416-3566881284-3047381809-205019
+personalTitle: M.
+givenName: Erwan
+lsGodfatherDn: uid=eeggs,ou=people,o=ls
+userPassword: toto
+sambaLMPassword: B3298C30FB103112C187B8085FE1D9DF
+sambaNTPassword: 59D2D06177D147726BBA6AECBCB080BC
+
+add uid=eeggs2,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: eeggs2
+uidNumber: 1000000
+gidNumber: 102009
+facsimileTelephoneNumber: 030000000
+lsAllowedServices: MAIL
+lsAllowedServices: FTP
+description: Utilisateur test Easter-eggs 2
+cn: Easter Eggs 2
+personalTitle: M.
+homeDirectory: /home/eeggs
+loginShell: /bin/false
+sn: Eggs
+givenName: Easter
+mail: bn8@zionetrix.net
+userPassword: toto
+
+add uid=eeggs3,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: eeggs3
+uidNumber: 10000000
+gidNumber: 102009
+facsimileTelephoneNumber: 030000000
+lsAllowedServices: MAIL
+lsAllowedServices: FTP
+description: Utilisateur test Easter-eggs 2
+cn: Easter Eggs 2
+personalTitle: M.
+homeDirectory: /home/eeggs
+loginShell: /bin/false
+sn: Eggs
+givenName: Easter
+mail: bn8@zionetrix.net
+userPassword: toto
+
+add ou=companies,o=ls
+objectClass: organizationalUnit
+objectClass: top
+ou: companies
+
+add ou=company2,ou=companies,o=ls
+objectClass: top
+objectClass: lscompany
+ou: company2
+description:: dGVzdCAyIA==
+
+add ou=people,ou=company2,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+add ou=groups,ou=company2,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+add ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: lscompany
+ou: company1
+description: Test company 1
+
+add ou=people,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+add ou=groups,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+add ou=company3,ou=companies,o=ls
+objectClass: top
+objectClass: lscompany
+ou: company3
+description: test 3
+
+add ou=people,ou=company3,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+add ou=groups,ou=company3,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+add cn=test,ou=groups,ou=company2,ou=companies,o=ls
+objectClass: lsgroup
+objectClass: posixGroup
+cn: test
+gidNumber: 102010
+
+add cn=group1,ou=groups,ou=company1,ou=companies,o=ls
+objectClass: lsgroup
+objectClass: posixGroup
+cn: group1
+gidNumber: 102011
+uniqueMember: uid=user1,ou=people,ou=company1,ou=companies,o=ls
+
+add uid=user1,ou=people,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+givenName: prenom1
+loginShell: /bin/false
+personalTitle: M.
+uid: user1
+uidNumber: 10000001
+sn: nom1
+cn: prenom1 nom1
+gidNumber: 101009
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001002
+homeDirectory: /home/user1
+mail: user1@ls.com
+description: user1
+userPassword: toto
+sambaLMPassword: FC26CDB2863917C1AAD3B435B51404EE
+sambaNTPassword: 00B2C85DDFBD8CC81602D6FC7340EB0B
+
+add uid=user2,ou=people,ou=company1,ou=companies,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+givenName: prenom2
+loginShell: /bin/false
+personalTitle: M.
+uid: user2
+uidNumber: 10000002
+sn: nom2
+cn: prenom2 nom2
+gidNumber: 102001
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001004
+homeDirectory: /home/user2
+mail: user2@ls.com
+userPassword: toto
+sambaLMPassword: C53D7C8685D27214AAD3B435B51404EE
+sambaNTPassword: C549EE84021E5E8372E10CEDEAFD02A8
+
+add ou=company4,ou=companies,o=ls
+objectClass: top
+objectClass: lscompany
+ou: company4
+description: test
+
+add ou=people,ou=company4,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+add ou=groups,ou=company4,ou=companies,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+add cn=testpasdn,ou=groups,o=ls
+objectClass: lsgroup
+objectClass: posixGroup
+cn: testpasdn
+gidNumber: 102012
+uniqueMember: uid=erwpa,ou=people,o=ls
+uniqueMember: uid=eeggs,ou=people,o=ls
+uniqueMember: uid=ls,ou=people,o=ls
+
+add uid=eeggs,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+loginShell: /bin/bash
+personalTitle: M.
+uidNumber: 10000008
+sn: Eggs
+gidNumber: 102009
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001016
+userPassword: toto
+sambaLMPassword: A466CD4F80A06085E68AA26A841A86FA
+sambaNTPassword: 1F2029FF8619E2FEE2189C5A9653BDD5
+uid: eeggs
+givenName: Easter
+cn: Easter Eggs
+homeDirectory: /home/eeggs
+mail: easter.eggs@ls.com
+
+add cn=secretariat,ou=groups,o=ls
+objectClass: lsgroup
+objectClass: posixGroup
+cn: secretariat
+gidNumber: 102013
+uniqueMember: uid=hmartin,ou=people,o=ls
+
+add uid=invite,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+givenName: Utilisateur
+loginShell: /bin/false
+personalTitle: M.
+uid: invite
+uidNumber: 10000012
+sn: de passage
+cn: Utilisateur de passage
+gidNumber: 101009
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001024
+homeDirectory: /home/invite
+mail: invite@ldapsaisie.biz
+userPassword: toto
+sambaLMPassword: 0182BD0BD4444BF836077A718CCDF409
+sambaNTPassword: 259745CB123A52AA2E693AAACCA2DB52
+
+add uid=demo,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+givenName: Demonstration
+loginShell: /bin/false
+personalTitle: M.
+uid: demo
+uidNumber: 10000014
+sn: LdapSaisie
+cn: Demonstration LdapSaisie
+gidNumber: 70000
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001028
+homeDirectory: /home/demo
+mail: demo@ls.com
+description:: VXRpbGlzYXRldXIgZGUgZMOpbW9uc3RyYXRpb24=
+userPassword: demo
+sambaLMPassword: 193DB29CB51FD313AAD3B435B51404EE
+sambaNTPassword: 527C9C819B286EFB8EC4EBB5B5AE71CF
+
+add uid=admin,ou=people,o=ls
+objectClass: top
+objectClass: lspeople
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+givenName: Administration
+loginShell: /bin/false
+personalTitle: M.
+uid: admin
+uidNumber: 10000015
+sn: LdapSaisie
+cn: Administration LdapSaisie
+gidNumber: 70000
+sambaSID: S-1-5-21-2421470416-3566881284-3047381809-20001030
+homeDirectory: /home/admin
+userPassword: admin
+sambaLMPassword: F0D412BD764FFE81AAD3B435B51404EE
+sambaNTPassword: 209C6174DA490CAEB422F3FA5A7AE634
+description:: VXRpbGlzYXRldXIgZGUgZMOpbW9uc3RyYXRpb24gOiBBZG1pbmlzdHJhdGV1cg==
+jpegPhoto:: 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
+ uQmCC
+mail: admin@ls.com
+
+add cn=test34,ou=groups,o=ls
+objectClass: lsgroup
+objectClass: posixGroup
+cn: test34
+gidNumber: 800001
+uniqueMember: uid=eeggs,ou=people,o=ls
+description: test
+lsGodfatherDn: uid=eeggs,ou=people,o=ls
+
+add ou=ppolicies,o=ls
+objectclass: organizationalUnit
+ou: ppolicies
+
+add cn=default,ou=ppolicies,o=ls
+cn: default
+objectclass: top
+objectclass: device
+objectclass: pwdPolicy
+objectclass: pwdPolicyChecker
+pwdAttribute: userPassword
+pwdMinAge: 0
+pwdMaxAge: 0
+pwdInHistory: 3
+pwdCheckQuality: 1
+pwdMinLength: 8
+pwdExpireWarning: 0
+pwdGraceAuthnLimit: 0
+pwdLockout: FALSE
+pwdLockoutDuration: 0
+pwdMaxFailure: 0
+pwdMaxRecordedFailure: 0
+pwdFailureCountInterval: 0
+pwdMustChange: FALSE
+pwdAllowUserChange: FALSE
+pwdSafeModify: FALSE
+
+add cn=sysaccounts,ou=ppolicies,o=ls
+cn: sysaccounts
+objectclass: top
+objectclass: device
+objectclass: pwdPolicy
+objectclass: pwdPolicyChecker
+pwdAttribute: userPassword
+pwdMinAge: 0
+pwdMaxAge: 0
+pwdInHistory: 0
+pwdCheckQuality: 1
+pwdMinLength: 10
+pwdExpireWarning: 0
+pwdGraceAuthnLimit: 0
+pwdLockout: FALSE
+pwdLockoutDuration: 0
+pwdMaxFailure: 0
+pwdMaxRecordedFailure: 0
+pwdFailureCountInterval: 0
+pwdMustChange: FALSE
+pwdAllowUserChange: FALSE
+pwdSafeModify: FALSE
+
+add ou=dyngroups,o=ls
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+add cn=UnixUsers,ou=dyngroups,o=ls
+cn: UnixUsers
+description: Users who can login on unix machines
+gidnumber: 800024
+lsdyngroupmemberdnuri: ldap:///ou=people,o=ls??one?(!(loginShell=/bin/false)
+ )
+lsdyngroupmemberuiduri: ldap:///ou=people,o=ls?uid?one?(!(loginShell=/bin/fa
+ lse))
+lsgodfatherdn: uid=admin,ou=people,o=ls
+memberuid: eeggs
+objectclass: lsdyngroup
+objectclass: posixGroup
+uniquemember: uid=eeggs,ou=people,o=ls
