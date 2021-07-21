@@ -564,9 +564,10 @@ class LScli extends LSlog_staticLoggerClass {
    *
    * @retval array List of matched class names
    **/
-  public static function autocomplete_class_name($prefix='') {
+  public static function autocomplete_class_name($prefix='', $quote_char=null) {
     $classes = array();
-    $quote_char = self :: unquote_word($prefix);
+    if (is_null($quote_char))
+      $quote_char = self :: unquote_word($prefix);
     $regex = "/^class\.($prefix.*)\.php$/";
     foreach(array(LS_ROOT_DIR."/".LS_CLASS_DIR, LS_ROOT_DIR."/".LS_LOCAL_DIR."/".LS_CLASS_DIR) as $dir_path) {
       foreach (listFiles($dir_path, $regex) as $file) {
@@ -761,6 +762,22 @@ class LScli extends LSlog_staticLoggerClass {
     $ioFormats = array_keys($obj -> listValidIOformats());
 
     return self :: autocomplete_opts($ioFormats, $prefix, $case_sensitive, $quote_char);
+  }
+
+  /**
+   * Autocomplete LSformRule name
+   *
+   * @param[in] $prefix string LSformRule name prefix (optional, default=empty string)
+   *
+   * @retval array List of matched LSformRule names
+   **/
+  public static function autocomplete_LSformRule_name($prefix='', $quote_char=null) {
+    $rules = array();
+    $quote_char = self :: unquote_word($prefix);
+    foreach(self :: autocomplete_class_name('LSformRule_'.$prefix, false) as $class) {
+      $rules[] = substr($class, 11);
+    }
+    return self :: autocomplete_opts($rules, $prefix, true, $quote_char);
   }
 
   /**
