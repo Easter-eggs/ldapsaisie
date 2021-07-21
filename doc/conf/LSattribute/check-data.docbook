@@ -54,6 +54,7 @@ règles.</para>
 &conf-LSattribute-check-data-imagesize;
 &conf-LSattribute-check-data-inarray;
 &conf-LSattribute-check-data-integer;
+&conf-LSattribute-check-data-ldapSearchURI;
 &conf-LSattribute-check-data-lettersonly;
 &conf-LSattribute-check-data-maxlength;
 &conf-LSattribute-check-data-minlength;

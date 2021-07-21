@@ -2,12 +2,27 @@
 
 $GLOBALS['LSlang'] = array (
 
+# LSobjects.LSdyngroup.attrs.lsDynGroupMemberDnURI.help_info
+"<p>LDAP search URI or group members. A LDAP search URI is composed of the following parts separated by semicolons :<ul>
+<li>The LDAP URI in format <code>ldap://[host]/[base DN]</code>. For instance, to make a request on the same LDAP server, use <code>ldap:///o=ls</code></li>
+<li>The retreived attributes (separated by coma, optional)</li>
+<li>The search scope (<code>base</code>, <code>one</code> or <code>sub</code>)</li>
+<li>The LDAP filter (optional, default : <code>(objectClass=*)</code>)</li>
+</ul></p><p><strong>Example :</strong> <code>ldap:///ou=people,o=ls??one?(&(objectClass=lspeople)(mail=*@ls.com))</code></p>" =>
+  "<p>L'URI LDAP de recherche des membres du groupe. Une URI de recherche LDAP est composée des parties suivantes séparées par des points virgules :<ul>
+        <li>L'URI LDAP au format <code>ldap://[host]/[base DN]</code>. Par exemple, pour effectuer une recherche sur le même serveur LDAP, utiliser <code>ldap:///o=ls</code></li>
+        <li>Les attributs récupérés (séparés par une virgule, facultatif)</li>
+        <li>La profondeur de la recherche (<code>base</code>, <code>one</code> ou <code>sub</code>)</li>
+        <li>Le filtre LDAP (facultatif, par défaut : <code>(objectClass=*)</code>)</li>
+</ul></p><p><strong>Exemple :</strong> <code>ldap:///ou=people,o=ls??one?(&(objectClass=lsPeople)(mail=*@ls.com))</code></p>",
+
 # LSobjects.pwdPolicy.attrs.pwdCheckModule.help_info
 "<strong>Used with caution !</strong> The name of the OpenLDAP module to used to check the password quality." =>
   "<strong>À utiliser avec vigilance !</strong> Nom du module pour OpenLDAP à utiliser pour vérifier la qualité du mot de passe.",
 
 # LSobjects.LSpeople.attrs.lsGodfatherDn.label
 # LSobjects.LSgroup.attrs.lsGodfatherDn.label
+# LSobjects.LSdyngroup.attrs.lsGodfatherDn.label
 # LSobjects.LScompany.attrs.lsGodfatherDn.label
 "Accountable(s)" =>
   "Responsable(s)",
@@ -44,9 +59,21 @@ $GLOBALS['LSlang'] = array (
 "Always (disable account)" =>
   "Toujours (compte désactivé)",
 
+# LSobjects.LSdyngroup.LSsearch.customActions.updateDynGroupsMembersCache.question_format
+"Are you sure you want to update members cache of all dynamic groups <small>(could be quite long)</small> ?" =>
+  "Êtes-vous sûre de vouloir mettre à jour le cache des membres de tous les groupes dynamiques <small>(peut être assez long)</small> ?",
+
+# LSobjects.LSdyngroup.customActions.updateDynGroupMembersCache.question_format
+"Are you sure you want to update members cache of this dynamic group ?" =>
+  "Êtes-vous sûre de vouloir mettre à jour le cache de membre de ce groupe dynamique ?",
+
 # LSobjects.LSpeople.attrs.sambaPwdMustChange.html_options.special_values.0
 "At first login" =>
   "À la première connexion",
+
+# LSobjects.LSpeople.LSrelation.dyngroups.label
+"Belongs to dynamic groups ..." =>
+  "Appartient aux groupes dynamiques ...",
 
 # LSobjects.LSpeople.LSrelation.groups.label
 # LSobjects.LSsysaccount.LSrelation.groups.label
@@ -55,7 +82,7 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.pwdPolicy.LSform.layout.bruteforce.label
 "Brute-force attacks protection" =>
-  "Proctetion anti brute-force",
+  "Protection anti brute-force",
 
 # LSobjects.pwdPolicy.attrs.pwdCheckModule.label
 "Check OpenLDAP module to used" =>
@@ -123,6 +150,7 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.LSpeople.attrs.description.label
 # LSobjects.LSgroup.attrs.description.label
+# LSobjects.LSdyngroup.attrs.description.label
 # LSobjects.LSsysaccount.attrs.description.label
 # LSobjects.LScompany.attrs.description.label
 "Description" =>
@@ -136,14 +164,34 @@ $GLOBALS['LSlang'] = array (
 "Do you confirm change of this user's password?" =>
   "Confirmez-vous le changement du mot de passe de cet utilisateur ?",
 
+# LSobjects.LSpeople.LSrelation.dyngroups.emptyText
+"Doesn't belong to any dynamic group." =>
+  "N'appartient à aucun groupe dynamique.",
+
 # LSobjects.LSpeople.LSrelation.groups.emptyText
 # LSobjects.LSsysaccount.LSrelation.groups.emptyText
 "Doesn't belong to any group." =>
   "N'appartient à aucun groupe.",
 
+# LSobjects.LSpeople.LSrelation.dyngroup_godfather.emptyText
+"Doesn't sponsor any dynamic group." =>
+  "Ne parraine aucun groupe dynamique.",
+
+# LSobjects.LSpeople.LSrelation.group_godfather.emptyText
+"Doesn't sponsor any group." =>
+  "Ne parraine aucun groupe.",
+
 # LSobjects.LSpeople.LSrelation.godfather.emptyText
 "Doesn't sponsor any user." =>
   "Ne parraine aucun utilisateur.",
+
+# LSobjects.LSdyngroup.label
+"Dynamic groups" =>
+  "Groupes dynamiques",
+
+# LSobjects.LSdyngroup.LSsearch.customActions.updateDynGroupsMembersCache.onSuccessMsgFormat
+"Dynamic groups members cache updated." =>
+  "Le cache des membres des groupes dynamiques a été mis à jour.",
 
 # LSobjects.LSpeople.attrs.mail.label
 "E-mail address" =>
@@ -189,6 +237,14 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSpeople.LSrelation.godfather.label
 "Godfather of ..." =>
   "Parrain de ...",
+
+# LSobjects.LSpeople.LSrelation.dyngroup_godfather.label
+"Godfather of dynamic groups ..." =>
+  "Parrain des groupes dynamiques ...",
+
+# LSobjects.LSpeople.LSrelation.group_godfather.label
+"Godfather of groups ..." =>
+  "Parrain des groupes ...",
 
 # LSobjects.pwdPolicy.attrs.pwdGraceAuthNLimit.label
 "Grace delay after password expiration" =>
@@ -250,6 +306,10 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSsysaccount.attrs.pwdAccountLockedTime.help_info
 "Indicates the time the account was locked time. Delete this date and set <em>pwdReset</em> attribute to unlock the account." =>
   "Indique la durée de blocage du compte. Supprimez cette date et définissez l'attribut <em>pwdReset</em> pour débloquer le compte.",
+
+# LSobjects.LSdyngroup.attrs.lsDynGroupMemberDnURI.check_data.ldapSearchURI.msg
+"Invalid LDAP search URI." =>
+  "URI de recherche LDAP invalide.",
 
 # LSobjects.LSpeople.attrs.gidNumber.html_options.possible_values.1.label
 "LDAP Groups" =>
@@ -326,9 +386,34 @@ $GLOBALS['LSlang'] = array (
 "Maximum validity duration of a password" =>
   "Durée maximum de validité du mot de passe",
 
+# LSobjects.LSdyngroup.attrs.lsDynGroupMemberDnURI.label
+"Member search URI" =>
+  "URI de recherche des membres",
+
+# LSobjects.LSdyngroup.attrs.lsDynGroupMemberUidURI.label
+"Member search URI (UID)" =>
+  "URI de recherche des membres (UID)",
+
 # LSobjects.LSgroup.attrs.uniqueMember.label
+# LSobjects.LSdyngroup.attrs.lsDynGroupMemberDn.label
 "Members" =>
   "Membres",
+
+# LSobjects.LSdyngroup.attrs.uniqueMember.label
+"Members (cache)" =>
+  "Membres (cache)",
+
+# LSobjects.LSdyngroup.attrs.lsDynGroupMemberUid.label
+"Members UID" =>
+  "UID des membres",
+
+# LSobjects.LSdyngroup.attrs.memberUid.label
+"Members UID (cache)" =>
+  "UID des membres (cache)",
+
+# LSobjects.LSdyngroup.customActions.updateDynGroupMembersCache.onSuccessMsgFormat
+"Members cache updated." =>
+  "Le cache des membres a été mis à jour.",
 
 # LSobjects.pwdPolicy.attrs.pwdMinLength.label
 "Minimum length a password" =>
@@ -364,12 +449,14 @@ $GLOBALS['LSlang'] = array (
   "Doit être un entier positif.",
 
 # LSobjects.LSgroup.attrs.cn.label
+# LSobjects.LSdyngroup.attrs.cn.label
 # LSobjects.pwdPolicy.attrs.cn.label
 # LSobjects.LScompany.attrs.ou.label
 "Name" =>
   "Nom",
 
 # LSobjects.LSgroup.attrs.cn.check_data.alphanumeric.msg
+# LSobjects.LSdyngroup.attrs.cn.check_data.alphanumeric.msg
 "Name must contain alphanumeric values only." =>
   "Le nom doit contenir uniquement des valeurs alpha-numériques.",
 
@@ -449,6 +536,7 @@ $GLOBALS['LSlang'] = array (
   "Identifiant numérique",
 
 # LSobjects.LSgroup.attrs.lsGodfatherDn.validation.0.msg
+# LSobjects.LSdyngroup.attrs.lsGodfatherDn.validation.0.msg
 # LSobjects.LScompany.attrs.lsGodfatherDn.validation.0.msg
 "One or several of these users don't exist." =>
   "Un ou plusieurs utilisateurs n'existent pas.",
@@ -594,6 +682,7 @@ $GLOBALS['LSlang'] = array (
 
 # LSobjects.LSpeople.customActions.showTechInfo.label
 # LSobjects.LSgroup.customActions.showTechInfo.label
+# LSobjects.LSdyngroup.customActions.showTechInfo.label
 # LSobjects.LSsysaccount.customActions.showTechInfo.label
 # LSobjects.pwdPolicy.customActions.showTechInfo.label
 # LSobjects.LScompany.customActions.showTechInfo.label
@@ -676,6 +765,11 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.pwdPolicy.attrs.pwdLockoutDuration.no_value_label
 "Until an administrator manually unlock it (default)" =>
   "Tant qu'un administrateur ne le débloque pas (par défaut)",
+
+# LSobjects.LSdyngroup.customActions.updateDynGroupMembersCache.label
+# LSobjects.LSdyngroup.LSsearch.customActions.updateDynGroupsMembersCache.label
+"Update members cache" =>
+  "Mettre à jour le cache des membres",
 
 # LSobjects.pwdPolicy.attrs.pwdAllowUserChange.label
 "User can change its password" =>

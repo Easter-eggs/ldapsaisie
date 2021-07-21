@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (C) 2007 Easter-eggs
+ * Copyright (C) 2021 Easter-eggs
  * https://ldapsaisie.org
  *
  * Author: See AUTHORS file in top-level directory.
@@ -20,12 +20,37 @@
 
 ******************************************************************************/
 
-$GLOBALS['LSaddons']['loads'] = array (
-  'samba',
-  'posix',
-  'ftp',
-  'maildir',
-  'dyngroup',
-  'showTechInfo',
-  'LSaccessRightsMatrixView',
-);
+/*
+ ***********************************************
+ * Dynamic group configuration
+ ***********************************************
+ */
+
+// Dynamic group object type
+define('DYNGROUP_OBJECT_TYPE', 'LSdyngroup');
+
+/*
+ * Members DN attributes
+ */
+
+// Members DN URI attribute
+define('DYNGROUP_MEMBER_DN_URI_ATTRIBUTE', 'lsDynGroupMemberDnURI');
+
+// Members DN attribute
+define('DYNGROUP_MEMBER_DN_ATTRIBUTE', 'lsDynGroupMemberDn');
+
+// Members DN static attribute
+define('DYNGROUP_MEMBER_DN_STATIC_ATTRIBUTE', 'uniqueMember');
+
+/*
+ * Members UID attributes
+ */
+
+// Members UID URI attribute
+define('DYNGROUP_MEMBER_UID_URI_ATTRIBUTE', 'lsDynGroupMemberUidURI');
+
+// Members UID attribute
+define('DYNGROUP_MEMBER_UID_ATTRIBUTE', 'lsDynGroupMemberUid');
+
+// Members UID static attribute
+define('DYNGROUP_MEMBER_UID_STATIC_ATTRIBUTE', 'memberUid');

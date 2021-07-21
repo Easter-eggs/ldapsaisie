@@ -1,0 +1,43 @@
+dn: cn=ls,cn=schema,cn=config
+cn: ls
+objectclass: olcSchemaConfig
+objectclass: top
+olcattributetypes: {0}( LsLDAPAttribute:1 NAME 'lsAllowedServices' DESC 'Lis
+ tof allowed services' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsM
+ atch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
+olcattributetypes: {1}( LsLDAPAttribute:2 NAME 'lsRecoveryHash' DESC 'Passwo
+ rdRecover Hash' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.
+ 15)
+olcattributetypes: {2}( LsLDAPAttribute:3 NAME 'lsGodfatherDn' DESC 'Godfath
+ erdn of this entry' SUP distinguishedName )
+olcattributetypes: {3}( LsLDAPAttribute:4 NAME 'lsDynGroupMemberDnURI' DESC 
+ 'Dynamic group members DN URI' SUP labeledURI )
+olcattributetypes: {4}( LsLDAPAttribute:5 NAME 'lsDynGroupMemberUidURI' DESC
+  'Dynamic group members UID URI' SUP labeledURI )
+olcattributetypes: {5}( LsLDAPAttribute:6 NAME 'lsDynGroupMemberDn' DESC 'Dy
+ namic group members DN' SUP uniqueMember )
+olcattributetypes: {6}( LsLDAPAttribute:7 NAME 'lsDynGroupMemberUid' DESC 'D
+ ynamic group members UID' SUP memberUid )
+olcobjectclasses: {0}( LsLDAPObjectClass:1 NAME 'lspeople' DESC 'LS people O
+ bjectclass' STRUCTURAL MUST ( uid $ cn ) MAY ( jpegPhoto $ sn $ givenName $
+  postalAddress $ postalCode $ l $ st $ c $ telephoneNumber $ mobile $ fax $
+  mail$ personalTitle $ description $ userPassword $ lsallowedservices $ lsR
+ ecoveryHash $ lsGodfatherDn ) )
+olcobjectclasses: {1}( LsLDAPObjectClass:3 NAME 'lsgroup' DESC 'LS group Obj
+ ectclass' AUXILIARY MUST cn MAY ( uniquemember $ description $ lsGodfatherD
+ n ))
+olcobjectclasses: {2}( LsLDAPObjectClass:4 NAME 'lssysaccount' DESC 'LS syst
+ emaccount Objectclass' STRUCTURAL MUST uid MAY ( userpassword $ description
+  ))
+olcobjectclasses: {3}( LsLDAPObjectClass:5 NAME 'lscompany' SUP organization
+ alUnit STRUCTURAL MUST ou MAY ( description $ lsGodfatherDn ) )
+olcobjectclasses: {4}( LsLDAPObjectClass:6 NAME 'lsdyngroup' DESC 'Dynamic g
+ roups objectclass' SUP top AUXILIARY MUST cn MAY ( description $ uniqueMemb
+ er $ memberUid $ lsGodfatherDn $ lsDynGroupMemberDnURI $ lsDynGroupMemberDn
+  $ lsDynGroupMemberUidURI $ lsDynGroupMemberUid $ dgIdentity $ dgAuthz ))
+olcobjectidentifier: {0}EeRoot 1.3.6.1.4.1.10650
+olcobjectidentifier: {1}LeRoot EeRoot:4
+olcobjectidentifier: {2}LsRoot LeRoot:10000
+olcobjectidentifier: {3}LsLDAP LsRoot:2
+olcobjectidentifier: {4}LsLDAPAttribute LsLDAP:1
+olcobjectidentifier: {5}LsLDAPObjectClass LsLDAP:2

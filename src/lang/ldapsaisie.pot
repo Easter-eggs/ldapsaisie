@@ -117,6 +117,39 @@ msgstr ""
 msgid "PhpLdapAdmin Support : The constant %{const} is not defined."
 msgstr ""
 
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.dyngroup.php:27
+msgid "Dynamic groups support: The constant %{const} is not defined."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.dyngroup.php:30
+msgid ""
+"Dynamic groups support: You must at least define all constantes of dynamic "
+"groups's by DN or by UID."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.dyngroup.php:34
+msgid ""
+"Dynamic groups: The attribute %{dependency} is missing. Unable to forge the "
+"attribute %{attr}."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.dyngroup.php:37
+msgid "Dynamic groups: Fail to parse %{attr} value : invalid number of parts."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.dyngroup.php:338
+msgid ""
+"Members cache of %{count} dynamic group(s) have been updated because thes "
+"were potentially impacted by your changes."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.dyngroup.php:345
+msgid ""
+"Members cache of %{count} dynamic group(s) have NOT been updated but thes "
+"were potentially impacted by your changes. A delay of some minutes could be "
+"necessary to handle your changes on this groups."
+msgstr ""
+
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/addons/LSaddons.posix.php:27
 msgid "POSIX Support : The constant %{const} is not defined."
 msgstr ""
@@ -379,18 +412,18 @@ msgstr ""
 msgid "Sub-state"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:52
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:60
 msgid "Invalid syntax checking configuration: unknown rule %{rule}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:73
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:100
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:81
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:283
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_date.php:47
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattr_html_select_list.php:63
 msgid "Invalid value"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:111
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule.php:294
 msgid "LSformRule_%{type}: Parameter %{param} is not found."
 msgstr ""
 
@@ -793,86 +826,82 @@ msgid ""
 "value, you can't select it."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:90
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:95
 msgid ""
 "LSformRule_differentPassword : Other password attribute is not configured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:93
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:98
 msgid ""
 "LSformRule_differentPassword : Fail to load LSattr_ldap :: password class."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:96
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:101
 msgid ""
 "LSformRule_differentPassword : The other password attribute %{attr} does not "
 "exist."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:99
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:104
 msgid ""
 "LSformRule_differentPassword : The other password attribute could not be the "
 "same of the current one."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:102
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_differentPassword.php:107
 msgid ""
 "LSformRule_differentPassword : The other password attributes must use "
 "LSattr_ldap :: password. It's not the case of the attribure %{attr}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:261
-msgid "The value of field %{label} is invalid."
-msgstr ""
-
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:756
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:755
 msgid ""
 "LSattribute : Attribute %{attr} : LDAP or HTML types unknow (LDAP = %{ldap} "
 "& HTML = %{html})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:759
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:758
 msgid ""
 "LSattribute : The function %{func} to display the attribute %{attr} is "
 "unknow."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:762
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:761
 msgid ""
 "LSattribute : The rule %{rule} to validate the attribute %{attr} is unknow."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:765
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:764
 msgid ""
 "LSattribute : Configuration data to verify the attribute %{attr} are "
 "incorrect."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:768
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:767
 msgid ""
 "LSattribute : The function %{func} to save the attribute %{attr} is unknow."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:771
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:770
 msgid "LSattribute : The value of the attribute %{attr} can't be generated."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:774
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:773
 msgid "LSattribute : Generation of the attribute %{attr} failed."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:777
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:776
 msgid ""
 "LSattribute : Generation of the attribute %{attr} did not return a correct "
 "value."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:780
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSattribute.php:779
 msgid ""
 "LSattribute : The attr_%{type} of the attribute %{name} is not yet defined."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_callable.php:66
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_callable.php:71
 msgid "LSformRule_callable : The given callable option is not callable"
 msgstr ""
 
@@ -1072,8 +1101,8 @@ msgid ""
 "%{context}</pre>"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_mimetype.php:47
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_mimetype.php:51
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_mimetype.php:53
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_mimetype.php:57
 msgid "Invalid file type (%{type})."
 msgstr ""
 
@@ -1275,25 +1304,25 @@ msgid ""
 "standard relations (Method : %{meth})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:51
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:60
 msgid "Password is too long (maximum: %{maxLength})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:56
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:65
 msgid "Password is too short (minimum: %{minLength})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:81
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:90
 msgid ""
 "Password match with only %{valid} rule(s) (at least %{minValidRegex} are "
 "required)."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:92
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:101
 msgid "This password is prohibited."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:107
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_password.php:116
 msgid ""
 "LSformRule_password : Invalid regex configured : %{regex}. You must use PCRE "
 "(begining by '/' caracter)."
@@ -1329,6 +1358,64 @@ msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:603
 msgid "LSldap: LDAP server base DN not configured."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:59
+msgid "Invalid LDAP server URI (%{uri})"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:75
+msgid "Invalid LDAP host (%{host})"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:79
+msgid "Invalid LDAP port (%{port})"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:83
+msgid "A LDAP URI could not contain port without host (%{host}:%{port})"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:88
+msgid "LDAP host not provided but required"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:94
+msgid "Invalid base DN (%{basedn})"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:100
+msgid "Search base DN not provided but required"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:112
+msgid "Invalid searched attributes count (%{attrCount} > %{maxAttrsCount})"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:118
+msgid "Invalid attribute name (%{attr})"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:128
+msgid "Attribute name not provided but required"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:138
+msgid ""
+"Invalid search scope (%{scope}). Must be one of the following value : base, "
+"one or sub."
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:147
+msgid "Search scope not provided but required"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:165
+msgid "Invalid LDAP filter (\"%{filter}\")"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_ldapSearchURI.php:172
+msgid "Search filter not provided but required"
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSrelation.php:331
@@ -1519,11 +1606,11 @@ msgstr ""
 msgid "Generate the value"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_filesize.php:49
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_filesize.php:55
 msgid "File is too big."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_filesize.php:53
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_filesize.php:59
 msgid "File is too light."
 msgstr ""
 
@@ -1536,6 +1623,28 @@ msgid ""
 "LSauthMethod_CAS : Please check your configuration : you must configure CAS "
 "server SSL certificate validation using one of the following constant : "
 "LSAUTH_CAS_SERVER_SSL_CACERT or LSAUTH_CAS_SERVER_NO_SSL_VALIDATION"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_numberOfValues.php:52
+msgid "max (or min)"
+msgstr ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_numberOfValues.php:65
+msgid "At least one value is required."
+msgid_plural "At least %{min} values are required."
+msgstr[0] ""
+msgstr[1] ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_numberOfValues.php:77
+msgid "Maximum one value is allowed."
+msgid_plural "Maximum %{max} values are allowed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_numberOfValues.php:93
+msgid ""
+"LSformRule_numberOfValues: Parameter max could not be lower than parameter "
+"min."
 msgstr ""
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:126
@@ -1620,7 +1729,7 @@ msgid ""
 "Click to enable maildir creation/modification on user creation/modification."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_regex.php:62
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_regex.php:67
 msgid "LSformRule_regex : Regex has not been configured to validate data."
 msgstr ""
 
@@ -1700,11 +1809,11 @@ msgstr ""
 msgid "This request could not be processed correctly."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_rangelength.php:50
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_rangelength.php:55
 msgid "Value is too short (minimum: %{limit})."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_rangelength.php:54
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_rangelength.php:59
 msgid "Value is too long (maximum: %{limit})."
 msgstr ""
 
@@ -2014,7 +2123,7 @@ msgid ""
 "%{attr} using configured function %{callable}."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_inarray.php:57
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_inarray.php:62
 msgid ""
 "LSformRule_inarray : Possible values has not been configured to validate "
 "data."
@@ -2032,7 +2141,7 @@ msgstr ""
 msgid "Godfather"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_date.php:66
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformRule_date.php:72
 msgid "LSformRule_date : No date format specify."
 msgstr ""
 
@@ -2062,11 +2171,11 @@ msgid ""
 "Note: Command's parameter/argument must be place after the command."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:804
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:835
 msgid "LScli : The CLI command '%{command}' already exists."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:807
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LScli.php:838
 msgid "LScli : The CLI command '%{command}' handler is not callable."
 msgstr ""
 

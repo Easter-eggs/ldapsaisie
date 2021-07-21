@@ -9,6 +9,7 @@
 <!ENTITY conf-LSattribute-check-data-imagesize SYSTEM "imagesize.docbook">
 <!ENTITY conf-LSattribute-check-data-inarray SYSTEM "inarray.docbook">
 <!ENTITY conf-LSattribute-check-data-integer SYSTEM "integer.docbook">
+<!ENTITY conf-LSattribute-check-data-ldapSearchURI SYSTEM "ldapSearchURI.docbook">
 <!ENTITY conf-LSattribute-check-data-lettersonly SYSTEM "lettersonly.docbook">
 <!ENTITY conf-LSattribute-check-data-maxlength SYSTEM "maxlength.docbook">
 <!ENTITY conf-LSattribute-check-data-mimetype SYSTEM "mimetype.docbook">

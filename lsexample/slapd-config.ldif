@@ -1,0 +1,44 @@
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+olcArgsFile: /var/run/slapd/slapd.args
+olcPidFile: /var/run/slapd/slapd.pid
+olcToolThreads: 1
+olcLogLevel: stats
+olcServerId: 1
+olcAttributeOptions: lang- x-
+
+dn: cn=module{0},cn=config
+objectClass: olcModuleList
+cn: module{0}
+olcModulePath: /usr/lib/ldap
+olcModuleLoad: {0}back_mdb
+olcModuleLoad: {1}ppolicy
+olcModuleLoad: {2}dynlist
+olcModuleLoad: {3}pw-sha2
+
+dn: cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: schema
+
+dn: olcDatabase={-1}frontend,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcFrontendConfig
+olcDatabase: {-1}frontend
+olcAccess: {0}to *
+   by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth manage
+   by * break
+olcAccess: {1}to dn.exact="" by * read
+olcAccess: {2}to dn.base="cn=Subschema" by * read
+olcSizeLimit: 500
+olcLimits: {0}* size.pr=1000 size.prtotal=unlimited
+olcPasswordHash: {SSHA512}
+
+dn: olcDatabase={0}config,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: {0}config
+olcAccess: {0}to *
+   by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth manage
+   by * break
+olcRootDN: cn=admin,cn=config
+

@@ -148,10 +148,45 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'admingroup' => 'w',
       ),
     ),
+    'dyngroups' => array(
+      'label' => 'Belongs to dynamic groups ...',
+      'emptyText' => "Doesn't belong to any dynamic group.",
+      'LSobject' => "LSdyngroup",
+      'linkAttribute' => "uniqueMember",
+      'linkAttributeValue' => "dn",
+      'rights' => array(
+        'self' => 'r',
+        'admin' => 'r',
+      ),
+    ),
     'godfather' => array(
       'label' => 'Godfather of ...',
       'emptyText' => "Doesn't sponsor any user.",
       'LSobject' => "LSpeople",
+      'linkAttribute' => "lsGodfatherDn",
+      'linkAttributeValue' => "dn",
+      'rights' => array(
+        'self' => 'r',
+        'admin' => 'w',
+        'admingroup' => 'w',
+      ),
+    ),
+    'group_godfather' => array(
+      'label' => 'Godfather of groups ...',
+      'emptyText' => "Doesn't sponsor any group.",
+      'LSobject' => "LSgroup",
+      'linkAttribute' => "lsGodfatherDn",
+      'linkAttributeValue' => "dn",
+      'rights' => array(
+        'self' => 'r',
+        'admin' => 'w',
+        'admingroup' => 'w',
+      ),
+    ),
+    'dyngroup_godfather' => array(
+      'label' => 'Godfather of dynamic groups ...',
+      'emptyText' => "Doesn't sponsor any dynamic group.",
+      'LSobject' => "LSdyngroup",
       'linkAttribute' => "lsGodfatherDn",
       'linkAttributeValue' => "dn",
       'rights' => array(
@@ -277,6 +312,10 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
       ),
     ),
   ),
+
+  'after_create' => 'triggerUpdateDynGroupsMembersCacheOnUserCreateOrDelete',
+  'after_modify' => 'triggerUpdateDynGroupsMembersCacheOnUserModify',
+  'after_delete' => 'triggerUpdateDynGroupsMembersCacheOnUserCreateOrDelete',
 
   // Attributes
   'attrs' => array_merge($GLOBALS['pwdPolicyAccountAttrs'], array (

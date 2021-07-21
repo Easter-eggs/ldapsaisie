@@ -96,6 +96,7 @@ $GLOBALS['LSconfig'] = array(
       'LSaccess' => array(
         'LSpeople',
         'LSgroup',
+        'LSdyngroup',
         'LSsysaccount',
         'pwdPolicy',
       ),

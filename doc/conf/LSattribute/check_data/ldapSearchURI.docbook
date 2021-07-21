@@ -1,0 +1,92 @@
+<sect4 id="config-LSattribute-check-data-ldapSearchURI">
+  <title>ldapSearchURI</title>
+  <para>Cette règle vérifie que la valeur est une URI de recherche LDAP valide, c'est
+  à dire, par exemple,
+  <literal>ldaps://ldap.example.com:636/o=example?attr1,attr2?one?(gidNumber=100)</literal>
+  </para>
+  <para>Cette vérification commence par découper la valeur à l'aide du sépérateur
+  <literal>?</literal> et elle s'assure ensuite :
+  <itemizedlist>
+
+    <listitem><simpara>Que la première partie est bien une URI LDAP valide. Si l'hôte
+    LDAP est spécifié, elle s'assure qu'il soit une adresse IP ou un nom de domaine valide.
+    Si le port LDAP est spécifié, elle s'assure également qu'il soit correct et que l'hôte
+    est également bien spécifié.</simpara></listitem>
+
+    <listitem><simpara>Si la base de recherche est spécifiée, elle s'assure qu'elle soit
+    compatible avec la racine de l'annuaire connecté.</simpara></listitem>
+
+    <listitem><simpara>Si un ou plusieurs attributs sont spécifiés, elle les vérifie un à un
+    afin de vérifier qu'il s'agit de nom d'attribut valide.</simpara></listitem>
+
+    <listitem><simpara>Que le scope de recherche soit bien spécifié et valide.</simpara>
+    </listitem>
+
+    <listitem><simpara>Si le filtre de recherche est spécifié, elle vérifie qu'il soit valide.
+    </simpara></listitem>
+
+  </itemizedlist>
+  </para>
+
+  <variablelist>
+  <title>Paramêtres de configuration</title>
+
+  <varlistentry>
+    <term>check_resolving_ldap_host</term>
+    <listitem>
+      <simpara>Si l'hôte du serveur LDAP est spécifié et qu'il s'agit d'un nom de domaine valide,
+      un tentative de résolution DNS sera également faite (optionnel, par défaut :
+      <literal>Vrai</literal>).</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>host_required</term>
+    <listitem>
+      <simpara>Booléen détermintant si une erreur est relevée en cas d'absence de l'hôte
+      LDAP. (optionnel, par défaut : <literal>Faux</literal>)</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>basedn_required</term>
+    <listitem>
+      <simpara>Booléen détermintant si une erreur est relevée en cas d'absence de base de
+      recherche. (optionnel, par défaut : <literal>Faux</literal>)</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>scope_required</term>
+    <listitem>
+      <simpara>Booléen détermintant si une erreur est relevée en cas d'absence de portée de
+      recherche. (optionnel, par défaut : <literal>Vrai</literal>)</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>attr_required</term>
+    <listitem>
+      <simpara>Booléen détermintant si une erreur est relevée en cas d'absence d'attribut
+      recherché. (optionnel, par défaut : <literal>Faux</literal>)</simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>max_attrs_count</term>
+    <listitem>
+      <simpara>Nombre maximum d'attribut recherchés. (optionnel, par défaut : pas de limite)
+      </simpara>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>filter_required</term>
+    <listitem>
+      <simpara>Booléen détermintant si une erreur est relevée en cas d'absence de filtre de
+      recherche. (optionnel, par défaut : <literal>Faux</literal>)</simpara>
+    </listitem>
+  </varlistentry>
+
+  </variablelist>
+</sect4>

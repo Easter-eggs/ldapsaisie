@@ -638,12 +638,23 @@ class LScli extends LSlog_staticLoggerClass {
    *
    * @retval array List of available options
    **/
-  public static function autocomplete_int($prefix='') {
+  public static function autocomplete_int($prefix='', $quote_char='') {
     $opts = array();
     for ($i=0; $i < 10; $i++) {
-      $opts[] = "$prefix$i";
+      $opts[] = self :: quote_word("$prefix$i", $quote_char);
     }
     return $opts;
+  }
+
+  /**
+   * Autocomplete boolean option
+   *
+   * @param[in] $prefix         string    Option prefix (optional, default=empty string)
+   *
+   * @retval array List of available options
+   **/
+  public static function autocomplete_bool($prefix='', $quote_char='') {
+    return self :: autocomplete_opts(array('0', '1'), $prefix, false, $quote_char);
   }
 
   /**
