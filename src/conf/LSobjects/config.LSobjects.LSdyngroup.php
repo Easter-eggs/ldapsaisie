@@ -89,7 +89,6 @@ $GLOBALS['LSobjects']['LSdyngroup'] = array (
     ),
   ),
 
-  'after_delete' => 'updateGroupMembersAllowedServices',
   'after_create' => 'updateDynGroupMembersCache',
 
   'attrs' => array (
@@ -178,7 +177,6 @@ $GLOBALS['LSobjects']['LSdyngroup'] = array (
         'lsDynGroupMemberUidURI'
       ),
       'after_modify' => array(
-        'updateGroupMembersAllowedServices',
         'updateDynGroupMembersCache',
       ),
     ),
