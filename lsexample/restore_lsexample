@@ -7,6 +7,11 @@
 #   ln -s /path/to/ldapsaisie/src/lsexample/restore_lsexample /usr/local/sbin/
 #
 
+# Tools paths
+SERVICE=/usr/sbin/service
+SLAPADD=/usr/sbin/slapadd
+LDAPVI=/usr/bin/ldapvi
+
 # Configuration
 SRC_DIR="$( realpath "$( dirname "$( realpath "$0" )" )/../" )"
 SLAPD_CONF_DIR=/etc/ldap/slapd.d
@@ -25,32 +30,67 @@ SLAPD_DB_LDIF="$SRC_DIR/lsexample/db.ldif"
 # Start restoration
 #
 
+# Handle verbose mode
+VERBOSE=0
+[[ " $@ " =~ " -v " ]] && VERBOSE=1 || exec 1>/dev/null
+
+# Fatal error helper
+function fatalerror() {
+  echo "$@" 1>&2
+  [ $VERBOSE -eq 0 ] && echo -e "\nPlease run in verbose mode for details." 1>&2
+  exit 1
+}
+
+# Check tools paths
+[ ! -x $SERVICE ] && fatalerror "Command service not found ($SERVICE)"
+[ ! -x $SLAPADD ] && fatalerror "Command slapadd not found ($SLAPADD). Please check your slapd installation."
+[ ! -x $LDAPVI ] && fatalerror "Command ldapvi not found ($LDAPVI). Please install ldapvi debian package."
+
 # Stop slapd
-/usr/sbin/service slapd stop
+$SERVICE slapd stop
+[ $? -ne 0 ] && fatalerror "An error occurred stopping slapd."
 
-# Purge old DB data
+# Purge old slapd config & data
+[ $VERBOSE -eq 1 ] && echo "Clean slapd configuration and data"
 rm -fr $SLAPD_DB_DIR $SLAPD_CONF_DIR
+[ $? -ne 0 ] && fatalerror "An error occurred cleaning slapd configuration and data."
 mkdir -p $SLAPD_DB_DIR $SLAPD_CONF_DIR
+[ $? -ne 0 ] && fatalerror "An error occurred creating slapd configuration and data directories."
 
-# Install slapd.d configuration
-slapadd -n0 -F $SLAPD_CONF_DIR -l $SLAPD_CONF_LDIF
+# Install slapd configuration
+[ $VERBOSE -eq 1 ] && echo "Install initial slapd configuration"
+$SLAPADD -n0 -F $SLAPD_CONF_DIR -l $SLAPD_CONF_LDIF 2>&1
+[ $? -ne 0 ] && fatalerror "An error occurred loading initial slapd configuration."
 
 # Install schemas
-slapadd -n0 -F/etc/ldap/slapd.d -l$SYS_SCHEMA_DIR/core.ldif
-slapadd -n0 -F/etc/ldap/slapd.d -l$SYS_SCHEMA_DIR/cosine.ldif
-slapadd -n0 -F/etc/ldap/slapd.d -l$SYS_SCHEMA_DIR/nis.ldif
-slapadd -n0 -F/etc/ldap/slapd.d -l$SYS_SCHEMA_DIR/inetorgperson.ldif
-slapadd -n0 -F/etc/ldap/slapd.d -l$SYS_SCHEMA_DIR/ppolicy.ldif
-slapadd -n0 -F/etc/ldap/slapd.d -l$SYS_SCHEMA_DIR/dyngroup.ldif
-slapadd -n0 -F/etc/ldap/slapd.d -l$SAMBA_SCHEMA_LDIF
-slapadd -n0 -F/etc/ldap/slapd.d -l$LS_SCHEMA_LDIF
+SCHEMA_FILES="
+$SYS_SCHEMA_DIR/core.ldif
+$SYS_SCHEMA_DIR/cosine.ldif
+$SYS_SCHEMA_DIR/nis.ldif
+$SYS_SCHEMA_DIR/inetorgperson.ldif
+$SYS_SCHEMA_DIR/ppolicy.ldif
+$SYS_SCHEMA_DIR/dyngroup.ldif
+$SAMBA_SCHEMA_LDIF
+$LS_SCHEMA_LDIF
+"
+for file in $SCHEMA_FILES
+do
+  [ $VERBOSE -eq 1 ] && echo "Install $( basename $file) schema..."
+  $SLAPADD -n0 -F/etc/ldap/slapd.d -l$file 2>&1
+  [ $? -ne 0 ] && fatalerror "An error occurred loading $( basename $file) schema." && exit 1
+done
 
-# Fix rights on restored data
+# Fix rights on slapd config & data
+[ $VERBOSE -eq 1 ] && echo "Fix slapd configuration and data owner/group"
 chown $SLAPD_USER:$SLAPD_GROUP -R $SLAPD_DB_DIR $SLAPD_CONF_DIR
+[ $? -ne 0 ] && fatalerror "An error occurred fixing slapd configuration and data owner/group."
 
 # Start slapd
-/usr/sbin/service slapd start
+$SERVICE slapd start
+[ $? -ne 0 ] && fatalerror "An error occurred starting slapd."
 
+# Install ldapvi config
+[ $VERBOSE -eq 1 ] && echo "Install ldapvi configuration"
 cat << EOF > /etc/ldapvi.conf
 profile default
 unpaged-help: yes
@@ -66,6 +106,9 @@ host: ldapi://
 sasl-mech: EXTERNAL
 base: o=ls
 EOF
+[ $? -ne 0 ] && fatalerror "An error occurred installing ldapvi configuration."
 
 # Add database
-ldapvi -p config --verbose --ldapmodify --ldapvi --add $SLAPD_DB_LDIF
+[ $VERBOSE -eq 1 ] && echo "Import lsexample database in slapd" && VERBOSE_ARG="--verbose" || VERBOSE_ARG=""
+$LDAPVI -p config $VERBOSE_ARG --ldapmodify --ldapvi --add $SLAPD_DB_LDIF
+[ $? -ne 0 ] && fatalerror "An error occurred importing lsexample database in slapd."
