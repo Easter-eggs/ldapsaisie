@@ -110,5 +110,6 @@ EOF
 
 # Add database
 [ $VERBOSE -eq 1 ] && echo "Import lsexample database in slapd" && VERBOSE_ARG="--verbose" || VERBOSE_ARG=""
-$LDAPVI -p config $VERBOSE_ARG --ldapmodify --ldapvi --add $SLAPD_DB_LDIF
+# Ldapvi need TERM variable is set
+TERM=xterm $LDAPVI -p config $VERBOSE_ARG --ldapmodify --ldapvi --add $SLAPD_DB_LDIF
 [ $? -ne 0 ] && fatalerror "An error occurred importing lsexample database in slapd."
