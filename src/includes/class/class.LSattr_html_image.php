@@ -27,29 +27,7 @@
  */
 class LSattr_html_image extends LSattr_html {
 
-  /**
-   * Ajoute l'attribut au formualaire passer en paramètre
-   *
-   * @param[in] &$form LSform Le formulaire
-   * @param[in] $idForm L'identifiant du formulaire
-   * @param[in] $data Valeur du champs du formulaire
-   *
-   * @retval LSformElement L'element du formulaire ajouté
-   */
-  function addToForm (&$form, $idForm, $data=NULL) {
-    $element=$form -> addElement('image', $this -> name, $this -> getLabel(), $this -> config, $this);
-    if(!$element) {
-      LSerror :: addErrorCode('LSform_06',$this -> name);
-      return;
-    }
-
-    if ($data && count($data) > 1) {
-      LSerror :: addErrorCode('LSattr_html_03','password');
-    }
-
-    if ($data)
-      $element -> setValue(ensureIsArray($data)[0]);
-    return $element;
-  }
+  var $LSformElement_type = 'image';
+  protected $singleValue = true;
 
 }

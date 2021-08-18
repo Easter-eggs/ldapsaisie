@@ -27,29 +27,7 @@
  */
 class LSattr_html_password extends LSattr_html {
 
-  /**
-   * Ajoute l'attribut au formualaire passer en paramètre
-   *
-   * @param[in] &$form LSform Le formulaire
-   * @param[in] $idForm L'identifiant du formulaire
-   * @param[in] $data Valeur du champs du formulaire
-   *
-   * @retval LSformElement L'element du formulaire ajouté
-   */
-  public function addToForm (&$form,$idForm,$data=NULL) {
-    $element = $form -> addElement('password', $this -> name, $this -> getLabel(), $this -> config, $this);
-    if(!$element) {
-      LSerror :: addErrorCode('LSform_06', $this -> name);
-      return;
-    }
-
-    if ($data) {
-      $data = ensureIsArray($data);
-      if (count($data) > 1)
-        LSerror :: addErrorCode('LSattr_html_03', 'password');
-      $element -> setValue($data[0]);
-    }
-    return $element;
-  }
+  var $LSformElement_type = 'password';
+  protected $singleValue = true;
 
 }

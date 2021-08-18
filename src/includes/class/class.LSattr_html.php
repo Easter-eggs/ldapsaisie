@@ -29,10 +29,23 @@ LSsession :: loadLSclass('LSlog_staticLoggerClass');
  */
 class LSattr_html extends LSlog_staticLoggerClass {
 
+  // The attribute name
   var $name;
+
+  // The attribute configuration
   var $config;
+
+  // The reference of the parent LSattribute object
   var $attribute;
+
+  // The corresponding LSformElement object type
   var $LSformElement_type = false;
+
+  // If true, this LSattr_html type is considered as able to only support
+  // the first and unique value of the attribute. If more than one value
+  // is passed to this LSattr_html type, an LSattr_html_03 error will be
+  // triggered.
+  protected $singleValue = false;
 
   /**
    * Constructeur
@@ -94,8 +107,16 @@ class LSattr_html extends LSlog_staticLoggerClass {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
     }
-    if (!is_null($data))
-      $element -> setValue($data);
+    if (!is_null($data)) {
+      $data = ensureIsArray($data);
+      if ($this -> singleValue) {
+        if (count($data) > 1)
+          LSerror :: addErrorCode('LSattr_html_03', get_class($this));
+        $element -> setValue($data[0]);
+      }
+      else
+        $element -> setValue($data);
+    }
     return $element;
   }
 
@@ -144,5 +165,5 @@ ___("LSattr_html : The method addToForm() of the HTML type of the attribute %{at
 );
 // 02 : not yet used
 LSerror :: defineError('LSattr_html_03',
-___("LSattr_html_%{type} : Multiple data are not supported for this field type.")
+___("%{type} : Multiple data are not supported for this field type.")
 );

@@ -27,6 +27,7 @@
  */
 class LSattr_html_select_object extends LSattr_html{
 
+  var $LSformElement_type = 'select_object';
   var $unrecognizedValues=false;
 
   /**
@@ -40,7 +41,7 @@ class LSattr_html_select_object extends LSattr_html{
    */
   public function addToForm (&$form,$idForm,$data=NULL) {
     $this -> config['attrObject'] = $this;
-    $element=$form -> addElement('select_object', $this -> name, $this -> getLabel(), $this -> config, $this);
+    $element=$form -> addElement($this -> LSformElement_type, $this -> name, $this -> getLabel(), $this -> config, $this);
     if(!$element) {
       LSerror :: addErrorCode('LSform_06',$this -> name);
       return;
