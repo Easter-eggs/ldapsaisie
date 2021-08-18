@@ -33,21 +33,20 @@ class LSurl extends LSlog_staticLoggerClass {
   /*
    * Configured URL patterns :
    *
-   *   array (
-   *     '[URL pattern]' => '[handler]',
-   *     [...]
-   *   )
-   *
-   *  Example :
+   * Example :
    *
    *   array (
    *     '|get/(?P<name>[a-zA-Z0-9]+)$|' => array (
    *       'handler' => 'get',
    *       'authenticated' => true,
+   *       'api_mode' => false,
+   *       'methods' => array('GET'),
    *     ),
    *     '|get/all$|' => => array (
    *       'handler' => 'get_all',
    *       'authenticated' => true,
+   *       'api_mode' => false,
+   *       'methods' => array('GET', 'POST'),
    *     ),
    *   )
    *
@@ -72,10 +71,10 @@ class LSurl extends LSlog_staticLoggerClass {
     if (is_array($pattern)) {
       if (is_null($handler))
         foreach($pattern as $p => $h)
-          self :: add_handler($p, $h, $override, $api_mode, $methods);
+          self :: add_handler($p, $h, $authenticated, $override, $api_mode, $methods);
       else
         foreach($pattern as $p)
-          self :: add_handler($p, $handler, $override, $api_mode, $methods);
+          self :: add_handler($p, $handler, $authenticated, $override, $api_mode, $methods);
     }
     else {
       if (!isset(self :: $patterns[$pattern])) {
