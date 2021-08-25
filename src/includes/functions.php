@@ -279,45 +279,49 @@ function varDump($data) {
   return $data;
 }
 
-$GLOBALS['LSdebug_fields']=array();
-function LSdebug($data,$dump=false) {
-  if ($dump) {
-    $data=varDump($data);
-  }
+/*
+ * LSdebug
+ */
+$GLOBALS['LSdebug_fields'] = array();
+function LSdebug($data, $dump=false) {
+  if ($dump)
+    $data = varDump($data);
+
   if (class_exists('LSlog'))
     LSlog :: debug($data);
 
-  if (!is_array($data) && !is_object($data)) {
-    $data="[$data]";
-  }
-  $GLOBALS['LSdebug_fields'][]=$data;
+  $GLOBALS['LSdebug_fields'][] = htmlentities(strval($data));
   return true;
 }
 
-function LSdebug_print($return=false,$ul=true) {
-  if (( $GLOBALS['LSdebug_fields'] ) && (LSdebug)) {
-    if ($ul) $txt='<ul>'; else $txt="";
-    foreach($GLOBALS['LSdebug_fields'] as $debug) {
-      if (is_array($debug)||is_object($debug)) {
-        $txt.='<li><pre>'.htmlentities(print_r($debug,true)).'</pre></li>';
-      }
-      else {
-        $txt.='<li><pre>'.htmlentities(strval($debug)).'</pre></li>';
-      }
-    }
-    if ($ul) $txt.='</ul>';
-    LStemplate :: assign('LSdebug',$txt);
-    if ($return) {
-      return $txt;
-    }
-  }
+function LSdebug_print($return=false) {
+  $result = array();
+  if (LSdebugDefined())
+    $result = $GLOBALS['LSdebug_fields'];
+
+  // Reset
+  $GLOBALS['LSdebug_fields'] = array();
+  if ($return)
+    return $result;
+    LStemplate :: assign(
+      'LSdebug_content',
+      base64_encode(
+        json_encode(
+          $result
+        )
+      )
+    );
   return;
 }
 
 function LSdebugDefined() {
   if (!LSdebug)
     return;
-  return (!empty($GLOBALS['LSdebug_fields']));
+  return (
+    isset($GLOBALS['LSdebug_fields']) &&
+    is_array($GLOBALS['LSdebug_fields']) &&
+    !empty($GLOBALS['LSdebug_fields'])
+  );
 }
 
   /**

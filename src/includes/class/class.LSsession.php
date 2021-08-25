@@ -1698,19 +1698,24 @@ class LSsession {
     LStemplate :: assign('displaySelfAccess',LSauth :: displaySelfAccess());
 
     // Infos
-    if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
-      LStemplate :: assign('LSinfos',$_SESSION['LSsession_infos']);
-      $_SESSION['LSsession_infos']=array();
-    }
+    LStemplate :: assign(
+      'LSinfos',
+      base64_encode(
+        json_encode(
+          isset($_SESSION['LSsession_infos']) && is_array($_SESSION['LSsession_infos'])?
+          $_SESSION['LSsession_infos']:
+          array()
+        )
+      )
+    );
+    $_SESSION['LSsession_infos'] = array();
 
-    if (self :: $ajaxDisplay) {
-      LStemplate :: assign('LSerror_txt',LSerror :: getErrors());
-      LStemplate :: assign('LSdebug_txt',LSdebug_print(true));
-    }
-    else {
-      LSerror :: display();
-      LSdebug_print();
-    }
+    // Errors
+    LSerror :: display();
+
+    // LSdebug
+    LSdebug_print();
+
     if (!self :: $template)
       self :: setTemplate('base_connected.tpl');
 
@@ -1750,43 +1755,43 @@ class LSsession {
     if (isset($data['success']) && !$data['success'] && http_response_code() == 200)
       http_response_code(400);
 
-    // If redirection set, just redirect user before handling messages/errors to
+    // If redirection set, just redirect user and not handling messages/errors to
     // keep it in session and show it on next page
-    if (isset($data['LSredirect']) && (!LSdebugDefined()) ) {
-      echo json_encode($data, (($pretty||isset($_REQUEST['pretty']))?JSON_PRETTY_PRINT:0));
-      return;
-    }
+    if (!isset($data['LSredirect']) || LSdebugDefined()) {
+      if (!self :: $api_mode && class_exists('LStemplate'))
+        $data['LSjsConfig'] = LStemplate :: getJSconfigParam();
 
-    if (!self :: $api_mode && class_exists('LStemplate'))
-      $data['LSjsConfig'] = LStemplate :: getJSconfigParam();
-
-    // Infos
-    if((!empty($_SESSION['LSsession_infos']))&&(is_array($_SESSION['LSsession_infos']))) {
-      if (self :: $api_mode) {
+      // Infos
+      if(
+        !empty($_SESSION['LSsession_infos']) &&
+        is_array($_SESSION['LSsession_infos'])
+      ) {
         $data['messages'] = $_SESSION['LSsession_infos'];
+        $_SESSION['LSsession_infos'] = array();
       }
-      else {
-        $txt_infos="<ul>\n";
-        foreach($_SESSION['LSsession_infos'] as $info) {
-          $txt_infos.="<li>$info</li>\n";
-        }
-        $txt_infos.="</ul>\n";
-        $data['LSinfos'] = $txt_infos;
-      }
-      $_SESSION['LSsession_infos']=array();
-    }
 
-    if (LSerror :: errorsDefined()) {
-      $data[(self :: $api_mode?'errors':'LSerror')] = LSerror :: getErrors(self :: $api_mode);
+      if (LSerror :: errorsDefined()) {
+        $data['errors'] = LSerror :: getErrors(self :: $api_mode);
+      }
+
+      if (!self :: $api_mode && LSdebugDefined()) {
+        $data['LSdebug'] = LSdebug_print(true);
+      }
     }
 
     if (!self :: $api_mode && isset($_REQUEST['imgload'])) {
       $data['imgload'] = $_REQUEST['imgload'];
     }
 
-    if (!self :: $api_mode && LSdebugDefined()) {
-      $data['LSdebug'] = LSdebug_print(true,false);
-    }
+    echo json_encode(
+      $data,
+      (
+        $pretty || isset($_REQUEST['pretty'])?
+        JSON_PRETTY_PRINT:
+        0
+      )
+    );
+    return;
 
     echo json_encode($data, (($pretty||isset($_REQUEST['pretty']))?JSON_PRETTY_PRINT:0));
   }

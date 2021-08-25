@@ -19,6 +19,20 @@ span.LSinfosBox {
   padding:                  2px;
 }
 
+div.LSinfosBox p {
+  padding:                  0 1em;
+}
+
+div.LSinfosBox ul {
+  padding-left: 1em;
+}
+
+div.LSinfosBox ul li.separator {
+  list-style-type: none;
+  border-bottom: 1px solid;
+  margin-left: -1em;
+}
+
 
 div.LSdebug {
   top:                      10px;
@@ -36,7 +50,7 @@ div.LSerror {
   color:                    #fff;
 }
 
-#LSdebug_txt, #LSerror_txt, #LSinfos_txt, #LSjsConfig  {
+#LSdebug, #LSerror, #LSinfos, #LSjsConfig  {
   display:                  none;
 }
 

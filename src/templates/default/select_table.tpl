@@ -45,5 +45,5 @@
 
 {include file='ls:pagination.tpl'}
 
-<div id='LSdebug_txt_ajax' style='display: none'>{$LSdebug_txt}</div>
-<div id='LSerror_txt_ajax' style='display: none'>{$LSerror_txt}</div>
+<div id='LSdebug_ajax' style='display: none'>{$LSdebug}</div>
+<div id='LSerror_ajax' style='display: none'>{$LSerror}</div>

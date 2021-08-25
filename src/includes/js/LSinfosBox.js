@@ -6,12 +6,13 @@ var LSinfosBox = new Class({
         name:           '',
         fxDuration:     500,
         opacity:        0.8,
-        autoClose:      3000
+        autoClose:      3000,
+        pre:            false,
       };
 
       // Load options from argument
       if ($type(options)=='object') {
-        $each(options,function(val,name) {
+        Object.each(options, function(val, name) {
           if ($type(this._options[name])) {
             this._options[name]=val;
           }
@@ -20,7 +21,8 @@ var LSinfosBox = new Class({
 
       this.build();
 
-      this.opened=0;
+      this.opened = false;
+      this.autoClose_timeout = false;
     },
 
     build: function() {
@@ -58,6 +60,7 @@ var LSinfosBox = new Class({
       );
 
       this.core.inject(document.body,'top');
+      this.ul = false;
     },
 
     isOpened: function() {
@@ -67,94 +70,111 @@ var LSinfosBox = new Class({
     open: function() {
       this.core.setStyle('top',getScrollTop()+10);
 
-      if (this._options.autoClose>0) {
+      if (this._options.autoClose) {
         this.closeTime = (new Date()).getTime();
-        this.autoClose.delay((this._options.autoClose+this._options.fxDuration),this,this.closeTime);
+        if (this.autoClose_timeout) {
+          clearTimeout(this.autoClose_timeout);
+        }
+        this.autoClose_timeout = this.close.delay(this._options.autoClose, this);
       }
 
       if (this.opened) {
-        return true;
+        console.log('LSinfoBox('+this._options.name+'): already opened');
+        return;
       }
-
-      this.fx.start(0,this._options.opacity);
-      this.opened = 1;
-
+      console.log('LSinfoBox('+this._options.name+'): open');
+      this.opened = true;
+      this.fx.start(0, this._options.opacity);
     },
 
     close: function(withoutEffect) {
       if (this.opened) {
-        this.opened = 0;
+        console.log('LSinfoBox('+this._options.name+'): close');
+        this.opened = false;
         if (withoutEffect==1) {
           this.fx.set(0);
         }
         else {
-          this.fx.start(this._options.opacity,0);
+          this.fx.start(this._options.opacity, 0);
         }
-      }
-    },
-
-    autoClose: function(time) {
-      if (time==this.closeTime) {
-        this.close();
-        this.closeTime=0;
-      }
-    },
-
-    addInfo: function(html, clear) {
-      if (clear) this.clear();
-      var ul = this.content.getLast("ul");
-      var add = 1;
-      if (!$type(ul)) {
-        add=0;
-        ul = new Element('ul');
-        if (this.content.innerHTML!="") {
-          var c_li = new Element('li');
-          c_li.set('html',this.content.innerHTML);
-          c_li.injectInside(ul);
-          add=1;
-        }
-        this.content.empty();
-        ul.injectInside(this.content);
-      }
-      if (add) {
-        var b_li = new Element('li');
-        b_li.set('html','<hr/>');
-        b_li.injectInside(ul);
-      }
-      var li = new Element('li');
-      li.set('html',html);
-      li.injectInside(ul);
-      this.open();
-    },
-
-    display: function(html) {
-      if ($type(html)) {
-        this.content.empty();
-        this.content.set('html',html);
-      }
-      this.open();
-    },
-
-    displayInUl: function(html) {
-      if ($type(html)) {
-        ul = new Element('ul');
-        this.content.empty();
-        ul.set('html',html);
-        ul.inject(this.content);
-      }
-      this.open();
-    },
-
-    displayOrAdd: function(html) {
-      if (this.isOpened()) {
-        this.addInfo(html);
       }
       else {
-        this.displayInUl(html);
+        console.log('LSinfoBox('+this._options.name+'): already closed');
       }
+    },
+
+    addInfo: function(info, clear) {
+      if (!info || ($type(info) == 'array' && !info.length)) return;
+      if (clear) this.clear();
+      if (this.content.innerHTML) {
+        // If content is not already in ul, put it in
+        if (!this.ul) {
+          this.ul = new Element('ul');
+          if (this.content.innerHTML) {
+            var c_li = new Element('li');
+            c_li.set('html', this.content.innerHTML);
+            c_li.injectInside(this.ul);
+          }
+          this.content.empty();
+          this.ul.injectInside(this.content);
+        }
+
+        // Add li.separator to separate old/new content
+        var b_li = new Element('li');
+        b_li.addClass('separator');
+        b_li.injectInside(this.ul);
+      }
+
+      if ($type(info) == "string") {
+        if (this.ul) {
+          var li = new Element('li');
+          if (this._options.pre) {
+            var pre = new Element('pre');
+            pre.set('html', info);
+            pre.injectInside(li);
+          }
+          else {
+            li.set('html', info);
+          }
+          li.injectInside(this.ul);
+        }
+        else {
+          this.content.set('html', info);
+        }
+      }
+      else if ($type(info) == 'array') {
+        if (!this.ul) {
+          this.ul = new Element('ul');
+          this.ul.injectInside(this.content);
+        }
+        Array.each(info, function(msg) {
+          var li = new Element('li');
+          if (this._options.pre) {
+            var pre = new Element('pre');
+            pre.set('html', msg);
+            pre.injectInside(li);
+          }
+          else {
+            li.set('html', msg);
+          }
+          li.injectInside(this.ul);
+        }, this);
+      }
+      this.open();
+    },
+
+    display: function(info) {
+      this.addInfo(info, true);
+    },
+
+    displayOrAdd: function(info) {
+      console.log('LSinfoBox('+this._options.name+').displayOrAdd(): open='+this.opened);
+      this.addInfo(info, !this.opened);
     },
 
     clear: function() {
+      console.log('LSinfoBox('+this._options.name+'): clear');
       this.content.empty();
+      this.ul = false;
     }
 });

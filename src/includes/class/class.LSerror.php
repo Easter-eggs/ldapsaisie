@@ -87,12 +87,9 @@ class LSerror {
    */
   public static function display($return=False) {
     $errors = self :: getErrors();
-    if ($errors) {
-      if ($return) {
-        return $errors;
-      }
-      LStemplate :: assign('LSerrors', $errors);
-    }
+    if ($errors  && $return)
+      return $errors;
+    LStemplate :: assign('LSerrors', base64_encode(json_encode($errors)));
     return;
   }
 
@@ -123,19 +120,14 @@ class LSerror {
   *
   * @retvat string Le texte des erreurs
   */
-  public static function getErrors($raw=false) {
-    if(!empty($_SESSION['LSerror'])) {
-      if ($raw)
-        $return = $_SESSION['LSerror'];
-      else {
-        $return = '';
-        foreach ($_SESSION['LSerror'] as $error)
-          $return .= $error."<br />\n";
-      }
-      self :: resetError();
-      return $return;
-    }
-    return;
+  public static function getErrors() {
+    $return = (
+      self :: errorsDefined()?
+      $_SESSION['LSerror']:
+      array()
+    );
+    self :: resetError();
+    return $return;
   }
 
  /**
@@ -176,7 +168,11 @@ class LSerror {
   * @retvat boolean
   */
   public static function errorsDefined() {
-    return !empty($_SESSION['LSerror']);
+    return (
+      isset($_SESSION['LSerror']) &&
+      is_array($_SESSION['LSerror']) &&
+      !empty($_SESSION['LSerror'])
+    );
   }
 
  /**
@@ -187,7 +183,8 @@ class LSerror {
   * @retvat void
   */
   private static function resetError() {
-    unset ($_SESSION['LSerror']);
+    if (isset($_SESSION['LSerror']))
+      unset ($_SESSION['LSerror']);
   }
 
   /**

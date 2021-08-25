@@ -10,22 +10,23 @@ var LSdefault = new Class({
         name: 'LSdebug',
         fxDuration: 600,
         closeBtn: 1,
-        autoClose: 0
+        autoClose: 0,
+        pre: 1,
       });
-      this.LSdebugInfos = $('LSdebug_txt');
+      this.LSdebugInfos = $('LSdebug');
 
       // LSerror
       this.LSerror = new LSinfosBox({
         name: 'LSerror',
         opacity: 0.9,
         closeBtn: 1,
-        autoClose: 0
+        autoClose: 0,
       });
-      this.LSerror_div = $('LSerror_txt');
+      this.LSerror_div = $('LSerror');
 
       // LSinfos
       this.LSinfos = new LSinfosBox({name: 'LSinfos'});
-      this.LSinfos_div = $('LSinfos_txt');
+      this.LSinfos_div = $('LSinfos');
 
       // LSjsConfig
       this.LSjsConfigEl = $('LSjsConfig');
@@ -46,16 +47,16 @@ var LSdefault = new Class({
       }
 
       // Display Infos
-      if (this.LSdebugInfos.innerHTML != '') {
-        this.LSdebug.display(this.LSdebugInfos.innerHTML);
+      if (this.LSdebugInfos.innerHTML) {
+        this.LSdebug.display(JSON.decode(atob(this.LSdebugInfos.innerHTML)));
       }
 
-      if (this.LSerror_div.innerHTML != '') {
-        this.LSerror.display(this.LSerror_div.innerHTML);
+      if (this.LSerror_div.innerHTML) {
+        this.LSerror.display(JSON.decode(atob(this.LSerror_div.innerHTML)));
       }
 
-      if (this.LSinfos_div.innerHTML != '') {
-        this.LSinfos.display(this.LSinfos_div.innerHTML);
+      if (this.LSinfos_div.innerHTML) {
+        this.LSinfos.display(JSON.decode(atob(this.LSinfos_div.innerHTML)));
       }
 
       // :)
@@ -154,7 +155,6 @@ var LSdefault = new Class({
     },
 
     checkAjaxReturn: function(data) {
-      this.LSerror.close(0);
       if ($type(data) == 'object') {
         if (($type(data.LSredirect)) && (!$type(data.LSdebug)) ) {
           document.location = data.LSredirect;
@@ -172,12 +172,12 @@ var LSdefault = new Class({
           this.LSdebug.displayOrAdd(data.LSdebug);
         }
 
-        if ($type(data.LSinfos)) {
-          this.LSinfos.displayOrAdd(data.LSinfos);
+        if ($type(data.messages)) {
+          this.LSinfos.displayOrAdd(data.messages);
         }
 
-        if ($type(data.LSerror)) {
-          this.LSerror.displayOrAdd(data.LSerror);
+        if ($type(data.errors)) {
+          this.LSerror.displayOrAdd(data.errors);
           return;
         }
         return true;
@@ -222,19 +222,17 @@ var LSdefault = new Class({
     },
 
     ajaxDisplayDebugAndError: function() {
-      var LSdebug_txt = $('LSdebug_txt_ajax');
-      if (LSdebug_txt) {
-        var debug = LSdebug_txt.innerHTML;
-        if (debug) {
-          this.LSdebug.displayOrAdd(debug);
+      var LSdebug_ajax = $('LSdebug_ajax');
+      if (LSdebug_ajax) {
+        if (LSdebug_ajax.innerHTML) {
+          this.LSdebug.displayOrAdd(LSdebug_ajax.innerHTML);
         }
       }
 
-      var LSerror_txt = $('LSerror_txt_ajax');
-      if (LSerror_txt) {
-        var error=LSerror_txt.innerHTML;
-        if (error) {
-          this.LSerror.displayOrAdd(error);
+      var LSerror_ajax = $('LSerror_ajax');
+      if (LSerror_ajax) {
+        if (LSerror_ajax.innerHTML) {
+          this.LSerror.displayOrAdd(LSerror_ajax.innerHTML);
         }
       }
     },
