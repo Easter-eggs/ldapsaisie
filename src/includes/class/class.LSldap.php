@@ -209,7 +209,7 @@ class LSldap extends LSlog_staticLoggerClass {
   /**
    * Load values of an LDAP entry attributes
    *
-   * This method retreive attributes values of an LDAP entry and return it
+   * This method retrieve attributes values of an LDAP entry and return it
    * as associative array.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
@@ -348,7 +348,7 @@ class LSldap extends LSlog_staticLoggerClass {
   public static function update($object_type, $dn, $change) {
     self :: log_trace("update($object_type, $dn): change=".varDump($change));
 
-    // Retreive current LDAP entry
+    // Retrieve current LDAP entry
     $entry = self :: getEntry($object_type, $dn);
     if(!is_a($entry, 'Net_LDAP2_Entry')) {
       LSerror :: addErrorCode('LSldap_04');

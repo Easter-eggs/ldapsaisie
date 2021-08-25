@@ -451,5 +451,5 @@ LSerror :: defineError('LSattr_html_select_list_06',
 ___("LSattr_html_select_list: Invalid get_possible_values parameter found in configuration of attribute %{attr}: must be a callable.")
 );
 LSerror :: defineError('LSattr_html_select_list_07',
-___("LSattr_html_select_list: fail to retreive possible values of attribute %{attr} using configured function %{callable}.")
+___("LSattr_html_select_list: fail to retrieve possible values of attribute %{attr} using configured function %{callable}.")
 );

@@ -894,10 +894,10 @@ class LSrelation extends LSlog_staticLoggerClass {
       return;
     }
 
-    // Retreive selected object from LSselect
+    // Retrieve selected object from LSselect
     $selected_objects = LSselect :: getSelectedObjects($_REQUEST['id']);
     if (!is_array($selected_objects)) {
-      self :: log_warning("Fail to retreive selected object from LSselect");
+      self :: log_warning("Fail to retrieve selected object from LSselect");
       return;
     }
     self :: log_debug('Selected objects: '.varDump($selected_objects));

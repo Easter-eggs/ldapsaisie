@@ -229,7 +229,7 @@ if (php_sapi_name() != "cli") return true;
  *
  * @param[in] $command_args array Command arguments
  *
- * @retval boolean True on succes, false otherwise
+ * @retval boolean True on success, false otherwise
  **/
  global $LSlang_cli_logger, $available_onlys, $available_withouts;
 
@@ -986,7 +986,7 @@ LScli :: add_command(
  *
  * @param[in] $command_args array Command arguments
  *
- * @retval boolean True on succes, false otherwise
+ * @retval boolean True on success, false otherwise
  **/
 function cli_generate_ldapsaisie_pot($command_args) {
   global $LSlang_cli_logger;

@@ -93,7 +93,7 @@ class LSioFormat extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive all objects contained by the loaded file
+   * Retrieve all objects contained by the loaded file
    *
    * @retval array The objects contained by the loaded file
    **/
@@ -110,7 +110,7 @@ class LSioFormat extends LSlog_staticLoggerClass {
    * @param  $objects array of LSldapObject The objects to export
    * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
    *
-   * @return boolean True on succes, False otherwise
+   * @return boolean True on success, False otherwise
    */
   public function exportObjects(&$objects, $stream=null) {
     self :: log_trace('exportObjects(): start');

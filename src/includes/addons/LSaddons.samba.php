@@ -284,7 +284,7 @@ function generate_sambaPrimaryGroupSID($ldapObject) {
  *
  * @param[in] $attr string The sambaUnixIdPool attribute name that contain next ID value
  *
- * @retval integer UNIX ID value on succes, false otherwise
+ * @retval integer UNIX ID value on success, false otherwise
  */
 function get_samba_unix_pool_next_id($attr) {
   $unix_id_pool_dn = (defined('LS_SAMBA_UNIX_ID_POOL_DN')?constant('LS_SAMBA_UNIX_ID_POOL_DN'):LS_SAMBA_DOMAIN_OBJECT_DN);

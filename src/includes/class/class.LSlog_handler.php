@@ -228,7 +228,7 @@ class LSlog_handler extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Helper to retreive current LDAP server name
+   * Helper to retrieve current LDAP server name
    *
    * @retval string Current LDAP server name
    **/
@@ -243,7 +243,7 @@ class LSlog_handler extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Helper to retreive current authenticated user DN
+   * Helper to retrieve current authenticated user DN
    *
    * @retval string Current authenticated user DN
    **/

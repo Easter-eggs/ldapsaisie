@@ -479,13 +479,13 @@ class LSform extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive POST data of the form
+   * Retrieve POST data of the form
    *
    * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
    *                                   just ignore it.
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean true if POST data are retreived, false otherwise
+   * @retval boolean true if POST data are retrieved, false otherwise
    */
   public function getPostData($onlyIfPresent=false) {
     if (is_null($this -> dataEntryForm)) {
@@ -670,8 +670,8 @@ class LSform extends LSlog_staticLoggerClass {
   /**
    * Return the values of an element
    *
-   * If form is posted, retreive values from postData, otherwise
-   * retreive value from the element.
+   * If form is posted, retrieve values from postData, otherwise
+   * retrieve value from the element.
    *
    * @param[in] string $element The element name
    *
@@ -852,7 +852,7 @@ class LSform extends LSlog_staticLoggerClass {
     }
     else {
       // Attribute name not already entered: add attribute name options
-      // Check if $comp_word is quoted and retreived quote char
+      // Check if $comp_word is quoted and retrieved quote char
       if ($comp_word) {
         $quote_char = LScli :: unquote_word($comp_word);
       }

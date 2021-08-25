@@ -5,7 +5,7 @@ $GLOBALS['LSlang'] = array (
 # LSobjects.LSdyngroup.attrs.lsDynGroupMemberDnURI.help_info
 "<p>LDAP search URI or group members. A LDAP search URI is composed of the following parts separated by semicolons :<ul>
 <li>The LDAP URI in format <code>ldap://[host]/[base DN]</code>. For instance, to make a request on the same LDAP server, use <code>ldap:///o=ls</code></li>
-<li>The retreived attributes (separated by coma, optional)</li>
+<li>The retrieved attributes (separated by coma, optional)</li>
 <li>The search scope (<code>base</code>, <code>one</code> or <code>sub</code>)</li>
 <li>The LDAP filter (optional, default : <code>(objectClass=*)</code>)</li>
 </ul></p><p><strong>Example :</strong> <code>ldap:///ou=people,o=ls??one?(&(objectClass=lspeople)(mail=*@ls.com))</code></p>" =>

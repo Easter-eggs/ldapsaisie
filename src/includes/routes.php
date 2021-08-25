@@ -343,7 +343,7 @@ LSurl :: add_handler('#^tmp/(?P<filename>[^/]+)$#', 'handle_tmp_file', true, tru
  */
 
 /*
- * LSobject view helper to retreive LSobject from request
+ * LSobject view helper to retrieve LSobject from request
  *
  * This helper load LSobject type from 'LSobject' request
  * parameter, check user access. If instanciate parameter
@@ -495,7 +495,7 @@ function handle_LSobject_search($request) {
   $LSsearch -> run();
   $LSsearch -> redirectWhenOnlyOneResult();
 
-  // Handle page parameter and retreive corresponding page from search
+  // Handle page parameter and retrieve corresponding page from search
   $page_nb = (isset($_REQUEST['page'])?(int)$_REQUEST['page']:1);
   $page = $LSsearch -> getPage($page_nb);
 
@@ -690,7 +690,7 @@ function handle_LSobject_select($request) {
     (isset($_REQUEST['LSobject'])?$_REQUEST['LSobject']:null)
   );
   if (!$LSsearch)
-    LSlog :: fatal('Fail to retreive search from context.');
+    LSlog :: fatal('Fail to retrieve search from context.');
 
   $LSobject = $LSsearch -> LSobject;
   $object = new $LSobject();
@@ -1529,7 +1529,7 @@ LSurl :: add_handler('#^addon_view\.php#', 'handle_old_addon_view', false);
  */
 
 /*
- * LSobject API view helper to retreive LSobject from request
+ * LSobject API view helper to retrieve LSobject from request
  *
  * Just a wrapper on get_LSobject_from_request() helper function to
  * correctly set parameters for API context.
@@ -1595,7 +1595,7 @@ function handle_api_LSobject_search($request) {
   if ($all) {
     $entries = $search -> listEntries();
     if (!is_array($entries))
-      LSlog :: fatal("Fail to retreive search result");
+      LSlog :: fatal("Fail to retrieve search result");
   }
   else {
     // Retrieve page
@@ -1613,7 +1613,7 @@ function handle_api_LSobject_search($request) {
 
     // Check page
     if (!is_array($page) || $page_nb > $page['nbPages'])
-      LSlog :: fatal("Fail to retreive page #$page_nb.");
+      LSlog :: fatal("Fail to retrieve page #$page_nb.");
   }
 
   // Handle JSON output

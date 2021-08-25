@@ -76,7 +76,7 @@ class LSformElement_boolean extends LSformElement {
    * @retval void
    */
   public function autocomplete_attr_values(&$opts, $comp_word, $attr_value="", $multiple_value_delimiter="|", $quote_char='') {
-    // Split attribute values and retreived splited value in $attr_values and $last_attr_value
+    // Split attribute values and retrieved splited value in $attr_values and $last_attr_value
     if (!$this -> split_autocomplete_attr_values($attr_value, $multiple_value_delimiter, $attr_values, $last_attr_value))
       return;
 

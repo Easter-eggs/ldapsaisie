@@ -239,7 +239,7 @@ class LSsearchEntry extends LSlog_staticLoggerClass {
     elseif (array_key_exists($key,$this->params['customInfos'])) {
       $cache = $this -> getConfig("customInfos.$key.cache", true, 'bool');
       if($cache && isset($this -> cache['customInfos'][$key])) {
-        self :: log_debug("__get($key): custom info retreived from cache");
+        self :: log_debug("__get($key): custom info retrieved from cache");
         return $this -> cache['customInfos'][$key];
       }
       if(is_array($this->params['customInfos'][$key]['function']) && is_string($this->params['customInfos'][$key]['function'][0])) {

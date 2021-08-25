@@ -1244,7 +1244,7 @@ function cli_generate_supann_codeEtablissement_uai_nomenclature($command_args) {
   $data = file_get_contents('https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-principaux-etablissements-enseignement-superieur/download?format=json');
   $items = json_decode($data, true);
   if (!is_array($items))
-    LSlog :: get_logger('LSaddon_supann') -> fatal('Fail to retreive UAI dataset from data.enseignementsup-recherche.gouv.fr');
+    LSlog :: get_logger('LSaddon_supann') -> fatal('Fail to retrieve UAI dataset from data.enseignementsup-recherche.gouv.fr');
   $codes = array();
   foreach($items as $item) {
     if (!isset($item['fields']) || !isset($item['fields']['uai']) || !$item['fields']['uai'])

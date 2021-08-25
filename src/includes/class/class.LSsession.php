@@ -21,61 +21,71 @@
 ******************************************************************************/
 
 /**
- * Gestion des sessions
+ * Manage user session
  *
- * Cette classe gÃ¨re les sessions d'utilisateurs.
+ * This class manage user session
  *
  * @author Benjamin Renard <brenard@easter-eggs.com>
  */
 class LSsession {
 
-  // La configuration du serveur Ldap utilisé
-  public static $ldapServer = NULL;
+  /*
+   * Class constants store and restore from PHP session
+   */
 
-  // L'id du serveur Ldap utilisé
+  // Current LDAP server ID
   private static $ldapServerId = NULL;
 
-  // Le topDn courant
+  // LDAP servers subDns
+  private static $_subDnLdapServer = array();
+
+  // The current topDN
   private static $topDn = NULL;
 
-  // Le DN de l'utilisateur connecté
+  // The LSldapObject type of current connected user
+  private static $LSuserObjectType = NULL;
+
+  // Current connected user DN
   private static $dn = NULL;
 
-  // Le RDN de l'utilisateur connecté (son identifiant)
+  // Current connected user RDN value (his login)
   private static $rdn = NULL;
 
-  // Les LSprofiles de l'utilisateur
+  // User LDAP credentials
+  private static $userLDAPcreds = false;
+
+  // Current connected user LSprofiles
   private static $LSprofiles = array();
 
-  // Les droits d'accès de l'utilisateur
+  // Current connected user LSaccess (access rights)
   private static $LSaccess = array();
 
-  // LSaddons views
-  private static $LSaddonsViews = array();
+  // Current connected user LSaddonsViewsAccess (access on LSaddons views)
   private static $LSaddonsViewsAccess = array();
 
-  // Les fichiers temporaires
+  // Temporary files
   private static $tmp_file = array();
 
   /*
-   * Constante de classe non stockée en session
+   * Class constants not store in session
    */
-  // Le template à afficher
+
+  // Current LDAP server config
+  public static $ldapServer = NULL;
+
+  // The template to display
   private static $template = NULL;
 
-  // Les subDn des serveurs Ldap
-  private static $_subDnLdapServer = array();
-
-  // Affichage Ajax
+  // Ajax display flag
   private static $ajaxDisplay = false;
 
-  // Les fichiers JS à charger dans la page
+  // JS files to load on page
   private static $JSscripts = array();
 
   // Libs JS files to load on page
   private static $LibsJSscripts = array();
 
-  // Les fichiers CSS à charger dans la page
+  // CSS files to load on page
   private static $CssFiles = array();
 
   // Libs CSS files to load on page
@@ -84,20 +94,17 @@ class LSsession {
   // The LSldapObject of connected user
   private static $LSuserObject = NULL;
 
-  // The LSldapObject type of connected user
-  private static $LSuserObjectType = NULL;
-
   // The LSauht object of the session
   private static $LSauthObject = false;
 
-  // User LDAP credentials
-  private static $userLDAPcreds = false;
-
-  // Initialized telltale
+  // Initialized flag
   private static $initialized = false;
 
   // List of currently loaded LSaddons
   private static $loadedAddons = array();
+
+  // LSaddons views
+  private static $LSaddonsViews = array();
 
   // API mode
   private static $api_mode = false;
@@ -332,11 +339,11 @@ class LSsession {
   }
 
  /**
-  * Lancement de LSurl
+  * Start LSurl
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval true si tout c'est bien passÃ©, false sinon
+  * @retval True on success, false otherwise
   */
   private static function startLSurl() {
     if (self :: loadLSclass('LSurl') && self :: includeFile(LS_INCLUDE_DIR . "routes.php")) {
@@ -346,11 +353,11 @@ class LSsession {
   }
 
  /**
-  * Lancement et initialisation de Smarty
+  * Start and initialize LStemplate
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval true si tout c'est bien passÃ©, false sinon
+  * @retval True on success, false otherwise
   */
   private static function startLStemplate() {
     if ( self :: loadLSclass('LStemplate') ) {
@@ -381,11 +388,11 @@ class LSsession {
   }
 
  /**
-  * Retourne le topDn de la session
+  * Retrieve current topDn (=DN scope browsed)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval string le topDn de la session
+  * @retval string The current topDn
   */
   public static function getTopDn() {
     if (!is_null(self :: $topDn)) {
@@ -397,24 +404,22 @@ class LSsession {
   }
 
  /**
-  * Retourne le rootDn de la session
+  * Retrieve current rootDn (=LDAP server root base DN)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com>
   *
-  * @retval string le rootDn de la session
+  * @retval string The current rootDn
   */
   public static function getRootDn() {
     return self :: $ldapServer['ldap_config']['basedn'];
   }
 
  /**
-  * Initialisation de la gestion des erreurs
-  *
-  * CrÃ©ation de l'objet LSerror
+  * Start LSerror
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   *
-  * @retval boolean true si l'initialisation a rÃ©ussi, false sinon.
+  * @retval True on success, false otherwise
   */
   private static function startLSerror() {
     if(!self :: loadLSclass('LSerror')) {
@@ -558,11 +563,11 @@ class LSsession {
   }
 
  /**
-  * Chargement d'une classe d'authentification d'LdapSaisie
+  * Load LSauth
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   *
-  * @retval boolean true si le chargement a reussi, false sinon.
+  * @retval True on success, false otherwise
   */
   public static function loadLSauth() {
     if (self :: loadLSclass('LSauth')) {
@@ -670,15 +675,18 @@ class LSsession {
   }
 
  /**
-  * Initialisation de la session LdapSaisie
+  * Start and initialize LdapSaisie session
   *
-  * Initialisation d'une LSsession :
-  * - Authentification et activation du mÃ©canisme de session de LdapSaisie
-  * - ou Chargement des paramÃ¨tres de la session Ã  partir de la variable
-  *   $_SESSION['LSsession'].
-  * - ou Destruction de la session en cas de $_GET['LSsession_logout'].
+  * LSsession initialization :
+  * - initiale LdapSaisie main components (LSerror, LSlog, LScli, LStemplate, ...)
+  * - restore connected user info from session or trigger authentication (or password recovery)
+  * - restore other session info from session (cache / tmp files)
+  * - start LDAP connection
+  * - handle logout (if $_GET['LSsession_logout'] is present)
+  * - load connected user profiles and access (if connected)
+  * - enable/disable global search
   *
-  * @retval boolean True si l'initialisation Ã  rÃ©ussi (utilisateur authentifiÃ©), false sinon.
+  * @retval boolean True on intiatialization success and if user is authenticed, false otherwise.
   */
   public static function startLSsession() {
     if (!self :: initialize()) {
@@ -1102,11 +1110,11 @@ class LSsession {
   }
 
  /**
-  * Retourne les informations du contexte
+  * Retrieve context information (to store in PHP session)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   *
-  * @retval array Tableau associatif des informations du contexte
+  * @retval array Associative array of context information
   */
   private static function getContextInfos() {
     return array(
@@ -1125,12 +1133,11 @@ class LSsession {
   }
 
   /**
-  * Retourne l'objet de l'utilisateur connecté
+  * Retrieve connected user LSobject (as reference)
   *
   * @author Benjamin Renard <brenard@easter-eggs.com
   *
-  * @retval mixed L'objet de l'utilisateur connecté ou false si il n'a pas put
-  *               être créé
+  * @retval LSldapObject|false Current connected user LSldapObject, or False in case of error
   */
   public static function &getLSuserObject($dn=null) {
     if ($dn) {
@@ -1141,12 +1148,18 @@ class LSsession {
         self :: $LSuserObject = new self :: $LSuserObjectType();
         if (!self :: $LSuserObject -> loadData(self :: $dn)) {
           self :: $LSuserObject = null;
-          self :: log_error("getLSuserObject($dn): Fail to retrieve current connected user information from LDAP");
+          self :: log_error(
+            "getLSuserObject($dn): Fail to retrieve current connected user ".
+            "information from LDAP"
+          );
           return;
         }
       }
       else {
-        self :: log_error("getLSuserObject($dn): Current connected user object type not defined or can not be loaded (".self :: $LSuserObjectType.")");
+        self :: log_error(
+          "getLSuserObject($dn): Current connected user object type not ".
+          "defined or can not be loaded (".self :: $LSuserObjectType.")"
+        );
         return;
       }
     }
@@ -1182,11 +1195,13 @@ class LSsession {
   *
   * @param[in] $object LSldapObject The new connected user object
   *
-  * @retval boolean True on succes, false otherwise
+  * @retval boolean True on success, false otherwise
   */
  public static function changeAuthUser($object) {
   if(!($object instanceof LSldapObject)) {
-    self :: log_error("changeAuthUser(): An LSldapObject must be provided, not ".get_class($object));
+    self :: log_error(
+      "changeAuthUser(): An LSldapObject must be provided, not ".get_class($object)
+    );
     return;
   }
   if(!array_key_exists($object -> getType(), LSauth :: getAuthObjectTypes())) {
@@ -1196,7 +1211,9 @@ class LSsession {
     );
     return;
   }
-  self :: log_info("Change authenticated user info ('".self :: $dn."' -> '".$object -> getDn()."')");
+  self :: log_info(
+    "Change authenticated user info ('".self :: $dn."' -> '".$object -> getDn()."')"
+  );
   self :: $dn = $object -> getDn();
   $rdn = $object -> getValue('rdn');
   if(is_array($rdn)) {
@@ -1274,7 +1291,10 @@ class LSsession {
       if (!self :: loadLSclass('LSldap')) {
         return;
       }
-      if (self :: $dn && isset(self :: $ldapServer['useUserCredentials']) && self :: $ldapServer['useUserCredentials']) {
+      if (
+        self :: $dn && isset(self :: $ldapServer['useUserCredentials']) &&
+        self :: $ldapServer['useUserCredentials']
+      ) {
         LSldap :: reconnectAs(
           self :: $userLDAPcreds['dn'],
           self :: $userLDAPcreds['pwd'],
@@ -1319,7 +1339,10 @@ class LSsession {
   */
   public static function getSubDnLdapServer($login=false) {
     $login=(bool)$login;
-    if (self :: cacheSudDn() && isset(self :: $_subDnLdapServer[self :: $ldapServerId][$login])) {
+    if (
+      self :: cacheSudDn() &&
+      isset(self :: $_subDnLdapServer[self :: $ldapServerId][$login])
+    ) {
       return self :: $_subDnLdapServer[self :: $ldapServerId][$login];
     }
     if (!self::subDnIsEnabled()) {
@@ -1327,36 +1350,54 @@ class LSsession {
     }
     $return=array();
     foreach(self :: $ldapServer['subDn'] as $subDn_name => $subDn_config) {
-      if ($login && isset($subDn_config['nologin']) && $subDn_config['nologin']) continue;
+      if ($login && isset($subDn_config['nologin']) && $subDn_config['nologin'])
+        continue;
       if ($subDn_name == 'LSobject') {
         if (is_array($subDn_config)) {
           foreach($subDn_config as $LSobject_name => $LSoject_config) {
-            if (isset($LSoject_config['basedn']) && !empty($LSoject_config['basedn'])) {
+            if (
+              isset($LSoject_config['basedn']) &&
+              !empty($LSoject_config['basedn'])
+            ) {
               $basedn = $LSoject_config['basedn'];
             }
             else {
               $basedn = self::getRootDn();
             }
-            if (isset($LSoject_config['displayName']) && !empty($LSoject_config['displayName'])) {
-              $displayName = $LSoject_config['displayName'];
+            if (
+              isset($LSoject_config['displayName']) &&
+              !empty($LSoject_config['displayName'])
+            ) {
+              $displayNameFormat = $LSoject_config['displayName'];
             }
             else {
-              $displayName = NULL;
+              $displayNameFormat = NULL;
             }
             $sparams = array();
-            $sparams['onlyAccessible'] = (isset($LSoject_config['onlyAccessible'])?$LSoject_config['onlyAccessible']:False);
+            $sparams['onlyAccessible'] = (
+              isset($LSoject_config['onlyAccessible'])?
+              $LSoject_config['onlyAccessible']:
+              False
+            );
             if( self :: loadLSobject($LSobject_name) ) {
               if ($subdnobject = new $LSobject_name()) {
-                $tbl_return = $subdnobject -> getSelectArray(NULL,$basedn,$displayName,false,false,NULL,$sparams);
+                $tbl_return = $subdnobject -> getSelectArray(
+                  NULL, // pattern
+                  $basedn, $displayNameFormat,
+                  false, // approx
+                  false, // cache
+                  NULL, // filter
+                  $sparams
+                );
                 if (is_array($tbl_return)) {
-                  $return=array_merge($return,$tbl_return);
+                  $return = array_merge($return, $tbl_return);
                 }
                 else {
-                  LSerror :: addErrorCode('LSsession_17',3);
+                  LSerror :: addErrorCode('LSsession_17', 3);
                 }
               }
               else {
-                LSerror :: addErrorCode('LSsession_17',2);
+                LSerror :: addErrorCode('LSsession_17', 2);
               }
             }
           }
@@ -1365,67 +1406,66 @@ class LSsession {
           LSerror :: addErrorCode('LSsession_17',1);
         }
       }
-      else {
-        if ((isCompatibleDNs($subDn_config['dn'],self :: $ldapServer['ldap_config']['basedn']))&&($subDn_config['dn']!="")) {
-          $return[$subDn_config['dn']] = __($subDn_name);
-        }
+      elseif (
+        isCompatibleDNs(
+          $subDn_config['dn'],
+          self :: $ldapServer['ldap_config']['basedn']
+        ) && $subDn_config['dn'] != ""
+      ) {
+        $return[$subDn_config['dn']] = __($subDn_name);
       }
     }
     if (self :: cacheSudDn()) {
-      self :: $_subDnLdapServer[self :: $ldapServerId][$login]=$return;
+      self :: $_subDnLdapServer[self :: $ldapServerId][$login] = $return;
       $_SESSION['LSsession_subDnLdapServer'] = self :: $_subDnLdapServer;
     }
     return $return;
   }
 
   /**
-   * Retourne la liste de subDn du serveur Ldap utilise
-   * trié par la profondeur dans l'arboressence (ordre décroissant)
+   * Retrieve currently used LDAP server subDn list sorted by depth
+   * in the LDAP tree (descending order)
    *
-   * @return array() Tableau des subDn trié
+   * @return array Sorted array of LDAP server subDns
    */
   public static function getSortSubDnLdapServer($login=false) {
     $subDnLdapServer = self :: getSubDnLdapServer($login);
     if (!$subDnLdapServer) {
       return array();
     }
-    uksort($subDnLdapServer,"compareDn");
+    uksort($subDnLdapServer, "compareDn");
     return $subDnLdapServer;
   }
 
  /**
-  * Retourne les options d'une liste dÃ©roulante pour le choix du topDn
-  * de connexion au serveur Ldap
+  * Retrieve HTML options of current LDAP server topDNs
   *
-  * Liste les subdn (self :: $ldapServer['subDn'])
-  *
-  * @retval string Les options (<option>) pour la sÃ©lection du topDn.
+  * @retval string HTML options of current LDAP server topDNs
   */
-  public static function getSubDnLdapServerOptions($selected=NULL,$login=false) {
+  public static function getSubDnLdapServerOptions($selected=NULL, $login=false) {
     $list = self :: getSubDnLdapServer($login);
-    if ($list) {
-      asort($list);
-      $display='';
-      foreach($list as $dn => $txt) {
-        if ($selected && ($selected==$dn)) {
-          $selected_txt = ' selected';
-        }
-        else {
-          $selected_txt = '';
-        }
-        $display.="<option value=\"".$dn."\"$selected_txt>".$txt."</option>\n";
-      }
-      return $display;
+    if (!$list)
+      return;
+    asort($list);
+    $options = array();
+    foreach($list as $dn => $txt) {
+      $options[] = (
+        "<option value=\"$dn\"".(
+          $selected && $selected == $dn?
+          " selected":
+          ""
+        ).">$txt</option>"
+      );
     }
-    return;
+    return implode('', $options);
   }
 
  /**
-  * Vérifie qu'un subDn est déclaré
+  * Check a subDn is valid
   *
-  * @param[in] string Un subDn
+  * @param[in] string The subDn to check
   *
-  * @retval boolean True si le subDn existe, False sinon
+  * @retval boolean True if subDn is valid, False otherwise
   */
   public static function validSubDnLdapServer($subDn) {
     $listTopDn = self :: getSubDnLdapServer();
@@ -1440,23 +1480,23 @@ class LSsession {
   }
 
  /**
-  * Test un couple LSobject/pwd
+  * Check a user password from an LSobject and a password
   *
-  * Test un bind sur le serveur avec le dn de l'objet et le mot de passe fourni.
+  * Try to bind on LDAP server using the provided LSobject DN and password.
   *
-  * @param[in] LSobject L'object "user" pour l'authentification
-  * @param[in] string Le mot de passe Ã  tester
+  * @param[in] LSobject The user LSobject
+  * @param[in] string The password to check
   *
-  * @retval boolean True si l'authentification Ã  rÃ©ussi, false sinon.
+  * @retval boolean True on authentication success, false otherwise.
   */
-  public static function checkUserPwd($object,$pwd) {
-    return LSldap :: checkBind($object -> getValue('dn'),$pwd);
+  public static function checkUserPwd($object, $pwd) {
+    return LSldap :: checkBind($object -> getValue('dn'), $pwd);
   }
 
  /**
-  * Affiche le formulaire de login
+  * Display login form
   *
-  * DÃ©fini les informations pour le template Smarty du formulaire de login.
+  * Define template information allowing to display login form.
   *
   * @retval void
   */
@@ -1472,13 +1512,11 @@ class LSsession {
   }
 
  /**
-  * Affiche le formulaire de récupération de mot de passe
+  * Display password recovery form
   *
-  * Défini les informations pour le template Smarty du formulaire de
-  * récupération de mot de passe
+  * Define template information allowing to display password recovery form.
   *
-  * @param[in] $infos array() Information sur le status du processus de
-  *                           recouvrement de mot de passe
+  * @param[in] $infos array() Password recovery process state information
   *
   * @retval void
   */
@@ -1519,12 +1557,11 @@ class LSsession {
   }
 
  /**
-  * DÃ©fini le template Smarty Ã  utiliser
+  * Set the template file that will display
   *
-  * Remarque : les fichiers de templates doivent se trouver dans le dossier
-  * templates/.
+  * Note: template files are normally store in templates directory.
   *
-  * @param[in] string Le nom du fichier de template
+  * @param[in] string The name of the template file
   *
   * @retval void
   */
@@ -1578,10 +1615,10 @@ class LSsession {
   }
 
  /**
-  * Ajouter un paramètre de configuration Javascript
+  * Add Javascript configuration parameter
   *
-  * @param[in] $name string Nom de la variable de configuration
-  * @param[in] $val mixed Valeur de la variable de configuration
+  * @param[in] $name string The name of the JS config paramenter
+  * @param[in] $val mixed The value of the JS config paramenter
   * @deprecated
   * @see LStemplate :: addJSconfigParam()
   *
@@ -1646,9 +1683,9 @@ class LSsession {
   }
 
  /**
-  * Affiche le template Smarty
+  * Show the template
   *
-  * Charge les dÃ©pendances et affiche le template Smarty
+  * Load dependencies of show the previously selected template file
   *
   * @retval void
   */
@@ -1657,15 +1694,15 @@ class LSsession {
       return self :: displayAjaxReturn();
     $KAconf = LSconfig :: get('keepLSsessionActive');
     if (
-          (
-            (!isset(self :: $ldapServer['keepLSsessionActive']))
-            &&
-            (!($KAconf === false))
-          )
-          ||
-          (self :: $ldapServer['keepLSsessionActive'])
-        ) {
-      LStemplate :: addJSconfigParam('keepLSsessionActive',ini_get('session.gc_maxlifetime'));
+      (
+        (!isset(self :: $ldapServer['keepLSsessionActive']))
+        &&
+        (!($KAconf === false))
+      ) || self :: $ldapServer['keepLSsessionActive']
+    ) {
+      LStemplate :: addJSconfigParam(
+        'keepLSsessionActive', ini_get('session.gc_maxlifetime')
+      );
     }
 
     // Access
@@ -1676,26 +1713,26 @@ class LSsession {
     $listTopDn = self :: getSubDnLdapServer();
     if (is_array($listTopDn)) {
       asort($listTopDn);
-      LStemplate :: assign('LSsession_subDn_level',self :: getSubDnLabel());
-      LStemplate :: assign('LSsession_subDn_refresh',_('Refresh'));
+      LStemplate :: assign('LSsession_subDn_level', self :: getSubDnLabel());
+      LStemplate :: assign('LSsession_subDn_refresh', _('Refresh'));
       $LSsession_topDn_index = array();
       $LSsession_topDn_name = array();
       foreach($listTopDn as $index => $name) {
-        $LSsession_topDn_index[]  = $index;
-        $LSsession_topDn_name[]   = $name;
+        $LSsession_topDn_index[] = $index;
+        $LSsession_topDn_name[] = $name;
       }
-      LStemplate :: assign('LSsession_subDn_indexes',$LSsession_topDn_index);
-      LStemplate :: assign('LSsession_subDn_names',$LSsession_topDn_name);
-      LStemplate :: assign('LSsession_subDn',self :: $topDn);
-      LStemplate :: assign('LSsession_subDnName',self :: getSubDnName());
+      LStemplate :: assign('LSsession_subDn_indexes', $LSsession_topDn_index);
+      LStemplate :: assign('LSsession_subDn_names', $LSsession_topDn_name);
+      LStemplate :: assign('LSsession_subDn', self :: $topDn);
+      LStemplate :: assign('LSsession_subDnName', self :: getSubDnName());
     }
 
     LStemplate :: assign('LSlanguages', LSlang :: getLangList());
     LStemplate :: assign('LSlang', LSlang :: getLang());
     LStemplate :: assign('LSencoding', LSlang :: getEncoding());
 
-    LStemplate :: assign('displayLogoutBtn',LSauth :: displayLogoutBtn());
-    LStemplate :: assign('displaySelfAccess',LSauth :: displaySelfAccess());
+    LStemplate :: assign('displayLogoutBtn', LSauth :: displayLogoutBtn());
+    LStemplate :: assign('displaySelfAccess', LSauth :: displaySelfAccess());
 
     // Infos
     LStemplate :: assign(
@@ -1743,7 +1780,7 @@ class LSsession {
   }
 
  /**
-  * Affiche un retour Ajax
+  * Show Ajax return
   *
   * @retval void
   */
@@ -1808,12 +1845,12 @@ class LSsession {
   }
 
  /**
-  * Retournne un template Smarty compilé
+  * Fetch builded template
   *
-  * @param[in] string $template Le template à retourner
-  * @param[in] array $variables Variables Smarty à assigner avant l'affichage
+  * @param[in] string $template The template file to build
+  * @param[in] array $variables Template variables to set before building
   *
-  * @retval string Le HTML compilé du template
+  * @retval string The template builded HTML code
   */
   public static function fetchTemplate($template,$variables=array()) {
     foreach($variables as $name => $val) {
@@ -1823,18 +1860,19 @@ class LSsession {
   }
 
   /**
-   * Prend un tableau de LSobject et le réduit en utilisant un filtre de
-   * recherche sur un autre type de LSobject.
    *
-   * Si une erreur est présente dans le tableau de définition du filtre, un
-   * tableau vide est renvoyé.
+   * Takes an array of LSobject and reduce it using a search filter on
+   * another type of LSobject.
    *
-   * @param[in] string $LSobject le type LSobject par défaut
-   * @param[in] array $set tableau de LSobject
-   * @param[in] array $filter_def définition du filtre de recherche pour la réduction
-   * @param[in] string $basend basedn pour la recherche, null par défaut
+   * If an error is present in the filter definition array, an empty
+   * array is returned.
    *
-   * @retval array le nouveau tableau de LSobject
+   * @param[in] string $LSobject The default LSobject type
+   * @param[in] array $set Array of LSobjects
+   * @param[in] array $filter_def Definition of the search filter for reduction
+   * @param[in] string $basend Base DN for search, null by default
+   *
+   * @retval array The reduced array of LSobjects
    */
   private static function reduceLdapSet($LSobject, $set, $filter_def, $basedn=null) {
     if (empty($set)) {
@@ -1886,9 +1924,14 @@ class LSsession {
   }
 
   /**
-   * Charge les droits LS de l'utilisateur : uniquement du type LSobjects
+   * Loading user's profiles: load profile on specific LSobject type
    *
-   * @param[in] string $
+   * Regarding configuration, user profile on specific list on the specified
+   * LSobject type will be loaded.
+   *
+   * @param[in] string $profile The LSprofil
+   * @param[in] string $LSobject The LSobject type
+   * @param[in] string $LSobject The parameters to list of granted objects
    *
    * @retval void
    */
@@ -1929,9 +1972,9 @@ class LSsession {
   }
 
   /**
-   * Charge les droits LS de l'utilisateur
+   * Loading user's profiles
    *
-   * @retval boolean True si le chargement Ã  rÃ©ussi, false sinon.
+   * @retval boolean True on success, false otherwise
    **/
   private static function loadLSprofiles() {
     if (!is_array(self :: $ldapServer['LSprofiles'])) {
@@ -1979,29 +2022,29 @@ class LSsession {
              */
             foreach($rightsInfos as $dn => $conf) {
               if (is_array($conf) && isset($conf['attr']) && isset($conf['LSobject'])) {
-                // We have to retreive this LSobject and list one of its attribute to retreive
+                // We have to retrieve this LSobject and list one of its attribute to retrieve
                 // users key info.
                 if(!self :: loadLSobject($conf['LSobject'])) {
                   // Warning log message is already emited by self :: loadLSobject()
                   continue;
                 }
 
-                // Instanciate object and retreive its data
+                // Instanciate object and retrieve its data
                 $object = new $conf['LSobject']();
                 if (!$object -> loadData($dn)) {
                   self :: log_warning("loadLSprofiles(): fail to load DN '$dn'.");
                   continue;
                 }
 
-                // Retreive users key info values from object attribute
+                // Retrieve users key info values from object attribute
                 $list_users_key_values = $object -> getValue($conf['attr']);
                 if (!is_array($list_users_key_values)) {
-                  self :: log_warning("loadLSprofiles(): fail to retreive values of attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn'");
+                  self :: log_warning("loadLSprofiles(): fail to retrieve values of attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn'");
                   continue;
                 }
-                self :: log_trace("loadLSprofiles(): retreived values of attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn': '".implode("', '", $list_users_key_values)."'");
+                self :: log_trace("loadLSprofiles(): retrieved values of attribute '".$conf['attr']."' of LSobject ".$conf['LSobject']." with DN='$dn': '".implode("', '", $list_users_key_values)."'");
 
-                // Retreive current connected key value
+                // Retrieve current connected key value
                 $user_key_value_format = (isset($conf['attr_value'])?$conf['attr_value']:'%{dn}');
                 $user_key_value = self :: getLSuserObject() -> getFData($user_key_value_format);
 
@@ -2042,7 +2085,7 @@ class LSsession {
   }
 
   /**
-   * Charge les droits d'accÃ¨s de l'utilisateur pour construire le menu de l'interface
+   * Load user access rights to build interface menu
    *
    * @retval void
    */
@@ -2164,12 +2207,12 @@ class LSsession {
 
 
   /**
-   * Dit si l'utilisateur est du profil pour le DN spécifié
+   * Check if user is a specified profile on specified DN
    *
-   * @param[in] string $dn DN de l'objet
-   * @param[in] string $profile Profil
+   * @param[in] string $dn DN of the object to check
+   * @param[in] string $profile The profile
    *
-   * @retval boolean True si l'utilisateur est du profil sur l'objet, false sinon.
+   * @retval boolean True if user is a specified profile on specified DN, false otherwise.
    */
   public static function isLSprofile($dn,$profile) {
     if (is_array(self :: $LSprofiles[$profile])) {
@@ -2186,12 +2229,12 @@ class LSsession {
   }
 
   /**
-   * Dit si l'utilisateur est d'au moins un des profils pour le DN spécifié
+   * Check if user is at least one of specified profiles on specified DN
    *
-   * @param[in] string $dn DN de l'objet
-   * @param[in] string $profiles Profils
+   * @param[in] string $dn DN of the object to check
+   * @param[in] string $profiles The profiles list
    *
-   * @retval boolean True si l'utilisateur est d'au moins un profil sur l'objet, false sinon.
+   * @retval boolean True if user is at least one of specified profiles on specified DN, false otherwise.
    */
   public static function isLSprofiles($dn,$profiles) {
     foreach ($profiles as $profile) {
@@ -2273,7 +2316,7 @@ class LSsession {
       $whoami = self :: whoami($objectdn);
     }
 
-    // Pour un attribut particulier
+    // On specific attribute
     if ($attr) {
       if ($attr=='rdn') {
         $attr=LSconfig :: get('LSobjects.'.$LSobject.'.rdn');
@@ -2311,7 +2354,7 @@ class LSsession {
       }
     }
 
-    // Pour un attribut quelconque
+    // On any attributes
     $attrs_conf=LSconfig :: get('LSobjects.'.$LSobject.'.attrs');
     if (is_array($attrs_conf)) {
       if (($right=='r')||($right=='w')) {
@@ -2351,36 +2394,36 @@ class LSsession {
   }
 
   /**
-   * Retourne le droit de l'utilisateur Ã  editer Ã  un objet
+   * Check if user can edit a specified object
    *
-   * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
-   * @param[in] string $attr Le nom de l'attribut auquel on test l'accÃ¨s
+   * @param[in] string $LSobject The LSobject type
+   * @param[in] string $dn The DN of the object (optional, default: the container_dn of the LSobject type)
+   * @param[in] string $attr The attribue name of attribute to check (optional, default: any attributes)
    *
-   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
+   * @retval boolean True if user is granted, false otherwise
    */
-  public static function canEdit($LSobject,$dn=NULL,$attr=NULL) {
-    return self :: canAccess($LSobject,$dn,'w',$attr);
+  public static function canEdit($LSobject, $dn=NULL, $attr=NULL) {
+    return self :: canAccess($LSobject, $dn, 'w', $attr);
   }
 
   /**
-   * Retourne le droit de l'utilisateur Ã  supprimer un objet
+   * Check if user can remove a specified object
    *
-   * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
+   * @param[in] string $LSobject The LSobject type
+   * @param[in] string $dn The DN of the object (optional, default: the container_dn of the LSobject type)
    *
-   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
+   * @retval boolean True if user is granted, false otherwise
    */
-  public static function canRemove($LSobject,$dn) {
-    return self :: canAccess($LSobject,$dn,'w','rdn');
+  public static function canRemove($LSobject, $dn) {
+    return self :: canAccess($LSobject, $dn, 'w', 'rdn');
   }
 
   /**
-   * Retourne le droit de l'utilisateur Ã  crÃ©er un objet
+   * Check if user can create a specific object type
    *
-   * @param[in] string $LSobject Le type de l'objet
+   * @param[in] string $LSobject The LSobject type
    *
-   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
+   * @retval boolean True if user is granted, false otherwise
    */
   public static function canCreate($LSobject) {
     if (!self :: loadLSobject($LSobject)) {
@@ -2409,14 +2452,14 @@ class LSsession {
   }
 
   /**
-   * Retourne le droit de l'utilisateur Ã  gÃ©rer la relation d'objet
+   * Check user right to manage a specified relation of specified object
    *
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
-   * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $relationName Le nom de la relation avec l'objet
-   * @param[in] string $right Le type de droit a vÃ©rifier ('r' ou 'w')
+   * @param[in] string $dn The LSobject DN (optional, default: the container_dn of the LSobject type)
+   * @param[in] string $LSobject The LSobject type
+   * @param[in] string $relationName The relation name of the object
+   * @param[in] string $right The right to check (possible values: 'r' or 'w', optional, default: any)
    *
-   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
+   * @retval boolean True if user is granted, false otherwise
    */
   public static function relationCanAccess($dn,$LSobject,$relationName,$right=NULL) {
     $relConf=LSconfig :: get('LSobjects.'.$LSobject.'.LSrelation.'.$relationName);
@@ -2465,28 +2508,28 @@ class LSsession {
   }
 
   /**
-   * Retourne le droit de l'utilisateur Ã  modifier la relation d'objet
+   * Check user right to edit a specified relation of specified object
    *
-   * @param[in] string $dn Le DN de l'objet (le container_dn du type de l'objet par dÃ©faut)
-   * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $relationName Le nom de la relation avec l'objet
+   * @param[in] string $dn The LSobject DN (optional, default: the container_dn of the LSobject type)
+   * @param[in] string $LSobject The LSobject type
+   * @param[in] string $relationName The relation name of the object
    *
-   * @retval boolean True si l'utilisateur a accÃ¨s, false sinon
+   * @retval boolean True if user is granted, false otherwise
    */
-  public static function relationCanEdit($dn,$LSobject,$relationName) {
-    return self :: relationCanAccess($dn,$LSobject,$relationName,'w');
+  public static function relationCanEdit($dn, $LSobject, $relationName) {
+    return self :: relationCanAccess($dn, $LSobject, $relationName, 'w');
   }
 
   /**
-   * Retourne le droit de l'utilisateur a executer une customAction
+   * Check user right to execute a customAction on specified object
    *
-   * @param[in] string $dn Le DN de l'objet
-   * @param[in] string $LSobject Le type de l'objet
-   * @param[in] string $customActionName Le nom de la customAction
+   * @param[in] string $dn The LSobject DN
+   * @param[in] string $LSobject The LSobject type
+   * @param[in] string $customActionName The customAction name
    *
-   * @retval boolean True si l'utilisateur peut executer cette customAction, false sinon
+   * @retval boolean True if user is granted, false otherwise
    */
-  public static function canExecuteCustomAction($dn,$LSobject,$customActionName) {
+  public static function canExecuteCustomAction($dn, $LSobject, $customActionName) {
     $conf=LSconfig :: get('LSobjects.'.$LSobject.'.customActions.'.$customActionName);
     if (!is_array($conf))
       return;
@@ -2509,13 +2552,12 @@ class LSsession {
   }
 
   /**
-   * Retourne le droit de l'utilisateur a executer une customAction
-   * sur une recherche
+   * Check user right to execute a customAction on a specifed search
    *
-   * @param[in] string $LSsearch L'objet LSsearch
-   * @param[in] string $customActionName Le nom de la customAction
+   * @param[in] string $LSsearch The LSsearch search
+   * @param[in] string $customActionName The customAction name
    *
-   * @retval boolean True si l'utilisateur peut executer cette customAction, false sinon
+   * @retval boolean True if user is granted, false otherwise
    */
   public static function canExecuteLSsearchCustomAction($LSsearch,$customActionName) {
     $conf=LSconfig :: get('LSobjects.'.$LSsearch -> LSobject.'.LSsearch.customActions.'.$customActionName);
@@ -2548,7 +2590,7 @@ class LSsession {
    * @param[in] string $LSaddon The LSaddon
    * @param[in] string $viewId The LSaddon view ID
    *
-   * @retval boolean True if user is allowed, false otherwise
+   * @retval boolean True if user is granted, false otherwise
    */
   public static function canAccessLSaddonView($LSaddon,$viewId) {
     if (self :: loadLSaddon($LSaddon)) {
@@ -2572,26 +2614,28 @@ class LSsession {
 
 
   /**
-   * Ajoute un fichier temporaire
+   * Add a temporary file that stored a specifed value
    *
+   * @param[in] string $value The value stored in the temporary file
+   * @param[in] string $filePath The temporary file path
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval void
    **/
-  public static function addTmpFile($value,$filePath) {
+  public static function addTmpFile($value, $filePath) {
     $hash = mhash(MHASH_MD5,$value);
     self :: $tmp_file[$filePath] = $hash;
     $_SESSION['LSsession']['tmp_file'][$filePath] = $hash;
   }
 
   /**
-   * Retourne le chemin du fichier temporaire si l'existe
+   * Return the path of a temporary file that store the specified value (is exists)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $value La valeur du fichier
+   * @param[in] $value The value stored in the temporary file
    *
-   * @retval mixed
+   * @retval string|false The temporary file path if exists, False otherwise
    **/
   public static function tmpFileExist($value) {
     $hash = mhash(MHASH_MD5,$value);
@@ -2604,43 +2648,38 @@ class LSsession {
   }
 
   /**
-   * Retourne le chemin du fichier temporaire
+   * Return the path of a temporary file that store the specified value
    *
-   * Retourne le chemin du fichier temporaire qu'il crÃ©era Ã  partir de la valeur
-   * s'il n'existe pas dÃ©jÃ .
+   * The temporary file will be created if not already exists.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $value La valeur du fichier
+   * @param[in] $value The value to store in the temporary file
    *
-   * @retval mixed
+   * @retval string|false The path of the temporary file, false in case of error
    **/
   public static function getTmpFile($value) {
-    $exist = self :: tmpFileExist($value);
-    if (!$exist) {
-      $img_path = LS_TMP_DIR_PATH .rand().'.tmp';
-      $fp = fopen($img_path, "w");
+    $path = self :: tmpFileExist($value);
+    if (!$path) {
+      $path = LS_TMP_DIR_PATH .rand().'.tmp';
+      $fp = fopen($path, "w");
       fwrite($fp, $value);
       fclose($fp);
-      self :: addTmpFile($value, $img_path);
-      return $img_path;
+      self :: addTmpFile($value, $path);
     }
-    else {
-      return $exist;
-    }
+    return $path;
   }
 
   /**
-   * Retourne l'URL du fichier temporaire
+   * Return the URL of a temporary file that store the specified value
    *
-   * Retourne l'URL du fichier temporaire qu'il créera à partir de la valeur
-   * s'il n'existe pas déjà .
+   * The temporary file will be created if not already exists.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $value La valeur du fichier
+   * @param[in] $value The value to store in the temporary file
    *
-   * @retval mixed
+   * @retval string|false The URL of the temporary file, false in case of error
    **/
   public static function getTmpFileURL($value) {
     $path = self :: getTmpFile($value);
@@ -2650,13 +2689,13 @@ class LSsession {
   }
 
   /**
-   * Retourne le chemin du fichier temporaire à partir du nom du fichier (s'il existe)
+   * Return the path of a temporary file specified by its filename (if exists)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $hash La valeur du fichier
+   * @param[in] $filename The filename
    *
-   * @retval mixed
+   * @retval string|false The path of the temporary file if found, false otherwise
    **/
   public static function getTmpFileByFilename($filename) {
     foreach(self :: $tmp_file as $filePath => $contentHash) {
@@ -2668,9 +2707,12 @@ class LSsession {
   }
 
   /**
-   * Supprime les fichiers temporaires
+   * Delete one or all temporary files
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] string $filePath A specific temporary file path to delete
+   *                             (optional, default: all temporary files wil be deleted)
    *
    * @retval void
    **/
@@ -2690,11 +2732,11 @@ class LSsession {
   }
 
   /**
-   * Retourne true si le cache des droits est activé
+   * Check if LSprofiles cache is enabled
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean True si le cache des droits est activé, false sinon.
+   * @retval boolean True if LSprofiles cache is enabled, false otherwise.
    */
   public static function cacheLSprofiles() {
     return LSconfig :: get(
@@ -2706,11 +2748,11 @@ class LSsession {
   }
 
   /**
-   * Retourne true si le cache des subDn est activé
+   * Check if subDn cache is enabled
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean True si le cache des subDn est activé, false sinon.
+   * @retval boolean True if subDn cache is enabled, false otherwise.
    */
   public static function cacheSudDn() {
     return LSconfig :: get(
@@ -2722,11 +2764,11 @@ class LSsession {
   }
 
   /**
-   * Retourne true si le cache des recherches est activé
+   * Check if searchs cache is enabled
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval boolean True si le cache des recherches est activé, false sinon.
+   * @retval boolean True if searchs cache is enabled, false otherwise.
    */
   public static function cacheSearch() {
     return LSconfig :: get(
@@ -2738,7 +2780,7 @@ class LSsession {
   }
 
   /**
-   * Return true if global search is enabled
+   * Check if global search is enabled
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -2754,11 +2796,13 @@ class LSsession {
   }
 
   /**
-   * Retourne le label des niveaux pour le serveur ldap courant
+   * Retrieve label of current LDAP server subDn
+   *
+   * Note: the label is returned untranslated.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @retval string Le label des niveaux pour le serveur ldap dourant
+   * @retval string The label of current LDAP server subDn
    */
   public static function getSubDnLabel() {
     return __(
@@ -2772,11 +2816,11 @@ class LSsession {
   }
 
   /**
-   * Retourne le nom du subDn
+   * Return the name of a specifed subDn
    *
-   * @param[in] $subDn string subDn
+   * @param[in] $subDn string The subDn (optional, default: the current one)
    *
-   * @retval string Le nom du subDn ou '' sinon
+   * @retval string The name of the current subDn if found or an empty string otherwise
    */
   public static function getSubDnName($subDn=false) {
     if (!$subDn) {
@@ -2792,11 +2836,11 @@ class LSsession {
   }
 
   /**
-   * L'objet est t-il utilisé pour listé les subDnS
+   * Check if object type is used to list current LDAP server subDns
    *
-   * @param[in] $type string Le type d'objet
+   * @param[in] $type string The LSobject type
    *
-   * @retval boolean true si le type d'objet est un subDnObject, false sinon
+   * @retval boolean True if specified object type is used to list current LDAP server subDns, false otherwise
    */
   public static function isSubDnLSobject($type) {
     $result = false;
@@ -2811,11 +2855,14 @@ class LSsession {
   }
 
   /**
-   * Indique si un type d'objet est dans le menu courant
+   * Check if specified LSobject type is in current interface menu
    *
-   * @retval boolean true si le type d'objet est dans le menu, false sinon
+   * @param[in] $type string The LSobject type
+   * @param[in] $topDn string The topDn to check (optional, default: current one)
+   *
+   * @retval boolean True if specified LSobject type is in current interface menu, false otherwise
    */
-  public static function in_menu($LSobject,$topDn=NULL) {
+  public static function in_menu($LSobject, $topDn=NULL) {
     if (!$topDn) {
       $topDn = self :: getTopDn();
     }
@@ -2823,18 +2870,18 @@ class LSsession {
   }
 
   /**
-   * Indique si le serveur LDAP courant a des subDn
+   * Check if current LDAP server have subDns
    *
-   * @retval boolean true si le serveur LDAP courant a des subDn, false sinon
+   * @retval boolean True if current LDAP server have subDns, false otherwise
    */
   public static function haveSubDn() {
     return (isset(self :: $ldapServer['subDn']) && is_array(self :: $ldapServer['subDn']));
   }
 
   /**
-   * Ajoute une information à afficher
+   * Add an information to display to user (on next displayed page or in API result)
    *
-   * @param[in] $msg string Le message à afficher
+   * @param[in] $msg string The message
    *
    * @retval void
    */
@@ -2865,12 +2912,16 @@ class LSsession {
   }
 
   /**
-   * Retourne l'adresse mail d'emission configurée pour le serveur courant
+   * Return the sender email address configured for the current LDAP server
    *
-   * @retval string Adresse mail d'emission
+   * @retval string The sender email address (if configured), false otherwise
    */
   public static function getEmailSender() {
-    return self :: $ldapServer['emailSender'];
+    return (
+      is_array(self :: $ldapServer) && isset(self :: $ldapServer['emailSender']) && self :: $ldapServer['emailSender']?
+      self :: $ldapServer['emailSender']:
+      null
+    );
   }
 
   /**
@@ -2913,7 +2964,10 @@ class LSsession {
   }
 
  /**
-  * Défini les codes erreur relative à la classe LSsession
+  * Define error codes relative to LSsession PHP class
+  *
+  * Note: could not be directly defined after PHP class declaration (like in othe class files)
+  * because LSerror is not already loaded and initialized. It's done on self :: startLSerror().
   *
   * @retval void
   */
@@ -2961,7 +3015,7 @@ class LSsession {
     ___("LSsession : The function '%{function}' of the custom action '%{customAction}' does not exists or is not configured.")
     );
     LSerror :: defineError('LSsession_14',
-    ___("LSsession : Fail to retreive user's LDAP credentials from LSauth.")
+    ___("LSsession : Fail to retrieve user's LDAP credentials from LSauth.")
     );
     LSerror :: defineError('LSsession_15',
     ___("LSsession : Fail to reconnect to LDAP server with user's LDAP credentials.")

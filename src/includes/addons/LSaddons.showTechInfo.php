@@ -34,7 +34,7 @@ function LSaddon_showTechInfo_support() {
 function showTechInfo($object) {
   $dn = $object -> getDn();
 
-  // Retreive internal attributes
+  // Retrieve internal attributes
   $internal_attrs = LSldap :: getAttrs(
     $dn,
     null,

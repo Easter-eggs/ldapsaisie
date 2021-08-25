@@ -109,7 +109,7 @@ class LSauth extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive auth object types info
+   * Retrieve auth object types info
    * @return array Array of auth object type with type as key and type's parameters as value
    */
   public static function getAuthObjectTypes() {
@@ -127,7 +127,7 @@ class LSauth extends LSlog_staticLoggerClass {
         'password_attribute' => self :: getConfig("LSobjects.$objType.password_attribute", 'userPassword', 'string'),
       );
     }
-    // For retro-compatibility, also retreived old parameters (excepted in API mode):
+    // For retro-compatibility, also retrieved old parameters (excepted in API mode):
     $oldAuthObjectType = LSconfig :: get('authObjectType', null, 'string', LSsession :: $ldapServer);
     if ($oldAuthObjectType && !array_key_exists($oldAuthObjectType, $objTypes) && self :: checkAuthObjectTypeAccess($oldAuthObjectType)) {
       $objTypes[$oldAuthObjectType] = array(
@@ -155,7 +155,7 @@ class LSauth extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreived LSobjects corresponding to a username
+   * Retrieved LSobjects corresponding to a username
    *
    * @retval array|false Array of corresponding LSldapObject with object DN as key, or false in case of error
    */

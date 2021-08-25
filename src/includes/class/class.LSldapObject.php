@@ -537,7 +537,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
                   $ret++;
             }
             else {
-              // Otherwise, just retreive number of matching objets
+              // Otherwise, just retrieve number of matching objets
               $ret = LSldap :: getNumberResult($sfilter, $sbasedn, $sparams);
               if (!is_int($ret)) {
                 // An error occured
@@ -690,7 +690,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
             }
           }
           else {
-            self :: log_error("$this -> submitChange($idForm): fail to retreive new DN");
+            self :: log_error("$this -> submitChange($idForm): fail to retrieve new DN");
             return;
           }
         }
@@ -1125,7 +1125,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive object type translated label
+   * Retrieve object type translated label
    *
    * @param[in] $type string|null The object type (optional, default: called class name)
    *
@@ -2017,7 +2017,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
    *   - Optional arguments :
    *     - -r|--raw-values : show raw values (instead of display ones)
    *
-   * @retval boolean True on succes, false otherwise
+   * @retval boolean True on success, false otherwise
    **/
   public static function cli_show($command_args) {
     $objType = null;
@@ -2297,7 +2297,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
      *   - Optional arguments :
      *     - -N|--no-confirm : Do not ask for confirmation
      *
-     * @retval boolean True on succes, false otherwise
+     * @retval boolean True on success, false otherwise
      **/
     public static function cli_remove($command_args) {
       $objType = null;
@@ -2446,7 +2446,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
      *   Note: for multiple-values attributes, you also could specify attribute and value
      *   multiple time, for instance : attr1=value1 attr1=value2
      *
-     * @retval boolean True on succes, false otherwise
+     * @retval boolean True on success, false otherwise
      **/
     public static function cli_create($command_args) {
       $objType = null;
@@ -2609,7 +2609,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
      *   Note: for multiple-values attributes, you also could specify attribute and value
      *   multiple time, for instance : attr1=value1 attr1=value2
      *
-     * @retval boolean True on succes, false otherwise
+     * @retval boolean True on success, false otherwise
      **/
     public static function cli_modify($command_args) {
       $objType = null;
@@ -2789,7 +2789,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
      *     - -a|--add : Add related object (specified by DN)
      *     - -r|--remove : Remove related object (specified by DN)
      *
-     * @retval boolean True on succes, false otherwise
+     * @retval boolean True on success, false otherwise
      **/
     public static function cli_relation($command_args) {
       $objType = null;

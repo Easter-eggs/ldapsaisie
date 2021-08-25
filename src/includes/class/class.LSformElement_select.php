@@ -125,7 +125,7 @@ class LSformElement_select extends LSformElement {
    * @retval void
    */
   public function autocomplete_attr_values(&$opts, $comp_word, $attr_value="", $multiple_value_delimiter="|", $quote_char='') {
-    // Split attribute values and retreived splited value in $attr_values and $last_attr_value
+    // Split attribute values and retrieved splited value in $attr_values and $last_attr_value
     if (!$this -> split_autocomplete_attr_values($attr_value, $multiple_value_delimiter, $attr_values, $last_attr_value))
       return;
 
@@ -143,7 +143,7 @@ class LSformElement_select extends LSformElement {
 
 
   /**
-   * Retreive value as return in API response
+   * Retrieve value as return in API response
    *
    * @param[in] $details boolean If true, returned values will contain details if this field type
    *                             support it (optional, default: false)

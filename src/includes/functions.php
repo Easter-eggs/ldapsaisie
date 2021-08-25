@@ -324,216 +324,216 @@ function LSdebugDefined() {
   );
 }
 
-  /**
-   * Vérifie la compatibilite des DN
-   *
-   * Vérifie que les DNs sont dans la même branche de l'annuaire.
-   *
-   * @param[in] $dn Un premier DN.
-   * @param[in] $dn Un deuxième DN.
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @retval boolean true si les DN sont compatibles, false sinon.
-   */
-  function isCompatibleDNs($dn1,$dn2) {
-    $infos1=ldap_explode_dn($dn1,0);
-    if(!$infos1)
-      return;
-    $infos2=ldap_explode_dn($dn2,0);
-    if(!$infos2)
-      return;
-    if($infos2['count']>$infos1['count']) {
-      $tmp=$infos1;
-      $infos1=$infos2;
-      $infos2=$tmp;
-    }
-    $infos1=array_reverse($infos1);
-    $infos2=array_reverse($infos2);
+/**
+ * Vérifie la compatibilite des DN
+ *
+ * Vérifie que les DNs sont dans la même branche de l'annuaire.
+ *
+ * @param[in] $dn Un premier DN.
+ * @param[in] $dn Un deuxième DN.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @retval boolean true si les DN sont compatibles, false sinon.
+ */
+function isCompatibleDNs($dn1,$dn2) {
+  $infos1=ldap_explode_dn($dn1,0);
+  if(!$infos1)
+    return;
+  $infos2=ldap_explode_dn($dn2,0);
+  if(!$infos2)
+    return;
+  if($infos2['count']>$infos1['count']) {
+    $tmp=$infos1;
+    $infos1=$infos2;
+    $infos2=$tmp;
+  }
+  $infos1=array_reverse($infos1);
+  $infos2=array_reverse($infos2);
 
-    for($i=0;$i<$infos1['count'];$i++) {
-      if (!isset($infos2[$i])) continue;
-      if($infos1[$i]==$infos2[$i]) continue;
-      return false;
+  for($i=0;$i<$infos1['count'];$i++) {
+    if (!isset($infos2[$i])) continue;
+    if($infos1[$i]==$infos2[$i]) continue;
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Fait la somme de DN
+ *
+ * Retourne un DN qui correspond au point de séparation des DN si les DN
+ * ne sont pas dans la meme dans la meme branche ou le dn le plus long sinon.
+ *
+ * @param[in] $dn Un premier DN.
+ * @param[in] $dn Un deuxième DN.
+ *
+ * @author Benjamin Renard <brenard@easter-eggs.com>
+ *
+ * @retval string Un DN (ou false si les DN ne sont pas valide)
+ */
+function sumDn($dn1,$dn2) {
+  $infos1=ldap_explode_dn($dn1,0);
+  if(!$infos1)
+    return;
+  $infos2=ldap_explode_dn($dn2,0);
+  if(!$infos2)
+    return;
+  if($infos2['count']>$infos1['count']) {
+    $tmp=$infos1;
+    $infos1=$infos2;
+    $infos2=$tmp;
+  }
+  $infos1=array_reverse($infos1);
+  $infos2=array_reverse($infos2);
+
+  $first=true;
+  $basedn='';
+  for($i=0;$i<$infos1['count'];$i++) {
+    if(($infos1[$i]==$infos2[$i])||(!isset($infos2[$i]))) {
+      if($first) {
+        $basedn=$infos1[$i];
+        $first=false;
+      }
+      else
+        $basedn=$infos1[$i].','.$basedn;
     }
-    return true;
+    else {
+      return $basedn;
+    }
+  }
+  return $basedn;
+}
+
+function checkEmail($value,$domain=NULL,$checkDns=true) {
+  $log = LSlog :: get_logger('checkEmail');
+  $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
+
+  if (!preg_match($regex, $value)) {
+    $log -> debug("'$value': regex fail");
+    return false;
   }
 
-  /**
-   * Fait la somme de DN
-   *
-   * Retourne un DN qui correspond au point de séparation des DN si les DN
-   * ne sont pas dans la meme dans la meme branche ou le dn le plus long sinon.
-   *
-   * @param[in] $dn Un premier DN.
-   * @param[in] $dn Un deuxième DN.
-   *
-   * @author Benjamin Renard <brenard@easter-eggs.com>
-   *
-   * @retval string Un DN (ou false si les DN ne sont pas valide)
-   */
-  function sumDn($dn1,$dn2) {
-    $infos1=ldap_explode_dn($dn1,0);
-    if(!$infos1)
-      return;
-    $infos2=ldap_explode_dn($dn2,0);
-    if(!$infos2)
-      return;
-    if($infos2['count']>$infos1['count']) {
-      $tmp=$infos1;
-      $infos1=$infos2;
-      $infos2=$tmp;
-    }
-    $infos1=array_reverse($infos1);
-    $infos2=array_reverse($infos2);
+  $nd = explode('@', $value);
+  $nd=$nd[1];
 
-    $first=true;
-    $basedn='';
-    for($i=0;$i<$infos1['count'];$i++) {
-      if(($infos1[$i]==$infos2[$i])||(!isset($infos2[$i]))) {
-        if($first) {
-          $basedn=$infos1[$i];
-          $first=false;
-        }
-        else
-          $basedn=$infos1[$i].','.$basedn;
-      }
-      else {
-        return $basedn;
-      }
-    }
-    return $basedn;
-  }
-
-  function checkEmail($value,$domain=NULL,$checkDns=true) {
-    $log = LSlog :: get_logger('checkEmail');
-    $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
-
-    if (!preg_match($regex, $value)) {
-      $log -> debug("'$value': regex fail");
-      return false;
-    }
-
-    $nd = explode('@', $value);
-    $nd=$nd[1];
-
-    if ($domain) {
-      if(is_array($domain)) {
-        if (!in_array($nd,$domain)) {
-          $log -> debug("'$value': domain '$nd' not authorized. Allowed domains: '".implode("', '", $domain)."'");
-          return false;
-        }
-      }
-      else {
-        if($nd!=$domain) {
-          $log -> debug("'$value': domain '$nd' not authorized. Allowed domains: '$domain'");
-          return false;
-        }
-      }
-    }
-
-    if ($checkDns && function_exists('checkdnsrr')) {
-      if (!(checkdnsrr($nd, 'MX') || checkdnsrr($nd, 'A'))) {
-        $log -> debug("'$value': DNS check fail");
+  if ($domain) {
+    if(is_array($domain)) {
+      if (!in_array($nd,$domain)) {
+        $log -> debug("'$value': domain '$nd' not authorized. Allowed domains: '".implode("', '", $domain)."'");
         return false;
       }
     }
-
-    $log -> debug("'$value': validated");
-    return true;
-  }
-
-  function generatePassword($chars=NULL,$lenght=NULL) {
-    if (!$lenght) {
-        $lenght=8;
-    }
-    if (is_array($chars)) {
-      $retval='';
-      foreach($chars as $chs) {
-        if (!is_array($chs)) {
-          $chs=array('chars' => $chs);
-        }
-        if (!isset($chs['nb']) || !is_int($chs['nb'])) {
-          $chs['nb']=1;
-        }
-        $retval.=aleaChar($chs['chars'],$chs['nb']);
+    else {
+      if($nd!=$domain) {
+        $log -> debug("'$value': domain '$nd' not authorized. Allowed domains: '$domain'");
+        return false;
       }
-      $add = ($lenght-strlen($retval));
-      if ($add > 0) {
-        $retval .= aleaChar($chars,$add);
-      }
-      return str_shuffle($retval);
-    } else {
-      return aleaChar($chars,$lenght);
     }
   }
 
-  function aleaChar($chars=NULL,$lenght=1) {
-    if (is_array($chars)) {
-      $nchars="";
-      foreach($chars as $chs) {
-        if (is_string($chs)) {
-          $nchars.=$chs;
-        }
-        else if (is_string($chs['chars'])) {
-          $nchars.=$chs['chars'];
-        }
-      }
-      if(is_string($chars) && strlen($chars)>0) {
-        $chars=$nchars;
-      }
-      else {
-        $chars=NULL;
-      }
+  if ($checkDns && function_exists('checkdnsrr')) {
+    if (!(checkdnsrr($nd, 'MX') || checkdnsrr($nd, 'A'))) {
+      $log -> debug("'$value': DNS check fail");
+      return false;
     }
-    if (!$chars) {
-      $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
-    }
-    $nbChars=strlen($chars);
-    $retval="";
-    if(is_int($lenght)) {
-      for ($i=0;$i<$lenght;$i++) {
-        $retval.=$chars[rand(0,$nbChars-1)];
-      }
-    }
-    return $retval;
   }
 
-  function compareDn($a,$b) {
-    if (substr_count($a,',') > substr_count($b,','))
-      return -1;
-    else
-      return 1;
-  }
+  $log -> debug("'$value': validated");
+  return true;
+}
 
-  /**
-   * Translate message by using LSlang or Gettext methods
-   *
-   * @param[in] @msg string The message
-   *
-   * @retval string The translated message if translation available, the original message otherwise
-   **/
-  function __($msg) {
-    if (empty($msg)) return $msg;
-    if (isset($GLOBALS['LSlang'][$msg])) {
-      return $GLOBALS['LSlang'][$msg];
+function generatePassword($chars=NULL,$lenght=NULL) {
+  if (!$lenght) {
+      $lenght=8;
+  }
+  if (is_array($chars)) {
+    $retval='';
+    foreach($chars as $chs) {
+      if (!is_array($chs)) {
+        $chs=array('chars' => $chs);
+      }
+      if (!isset($chs['nb']) || !is_int($chs['nb'])) {
+        $chs['nb']=1;
+      }
+      $retval.=aleaChar($chs['chars'],$chs['nb']);
     }
-    return _($msg);
+    $add = ($lenght-strlen($retval));
+    if ($add > 0) {
+      $retval .= aleaChar($chars,$add);
+    }
+    return str_shuffle($retval);
+  } else {
+    return aleaChar($chars,$lenght);
   }
+}
 
-  /**
-   * Non-translate message
-   *
-   * Just-return the input message. This function permit the detection of message
-   * that will be translated only at display time and not at declare time.
-   *
-   * @param[in] @msg string The message
-   *
-   * @retval string The message (unchanged)
-   **/
-  function ___($msg) {
-    return $msg;
+function aleaChar($chars=NULL,$lenght=1) {
+  if (is_array($chars)) {
+    $nchars="";
+    foreach($chars as $chs) {
+      if (is_string($chs)) {
+        $nchars.=$chs;
+      }
+      else if (is_string($chs['chars'])) {
+        $nchars.=$chs['chars'];
+      }
+    }
+    if(is_string($chars) && strlen($chars)>0) {
+      $chars=$nchars;
+    }
+    else {
+      $chars=NULL;
+    }
   }
+  if (!$chars) {
+    $chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+  }
+  $nbChars=strlen($chars);
+  $retval="";
+  if(is_int($lenght)) {
+    for ($i=0;$i<$lenght;$i++) {
+      $retval.=$chars[rand(0,$nbChars-1)];
+    }
+  }
+  return $retval;
+}
+
+function compareDn($a,$b) {
+  if (substr_count($a,',') > substr_count($b,','))
+    return -1;
+  else
+    return 1;
+}
+
+/**
+ * Translate message by using LSlang or Gettext methods
+ *
+ * @param[in] @msg string The message
+ *
+ * @retval string The translated message if translation available, the original message otherwise
+ **/
+function __($msg) {
+  if (empty($msg)) return $msg;
+  if (isset($GLOBALS['LSlang'][$msg])) {
+    return $GLOBALS['LSlang'][$msg];
+  }
+  return _($msg);
+}
+
+/**
+ * Non-translate message
+ *
+ * Just-return the input message. This function permit the detection of message
+ * that will be translated only at display time and not at declare time.
+ *
+ * @param[in] @msg string The message
+ *
+ * @retval string The message (unchanged)
+ **/
+function ___($msg) {
+  return $msg;
+}
 
 // Try to load unidecode library
 if (!function_exists('unidecode')) {

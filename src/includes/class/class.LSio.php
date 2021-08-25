@@ -66,7 +66,7 @@ class LSio extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive POST data
+   * Retrieve POST data
    *
    * This method retrieve and format POST data.
    *
@@ -102,7 +102,7 @@ class LSio extends LSlog_staticLoggerClass {
   /**
    * Import objects from POST data
    *
-   * This method retreive, validate and import POST data.
+   * This method retrieve, validate and import POST data.
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
@@ -222,7 +222,7 @@ class LSio extends LSlog_staticLoggerClass {
     }
     self :: log_debug("import(): file loaded");
 
-    // Retreive object from ioFormat
+    // Retrieve object from ioFormat
     $objectsData = $ioFormat -> getAll();
     $objectsInError = array();
     self :: log_trace("import(): objects data=".varDump($objectsData));
@@ -255,7 +255,7 @@ class LSio extends LSlog_staticLoggerClass {
         $globalErrors[] = _('Failed to validate object data.');
       }
       else {
-        self :: log_debug('import(): Data is correct, retreive object DN');
+        self :: log_debug('import(): Data is correct, retrieve object DN');
         $dn = $object -> getDn();
         if (!$dn) {
           self :: log_debug('import(): fail to generate for this object: '.varDump($objData));
@@ -375,7 +375,7 @@ class LSio extends LSlog_staticLoggerClass {
     $search = new LSsearch($object -> type, 'LSio');
     $search -> run();
 
-    // Retreive objets
+    // Retrieve objets
     $objects = $search -> listObjects();
     if (!is_array($objects)) {
       LSerror :: addErrorCode('LSio_06');
@@ -408,7 +408,7 @@ class LSio extends LSlog_staticLoggerClass {
    *     - -U|--update: Enable "update if exist"
    *     - -j|--just-try: Enable just-try mode
    *
-   * @retval boolean True on succes, false otherwise
+   * @retval boolean True on success, false otherwise
    **/
   public static function cli_import($command_args) {
     $objType = null;
@@ -565,7 +565,7 @@ class LSio extends LSlog_staticLoggerClass {
    *   - Optional arguments:
    *     - -o|--output: Output path ("-" == stdout, default: "-")
    *
-   * @retval boolean True on succes, false otherwise
+   * @retval boolean True on success, false otherwise
    **/
   public static function cli_export($command_args) {
     $objType = null;

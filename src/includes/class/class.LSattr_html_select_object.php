@@ -168,19 +168,19 @@ class LSattr_html_select_object extends LSattr_html{
    *
    * @param[in] mixed $values array|null Array of the input values ()
    * @param[in] boolean $fromDNs boolean If true, considered provided values as DNs (default: false)
-   * @param[in] boolean $retreiveAttrValues boolean If true, attribute values will be returned instead
+   * @param[in] boolean $retrieveAttrValues boolean If true, attribute values will be returned instead
    *                                                of selected objects info (default: false)
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
    * @retval array|false Array of selected objects with DN as key and object info as value or array
-   *                     of attribute values if $retreiveAttrValues==true or False on error.
+   *                     of attribute values if $retrieveAttrValues==true or False on error.
    */
-  public function getFormValues($values=NULL, $fromDNs=false, $retreiveAttrValues=false) {
+  public function getFormValues($values=NULL, $fromDNs=false, $retrieveAttrValues=false) {
     self :: log_debug("getFormValues(): input values=".varDump($values));
     // Check parameters consistency
-    if ($retreiveAttrValues && !$fromDNs) {
-      self :: log_fatal('getFormValues(): $fromDNs must be true if $retreiveAttrValues==true');
+    if ($retrieveAttrValues && !$fromDNs) {
+      self :: log_fatal('getFormValues(): $fromDNs must be true if $retrieveAttrValues==true');
       return false;
     }
     if (!is_array($values)) {
@@ -188,7 +188,7 @@ class LSattr_html_select_object extends LSattr_html{
       return false;
     }
 
-    // Retreive/check selectable objects config
+    // Retrieve/check selectable objects config
     $objs = array();
     $confs = $this -> getSelectableObjectsConfig($objs);
     if (!is_array($confs) || empty($confs)) {
@@ -236,8 +236,8 @@ class LSattr_html_select_object extends LSattr_html{
           }
           $found_values[$value] = $value;
 
-          if ($retreiveAttrValues) {
-            // Retreive attribute value case: $selected_objects[dn] = attribute value
+          if ($retrieveAttrValues) {
+            // Retrieve attribute value case: $selected_objects[dn] = attribute value
             if(($conf['value_attribute']=='dn') || ($conf['value_attribute']=='%{dn}')) {
               $selected_objects[$value] = $value;
             }
@@ -312,8 +312,8 @@ class LSattr_html_select_object extends LSattr_html{
       }
     }
 
-    // Retreive attribute values case: return forged array values (list of attribute values)
-    if ($retreiveAttrValues)
+    // Retrieve attribute values case: return forged array values (list of attribute values)
+    if ($retrieveAttrValues)
       return array_values($selected_objects);
 
     // General case
@@ -369,7 +369,7 @@ class LSattr_html_select_object extends LSattr_html{
     $LSselect_id = $this -> getLSselectId();
     if (LSsession :: loadLSclass('LSselect', null, true) && LSselect :: exists($LSselect_id)) {
       $selected_objects = LSselect :: getSelectedObjects($LSselect_id);
-      self :: log_debug("getValuesFromLSselect(): selected objects retreived from LSselect '$LSselect_id' = ".varDump($selected_objects));
+      self :: log_debug("getValuesFromLSselect(): selected objects retrieved from LSselect '$LSselect_id' = ".varDump($selected_objects));
       if (is_array($selected_objects)) {
         return $this -> getFormValues(
           array_keys($selected_objects),

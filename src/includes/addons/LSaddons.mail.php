@@ -101,11 +101,8 @@ LSerror :: defineError('MAIL_01',
       $from = $headers['From'];
       unset($headers['From']);
     }
-    elseif (LSsession :: getEmailSender() != "") {
-      $from = LSsession :: getEmailSender();
-    }
     else {
-      $from = null;
+      $from = LSsession :: getEmailSender();
     }
 
     $headers["To"] = $to;

@@ -63,7 +63,7 @@ class LSioFormatDriver extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive all object data contained by the loaded file
+   * Retrieve all object data contained by the loaded file
    *
    * The objects are returned in array :
    *
@@ -87,7 +87,7 @@ class LSioFormatDriver extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive fields names of the loaded file
+   * Retrieve fields names of the loaded file
    *
    * The fields names are returned in array :
    *
@@ -104,7 +104,7 @@ class LSioFormatDriver extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Retreive all objects data of the loaded file formated
+   * Retrieve all objects data of the loaded file formated
    *
    * This method format objects data using ioFormat configuration
    * given as parameters.
@@ -150,7 +150,7 @@ class LSioFormatDriver extends LSlog_staticLoggerClass {
    * @param[in] $objects_data Array of objects data to export
    * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
    *
-   * @return boolean True on succes, False otherwise
+   * @return boolean True on success, False otherwise
    */
   public function exportObjectsData($objects_data, $stream=null) {
     // Must be implement in real drivers

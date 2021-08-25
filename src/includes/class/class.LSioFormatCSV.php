@@ -126,7 +126,7 @@ class LSioFormatCSV extends LSioFormatDriver {
   }
 
   /**
-   * Retreive all object data contained by the loaded file
+   * Retrieve all object data contained by the loaded file
    *
    * The objects are returned in array :
    *
@@ -160,7 +160,7 @@ class LSioFormatCSV extends LSioFormatDriver {
   }
 
   /**
-   * Retreive fields names of the loaded file
+   * Retrieve fields names of the loaded file
    *
    * The fields names are returned in array :
    *
@@ -184,7 +184,7 @@ class LSioFormatCSV extends LSioFormatDriver {
    * @param[in] $objects_data Array of objects data to export
    * @param[in] $stream resource|null The output stream (optional, default: STDOUT)
    *
-   * @return boolean True on succes, False otherwise
+   * @return boolean True on success, False otherwise
    */
   public function exportObjectsData($objects_data, $stream=null) {
     if (!function_exists('fputcsv')) {

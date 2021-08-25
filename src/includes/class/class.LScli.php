@@ -385,7 +385,7 @@ class LScli extends LSlog_staticLoggerClass {
    *
    * @param[in] $command_args array Command arguments
    *
-   * @retval boolean True on succes, false otherwise
+   * @retval boolean True on success, false otherwise
    **/
   public static function bash_autocomplete($command_args) {
     if (count($command_args) < 3)

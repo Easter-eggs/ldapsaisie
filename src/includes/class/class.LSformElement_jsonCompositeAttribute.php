@@ -178,7 +178,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   }
 
   /**
-   * Retreive possible values of an select_list component
+   * Retrieve possible values of an select_list component
    *
    * @param[in] $c string The component name
    *
@@ -201,7 +201,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   }
 
   /**
-   * Retreive value's label of an select_list component
+   * Retrieve value's label of an select_list component
    *
    * @param[in] $c string The component name
    * @param[in] $value string The value
@@ -224,12 +224,12 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   }
 
   /**
-   * Retreive LSformElement value from POST data
+   * Retrieve LSformElement value from POST data
    *
-   * This method check present of this element's value in POST data and retreive
+   * This method check present of this element's value in POST data and retrieve
    * it to feed the array passed in paramater.
    *
-   * @param[in] &$return array Reference of the array for retreived values
+   * @param[in] &$return array Reference of the array for retrieved values
    * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
    *                                   just ignore it.
    *
@@ -437,7 +437,7 @@ class LSformElement_jsonCompositeAttribute extends LSformElement {
   }
 
   /**
-   * Retreive value as return in API response
+   * Retrieve value as return in API response
    *
    * @param[in] $details boolean If true, returned values will contain details if this field type
    *                             support it (optional, default: false)

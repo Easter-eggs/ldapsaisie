@@ -43,7 +43,7 @@ class LSformElement_password extends LSformElement {
    * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
    * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
    *
-   * @param[in] &$return array Reference of the array for retreived values
+   * @param[in] &$return array Reference of the array for retrieved values
    * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
    *                                   just ignore it.
    *
@@ -449,7 +449,7 @@ class LSformElement_password extends LSformElement {
    * @retval void
    */
   public function autocomplete_attr_values(&$opts, $comp_word, $attr_value="", $multiple_value_delimiter="|", $quote_char='') {
-    // Split attribute values and retreived splited value in $attr_values and $last_attr_value
+    // Split attribute values and retrieved splited value in $attr_values and $last_attr_value
     if (!$this -> split_autocomplete_attr_values($attr_value, $multiple_value_delimiter, $attr_values, $last_attr_value))
       return;
     $pwd = $this->generatePassword($this -> params);

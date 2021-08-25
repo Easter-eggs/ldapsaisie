@@ -107,7 +107,7 @@ class LSformRule extends LSlog_staticLoggerClass {
    *   - Optional arguments :
    *     - -p|--param: LSformRule parameters (format: param=value)
    *
-   * @retval boolean True on succes, false otherwise
+   * @retval boolean True on success, false otherwise
    **/
   public static function cli_test_form_rule($command_args) {
     $rule_name = null;

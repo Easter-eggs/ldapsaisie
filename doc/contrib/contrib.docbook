@@ -440,7 +440,7 @@ les possibilités de contribution.</para>
    *
    * @author My Name <my.email@example.com>
    *
-   * @retval boolean True on succes, false otherwise
+   * @retval boolean True on success, false otherwise
    **/
   function cli_my_custom_cli_cmd($command_args) {
       $objType = null;

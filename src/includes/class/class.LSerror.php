@@ -79,7 +79,7 @@ class LSerror {
    *
    * @author Benjamin Renard <brenard@easter-eggs.com>
    *
-   * @param[in] $return boolean True if you want to retreived errors message. If false,
+   * @param[in] $return boolean True if you want to retrieved errors message. If false,
    *                            (default), LSerrors template variable will be assigned
    *                            with errors message.
    *

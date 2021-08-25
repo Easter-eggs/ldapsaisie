@@ -53,7 +53,7 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
       define('LSAUTHMETHOD_HTTP_METHOD', 'PHP_AUTH');
     }
     else {
-      self :: log_debug('HTTP method to retreive auth data is "'.LSAUTHMETHOD_HTTP_METHOD.'"');
+      self :: log_debug('HTTP method to retrieve auth data is "'.LSAUTHMETHOD_HTTP_METHOD.'"');
     }
 
     $missing_info = null;

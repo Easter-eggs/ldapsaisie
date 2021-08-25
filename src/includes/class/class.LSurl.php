@@ -293,7 +293,7 @@ class LSurl extends LSlog_staticLoggerClass {
   }
 
   /**
-   * Helpers to retreive current requested URL
+   * Helpers to retrieve current requested URL
    */
 
   /*

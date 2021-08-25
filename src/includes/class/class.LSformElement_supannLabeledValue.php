@@ -122,7 +122,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
    * Cette méthode vérifie la présence en POST de la valeur de l'élément et la récupère
    * pour la mettre dans le tableau passer en paramètre avec en clef le nom de l'élément
    *
-   * @param[in] &$return array Reference of the array for retreived values
+   * @param[in] &$return array Reference of the array for retrieved values
    * @param[in] $onlyIfPresent boolean If true and data of this element is not present in POST data,
    *                                   just ignore it.
    *
@@ -210,7 +210,7 @@ class LSformElement_supannLabeledValue extends LSformElement {
   }
 
   /**
-   * Retreive value as return in API response
+   * Retrieve value as return in API response
    *
    * @param[in] $details boolean If true, returned values will contain details if this field type
    *                             support it (optional, default: false)

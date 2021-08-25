@@ -983,7 +983,7 @@ class LSsearch extends LSlog_staticLoggerClass {
       self :: log_debug($this.' -> run(): Cache enabled');
       $this -> result = $this -> getResultFromCache();
       if ($this -> result)
-        self :: log_debug($this.' -> run(): result retreived from cache');
+        self :: log_debug($this.' -> run(): result retrieved from cache');
       else
         self :: log_debug($this.' -> run(): result not found in cache');
     }
@@ -1495,7 +1495,7 @@ class LSsearch extends LSlog_staticLoggerClass {
    *     - -e|--extra-columns : Display extra columns
    *     - -p|--page : page number to show (starting by 1, default: first one)
    *
-   * @retval boolean True on succes, false otherwise
+   * @retval boolean True on success, false otherwise
    **/
   public static function cli_search($command_args) {
     $objType = null;
@@ -1622,7 +1622,7 @@ class LSsearch extends LSlog_staticLoggerClass {
     if ($all) {
       $entries = $search -> listEntries();
       if (!is_array($entries))
-        self :: log_fatal("Fail to retreive search result");
+        self :: log_fatal("Fail to retrieve search result");
     }
     else {
       // Retrieve page
@@ -1638,7 +1638,7 @@ class LSsearch extends LSlog_staticLoggerClass {
 
       // Check page
       if (!is_array($page) || $page_nb > $page['nbPages'])
-        self :: log_fatal("Fail to retreive page #$page_nb.");
+        self :: log_fatal("Fail to retrieve page #$page_nb.");
     }
 
     // Handle JSON output

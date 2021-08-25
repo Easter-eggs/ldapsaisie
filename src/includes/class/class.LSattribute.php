@@ -317,7 +317,7 @@ class LSattribute extends LSlog_staticLoggerClass {
    * @param[in] $api_mode boolean True if it's a view in API mode (=all accessible attributes present,
    *                              optional, default: false)
    *
-   * @retval boolean True on succes, False otherwise
+   * @retval boolean True on success, False otherwise
    */
   public function addToView(&$form, $api_mode=false) {
     if ((!$api_mode && !$this -> getConfig('view', false, 'bool')) || ($this -> myRights() == 'n') )
@@ -337,7 +337,7 @@ class LSattribute extends LSlog_staticLoggerClass {
    *
    * @param[in] $form LSform The LSform object
    *
-   * @retval boolean True on succes, False otherwise
+   * @retval boolean True on success, False otherwise
    */
   public function addToExport(&$form) {
     if ($this -> myRights() == 'n')
@@ -357,7 +357,7 @@ class LSattribute extends LSlog_staticLoggerClass {
    *
    * @param[in] object $form The LSform object
    *
-   * @retval LSformElement|False LSformElement object on succes, False otherwise
+   * @retval LSformElement|False LSformElement object on success, False otherwise
    */
   private function _addToForm(&$form, $idForm, &$obj=NULL, $data=NULL) {
     if (!$this -> html) {

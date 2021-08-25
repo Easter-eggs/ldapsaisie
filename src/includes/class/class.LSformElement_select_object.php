@@ -110,7 +110,7 @@ class LSformElement_select_object extends LSformElement {
    * @retval boolean True if LSselect is initialized, false otherwise
    */
   private function initLSselect() {
-    // Retreive selectable objects configuratio from HTML attr
+    // Retrieve selectable objects configuratio from HTML attr
     $objs = null;
     $confs = $this -> attr_html -> getSelectableObjectsConfig($objs);
     if (!is_array($confs)) {
@@ -300,17 +300,17 @@ class LSformElement_select_object extends LSformElement {
   public function autocomplete_attr_values(&$opts, $comp_word, $attr_value="", $multiple_value_delimiter="|", $quote_char='') {
     self :: log_debug("LSformElement :: autocomplete_opts([...], '$comp_word', '$attr_value', '$multiple_value_delimiter', '$quote_char')");
 
-    // Split attribute values and retreived splited value in $attr_values and $last_attr_value
+    // Split attribute values and retrieved splited value in $attr_values and $last_attr_value
     if (!$this -> split_autocomplete_attr_values($attr_value, $multiple_value_delimiter, $attr_values, $last_attr_value))
       return;
 
-    // Retreive selectable objects configuration
+    // Retrieve selectable objects configuration
     $objs = null;
     $confs = $this -> attr_html -> getSelectableObjectsConfig($objs);
     if (!is_array($confs))
       return;
 
-    // Iter on selectable object types to retreived available autocomplete options
+    // Iter on selectable object types to retrieved available autocomplete options
     foreach($confs as $object_type => $conf) {
       $dns = LScli :: autocomplete_LSobject_dn($object_type, $last_attr_value);
       self :: log_debug("LScli :: autocomplete_LSobject_dn($object_type, $last_attr_value) : ".varDump($dns));
@@ -323,7 +323,7 @@ class LSformElement_select_object extends LSformElement {
   }
 
   /**
-   * Retreive value as return in API response
+   * Retrieve value as return in API response
    *
    * @param[in] $details boolean If true, returned values will contain details if this field type
    *                             support it (optional, default: false)
