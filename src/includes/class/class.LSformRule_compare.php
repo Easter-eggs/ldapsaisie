@@ -17,8 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-******************************************************************************/
+ ******************************************************************************/
 
 /**
  * Règle de validation par comparaison de valeurs.
@@ -27,9 +26,22 @@
  */
 class LSformRule_compare extends LSformRule {
 
+  // Validate values one by one or all together
+  const validate_one_by_one = False;
+
   // CLI parameters autocompleters
   protected static $cli_params_autocompleters = array(
     'operator' => null,
+  );
+
+  // Operators mapping
+  static protected $_operators = array(
+      'eq'  => '==',
+      'neq' => '!=',
+      'gt'  => '>',
+      'gte' => '>=',
+      'lt'  => '<',
+      'lte' => '<='
   );
 
   /**
@@ -42,20 +54,11 @@ class LSformRule_compare extends LSformRule {
    */
   private static function _findOperator($operator_name) {
 
-    $_operators = array(
-        'eq'  => '==',
-        'neq' => '!=',
-        'gt'  => '>',
-        'gte' => '>=',
-        'lt'  => '<',
-        'lte' => '<='
-    );
-
-    if (empty($operator_name)) {
+    if (empty(self :: $operator_name)) {
       return '==';
-    } elseif (isset($_operators[$operator_name])) {
-      return $_operators[$operator_name];
-    } elseif (in_array($operator_name, $_operators)) {
+    } elseif (isset(self :: $_operators[$operator_name])) {
+      return self :: $_operators[$operator_name];
+    } elseif (in_array($operator_name, self :: $_operators)) {
       return $operator_name;
     } else {
       return '==';
@@ -72,7 +75,7 @@ class LSformRule_compare extends LSformRule {
    *
    * @return boolean true si la valeur est valide, false sinon
    */
-  public static function validate($value, $options=array(), &$formElement) {
+  public static function validate($values, $options=array(), &$formElement) {
     $operator = LSconfig :: get('params.operator', null, 'string', $options);
     if (!$operator) {
       LSerror :: addErrorCode('LSformRule_01',array('type' => 'compare', 'param' => 'operator'));
