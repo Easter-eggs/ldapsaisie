@@ -59,6 +59,7 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
     $missing_info = null;
     switch(constant('LSAUTHMETHOD_HTTP_METHOD')) {
       case 'AUTHORIZATION':
+        $missing_info = 'HTTP_AUTHORIZATION';
         if (isset($_SERVER['HTTP_AUTHORIZATION']) && !empty($_SERVER['HTTP_AUTHORIZATION'])) {
           $authData = explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
           if (is_array($authData) && count($authData) == 2) {
@@ -71,7 +72,6 @@ class LSauthMethod_HTTP extends LSauthMethod_basic {
           else
             self :: log_warning("Fail to decode and parse $missing_info environment variable.");
         }
-        $missing_info = 'HTTP_AUTHORIZATION';
         break;
       case 'REMOTE_USER':
         if (isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
