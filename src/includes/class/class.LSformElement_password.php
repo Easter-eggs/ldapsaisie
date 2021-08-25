@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (C) 2007 Easter-eggs
+ * Copyright (C) 2007-2021 Easter-eggs
  * https://ldapsaisie.org
  *
  * Author: See AUTHORS file in top-level directory.
@@ -17,8 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-******************************************************************************/
+ ******************************************************************************/
 
 LSsession :: loadLSclass('LSformElement');
 
@@ -67,21 +66,30 @@ class LSformElement_password extends LSformElement {
         $confirmed = false;
         if (!is_array($confirm_data)) {
           if (!isset($return[$this -> name]) || empty($return[$this -> name]) || empty($return[$this -> name][0])) {
-            self :: log_debug('getPostData('.$this -> name.'): no confirm data, but empty password provided => confirmed');
+            self :: log_debug(
+              'getPostData('.$this -> name.'): no confirm data, but empty password provided => confirmed'
+            );
             $confirmed = true;
           }
           elseif ($onlyIfPresent) {
-            self :: log_debug('getPostData('.$this -> name.'): no confirm data, but onlyIfPresent mode => confirmed');
+            self :: log_debug(
+              'getPostData('.$this -> name.'): no confirm data, but onlyIfPresent mode => confirmed'
+            );
             $confirmed = true;
           }
         }
         elseif ($confirm_data == $return[$this -> name]) {
-          self :: log_debug('getPostData('.$this -> name.'): confirm password value matched with new password');
+          self :: log_debug(
+            'getPostData('.$this -> name.'): confirm password value matched with new password'
+          );
           $confirmed = true;
         }
         if (!$confirmed) {
           unset($return[$this -> name]);
-          self :: log_debug('getPostData('.$this -> name.'): '.varDump($return[$this -> name])." != ".varDump($confirm_data));
+          self :: log_debug(
+            'getPostData('.$this -> name.'): '.
+            varDump($return[$this -> name])." != ".varDump($confirm_data)
+          );
           $this -> form -> setElementError($this -> attr_html, _('%{label}: passwords entered did not match.'));
           return true;
         }
@@ -130,7 +138,10 @@ class LSformElement_password extends LSformElement {
               $this -> getParam('html_options.mail.domain'),
               $this -> getParam('html_options.mail.checkDomain', true, 'bool')
             )) {
-              $this -> form -> setElementError($this -> attr_html, _('%{label}: invalid email address provided to send new password.'));
+              $this -> form -> setElementError(
+                $this -> attr_html,
+                _('%{label}: invalid email address provided to send new password.')
+              );
               return true;
             }
           }
@@ -141,7 +152,7 @@ class LSformElement_password extends LSformElement {
           'mail' => $mail,
           'pwd' => $return[$this -> name][0]
         );
-        $this -> attr_html -> attribute -> addObjectEvent('after_modify',$this,'send');
+        $this -> attr_html -> attribute -> addObjectEvent('after_modify', $this, 'send');
       }
     }
     return $retval;
@@ -178,7 +189,11 @@ class LSformElement_password extends LSformElement {
         )
       );
 
-      if ($this -> getParam('html_options.generationTool') && $this -> getParam('html_options.autoGenerate') && empty($this -> values)) {
+      if (
+        $this -> getParam('html_options.generationTool') &&
+        $this -> getParam('html_options.autoGenerate') &&
+        empty($this -> values)
+      ) {
         $pwd=$this->generatePassword($this -> params);
       }
 
@@ -186,8 +201,14 @@ class LSformElement_password extends LSformElement {
         'generate' => $this -> getParam('html_options.generationTool', true, 'bool'),
         'clearEdit' => $this -> getParam('html_options.clearEdit', false, 'bool'),
         'viewHash' => $this -> getParam('html_options.viewHash', false, 'bool'),
-        'verify' => ( (!$this -> attr_html -> attribute -> ldapObject-> isNew()) && $this -> getParam('html_options.verify', True, 'bool') ),
-        'confirmChange' => (!$this -> attr_html -> attribute -> ldapObject-> isNew() && $this -> getParam('html_options.confirmChange', False, 'bool')),
+        'verify' => (
+          !$this -> attr_html -> attribute -> ldapObject-> isNew() &&
+          $this -> getParam('html_options.verify', True, 'bool')
+        ),
+        'confirmChange' => (
+          !$this -> attr_html -> attribute -> ldapObject-> isNew() &&
+          $this -> getParam('html_options.confirmChange', False, 'bool')
+        ),
         'confirmInput' => $this -> getParam('html_options.confirmInput', False, 'bool'),
       );
 
@@ -243,7 +264,10 @@ class LSformElement_password extends LSformElement {
         LSerror :: addErrorCode('LSformElement_password_03');
       }
     }
-    return generatePassword(LSconfig :: get('html_options.chars', null, null, $params), LSconfig :: get('html_options.lenght', 8, 'int', $params));
+    return generatePassword(
+      LSconfig :: get('html_options.chars', null, null, $params),
+      LSconfig :: get('html_options.lenght', 8, 'int', $params)
+    );
   }
 
   public function verifyPassword($pwd) {
@@ -313,7 +337,9 @@ class LSformElement_password extends LSformElement {
         }
       }
 
-      self :: log_info($this -> attr_html -> attribute -> ldapObject -> getDn().": send new '".$this -> name."' to '$mail'.");
+      self :: log_info(
+        $this -> attr_html -> attribute -> ldapObject -> getDn().": send new '".$this -> name."' to '$mail'."
+      );
       $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password', $this -> sendMail['pwd']);
       $msg = $this -> attr_html -> attribute -> ldapObject -> getDisplayFData($this -> sendMail['msg']);
       $headers = $this -> getParam('html_options.mail.headers', array());
@@ -337,7 +363,13 @@ class LSformElement_password extends LSformElement {
   }
 
   public static function ajax_verifyPassword(&$data) {
-    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['fieldValue'])) && (isset($_REQUEST['idform'])) && (isset($_REQUEST['objectdn'])) ) {
+    if (
+      isset($_REQUEST['attribute']) &&
+      isset($_REQUEST['objecttype']) &&
+      isset($_REQUEST['fieldValue']) &&
+      isset($_REQUEST['idform']) &&
+      isset($_REQUEST['objectdn'])
+    ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
         $object = new $_REQUEST['objecttype']();
         $object -> loadData($_REQUEST['objectdn']);
@@ -362,7 +394,12 @@ class LSformElement_password extends LSformElement {
   }
 
   public static function ajax_generatePassword(&$data) {
-    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) && (isset($_REQUEST['idform'])) ) {
+    if (
+      isset($_REQUEST['attribute']) &&
+      isset($_REQUEST['objecttype']) &&
+      isset($_REQUEST['objectdn']) &&
+      isset($_REQUEST['idform'])
+    ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
         $params = LSconfig :: get("LSobjects.".$_REQUEST['objecttype'].".attrs.".$_REQUEST['attribute']);
         $val = self :: generatePassword($params);
@@ -376,7 +413,11 @@ class LSformElement_password extends LSformElement {
   }
 
   public static function ajax_viewHash(&$data) {
-    if ((isset($_REQUEST['attribute'])) && (isset($_REQUEST['objecttype'])) && (isset($_REQUEST['objectdn'])) ) {
+    if (
+      isset($_REQUEST['attribute']) &&
+      isset($_REQUEST['objecttype']) &&
+      isset($_REQUEST['objectdn'])
+    ) {
       if (LSsession ::loadLSobject($_REQUEST['objecttype'])) {
         $object = new $_REQUEST['objecttype']();
         $object -> loadData($_REQUEST['objectdn']);
