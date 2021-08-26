@@ -105,6 +105,38 @@ class LSldap extends LSlog_staticLoggerClass {
   }
 
   /**
+   * Set authz proxy control
+   *
+   * @author Benjamin Renard <brenard@easter-eggs.com>
+   *
+   * @param[in] $dn string Bind DN
+   *
+   * @retval boolean true if authz proxy controle is set, false otherwise
+   */
+  public static function setAuthzProxyControl($dn) {
+    if (!self :: $cnx) {
+      self :: connect();
+    }
+    $result = self :: $cnx -> setOption(
+      'LDAP_OPT_SERVER_CONTROLS',
+      array (
+        array(
+          'oid' => '2.16.840.1.113730.3.4.18',
+          'value' => "dn:$dn",
+          'iscritical' => true
+        )
+      )
+    );
+    // Also check user exists to validate the connection with
+    // authz proxy control.
+    if ($result !== True || !self :: exists($dn)) {
+      LSerror :: addErrorCode('LSldap_09');
+      return False;
+    }
+    return True;
+  }
+
+  /**
    * Déconnection
    *
    * Cette methode clos la connexion à l'annuaire Ldap
@@ -601,4 +633,7 @@ LSerror :: defineError('LSldap_07',
 );
 LSerror :: defineError('LSldap_08',
   ___("LSldap: LDAP server base DN not configured.")
+);
+LSerror :: defineError('LSldap_09',
+  ___("LSldap: Fail to set authz proxy option on LDAP server connection.")
 );

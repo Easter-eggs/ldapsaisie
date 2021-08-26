@@ -17,6 +17,7 @@ serveur LDAP.</para>
         // Définition des paramètres de connexion à l'annuaire
       ),
       'useUserCredentials' => [boolean],
+      'useAuthzProxyControl' => [boolean],
       'LSauth' => array (
         'method' => [LSauth method],
         'api_method' => [LSauth method],
@@ -95,6 +96,19 @@ serveur LDAP.</para>
   </listitem>
 </varlistentry>
 
+<varlistentry>
+  <term>useAuthzProxyControl</term>
+  <listitem>
+    <simpara>Booléen définissant si, lorsqu'on utilise les identifiants de l'utilisateur pour
+    se connecter à l'annuaire, il faut utiliser une authentification via <emphasis>proxy
+    authorization</emphasis>. Dans ce cas, les identifiants de l'utilisateur ne seront pas, à
+    proprement parlé, utilisés pour se connecter à l'annuaire, mais une demande de <emphasis>
+    proxy authorization</emphasis> en tant que l'utilisateur connecté sera faites à l'aide des
+    identifiants de l'application. Ce mode nécessite une configuration particulière au niveau
+    de l'annuaire pour autoriser le compte de l'application à faire des demandes de <emphasis>
+    proxy authorization</emphasis> en tant que les autres utilisateurs de l'annuaire.</simpara>
+  </listitem>
+</varlistentry>
 
 <varlistentry>
   <term>LSprofiles</term>

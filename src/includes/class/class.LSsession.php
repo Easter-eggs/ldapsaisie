@@ -817,20 +817,33 @@ class LSsession {
             self :: $LSuserObjectType = $LSuserObject -> getType();
             self :: $dn = $LSuserObject->getValue('dn');
             self :: $rdn = $LSuserObject->getValue('rdn');
-            if (isset(self :: $ldapServer['useUserCredentials']) && self :: $ldapServer['useUserCredentials']) {
-              self :: $userLDAPcreds = LSauth :: getLDAPcredentials($LSuserObject);
-              if (!is_array(self :: $userLDAPcreds)) {
-                LSerror :: addErrorCode('LSsession_14');
-                self :: $userLDAPcreds = false;
-                return;
+            if (
+              isset(self :: $ldapServer['useUserCredentials']) &&
+              self :: $ldapServer['useUserCredentials']
+            ) {
+              if (
+                isset(self :: $ldapServer['useAuthzProxyControl']) &&
+                self :: $ldapServer['useAuthzProxyControl']
+              ) {
+                if (!LSldap :: setAuthzProxyControl(self :: $dn)) {
+                  return;
+                }
               }
-              if (!LSldap :: reconnectAs(
-                  self :: $userLDAPcreds['dn'],
-                  self :: $userLDAPcreds['pwd'],
-                  self :: $ldapServer['ldap_config']
-                )) {
-                LSerror :: addErrorCode('LSsession_15');
-                return;
+              else {
+                self :: $userLDAPcreds = LSauth :: getLDAPcredentials($LSuserObject);
+                if (!is_array(self :: $userLDAPcreds)) {
+                  LSerror :: addErrorCode('LSsession_14');
+                  self :: $userLDAPcreds = false;
+                  return;
+                }
+                if (!LSldap :: reconnectAs(
+                    self :: $userLDAPcreds['dn'],
+                    self :: $userLDAPcreds['pwd'],
+                    self :: $ldapServer['ldap_config']
+                  )) {
+                  LSerror :: addErrorCode('LSsession_15');
+                  return;
+                }
               }
             }
             self :: loadLSprofiles();
@@ -1295,11 +1308,26 @@ class LSsession {
         self :: $dn && isset(self :: $ldapServer['useUserCredentials']) &&
         self :: $ldapServer['useUserCredentials']
       ) {
-        LSldap :: reconnectAs(
-          self :: $userLDAPcreds['dn'],
-          self :: $userLDAPcreds['pwd'],
-          self :: $ldapServer['ldap_config']
-        );
+        if (
+          isset(self :: $ldapServer['useAuthzProxyControl']) &&
+          self :: $ldapServer['useAuthzProxyControl']
+        ) {
+          // Firstly connect using main config and after, set authz proxy control
+          if (
+            !LSldap :: connect(self :: $ldapServer['ldap_config']) ||
+            !LSldap :: setAuthzProxyControl(self :: $dn)
+          ) {
+            LSerror :: addErrorCode('LSsession_15');
+            return;
+          }
+        }
+        else {
+          LSldap :: reconnectAs(
+            self :: $userLDAPcreds['dn'],
+            self :: $userLDAPcreds['pwd'],
+            self :: $ldapServer['ldap_config']
+          );
+        }
       }
       else {
         LSldap :: connect(self :: $ldapServer['ldap_config']);
