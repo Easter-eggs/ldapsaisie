@@ -1398,7 +1398,7 @@ function handle_LSobject_customAction($request) {
       if (LSconfig :: get('redirectToObjectList', false, 'bool', $config)) {
         LSurl :: redirect("object/$LSobject?refresh");
       }
-      else if (LSconfig :: get('noRedirect', false, 'bool', $config)) {
+      else if (!LSconfig :: get('noRedirect', false, 'bool', $config)) {
         LSurl :: redirect("object/$LSobject/".urlencode($dn));
       }
     }
