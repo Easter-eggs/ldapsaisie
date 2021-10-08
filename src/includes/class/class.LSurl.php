@@ -30,6 +30,9 @@ LSsession :: loadLSclass('LSlog_staticLoggerClass');
  */
 class LSurl extends LSlog_staticLoggerClass {
 
+  // Current request (defined at least current URL have been analyse by LSurl :: handle_request())
+  public static $request = null;
+
   /*
    * Configured URL patterns :
    *
@@ -265,29 +268,34 @@ class LSurl extends LSlog_staticLoggerClass {
    * @retval void
    **/
   public static function handle_request($default_url=null) {
-    $request = self :: get_request($default_url);
+    self :: $request = self :: get_request($default_url);
 
-    if (!is_callable($request -> handler)) {
-      self :: log_error("URL handler function ".$request -> handler."() does not exists !");
+    if (!is_callable(self :: $request -> handler)) {
+      self :: log_error(
+        "URL handler function ".self :: $request -> handler."() does not exists !"
+      );
       self :: log_fatal(_("This request could not be handled."));
     }
 
-    if ($request -> api_mode)
+    if (self :: $request -> api_mode)
       LSsession :: setApiMode();
     elseif (class_exists('LStemplate'))
-      LStemplate :: assign('request', $request);
+      LStemplate :: assign('request', self :: $request);
 
     // Check authentication (if need)
-    if($request -> authenticated && ! LSsession :: startLSsession()) {
+    if(self :: $request -> authenticated && ! LSsession :: startLSsession()) {
       LSsession :: displayTemplate();
       return true;
     }
 
     try {
-      return call_user_func($request -> handler, $request);
+      return call_user_func(self :: $request -> handler, self :: $request);
     }
     catch (Exception $e) {
-      self :: log_exception($e, "An exception occured running URL handler function ".$request -> handler."()");
+      self :: log_exception(
+        $e, "An exception occured running URL handler function ".
+        getCallableName(self :: $request -> handler)
+      );
       self :: log_fatal(_("This request could not be processed correctly."));
     }
   }
