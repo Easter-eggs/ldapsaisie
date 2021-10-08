@@ -452,7 +452,7 @@ function supanGetParrainInfoByDN($dn) {
     $obj = new $type();
     $list = $obj -> listObjectsName(
       NULL, $dn,
-      array('onlyAccessible' => false, 'scope' => 'base'),
+      array('onlyAccessible' => false, 'scope' => 'base')
     );
     if (count($list)==1) {
       $matched['type'] = $type;
