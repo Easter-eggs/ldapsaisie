@@ -971,7 +971,7 @@ class LSldapObject extends LSlog_staticLoggerClass {
     }
     else if(isset($this ->  attrs[$val])){
       if (method_exists($this ->  attrs[$val],'getValue'))
-        $return = $this -> attrs[$val] -> getValue();
+        $return = ensureIsArray($this -> attrs[$val] -> getValue());
     }
     else if(isset($this -> other_values[$val])){
       $return = $this -> other_values[$val];
