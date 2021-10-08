@@ -260,6 +260,7 @@ function cli_generate_lang_file($command_args) {
   $output = False;
   $additionalfileformat = False;
   $keep_unused = False;
+  $fix_utf8 = False;
   $lang = null;
   $encoding = null;
   $available_formats = array('php', 'pot');
@@ -368,6 +369,11 @@ function cli_generate_lang_file($command_args) {
       case '--keep-unused':
       case '-K':
         $keep_unused = true;
+        break;
+
+      case '--fix-utf8':
+      case '-F':
+        $fix_utf8 = true;
         break;
 
       default:
@@ -489,12 +495,19 @@ function cli_generate_lang_file($command_args) {
     }
   }
 
+  // In fix-utf8 mode, load ForceUT8/Encoding lib
+  if ($fix_utf8)
+    LSsession :: includeFile(LS_LIB_DIR . "ForceUTF8/Encoding.php");
+
   // Load translation files
   foreach($load_files as $path) {
     $LSlang_cli_logger -> debug("Load $path lang file");
     @include($path);
     foreach($GLOBALS['LSlang'] as $msg => $trans) {
-      $translations[$msg]=$trans;
+      if ($fix_utf8)
+        $translations[\ForceUTF8\Encoding::fixUTF8($msg)] = \ForceUTF8\Encoding::fixUTF8($trans);
+      else
+        $translations[$msg] = $trans;
     }
   }
 
@@ -504,7 +517,10 @@ function cli_generate_lang_file($command_args) {
   // Load lang string if lang was specify
   if ($lang && $encoding && isset($GLOBALS['LSlang']) && is_array($GLOBALS['LSlang'])) {
     foreach($GLOBALS['LSlang'] as $msg => $trans) {
-      $translations[$msg] = $trans;
+      if ($fix_utf8)
+        $translations[\ForceUTF8\Encoding::fixUTF8($msg)] = \ForceUTF8\Encoding::fixUTF8($trans);
+      else
+        $translations[$msg] = $trans;
     }
   }
 
@@ -980,6 +996,7 @@ function cli_generate_lang_file_args_autocompleter($comp_words, $comp_word_num, 
       '-f', '--format',
       '-I', '--include-upstream',
       '-K', '--keep-unused',
+      '-F', '--fix-utf8',
     )
   );
   return LScli :: autocomplete_opts($opts, $comp_word);
@@ -1009,6 +1026,8 @@ LScli :: add_command(
     "  -f/--format                 Output file format : php or pot",
     "                              (default: php)",
     "  -K/--keep-unused            Keep unused translations in resulting file",
+    "  -F/--fix-utf8               Try to load and fix broken UTF-8 characters in",
+    "                              existing lang files."
   ),
   false,  // This command does not need LDAP connection
   'cli_generate_lang_file_args_autocompleter'
