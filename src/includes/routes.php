@@ -1384,16 +1384,18 @@ function handle_LSobject_customAction($request) {
   if (isset($_GET['valid']) || LSconfig :: get('noConfirmation', false, 'bool', $config)) {
     LStemplate :: assign('pagetitle', $title.' : '.$objectname);
     if (call_user_func_array($function, array(&$object))) {
-      $msg_format = LSconfig :: get('onSuccessMsgFormat', null, 'string', $config);
-      if ($msg_format) {
-        $msg = getFData(__($msg_format), $objectname);
-      } else {
-        $msg = getFData(
-          _('The custom action %{customAction} have been successfully execute on %{objectname}.'),
-          array('objectname' => $objectname, 'customAction' => $customAction)
-        );
+      if (!LSconfig :: get('disableOnSuccessMsg', false, 'bool', $config)) {
+        $msg_format = LSconfig :: get('onSuccessMsgFormat', null, 'string', $config);
+        if ($msg_format) {
+          $msg = getFData(__($msg_format), $objectname);
+        } else {
+          $msg = getFData(
+            _('The custom action %{customAction} have been successfully execute on %{objectname}.'),
+            array('objectname' => $objectname, 'customAction' => $customAction)
+          );
+        }
+        LSsession :: addInfo($msg);
       }
-      LSsession :: addInfo($msg);
 
       if (LSconfig :: get('redirectToObjectList', false, 'bool', $config)) {
         LSurl :: redirect("object/$LSobject?refresh");
