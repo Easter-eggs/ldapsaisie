@@ -238,7 +238,8 @@ if (php_sapi_name() != "cli") return true;
 function cli_generate_lang_file($command_args) {
   // Use global variables to share it with sub-functions
   global $LSlang_cli_logger, $available_onlys, $available_withouts, $data, $translations, $interactive,
-  $interactive_exit, $copyoriginalvalue, $format, $curdir, $additionalfileformat, $copyoriginalvalue, $lang;
+  $interactive_exit, $copyoriginalvalue, $format, $curdir, $additionalfileformat, $copyoriginalvalue,
+  $keep_unused, $lang;
 
   // Initialize logger (if not already initialized by another CLI command)
   if (!isset($LSlang_cli_logger))
@@ -258,6 +259,7 @@ function cli_generate_lang_file($command_args) {
   $interactive_exit = False; // Exit flag set when user type 'q'
   $output = False;
   $additionalfileformat = False;
+  $keep_unused = False;
   $lang = null;
   $encoding = null;
   $available_formats = array('php', 'pot');
@@ -361,6 +363,11 @@ function cli_generate_lang_file($command_args) {
       case '--debug':
       case '-d':
         $debug = true;
+        break;
+
+      case '--keep-unused':
+      case '-K':
+        $keep_unused = true;
         break;
 
       default:
@@ -814,7 +821,7 @@ function cli_generate_lang_file($command_args) {
    * Handle output file format
    */
   function output_php($fd) {
-    global $LSlang_cli_logger, $additionalfileformat, $data, $copyoriginalvalue;
+    global $LSlang_cli_logger, $additionalfileformat, $data, $copyoriginalvalue, $keep_unused, $translations;
     fwrite($fd, "<?php\n\n");
 
     if (!$additionalfileformat) fwrite($fd, "\$GLOBALS['LSlang'] = array (\n");
@@ -834,6 +841,30 @@ function cli_generate_lang_file($command_args) {
       }
       else {
         fwrite($fd, "\n\"$key\" =>\n  \"$val\",\n");
+      }
+    }
+
+    // Handle keep unused mode
+    if ($keep_unused) {
+      $unused_msgs = array();
+      foreach ($translations as $msg => $trans)
+        if (!array_key_exists($msg, $data))
+          $unused_msgs[$msg] = $trans;
+      if ($unused_msgs) {
+        fwrite($fd, "\n\n");
+        fwrite($fd, "######################################################################\n");
+        fwrite($fd, "#                     Unused translations keeped                     #\n");
+        fwrite($fd, "######################################################################\n");
+        foreach($unused_msgs as $key => $val) {
+          $key=str_replace('"','\\"',$key);
+          $val=str_replace('"','\\"',$val);
+          if ($additionalfileformat) {
+            fwrite($fd, "\n\$GLOBALS['LSlang'][\"$key\"] = \"$val\";\n");
+          }
+          else {
+            fwrite($fd, "\n\"$key\" =>\n  \"$val\",\n");
+          }
+        }
       }
     }
 
@@ -948,6 +979,7 @@ function cli_generate_lang_file_args_autocompleter($comp_words, $comp_word_num, 
       '-o', '--output',
       '-f', '--format',
       '-I', '--include-upstream',
+      '-K', '--keep-unused',
     )
   );
   return LScli :: autocomplete_opts($opts, $comp_word);
@@ -976,6 +1008,7 @@ LScli :: add_command(
     "  -o/--output                 Output file (default: stdout)",
     "  -f/--format                 Output file format : php or pot",
     "                              (default: php)",
+    "  -K/--keep-unused            Keep unused translations in resulting file",
   ),
   false,  // This command does not need LDAP connection
   'cli_generate_lang_file_args_autocompleter'
