@@ -356,7 +356,7 @@ body, input, select, textarea, #status, th.LSobject-list, table.LStable th, th.L
 }
 
 /* ---- Contrasted grey ---- */
-tr.LSobject-list:hover, table.LStable tr.bis:hover, tr.LSobject-list:hover a.LSobject-list, table.LStable tbody tr:hover a, .LSform input[type=submit], input[type='submit'].LSview_search, button, li.LSform_layout_current {
+tr.LSobject-list:hover, tr.LSobject-list:hover th, table.LStable tr:hover, table.LStable tr:hover th, tr.LSobject-list:hover a.LSobject-list, table.LStable tbody tr:hover a, .LSform input[type=submit], input[type='submit'].LSview_search, button, li.LSform_layout_current {
 	color: var(--contrasted-text-color);
 }
 
