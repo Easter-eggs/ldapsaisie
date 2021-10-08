@@ -631,7 +631,7 @@ function withoutAccents($string){
   **/
   function getCallableName($callable) {
     if (is_string($callable)) {
-      return $callable;
+      return $callable.'()';
     }
     elseif(is_array($callable) && count($callable)==2) {
       if (is_string($callable[0])) {
