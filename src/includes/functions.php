@@ -536,7 +536,8 @@ function ___($msg) {
 }
 
 // Try to load unidecode library
-if (!function_exists('unidecode')) {
+// Note: unidecode lib use mb_ord function only available since PHP 7.2.
+if (!function_exists('unidecode') && function_exists('mb_ord')) {
   if (file_exists(LS_LIB_DIR."/unidecode/unidecode.php"))
     @include(LS_LIB_DIR."/unidecode/unidecode.php");
   if (!function_exists('unidecode') && stream_resolve_include_path("unidecode/unidecode.php"))
