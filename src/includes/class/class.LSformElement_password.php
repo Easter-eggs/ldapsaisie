@@ -152,7 +152,10 @@ class LSformElement_password extends LSformElement {
           'mail' => $mail,
           'pwd' => $return[$this -> name][0]
         );
-        $this -> attr_html -> attribute -> addObjectEvent('after_modify', $this, 'send');
+        if ($this -> form -> idForm == 'create')
+          $this -> attr_html -> attribute -> addObjectEvent('after_create', $this, 'send');
+        else
+          $this -> attr_html -> attribute -> addObjectEvent('after_modify', $this, 'send');
       }
     }
     return $retval;
