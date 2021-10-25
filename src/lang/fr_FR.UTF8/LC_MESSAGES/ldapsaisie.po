@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LdapSaisie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-08-26 19:59+0200\n"
+"PO-Revision-Date: 2021-10-25 18:53+0200\n"
 "Last-Translator: Benjamin Renard <brenard@zionetrix.net>\n"
 "Language-Team: LdapSaisie <ldapsaisie-users@lists.labs.libre-entreprise."
 "org>\n"
@@ -623,7 +623,7 @@ msgstr "Confirmez-vous votre choix ?"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:74
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:631
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1285
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1429
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1431
 #: templates/default/recoverpassword.tpl:21
 msgid "Validate"
 msgstr "Valider"
@@ -768,7 +768,7 @@ msgstr ""
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1045
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1213
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1298
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1442
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1444
 msgid "Modify"
 msgstr "Modifier"
 
@@ -841,30 +841,30 @@ msgstr "Aujourd'hui."
 msgid "Clear selected date."
 msgstr "Supprimer la date sélectionnée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:116
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:119
 msgid "LStemplate : compile directory is not writable (dir : %{dir})"
 msgstr ""
 "LStemplate : Le dossier de compilation n'est pas accessible en écriture "
 "(dossier : %{dir})"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:135
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:138
 msgid "LStemplate : Can't load Smarty 2 support file"
 msgstr "LStemplate : Impossible de charger le fichier de support de Smarty 2"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:142
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:145
 msgid "LStemplate : Can't load Smarty 3 support file"
 msgstr "LStemplate : Impossible de charger le fichier de support de Smarty 3"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:146
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:149
 msgid "LStemplate : Smarty version not recognized."
 msgstr "LStemplate : Version de Smarty non reconnue."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:169
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:172
 msgid "LStemplate : Can't load Smarty."
 msgstr ""
 "LStemplate : Impossible de charger le moteur de gestion de template Smarty."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:296
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:299
 msgid ""
 "LStemplate : Request template '%{tpl}' is now deprecated. Please refer to "
 "upgrade documentation to adapt your templates."
@@ -872,31 +872,35 @@ msgstr ""
 "LStemplate : Le fichier de template '%{tpl}' est maintenant déprécié. Merci "
 "de mettre à jour vos templates en vous référant à la documentation."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:427
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:436
 msgid "Smarty - An exception occured displaying template '%{template}'"
 msgstr ""
 "Smarty - Un erreur est survenue en affichant le modèle de page '%{template}'."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:447
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:456
 msgid "Smarty - An exception occured fetching template '%{template}'"
 msgstr "Smarty - Un erreur est survenue en générant le modèle '%{template}'."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:462
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:472
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:471
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:485
 msgid "A fatal error occured. If problem persist, please contact support."
 msgstr ""
 "Une erreur irrécupérable est survenue. Si le problème persiste, merci de "
 "contacter le support."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:471
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:481
+msgid "Loop detected displaying this error: %{error}."
+msgstr "Boucle détectée en affichant cette erreur : %{error}."
+
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:484
 msgid "A fatal error occured."
 msgstr "Une erreur fatale est survenue."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:671
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:684
 msgid "LStemplate : Template %{file} not found."
 msgstr "LStemplate : le template %{file} est introuvable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:674
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:687
 msgid ""
 "LStemplate : Fail to execute trigger %{callable} on event %{event} : is not "
 "callable."
@@ -904,7 +908,7 @@ msgstr ""
 "LStemplate : Échec d'exécution du déclencheur %{callable} lors de événement "
 "%{event} : il n'est pas un callable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:677
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:690
 msgid ""
 "LStemplate : Error during the execution of the trigger %{callable} on event "
 "%{event}."
@@ -1592,39 +1596,39 @@ msgstr ""
 "LSformRule_password : Regex invalide configurée : %{regex}. Vous devez "
 "utiliser des regex de type PCRE (commencant par le caractère '/')."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:612
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:614
 msgid "LSldap: Error during the LDAP server connection (%{msg})."
 msgstr "LSldap : Erreur durant la connexion au serveur LDAP (%{msg})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:615
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:617
 msgid "LSldap: Error during the LDAP search (%{msg})."
 msgstr "LSldap : Erreur pendant la recherche LDAP (%{msg})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:618
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:620
 msgid "LSldap: Object type unknown."
 msgstr "LSldap : Type d'objet inconnu."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:621
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:623
 msgid "LSldap: Error while fetching the LDAP entry."
 msgstr "LSldap : Erreur durant la récupération de l'entrée LDAP."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:624
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:626
 msgid "LSldap: Error while changing the LDAP entry (DN : %{dn})."
 msgstr "LSldap : Erreur durant la modification de l'entrée LDAP (DN : %{dn})."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:627
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:629
 msgid "LSldap: Error while deleting empty attributes."
 msgstr "LSldap : Erreur durant la suppression des attributs vides."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:630
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:632
 msgid "LSldap: Error while changing the DN of the object."
 msgstr "LSldap : Erreur pendant la modification du DN de l'objet."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:633
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:635
 msgid "LSldap: LDAP server base DN not configured."
 msgstr "LSldap : Le base DN du serveur LDAP n'est pas configuré."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:636
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSldap.php:638
 msgid "LSldap: Fail to set authz proxy option on LDAP server connection."
 msgstr ""
 "LSldap : Une erreur est survenue en appliquant l'option d'authz proxy sur la "
@@ -1807,27 +1811,27 @@ msgstr ""
 "%{label} : une adresse mail invalide a été fournie pour l'envoi du nouveau "
 "mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:181
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:184
 msgid "Generate a password."
 msgstr "Générer un mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:182
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:185
 msgid "Compare with stored password."
 msgstr "Comparer avec le mot de passe stocké."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:183
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:186
 msgid "Display password."
 msgstr "Afficher le mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:184
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:187
 msgid "Display hashed password."
 msgstr "Afficher le mot de passe haché."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:185
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:188
 msgid "Hide password."
 msgstr "Cacher le mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:186
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:189
 msgid ""
 "The password will be sent by mail if changed. Click to disable automatic "
 "notification."
@@ -1835,7 +1839,7 @@ msgstr ""
 "Le mot de passe sera envoyé par e-mail en cas de modification. Cliquer pour "
 "désactiver la notification."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:187
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:190
 msgid ""
 "The password will not be sent if changed. Click to enable automatic "
 "notification."
@@ -1843,23 +1847,23 @@ msgstr ""
 "Le mot de passe ne sera pas envoyé en cas de modification. Cliquer pour "
 "activer la notification automatique."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:188
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:191
 msgid "Modify the mail sent to notice the user"
 msgstr "Modifier mail de notification de l'utilisateur"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:216
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:219
 msgid "%{label}: Do you confirm the password change?"
 msgstr "%{label} : Confirmez-vous la modification du mot de passe ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:224
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:227
 msgid "Passwords entered did not match."
 msgstr "Les mots de passe saisies ne correspondent pas."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:355
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:358
 msgid "Notice mail sent."
 msgstr "Le mail de notification a été envoyé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:465
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:468
 msgid ""
 "LSformElement_password : No valid contact mail address available : Can't "
 "send new password."
@@ -1867,20 +1871,20 @@ msgstr ""
 "LSformElement_password : Aucun mail de contact valide disponible : "
 "impossible d'envoyer le nouveau mot de passe."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:468
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:471
 msgid "LSformElement_password : Fail to send new password by email to %{mail}."
 msgstr ""
 "LSformElement_password : Une erreur est survenue en envoyant le nouveau mot "
 "de passe à %{mail}."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:471
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:474
 msgid ""
 "LSformElement_password : Fail to exec pwgen. Check it's correctly installed."
 msgstr ""
 "LSformElement_password : Impossible d'exécuter pwgen. Vérifier qu'il est "
 "bien installé."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:474
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:477
 msgid ""
 "LSformElement_password : Fail to determine witch e-mail attribute to use to "
 "send new password : get_mail_attr_function parameter not refer to a valid "
@@ -1890,7 +1894,7 @@ msgstr ""
 "être utilisé pour l'envoi du mot de passe : le paramètre "
 "get_mail_attr_function ne fait pas référence à une fonction valide."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:477
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSformElement_password.php:480
 msgid ""
 "LSformElement_password : Fail to determine witch e-mail attribute to use to "
 "send new password : get_mail_attr_function throwed an exception : %{msg}"
@@ -1974,7 +1978,7 @@ msgstr ""
 "sur cette recherche ?"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSform.php:235
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1423
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1425
 msgid ""
 "Do you really want to execute custom action %{customAction} on "
 "%{objectname} ?"
@@ -2109,27 +2113,27 @@ msgstr "Ajout rapide"
 msgid "Display advanced search and selection panel."
 msgstr "Afficher la fenêtre de recherche et de sélection étendue."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:114
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:117
 msgid "Fail to determine the requested URL."
 msgstr "Impossible de déterminer l'URL demandée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:118
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:121
 msgid "No URL patterns configured !"
 msgstr "Aucun modèle d'URL configuré !"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:225
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:228
 msgid "Fail to determine the requested URL (loop detected)."
 msgstr "Impossible de déterminer l'URL demandée (boucle détectée)."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:247
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:250
 msgid "The requested page was not found."
 msgstr "La page demandée est introuvable."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:272
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:277
 msgid "This request could not be handled."
 msgstr "Cette requête ne peut être traitée."
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:291
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSurl.php:299
 msgid "This request could not be processed correctly."
 msgstr "Cette requête ne peut être traitée correctement."
 
@@ -2583,7 +2587,7 @@ msgstr "Erreur inconnu : %{error}"
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LSsearchEntry.php:169
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1197
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1290
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1434
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1436
 msgid "View"
 msgstr "Voir"
 
@@ -2659,7 +2663,7 @@ msgid "Data entry form"
 msgstr "Masque de saisie"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:955
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1729
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1731
 msgid "Object has been added."
 msgstr "L'objet a été ajouté."
 
@@ -2668,17 +2672,17 @@ msgid "My account"
 msgstr "Mon compte"
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1155
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1903
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1905
 msgid "The object has been partially modified."
 msgstr "L'objet a été partiellement modifié."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1158
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1906
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1908
 msgid "The object has been modified successfully."
 msgstr "L'objet a bien été modifié."
 
 #: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1273
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1947
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1949
 msgid "%{objectname} has been successfully deleted."
 msgstr "%{objectname} a bien été supprimé."
 
@@ -2690,7 +2694,7 @@ msgstr "Suppression : %{objectname}"
 msgid "Do you really want to delete <strong>%{displayName}</strong> ?"
 msgstr "Voulez-vous vraiment supprimer <strong>%{displayName}</strong> ?"
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1392
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/routes.php:1393
 msgid ""
 "The custom action %{customAction} have been successfully execute on "
 "%{objectname}."

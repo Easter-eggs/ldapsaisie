@@ -424,7 +424,7 @@ class LStemplate extends LSlog_staticLoggerClass {
 
     // Handle loop detection
     if (self :: $last_displayed_template == $template) {
-       self :: log_error("display($template): loop detected, stop");
+       self :: log_fatal("display($template): loop detected, stop");
        return;
     }
 
@@ -475,6 +475,10 @@ class LStemplate extends LSlog_staticLoggerClass {
         array('errors' => $errors, 'success' => false),
         (isset($_REQUEST['pretty'])?JSON_PRETTY_PRINT:0)
       );
+    }
+    elseif (self :: $last_displayed_template == 'error.tpl') {
+      // Detect & stop loop displaying error
+      die(getFData(_('Loop detected displaying this error: %{error}.'), $error));
     }
     else {
       self :: assign('pagetitle', _("A fatal error occured."));
