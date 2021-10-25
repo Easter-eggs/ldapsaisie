@@ -755,38 +755,38 @@ msgid ""
 "upgrade documentation to adapt your templates."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:436
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:437
 msgid "Smarty - An exception occured displaying template '%{template}'"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:456
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:457
 msgid "Smarty - An exception occured fetching template '%{template}'"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:471
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:485
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:472
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:486
 msgid "A fatal error occured. If problem persist, please contact support."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:481
-msgid "Loop detected displaying this error: %{error}."
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:482
+msgid "<h1>Loop detected displaying this error:</h1><pre>%{error}</pre>"
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:484
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:485
 msgid "A fatal error occured."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:684
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:685
 msgid "LStemplate : Template %{file} not found."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:687
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:688
 msgid ""
 "LStemplate : Fail to execute trigger %{callable} on event %{event} : is not "
 "callable."
 msgstr ""
 
-#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:690
+#: /home/brenard/dev/ldapsaisie_clean3/src/includes/class/class.LStemplate.php:691
 msgid ""
 "LStemplate : Error during the execution of the trigger %{callable} on event "
 "%{event}."

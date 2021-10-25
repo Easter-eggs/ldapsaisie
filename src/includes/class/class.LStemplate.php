@@ -429,6 +429,7 @@ class LStemplate extends LSlog_staticLoggerClass {
     }
 
     try {
+      self :: $last_displayed_template = $template;
       self :: assignCommonVars();
       self :: $_smarty -> display("ls:$template");
     }
@@ -478,7 +479,7 @@ class LStemplate extends LSlog_staticLoggerClass {
     }
     elseif (self :: $last_displayed_template == 'error.tpl') {
       // Detect & stop loop displaying error
-      die(getFData(_('Loop detected displaying this error: %{error}.'), $error));
+      die(getFData(_('<h1>Loop detected displaying this error:</h1><pre>%{error}</pre>'), $error));
     }
     else {
       self :: assign('pagetitle', _("A fatal error occured."));
