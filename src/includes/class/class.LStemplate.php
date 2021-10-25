@@ -90,6 +90,9 @@ class LStemplate extends LSlog_staticLoggerClass {
     'top.tpl', 'bottom.tpl',
   );
 
+  // Keep trace of last displayed template (for loop detection)
+  private static $last_displayed_template = null;
+
  /**
   * Start LStemplate
   *
@@ -418,6 +421,12 @@ class LStemplate extends LSlog_staticLoggerClass {
   public static function display($template) {
     // Trigger displaying event
     self :: fireEvent('displaying');
+
+    // Handle loop detection
+    if (self :: $last_displayed_template == $template) {
+       self :: log_error("display($template): loop detected, stop");
+       return;
+    }
 
     try {
       self :: assignCommonVars();
