@@ -307,62 +307,63 @@ class LSformElement_password extends LSformElement {
   }
 
   public function send($params) {
-    if (is_array($this -> sendMail)) {
-      $mail = (String)$this -> sendMail['mail'];
-      self :: log_debug("send(): mail from params: '$mail'");
-      if (!$mail) {
-        $mail_attrs = ensureIsArray($this -> getMailAttrs());
-        self :: log_debug('send(): mail attrs: '.varDump($mail_attrs));
-        $checkDomainsList = $this -> getParam('html_options.mail.domain');
-        $checkDomain = $this -> getParam('html_options.mail.checkDomain', true, 'bool');
-        foreach($mail_attrs as $attr) {
-          $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$attr];
-          if ($mail_attr instanceOf LSattribute) {
-            $mail_values = ensureIsArray($mail_attr -> getValue());
-            foreach($mail_values as $mail_value) {
-              if ($mail_value && checkEmail($mail_value, $checkDomainsList, $checkDomain)) {
-                $mail = $mail_value;
-                break;
-              }
-            }
-            if ($mail)
+    if (!is_array($this -> sendMail))
+      return true;
+    $mail = (String)$this -> sendMail['mail'];
+    self :: log_debug("send(): mail from params: '$mail'");
+    if (!$mail) {
+      $mail_attrs = ensureIsArray($this -> getMailAttrs());
+      self :: log_debug('send(): mail attrs: '.varDump($mail_attrs));
+      $checkDomainsList = $this -> getParam('html_options.mail.domain');
+      $checkDomain = $this -> getParam('html_options.mail.checkDomain', true, 'bool');
+      foreach($mail_attrs as $attr) {
+        $mail_attr = $this -> attr_html -> attribute -> ldapObject -> attrs[$attr];
+        if ($mail_attr instanceOf LSattribute) {
+          $mail_values = ensureIsArray($mail_attr -> getValue());
+          foreach($mail_values as $mail_value) {
+            if ($mail_value && checkEmail($mail_value, $checkDomainsList, $checkDomain)) {
+              $mail = $mail_value;
               break;
-            else
-              self :: log_debug("send(): $attr attribute empty (or does not contain valid email)");
+            }
           }
-          else {
-            self :: log_warning("send(): '$attr' attribute to send new password does not exists.");
-          }
+          if ($mail)
+            break;
+          else
+            self :: log_debug("send(): $attr attribute empty (or does not contain valid email)");
         }
-        if (!$mail) {
-          LSerror :: addErrorCode('LSformElement_password_01');
-          return;
+        else {
+          self :: log_warning("send(): '$attr' attribute to send new password does not exists.");
         }
       }
-
-      self :: log_info(
-        $this -> attr_html -> attribute -> ldapObject -> getDn().": send new '".$this -> name."' to '$mail'."
-      );
-      $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password', $this -> sendMail['pwd']);
-      $msg = $this -> attr_html -> attribute -> ldapObject -> getDisplayFData($this -> sendMail['msg']);
-      $headers = $this -> getParam('html_options.mail.headers', array());
-      $bcc = $this -> getParam('html_options.mail.bcc');
-      if ($bcc)
-        $headers['Bcc'] = $bcc;
-      if (sendMail(
-        $mail,
-        $this -> sendMail['subject'],
-        $msg,
-        $headers
-      )) {
-        LSsession :: addInfo(_('Notice mail sent.'));
-      }
-      else {
-        LSerror :: addErrorCode('LSformElement_password_02', $mail);
+      if (!$mail) {
+        LSerror :: addErrorCode('LSformElement_password_01');
         return;
       }
     }
-    return true;
+
+    self :: log_info(
+      $this -> attr_html -> attribute -> ldapObject -> getDn().": send new '".$this -> name."' to '$mail'."
+    );
+    $this -> attr_html -> attribute -> ldapObject -> registerOtherValue('password', $this -> sendMail['pwd']);
+    $msg = $this -> attr_html -> attribute -> ldapObject -> getDisplayFData($this -> sendMail['msg']);
+    $headers = $this -> getParam('html_options.mail.headers', array());
+    $bcc = $this -> getParam('html_options.mail.bcc');
+    if ($bcc)
+      $headers['Bcc'] = $bcc;
+    if (sendMail(
+      $mail,
+      $this -> sendMail['subject'],
+      $msg,
+      $headers
+    )) {
+      LSsession :: addInfo(_('Notice mail sent.'));
+      // Set $this -> sendMail to false to avoid potential multiple sent email
+      $this -> sendMail = false;
+    }
+    else {
+      LSerror :: addErrorCode('LSformElement_password_02', $mail);
+      return;
+    }
   }
 
   public static function ajax_verifyPassword(&$data) {
