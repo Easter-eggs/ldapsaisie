@@ -746,7 +746,7 @@ function handle_LSobject_select($request) {
   LStemplate :: assign('LSobject_list_objectname', $object -> getLabel());
 
   // Set & display template
-  LSsession :: setTemplate(isset($_REQUEST['ajax'])?'select_table.tpl':'select.tpl');
+  LSsession :: setTemplate($request->ajax?'select_table.tpl':'select.tpl');
   LSsession :: setAjaxDisplay();
   LSsession :: displayTemplate();
   $LSsearch->afterUsingResult();
@@ -954,7 +954,7 @@ function handle_LSobject_create($request) {
       if (!LSerror::errorsDefined()) {
         LSsession :: addInfo(_("Object has been added."));
       }
-      if (isset($_REQUEST['ajax'])) {
+      if ($request->ajax) {
         LSsession :: displayAjaxReturn (
           array(
             'LSredirect' => "object/$LSobject/".urlencode($object -> getDn())
@@ -968,7 +968,7 @@ function handle_LSobject_create($request) {
       }
     }
     else {
-      if (isset($_REQUEST['ajax'])) {
+      if ($request->ajax) {
         LSsession :: displayAjaxReturn (
           array(
             'LSformErrors' => $form -> getErrors()
@@ -978,7 +978,7 @@ function handle_LSobject_create($request) {
       }
     }
   }
-  else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
+  else if ($request->ajax && $form -> definedError()) {
     LSsession :: displayAjaxReturn (
       array(
         'LSformErrors' => $form -> getErrors()
@@ -1157,7 +1157,7 @@ function handle_LSobject_modify($request) {
       else {
         LSsession :: addInfo(_("The object has been modified successfully."));
       }
-      if (isset($_REQUEST['ajax'])) {
+      if ($request->ajax) {
         LSsession :: displayAjaxReturn (
           array(
             'LSredirect' => "object/$LSobject/".urlencode($object -> getDn())
@@ -1172,7 +1172,7 @@ function handle_LSobject_modify($request) {
       }
     }
     else {
-      if (isset($_REQUEST['ajax'])) {
+      if ($request->ajax) {
         LSsession :: displayAjaxReturn (
           array(
             'LSformErrors' => $form -> getErrors()
@@ -1182,7 +1182,7 @@ function handle_LSobject_modify($request) {
       }
     }
   }
-  else if (isset($_REQUEST['ajax']) && $form -> definedError()) {
+  else if ($request->ajax && $form -> definedError()) {
     LSsession :: displayAjaxReturn (
       array(
         'LSformErrors' => $form -> getErrors()
@@ -1557,7 +1557,6 @@ function get_LSobject_from_API_request($request, $instanciate=true, $check_acces
   * @retval void
   **/
 function handle_api_LSobject_search($request) {
-  LSsession :: setAjaxDisplay();
   $object = get_LSobject_from_API_request($request);
   if (!$object)
     return;
@@ -1702,7 +1701,6 @@ LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/?$#', 'handle_api_LSo
  * @retval void
 **/
 function handle_api_LSobject_create($request) {
-  LSsession :: setAjaxDisplay();
   $object = get_LSobject_from_API_request(
     $request,
     true,                             // instanciate object
@@ -1832,7 +1830,6 @@ LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/export/?$#', 'handle_
  * @retval void
 **/
 function handle_api_LSobject_show($request) {
-  LSsession :: setAjaxDisplay();
   $object = get_LSobject_from_API_request($request);
   if (!$object)
     return;
@@ -1879,7 +1876,6 @@ LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/?(?P<dn>[^/]+)/?$#', 
  * @retval void
 **/
 function handle_api_LSobject_modify($request) {
-  LSsession :: setAjaxDisplay();
   $object = get_LSobject_from_API_request(
     $request,
     true,                             // instanciate object
@@ -1928,7 +1924,6 @@ LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/modify/
  * @retval void
 **/
 function handle_api_LSobject_remove($request) {
-  LSsession :: setAjaxDisplay();
   $object = get_LSobject_from_API_request(
     $request,
     true,                             // instanciate object
@@ -1964,7 +1959,6 @@ LSurl :: add_handler('#^api/1.0/object/(?P<LSobject>[^/]+)/(?P<dn>[^/]+)/remove/
  * @retval void
 **/
 function handle_api_LSobject_relation($request) {
-  LSsession :: setAjaxDisplay();
   $object = get_LSobject_from_API_request(
     $request,
     true  // instanciate object

@@ -1870,6 +1870,7 @@ class LSsession {
    */
   public static function setApiMode($val=true) {
     self :: $api_mode = (boolean)$val;
+    self :: setAjaxDisplay(self :: $api_mode);
   }
 
  /**

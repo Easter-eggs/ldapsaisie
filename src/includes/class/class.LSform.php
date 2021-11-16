@@ -197,6 +197,7 @@ class LSform extends LSlog_staticLoggerClass {
 
     $JSconfig = array (
       'ajaxSubmit' => intval($this -> getConfig('ajaxSubmit', true, 'boolean')),
+      'onFailureMessage' => _('Unexpected error occurred submiting this form. Please retry again or contact support.'),
     );
 
     if (!empty($this -> warnings)) {

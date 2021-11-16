@@ -277,10 +277,15 @@ class LSurl extends LSlog_staticLoggerClass {
       self :: log_fatal(_("This request could not be handled."));
     }
 
-    if (self :: $request -> api_mode)
+    if (self :: $request -> api_mode) {
       LSsession :: setApiMode();
-    elseif (class_exists('LStemplate'))
-      LStemplate :: assign('request', self :: $request);
+    }
+    else {
+      if (self :: $request -> ajax)
+        LSsession :: setAjaxDisplay();
+      if (class_exists('LStemplate'))
+        LStemplate :: assign('request', self :: $request);
+    }
 
     // Check authentication (if need)
     if(self :: $request -> authenticated && ! LSsession :: startLSsession()) {

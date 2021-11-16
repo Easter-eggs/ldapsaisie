@@ -71,6 +71,8 @@ class LSurlRequest extends LSlog_staticLoggerClass {
       return $this -> get_referer();
     if ($key == 'http_method')
       return $_SERVER['REQUEST_METHOD'];
+    if ($key == 'ajax')
+      return isset($_REQUEST['ajax']) && boolval($_REQUEST['ajax']);
     if (array_key_exists($key, $this->url_params)) {
       return urldecode($this->url_params[$key]);
     }

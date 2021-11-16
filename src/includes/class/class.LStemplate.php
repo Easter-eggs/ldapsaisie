@@ -467,7 +467,7 @@ class LStemplate extends LSlog_staticLoggerClass {
    **/
   public static function fatal_error($error=null) {
     http_response_code(500);
-    if (LSsession :: get('api_mode')) {
+    if (LSsession :: get('api_mode') || LSsession :: getAjaxDisplay()) {
       header('Content-Type: application/json');
       $errors = array(_("A fatal error occured. If problem persist, please contact support."));
       if ($error)

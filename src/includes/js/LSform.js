@@ -329,7 +329,8 @@ var LSform = new Class({
 
         this.LSform.set('send',{
           data:         this.LSform,
-          onSuccess:    this.onAjaxSubmitComplete.bind(this),
+          onSuccess:    this.onAjaxSubmitSuccess.bind(this),
+          onFailure:    this.onAjaxSubmitFailure.bind(this),
           url:          this.LSform.get('action'),
           imgload:      varLSdefault.loadingImgDisplay($('LSform_title'),'inside')
         });
@@ -355,12 +356,18 @@ var LSform = new Class({
       }, this);
     },
 
-    onAjaxSubmitComplete: function(responseText, responseXML) {
+    onAjaxSubmitComplete: function(data) {
+      if (!this.submitting) return;
       this.submitting = false;
       this.LSform.removeClass('submitting');
-      var data = JSON.decode(responseText);
       // Handle common Ajax return checks
       varLSdefault.checkAjaxReturn(data);
+    },
+
+    onAjaxSubmitSuccess: function(responseText, responseXML) {
+      if (!this.submitting) return;
+      var data = JSON.decode(responseText);
+      this.onAjaxSubmitComplete(data);
 
       // Handle LSform errors
       this.resetErrors();
@@ -368,6 +375,18 @@ var LSform = new Class({
         data.LSformErrors = new Hash(data.LSformErrors);
         data.LSformErrors.each(this.addError, this);
       }
+    },
+
+    onAjaxSubmitFailure: function(xhr) {
+      if (!this.submitting) return;
+      var data;
+      if (xhr.response) {
+        data = JSON.decode(xhr.response);
+      }
+      else {
+        varLSdefault.LSerror.displayOrAdd(this.param.onFailureMessage);
+      }
+      this.onAjaxSubmitComplete(data);
     },
 
     resetErrors: function() {
