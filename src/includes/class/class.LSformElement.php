@@ -317,7 +317,6 @@ class LSformElement extends LSlog_staticLoggerClass {
     return $this -> fetchTemplate(
       $this -> fieldTemplate,
       array(
-        'value' => null,
         'value_idx' => intval($value_idx),
       )
     );
