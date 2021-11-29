@@ -245,7 +245,7 @@ class LSattribute extends LSlog_staticLoggerClass {
     if($this -> getConfig('required', false, 'bool'))
       $form -> setRequired($this -> name);
 
-    if ( ($form_mode === false) || ($myRights != 'w') ) {
+    if ( !$form_mode || ($myRights != 'w') ) {
       self :: log_debug("Attribute ".$this -> name." is freeze in form $idForm.");
       $element -> freeze();
     }
