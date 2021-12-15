@@ -40,6 +40,9 @@ LSerror :: defineError('MAILQUOTA_02',
 LSerror :: defineError('MAILQUOTA_03',
   ___("MAILQUOTA : Fail to compose IMAP mailbox username.")
 );
+LSerror :: defineError('MAILQUOTA_04',
+  ___("MAILQUOTA : No quota information retrieved from IMAP server. Make sure quota is enabled on this IMAP server or/and for this mailbox.")
+);
 
 /**
  * Check support of this addons
@@ -108,6 +111,7 @@ function mailquota_get_usage(&$LSldapObject) {
           'limit' => intval($quota_values['limit']*1024),
         );
       }
+      LSerror :: addErrorCode('MAILQUOTA_04');
     }
     else {
       LSerror :: addErrorCode('MAILQUOTA_01', imap_last_error());
@@ -158,8 +162,9 @@ function mailquota_show_usage(&$LSldapObject) {
       $infos['limit'] = __('Unlimited');
     }
     LSsession :: addInfo(getFData($msg, $infos));
+    return true;
   }
-  return true;
+  return false;
 }
 
 function mailquota_formatValue($value) {
