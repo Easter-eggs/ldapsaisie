@@ -8,6 +8,9 @@
   la base de l'analyse du mot de passe saisi, des conseils seront donnés à
   l'utilisateur pour le guider dans le choix d'un mot de passe sûre.</para>
 
+  <warning><simpara>La librairie <literal>ZxcvbnPhp</literal> n'est compatible qu'avec
+  PHP 7 et supérieur.</simpara></warning>
+
 <variablelist>
 <title>Paramètres de configuration</title>
 

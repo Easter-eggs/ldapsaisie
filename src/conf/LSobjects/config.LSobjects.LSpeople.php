@@ -553,10 +553,18 @@ $GLOBALS['LSobjects']['LSpeople'] = array (
         'confirmChangeQuestion' => "Do you confirm change of this user's password?",
       ),
       'check_data' => array(
-        'zxcvbn' => array(
+        'password' => array(
+          'msg' => 'Your password must contain from 8 to 10 characters and contains at least one caracter that match with 3 of this types :<ul><li>Uppercase unaccent character</li><li>Lowercase unaccent character</li><li>Digit</li><li>Anything that is not a letter or a digit</li></ul>',
           'params' => array(
-            'minScore' => 4,
-            'userDataAttrs' => array('sn', 'givenName', 'mail'),
+            'minLength' => 8,
+            'maxLength' => 10,
+            'regex' => array (
+              '/[A-Z]/',
+              '/[a-z]/',
+              '/[0-9]/',
+              '/[^A-Za-z0-9]/',
+            ),
+            'minValidRegex' => 3,
           ),
         ),
       ),
