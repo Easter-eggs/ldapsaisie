@@ -1,0 +1,67 @@
+<sect4 id="config-LSattribute-check-data-zxcvbn">
+  <title>zxcvbn</title>
+  <para>Cette règle vérifie la sécurité d'un mot de passe en utilisant la librairie
+  <ulink url='https://github.com/bjeavons/zxcvbn-php'>ZxcvbnPhp</ulink>. Cette
+  librairie s'appuie sur un ensemble de vérifications permettant de déterminer à
+  quel point le mot de passe choisi est commun, prévisible et plus globalement,
+  estime en combien de temps il pourra être cassé par une personne malveillante. Sur
+  la base de l'analyse du mot de passe saisi, des conseils seront donnés à
+  l'utilisateur pour le guider dans le choix d'un mot de passe sûre.</para>
+
+<variablelist>
+<title>Paramètres de configuration</title>
+
+<varlistentry>
+  <term>minScore</term>
+  <listitem>
+    <simpara>Le score minimal pour que le mot de passe soit accepté. Il doit s'agir d'un
+    entier cimpris entre 0 (le plus faible) et 4 (le plus sécurisé). Paramètre facultatif
+    valant 4 par défaut.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>userDataAttrs</term>
+  <listitem>
+    <simpara>Liste d'attributs de l'objet dont les valeurs seront passées à la librairie
+    <literal>Zxcvbn</literal> qui les considérera comme associés à l'utilisateur. Ainsi,
+    par exemple, si l'utilisateur utilise son nom de famille ou encore son prénom dans
+    son mot de passe, la librairie pourra lui indiqué que cela ne le protège que peut
+    des attaques ciblées. Paramètre facultatif, mais il est fortement conseillé de
+    renseigner un maximum d'attributs contenant des informations personnelles relatives
+    à l'utilisteur.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>showWarning</term>
+  <listitem>
+    <simpara>Booléen définissant si les messages d'alertes retournés par la librairie
+    <literal>Zxcvbn</literal> doivent être affichés à l'utilisateur. Paramètre facultatif
+    et vrai par défaut.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>showSuggestions</term>
+  <listitem>
+    <simpara>Booléen définissant si les messages de suggestions retournés par la librairie
+    <literal>Zxcvbn</literal> doivent être affichés à l'utilisateur. Paramètre facultatif
+    et vrai par défaut.</simpara>
+  </listitem>
+</varlistentry>
+
+<varlistentry>
+  <term>zxcvbn_autoload_path</term>
+  <listitem>
+    <simpara>Le chemin vers le fichier de chargement automatique des classes de la
+    librairie <emphasis>ZxcvbnPhp</emphasis>. Ce paramètre est facultatif et vaut
+    par défaut <literal>Zxcvbn/autoload.php</literal>, ce qui est adapté si vous
+    utiliser le paquet Debian <literal>php-zxcvbn</literal> disponible sur le dépôt
+    Debian du projet LdapSaisie.</simpara>
+  </listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect4>

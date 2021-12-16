@@ -69,5 +69,6 @@ règles.</para>
 &conf-LSattribute-check-data-required;
 &conf-LSattribute-check-data-ssh_pub_key;
 &conf-LSattribute-check-data-telephonenumber;
+&conf-LSattribute-check-data-zxcvbn;
 
 </sect3>
