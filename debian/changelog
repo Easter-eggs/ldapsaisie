@@ -1,3 +1,220 @@
+ldapsaisie (4.0.0-1) unstable; urgency=medium
+
+  * Add API feature
+  * Add full import / export objets feature (see LSio & LSioFormat)
+  * Global improvements on SUPANN support:
+    * nomenclatures:
+      * Update/clean nomenclatures
+      * Normalize affiliations & civilites nomenclatures
+      * rework on nomenclatures loading
+    * Add support for new attributes :
+      * supannMailPrive
+      * supannAdressePostalePrivee
+      * supannTelephonePrive
+      * supannOIDCGenre
+      * supannCodePopulation
+      * supannEmpProfil
+      * supannExtProfil
+      * supannEtuDiplome
+      * supannEtuElementPedagogique
+      * supannEtuEtape
+      * supannEtuRegimeInscription
+      * supannEtuSecteurDisciplinaire
+      * supannEtuTypeDiplome
+      * supannRessourceEtat
+      * supannRessourceEtatDate
+    * add new components of supannEtuInscription attribute (SUPANN 2021)
+    * add generate_supann_codeEtablissement_uai_nomenclature CLI command
+    * add eduPersonUniqueId()
+    * supannParseCompositeValue(): check global value integrity
+    * Improve SUPANN attributes CSS
+  * Add dynamic groups support (with cache members attributes)
+  * Ensure attributes values are always an array in LSattribute & LSattr_ldap
+  * Remove historic read right on all attributes of the hard-coded "admin" LSprofile
+  * LSsession:
+    * improve loadLSaddons() method
+    * fix errors in changeAuthUser() and add logging messages
+    * Fix/improve LSsession_13 errors (unconfigured/unknown custom action function)
+    * checkAccess(): fix checking read right
+    * Fix relationCanAccess() method and add debuging infos
+    * displayAjaxReturn(): Adjust HTTP returned code on unsuccessfull request
+    * getLSuserObject(): improve errors logging
+    * setApiMode now trigger LSsession :: setAjaxDisplay()
+  * LSldap: fix search & getNumberResult methods to use basedn from configuration instead of empty
+    one.
+  * LSldapObject:
+    * make method _updateData() protected instead of private
+    * fix/improve validateAttrData()
+    * submitChange():
+      * on new object, check if generated DN is not already affected
+      * Add security check about isNew() return
+      * fix error renaming LSobject
+    * fix default $attrValues handling for updateObjectsInRelation/deleteOneObjectInRelation methods
+    * clean update/validate form data code to fix handling just check mode
+    * fix triggering after_modify event on create
+    * getValue(): ensure return is array in case of attribute
+  * LSrelation: add display_name_format parameter
+  * LSattribute:
+    * fix canBeGenerated() when default_value isn't a string
+    * fix handling default_value in generateValue()
+    * add default LDAP & HTML type (ascii / text)
+    * addToForm(): fix checking user rights before adding/freezing it
+    * fix handling current/provided data
+    * addToForm(): fix freezing
+  * LSattr_ldap:
+    * shadowExpire:
+      * fix getUpdateData()
+      * fix to rounding method to avoid date change
+    * compositeValueToJSON: use static instead of self keyword (to allow override)
+    * Add pwdHistory
+    * date: add note about date & time with micro-seconds
+    * naiveDate: Add format option
+    * password: fix verify method for Salted SHA2 passwords
+    * sambaAcctFlagsparse_flags(): fix handling null|empty value
+  * LSattr_html:
+    * jsonCompositeAttribute: Add fullWidth parameter and improve responsive display
+    * sambaAcctFlags: Add note about how setting default_value
+    * valueWithUnit: fix handling zero value
+    * select_box: add inline parameter
+    * fix handling current/provided data
+    * add $singleValue class variable to handle this common case
+  * LSform:
+    * fix displaying error in form in case of global error
+    * fix displaying multiple errors on same field (on Ajax submit)
+    * display fields errors in same order as triggered
+    * fix reporting failure on Ajax submit
+  * LSformElement:
+    * getApiValue(): add $details parameter
+    * getEmptyField(): do not set value to null (already set by fetchTemplate())
+    * labeledValue:
+      * fix/improve display
+      * add translate_labels parameter and fix translating it
+      * fix label translation on freeze view
+    * date: fix getPostData() method
+    * mail:
+      * Move autocomplete feature in text parent class
+      * fix duplicated email JS button
+      * supannLabeledValue: Add validation of POST values from configured nomenclatures
+    * image: fix bug deleting current image
+    * password:
+      * fix using LSldapobject getDisplayFData method instead of getFData
+      * fix sendind email in create form
+      * fix multiple sent email in some cases
+    * supannLabeledValue:
+      * fix unparsable value display
+      * improve API mode
+    * supannCompositeAttribute:
+      * Add possibility to override parse/format value methods to handledifferent composite value
+      formats
+      * Add possibility to configure date components LDAP format
+      * handle API/CLI mode
+  * LSformRule:
+    * add validate_values() method and use it to value rules
+    * do not defined validate_one_by_one constant visibility
+    * add possibility to throw custom exception to provide error details
+    * Improve LSformRules to throw LSformRuleException with error details and only show default
+      error message if rule does not trigger itself an error
+    * Handle rule without options or message
+    * Add numberOfValues rule
+    * configure CLI parameters autocompleters
+    * compare: code cleaning
+    * add zxcvbn rule for password security check
+  * LSsearch:
+    * rename method setParamsFormPostData() to setParamsFromRequest()
+    * setParamsFromRequest(): add check on parameters load from request data
+    * setParamsFromRequest(): fix error handling filter parameter
+  * LSaddons:
+    * mail: Add test_send_mail CLI command
+    * mailquota: improve error reporting
+    * posix: fix generate_shadowLastChange()
+    * samba: fix PHP warning about LS_SAMBA_UNIX_ID_POOL_DN contant
+    * LSaccessRightsMatrixView:
+      * handle LSform layout to ordering attributes
+      * handle inherited rights from user LSprofiles
+  * LSurl:
+    * add request HTTP method check that must match with one of supported by handler
+      (default: GET or POST)
+    * add_handler: fix handling all params in case of multiple patterns
+    * expose current request as static class variable
+    * handle_request() now handle Ajax mode detection
+  * LSurlRequest: fix fatal error on logging
+  * LSconfig :: get(): add array casting (using ensureIsArray())
+  * LSlang:
+    * fix loading alternative lang files in local directory
+    * fix handling locales that only existing in local directory
+  * Authentication:
+    * Add authz proxy authorization support
+    * LSauthMethod_HTTP: fix logging HTTP_AUTHORIZATION parsing error
+  * Interface:
+    * Fix/improve/factorize search pagination
+    * Fix/improve LSobject & LSsearch customActions code
+    * Add LSdefaut copyable feature and use it in showTechInfo
+    * routes.php: fix error calling LSsession::addErrorCode() vs LSerror::addErrorCode()
+    * Add footer with LdapSaisie version
+    * Add preprod CSS & SVG image to easily add a watermark
+    * Improve/fix LSdefaut / LSsession / LSerror / LSdebug / LSinfosBox
+    * Fix handling noRedirect parameter of LSobject's customAction
+    * Fix handling disableOnSuccessMsg parameter on LSobject customActions
+  * LStemplate:
+    * detect and stop template displaying loop (trigger a fatal error)
+    * fatal_error(): correctly handle Ajax mode
+  * CSS:
+    * Fix possibility to scroll the menu on responsive view
+    * light-blue.css:
+      * improve custom select display
+      * fix handling ul.LSselect_selectable_object_types
+      * fix handling LSformElement_valueWithUnit width
+      * Fix displaying toggle-menu button in responsive view
+      * fix tables style
+    * Add LStable CSS class to make easier to create customized table
+    * HTML buttons are now handle by default CSS (and light-blue one)
+  * CLI:
+    * show:
+      * fix handling --raw-values parameter
+      * add JSON output (with -j|--json parameters)
+    * search:
+      * add --all parameter to permit to disable pagination
+      * add JSON output (with -j|--json parameters)
+    * generate_lang_file: some improvements
+      * add -F/--fix-utf8 parameter
+      * add -K/--keep-unused parameter
+    * Add import & export commands
+    * Add test_form_rule command
+  * Default config files:
+    * add ending-line commas to avoid problem on editing
+    * fix value_attribute ('dn' vs '%{dn}')
+  * Debian packaging:
+    * Make logrotate handling all log file in /var/log/ldapsaisie
+    * remove deprecated php-file-csv-datasource dependency
+    * add recommend on php-unidecode (for withoutAccents() improvements)
+  * helpers:
+    * Add ensureIsArray() helper and use it to make code more readable
+    * withoutAccents(): use unidecode lib if available
+    * Improve getCallableName()
+  * Code cleaning and fix some PHP warnings
+  * Add some debugging/trace messages
+  * Doc:
+    * Add note about how setting default_value
+    * API relation method: use group objects from LSexample
+    * Add anchors for API sections
+    * Remove PEAR File_CSV_DataSource deprecated dependency
+    * add IDs to sections
+    * Add README file
+    * Improve doc about attribute values validation
+    * LSrelation: Make canEdit_attribute parameter more visible in case of simple relation
+    * improve contrib / LSformRules section
+  * Fix project URLs and list emails addresses
+  * LSexample:
+    * LSpeople:
+      * fix sambaPwdCanChange as single-value
+      * improve pagination config
+      * personalTitle: remove Ms deprecated possible value
+    * LSgroup: upgrade generate_gidNumber_withSambaDomainObject to generate_samba_gidNumber
+    * Add Ppolicy support
+    * Add restore_lsexample script
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 20 Dec 2021 14:11:51 +0100
+
 ldapsaisie (3.0.2-1) unstable; urgency=medium
 
   * LSsession:
@@ -344,7 +561,7 @@ ldapsaisie (1.8-4) unstable; urgency=medium
   * Add LSattr_html :: wysiwyg
   * Add LSaddon exportSearchResultAsCSV
   * Fix default LSpeople configuration
-  * LSauthMethod::HTTP : support multiple methods to retreive user and
+  * LSauthMethod::HTTP : support multiple methods to retrieve user and
     password from HTTP server
   * Documentation :
     + Improve doc on LSattr_html::pre

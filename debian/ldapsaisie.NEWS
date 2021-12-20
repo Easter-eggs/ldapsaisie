@@ -1,3 +1,19 @@
+ldapsaisie (4.0.0-1) unstable; urgency=medium
+
+  This major release was built around three main goals :
+  * Add an API feature that allow to provide the same features of the web interface in progammatic
+    way
+  * Add full import and export objets feature
+  * Improve the SUPANN support to handle support new attributes provided in 2020 v2 release ot the
+    recommendations.
+
+  Around these main goals, a lot of small fixes and improvements have been done.
+
+  Please also note that an historic read right on all attributes of the hard-coded "admin"
+  LSprofile have been removed.
+
+ -- Benjamin Renard <brenard@easter-eggs.com>  Mon, 20 Dec 2021 14:11:51 +0100
+
 ldapsaisie (3.0.2-1) unstable; urgency=medium
 
     This release include a lot of small fixes and improvements, especially in logging.
