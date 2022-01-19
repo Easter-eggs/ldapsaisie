@@ -434,4 +434,5 @@ $GLOBALS['UAI_CODE_ETABLISSEMENTS'] = array (
   '0352440M' => 'École normale supérieure de Rennes',
   '0942340H' => 'École spéciale des travaux publics, du bâtiment et de l\'industrie',
   '0593207R' => 'École supérieure de journalisme de Lille',
+  '0753470P' => 'École nationale supérieure des Arts Décoratifs',
 );
